@@ -1,0 +1,5 @@
+[all_hosts]
+#WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
+
+#[all_hosts:vars]
+#

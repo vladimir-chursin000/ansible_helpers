@@ -1,0 +1,32 @@
+---
+- hosts: all_hosts
+  tasks:
+    - name: install_chrony
+      dnf:
+        name: chrony
+        state: installed
+
+    - name: copy_chrony_server_conf_to_remote
+      ansible.builtin.copy:
+        src: chrony_server.conf
+        dest: /etc/chrony.conf
+        owner: root
+        group: root
+        mode: '0644'
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        backup: yes
+
+    - name: check_for_disabled_ntpd
+      ansible.builtin.systemd:
+        name: ntpd.service
+        state: stopped
+        enabled: no
+
+    - name: enable_n_restart_chronyd
+      ansible.builtin.systemd:
+        name: chronyd.service
+        state: restarted
+        enabled: yes
