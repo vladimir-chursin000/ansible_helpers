@@ -1,0 +1,20 @@
+---
+- hosts: all_hosts
+  tasks:
+    - name: copy_nfs_exports_conf_to_remote
+      ansible.builtin.copy:
+        src: nfs_exports_config
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: '0644'
+        seuser: system_u
+        setype: exports_t
+        serole: object_r
+        selevel: s0
+        backup: yes
+      register: copy_nfs_exports_conf_to_remote_res
+
+    - name: run_exportfs_if_exports_file_changed
+      ansible.builtin.command: /usr/sbin/exportfs -arv
+      when: copy_nfs_exports_conf_to_remote_res.changed==true

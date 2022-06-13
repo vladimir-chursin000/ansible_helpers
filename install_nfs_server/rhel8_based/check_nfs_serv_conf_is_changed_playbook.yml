@@ -1,0 +1,38 @@
+---
+- hosts: all_hosts
+  tasks:
+###Copy and check CFG
+    - name: copy_nfs_server_conf_to_remote
+      ansible.builtin.copy:
+        src: nfs_server.conf
+        dest: /etc/nfs.conf
+        owner: root
+        group: root
+        mode: '0644'
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        backup: yes
+      register: copy_nfs_server_conf_to_remote_res
+    
+    - name: copy_nfsmount_server_conf_to_remote
+      ansible.builtin.copy:
+        src: nfsmount_server.conf
+        dest: /etc/nfsmount.conf
+        owner: root
+        group: root
+        mode: '0644'
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        backup: yes
+      register: copy_nfsmount_server_conf_to_remote_res
+    
+    - name: run_cfg_reload_for_nfs_server_if_conf_files_changed
+      ansible.builtin.systemd:
+        name: nfs-server.service
+        state: reloaded
+        masked: no
+      when: copy_nfs_server_conf_to_remote_res.changed==true or copy_nfsmount_server_conf_to_remote_res.changed==true
