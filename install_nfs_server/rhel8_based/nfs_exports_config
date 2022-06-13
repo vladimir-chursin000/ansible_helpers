@@ -1,2 +1,22 @@
 # Config 'nfs_exports_config' for /etc/exports at remote side
 
+###EXAMPLES
+#/mnt/nfs_shares/HR				10.20.30.0/24(rw,sync)
+#/mnt/nfs_shares/FIN				10.20.30.0/24(rw,sync)
+#/mnt/nfs_shares/Marketing			10.20.40.0/24(rw,sync)
+#/mnt/backups					10.20.50.9/24(rw,sync,no_all_squash,root_squash)
+###
+#rw - allow read and write.
+#ro - read only.
+#sync - operate new requests only after end of write to disk of current request.
+#async - operate new requests always (do not wait disk write).
+#root_squash - maps client-side root id to anon-user. Deny client-side root to write files of other remote users.
+#no_root_squash - allow client-side root to write files of other remote users. Not safe at common cases. Using for diskless clients.
+#all_squash - all operations for remote users (except root) maps to anon-user.
+#no_all_squash - maps id of remote users to same local ids.
+#anonuid=1000 - directly set anon-user uid to 1000.
+#anongid=1000 - directly set anon-user gid to 1000.
+#nohide - enable non-local resources (ex, bind --mount) access.
+#hide - disable non-local resources (ex, bind --mount) access.
+#subtree_check - security access check. Use it if exported dir is not disk partition.
+#no_subtree_check - use it if exported dir = disk partition.
