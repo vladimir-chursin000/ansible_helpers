@@ -7,33 +7,11 @@
         state: installed
 
 ###COMMENT this if selinux is disabled
-    - name: install_policycoreutils_python_utils
-      dnf:
-        name: policycoreutils-python-utils
-        state: installed
-
-    - name: install_python3_policycoreutils
-      dnf:
-        name: python3-policycoreutils
-        state: installed
-
-    - name: install_python3_libselinux
-      dnf:
-        name: python3-libselinux
-        state: installed
-
-    - name: install_libselinux_python3
-      dnf:
-        name: libselinux-python3
-        state: installed
-
     - name: set_nfs_export_all_rw
       ansible.posix.seboolean:
         name: nfs_export_all_rw
         state: yes
         persistent: yes
-      vars:
-        ansible_python_interpreter: /usr/bin/python3
 ###COMMENT this if selinux is disabled
     
 ###NFS
