@@ -4,7 +4,7 @@
 ###Copy and check CFG
     - name: copy_nfs_server_conf_to_remote
       ansible.builtin.copy:
-        src: nfs_server.conf
+        src: "{{inventory_dir}}/nfs_server.conf"
         dest: /etc/nfs.conf
         owner: root
         group: root
@@ -20,7 +20,7 @@
     
     - name: copy_nfsmount_server_conf_to_remote
       ansible.builtin.copy:
-        src: nfsmount_server.conf
+        src: "{{inventory_dir}}/nfsmount_server.conf"
         dest: /etc/nfsmount.conf
         owner: root
         group: root

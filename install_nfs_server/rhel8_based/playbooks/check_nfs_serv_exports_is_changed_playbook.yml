@@ -4,12 +4,12 @@
     - name: "check_for_special_export_file_for_{{inventory_hostname}}"
       delegate_to: localhost
       stat:
-        path: "{{playbook_dir}}/exports/{{inventory_hostname}}"
+        path: "{{inventory_dir}}/exports/{{inventory_hostname}}"
       register: is_special_export
 
     - name: copy_nfs_special_exports_conf_to_remote
       ansible.builtin.copy:
-        src: "{{playbook_dir}}/exports/{{inventory_hostname}}"
+        src: "{{inventory_dir}}/exports/{{inventory_hostname}}"
         dest: /etc/exports
         owner: root
         group: root
@@ -26,7 +26,7 @@
 
     - name: copy_nfs_exports_conf_to_remote
       ansible.builtin.copy:
-        src: nfs_exports_config
+        src: "{{inventory_dir}}/nfs_exports_config"
         dest: /etc/exports
         owner: root
         group: root
