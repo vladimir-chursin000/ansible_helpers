@@ -158,7 +158,7 @@
         path: "{{playbook_dir}}/exports/{{inventory_hostname}}"
       register: is_special_export
 
-    - name: copy_nfs_exports_conf_to_remote
+    - name: copy_nfs_special_exports_conf_to_remote
       ansible.builtin.copy:
         src: "{{playbook_dir}}/exports/{{inventory_hostname}}"
         dest: /etc/exports
@@ -172,7 +172,7 @@
         selevel: s0
 ###COMMENT this if selinux is disabled
         backup: yes
-      register: copy_nfs_exports_conf_to_remote_res
+      register: copy_nfs_special_exports_conf_to_remote_res
       when: is_special_export.stat.exists==true
 
     - name: copy_nfs_exports_conf_to_remote
@@ -194,4 +194,4 @@
 
     - name: run_exportfs_if_exports_file_changed
       ansible.builtin.command: /usr/sbin/exportfs -arv
-      when: copy_nfs_exports_conf_to_remote_res.changed==true
+      when: copy_nfs_exports_conf_to_remote_res.changed==true or copy_nfs_special_exports_conf_to_remote_res.changed==true
