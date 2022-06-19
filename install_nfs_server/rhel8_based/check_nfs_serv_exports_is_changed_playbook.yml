@@ -1,6 +1,29 @@
 ---
 - hosts: all_hosts
   tasks:
+    - name: "check_for_special_export_file_for_{{inventory_hostname}}"
+      delegate_to: localhost
+      stat:
+        path: "{{playbook_dir}}/exports/{{inventory_hostname}}"
+      register: is_special_export
+
+    - name: copy_nfs_exports_conf_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/exports/{{inventory_hostname}}"
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: '0644'
+###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: exports_t
+        serole: object_r
+        selevel: s0
+###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_nfs_exports_conf_to_remote_res
+      when: is_special_export.stat.exists==true
+
     - name: copy_nfs_exports_conf_to_remote
       ansible.builtin.copy:
         src: nfs_exports_config
@@ -8,12 +31,15 @@
         owner: root
         group: root
         mode: '0644'
+###COMMENT this if selinux is disabled
         seuser: system_u
         setype: exports_t
         serole: object_r
         selevel: s0
+###COMMENT this if selinux is disabled
         backup: yes
       register: copy_nfs_exports_conf_to_remote_res
+      when: is_special_export.stat.exists==false
 
     - name: run_exportfs_if_exports_file_changed
       ansible.builtin.command: /usr/sbin/exportfs -arv
