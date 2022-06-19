@@ -13,20 +13,31 @@
         owner: root
         group: root
         mode: '0644'
+###COMMENT this if selinux is disabled
         seuser: system_u
         setype: etc_t
         serole: object_r
         selevel: s0
+###COMMENT this if selinux is disabled
         backup: yes
+      register: copy_chrony_server_conf_to_remote_res
 
     - name: check_for_disabled_ntpd
       ansible.builtin.systemd:
         name: ntpd.service
         state: stopped
         enabled: no
+      ignore_errors: yes
 
     - name: enable_n_restart_chronyd
       ansible.builtin.systemd:
         name: chronyd.service
         state: restarted
+        enabled: yes
+      when: copy_chrony_server_conf_to_remote_res.changed==true
+
+    - name: enable_n_if_started_chronyd
+      ansible.builtin.systemd:
+        name: chronyd.service
+        state: started
         enabled: yes
