@@ -1,4 +1,5 @@
-#1) CHECK and CHANGE (if needed): nfs_server.conf, nfsmount_server.conf, nfs_exports_config.
+#1) CHECK and CHANGE (if needed): "playbooks/conf/nfs_server.conf", "playbooks/conf/nfsmount_server.conf", "playbooks/exports/common_exports"
+(or "playbooks/exports/IP_from_inventory" for special exports).
 
 #2) UPDATE list (for install nfs-server) of ip addresses = nfs_server_hosts.
 

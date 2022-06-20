@@ -115,7 +115,7 @@
 ###Copy and check CFG
     - name: copy_nfs_server_conf_to_remote
       ansible.builtin.copy:
-        src: "{{inventory_dir}}/nfs_server.conf"
+        src: "{{playbook_dir}}/conf/nfs_server.conf"
         dest: /etc/nfs.conf
         owner: root
         group: root
@@ -131,7 +131,7 @@
     
     - name: copy_nfsmount_server_conf_to_remote
       ansible.builtin.copy:
-        src: "{{inventory_dir}}/nfsmount_server.conf"
+        src: "{{playbook_dir}}/conf/nfsmount_server.conf"
         dest: /etc/nfsmount.conf
         owner: root
         group: root
@@ -155,12 +155,12 @@
     - name: "check_for_special_export_file_for_{{inventory_hostname}}"
       delegate_to: localhost
       stat:
-        path: "{{inventory_dir}}/exports/{{inventory_hostname}}"
+        path: "{{playbook_dir}}/exports/{{inventory_hostname}}"
       register: is_special_export
 
     - name: copy_nfs_special_exports_conf_to_remote
       ansible.builtin.copy:
-        src: "{{inventory_dir}}/exports/{{inventory_hostname}}"
+        src: "{{playbook_dir}}/exports/{{inventory_hostname}}"
         dest: /etc/exports
         owner: root
         group: root
@@ -177,7 +177,7 @@
 
     - name: copy_nfs_exports_conf_to_remote
       ansible.builtin.copy:
-        src: "{{inventory_dir}}/nfs_exports_config"
+        src: "{{playbook_dir}}/exports/common_exports"
         dest: /etc/exports
         owner: root
         group: root
