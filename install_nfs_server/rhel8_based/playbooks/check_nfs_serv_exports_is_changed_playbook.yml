@@ -1,11 +1,13 @@
 ---
-- hosts: all_hosts
+- hosts: rhel8_nfs_server_hosts
   tasks:
     - name: "check_for_special_export_file_for_{{inventory_hostname}}"
       delegate_to: localhost
       stat:
         path: "{{playbook_dir}}/exports/{{inventory_hostname}}"
       register: is_special_export
+
+######################################################
 
     - name: copy_nfs_special_exports_conf_to_remote
       ansible.builtin.copy:
@@ -14,15 +16,17 @@
         owner: root
         group: root
         mode: '0644'
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         seuser: system_u
         setype: exports_t
         serole: object_r
         selevel: s0
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         backup: yes
       register: copy_nfs_special_exports_conf_to_remote_res
       when: is_special_export.stat.exists==true
+
+######################################################
 
     - name: copy_nfs_exports_conf_to_remote
       ansible.builtin.copy:
@@ -31,15 +35,40 @@
         owner: root
         group: root
         mode: '0644'
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         seuser: system_u
         setype: exports_t
         serole: object_r
         selevel: s0
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         backup: yes
       register: copy_nfs_exports_conf_to_remote_res
       when: is_special_export.stat.exists==false
+
+######################################################
+
+    - name: create_dir "ansible_helpers/install_nfs_server_scripts"
+      ansible.builtin.file:
+        path: "~/ansible_helpers/install_nfs_server_scripts"
+        state: directory
+
+######################################################
+
+    - name: copy_script "command_seq_before_exportfs.sh"
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/scripts/command_seq_before_exportfs.sh"
+        dest: "~/ansible_helpers/install_nfs_server_scripts/command_seq_before_exportfs.sh"
+        mode: '0700'
+        backup: yes
+      register: copy_script_command_seq_before_exportfs_res
+
+######################################################
+
+    - name: run_script "command_seq_before_exportfs.sh"
+      ansible.builtin.command: "~/ansible_helpers/install_nfs_server_scripts/command_seq_before_exportfs.sh"
+      when: copy_nfs_exports_conf_to_remote_res.changed==true or copy_nfs_special_exports_conf_to_remote_res.changed==true or copy_script_command_seq_before_exportfs_res.changed==true
+
+######################################################
 
     - name: run_exportfs_if_exports_file_changed
       ansible.builtin.command: /usr/sbin/exportfs -arv

@@ -1,0 +1,15 @@
+---
+- hosts: rhel8_nfs_server_hosts
+  tasks:
+    - name: install_nfs_utils
+      dnf:
+        name: nfs-utils
+        state: installed
+
+    ###COMMENT this if selinux is disabled
+    - name: set_nfs_export_all_rw
+      ansible.posix.seboolean:
+        name: nfs_export_all_rw
+        state: yes
+        persistent: yes
+    ###COMMENT this if selinux is disabled

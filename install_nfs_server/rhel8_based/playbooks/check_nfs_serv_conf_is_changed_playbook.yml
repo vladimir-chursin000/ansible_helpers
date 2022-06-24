@@ -1,5 +1,5 @@
 ---
-- hosts: all_hosts
+- hosts: rhel8_nfs_server_hosts
   tasks:
 ###Copy and check CFG
     - name: copy_nfs_server_conf_to_remote
@@ -18,6 +18,8 @@
         backup: yes
       register: copy_nfs_server_conf_to_remote_res
     
+######################################################
+
     - name: copy_nfsmount_server_conf_to_remote
       ansible.builtin.copy:
         src: "{{playbook_dir}}/conf/nfsmount_server.conf"
@@ -34,6 +36,8 @@
         backup: yes
       register: copy_nfsmount_server_conf_to_remote_res
     
+######################################################
+
     - name: run_cfg_reload_for_nfs_server_if_conf_files_changed
       ansible.builtin.systemd:
         name: nfs-server.service

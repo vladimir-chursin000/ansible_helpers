@@ -1,0 +1,5 @@
+---
+- import_playbook: just_install_nfs_serv_playbook.yml
+- import_playbook: check_all_nfs_serv_is_started_playbook.yml
+- import_playbook: check_nfs_serv_conf_is_changed_playbook.yml
+- import_playbook: check_nfs_serv_exports_is_changed_playbook.yml

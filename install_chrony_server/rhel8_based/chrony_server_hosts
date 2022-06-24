@@ -1,5 +1,6 @@
-[all_hosts]
+[rhel8_chrony_server_hosts]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
 
-[all_hosts:vars]
+
+[rhel8_chrony_server_hosts:vars]
 ansible_python_interpreter=/usr/bin/python3
