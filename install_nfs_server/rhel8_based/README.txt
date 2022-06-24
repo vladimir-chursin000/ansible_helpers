@@ -8,3 +8,6 @@
 #4) Run 'install_nfs_server.sh'.
 
 #5) Check for services (nfs, rpc-bind, mountd) is allowed at firewall configuration (with '--add-service=***' parameter).
+
+#6) Create group "nfs_share_group" with id=40000 on client side, add client side users (who need to connect nfs-share) to this group
+and connect to configured nfs-share.
