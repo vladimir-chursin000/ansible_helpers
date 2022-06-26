@@ -9,15 +9,15 @@
         owner: root
         group: root
         mode: '0644'
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         seuser: system_u
         setype: etc_t
         serole: object_r
         selevel: s0
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         backup: yes
       register: copy_nfs_server_conf_to_remote_res
-    
+
 ######################################################
 
     - name: copy_nfsmount_server_conf_to_remote
@@ -27,15 +27,33 @@
         owner: root
         group: root
         mode: '0644'
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         seuser: system_u
         setype: etc_t
         serole: object_r
         selevel: s0
-###COMMENT this if selinux is disabled
+        ###COMMENT this if selinux is disabled
         backup: yes
       register: copy_nfsmount_server_conf_to_remote_res
-    
+
+######################################################
+
+    - name: copy_etc_sysconfig_nfs_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/conf/etc_sysconfig_nfs"
+        dest: /etc/sysconfig/nfs
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_etc_sysconfig_nfs_to_remote_res
+
 ######################################################
 
     - name: run_cfg_reload_for_nfs_server_if_conf_files_changed
@@ -43,4 +61,4 @@
         name: nfs-server.service
         state: reloaded
         masked: no
-      when: copy_nfs_server_conf_to_remote_res.changed==true or copy_nfsmount_server_conf_to_remote_res.changed==true
+      when: copy_nfs_server_conf_to_remote_res.changed==true or copy_nfsmount_server_conf_to_remote_res.changed==true or copy_etc_sysconfig_nfs_to_remote_res.changed==true

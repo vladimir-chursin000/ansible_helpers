@@ -6,9 +6,7 @@ SELF_DIR="$(dirname $(readlink -f $0))";
 EXPORTS_FILE="/etc/exports";
 
 ###CFG
-NFS_SHARE_GID=40000;
-NFS_SHARE_GROUP_NAME='nfs_share_group';
-NFS_SHARE_CHMOD=770;
+NFS_SHARE_CHMOD=777;
 ###CFG
 
 ###VARS
@@ -16,12 +14,11 @@ LINE='';
 EXE_RES='';
 ###VARS
 
-EXE_RES=`groupadd -g $NFS_SHARE_GID $NFS_SHARE_GROUP_NAME`;
-
 while read LINE; do 
     LINE=`echo $LINE | sed -r 's/\s+\S+\(*//'`;
-    EXE_RES=`mkdir -p $LINE`;
-    EXE_RES=`chmod $NFS_SHARE_CHMOD $LINE`;    
-    EXE_RES=`chmod +t $LINE`;
-    EXE_RES=`chgrp $NFS_SHARE_GROUP_NAME $LINE`;
+    if [ ! -z "$LINE" ]; then
+	EXE_RES=`mkdir -p $LINE`;
+	EXE_RES=`chmod $NFS_SHARE_CHMOD $LINE`;
+	EXE_RES=`chmod +t $LINE`;
+    fi;
 done < "$EXPORTS_FILE";

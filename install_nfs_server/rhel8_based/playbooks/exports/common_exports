@@ -4,7 +4,7 @@
 #/mnt/nfs_shares/HR				10.20.30.0/24(rw,sync)
 #/mnt/nfs_shares/FIN				10.20.30.0/24(rw,sync)
 #/mnt/nfs_shares/Marketing			10.20.40.0/24(rw,sync)
-#/mnt/backups					10.20.50.9/24(rw,sync,no_all_squash,root_squash)
+#/mnt/backups					10.20.50.9/32(rw,sync,no_all_squash,root_squash)
 ###
 #rw - allow read and write.
 #ro - read only.

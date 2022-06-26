@@ -1,0 +1,2 @@
+#Disable using NFSv4
+RPCNFSDARGS="-N 4"
