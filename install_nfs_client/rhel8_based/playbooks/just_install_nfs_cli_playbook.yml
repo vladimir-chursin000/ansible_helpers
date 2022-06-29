@@ -1,0 +1,14 @@
+---
+- hosts: rhel8_nfs_client_hosts
+  tasks:
+    - name: install_nfs_utils
+      dnf:
+        name: nfs-utils
+        state: installed
+
+######################################################
+
+    - name: install_nfs4_acl_tools
+      dnf:
+        name: nfs4-acl-tools
+        state: installed
