@@ -1,0 +1,24 @@
+#Params 'mnt_src, mnt_path, mnt_opts, mnt_boot, mnt_state' corresponds to
+#params of 'ansible.posix.mount' (src, path, opts, boot, state).
+######
+#mnt_src - remote-nfs-share-address. Don't use spaces.
+##
+#mnt_path - path for mount remote-nfs-share-address. Don't use spaces.
+##
+#mnt_opts - mount options. Examples: 'rw,sync' (read and write with sync-option), 'ro' (read only), etc. Don't use spaces.
+##
+#mnt_state - mount and fstab state. List of values: absent, mounted, present, unmounted.
+#absent - unmount, remove from fstab and delete mount point.
+#mounted - mount and add to fstab.
+#present - only add to fstab.
+#unmounted - unmount, but no changes at fstab.
+######
+#Don't forget about empty line et the edt of file.
+######
+#For full remove of mount-point for some inventory_hostname: 1) run with mnt_state=absent; 2) delete cfg-line from this conf-file.
+######
+###Example
+#192.168.0.10		192.168.0.5:/mnt/share	/mnt/nfs_share	rw,sync		yes		mounted
+######
+#inventory_hostname	#mnt_src		#mnt_path	#mnt_opts	#mnt_boot	#mnt_state
+###
