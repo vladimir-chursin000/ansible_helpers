@@ -4,33 +4,14 @@
     - name: check_for_special_export_file
       delegate_to: localhost
       stat:
-        path: "{{playbook_dir}}/exports/{{inventory_hostname}}"
-      register: is_special_export
-
-######################################################
-
-    - name: copy_nfs_special_exports_conf_to_remote
-      ansible.builtin.copy:
-        src: "{{playbook_dir}}/exports/{{inventory_hostname}}"
-        dest: /etc/exports
-        owner: root
-        group: root
-        mode: '0644'
-        ###COMMENT this if selinux is disabled
-        seuser: system_u
-        setype: exports_t
-        serole: object_r
-        selevel: s0
-        ###COMMENT this if selinux is disabled
-        backup: yes
-      register: copy_nfs_special_exports_conf_to_remote_res
-      when: is_special_export.stat.exists==true
+        path: "{{playbook_dir}}/exports/{{inventory_hostname}}_dyn_exports"
+      register: is_export
 
 ######################################################
 
     - name: copy_nfs_exports_conf_to_remote
       ansible.builtin.copy:
-        src: "{{playbook_dir}}/exports/common_exports"
+        src: "{{playbook_dir}}/exports/{{inventory_hostname}}_dyn_exports"
         dest: /etc/exports
         owner: root
         group: root
@@ -43,7 +24,26 @@
         ###COMMENT this if selinux is disabled
         backup: yes
       register: copy_nfs_exports_conf_to_remote_res
-      when: is_special_export.stat.exists==false
+      when: is_export.stat.exists==true
+
+######################################################
+
+    - name: copy_empty_exports_conf_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/exports/empty_exports"
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: exports_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_empty_exports_conf_to_remote_res
+      when: is_export.stat.exists==false
 
 ######################################################
 
@@ -66,10 +66,10 @@
 
     - name: run_script "command_seq_before_exportfs.sh"
       ansible.builtin.command: "~/ansible_helpers/install_nfs_server_scripts/command_seq_before_exportfs.sh"
-      when: copy_nfs_exports_conf_to_remote_res.changed==true or copy_nfs_special_exports_conf_to_remote_res.changed==true or copy_script_command_seq_before_exportfs_res.changed==true
+      when: copy_empty_exports_conf_to_remote_res.changed==true or copy_nfs_exports_conf_to_remote_res.changed==true or copy_script_command_seq_before_exportfs_res.changed==true
 
 ######################################################
 
     - name: run_exportfs_if_exports_file_changed
       ansible.builtin.command: /usr/sbin/exportfs -arv
-      when: copy_nfs_exports_conf_to_remote_res.changed==true or copy_nfs_special_exports_conf_to_remote_res.changed==true
+      when: copy_empty_exports_conf_to_remote_res.changed==true or copy_nfs_exports_conf_to_remote_res.changed==true

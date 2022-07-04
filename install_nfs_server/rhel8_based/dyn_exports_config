@@ -1,10 +1,9 @@
-# Config 'nfs_exports_config' for /etc/exports at remote side
-
 ###EXAMPLES
-#/mnt/nfs_shares/HR				10.20.30.0/24(rw,sync)
-#/mnt/nfs_shares/FIN				10.20.30.0/24(rw,sync)
-#/mnt/nfs_shares/Marketing			10.20.40.0/24(rw,sync)
-#/mnt/backups					10.20.50.9/32(rw,sync,no_all_squash,root_squash)
+#192.168.5.5		/mnt/share			192.168.5.10/32(rw,sync,subtree_check)
+#10.20.20.5		/mnt/nfs_shares/HR		10.20.30.0/24(rw,sync)
+#10.20.20.5		/mnt/nfs_shares/FIN		10.20.30.0/24(rw,sync)
+#10.20.20.10		/mnt/nfs_shares/Marketing	10.20.40.0/24(rw,sync)
+#10.20.20.10		/mnt/backups			10.20.50.9/32(rw,sync,no_all_squash,root_squash)
 ###
 #rw - allow read and write.
 #ro - read only.
@@ -20,3 +19,8 @@
 #hide - disable non-local resources (ex, bind --mount) access.
 #subtree_check - security access check. Use it if exported dir is not disk partition.
 #no_subtree_check - use it if exported dir = disk partition.
+######
+#Don't forget about empty line at the end of file.
+######
+#inventory_hostname	#dir_for_export		#export_params
+###

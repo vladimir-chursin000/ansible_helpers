@@ -1,1 +1,0 @@
-#Put into this dir export-conf-files with name='host_ip' (from inventory file='nfs_server_hosts') if need special exports for some host.
