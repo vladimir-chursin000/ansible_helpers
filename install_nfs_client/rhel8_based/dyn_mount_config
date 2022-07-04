@@ -13,7 +13,7 @@
 #present - only add to fstab.
 #unmounted - unmount, but no changes at fstab.
 ######
-#Don't forget about empty line et the edt of file.
+#Don't forget about empty line at the end of file.
 ######
 #For full remove of mount-point for some inventory_hostname: 1) run with mnt_state=absent; 2) delete cfg-line from this conf-file.
 ######
