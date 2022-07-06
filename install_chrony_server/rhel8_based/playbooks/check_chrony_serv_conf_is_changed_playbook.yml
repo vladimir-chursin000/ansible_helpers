@@ -1,16 +1,9 @@
 ---
-- hosts: rhel7_chrony_server_hosts
+- hosts: rhel8_chrony_server_hosts
   tasks:
-    - name: install_chrony
-      yum:
-        name: chrony
-        state: installed
-
-######################################################
-
     - name: copy_chrony_server_conf_to_remote
       ansible.builtin.copy:
-        src: chrony_server.conf
+        src: "{{playbook_dir}}/conf/chrony_server.conf"
         dest: /etc/chrony.conf
         owner: root
         group: root
@@ -26,15 +19,6 @@
 
 ######################################################
 
-    - name: check_for_disabled_ntpd
-      ansible.builtin.systemd:
-        name: ntpd.service
-        state: stopped
-        enabled: no
-      ignore_errors: yes
-
-######################################################
-
     - name: enable_n_restart_chronyd
       ansible.builtin.systemd:
         name: chronyd.service
@@ -42,12 +26,3 @@
         enabled: yes
         masked: no
       when: copy_chrony_server_conf_to_remote_res.changed==true
-
-######################################################
-
-    - name: enable_n_if_started_chronyd
-      ansible.builtin.systemd:
-        name: chronyd.service
-        state: started
-        enabled: yes
-        masked: no

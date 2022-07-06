@@ -1,0 +1,16 @@
+---
+- hosts: rhel7_chrony_client_hosts
+  tasks:
+    - name: install_chrony
+      yum:
+        name: chrony
+        state: installed
+
+######################################################
+
+    - name: check_for_disabled_ntpd
+      ansible.builtin.systemd:
+        name: ntpd.service
+        state: stopped
+        enabled: no
+      ignore_errors: yes

@@ -1,0 +1,16 @@
+---
+- hosts: rhel8_chrony_client_hosts
+  tasks:
+    - name: install_chrony
+      dnf:
+        name: chrony
+        state: installed
+
+######################################################
+
+    - name: check_for_disabled_ntpd
+      ansible.builtin.systemd:
+        name: ntpd.service
+        state: stopped
+        enabled: no
+      ignore_errors: yes
