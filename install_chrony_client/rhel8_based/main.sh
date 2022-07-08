@@ -23,5 +23,5 @@ echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" >> $LOG_FILE;
 echo "Start time: $NOW_DT" >> $LOG_FILE;
 echo "#########" >> $LOG_FILE;
 
-/usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+ANSIBLE_FORCE_COLOR=true /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN
