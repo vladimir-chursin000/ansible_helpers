@@ -1,0 +1,11 @@
+---
+- hosts: rhel8_nfs_client_hosts
+  tasks:
+    - name: uninstall_nfs_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: removed
+      vars:
+        packages:
+        - nfs-utils
+        - nfs4-acl-tools
