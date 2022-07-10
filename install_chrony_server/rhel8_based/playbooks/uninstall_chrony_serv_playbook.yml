@@ -1,0 +1,20 @@
+---
+- hosts: rhel8_chrony_server_hosts
+  tasks:
+    - name: disable_n_stop_chronyd
+      ansible.builtin.systemd:
+        name: chronyd.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: uninstall_chrony_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: removed
+      vars:
+        packages:
+        - chrony
+
