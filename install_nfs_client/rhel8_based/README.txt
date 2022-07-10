@@ -12,3 +12,7 @@
 #'install_nfs_client.sh' = full install nfs and apply configured (at 'dyn_mount_config') mounts to remote hosts.
 
 #'just_apply_new_mounts.sh' = apply new mounts configurations to remote hosts.
+
+#'uninstall_nfs_client.sh' = uninstall nfs-packages and unmount nfs-shares.
+
+#'update_nfs_client.sh' = update nfs-packages.

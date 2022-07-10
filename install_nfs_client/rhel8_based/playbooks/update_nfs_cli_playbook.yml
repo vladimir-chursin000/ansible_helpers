@@ -1,0 +1,27 @@
+---
+- hosts: rhel8_nfs_client_hosts
+  tasks:
+    - name: update_nfs_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: latest
+        update_cache: yes
+      vars:
+        packages:
+        - nfs-utils
+        - nfs4-acl-tools
+      register: update_nfs_packages_res
+
+######################################################
+
+    - name: "check_for_mount_task_file"
+      delegate_to: localhost
+      stat:
+        path: "{{playbook_dir}}/dynamic_playbooks/{{inventory_hostname}}_dyn_mount.yml"
+      register: is_mount_task_exists
+
+######################################################
+
+    - name: "run_mount_task_if_exists (unmount operation after update)"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/{{inventory_hostname}}_dyn_mount.yml"
+      when: is_mount_task_exists.stat.exists==true and update_nfs_packages_res.changed==true

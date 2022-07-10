@@ -11,7 +11,7 @@ PARAM_ARRAY=();
 DYN_MOUNT_FILE_NAME='';
 ###VARS
 
-IS_ONLY_UNMOUNT=$1;
+OP_TYPE=$1;
 
 EXE_RES=`rm -rf "$DYNAMIC_PLAYBOOKS"/*_dyn_mount.yml`;
 REGEX="^#.*";
@@ -20,8 +20,11 @@ while read LINE; do
     if [[ ! -z "$LINE" ]] && [[ ! "$LINE" =~ $REGEX ]]; then
 	PARAM_ARRAY=($LINE);
 	DYN_MOUNT_FILE_NAME="$DYNAMIC_PLAYBOOKS/${PARAM_ARRAY[0]}_dyn_mount.yml";
-	if [[ ! -z "$IS_ONLY_UNMOUNT" ]] && [[ "$IS_ONLY_UNMOUNT" == "1" ]]; then
+	if [[ ! -z "$OP_TYPE" ]] && [[ "$OP_TYPE" == "before_remove" ]]; then
 	    PARAM_ARRAY[5]='absent';
+	fi;
+	if [[ ! -z "$OP_TYPE" ]] && [[ "$OP_TYPE" == "before_update" ]]; then
+	    PARAM_ARRAY[5]='unmounted';
 	fi;
 	echo "- name: mount_nfs" >> $DYN_MOUNT_FILE_NAME;
 	echo "  ansible.posix.mount:" >> $DYN_MOUNT_FILE_NAME;

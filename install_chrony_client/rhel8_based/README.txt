@@ -12,3 +12,7 @@
 #'check_chrony_serv_is_started.sh' = check for chrony-daemon is started (and start if not).
 
 #'check_chrony_serv_conf_is_changed.sh' = check for changes at conf-file and restart service if changes available.
+
+#'uninstall_chrony_client.sh' = uninstall chrony-packages and stop chrony-service.
+
+#'update_chrony_client.sh' = update chrony-packages.

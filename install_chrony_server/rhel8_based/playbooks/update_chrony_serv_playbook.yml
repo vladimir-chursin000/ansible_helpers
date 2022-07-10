@@ -1,0 +1,22 @@
+---
+- hosts: rhel8_chrony_server_hosts
+  tasks:
+    - name: update_chrony_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: latest
+        update_cache: yes
+      vars:
+        packages:
+        - chrony
+      register: update_chrony_packages_res
+
+######################################################
+
+    - name: restart_chronyd
+      ansible.builtin.systemd:
+        name: chronyd.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_chrony_packages_res.changed==true

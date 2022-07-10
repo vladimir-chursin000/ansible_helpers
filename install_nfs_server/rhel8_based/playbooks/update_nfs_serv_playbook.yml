@@ -1,0 +1,140 @@
+---
+- hosts: rhel8_nfs_server_hosts
+  tasks:
+###Uninstall package
+    - name: update_nfs_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: latest
+        update_cache: yes
+      vars:
+        packages:
+        - nfs-utils
+        - rpcbind
+      register: update_nfs_packages_res
+
+######################################################
+
+###NFS (systemd)
+    - name: restart_nfs_server_serv
+      ansible.builtin.systemd:
+        name: nfs-server.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_nfs_idmapd_serv
+      ansible.builtin.systemd:
+        name: nfs-idmapd.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_nfs_mountd_serv
+      ansible.builtin.systemd:
+        name: nfs-mountd.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_nfsdcld_serv
+      ansible.builtin.systemd:
+        name: nfsdcld.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_nfs_client_targ
+      ansible.builtin.systemd:
+        name: nfs-client.target
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_nfs_rpc_pipefs_mnt
+      ansible.builtin.systemd:
+        name: var-lib-nfs-rpc_pipefs.mount
+        state: restarted
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_nfsd_mnt
+      ansible.builtin.systemd:
+        name: proc-fs-nfsd.mount
+        state: restarted
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+###RPCbind (systemd)
+    - name: restart_rpcbind_serv
+      ansible.builtin.systemd:
+        name: rpcbind.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_rpcbind_sock
+      ansible.builtin.systemd:
+        name: rpcbind.socket
+        state: started
+        enabled: yes
+        masked: no
+
+######################################################
+
+    - name: restart_rpc_statd_serv
+      ansible.builtin.systemd:
+        name: rpc-statd.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_rpc_statd_notif_serv
+      ansible.builtin.systemd:
+        name: rpc-statd-notify.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_rpc_pipefs_targ
+      ansible.builtin.systemd:
+        name: rpc_pipefs.target
+        state: restarted
+        masked: no
+      when: update_nfs_packages_res.changed==true
+
+######################################################
+
+    - name: restart_rpcbind_targ
+      ansible.builtin.systemd:
+        name: rpcbind.target
+        state: started
+        masked: no

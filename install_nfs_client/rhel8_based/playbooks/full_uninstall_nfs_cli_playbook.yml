@@ -1,3 +1,3 @@
 ---
-- import_playbook: just_uninstall_nfs_cli_playbook.yml
 - import_playbook: "{{playbook_dir}}/dynamic_playbooks/dynamic_loader.yml"
+- import_playbook: just_uninstall_nfs_cli_playbook.yml

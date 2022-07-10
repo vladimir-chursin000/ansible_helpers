@@ -18,3 +18,7 @@
 #'check_nfs_serv_conf_is_changed.sh' = check for changes at conf-files ("playbooks/conf") and run reload if changes available.
 
 #'check_nfs_serv_exports_is_changed.sh' = apply 'dyn_exports_config' changes to remote hosts.
+
+#'uninstall_nfs_server.sh' = uninstall nfs-packages and stop nfs-services.
+
+#'update_nfs_server.sh' = update nfs-packages.
