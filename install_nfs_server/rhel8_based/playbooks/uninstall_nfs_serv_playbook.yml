@@ -1,0 +1,154 @@
+---
+- hosts: rhel8_nfs_server_hosts
+  tasks:
+###NFS (systemd)
+    - name: disable_n_stop_nfs_server_serv
+      ansible.builtin.systemd:
+        name: nfs-server.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_nfs_idmapd_serv
+      ansible.builtin.systemd:
+        name: nfs-idmapd.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_nfs_mountd_serv
+      ansible.builtin.systemd:
+        name: nfs-mountd.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_nfsdcld_serv
+      ansible.builtin.systemd:
+        name: nfsdcld.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_nfs_client_targ
+      ansible.builtin.systemd:
+        name: nfs-client.target
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: stop_nfs_rpc_pipefs_mnt
+      ansible.builtin.systemd:
+        name: var-lib-nfs-rpc_pipefs.mount
+        state: stopped
+        masked: no
+
+######################################################
+
+    - name: stop_nfsd_mnt
+      ansible.builtin.systemd:
+        name: proc-fs-nfsd.mount
+        state: stopped
+        masked: no
+
+######################################################
+
+###RPCbind (systemd)
+    - name: disable_n_stop_rpcbind_serv
+      ansible.builtin.systemd:
+        name: rpcbind.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_rpcbind_sock
+      ansible.builtin.systemd:
+        name: rpcbind.socket
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_rpc_statd_serv
+      ansible.builtin.systemd:
+        name: rpc-statd.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: disable_n_stop_rpc_statd_notif_serv
+      ansible.builtin.systemd:
+        name: rpc-statd-notify.service
+        state: stopped
+        enabled: no
+        masked: no
+
+######################################################
+
+    - name: stop_rpc_pipefs_targ
+      ansible.builtin.systemd:
+        name: rpc_pipefs.target
+        state: stopped
+        masked: no
+
+######################################################
+
+    - name: stop_rpcbind_targ
+      ansible.builtin.systemd:
+        name: rpcbind.target
+        state: stopped
+        masked: no
+
+######################################################
+
+###Set_exports_to_empty
+    - name: copy_empty_exports_conf_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/exports/empty_exports"
+        dest: /etc/exports
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: exports_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+
+######################################################
+
+###Uninstall package
+    - name: uninstall_nfs_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: removed
+      vars:
+        packages:
+        - nfs-utils
+
+######################################################
+
+    ###COMMENT this if selinux is disabled
+    - name: unset_nfs_export_all_rw
+      ansible.posix.seboolean:
+        name: nfs_export_all_rw
+        state: no
+        persistent: no
+    ###COMMENT this if selinux is disabled
