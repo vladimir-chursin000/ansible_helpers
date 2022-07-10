@@ -1,10 +1,13 @@
 ---
 - hosts: rhel8_nfs_server_hosts
   tasks:
-    - name: install_nfs_utils
-      dnf:
-        name: nfs-utils
+    - name: install_chrony
+      ansible.builtin.dnf:
+        name: "{{packages}}"
         state: installed
+      vars:
+        packages:
+        - nfs-utils
 
     ###COMMENT this if selinux is disabled
     - name: set_nfs_export_all_rw

@@ -2,9 +2,12 @@
 - hosts: rhel7_chrony_server_hosts
   tasks:
     - name: install_chrony
-      yum:
-        name: chrony
+      ansible.builtin.yum:
+        name: "{{packages}}"
         state: installed
+      vars:
+        packages:
+        - chrony
 
 ######################################################
 

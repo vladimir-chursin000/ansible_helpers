@@ -2,9 +2,12 @@
 - hosts: rhel8_chrony_client_hosts
   tasks:
     - name: install_chrony
-      dnf:
-        name: chrony
+      ansible.builtin.dnf:
+        name: "{{packages}}"
         state: installed
+      vars:
+        packages:
+        - chrony
 
 ######################################################
 
