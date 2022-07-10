@@ -47,7 +47,7 @@
     
 ######################################################
 
-    - name: enable_n_if_started_nfs_rpc_pipefs_mnt
+    - name: if_started_nfs_rpc_pipefs_mnt
       ansible.builtin.systemd:
         name: var-lib-nfs-rpc_pipefs.mount
         state: started
@@ -55,12 +55,14 @@
     
 ######################################################
 
-    - name: enable_n_if_started_nfsd_mnt
+    - name: if_started_nfsd_mnt
       ansible.builtin.systemd:
         name: proc-fs-nfsd.mount
         state: started
         masked: no
-    
+
+######################################################
+
 ###RPCbind
     - name: enable_n_if_started_rpcbind_serv
       ansible.builtin.systemd:
@@ -98,7 +100,7 @@
     
 ######################################################
 
-    - name: enable_n_if_started_rpc_pipefs_targ
+    - name: if_started_rpc_pipefs_targ
       ansible.builtin.systemd:
         name: rpc_pipefs.target
         state: started
