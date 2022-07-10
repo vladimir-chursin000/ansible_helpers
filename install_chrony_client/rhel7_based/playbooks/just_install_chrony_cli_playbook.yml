@@ -1,7 +1,7 @@
 ---
 - hosts: rhel7_chrony_client_hosts
   tasks:
-    - name: install_chrony
+    - name: install_chrony_packages
       ansible.builtin.yum:
         name: "{{packages}}"
         state: installed

@@ -1,7 +1,7 @@
 ---
 - hosts: rhel8_nfs_client_hosts
   tasks:
-    - name: install_chrony
+    - name: install_nfs_packages
       ansible.builtin.dnf:
         name: "{{packages}}"
         state: installed
