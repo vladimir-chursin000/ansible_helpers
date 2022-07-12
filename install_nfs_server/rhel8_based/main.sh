@@ -6,6 +6,7 @@ SELF_DIR="$(dirname $(readlink -f $0))";
 INV_FILE=$1;
 PLAYBOOK=$2;
 LOG_DIR=$3;
+IS_NEED_RUN_GEN_DYN_EXPORTS=$4;
 ###ARGV
 
 ###VARS
@@ -21,6 +22,10 @@ echo "User: $CUR_USER" > $LOG_FILE;
 echo "Used inventory file: $INV_FILE" >> $LOG_FILE;
 echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" >> $LOG_FILE;
 echo "Start time: $NOW_DT" >> $LOG_FILE;
+if [[ ! -z "$IS_NEED_RUN_GEN_DYN_EXPORTS" ]] && [[ "$IS_NEED_RUN_GEN_DYN_EXPORTS" == "YES" ]]; then
+    $SELF_DIR/generate_dynamic_exports.sh;
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_exports.sh" >> $LOG_FILE;
+fi;
 echo "#########" >> $LOG_FILE;
 
 ANSIBLE_FORCE_COLOR=true /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;

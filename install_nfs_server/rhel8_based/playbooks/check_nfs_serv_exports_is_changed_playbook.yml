@@ -56,7 +56,7 @@
 
     - name: copy_script "command_seq_before_exportfs.sh"
       ansible.builtin.copy:
-        src: "{{playbook_dir}}/scripts/command_seq_before_exportfs.sh"
+        src: "{{playbook_dir}}/scripts_for_remote/command_seq_before_exportfs.sh"
         dest: "~/ansible_helpers/install_nfs_server_scripts/command_seq_before_exportfs.sh"
         mode: '0700'
         backup: yes
