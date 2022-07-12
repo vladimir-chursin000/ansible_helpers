@@ -28,5 +28,5 @@ if [[ ! -z "$IS_NEED_RUN_GEN_DYN_EXPORTS" ]] && [[ "$IS_NEED_RUN_GEN_DYN_EXPORTS
 fi;
 echo "#########" >> $LOG_FILE;
 
-ANSIBLE_FORCE_COLOR=true /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+/usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN

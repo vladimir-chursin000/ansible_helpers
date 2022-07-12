@@ -39,7 +39,7 @@ if [[ ! -z "$GEN_DYN_MOUNT_RUN_TYPE" ]] && [[ "$GEN_DYN_MOUNT_RUN_TYPE" == "just
 fi;
 echo "#########" >> $LOG_FILE;
 
-ANSIBLE_FORCE_COLOR=true /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+/usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 
 if [[ ! -z "$PLAYBOOK_NEXT" ]] && [[ "$PLAYBOOK_NEXT" != "no" ]]; then
     echo " " >> $LOG_FILE;
@@ -47,6 +47,6 @@ if [[ ! -z "$PLAYBOOK_NEXT" ]] && [[ "$PLAYBOOK_NEXT" != "no" ]]; then
     echo "Playbook_next: $SELF_DIR/playbooks/$PLAYBOOK_NEXT" >> $LOG_FILE;
     $SELF_DIR/generate_dynamic_mount_playbooks.sh;
     echo "Run script (before playbook_next): $SELF_DIR/generate_dynamic_mount_playbooks.sh" >> $LOG_FILE;
-    ANSIBLE_FORCE_COLOR=true /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_NEXT" | tee -a $LOG_FILE;
+    /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_NEXT" | tee -a $LOG_FILE;
 fi;
 ###MAIN
