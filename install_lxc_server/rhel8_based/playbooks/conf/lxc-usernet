@@ -1,0 +1,3 @@
+# USERNAME TYPE BRIDGE COUNT
+root       veth virbr0 100
+root       veth virbr1 100

@@ -1,0 +1,48 @@
+---
+- hosts: rhel8_lxc_server_hosts
+  tasks:
+    - name: update_lxc_packages
+      ansible.builtin.dnf:
+        name: "{{packages}}"
+        state: latest
+        update_cache: yes
+      vars:
+        packages:
+        - epel-release
+        - debootstrap
+        - lxc
+        - lxc-libs
+        - lxc-templates
+        - lxcfs
+        - dpkg
+      register: update_lxc_packages_res
+
+######################################################
+
+    - name: restart_lxc_serv
+      ansible.builtin.systemd:
+        name: lxc.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_lxc_packages_res.changed==true
+
+######################################################
+
+    - name: restart_lxc_net_serv
+      ansible.builtin.systemd:
+        name: lxc-net.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_lxc_packages_res.changed==true
+
+######################################################
+
+    - name: restart_lxcfs_serv
+      ansible.builtin.systemd:
+        name: lxcfs.service
+        state: restarted
+        enabled: yes
+        masked: no
+      when: update_lxc_packages_res.changed==true

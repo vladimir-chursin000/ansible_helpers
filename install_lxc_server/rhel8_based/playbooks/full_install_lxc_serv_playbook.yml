@@ -1,0 +1,4 @@
+---
+- import_playbook: just_install_lxc_serv_playbook.yml
+- import_playbook: check_all_lxc_serv_is_started_playbook.yml
+- import_playbook: check_lxc_serv_conf_is_changed_playbook.yml

@@ -1,0 +1,100 @@
+---
+- hosts: rhel8_lxc_server_hosts
+  tasks:
+###Copy and check CFG
+    - name: copy_lxc_default_conf_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/conf/lxc_default.conf"
+        dest: /etc/lxc/default.conf
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_lxc_default_conf_to_remote_res
+
+######################################################
+
+    - name: copy_lxc_usernet_conf_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/conf/lxc-usernet"
+        dest: /etc/lxc/lxc-usernet
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_lxc_usernet_conf_to_remote_res
+
+######################################################
+
+    - name: copy_etc_subuid_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/conf/lxc_subuid"
+        dest: /etc/subuid
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_etc_subuid_to_remote_res
+
+######################################################
+
+    - name: copy_etc_subgid_to_remote
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/conf/lxc_subgid"
+        dest: /etc/subgid
+        owner: root
+        group: root
+        mode: '0644'
+        ###COMMENT this if selinux is disabled
+        seuser: system_u
+        setype: etc_t
+        serole: object_r
+        selevel: s0
+        ###COMMENT this if selinux is disabled
+        backup: yes
+      register: copy_etc_subgid_to_remote_res
+
+######################################################
+
+    - name: run_cfg_reload_for_lxc_serv_if_conf_files_changed
+      ansible.builtin.systemd:
+        name: lxcfs.service
+        state: reloaded
+        masked: no
+      when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true
+
+######################################################
+
+    - name: run_restart_for_lxc_net_serv_if_conf_files_changed
+      ansible.builtin.systemd:
+        name: lxc-net.service
+        state: restarted
+        masked: no
+      when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true
+
+######################################################
+
+    - name: run_restart_for_lxc_serv_if_conf_files_changed
+      ansible.builtin.systemd:
+        name: lxc.service
+        state: restarted
+        masked: no
+      when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true
