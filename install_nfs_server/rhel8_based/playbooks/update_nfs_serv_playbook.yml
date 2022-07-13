@@ -1,7 +1,6 @@
 ---
 - hosts: rhel8_nfs_server_hosts
   tasks:
-###Uninstall package
     - name: update_nfs_packages
       ansible.builtin.dnf:
         name: "{{packages}}"
