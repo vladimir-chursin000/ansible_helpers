@@ -58,7 +58,9 @@
 
     - name: run_cfg_reload_for_nfs_server_if_conf_files_changed
       ansible.builtin.systemd:
-        name: nfs-server.service
+        name: "{{item}}"
         state: reloaded
         masked: no
+      with_items:
+        - nfs-server.service
       when: copy_nfs_server_conf_to_remote_res.changed==true or copy_nfsmount_server_conf_to_remote_res.changed==true or copy_etc_sysconfig_nfs_to_remote_res.changed==true

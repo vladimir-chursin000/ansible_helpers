@@ -3,17 +3,18 @@
   tasks:
     - name: install_chrony_packages
       ansible.builtin.yum:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: installed
-      vars:
-        packages:
+      with_items:
         - chrony
 
 ######################################################
 
-    - name: check_for_disabled_ntpd
+    - name: check_for_disabled_ntpd_services
       ansible.builtin.systemd:
-        name: ntpd.service
+        name: "{{item}}"
         state: stopped
         enabled: no
+      with_items:
+        - ntpd.service
       ignore_errors: yes

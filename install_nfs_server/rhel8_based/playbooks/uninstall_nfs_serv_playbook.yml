@@ -2,117 +2,75 @@
 - hosts: rhel8_nfs_server_hosts
   tasks:
 ###NFS (systemd)
-    - name: disable_n_stop_nfs_server_serv
+    - name: disable_n_stop_nfs_services
       ansible.builtin.systemd:
-        name: nfs-server.service
+        name: "{{item}}"
         state: stopped
         enabled: no
         masked: no
+      with_items:
+        - nfs-server.service
+        - nfs-idmapd.service
+        - nfs-mountd.service
+        - nfsdcld.service
 
 ######################################################
 
-    - name: disable_n_stop_nfs_idmapd_serv
+    - name: disable_n_stop_nfs_targets
       ansible.builtin.systemd:
-        name: nfs-idmapd.service
+        name: "{{item}}"
         state: stopped
         enabled: no
         masked: no
+      with_items:
+        - nfs-client.target
 
 ######################################################
 
-    - name: disable_n_stop_nfs_mountd_serv
+    - name: stop_nfs_mounts
       ansible.builtin.systemd:
-        name: nfs-mountd.service
-        state: stopped
-        enabled: no
-        masked: no
-
-######################################################
-
-    - name: disable_n_stop_nfsdcld_serv
-      ansible.builtin.systemd:
-        name: nfsdcld.service
-        state: stopped
-        enabled: no
-        masked: no
-
-######################################################
-
-    - name: disable_n_stop_nfs_client_targ
-      ansible.builtin.systemd:
-        name: nfs-client.target
-        state: stopped
-        enabled: no
-        masked: no
-
-######################################################
-
-    - name: stop_nfs_rpc_pipefs_mnt
-      ansible.builtin.systemd:
-        name: var-lib-nfs-rpc_pipefs.mount
+        name: "{{item}}"
         state: stopped
         masked: no
-
-######################################################
-
-    - name: stop_nfsd_mnt
-      ansible.builtin.systemd:
-        name: proc-fs-nfsd.mount
-        state: stopped
-        masked: no
+      with_items:
+        - var-lib-nfs-rpc_pipefs.mount
+        - proc-fs-nfsd.mount
 
 ######################################################
 
 ###RPCbind (systemd)
-    - name: disable_n_stop_rpcbind_serv
+    - name: disable_n_stop_rpcbind_services
       ansible.builtin.systemd:
-        name: rpcbind.service
+        name: "{{item}}"
         state: stopped
         enabled: no
         masked: no
+      with_items:
+        - rpcbind.service
+        - rpc-statd.service
+        - rpc-statd-notify.service
 
 ######################################################
 
-    - name: disable_n_stop_rpcbind_sock
+    - name: disable_n_stop_rpcbind_sockets
       ansible.builtin.systemd:
-        name: rpcbind.socket
+        name: "{{item}}"
         state: stopped
         enabled: no
         masked: no
+      with_items:
+        - rpcbind.socket
 
 ######################################################
 
-    - name: disable_n_stop_rpc_statd_serv
+    - name: stop_rpc_targets
       ansible.builtin.systemd:
-        name: rpc-statd.service
-        state: stopped
-        enabled: no
-        masked: no
-
-######################################################
-
-    - name: disable_n_stop_rpc_statd_notif_serv
-      ansible.builtin.systemd:
-        name: rpc-statd-notify.service
-        state: stopped
-        enabled: no
-        masked: no
-
-######################################################
-
-    - name: stop_rpc_pipefs_targ
-      ansible.builtin.systemd:
-        name: rpc_pipefs.target
+        name: "{{item}}"
         state: stopped
         masked: no
-
-######################################################
-
-    - name: stop_rpcbind_targ
-      ansible.builtin.systemd:
-        name: rpcbind.target
-        state: stopped
-        masked: no
+      with_items:
+        - rpc_pipefs.target
+        - rpcbind.target
 
 ######################################################
 
@@ -137,10 +95,9 @@
 ###Uninstall package
     - name: uninstall_nfs_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: removed
-      vars:
-        packages:
+      with_items:
         - nfs-utils
 
 ######################################################

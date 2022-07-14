@@ -1,39 +1,24 @@
 ---
 - hosts: rhel8_lxc_server_hosts
   tasks:
-    - name: disable_n_stop_lxc_serv
+    - name: disable_n_stop_lxc_services
       ansible.builtin.systemd:
-        name: lxc.service
+        name: "{{item}}"
         state: stopped
         enabled: no
         masked: no
-
-######################################################
-
-    - name: disable_n_stop_lxc_net_serv
-      ansible.builtin.systemd:
-        name: lxc-net.service
-        state: stopped
-        enabled: no
-        masked: no
-
-######################################################
-
-    - name: disable_n_stop_lxcfs_serv
-      ansible.builtin.systemd:
-        name: lxcfs.service
-        state: stopped
-        enabled: no
-        masked: no
+      with_items:
+        - lxc.service
+        - lxc-net.service
+        - lxcfs.service
 
 ######################################################
 
     - name: uninstall_lxc_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: removed
-      vars:
-        packages:
+      with_items:
         - debootstrap
         - lxc
         - lxc-libs

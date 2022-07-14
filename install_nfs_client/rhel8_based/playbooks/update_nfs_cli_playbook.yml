@@ -3,11 +3,10 @@
   tasks:
     - name: update_nfs_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: latest
         update_cache: yes
-      vars:
-        packages:
+      with_items:
         - nfs-utils
         - nfs4-acl-tools
       register: update_nfs_packages_res

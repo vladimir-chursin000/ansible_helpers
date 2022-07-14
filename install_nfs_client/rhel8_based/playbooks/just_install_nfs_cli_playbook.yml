@@ -3,9 +3,8 @@
   tasks:
     - name: install_nfs_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: installed
-      vars:
-        packages:
+      with_items:
         - nfs-utils
         - nfs4-acl-tools

@@ -2,109 +2,74 @@
 - hosts: rhel8_nfs_server_hosts
   tasks:
 ###NFS
-    - name: enable_n_if_started_nfs_server_serv
+    - name: enable_n_if_started_nfs_services
       ansible.builtin.systemd:
-        name: nfs-server.service
+        name: "{{item}}"
         state: started
         enabled: yes
         masked: no
+      with_items:
+        - nfs-server.service
+        - nfs-idmapd.service
+        - nfs-mountd.service
+        - nfsdcld.service
 
 ######################################################
-    
-    - name: enable_n_if_started_nfs_idmapd_serv
+
+    - name: enable_n_if_started_nfs_targets
       ansible.builtin.systemd:
-        name: nfs-idmapd.service
+        name: "{{item}}"
         state: started
         enabled: yes
         masked: no
+      with_items:
+        - nfs-client.target
     
 ######################################################
 
-    - name: enable_n_if_started_nfs_mountd_serv
+    - name: if_started_nfs_mounts
       ansible.builtin.systemd:
-        name: nfs-mountd.service
+        name: "{{item}}"
         state: started
-        enabled: yes
         masked: no
+      with_items:
+        - var-lib-nfs-rpc_pipefs.mount
+        - proc-fs-nfsd.mount
     
-######################################################
-
-    - name: enable_n_if_started_nfsdcld_serv
-      ansible.builtin.systemd:
-        name: nfsdcld.service
-        state: started
-        enabled: yes
-        masked: no
-    
-######################################################
-
-    - name: enable_n_if_started_nfs_client_targ
-      ansible.builtin.systemd:
-        name: nfs-client.target
-        state: started
-        enabled: yes
-        masked: no
-    
-######################################################
-
-    - name: if_started_nfs_rpc_pipefs_mnt
-      ansible.builtin.systemd:
-        name: var-lib-nfs-rpc_pipefs.mount
-        state: started
-        masked: no
-    
-######################################################
-
-    - name: if_started_nfsd_mnt
-      ansible.builtin.systemd:
-        name: proc-fs-nfsd.mount
-        state: started
-        masked: no
-
 ######################################################
 
 ###RPCbind
-    - name: enable_n_if_started_rpcbind_serv
+    - name: enable_n_if_started_rpcbind_services
       ansible.builtin.systemd:
-        name: rpcbind.service
+        name: "{{item}}"
         state: started
         enabled: yes
         masked: no
+      with_items:
+        - rpcbind.service
+        - rpc-statd.service
+        - rpc-statd-notify.service
     
 ######################################################
 
     - name: enable_n_if_started_rpcbind_sock
       ansible.builtin.systemd:
-        name: rpcbind.socket
+        name: "{{item}}"
         state: started
         enabled: yes
         masked: no
-    
-######################################################
-
-    - name: enable_n_if_started_rpc_statd_serv
-      ansible.builtin.systemd:
-        name: rpc-statd.service
-        state: started
-        enabled: yes
-        masked: no
-    
-######################################################
-
-    - name: enable_n_if_started_rpc_statd_notif_serv
-      ansible.builtin.systemd:
-        name: rpc-statd-notify.service
-        state: started
-        enabled: yes
-        masked: no
+      with_items:
+        - rpcbind.socket
     
 ######################################################
 
     - name: if_started_rpc_pipefs_targ
       ansible.builtin.systemd:
-        name: rpc_pipefs.target
+        name: "{{item}}"
         state: started
         masked: no
+      with_items:
+        - rpc_pipefs.target
 
 ######################################################
 
@@ -120,7 +85,9 @@
 
     - name: run_rpcbin_serv_if_rpcbind_targ_not_started
       ansible.builtin.systemd:
-        name: rpcbind.service
+        name: "{{item}}"
         state: restarted
         masked: no
+      with_items:
+        - rpcbind.service
       when: rpcbind_targ_res.failed==true

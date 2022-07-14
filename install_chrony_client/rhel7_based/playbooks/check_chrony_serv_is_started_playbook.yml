@@ -1,9 +1,11 @@
 ---
 - hosts: rhel7_chrony_client_hosts
   tasks:
-    - name: enable_n_if_started_chronyd
+    - name: enable_n_if_started_chronyd_services
       ansible.builtin.systemd:
-        name: chronyd.service
+        name: "{{item}}"
         state: started
         enabled: yes
         masked: no
+      with_items:
+        - chronyd.service

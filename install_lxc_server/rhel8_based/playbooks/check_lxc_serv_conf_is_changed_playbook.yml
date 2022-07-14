@@ -74,27 +74,23 @@
 
 ######################################################
 
-    - name: run_cfg_reload_for_lxc_serv_if_conf_files_changed
+    - name: run_cfg_reload_for_lxcfs_services_if_conf_files_changed
       ansible.builtin.systemd:
-        name: lxcfs.service
+        name: "{{item}}"
         state: reloaded
         masked: no
+      with_items:
+        - lxcfs.service
       when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true
 
 ######################################################
 
-    - name: run_restart_for_lxc_net_serv_if_conf_files_changed
+    - name: run_restart_for_lxc_services_if_conf_files_changed
       ansible.builtin.systemd:
-        name: lxc-net.service
+        name: "{{item}}"
         state: restarted
         masked: no
-      when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true
-
-######################################################
-
-    - name: run_restart_for_lxc_serv_if_conf_files_changed
-      ansible.builtin.systemd:
-        name: lxc.service
-        state: restarted
-        masked: no
+      with_items:
+        - lxc-net.service
+        - lxc.service
       when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true

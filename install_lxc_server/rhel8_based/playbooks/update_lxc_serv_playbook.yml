@@ -3,11 +3,10 @@
   tasks:
     - name: update_lxc_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: latest
         update_cache: yes
-      vars:
-        packages:
+      with_items:
         - epel-release
         - debootstrap
         - lxc
@@ -19,30 +18,14 @@
 
 ######################################################
 
-    - name: restart_lxc_serv
+    - name: restart_lxc_services
       ansible.builtin.systemd:
-        name: lxc.service
+        name: "{{item}}"
         state: restarted
         enabled: yes
         masked: no
-      when: update_lxc_packages_res.changed==true
-
-######################################################
-
-    - name: restart_lxc_net_serv
-      ansible.builtin.systemd:
-        name: lxc-net.service
-        state: restarted
-        enabled: yes
-        masked: no
-      when: update_lxc_packages_res.changed==true
-
-######################################################
-
-    - name: restart_lxcfs_serv
-      ansible.builtin.systemd:
-        name: lxcfs.service
-        state: restarted
-        enabled: yes
-        masked: no
+      with_items:
+        - lxc.service
+        - lxc-net.service
+        - lxcfs.service
       when: update_lxc_packages_res.changed==true

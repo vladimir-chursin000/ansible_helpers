@@ -3,9 +3,8 @@
   tasks:
     - name: uninstall_nfs_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: removed
-      vars:
-        packages:
+      with_items:
         - nfs-utils
         - nfs4-acl-tools

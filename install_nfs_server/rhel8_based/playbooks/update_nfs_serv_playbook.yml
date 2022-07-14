@@ -3,11 +3,10 @@
   tasks:
     - name: update_nfs_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: latest
         update_cache: yes
-      vars:
-        packages:
+      with_items:
         - nfs-utils
         - rpcbind
       register: update_nfs_packages_res
@@ -15,111 +14,68 @@
 ######################################################
 
 ###NFS (systemd)
-    - name: restart_nfs_server_serv
+    - name: restart_nfs_services
       ansible.builtin.systemd:
-        name: nfs-server.service
+        name: "{{item}}"
         state: restarted
         enabled: yes
         masked: no
+      with_items:
+        - nfs-server.service
+        - nfs-idmapd.service
+        - nfs-mountd.service
+        - nfsdcld.service
       when: update_nfs_packages_res.changed==true
 
 ######################################################
 
-    - name: restart_nfs_idmapd_serv
+    - name: restart_nfs_targets
       ansible.builtin.systemd:
-        name: nfs-idmapd.service
+        name: "{{item}}"
         state: restarted
         enabled: yes
         masked: no
+      with_items:
+        - nfs-client.target
       when: update_nfs_packages_res.changed==true
 
 ######################################################
 
-    - name: restart_nfs_mountd_serv
+    - name: restart_nfs_mounts
       ansible.builtin.systemd:
-        name: nfs-mountd.service
-        state: restarted
-        enabled: yes
-        masked: no
-      when: update_nfs_packages_res.changed==true
-
-######################################################
-
-    - name: restart_nfsdcld_serv
-      ansible.builtin.systemd:
-        name: nfsdcld.service
-        state: restarted
-        enabled: yes
-        masked: no
-      when: update_nfs_packages_res.changed==true
-
-######################################################
-
-    - name: restart_nfs_client_targ
-      ansible.builtin.systemd:
-        name: nfs-client.target
-        state: restarted
-        enabled: yes
-        masked: no
-      when: update_nfs_packages_res.changed==true
-
-######################################################
-
-    - name: restart_nfs_rpc_pipefs_mnt
-      ansible.builtin.systemd:
-        name: var-lib-nfs-rpc_pipefs.mount
+        name: "{{item}}"
         state: restarted
         masked: no
-      when: update_nfs_packages_res.changed==true
-
-######################################################
-
-    - name: restart_nfsd_mnt
-      ansible.builtin.systemd:
-        name: proc-fs-nfsd.mount
-        state: restarted
-        masked: no
+      with_items:
+        - var-lib-nfs-rpc_pipefs.mount
+        - proc-fs-nfsd.mount
       when: update_nfs_packages_res.changed==true
 
 ######################################################
 
 ###RPCbind (systemd)
-    - name: restart_rpcbind_serv
+    - name: restart_rpcbind_services
       ansible.builtin.systemd:
-        name: rpcbind.service
+        name: "{{item}}"
         state: restarted
         enabled: yes
         masked: no
+      with_items:
+        - rpcbind.service
+        - rpc-statd.service
+        - rpc-statd-notify.service
       when: update_nfs_packages_res.changed==true
 
 ######################################################
 
-    - name: restart_rpcbind_sock
+    - name: restart_rpcbind_sockets
       ansible.builtin.systemd:
-        name: rpcbind.socket
+        name: "{{item}}"
         state: started
         enabled: yes
         masked: no
-
-######################################################
-
-    - name: restart_rpc_statd_serv
-      ansible.builtin.systemd:
-        name: rpc-statd.service
-        state: restarted
-        enabled: yes
-        masked: no
-      when: update_nfs_packages_res.changed==true
-
-######################################################
-
-    - name: restart_rpc_statd_notif_serv
-      ansible.builtin.systemd:
-        name: rpc-statd-notify.service
-        state: restarted
-        enabled: yes
-        masked: no
-      when: update_nfs_packages_res.changed==true
+      with_items:
+        - rpcbind.socket
 
 ######################################################
 

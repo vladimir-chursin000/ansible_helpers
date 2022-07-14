@@ -19,10 +19,12 @@
 
 ######################################################
 
-    - name: enable_n_restart_chronyd
+    - name: enable_n_restart_chronyd_services
       ansible.builtin.systemd:
-        name: chronyd.service
+        name: "{{item}}"
         state: restarted
         enabled: yes
         masked: no
+      with_items:
+        - chronyd.service
       when: copy_chrony_server_conf_to_remote_res.changed==true

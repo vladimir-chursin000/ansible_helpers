@@ -3,10 +3,9 @@
   tasks:
     - name: install_lxc_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: installed
-      vars:
-        packages:
+      with_items:
         - epel-release
         - debootstrap
         - lxc

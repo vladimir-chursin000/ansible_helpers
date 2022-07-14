@@ -3,20 +3,21 @@
   tasks:
     - name: update_chrony_packages
       ansible.builtin.dnf:
-        name: "{{packages}}"
+        name: "{{item}}"
         state: latest
         update_cache: yes
-      vars:
-        packages:
+      with_items:
         - chrony
       register: update_chrony_packages_res
 
 ######################################################
 
-    - name: restart_chronyd
+    - name: restart_chronyd_services
       ansible.builtin.systemd:
-        name: chronyd.service
+        name: "{{item}}"
         state: restarted
         enabled: yes
         masked: no
+      with_items:
+        - chronyd.service
       when: update_chrony_packages_res.changed==true
