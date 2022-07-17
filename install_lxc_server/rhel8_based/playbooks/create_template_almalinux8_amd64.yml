@@ -12,7 +12,7 @@
 ######################################################    
     
     - name: change_root_password (12345) for lxc_alma8_min_tmplt
-      replace:
+      ansible.builtin.replace:
         path: /var/lib/lxc/lxc_alma8_min_tmplt/rootfs/etc/shadow
         regexp: 'root\:\*\:'
         replace: "root:$6$VBIHRkSBkgtGd9oC$YGRVN4H.ebOrpqwF5lmLfQXHGPbhLcGBE0p1u3gK5ug/ufTAzVP/ckpgPRJmUQ61ui1wqxb7geQrixdLpoOIZ1:"
