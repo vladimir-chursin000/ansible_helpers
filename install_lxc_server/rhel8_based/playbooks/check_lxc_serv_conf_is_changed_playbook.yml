@@ -94,3 +94,24 @@
         - lxc-net.service
         - lxc.service
       when: copy_lxc_default_conf_to_remote_res.changed==true or copy_lxc_usernet_conf_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true or copy_etc_subuid_to_remote_res.changed==true
+
+######################################################
+
+    - name: Add_alias_to_bashrc with 'DOWNLOAD_KEYSERVER' for 'lxc-create'
+      lineinfile:
+        path: /root/.bashrc
+        line: "alias lxc-create='DOWNLOAD_KEYSERVER=\"keyserver.ubuntu.com\" lxc-create'"
+        owner: root
+        regexp: "^alias lxc-create='DOWNLOAD_KEYSERVER=\"keyserver.ubuntu.com\" lxc-create'$"
+        state: present
+        backup: yes
+        insertafter: EOF
+
+######################################################
+
+    - ansible.posix.sysctl:
+        name: net.ipv4.ip_forward
+        value: '1'
+        sysctl_set: yes
+        state: present
+        reload: yes

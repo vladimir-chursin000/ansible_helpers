@@ -1,3 +1,8 @@
+#intbrX - internal virtual bridge (for assign ipv4 locally). Must be configured manually or by another ansible app.
+#Needs masquarade options at firewall for access to real network.
+###
+#extbrX - external bridge (for direct access of containers to the real network). Must be configured manually or by another ansible app.
+###
 # USERNAME TYPE BRIDGE COUNT
-root       veth virbr0 100
-root       veth virbr1 100
+root       veth intbr0 100
+root       veth extbr0 100
