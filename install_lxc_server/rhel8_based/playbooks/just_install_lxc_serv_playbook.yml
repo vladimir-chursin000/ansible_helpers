@@ -7,6 +7,7 @@
         state: installed
       with_items:
         - epel-release
+        - python3-lxc
         - debootstrap
         - lxc
         - lxc-libs

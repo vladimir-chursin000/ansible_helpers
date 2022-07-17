@@ -98,7 +98,7 @@
 ######################################################
 
     - name: Add_alias_to_bashrc with 'DOWNLOAD_KEYSERVER' for 'lxc-create'
-      lineinfile:
+      ansible.builtin.lineinfile:
         path: /root/.bashrc
         line: "alias lxc-create='DOWNLOAD_KEYSERVER=\"keyserver.ubuntu.com\" lxc-create'"
         owner: root

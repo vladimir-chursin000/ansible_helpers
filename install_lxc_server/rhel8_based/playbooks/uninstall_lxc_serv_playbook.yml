@@ -20,6 +20,7 @@
         state: removed
       with_items:
         - debootstrap
+        - python3-lxc
         - lxc
         - lxc-libs
         - lxc-templates

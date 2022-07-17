@@ -1,0 +1,31 @@
+---
+- hosts: rhel8_lxc_server_hosts
+  tasks:
+    - name: Create lxc_alma8_min_tmplt
+      lxc_container:
+        name: lxc_alma8_min_tmplt
+        container_log: true
+        template: download
+        state: stopped
+        template_options: --dist almalinux --release 8 --arch amd64
+
+######################################################    
+    
+    - name: change_root_password (12345) for lxc_alma8_min_tmplt
+      replace:
+        path: /var/lib/lxc/lxc_alma8_min_tmplt/rootfs/etc/shadow
+        regexp: 'root\:\*\:'
+        replace: "root:$6$VBIHRkSBkgtGd9oC$YGRVN4H.ebOrpqwF5lmLfQXHGPbhLcGBE0p1u3gK5ug/ufTAzVP/ckpgPRJmUQ61ui1wqxb7geQrixdLpoOIZ1:"
+
+######################################################
+
+    - name: set_selinux_rule_for_lxc_alma8_min_tmplt
+      community.general.sefcontext:
+        target: '/var/lib/lxc/lxc_alma8_min_tmplt/rootfs/(/.*)?'
+        setype: container_file_t
+        state: present
+
+######################################################
+
+    - name: apply_selinux_rule_for_lxc_alma8_min_tmplt
+      ansible.builtin.command: restorecon -Rv /var/lib/lxc/lxc_alma8_min_tmplt/rootfs
