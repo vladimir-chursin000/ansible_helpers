@@ -15,6 +15,7 @@
         - lxc-templates
         - lxcfs
         - dpkg
+        - bridge-utils
       register: update_lxc_packages_res
 
 ######################################################

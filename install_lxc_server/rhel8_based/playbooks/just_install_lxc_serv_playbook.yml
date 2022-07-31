@@ -14,3 +14,5 @@
         - lxc-templates
         - lxcfs
         - dpkg
+        - bridge-utils
+        - policycoreutils-python-utils

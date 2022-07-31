@@ -26,4 +26,4 @@
         - lxc-templates
         - lxcfs
         - dpkg
-
+        - bridge-utils
