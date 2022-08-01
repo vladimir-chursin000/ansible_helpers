@@ -20,7 +20,7 @@ our %cfg0_hash_g=();
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'int_list'}=[array of interfaces];
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'hwaddr_list'}=[array of hwaddr];
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'ipaddr_opts'}=[array of ipaddr opts];
-#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'bond_opts'}=[array of bond opts];
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'bond_opts'}=bond_opts_string_for_ifcfg;
 ######
 our %cfg0_uniq_check=();
 #Checks (uniq) for novlan interfaces at current inv_host.
@@ -75,7 +75,7 @@ while ( <CONF> ) {
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$brigde_name_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g];
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip, gw, netmask
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'bond_opts'}=$bond_opts_str_g;
 	}
 	else { print "For inv_host='$inv_host_g' conf_id='$conf_id_g}' is already exists. Please, check config-file\n"; }
