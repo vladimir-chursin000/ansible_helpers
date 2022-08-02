@@ -25,18 +25,18 @@ our %cfg0_hash_g=();
 ######
 our %cfg0_uniq_check=();
 #Checks (uniq) for novlan interfaces at current inv_host.
-#$cfg0_uniq_check{inv_host}{'common'}{interface_name}=1; #if interface_name ne 'no' and vlan_id eq 'no'.
-#$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=1; if vlan_id eq 'no'.
-#$cfg0_uniq_check{inv_host}{'common'}{bond_name}=1; #if bond_name ne 'no' and vlan_id eq 'no'.
-#$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=1; #if bridge_name ne 'no' and vlan_id eq 'no'.
-#$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=1; #if ipaddr_opts ne 'dhcp'.
+#$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
+#$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
+#$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
+#$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
+#$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
 ###
 #Checks (uniq) for vlan interfaces at current inv_host.
-#$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=1; #if vlan_id ne 'no'.
-#$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=1; #if vlan_id ne 'no'.
-#$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=1; #if vlan_id ne 'no'.
-#$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=1; #if vlan_id ne 'no' and bond_name ne 'no'.
-#$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=1; #if vlan_id ne 'no' and bridge_name ne 'no'.
+#$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
+#$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
+#$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=conf_id; #if vlan_id ne 'no'.
+#$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
+#$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
 ###
 #Checks (uniq) for interfaces at config (for all inv_hosts)
 #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
@@ -89,6 +89,7 @@ while ( <CONF> ) {
 		}
 	    }
 	}
+	if ( $skip_conf_line_g==1 ) { next; }
 	
 	if ( !exists($cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}) ) {
 	    $cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}=$inv_host_g;
@@ -102,10 +103,47 @@ while ( <CONF> ) {
 
 	########uniq checks (for local params of hosts)
 	if ( $vlan_id_g=~/^no$/ ) { #if novlan
+	    ###$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
+	    foreach $arr_el0_g ( @int_list_arr_g ) {
+		if ( $arr_el0_g=~/^no$/ ) { last; }
+		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}) ) {
+		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
+		}
+		else {
+		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+	    }
+	    if ( $skip_conf_line_g==1 ) { next; }
+	    ###
+
+	    ###$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
+	    ###
 	    
+	    ###$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
+	    ###
+	    
+	    ###$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
+	    ###
+	    
+	    ###$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
+	    ###
 	}
 	else { #if vlan
+	    ###$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
+	    ###
 	    
+	    ###$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
+	    ###
+	    
+	    ###$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=conf_id; #if vlan_id ne 'no'.
+	    ###
+	    
+	    ###$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
+	    ###
+	    
+	    ###$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
+	    ###
 	}
 	########uniq checks
 	
