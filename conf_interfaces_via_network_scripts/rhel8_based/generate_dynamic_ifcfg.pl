@@ -12,7 +12,8 @@ our $conf_file_g=$self_dir_g.'config';
 
 ############VARS
 our $line_g=undef;
-our $common_uniq_criteria_yes_g=0;
+our $arr_el0_g=undef;
+our $skip_conf_line_g=0;
 our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$brigde_name_g,$ipaddr_opts_g,$bond_opts_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 ######
 our %cfg0_hash_g=();
@@ -61,7 +62,10 @@ while ( <CONF> ) {
 	$line_g=~s/ \,/\,/g;
 	$line_g=~s/\, /\,/g;
 	$line_g=~s/ \, /\,/g;
+	$skip_conf_line_g=0;
 	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$brigde_name_g,$ipaddr_opts_g,$bond_opts_g)=split(' ',$line_g);
+	
+	#extract complex vars
 	@int_list_arr_g=split(/\,/,$int_list_str_g);
 	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
 	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
@@ -69,8 +73,43 @@ while ( <CONF> ) {
 	    $bond_opts_str_g=$bond_opts_g;
 	    $bond_opts_str_g=~s/\,/ /g;
 	}
+	#extract complex vars
 	
-	#unique conf_id for inventory_host
+	#######uniq checks for all hosts (hwaddr, ipaddr)
+	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
+	    #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
+	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+	    if ( !exists($cfg0_uniq_check{'all_hosts'}{$arr_el0_g}) ) {
+		$cfg0_uniq_check{'all_hosts'}{$arr_el0_g}=$inv_host_g;
+	    }
+	    else {
+		if ( $cfg0_uniq_check{'all_hosts'}{$arr_el0_g} ne $inv_host_g ) {
+		    print "Hwaddr='$arr_el0_g' is already used at host='$cfg0_uniq_check{'all_hosts'}{$arr_el0_g}'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+	    }
+	}
+	
+	if ( !exists($cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}) ) {
+	    $cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}=$inv_host_g;
+	}
+	else {
+	    print "IPaddr='$ipaddr_opts_arr_g[0]' is already used at host='$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
+	    $skip_conf_line_g=1;
+	}
+	if ( $skip_conf_line_g==1 ) { next; }
+	########uniq checks for all hosts
+
+	########uniq checks (for local params of hosts)
+	if ( $vlan_id_g=~/^no$/ ) { #if novlan
+	    
+	}
+	else { #if vlan
+	    
+	}
+	########uniq checks
+	
+	########unique conf_id for inventory_host
 	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) { 
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$brigde_name_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
@@ -78,8 +117,12 @@ while ( <CONF> ) {
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip, gw, netmask
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'bond_opts'}=$bond_opts_str_g;
 	}
-	else { print "For inv_host='$inv_host_g' conf_id='$conf_id_g}' is already exists. Please, check config-file\n"; }
-	#unique conf_id for inventory_host
+	else {
+	    print "For inv_host='$inv_host_g' conf_id='$conf_id_g' is already exists. Please, check and correct config-file\n";
+	    $skip_conf_line_g=1;
+	}
+	if ( $skip_conf_line_g==1 ) { next; }
+	########unique conf_id for inventory_host
 	
 	#print "'($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$brigde_name_g,$ipaddr_opts_g,$bond_opts_g)'\n";
     }
