@@ -286,7 +286,10 @@ while ( <CONF> ) {
 	    print "For inv_host='$inv_host_g' conf_id='$conf_id_g' is already exists. Please, check and correct config-file\n";
 	    $skip_conf_line_g=1;
 	}
-	if ( $skip_conf_line_g==1 ) { next; }
+	if ( $skip_conf_line_g==1 ) {
+	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    next;
+	}
 	########unique conf_id for inventory_host
 	
 	#print "'($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g)'\n";
