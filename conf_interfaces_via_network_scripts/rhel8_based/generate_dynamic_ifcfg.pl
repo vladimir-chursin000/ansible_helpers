@@ -112,7 +112,7 @@ while ( <CONF> ) {
 		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
 		}
 		else {
-		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}'. Please, check and correct config-file\n";
 		    $skip_conf_line_g=1;
 		}
 	    }
@@ -125,7 +125,7 @@ while ( <CONF> ) {
 		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
 		}
 		else {
-		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}'. Please, check and correct config-file\n";
 		    $skip_conf_line_g=1;
 		}
 	    }
@@ -138,7 +138,7 @@ while ( <CONF> ) {
 		    $cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}=$conf_id_g;
 		}
 		else {
-		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}'. Please, check and correct config-file\n";
 		    $skip_conf_line_g=1;
 		}
 		if ( $skip_conf_line_g==1 ) { next; }
@@ -151,7 +151,7 @@ while ( <CONF> ) {
 		    $cfg0_uniq_check{$inv_host_g}{'common'}{$brigde_name_g}=$conf_id_g;
 		}
 		else {
-		    print "Bridge_name='$brigde_name_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    print "Bridge_name='$brigde_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$brigde_name_g}'. Please, check and correct config-file\n";
 		    $skip_conf_line_g=1;
 		}
 		if ( $skip_conf_line_g==1 ) { next; }
@@ -164,7 +164,7 @@ while ( <CONF> ) {
 		    $cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}=$conf_id_g;
 		}
 		else {
-		    print "Ipaddr='$ipaddr_opts_arr_g[0]' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    print "Ipaddr='$ipaddr_opts_arr_g[0]' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
 		    $skip_conf_line_g=1;
 		}
 		if ( $skip_conf_line_g==1 ) { next; }
@@ -173,6 +173,16 @@ while ( <CONF> ) {
 	}
 	else { #if vlan
 	    ###$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
+	    if ( $vlan_id_g ne 'no' ) {
+		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}) ) {
+		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}=$conf_id_g;
+		}
+		else {
+		    print "Vlan_id='$vlan_id_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+		if ( $skip_conf_line_g==1 ) { next; }
+	    }
 	    ###
 	    
 	    ###$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
