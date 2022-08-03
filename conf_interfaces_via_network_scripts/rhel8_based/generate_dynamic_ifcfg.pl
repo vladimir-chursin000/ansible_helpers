@@ -58,7 +58,7 @@ while ( <CONF> ) {
     while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
     $line_g=~s/\s+/ /g;
     $line_g=~s/^ //g;
-    if ( $line_g!~/^\#/ ) {
+    if ( length($line_g)>0 && $line_g!~/^\#/ ) {
 	$line_g=~s/ \,/\,/g;
 	$line_g=~s/\, /\,/g;
 	$line_g=~s/ \, /\,/g;
@@ -91,14 +91,16 @@ while ( <CONF> ) {
 	}
 	if ( $skip_conf_line_g==1 ) { next; }
 	
-	if ( !exists($cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}) ) {
-	    $cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}=$inv_host_g;
+	if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
+	    if ( !exists($cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}) ) {
+		$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}=$inv_host_g;
+	    }
+	    else {
+		print "IPaddr='$ipaddr_opts_arr_g[0]' is already used at host='$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	    if ( $skip_conf_line_g==1 ) { next; }
 	}
-	else {
-	    print "IPaddr='$ipaddr_opts_arr_g[0]' is already used at host='$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
-	    $skip_conf_line_g=1;
-	}
-	if ( $skip_conf_line_g==1 ) { next; }
 	########uniq checks for all hosts
 
 	########uniq checks (for local params of hosts)
@@ -118,15 +120,55 @@ while ( <CONF> ) {
 	    ###
 
 	    ###$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
+	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}) ) {
+		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
+		}
+		else {
+		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+	    }
+	    if ( $skip_conf_line_g==1 ) { next; }
 	    ###
 	    
 	    ###$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
+	    if ( $bond_name_g ne 'no' ) {
+		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}) ) {
+		    $cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}=$conf_id_g;
+		}
+		else {
+		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+		if ( $skip_conf_line_g==1 ) { next; }
+	    }
 	    ###
 	    
 	    ###$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
+	    if ( $brigde_name_g ne 'no' ) {
+		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$brigde_name_g}) ) {
+		    $cfg0_uniq_check{$inv_host_g}{'common'}{$brigde_name_g}=$conf_id_g;
+		}
+		else {
+		    print "Bridge_name='$brigde_name_g' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+		if ( $skip_conf_line_g==1 ) { next; }
+	    }
 	    ###
 	    
 	    ###$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
+	    if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
+		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}) ) {
+		    $cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}=$conf_id_g;
+		}
+		else {
+		    print "Ipaddr='$ipaddr_opts_arr_g[0]' (inv_host='$inv_host_g') is already used at config with id='$conf_id_g'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+		if ( $skip_conf_line_g==1 ) { next; }
+	    }
 	    ###
 	}
 	else { #if vlan
