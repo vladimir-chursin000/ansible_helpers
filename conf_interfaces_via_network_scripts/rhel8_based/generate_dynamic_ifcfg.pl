@@ -50,6 +50,21 @@ our @hwaddr_list_arr_g=();
 our @ipaddr_opts_arr_g=();
 our @bond_opts_arr_g=();
 our $bond_opts_str_g='mode=4 xmit_hash_policy=2 lacp_rate=1 miimon=100';
+
+our %conf_type_sub_refs_g=(
+    #common (novlan)
+    'just_interface'=>\&just_interface_gen_ifcfg,
+    'virt_bridge'=>\&virt_bridge_gen_ifcfg,
+    'just_bridge'=>\&just_bridge_gen_ifcfg,
+    'just_bond'=>\&just_bond_gen_ifcfg,
+    'bond-bridge'=>\&bond_bridge_gen_ifcfg,
+    #
+    #vlan
+    'interface-vlan'=>\&interface_vlan_gen_ifcfg,
+    'bridge-vlan'=>\&bridge_vlan_gen_ifcfg,
+    'bond-vlan'=>\&bond_vlan_gen_ifcfg,
+    'bond-bridge-vlan'=>\&bond_bridge_vlan_gen_ifcfg,
+);
 ############VARS
 
 ###MAIN SEQ
@@ -66,6 +81,17 @@ while ( <CONF> ) {
 	$line_g=~s/ \, /\,/g;
 	$skip_conf_line_g=0;
 	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g)=split(' ',$line_g);
+	
+	#check conf_type
+	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
+	    print "Wrong conf_type='$conf_type_g'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file\n";
+	    $skip_conf_line_g=1;    
+	}
+	if ( $skip_conf_line_g==1 ) {
+            print "Skip conf-line with conf_id='$conf_id_g'\n";
+            next;
+        }
+	#check conf_type
 	
 	#extract complex vars
 	@int_list_arr_g=split(/\,/,$int_list_str_g);
@@ -308,5 +334,42 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 ###MAIN SEQ
 
 ###SUBROUTINES
+#common (novlan)
+sub just_interface_gen_ifcfg {
+    
+}
+
+sub virt_bridge_gen_ifcfg {
+    
+}
+
+sub just_bridge_gen_ifcfg {
+    
+}
+
+sub just_bond_gen_ifcfg {
+    
+}
+
+sub bond_bridge_gen_ifcfg {
+    
+}
+
+#vlan
+sub interface_vlan_gen_ifcfg {
+    
+}
+
+sub bridge_vlan_gen_ifcfg {
+    
+}
+
+sub bond_vlan_gen_ifcfg {
+    
+}
+
+sub bond_bridge_vlan_gen_ifcfg {
+    
+}
 ###SUBROUTINES
 
