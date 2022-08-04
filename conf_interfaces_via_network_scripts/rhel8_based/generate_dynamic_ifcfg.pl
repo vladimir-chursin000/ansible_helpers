@@ -13,6 +13,8 @@ our $conf_file_g=$self_dir_g.'config';
 ############VARS
 our $line_g=undef;
 our $arr_el0_g=undef;
+our ($hkey0_g,$hval0_g)=(undef,undef);
+our ($hkey1_g,$hval1_g)=(undef,undef);
 our $skip_conf_line_g=0;
 our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 ######
@@ -291,11 +293,18 @@ while ( <CONF> ) {
 	    next;
 	}
 	########unique conf_id for inventory_host
-	
-	#print "'($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g)'\n";
     }
 }
 close(CONF);
+
+while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
+    #$hkey0_h = $inv_host_g-$conf_id_g
+    while ( ($hkey1_g,$hval1_g)=each %{$hval0_g} ) {
+	#$hkey1_g = $conf_type_g
+	
+    }
+}
+
 ###MAIN SEQ
 
 ###SUBROUTINES
