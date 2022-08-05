@@ -16,10 +16,10 @@ our $arr_el0_g=undef;
 our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our $skip_conf_line_g=0;
-our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
+our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 ######
 our %cfg0_hash_g=();
-#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name];
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'int_list'}=[array of interfaces];
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'hwaddr_list'}=[array of hwaddr];
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'ipaddr_opts'}=[array of ipaddr opts];
@@ -43,6 +43,9 @@ our %cfg0_uniq_check=();
 #Checks (uniq) for interfaces at config (for all inv_hosts)
 #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
 #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
+######
+our %defroute_check_g=();
+#$defroute_check_g{inv_host}=conf_id;
 ######
 our %cfg_ready_hash_g=();
 our @int_list_arr_g=();
@@ -80,7 +83,7 @@ while ( <CONF> ) {
 	$line_g=~s/\, /\,/g;
 	$line_g=~s/ \, /\,/g;
 	$skip_conf_line_g=0;
-	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g)=split(' ',$line_g);
+	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=split(' ',$line_g);
 	
 	#check conf_type
 	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
@@ -92,6 +95,16 @@ while ( <CONF> ) {
             next;
         }
 	#check conf_type
+	
+	#defroute check
+	    #$defroute_check_g{inv_host}=conf_id;
+	if ( !exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
+	    $defroute_check_g{$inv_host_g}=$conf_id_g;
+	}
+	elsif ( exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
+	    print "Defroute for inv_host='$inv_host_g' is already defined by conf_id='$defroute_check_g{$inv_host_g}'. Set 'defroute=no' for conf_id='$conf_id_g'. Please, check and correct config-file\n";
+	}
+	#defroute check
 	
 	#extract complex vars
 	@int_list_arr_g=split(/\,/,$int_list_str_g);
@@ -304,7 +317,7 @@ while ( <CONF> ) {
 	
 	########unique conf_id for inventory_host
 	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) { 
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$bridge_name_g];
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip, gw, netmask
