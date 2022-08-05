@@ -103,6 +103,7 @@ while ( <CONF> ) {
 	}
 	elsif ( exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
 	    print "Defroute for inv_host='$inv_host_g' is already defined by conf_id='$defroute_check_g{$inv_host_g}'. Set 'defroute=no' for conf_id='$conf_id_g'. Please, check and correct config-file\n";
+	    $defroute_g='no';
 	}
 	#defroute check
 	
