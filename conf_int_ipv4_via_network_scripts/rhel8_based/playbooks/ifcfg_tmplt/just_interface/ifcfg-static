@@ -1,0 +1,12 @@
+TYPE=Ethernet
+DEFROUTE=_defroute_
+IPV4_FAILURE_FATAL=yes
+IPV6INIT=no
+NAME=_interface_name_
+DEVICE=_interace_name_
+ONBOOT=yes
+BOOTPROTO=static
+HWADDR=_hwaddr_
+IPADDR=_ipaddr_
+NETMASK=_netmask_
+GATEWAY=_gw_
