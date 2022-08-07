@@ -368,6 +368,17 @@ sub virt_bridge_gen_ifcfg {
 }
 
 sub just_bridge_gen_ifcfg {
+    ###ETH for BRIDGE. tmplt = playbooks/ifcfg_tmplt/just_bridge/ifcfg-eth4br
+    #TMPLT_VALUES_FOR_REPLACE:_interface_name_, _bridge_name_, _hwaddr_
+    ###
+    
+    ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/just_bridge/ifcfg-br-static
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_, _ipaddr_, _gw_, _netmask_
+    ###
+
+    ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/just_bridge/ifcfg-br-dhcp
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_
+    ###
     
 }
 

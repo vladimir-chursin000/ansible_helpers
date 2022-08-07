@@ -1,4 +1,5 @@
 TYPE=Ethernet
+MTU=1500
 DEFROUTE=_defroute_
 IPV4_FAILURE_FATAL=yes
 IPV6INIT=no
