@@ -351,12 +351,19 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 ##INCLUDED to conf_type_sub_refs_g
 #common (novlan)
 sub just_interface_gen_ifcfg {
-    ###STATIC. TMPLT = playbooks/ifcfg_tmplt/just_interface/ifcfg-static
+    ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/just_interface/ifcfg-eth-static
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _interface_name_, _hwaddr_, _ipaddr_, _netmask_, _gw_
+    ###
+    
+    ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/just_interface/ifcfg-eth-dhcp
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _interface_name_, _hwaddr_
     ###
 }
 
 sub virt_bridge_gen_ifcfg {
+    ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/virt_bridge/ifcfg-br-static
+    #TMPLT_VALUES_FOR_REPLACE:_bridge_name_, _ipaddr_, _netmask_
+    ###
     
 }
 

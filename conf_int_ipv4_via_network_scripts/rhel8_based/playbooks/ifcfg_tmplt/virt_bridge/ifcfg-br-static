@@ -1,0 +1,11 @@
+TYPE=Bridge
+IPV6INIT=no
+IPV6_AUTOCONF=no
+NAME=_bridge_name_
+DEVICE=_bridge_name_
+ONBOOT=yes
+BOOTPROTO=static
+IPADDR=_ipaddr_
+NETMASK=_netmask_
+NM_CONTROLLED=no
+USERCTL=no
