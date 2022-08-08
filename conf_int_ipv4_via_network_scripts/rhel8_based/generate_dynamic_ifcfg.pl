@@ -383,7 +383,17 @@ sub just_bridge_gen_ifcfg {
 }
 
 sub just_bond_gen_ifcfg {
+    ###ETH for bond. tmplt = playbooks/ifcfg_tmplt/just_bond/ifcfg-eth4bond
+    #TMPLT_VALUES_FOR_REPLACE:_interface_name_, _bond_name_, _hwaddr_
+    ###
     
+    ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/just_bond/ifcfg-bond-static
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bond_name_, _bond_opts_, _ipaddr_, _gw_, _netmask_
+    ###
+
+    ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/just_bond/ifcfg-bond-dhcp
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bond_name_, _bond_opts_
+    ###
 }
 
 sub bond_bridge_gen_ifcfg {
