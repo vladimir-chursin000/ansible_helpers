@@ -368,6 +368,8 @@ sub virt_bridge_gen_ifcfg {
 }
 
 sub just_bridge_gen_ifcfg {
+    #interface1+interface2 -> bridge
+    
     ###ETH for BRIDGE. tmplt = playbooks/ifcfg_tmplt/just_bridge/ifcfg-eth4br
     #TMPLT_VALUES_FOR_REPLACE:_interface_name_, _bridge_name_, _hwaddr_
     ###
@@ -383,6 +385,8 @@ sub just_bridge_gen_ifcfg {
 }
 
 sub just_bond_gen_ifcfg {
+    #interface1+interface2 -> bond
+    
     ###ETH for bond. tmplt = playbooks/ifcfg_tmplt/just_bond/ifcfg-eth4bond
     #TMPLT_VALUES_FOR_REPLACE:_interface_name_, _bond_name_, _hwaddr_
     ###
@@ -397,7 +401,23 @@ sub just_bond_gen_ifcfg {
 }
 
 sub bond_bridge_gen_ifcfg {
+    #interface1+interface2 -> bond -> bridge
     
+    ###ETH for bond. tmplt = playbooks/ifcfg_tmplt/bond-bridge/ifcfg-eth4bond
+    #TMPLT_VALUES_FOR_REPLACE:_interface_name_, _bond_name_, _hwaddr_
+    ###
+    
+    ###BOND or bridge. TMPLT = playbooks/ifcfg_tmplt/bond-bridge/ifcfg-bond4br
+    #TMPLT_VALUES_FOR_REPLACE:_bond_name_, _bond_opts_, _bridge_name_
+    ###
+
+    ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/bond-bridge/ifcfg-br-static
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_, _ipaddr_, _gw_, _netmask_
+    ###
+
+    ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/bond-bridge/ifcfg-br-dhcp
+    #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_
+    ###
 }
 
 #vlan
