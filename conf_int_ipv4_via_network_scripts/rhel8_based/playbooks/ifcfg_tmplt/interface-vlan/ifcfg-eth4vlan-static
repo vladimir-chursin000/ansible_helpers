@@ -1,0 +1,17 @@
+VLAN=yes
+TYPE=Ethernet
+MTU=1500
+DEFROUTE=_defroute_
+IPV4_FAILURE_FATAL=yes
+IPV6INIT=no
+IPV6_AUTOCONF=no
+NAME=_interface_name_
+DEVICE=_interace_name_
+ONBOOT=yes
+BOOTPROTO=static
+HWADDR=_hwaddr_
+IPADDR=_ipaddr_
+NETMASK=_netmask_
+GATEWAY=_gw_
+NM_CONTROLLED=no
+USERCTL=no
