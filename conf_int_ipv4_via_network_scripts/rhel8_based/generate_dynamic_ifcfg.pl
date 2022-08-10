@@ -117,6 +117,57 @@ while ( <CONF> ) {
 	}
 	#extract complex vars
 	
+	#bond_name/bridge_name simple checks
+	if ( $conf_type_g=~/^just_interface$|^interface\-vlan$/ ) {
+	    if ( $bond_name_g ne 'no' ) {
+		print "For conf_types='just_interface/interface-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+		$bond_name_g='no';
+	    }
+	    if ( $bridge_name_g ne 'no' ) {
+		print "For conf_types='just_interface/interface-vlan' bridge_name must be 'no'. Set value from '$bridge_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+		$bridge_name_g='no';
+	    }
+	}
+	
+	if ( $conf_type_g=~/^virt_bridge$|^just_bridge$|^bridge\-vlan$/ ) {
+	    if ( $bond_name_g ne 'no' ) {
+		print "For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+		$bond_name_g='no';
+	    }
+	    if ( $bridge_name_g eq 'no' ) {
+		print "For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	}
+	
+	if ( $conf_type_g=~/^just_bond$|^bond\-vlan$/ ) {
+	    if ( $bridge_name_g ne 'no' ) {
+		print "For conf_types='just_bond/bond-vlan' bridge_name must be 'no'. Set value from '$bridge_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+		$bond_name_g='no';
+	    }
+	    if ( $bond_name_g eq 'no' ) {
+		print "For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	}
+	
+	if ( $conf_type_g=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) {
+	    if ( $bridge_name_g eq 'no' ) {
+		print "For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	    if ( $bond_name_g eq 'no' ) {
+		print "For conf_types='bond-bridge/bond-bridge-vlan' bond_name must be NOT 'no'. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	}
+
+	if ( $skip_conf_line_g==1 ) {
+	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    next;
+	}
+	#bond_name/bridge_name simple checks
+	
 	#######uniq checks for all hosts (hwaddr, ipaddr)
 	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
 	    #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
