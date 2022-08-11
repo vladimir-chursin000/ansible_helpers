@@ -107,16 +107,6 @@ while ( <CONF> ) {
 	}
 	#defroute check
 	
-	#extract complex vars
-	@int_list_arr_g=split(/\,/,$int_list_str_g);
-	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
-	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
-	if ( $bond_opts_g!~/^def$/ ) {
-	    $bond_opts_str_g=$bond_opts_g;
-	    $bond_opts_str_g=~s/\,/ /g;
-	}
-	#extract complex vars
-	
 	#bond_name/bridge_name simple checks
 	if ( $conf_type_g=~/^just_interface$|^interface\-vlan$/ ) {
 	    if ( $bond_name_g ne 'no' ) {
@@ -167,6 +157,30 @@ while ( <CONF> ) {
 	    next;
 	}
 	#bond_name/bridge_name simple checks
+	
+	#extract complex vars
+	@int_list_arr_g=split(/\,/,$int_list_str_g);
+	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
+	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
+	if ( $bond_opts_g!~/^def$/ ) {
+	    $bond_opts_str_g=$bond_opts_g;
+	    $bond_opts_str_g=~s/\,/ /g;
+	}
+	#extract complex vars
+	
+	#interfaces + hwaddr count checks for each conf_type
+	if ( $conf_type_g!~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
+	    
+	}
+	
+	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
+	    
+	}
+	
+	if ( $conf_type_g!~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where possible using more one interface
+	    
+	}
+	#interfaces + hwaddr count checks for each conf_type
 	
 	#######uniq checks for all hosts (hwaddr, ipaddr)
 	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
@@ -419,7 +433,7 @@ sub virt_bridge_gen_ifcfg {
 }
 
 sub just_bridge_gen_ifcfg {
-    #interface1+interface2 -> bridge
+    #interface -> bridge
     
     ###ETH for BRIDGE. tmplt = playbooks/ifcfg_tmplt/just_bridge/ifcfg-eth4br
     #TMPLT_VALUES_FOR_REPLACE:_interface_name_, _bridge_name_, _hwaddr_
