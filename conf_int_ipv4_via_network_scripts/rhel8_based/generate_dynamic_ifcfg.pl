@@ -211,7 +211,7 @@ while ( <CONF> ) {
     	}
     	
     	if ( $conf_type_g=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
-    	    if ( ($#int_list_arr_g==$#hwaddr_list_arr_g && $#int_list_arr_g>0) or $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
+    	    if ( ($#int_list_arr_g==$#hwaddr_list_arr_g && $#int_list_arr_g!=0) or $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
     		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
     		$skip_conf_line_g=1;
     	    }
@@ -221,9 +221,9 @@ while ( <CONF> ) {
     	    }
     	}
     	
-    	if ( $conf_type_g=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where possible using more one interface
-    	    if ( $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
-    		print "For conf_type='$conf_type_g' amount of interfaces must = amount of hwaddr. Please, check and correct config-file\n";
+    	if ( $conf_type_g=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where >=2 interfaces
+    	    if ( $#int_list_arr_g<1 or $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
+    		print "For conf_type='$conf_type_g' amount of interfaces must = amount of hwaddr and amount of interfaces must be >= 2. Please, check and correct config-file\n";
     		$skip_conf_line_g=1;
     	    }
     	    foreach $arr_el0_g ( @int_list_arr_g ) {
@@ -458,8 +458,8 @@ while ( <CONF> ) {
     	########uniq checks
     	
     	########unique conf_id for inventory_host
-    	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) { 
-    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
+    	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) {
+    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
     	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
     	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
     	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip-0, gw-1, netmask-2 / dhcp-0
@@ -534,6 +534,10 @@ sub just_interface_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
+    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
 }
 
 sub virt_bridge_gen_ifcfg {
@@ -549,6 +553,9 @@ sub virt_bridge_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
 }
 
 sub just_bridge_gen_ifcfg {
@@ -573,7 +580,11 @@ sub just_bridge_gen_ifcfg {
     #HREF->{'hwaddr_list'}=[array of hwaddr];
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
-    ###    
+    ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
+    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
 }
 
 sub just_bond_gen_ifcfg {
@@ -599,6 +610,11 @@ sub just_bond_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 }
 
 sub bond_bridge_gen_ifcfg {
@@ -628,6 +644,11 @@ sub bond_bridge_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 }
 
 #vlan
@@ -648,6 +669,10 @@ sub interface_vlan_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
+    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
 }
 
 sub bridge_vlan_gen_ifcfg {
@@ -673,6 +698,10 @@ sub bridge_vlan_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
+    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
 }
 
 sub bond_vlan_gen_ifcfg {
@@ -698,6 +727,11 @@ sub bond_vlan_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 }
 
 sub bond_bridge_vlan_gen_ifcfg {
@@ -727,6 +761,11 @@ sub bond_bridge_vlan_gen_ifcfg {
     #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
     #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
+    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
+    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 }
 ##INCLUDED to conf_type_sub_refs_g
 
