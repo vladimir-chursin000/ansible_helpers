@@ -488,7 +488,13 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     while ( ($hkey1_g,$hval1_g)=each %{$hval0_g} ) {
 	#$hkey1_g = $conf_type_g, $hval1_g = hash ref
 	if ( -d $ifcfg_tmplt_dir_g.'/'.$hkey1_g ) {
-	    &{$conf_type_sub_refs_g{$hkey1_g}}($hval1_g);
+	    &{$conf_type_sub_refs_g{$hkey1_g}}($ifcfg_tmplt_dir_g.'/'.$hkey1_g,$hval1_g);
+	    ######
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'int_list'}=[array of interfaces];
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'hwaddr_list'}=[array of hwaddr];
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
 	}
 	else {
 	    print "ERROR. Ifcfg tmplt dir='$ifcfg_tmplt_dir_g/$hkey1_g' not exists\n";
@@ -502,6 +508,7 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 ##INCLUDED to conf_type_sub_refs_g
 #common (novlan)
 sub just_interface_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/just_interface/ifcfg-eth-static
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _interface_name_, _hwaddr_, _ipaddr_, _netmask_, _gw_
     ###
@@ -509,16 +516,33 @@ sub just_interface_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/just_interface/ifcfg-eth-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _interface_name_, _hwaddr_
     ###
+    
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 sub virt_bridge_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/virt_bridge/ifcfg-br-static
     #TMPLT_VALUES_FOR_REPLACE:_bridge_name_, _ipaddr_, _netmask_
     ###
-    
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 sub just_bridge_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     #interface -> bridge
     
     ###ETH for BRIDGE. tmplt = playbooks/ifcfg_tmplt/just_bridge/ifcfg-eth4br
@@ -532,10 +556,18 @@ sub just_bridge_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/just_bridge/ifcfg-br-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_
     ###
-    
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###    
 }
 
 sub just_bond_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     #interface1+interface2 -> bond
     
     ###ETH for bond. tmplt = playbooks/ifcfg_tmplt/just_bond/ifcfg-eth4bond
@@ -549,9 +581,18 @@ sub just_bond_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/just_bond/ifcfg-bond-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bond_name_, _bond_opts_
     ###
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 sub bond_bridge_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     #interface1+interface2 -> bond -> bridge
     
     ###ETH for bond. tmplt = playbooks/ifcfg_tmplt/bond-bridge/ifcfg-eth4bond
@@ -569,10 +610,19 @@ sub bond_bridge_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/bond-bridge/ifcfg-br-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_
     ###
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 #vlan
 sub interface_vlan_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/interface-vlan/ifcfg-eth4vlan-static
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _interface_name_, _hwaddr_, _ipaddr_, _netmask_, _gw_
     ###
@@ -580,9 +630,18 @@ sub interface_vlan_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/interface-vlan/ifcfg-eth4vlan-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _interface_name_, _hwaddr_
     ###
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 sub bridge_vlan_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     #interface-vlan -> bridge
     
     ###ETH for BRIDGE-vlan. tmplt = playbooks/ifcfg_tmplt/bridge-vlan/ifcfg-eth4brvlan
@@ -596,9 +655,18 @@ sub bridge_vlan_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/bridge-vlan/ifcfg-brvlan-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_
     ###
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 sub bond_vlan_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     #interface1+interface2 -> bond-vlan
     
     ###ETH for bond-vlan. tmplt = playbooks/ifcfg_tmplt/bond-vlan/ifcfg-eth4bondvlan
@@ -612,9 +680,18 @@ sub bond_vlan_gen_ifcfg {
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/bond-vlan/ifcfg-bondvlan-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bond_name_, _bond_opts_
     ###
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+    ###
 }
 
 sub bond_bridge_vlan_gen_ifcfg {
+    my ($tmplt_dir_l,$prms_href_l)=@_;
     #interface1+interface2 -> bondbrvlan -> bond-bridge-vlan
     
     ###ETH for bond4bondbrvlan. tmplt = playbooks/ifcfg_tmplt/bond-bridge-vlan/ifcfg-eth4bondbrvlan
@@ -631,6 +708,14 @@ sub bond_bridge_vlan_gen_ifcfg {
 
     ###if DHCP. TMPLT = playbooks/ifcfg_tmplt/bond-bridge-vlan/ifcfg-bondbrvlan-dhcp
     #TMPLT_VALUES_FOR_REPLACE:_defroute_, _bridge_name_
+    ###
+
+    ###
+    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'int_list'}=[array of interfaces];
+    #HREF->{'hwaddr_list'}=[array of hwaddr];
+    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
+    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
 }
 ##INCLUDED to conf_type_sub_refs_g
