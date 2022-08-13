@@ -85,7 +85,7 @@ while ( <CONF> ) {
 	$skip_conf_line_g=0;
 	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=split(' ',$line_g);
 	
-	#check conf_type
+	#######check conf_type
 	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
 	    print "Wrong conf_type='$conf_type_g'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file\n";
 	    $skip_conf_line_g=1;    
@@ -94,9 +94,9 @@ while ( <CONF> ) {
             print "Skip conf-line with conf_id='$conf_id_g'\n";
             next;
         }
-	#check conf_type
+	#######check conf_type
 	
-	#defroute check
+	#######defroute check
 	    #$defroute_check_g{inv_host}=conf_id;
 	if ( !exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
 	    $defroute_check_g{$inv_host_g}=$conf_id_g;
@@ -105,9 +105,9 @@ while ( <CONF> ) {
 	    print "Defroute for inv_host='$inv_host_g' is already defined by conf_id='$defroute_check_g{$inv_host_g}'. Set 'defroute=no' for conf_id='$conf_id_g'. Please, check and correct config-file\n";
 	    $defroute_g='no';
 	}
-	#defroute check
+	#######defroute check
 	
-	#bond_name/bridge_name simple checks
+	#######bond_name/bridge_name simple checks
 	if ( $conf_type_g=~/^just_interface$|^interface\-vlan$/ ) {
 	    if ( $bond_name_g ne 'no' ) {
 		print "For conf_types='just_interface/interface-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
@@ -156,9 +156,9 @@ while ( <CONF> ) {
 	    print "Skip conf-line with conf_id='$conf_id_g'\n";
 	    next;
 	}
-	#bond_name/bridge_name simple checks
+	#######bond_name/bridge_name simple checks
 	
-	#extract complex vars
+	#######extract complex vars
 	@int_list_arr_g=split(/\,/,$int_list_str_g);
 	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
 	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
@@ -166,21 +166,68 @@ while ( <CONF> ) {
 	    $bond_opts_str_g=$bond_opts_g;
 	    $bond_opts_str_g=~s/\,/ /g;
 	}
-	#extract complex vars
+	#######extract complex vars
 	
-	#interfaces + hwaddr count checks for each conf_type
-	if ( $conf_type_g!~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
-	    
+	#######interfaces + hwaddr count checks for each conf_type
+	if ( $conf_type_g=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
+	    if ( $#hwaddr_list_arr_g!=0 ) {
+		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	    if ( $#int_list_arr_g>0 or $int_list_arr_g[0] ne 'no' ) {
+		@int_list_arr_g=('no');
+		print "For conf_type='$conf_type_g' int_list must contain only 'no'. Please, check and correct config-file\n";
+	    }
 	}
 	
-	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
-	    
+	if ( $conf_type_g=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
+	    if ( ($#int_list_arr_g==$#hwaddr_list_arr_g && $#int_list_arr_g>0) or $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
+		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	    if ( $int_list_arr_g[0] eq 'no' ) {
+		print "For conf_type='$conf_type_g' int_list must contain interface names, but not 'no'. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
 	}
 	
-	if ( $conf_type_g!~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where possible using more one interface
-	    
+	if ( $conf_type_g=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where possible using more one interface
+	    if ( $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
+		print "For conf_type='$conf_type_g' amount of interfaces must = amount of hwaddr. Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	    foreach $arr_el0_g ( @int_list_arr_g ) {
+		if ( $arr_el0_g eq 'no' ) {
+		    print "For conf_type='$conf_type_g' int_list must contain interface names, but not 'no'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		    last;
+		}
+	    }
+	    $arr_el0_g=undef;
 	}
-	#interfaces + hwaddr count checks for each conf_type
+
+	if ( $skip_conf_line_g==1 ) {
+	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    next;
+	}
+	#######interfaces + hwaddr count checks for each conf_type
+	
+	#######hwaddr check via regex
+	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+	    if ( $arr_el0_g!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
+		print "HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_g'). Please, check and correct config-file\n";
+		$skip_conf_line_g=1;
+	    }
+	}
+
+	if ( $skip_conf_line_g==1 ) {
+	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    next;
+	}
+	#######hwaddr check via regex
+	
+	#######IPADDRv4 check via regex
+	#######IPADDRv4 check via regex
 	
 	#######uniq checks for all hosts (hwaddr, ipaddr)
 	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
