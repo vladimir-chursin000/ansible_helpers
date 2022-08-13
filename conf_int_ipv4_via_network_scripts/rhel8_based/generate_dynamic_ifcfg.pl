@@ -3,6 +3,7 @@
 use strict;
 use warnings;
 use Cwd;
+use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
@@ -18,6 +19,7 @@ our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our $skip_conf_line_g=0;
 our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
+our @arr0_g=();
 ######
 our %cfg0_hash_g=();
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
@@ -80,386 +82,403 @@ while ( <CONF> ) {
     $line_g=~s/\s+/ /g;
     $line_g=~s/^ //g;
     if ( length($line_g)>0 && $line_g!~/^\#/ ) {
-	$line_g=~s/ \,/\,/g;
-	$line_g=~s/\, /\,/g;
-	$line_g=~s/ \, /\,/g;
-	
-	$line_g=~s/ \./\./g;
-	$line_g=~s/\. /\./g;
-	$line_g=~s/ \. /\./g;
-	
-	$skip_conf_line_g=0;
-	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=split(' ',$line_g);
-	
-	#######check conf_type
-	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
-	    print "Wrong conf_type='$conf_type_g'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file\n";
-	    $skip_conf_line_g=1;    
-	}
-	if ( $skip_conf_line_g==1 ) {
+    	$line_g=~s/ \,/\,/g;
+    	$line_g=~s/\, /\,/g;
+    	$line_g=~s/ \, /\,/g;
+    	
+    	$line_g=~s/ \./\./g;
+    	$line_g=~s/\. /\./g;
+    	$line_g=~s/ \. /\./g;
+    	
+    	$skip_conf_line_g=0;
+    	@arr0_g=split(' ',$line_g);
+    	if ( $#arr0_g!=10 ) {
+    	    print "Conf-line='$line_g' must contain 11 params. Please, check and correct config-file\n";
+    	    next;
+    	}
+    	
+    	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=@arr0_g;
+    	
+    	#######check conf_type
+    	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
+    	    print "Wrong conf_type='$conf_type_g'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file\n";
+    	    $skip_conf_line_g=1;    
+    	}
+    	if ( $skip_conf_line_g==1 ) {
             print "Skip conf-line with conf_id='$conf_id_g'\n";
             next;
         }
-	#######check conf_type
-	
-	#######defroute check
-	    #$defroute_check_g{inv_host}=conf_id;
-	if ( !exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
-	    $defroute_check_g{$inv_host_g}=$conf_id_g;
-	}
-	elsif ( exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
-	    print "Defroute for inv_host='$inv_host_g' is already defined by conf_id='$defroute_check_g{$inv_host_g}'. Set 'defroute=no' for conf_id='$conf_id_g'. Please, check and correct config-file\n";
-	    $defroute_g='no';
-	}
-	#######defroute check
-	
-	#######bond_name/bridge_name simple checks
-	if ( $conf_type_g=~/^just_interface$|^interface\-vlan$/ ) {
-	    if ( $bond_name_g ne 'no' ) {
-		print "For conf_types='just_interface/interface-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
-		$bond_name_g='no';
-	    }
-	    if ( $bridge_name_g ne 'no' ) {
-		print "For conf_types='just_interface/interface-vlan' bridge_name must be 'no'. Set value from '$bridge_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
-		$bridge_name_g='no';
-	    }
-	}
-	
-	if ( $conf_type_g=~/^virt_bridge$|^just_bridge$|^bridge\-vlan$/ ) {
-	    if ( $bond_name_g ne 'no' ) {
-		print "For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
-		$bond_name_g='no';
-	    }
-	    if ( $bridge_name_g eq 'no' ) {
-		print "For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	}
-	
-	if ( $conf_type_g=~/^just_bond$|^bond\-vlan$/ ) {
-	    if ( $bridge_name_g ne 'no' ) {
-		print "For conf_types='just_bond/bond-vlan' bridge_name must be 'no'. Set value from '$bridge_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
-		$bond_name_g='no';
-	    }
-	    if ( $bond_name_g eq 'no' ) {
-		print "For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	}
-	
-	if ( $conf_type_g=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) {
-	    if ( $bridge_name_g eq 'no' ) {
-		print "For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	    if ( $bond_name_g eq 'no' ) {
-		print "For conf_types='bond-bridge/bond-bridge-vlan' bond_name must be NOT 'no'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	}
-
-	if ( $skip_conf_line_g==1 ) {
-	    print "Skip conf-line with conf_id='$conf_id_g'\n";
-	    next;
-	}
-	#######bond_name/bridge_name simple checks
-	
-	#######IPADDRv4 PREcheck via regexp
-	if ( $ipaddr_opts_g!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-	    print "IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask'. Please, check and correct config-file\n";
-	    $skip_conf_line_g=1;
-	}
-
-	if ( $skip_conf_line_g==1 ) {
-	    print "Skip conf-line with conf_id='$conf_id_g'\n";
-	    next;
-	}
-	#######IPADDRv4 PREcheck via regexp
-
-	#######extract complex vars
-	@int_list_arr_g=split(/\,/,$int_list_str_g);
-	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
-	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
-	if ( $bond_opts_g!~/^def$/ ) {
-	    $bond_opts_str_g=$bond_opts_g;
-	    $bond_opts_str_g=~s/\,/ /g;
-	}
-	#######extract complex vars
-	
-	#######interfaces + hwaddr count checks for each conf_type
-	if ( $conf_type_g=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
-	    if ( $#hwaddr_list_arr_g!=0 ) {
-		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	    if ( $#int_list_arr_g>0 or $int_list_arr_g[0] ne 'no' ) {
-		@int_list_arr_g=('no');
-		print "For conf_type='$conf_type_g' int_list must contain only 'no'. Please, check and correct config-file\n";
-	    }
-	}
-	
-	if ( $conf_type_g=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
-	    if ( ($#int_list_arr_g==$#hwaddr_list_arr_g && $#int_list_arr_g>0) or $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
-		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	    if ( $int_list_arr_g[0] eq 'no' ) {
-		print "For conf_type='$conf_type_g' int_list must contain interface names, but not 'no'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	}
-	
-	if ( $conf_type_g=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where possible using more one interface
-	    if ( $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
-		print "For conf_type='$conf_type_g' amount of interfaces must = amount of hwaddr. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	    foreach $arr_el0_g ( @int_list_arr_g ) {
-		if ( $arr_el0_g eq 'no' ) {
-		    print "For conf_type='$conf_type_g' int_list must contain interface names, but not 'no'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		    last;
-		}
-	    }
-	    $arr_el0_g=undef;
-	}
-
-	if ( $skip_conf_line_g==1 ) {
-	    print "Skip conf-line with conf_id='$conf_id_g'\n";
-	    next;
-	}
-	#######interfaces + hwaddr count checks for each conf_type
-	
-	#######hwaddr check via regexp
-	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
-	    if ( $arr_el0_g!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
-		print "HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_g'). Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	}
-
-	if ( $skip_conf_line_g==1 ) {
-	    print "Skip conf-line with conf_id='$conf_id_g'\n";
-	    next;
-	}
-	#######hwaddr check via regexp
-	
-	#######uniq checks for all hosts (hwaddr, ipaddr)
-	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
-	    #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
-	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
-	    if ( !exists($cfg0_uniq_check{'all_hosts'}{$arr_el0_g}) ) {
-		$cfg0_uniq_check{'all_hosts'}{$arr_el0_g}=$inv_host_g;
-	    }
-	    else {
-		if ( $cfg0_uniq_check{'all_hosts'}{$arr_el0_g} ne $inv_host_g ) {
-		    print "Hwaddr='$arr_el0_g' is already used at host='$cfg0_uniq_check{'all_hosts'}{$arr_el0_g}'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-	    }
-	}
-	if ( $skip_conf_line_g==1 ) {
-	    print "Skip conf-line with conf_id='$conf_id_g'\n";
-	    next;
-	}
-	
-	if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
-	    if ( !exists($cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}) ) {
-		$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}=$inv_host_g;
-	    }
-	    else {
-		print "IPaddr='$ipaddr_opts_arr_g[0]' is already used at host='$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	    if ( $skip_conf_line_g==1 ) {
-		print "Skip conf-line with conf_id='$conf_id_g'\n";
-		next;
-	    }
-	}
-	########uniq checks for all hosts
-
-	########uniq checks (for local params of hosts)
-	if ( $vlan_id_g=~/^no$/ ) { #if novlan
-	    ###$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
-	    foreach $arr_el0_g ( @int_list_arr_g ) {
-		if ( $arr_el0_g=~/^no$/ ) { last; }
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
-		}
-		else {
-		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-	    }
-	    if ( $skip_conf_line_g==1 ) {
-		print "Skip conf-line with conf_id='$conf_id_g'\n";
-		next;
-	    }
-	    ###
-
-	    ###$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
-	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
-		}
-		else {
-		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-	    }
-	    if ( $skip_conf_line_g==1 ) {
-		print "Skip conf-line with conf_id='$conf_id_g'\n";
-		next;
-	    }
-	    ###
+    	#######check conf_type
+    	
+    	#######defroute check
+    	    #$defroute_check_g{inv_host}=conf_id;
+    	if ( !exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
+    	    $defroute_check_g{$inv_host_g}=$conf_id_g;
+    	}
+    	elsif ( exists($defroute_check_g{$inv_host_g}) && $defroute_g eq 'yes' ) {
+    	    print "Defroute for inv_host='$inv_host_g' is already defined by conf_id='$defroute_check_g{$inv_host_g}'. Set 'defroute=no' for conf_id='$conf_id_g'. Please, check and correct config-file\n";
+    	    $defroute_g='no';
+    	}
+    	#######defroute check
+    	
+    	#######bond_name/bridge_name simple checks
+    	if ( $conf_type_g=~/^just_interface$|^interface\-vlan$/ ) {
+    	    if ( $bond_name_g ne 'no' ) {
+    		print "For conf_types='just_interface/interface-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+    		$bond_name_g='no';
+    	    }
+    	    if ( $bridge_name_g ne 'no' ) {
+    		print "For conf_types='just_interface/interface-vlan' bridge_name must be 'no'. Set value from '$bridge_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+    		$bridge_name_g='no';
+    	    }
+    	}
+    	
+    	if ( $conf_type_g=~/^virt_bridge$|^just_bridge$|^bridge\-vlan$/ ) {
+    	    if ( $bond_name_g ne 'no' ) {
+    		print "For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no'. Set value from '$bond_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+    		$bond_name_g='no';
+    	    }
+    	    if ( $bridge_name_g eq 'no' ) {
+    		print "For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	}
+    	
+    	if ( $conf_type_g=~/^just_bond$|^bond\-vlan$/ ) {
+    	    if ( $bridge_name_g ne 'no' ) {
+    		print "For conf_types='just_bond/bond-vlan' bridge_name must be 'no'. Set value from '$bridge_name_g' to 'no' (conf_id='$conf_id_g'). Please, check and correct config-file\n";
+    		$bond_name_g='no';
+    	    }
+    	    if ( $bond_name_g eq 'no' ) {
+    		print "For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	}
+    	
+    	if ( $conf_type_g=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) {
+    	    if ( $bridge_name_g eq 'no' ) {
+    		print "For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	    if ( $bond_name_g eq 'no' ) {
+    		print "For conf_types='bond-bridge/bond-bridge-vlan' bond_name must be NOT 'no'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	}
+    
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    	    next;
+    	}
+    	#######bond_name/bridge_name simple checks
+    	
+    	#######IPADDRv4 PREcheck via regexp
+    	if ( $ipaddr_opts_g!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    	    print "IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask'. Please, check and correct config-file\n";
+    	    $skip_conf_line_g=1;
+    	}
+    
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    	    next;
+    	}
+    	#######IPADDRv4 PREcheck via regexp
+    
+    	#######extract complex vars
+    	@int_list_arr_g=split(/\,/,$int_list_str_g);
+    	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
+    	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
+    	if ( $bond_opts_g!~/^def$/ ) {
+    	    $bond_opts_str_g=$bond_opts_g;
+    	    $bond_opts_str_g=~s/\,/ /g;
+    	}
+    	#######extract complex vars
+    	
+    	#######interfaces + hwaddr count checks for each conf_type
+    	if ( $conf_type_g=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
+    	    if ( $#hwaddr_list_arr_g!=0 ) {
+    		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	    if ( $#int_list_arr_g>0 or $int_list_arr_g[0] ne 'no' ) {
+    		@int_list_arr_g=('no');
+    		print "For conf_type='$conf_type_g' int_list must contain only 'no'. Please, check and correct config-file\n";
+    	    }
+    	}
+    	
+    	if ( $conf_type_g=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
+    	    if ( ($#int_list_arr_g==$#hwaddr_list_arr_g && $#int_list_arr_g>0) or $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
+    		print "For conf_type='$conf_type_g' must be configured only one HWADDR. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	    if ( $int_list_arr_g[0] eq 'no' ) {
+    		print "For conf_type='$conf_type_g' int_list must contain interface names, but not 'no'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	}
+    	
+    	if ( $conf_type_g=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where possible using more one interface
+    	    if ( $#int_list_arr_g!=$#hwaddr_list_arr_g ) {
+    		print "For conf_type='$conf_type_g' amount of interfaces must = amount of hwaddr. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	    foreach $arr_el0_g ( @int_list_arr_g ) {
+    		if ( $arr_el0_g eq 'no' ) {
+    		    print "For conf_type='$conf_type_g' int_list must contain interface names, but not 'no'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		    last;
+    		}
+    	    }
+    	    $arr_el0_g=undef;
+    	}
+    
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    	    next;
+    	}
+    	#######interfaces + hwaddr count checks for each conf_type
+    	
+    	#######hwaddr check via regexp
+    	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+    	    if ( $arr_el0_g!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
+    		print "HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_g'). Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	}
+    
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    	    next;
+    	}
+    	#######hwaddr check via regexp
+    	
+    	#######uniq checks for all hosts (hwaddr, ipaddr)
+    	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
+    	    #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
+    	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+    	    if ( !exists($cfg0_uniq_check{'all_hosts'}{$arr_el0_g}) ) {
+    		$cfg0_uniq_check{'all_hosts'}{$arr_el0_g}=$inv_host_g;
+    	    }
+    	    else {
+    		if ( $cfg0_uniq_check{'all_hosts'}{$arr_el0_g} ne $inv_host_g ) {
+    		    print "Hwaddr='$arr_el0_g' is already used at host='$cfg0_uniq_check{'all_hosts'}{$arr_el0_g}'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    	    }
+    	}
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    	    next;
+    	}
+    	
+    	if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
+    	    if ( !exists($cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}) ) {
+    		$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}=$inv_host_g;
+    	    }
+    	    else {
+    		print "IPaddr='$ipaddr_opts_arr_g[0]' is already used at host='$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		next;
+    	    }
+    	}
+    	########uniq checks for all hosts
+    
+    	########uniq checks (for local params of hosts)
+    	if ( $vlan_id_g=~/^no$/ ) { #if novlan
+    	    ###$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
+    	    foreach $arr_el0_g ( @int_list_arr_g ) {
+    		if ( $arr_el0_g=~/^no$/ ) { last; }
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    	    }
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		next;
+    	    }
+    	    ###
+    
+    	    ###$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
+    	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$arr_el0_g}'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    	    }
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		next;
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
+    	    if ( $bond_name_g ne 'no' ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    		if ( $skip_conf_line_g==1 ) {
+    		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		    next;
+    		}
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
+    	    if ( $bridge_name_g ne 'no' ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Bridge_name='$bridge_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    		if ( $skip_conf_line_g==1 ) {
+    		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		    next;
+    		}
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
+    	    if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}=$conf_id_g;
+    		}
+    		else {
+    		    print "Ipaddr='$ipaddr_opts_arr_g[0]' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    		if ( $skip_conf_line_g==1 ) {
+    		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		    next;
+    		}
+    	    }
+    	    ###
+    	}
+    	else { #if vlan
+    	    ###$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
+    	    if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}) ) {
+    		$cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}=$conf_id_g;
+    	    }
+    	    else {
+    		print "Vlan_id='$vlan_id_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}'. Please, check and correct config-file\n";
+    		$skip_conf_line_g=1;
+    	    }
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		next;
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
+    	    foreach $arr_el0_g ( @int_list_arr_g ) {
+    		if ( $arr_el0_g=~/^no$/ ) { last; }
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    	    }
 	    
-	    ###$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
-	    if ( $bond_name_g ne 'no' ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}=$conf_id_g;
-		}
-		else {
-		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$bond_name_g}'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-		if ( $skip_conf_line_g==1 ) {
-		    print "Skip conf-line with conf_id='$conf_id_g'\n";
-		    next;
-		}
-	    }
-	    ###
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		next;
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=conf_id; #if vlan_id ne 'no'.
+    	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    	    }
 	    
-	    ###$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
-	    if ( $bridge_name_g ne 'no' ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}=$conf_id_g;
-		}
-		else {
-		    print "Bridge_name='$bridge_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-		if ( $skip_conf_line_g==1 ) {
-		    print "Skip conf-line with conf_id='$conf_id_g'\n";
-		    next;
-		}
-	    }
-	    ###
-	    
-	    ###$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
-	    if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}=$conf_id_g;
-		}
-		else {
-		    print "Ipaddr='$ipaddr_opts_arr_g[0]' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-		if ( $skip_conf_line_g==1 ) {
-		    print "Skip conf-line with conf_id='$conf_id_g'\n";
-		    next;
-		}
-	    }
-	    ###
-	}
-	else { #if vlan
-	    ###$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
-	    if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}) ) {
-		$cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}=$conf_id_g;
-	    }
-	    else {
-		print "Vlan_id='$vlan_id_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}'. Please, check and correct config-file\n";
-		$skip_conf_line_g=1;
-	    }
-	    if ( $skip_conf_line_g==1 ) {
-		print "Skip conf-line with conf_id='$conf_id_g'\n";
-		next;
-	    }
-	    ###
-	    
-	    ###$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
-	    foreach $arr_el0_g ( @int_list_arr_g ) {
-		if ( $arr_el0_g=~/^no$/ ) { last; }
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}=$conf_id_g;
-		}
-		else {
-		    print "Interface_name='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-	    }
-	    if ( $skip_conf_line_g==1 ) {
-		print "Skip conf-line with conf_id='$conf_id_g'\n";
-		next;
-	    }
-	    ###
-	    
-	    ###$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=conf_id; #if vlan_id ne 'no'.
-	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}=$conf_id_g;
-		}
-		else {
-		    print "Hwaddr='$arr_el0_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$arr_el0_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-	    }
-	    if ( $skip_conf_line_g==1 ) {
-		print "Skip conf-line with conf_id='$conf_id_g'\n";
-		next;
-	    }
-	    ###
-	    
-	    ###$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
-	    if ( $bond_name_g ne 'no' ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}=$conf_id_g;
-		}
-		else {
-		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-		if ( $skip_conf_line_g==1 ) {
-		    print "Skip conf-line with conf_id='$conf_id_g'\n";
-		    next;
-		}
-	    }
-	    ###
-	    
-	    ###$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
-	    if ( $bridge_name_g ne 'no' ) {
-		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}) ) {
-		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}=$conf_id_g;
-		}
-		else {
-		    print "Bridge_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
-		    $skip_conf_line_g=1;
-		}
-		if ( $skip_conf_line_g==1 ) {
-		    print "Skip conf-line with conf_id='$conf_id_g'\n";
-		    next;
-		}
-	    }
-	    ###
-	}
-	########uniq checks
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		next;
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
+    	    if ( $bond_name_g ne 'no' ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    		if ( $skip_conf_line_g==1 ) {
+    		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		    next;
+    		}
+    	    }
+    	    ###
+    	    
+    	    ###$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
+    	    if ( $bridge_name_g ne 'no' ) {
+    		if ( !exists($cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}) ) {
+    		    $cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}=$conf_id_g;
+    		}
+    		else {
+    		    print "Bridge_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    		if ( $skip_conf_line_g==1 ) {
+    		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    		    next;
+    		}
+    	    }
+    	    ###
+    	}
+    	########uniq checks
+    	
+    	########unique conf_id for inventory_host
+    	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) { 
+    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
+    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
+    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
+    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip-0, gw-1, netmask-2 / dhcp-0
+    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'bond_opts'}=$bond_opts_str_g;
+    	}
+    	else {
+    	    print "For inv_host='$inv_host_g' conf_id='$conf_id_g' is already exists. Please, check and correct config-file\n";
+    	    $skip_conf_line_g=1;
+    	}
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+    	    next;
+    	}
+    	########unique conf_id for inventory_host
 	
-	########unique conf_id for inventory_host
-	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) { 
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip-0, gw-1, netmask-2 / dhcp-0
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'bond_opts'}=$bond_opts_str_g;
-	}
-	else {
-	    print "For inv_host='$inv_host_g' conf_id='$conf_id_g' is already exists. Please, check and correct config-file\n";
-	    $skip_conf_line_g=1;
-	}
-	if ( $skip_conf_line_g==1 ) {
-	    print "Skip conf-line with conf_id='$conf_id_g'\n";
-	    next;
-	}
-	########unique conf_id for inventory_host
+	#############
+	@int_list_arr_g=();
+	@hwaddr_list_arr_g=();
+	@ipaddr_opts_arr_g=();
+	
+	@arr0_g=();
+	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
+	#############
     }
 }
 close(CONF);
@@ -467,9 +486,9 @@ close(CONF);
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
     while ( ($hkey1_g,$hval1_g)=each %{$hval0_g} ) {
-	#$hkey1_g = $conf_type_g
+	#$hkey1_g = $conf_type_g, $hval1_g = hash ref
 	if ( -d $ifcfg_tmplt_dir_g.'/'.$hkey1_g ) {
-	    
+	    &{$conf_type_sub_refs_g{$hkey1_g}}($hval1_g);
 	}
 	else {
 	    print "ERROR. Ifcfg tmplt dir='$ifcfg_tmplt_dir_g/$hkey1_g' not exists\n";
