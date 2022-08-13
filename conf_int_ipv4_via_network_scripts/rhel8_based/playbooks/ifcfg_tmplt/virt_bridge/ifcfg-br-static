@@ -1,3 +1,4 @@
+#CONF_ID=_conf_id_
 TYPE=Bridge
 MTU=1500
 IPV6INIT=no

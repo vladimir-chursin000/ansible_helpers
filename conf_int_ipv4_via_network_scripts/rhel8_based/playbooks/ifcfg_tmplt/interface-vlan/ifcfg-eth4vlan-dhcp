@@ -1,3 +1,4 @@
+#CONF_ID=_conf_id_
 VLAN=yes
 TYPE=Ethernet
 MTU=1500
