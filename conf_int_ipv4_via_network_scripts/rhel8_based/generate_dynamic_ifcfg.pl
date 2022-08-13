@@ -8,6 +8,7 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ###CFG
 our $conf_file_g=$self_dir_g.'config';
+our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt';
 ###CFG
 
 ############VARS
@@ -82,6 +83,11 @@ while ( <CONF> ) {
 	$line_g=~s/ \,/\,/g;
 	$line_g=~s/\, /\,/g;
 	$line_g=~s/ \, /\,/g;
+	
+	$line_g=~s/ \./\./g;
+	$line_g=~s/\. /\./g;
+	$line_g=~s/ \. /\./g;
+	
 	$skip_conf_line_g=0;
 	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=split(' ',$line_g);
 	
@@ -158,6 +164,18 @@ while ( <CONF> ) {
 	}
 	#######bond_name/bridge_name simple checks
 	
+	#######IPADDRv4 PREcheck via regexp
+	if ( $ipaddr_opts_g!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+	    print "IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask'. Please, check and correct config-file\n";
+	    $skip_conf_line_g=1;
+	}
+
+	if ( $skip_conf_line_g==1 ) {
+	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    next;
+	}
+	#######IPADDRv4 PREcheck via regexp
+
 	#######extract complex vars
 	@int_list_arr_g=split(/\,/,$int_list_str_g);
 	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
@@ -212,7 +230,7 @@ while ( <CONF> ) {
 	}
 	#######interfaces + hwaddr count checks for each conf_type
 	
-	#######hwaddr check via regex
+	#######hwaddr check via regexp
 	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
 	    if ( $arr_el0_g!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
 		print "HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_g'). Please, check and correct config-file\n";
@@ -224,10 +242,7 @@ while ( <CONF> ) {
 	    print "Skip conf-line with conf_id='$conf_id_g'\n";
 	    next;
 	}
-	#######hwaddr check via regex
-	
-	#######IPADDRv4 check via regex
-	#######IPADDRv4 check via regex
+	#######hwaddr check via regexp
 	
 	#######uniq checks for all hosts (hwaddr, ipaddr)
 	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
@@ -433,7 +448,7 @@ while ( <CONF> ) {
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
-	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip, gw, netmask
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip-0, gw-1, netmask-2 / dhcp-0
 	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'bond_opts'}=$bond_opts_str_g;
 	}
 	else {
@@ -453,7 +468,12 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
     while ( ($hkey1_g,$hval1_g)=each %{$hval0_g} ) {
 	#$hkey1_g = $conf_type_g
-	
+	if ( -d $ifcfg_tmplt_dir_g.'/'.$hkey1_g ) {
+	    
+	}
+	else {
+	    print "ERROR. Ifcfg tmplt dir='$ifcfg_tmplt_dir_g/$hkey1_g' not exists\n";
+	}
     }
 }
 
