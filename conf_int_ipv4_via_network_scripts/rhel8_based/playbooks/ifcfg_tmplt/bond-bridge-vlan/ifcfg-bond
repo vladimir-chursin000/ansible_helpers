@@ -1,3 +1,4 @@
+###BOND for BRIDGE
 #CONF_ID=_conf_id_
 VLAN=yes
 TYPE=Bond

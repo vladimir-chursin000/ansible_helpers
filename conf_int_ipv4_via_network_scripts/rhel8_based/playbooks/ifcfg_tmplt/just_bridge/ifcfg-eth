@@ -1,12 +1,12 @@
+###ETH for BRIDGE
 #CONF_ID=_conf_id_
 TYPE=Ethernet
 MTU=1500
-MASTER=_bond_name_
+BRIDGE=_bridge_name_
 NAME=_interface_name_
 DEVICE=_interface_name_
 ONBOOT=yes
 BOOTPROTO=none
 HWADDR=_hwaddr_
-SLAVE=yes
-NM_CONTROLLED=no 
+NM_CONTROLLED=no
 USERCTL=no
