@@ -26,11 +26,18 @@ our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vla
 our @arr0_g=();
 ######
 our %cfg0_hash_g=();
-#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_inv_host_'}=inv_host;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_conf_id_'}=conf_id;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_vlan_id_'}=vlan_id;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_bond_name_'}=bond_name;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_bridge_name_'}=bridge_name;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_defroute_'}=defroute;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_gw_'}=gw/dhcp;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_netmask_'}=gw/dhcp;
+#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'int_list'}=[array of interfaces];
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'hwaddr_list'}=[array of hwaddr];
-#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'ipaddr_opts'}=[array of ipaddr opts];
-#$cfg0_hash_g{inv_host-conf_id}{conf_type}{'bond_opts'}=bond_opts_string_for_ifcfg;
 ######
 our %cfg0_uniq_check=();
 #Checks (uniq) for novlan interfaces at current inv_host.
@@ -459,11 +466,26 @@ while ( <CONF> ) {
     	
     	########unique conf_id for inventory_host
     	if ( !exists($cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}) ) {
-    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
+    	    #$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}=[$inv_host_g,$conf_id_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$defroute_g];
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_inv_host_'}=$inv_host_g;
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_conf_id_'}=$conf_id_g;
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_vlan_id_'}=$vlan_id_g;
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_bond_name_'}=$bond_name_g;
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_bridge_name_'}=$bridge_name_g;
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_defroute_'}=$defroute_g;
+	    if ( $ipaddr_opts_arr_g[0] ne 'dhcp' ) {
+		$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_ipaddr_'}=$ipaddr_opts_arr_g[0];
+		$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_gw_'}=$ipaddr_opts_arr_g[1];
+		$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_netmask_'}=$ipaddr_opts_arr_g[2];
+	    }
+	    else {
+		$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_ipaddr_'}='dhcp';
+		$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_gw_'}='dhcp';
+		$cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_netmask_'}='dhcp';
+	    }
+	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'main'}{'_bond_opts_'}=$bond_opts_str_g;
     	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'int_list'}=[@int_list_arr_g];
     	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'hwaddr_list'}=[@hwaddr_list_arr_g];
-    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'ipaddr_opts'}=[@ipaddr_opts_arr_g]; #ip-0, gw-1, netmask-2 / dhcp-0
-    	    $cfg0_hash_g{$inv_host_g.'-'.$conf_id_g}{$conf_type_g}{'bond_opts'}=$bond_opts_str_g;
     	}
     	else {
     	    print "For inv_host='$inv_host_g' conf_id='$conf_id_g' is already exists. Please, check and correct config-file\n";
@@ -497,16 +519,25 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
     ($inv_host_g,$conf_id_g)=split(/\-/,$hkey0_g);
     system("mkdir -p ".$dyn_ifcfg_common_dir_g.'/'.$inv_host_g.'/'.$conf_id_g);
+    
     while ( ($hkey1_g,$hval1_g)=each %{$hval0_g} ) {
 	#$hkey1_g = $conf_type_g, $hval1_g = hash ref
 	if ( -d $ifcfg_tmplt_dir_g.'/'.$hkey1_g ) {
 	    &{$conf_type_sub_refs_g{$hkey1_g}}($ifcfg_tmplt_dir_g.'/'.$hkey1_g,$dyn_ifcfg_common_dir_g.'/'.$inv_host_g.'/'.$conf_id_g,$hval1_g);
 	    ######
-	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_inv_host_'}=inv_host;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_conf_id_'}=conf_id;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_vlan_id_'}=vlan_id;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_bond_name_'}=bond_name;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_bridge_name_'}=bridge_name;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_defroute_'}=defroute;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_gw_'}=gw/dhcp;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_netmask_'}=gw/dhcp;
+	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
 	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'int_list'}=[array of interfaces];
 	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'hwaddr_list'}=[array of hwaddr];
-	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
+
 	}
 	else {
 	    print "ERROR. Ifcfg tmplt dir='$ifcfg_tmplt_dir_g/$hkey1_g' not exists\n";
@@ -531,17 +562,22 @@ sub just_interface_gen_ifcfg {
     ###
     
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
-    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
-    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
-    
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
+
 }
 
 sub virt_bridge_gen_ifcfg {
@@ -551,15 +587,21 @@ sub virt_bridge_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
-    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
 
 }
 
@@ -580,16 +622,21 @@ sub just_bridge_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
-    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
-    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
 
 }
 
@@ -610,17 +657,21 @@ sub just_bond_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
-    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 
 }
 
@@ -645,17 +696,21 @@ sub bond_bridge_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
-    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 
 }
 
@@ -671,16 +726,21 @@ sub interface_vlan_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
-    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
-    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
 
 }
 
@@ -701,16 +761,21 @@ sub bridge_vlan_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
-    my $int_name_l=${${$prms_href_l}{'int_list'}}[0];
-    my $hwaddr_l=${${$prms_href_l}{'hwaddr_list'}}[0];
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
+    my @int_list_l=@{${$prms_href_l}{'int_list'}};
+    my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
 
 }
 
@@ -731,17 +796,21 @@ sub bond_vlan_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
-    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 
 }
 
@@ -766,17 +835,21 @@ sub bond_bridge_vlan_gen_ifcfg {
     ###
 
     ###
-    #HREF->{'main'}=[inv_host,conf_id,vlan_id,bond_name,bridge_name,defroute];
+    #HREF->{'main'}{'_inv_host_'}=inv_host;
+    #HREF->{'main'}{'_conf_id_'}=conf_id;
+    #HREF->{'main'}{'_vlan_id_'}=vlan_id;
+    #HREF->{'main'}{'_bond_name_'}=bond_name;
+    #HREF->{'main'}{'_bridge_name_'}=bridge_name;
+    #HREF->{'main'}{'_defroute_'}=defroute;
+    #HREF->{'main'}{'_ipaddr_'}=ipaddr/dhcp;
+    #HREF->{'main'}{'_gw_'}=gw/dhcp;
+    #HREF->{'main'}{'_netmask_'}=gw/dhcp;
+    #HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
     #HREF->{'int_list'}=[array of interfaces];
     #HREF->{'hwaddr_list'}=[array of hwaddr];
-    #HREF->{'ipaddr_opts'}=[array of ipaddr opts];
-    #HREF->{'bond_opts'}=bond_opts_string_for_ifcfg;
     ###
-    my ($inv_host_l,$conf_id_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{${$prms_href_l}{'main'}};
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
-    my @ipaddr_opts_l=@{${$prms_href_l}{'ipaddr_opts'}};
-    my $bond_opts_l=${$prms_href_l}{'bond_opts'};
 
 }
 ##INCLUDED to conf_type_sub_refs_g
