@@ -578,17 +578,26 @@ sub just_interface_gen_ifcfg {
     
     ###vars
     my $arr_i0_l=0;
+    my @eth_replace_values_l=();
+    my $ifcfg_file_path_l=undef;
     ###vars
     
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
     
     for ( $arr_i0_l=0; $arr_i0_l<=$#int_list_l; $arr_i0_l++ ) {
+	$ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.$int_list_l[$arr_i0_l];
 	if ( ${$prms_href_l}{'main'}{'_ipaddr_'} eq 'dhcp' ) {
-	    system("cp ".$tmplt_dir_l.'/ifcfg-eth-dhcp'.' '.$target_dyn_ifcfg_dir_l.'/ifcfg-'.$int_list_l[$arr_i0_l]);
+	    system("cp ".$tmplt_dir_l.'/ifcfg-eth-dhcp'.' '.$ifcfg_file_path_l);
+	    
+	    &replace_values_in_file($ifcfg_file_path_l,'eth-dhcp',$int_list_l[$arr_i0_l],$hwaddr_list_l[$arr_i0_l],$prms_href_l);
+	    #$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
 	}
 	else {
-	    system("cp ".$tmplt_dir_l.'/ifcfg-eth-static'.' '.$target_dyn_ifcfg_dir_l.'/ifcfg-'.$int_list_l[$arr_i0_l]);	    
+	    system("cp ".$tmplt_dir_l.'/ifcfg-eth-static'.' '.$ifcfg_file_path_l);
+
+	    &replace_values_in_file($ifcfg_file_path_l,'eth-static',$int_list_l[$arr_i0_l],$hwaddr_list_l[$arr_i0_l],$prms_href_l);
+	    #$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
 	}
     }
 }
@@ -868,6 +877,75 @@ sub bond_bridge_vlan_gen_ifcfg {
 ##INCLUDED to conf_type_sub_refs_g
 
 ##other
+sub replace_values_in_file {
+    my ($file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l)=@_;
+    ###if STATIC. 		virt_bridge/ifcfg-bridge-static:	_bridge_name_, _ipaddr_, _netmask_, _conf_id_
+    
+    ###if STATIC.		just_interface/ifcfg-eth-static:	_defroute_, _interface_name_, _hwaddr_, _ipaddr_, _netmask_, _gw_, _conf_id_
+    ###if DHCP. 		just_interface/ifcfg-eth-dhcp:		_defroute_, _interface_name_, _hwaddr_, _conf_id_
+    
+    ###ETH for BRIDGE. 		just_bridge/ifcfg-eth:			_interface_name_, _bridge_name_, _hwaddr_, _conf_id_
+    ###if STATIC. 		just_bridge/ifcfg-bridge-static:	_defroute_, _bridge_name_, _ipaddr_, _gw_, _netmask_, _conf_id_
+    ###if DHCP. 		just_bridge/ifcfg-bridge-dhcp:		_defroute_, _bridge_name_, _conf_id_
+    
+    ###ETH for bond. 		just_bond/ifcfg-eth:			_interface_name_, _bond_name_, _hwaddr_, _conf_id_
+    ###if STATIC. 		just_bond/ifcfg-bond-static:		_defroute_, _bond_name_, _bond_opts_, _ipaddr_, _gw_, _netmask_, _conf_id_
+    ###if DHCP. 		just_bond/ifcfg-bond-dhcp:		_defroute_, _bond_name_, _bond_opts_, _conf_id_
+    
+    ###ETH for bond. 		bond-bridge/ifcfg-eth:			_interface_name_, _bond_name_, _hwaddr_, _conf_id_
+    ###BOND for bridge. 	bond-bridge/ifcfg-bond:			_bond_name_, _bond_opts_, _bridge_name_, _conf_id_
+    ###if STATIC. 		bond-bridge/ifcfg-bridge-static:	_defroute_, _bridge_name_, _ipaddr_, _gw_, _netmask_, _conf_id_
+    ###if DHCP. 		bond-bridge/ifcfg-bridge-dhcp:		_defroute_, _bridge_name_, _conf_id_
+    
+    ###if STATIC. 		interface-vlan/ifcfg-eth-static:	_defroute_, _interface_name_, _hwaddr_, _ipaddr_, _netmask_, _gw_, _conf_id_
+    ###if DHCP. 		interface-vlan/ifcfg-eth-dhcp:		_defroute_, _interface_name_, _hwaddr_, _conf_id_
+    
+    ###ETH for BRIDGE-vlan.	bridge-vlan/ifcfg-eth:			_interface_name_, _bridge_name_, _hwaddr_, _conf_id_
+    ###if STATIC. 		bridge-vlan/ifcfg-bridge-static:	_defroute_, _bridge_name_, _ipaddr_, _gw_, _netmask_, _conf_id_
+    ###if DHCP. 		bridge-vlan/ifcfg-bridge-dhcp:		_defroute_, _bridge_name_, _conf_id_
+    
+    ###ETH for bond-vlan. 	bond-vlan/ifcfg-eth:			_interface_name_, _bond_name_, _hwaddr_, _conf_id_
+    ###if STATIC. 		bond-vlan/ifcfg-bond-static:		_defroute_, _bond_name_, _bond_opts_, _ipaddr_, _gw_, _netmask_, _conf_id_
+    ###if DHCP. 		bond-vlan/ifcfg-bond-dhcp:		_defroute_, _bond_name_, _bond_opts_, _conf_id_
+    
+    ###ETH for bond4bondbrvlan. bond-bridge-vlan/ifcfg-eth:		_interface_name_, _bond_name_, _hwaddr_, _conf_id_
+    ###BOND for bondbrvlan. 	bond-bridge-vlan/ifcfg-bond:		_bond_name_, _bond_opts_, _bridge_name_, _conf_id_
+    ###if STATIC. 		bond-bridge-vlan/ifcfg-bridge-static:	_defroute_, _bridge_name_, _ipaddr_, _gw_, _netmask_, _conf_id_
+    ###if DHCP. 		bond-bridge-vlan/ifcfg-bridge-dhcp:	_defroute_, _bridge_name_, _conf_id_
+    
+    my $arr_el0_l=undef;
+    
+    my %file_type_hash_l=(
+	'virt-bridge'=>		['_bridge_name_','_ipaddr_','_netmask_','_conf_id_'],
+	###
+	#just_bond, bond-bridge, bond-vlan, bond-bridge-vlan
+	'eth-for-bond'=>	['_bond_name_','_conf_id_'], 
+	###
+	#just_bridge, bridge-vlan
+	'eth-for-bridge'=>	['_bridge_name_','_conf_id_'],
+	###
+	##just_interface, interface-vlan
+	'eth-static'=>		['_defroute_','_ipaddr_','_netmask_','_gw_','_conf_id_'],
+	'eth-dhcp'=>		['_defroute_','_conf_id_'],
+	###
+	#just_bridge, bridge-vlan, bond-bridge-vlan
+	'bridge-static'=>	['_defroute_','_bridge_name_','_ipaddr_','_gw_','_netmask_','_conf_id_'],
+	'bridge-dhcp'=>		['_defroute_','_bridge_name_','_conf_id_'],
+	###
+	#just_bond
+	'bond-static'=>		['_defroute_','_bond_name_','_bond_opts_','_ipaddr_','_gw_','_netmask_','_conf_id_'],
+	'bond-dhcp'=>		['_defroute_','_bond_name_','_bond_opts_','_conf_id_'],
+	###
+	'bond-for-bridge'=>	['_bond_name_','_bond_opts_','_bridge_name_','_conf_id_']
+    );
+    
+    if ( $int_name_l ne 'no' ) { system("sed -i -e 's/_interface_name_/$int_name_l/g' $file_path_l"); }
+    if ( $hwaddr_l ne 'no' ) { system("sed -i -e 's/_hwaddr_/$hwaddr_l/g' $file_path_l"); }
+    
+    foreach $arr_el0_l ( @{$file_type_hash_l{$file_type_l}} ) {
+	system("sed -i -e 's/$arr_el0_l/${$prms_href_l}{'main'}{$arr_el0_l}/g' $file_path_l");
+    }
+}
 ##other
 ###SUBROUTINES
 
