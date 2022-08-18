@@ -269,12 +269,22 @@ while ( <CONF> ) {
     	#######interfaces + hwaddr count checks for each conf_type
     	
     	#######hwaddr check via regexp
-    	foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
-    	    if ( $arr_el0_g!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
-    		print "HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_g'). Please, check and correct config-file\n";
-    		$skip_conf_line_g=1;
+	if ( $conf_type_g!~/^virt_bridge$/ ) {
+    	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+    		if ( $arr_el0_g!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
+    		    print "HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_g'). Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
     	    }
-    	}
+	}
+	else {
+	    foreach $arr_el0_g ( @hwaddr_list_arr_g ) {
+    		if ( $arr_el0_g!~/^no$/ ) {
+    		    print "HWADDR for virt_bridge must be 'no' (incorrect value='$arr_el0_g'). Set new value='no'. Please, check and correct config-file\n";
+    		    $skip_conf_line_g=1;
+    		}
+    	    }
+	}
     
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
@@ -557,7 +567,7 @@ if ( -d $dyn_ifcfg_common_dir_g ) {
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
-    print "EXEC_STATUS no OK. Exit!";
+    print "EXEC_STATUS not OK. Exit!";
     exit;
 }
 
@@ -624,7 +634,6 @@ sub just_interface_gen_ifcfg {
     
     ###vars
     my $arr_i0_l=0;
-    my @eth_replace_values_l=();
     my $ifcfg_file_path_l=undef;
     ###vars
     
@@ -670,7 +679,15 @@ sub virt_bridge_gen_ifcfg {
     ###
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
-
+    
+    ###vars
+    my $ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.${$prms_href_l}{'main'}{'_bridge_name_'};
+    ###vars
+    
+    system("cp ".$tmplt_dir_l.'/ifcfg-bridge-static'.' '.$ifcfg_file_path_l);
+    
+    &replace_values_in_file($ifcfg_file_path_l,'virt-bridge','no','no',$prms_href_l);
+    #$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
 }
 
 sub just_bridge_gen_ifcfg {

@@ -33,7 +33,7 @@
 ###
 ###NO-VLAN Examples, static IP
 192.168.1.2  novlstat1	just_interface	 eth0		00:01:02:03:04:01			no	    no		  no	       10.2.1.2,10.1.1.1,255.255.255.0	 no          yes
-192.168.1.2  novlstat2	virt_bridge	 no		00:01:02:03:04:02			no	    no		  virbr0       10.2.2.2,10.1.2.1,255.255.255.0	 no	     no
+192.168.1.2  novlstat2	virt_bridge	 no		no					no	    no		  virbr0       10.2.2.2,10.1.2.1,255.255.255.0	 no	     no
 192.168.1.2  novlstat3	just_bridge	 eth1		00:01:02:03:04:03			no	    no		  br0	       10.2.3.2,10.1.3.1,255.255.255.0	 no	     no
 192.168.1.2  novlstat4	just_bond	 eth2,eth3	00:01:02:03:04:04,00:01:02:03:04:05	no	    bond0	  no	       10.2.4.2,10.1.4.1,255.255.255.0	 def         no
 192.168.1.2  novlstat5	bond-bridge	 eth4,eth5	00:01:02:03:04:06,00:01:02:03:04:07	no	    bond1	  br1	       10.2.5.2,10.1.6.1,255.255.255.0	 def         no
