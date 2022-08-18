@@ -22,6 +22,7 @@ our $arr_el0_g=undef;
 our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our $skip_conf_line_g=0;
+our $exec_status_g='OK';
 our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 our @arr0_g=();
 ######
@@ -105,6 +106,7 @@ while ( <CONF> ) {
     	@arr0_g=split(' ',$line_g);
     	if ( $#arr0_g!=10 ) {
     	    print "Conf-line='$line_g' must contain 11 params. Please, check and correct config-file\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	
@@ -117,6 +119,7 @@ while ( <CONF> ) {
     	}
     	if ( $skip_conf_line_g==1 ) {
             print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
             next;
         }
     	#######check conf_type
@@ -176,12 +179,26 @@ while ( <CONF> ) {
     		$skip_conf_line_g=1;
     	    }
     	}
-    
+	
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	#######bond_name/bridge_name simple checks
+	
+	#######bond_name check if vlan
+	if ( $conf_type_g=~/^bond\-vlan$|^bond\-bridge\-vlan$/ && $vlan_id_g ne 'no' && $bond_name_g!~/\.$vlan_id_g$/ ) {
+	    print "For vlan configurations like 'bond-vlan/bond-bridge-vlan' bond name must include vlan_id. Now bond_name='$bond_name_g', correct bond_name='$bond_name_g.$vlan_id_g'. Please, check and correct config-file\n";
+	    $skip_conf_line_g=1;
+	}
+	
+    	if ( $skip_conf_line_g==1 ) {
+    	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
+    	    next;
+    	}
+	#######bond_name check if vlan
     	
     	#######IPADDRv4 PREcheck via regexp
     	if ( $ipaddr_opts_g!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
@@ -191,6 +208,7 @@ while ( <CONF> ) {
     
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	#######IPADDRv4 PREcheck via regexp
@@ -245,6 +263,7 @@ while ( <CONF> ) {
     
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	#######interfaces + hwaddr count checks for each conf_type
@@ -259,6 +278,7 @@ while ( <CONF> ) {
     
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	#######hwaddr check via regexp
@@ -279,6 +299,7 @@ while ( <CONF> ) {
     	}
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	
@@ -290,8 +311,10 @@ while ( <CONF> ) {
     		print "IPaddr='$ipaddr_opts_arr_g[0]' is already used at host='$cfg0_uniq_check{'all_hosts'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
     		$skip_conf_line_g=1;
     	    }
+
     	    if ( $skip_conf_line_g==1 ) {
     		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		next;
     	    }
     	}
@@ -312,6 +335,7 @@ while ( <CONF> ) {
     	    }
     	    if ( $skip_conf_line_g==1 ) {
     		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		next;
     	    }
     	    ###
@@ -328,6 +352,7 @@ while ( <CONF> ) {
     	    }
     	    if ( $skip_conf_line_g==1 ) {
     		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		next;
     	    }
     	    ###
@@ -343,6 +368,7 @@ while ( <CONF> ) {
     		}
     		if ( $skip_conf_line_g==1 ) {
     		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+		    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		    next;
     		}
     	    }
@@ -357,8 +383,10 @@ while ( <CONF> ) {
     		    print "Bridge_name='$bridge_name_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$bridge_name_g}'. Please, check and correct config-file\n";
     		    $skip_conf_line_g=1;
     		}
+		
     		if ( $skip_conf_line_g==1 ) {
     		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+		    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		    next;
     		}
     	    }
@@ -373,8 +401,10 @@ while ( <CONF> ) {
     		    print "Ipaddr='$ipaddr_opts_arr_g[0]' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'common'}{$ipaddr_opts_arr_g[0]}'. Please, check and correct config-file\n";
     		    $skip_conf_line_g=1;
     		}
+		
     		if ( $skip_conf_line_g==1 ) {
     		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+		    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		    next;
     		}
     	    }
@@ -389,8 +419,10 @@ while ( <CONF> ) {
     		print "Vlan_id='$vlan_id_g' (inv_host='$inv_host_g') is already used at config with id='$cfg0_uniq_check{$inv_host_g}{'vlan'}{$vlan_id_g}'. Please, check and correct config-file\n";
     		$skip_conf_line_g=1;
     	    }
+	    
     	    if ( $skip_conf_line_g==1 ) {
     		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		next;
     	    }
     	    ###
@@ -409,6 +441,7 @@ while ( <CONF> ) {
 	    
     	    if ( $skip_conf_line_g==1 ) {
     		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		next;
     	    }
     	    ###
@@ -426,6 +459,7 @@ while ( <CONF> ) {
 	    
     	    if ( $skip_conf_line_g==1 ) {
     		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		next;
     	    }
     	    ###
@@ -439,8 +473,10 @@ while ( <CONF> ) {
     		    print "Bond_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$bond_name_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
     		    $skip_conf_line_g=1;
     		}
+		
     		if ( $skip_conf_line_g==1 ) {
     		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+		    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		    next;
     		}
     	    }
@@ -455,8 +491,10 @@ while ( <CONF> ) {
     		    print "Bridge_name='$bond_name_g' (inv_host='$inv_host_g') is already used at config with id='".$cfg0_uniq_check{$inv_host_g}{'vlan'}{$bridge_name_g.'-'.$vlan_id_g}."'. Please, check and correct config-file\n";
     		    $skip_conf_line_g=1;
     		}
+		
     		if ( $skip_conf_line_g==1 ) {
     		    print "Skip conf-line with conf_id='$conf_id_g'\n";
+		    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     		    next;
     		}
     	    }
@@ -491,8 +529,10 @@ while ( <CONF> ) {
     	    print "For inv_host='$inv_host_g' conf_id='$conf_id_g' is already exists. Please, check and correct config-file\n";
     	    $skip_conf_line_g=1;
     	}
+	
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
+	    if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
     	    next;
     	}
     	########unique conf_id for inventory_host
@@ -514,6 +554,12 @@ if ( -d $dyn_ifcfg_common_dir_g ) {
     system("rm -rf ".$dyn_ifcfg_common_dir_g."/");
 }
 ###remove prev generated ifcfg
+
+system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
+if ( $exec_status_g!~/^OK$/ ) {
+    print "EXEC_STATUS no OK. Exit!";
+    exit;
+}
 
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
@@ -936,6 +982,7 @@ sub replace_values_in_file {
 	'bond-static'=>		['_defroute_','_bond_name_','_bond_opts_','_ipaddr_','_gw_','_netmask_','_conf_id_'],
 	'bond-dhcp'=>		['_defroute_','_bond_name_','_bond_opts_','_conf_id_'],
 	###
+	#bond-bridge-vlan
 	'bond-for-bridge'=>	['_bond_name_','_bond_opts_','_bridge_name_','_conf_id_']
     );
     
