@@ -655,6 +655,8 @@ sub just_interface_gen_ifcfg {
 	    #$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
 	}
     }
+
+    ###some other specific operations if need
 }
 
 sub virt_bridge_gen_ifcfg {
@@ -688,6 +690,8 @@ sub virt_bridge_gen_ifcfg {
     
     &replace_values_in_file($ifcfg_file_path_l,'virt-bridge','no','no',$prms_href_l);
     #$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+
+    ###some other specific operations if need
 }
 
 sub just_bridge_gen_ifcfg {
@@ -723,6 +727,36 @@ sub just_bridge_gen_ifcfg {
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
 
+    ###vars
+    my $arr_i0_l=0;
+    my $ifcfg_file_path_l=undef;
+    #my $ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.${$prms_href_l}{'main'}{'_bridge_name_'};
+    ###vars
+
+    for ( $arr_i0_l=0; $arr_i0_l<=$#int_list_l; $arr_i0_l++ ) {
+	$ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.$int_list_l[$arr_i0_l];
+	system("cp ".$tmplt_dir_l.'/ifcfg-eth'.' '.$ifcfg_file_path_l);
+	
+	&replace_values_in_file($ifcfg_file_path_l,'eth-for-bridge',$int_list_l[$arr_i0_l],$hwaddr_list_l[$arr_i0_l],$prms_href_l);
+	#$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+    }
+    $ifcfg_file_path_l=undef;
+
+    $ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.${$prms_href_l}{'main'}{'_bridge_name_'};
+    if ( ${$prms_href_l}{'main'}{'_ipaddr_'} eq 'dhcp' ) {
+	system("cp ".$tmplt_dir_l.'/ifcfg-bridge-dhcp'.' '.$ifcfg_file_path_l);
+	
+	&replace_values_in_file($ifcfg_file_path_l,'bridge-dhcp','no','no',$prms_href_l);
+	#$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+    }
+    else {
+	system("cp ".$tmplt_dir_l.'/ifcfg-bridge-static'.' '.$ifcfg_file_path_l);
+	
+	&replace_values_in_file($ifcfg_file_path_l,'bridge-static','no','no',$prms_href_l);
+	#$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+    }
+
+    ###some other specific operations if need
 }
 
 sub just_bond_gen_ifcfg {
