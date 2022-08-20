@@ -67,7 +67,8 @@ our @int_list_arr_g=();
 our @hwaddr_list_arr_g=();
 our @ipaddr_opts_arr_g=();
 our @bond_opts_arr_g=();
-our $bond_opts_str_g='mode=4 xmit_hash_policy=2 lacp_rate=1 miimon=100';
+our $bond_opts_str_def_g='mode=4 xmit_hash_policy=2 lacp_rate=1 miimon=100';
+our $bond_opts_str_g=$bond_opts_str_def_g;
 
 our %conf_type_sub_refs_g=(
     #common (novlan)
@@ -217,7 +218,8 @@ while ( <CONF> ) {
     	@int_list_arr_g=split(/\,/,$int_list_str_g);
     	@hwaddr_list_arr_g=split(/\,/,$hwaddr_list_str_g);
     	@ipaddr_opts_arr_g=split(/\,/,$ipaddr_opts_g);
-    	if ( $bond_opts_g!~/^def$/ ) {
+	$bond_opts_str_g=$bond_opts_str_def_g;
+    	if ( $conf_type_g=~/^just_bond$|^bond\-vlan$|^bond\-bridge$|^bond\-bridge\-vlan$/ && $bond_opts_g!~/^def$/ ) {
     	    $bond_opts_str_g=$bond_opts_g;
     	    $bond_opts_str_g=~s/\,/ /g;
     	}
@@ -730,7 +732,6 @@ sub just_bridge_gen_ifcfg {
     ###vars
     my $arr_i0_l=0;
     my $ifcfg_file_path_l=undef;
-    #my $ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.${$prms_href_l}{'main'}{'_bridge_name_'};
     ###vars
 
     for ( $arr_i0_l=0; $arr_i0_l<=$#int_list_l; $arr_i0_l++ ) {
@@ -792,6 +793,35 @@ sub just_bond_gen_ifcfg {
     my @int_list_l=@{${$prms_href_l}{'int_list'}};
     my @hwaddr_list_l=@{${$prms_href_l}{'hwaddr_list'}};
 
+    ###vars
+    my $arr_i0_l=0;
+    my $ifcfg_file_path_l=undef;
+    ###vars
+
+    for ( $arr_i0_l=0; $arr_i0_l<=$#int_list_l; $arr_i0_l++ ) {
+	$ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.$int_list_l[$arr_i0_l];
+	system("cp ".$tmplt_dir_l.'/ifcfg-eth'.' '.$ifcfg_file_path_l);
+	
+	&replace_values_in_file($ifcfg_file_path_l,'eth-for-bond',$int_list_l[$arr_i0_l],$hwaddr_list_l[$arr_i0_l],$prms_href_l);
+	#$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+    }
+    $ifcfg_file_path_l=undef;
+
+    $ifcfg_file_path_l=$target_dyn_ifcfg_dir_l.'/ifcfg-'.${$prms_href_l}{'main'}{'_bond_name_'};
+    if ( ${$prms_href_l}{'main'}{'_ipaddr_'} eq 'dhcp' ) {
+	system("cp ".$tmplt_dir_l.'/ifcfg-bond-dhcp'.' '.$ifcfg_file_path_l);
+	
+	&replace_values_in_file($ifcfg_file_path_l,'bond-dhcp','no','no',$prms_href_l);
+	#$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+    }
+    else {
+	system("cp ".$tmplt_dir_l.'/ifcfg-bond-static'.' '.$ifcfg_file_path_l);
+	
+	&replace_values_in_file($ifcfg_file_path_l,'bond-static','no','no',$prms_href_l);
+	#$file_path_l,$file_type_l,$int_name_l,$hwaddr_l,$prms_href_l
+    }
+
+    ###some other specific operations if need
 }
 
 sub bond_bridge_gen_ifcfg {
