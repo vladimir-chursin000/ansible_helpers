@@ -1,0 +1,9 @@
+---
+- hosts: rhel8_network_scripts_hosts
+  tasks:
+    - name: install_nfs_packages
+      ansible.builtin.dnf:
+        name: "{{item}}"
+        state: installed
+      with_items:
+        - network-scripts
