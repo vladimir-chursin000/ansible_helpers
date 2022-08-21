@@ -570,7 +570,7 @@ close(CONF);
 
 ###remove prev generated ifcfg
 if ( -d $dyn_ifcfg_common_dir_g ) {
-    system("rm -rf ".$dyn_ifcfg_common_dir_g."/");
+    system("ls $dyn_ifcfg_common_dir_g/ | grep -v 'info' | xargs rm -rf");
 }
 ###remove prev generated ifcfg
 
