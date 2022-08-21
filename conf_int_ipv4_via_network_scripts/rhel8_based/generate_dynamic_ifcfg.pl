@@ -11,7 +11,7 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 our $conf_file_g=$self_dir_g.'config';
 ###CFG file
 
-############STATIC VARS
+############STATIC VARS. Change dir paths if you want just use this script without ansible helper
 our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg';
 our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt';
 ############STATIC VARS
