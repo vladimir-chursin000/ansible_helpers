@@ -209,10 +209,15 @@ while ( <CONF> ) {
 	#######bond_name check if vlan
     	
     	#######IPADDRv4 PREcheck via regexp
-    	if ( $ipaddr_opts_g!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    	if ( $conf_type_g!~/^virt_bridge$/ && $ipaddr_opts_g!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
     	    print "IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask'. Please, check and correct config-file\n";
     	    $skip_conf_line_g=1;
     	}
+    	elsif ( $conf_type_g=~/^virt_bridge$/ && $ipaddr_opts_g!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,nogw\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    	    print "IPv4_ADDR_OPTS for conf_type='virt-bridge' must be 'ipv4,nogw,netmask' (for example '10.1.1.1,nogw,255.255.255.0'). Please, check and correct config-file\n";
+    	    $skip_conf_line_g=1;
+    	}
+	
     
     	if ( $skip_conf_line_g==1 ) {
     	    print "Skip conf-line with conf_id='$conf_id_g'\n";
