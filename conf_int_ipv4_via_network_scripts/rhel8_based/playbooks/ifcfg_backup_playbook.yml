@@ -1,0 +1,17 @@
+---
+- hosts: rhel8_network_scripts_hosts
+  tasks:
+    - name: get_list_of_ifcfg_files
+      ansible.builtin.shell: ls /etc/sysconfig/network-scripts | grep ifcfg
+      register: ifcfg_files
+######################################################    
+    - name: Ansible fact - ansible_date_time
+      debug:
+        var: ifcfg_files
+######################################################
+    - name: fetch_ifcfg_file
+      ansible.builtin.fetch:
+        flat: yes
+        src: "/etc/sysconfig/network-scripts/{{item}}"
+        dest: "{{playbook_dir}}/ifcfg_backup_from_remote/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
+      with_items: "{{ifcfg_files.stdout_lines}}"
