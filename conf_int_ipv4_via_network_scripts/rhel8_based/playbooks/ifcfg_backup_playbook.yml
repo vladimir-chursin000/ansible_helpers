@@ -5,10 +5,6 @@
       ansible.builtin.shell: ls /etc/sysconfig/network-scripts | grep ifcfg
       register: ifcfg_files
 ######################################################    
-    - name: Ansible fact - ansible_date_time
-      debug:
-        var: ifcfg_files
-######################################################
     - name: fetch_ifcfg_file
       ansible.builtin.fetch:
         flat: yes
