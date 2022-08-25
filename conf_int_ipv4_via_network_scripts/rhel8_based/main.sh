@@ -6,6 +6,7 @@ SELF_DIR="$(dirname $(readlink -f $0))";
 INV_FILE=$1;
 PLAYBOOK=$2;
 LOG_DIR=$3;
+GEN_DYN_IFCFG_RUN=$4; #possible values: yes (run 'generate_dynamic_ifcfg.pl' before playbook), no
 ###ARGV
 
 ###VARS
@@ -22,6 +23,12 @@ echo "Used inventory file: $INV_FILE" >> $LOG_FILE;
 echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" >> $LOG_FILE;
 echo "Start time: $NOW_DT" >> $LOG_FILE;
 echo "#########" >> $LOG_FILE;
+
+if [[ ! -z "$GEN_DYN_IFCFG_RUN" ]] && [[ "$GEN_DYN_IFCFG_RUN" == "yes" ]]; then
+    $SELF_DIR/generate_dynamic_ifcfg.pl;
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_ifcfg.pl" >> $LOG_FILE;
+fi;
+
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN
