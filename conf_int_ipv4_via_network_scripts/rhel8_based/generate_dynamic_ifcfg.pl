@@ -588,6 +588,8 @@ if ( $exec_status_g!~/^OK$/ ) {
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
     ($inv_host_g,$conf_id_g)=split(/\-/,$hkey0_g);
+    
+    system("mkdir -p ".$dyn_ifcfg_common_dir_g.'/'.$inv_host_g.'/fin');
     system("mkdir -p ".$dyn_ifcfg_common_dir_g.'/'.$inv_host_g.'/'.$conf_id_g);
     
     while ( ($hkey1_g,$hval1_g)=each %{$hval0_g} ) {
@@ -607,7 +609,8 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'main'}{'_bond_opts_'}=bond_opts_string_for_ifcfg;
 	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'int_list'}=[array of interfaces];
 	    #$cfg0_hash_g{inv_host-conf_id}{conf_type}-HREF->{'hwaddr_list'}=[array of hwaddr];
-
+	    
+	    system("cp $dyn_ifcfg_common_dir_g/$inv_host_g/$conf_id_g/* $dyn_ifcfg_common_dir_g/$inv_host_g/fin/");
 	}
 	else {
 	    print "ERROR. Ifcfg tmplt dir='$ifcfg_tmplt_dir_g/$hkey1_g' not exists\n";
