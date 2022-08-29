@@ -7,8 +7,16 @@ use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
+###ARGV
+our $gen_playbooks_next_g=0;
+if ( defined($ARGV[0]) && $ARGV[0]=~/^yes$/ ) {
+    $gen_playbooks_next_g=1;
+}
+###ARGV
+
 ###CFG file
 our $conf_file_g=$self_dir_g.'config';
+our $conf_file_del_not_configured_g=$self_dir_g.'config_del_not_configured_ifcfg';
 ###CFG file
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
@@ -621,6 +629,9 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     ($inv_host_g,$conf_id_g)=(undef,undef);
 }
 
+if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for ifcfg upd/del
+    
+}
 ###MAIN SEQ
 
 ###SUBROUTINES
