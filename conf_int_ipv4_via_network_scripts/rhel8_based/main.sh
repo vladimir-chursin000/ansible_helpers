@@ -32,10 +32,21 @@ if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
     /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_BEFORE" | tee -a $LOG_FILE;
 fi;
 
-
 if [[ ! -z "$GEN_DYN_IFCFG_RUN" ]] && [[ "$GEN_DYN_IFCFG_RUN" == "yes" ]]; then
     $SELF_DIR/generate_dynamic_ifcfg.pl;
     echo "Run script (before playbook): $SELF_DIR/generate_dynamic_ifcfg.pl" >> $LOG_FILE;
+
+    if [[ ! -f "$SELF_DIR/GEN_DYN_IFCFG_STATUS" ]]; then
+	echo "File with status of execution of 'generate_dynamic_ifcfg.pl' is not exists. Exit!";
+	echo "File with status of execution of 'generate_dynamic_ifcfg.pl' is not exists. Exit!" >> $LOG_FILE;
+	exit;
+    fi;
+    
+    if [[ $(grep -L 'OK' "$SELF_DIR/GEN_DYN_IFCFG_STATUS") ]]; then
+	echo "Status of execution of 'generate_dynamic_ifcfg.pl' is not OK. Exit!";
+	echo "Status of execution of 'generate_dynamic_ifcfg.pl' is not OK. Exit!" >> $LOG_FILE; 
+	exit;
+    fi;
 fi;
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
