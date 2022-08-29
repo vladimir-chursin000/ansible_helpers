@@ -1,0 +1,1 @@
+#Write here inventory hosts if you need to delete ifcfg-files and shutdown interfaces that not configured at file 'config'. One line = one inventory host.
