@@ -9,7 +9,7 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ###ARGV
 our $gen_playbooks_next_g=0;
-if ( defined($ARGV[0]) && $ARGV[0]=~/^yes$/ ) {
+if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
     $gen_playbooks_next_g=1;
 }
 ###ARGV
@@ -630,6 +630,8 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 }
 
 if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for ifcfg upd/del
+    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_upd.yml");
+    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_del.yml");
     
 }
 ###MAIN SEQ
