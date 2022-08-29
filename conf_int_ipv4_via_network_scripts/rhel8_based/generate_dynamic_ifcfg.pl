@@ -13,8 +13,9 @@ our $conf_file_g=$self_dir_g.'config';
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
 our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
-our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; #dir for save generated dynamic playbooks
-our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt';
+our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
+our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt'; # dir with ifcfg templates
+our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' (run before this script)
 ############STATIC VARS
 
 ############VARS
