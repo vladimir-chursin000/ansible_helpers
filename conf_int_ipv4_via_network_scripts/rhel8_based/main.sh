@@ -26,6 +26,8 @@ echo "Start time: $NOW_DT" >> $LOG_FILE;
 echo "#########" >> $LOG_FILE;
 
 if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
+    rm -rf "$SELF_DIR/playbooks/ifcfg_backup_from_remote/now/";
+    ###
     echo " " >> $LOG_FILE;
     echo "#########" >> $LOG_FILE;
     echo "Playbook_next: $SELF_DIR/playbooks/$PLAYBOOK_BEFORE" >> $LOG_FILE;
