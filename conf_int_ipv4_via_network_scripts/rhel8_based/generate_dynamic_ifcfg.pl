@@ -97,6 +97,7 @@ our %conf_type_sub_refs_g=(
 
 our %inv_hosts_hash0_g=(); #key=inv_host, value=1
 our %inv_hosts_hash1_g=(); #key0=inv_host, key1=now/configured/for_upd/for_del value=array of ifcfg-files names
+our %inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
 ############VARS
 
 ###MAIN SEQ
@@ -631,6 +632,21 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_upd.yml");
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_del.yml");
     
+    #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
+    open(CONF_DEL,'<',$conf_file_del_not_configured_g);
+    while ( <CONF_DEL> ) {
+	$line_g=$_;
+	$line_g=~s/\n$|\r$|\n\r$|\r\n$//g;
+	while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
+	$line_g=~s/\s+/ /g;
+	$line_g=~s/^ //g;
+	if ( length($line_g)>0 && $line_g!~/^\#/ && $line_g=~/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/ ) {
+	    $inv_hosts_ifcfg_del_not_configured_g{$1}=1;
+	}
+    }
+    close(CONF_DEL);
+    $line_g=undef;
+
     #$dyn_ifcfg_common_dir_g/$inv_host_g = get inv_hosts + fin = get list of interfaces
     #$ifcfg_backup_from_remote_dir_g/inv_host = get actual ifcfg-files
     #%inv_hosts_hash1_g=(); #key0=inv_host, key1=now/configured/for_upd/for_del value=array of ifcfg-files names
