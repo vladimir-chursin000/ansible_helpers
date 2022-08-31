@@ -592,12 +592,6 @@ if ( -d $dyn_ifcfg_common_dir_g ) {
 }
 ###remove prev generated ifcfg
 
-system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
-if ( $exec_status_g!~/^OK$/ ) {
-    print "EXEC_STATUS not OK. Exit!";
-    exit;
-}
-
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
     ($inv_host_g,$conf_id_g)=split(/\-/,$hkey0_g);
@@ -639,10 +633,17 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
     
     #$dyn_ifcfg_common_dir_g/$inv_host_g = get inv_hosts + fin = get list of interfaces
     #$ifcfg_backup_from_remote_dir_g/inv_host = get actual ifcfg-files
+    #%inv_hosts_hash1_g=(); #key0=inv_host, key1=now/configured/for_upd/for_del value=array of ifcfg-files names
     
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash0_g ) {
 	#hkey0_g=inv_host
     }
+}
+
+system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
+if ( $exec_status_g!~/^OK$/ ) {
+    print "EXEC_STATUS not OK. Exit!";
+    exit;
 }
 ###MAIN SEQ
 
