@@ -94,6 +94,9 @@ our %conf_type_sub_refs_g=(
     'bond-vlan'=>\&bond_vlan_gen_ifcfg,
     'bond-bridge-vlan'=>\&bond_bridge_vlan_gen_ifcfg,
 );
+
+our %inv_hosts_hash_g=(); #key0=inv_host, key1=now/configured/for_upd/for_del value=array of ifcfg-files names
+our @inv_hosts_list_g=();
 ############VARS
 
 ###MAIN SEQ
@@ -598,6 +601,7 @@ if ( $exec_status_g!~/^OK$/ ) {
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
     ($inv_host_g,$conf_id_g)=split(/\-/,$hkey0_g);
+    push(@inv_hosts_list_g,$inv_host_g);
     
     system("mkdir -p ".$dyn_ifcfg_common_dir_g.'/'.$inv_host_g.'/fin');
     system("mkdir -p ".$dyn_ifcfg_common_dir_g.'/'.$inv_host_g.'/'.$conf_id_g);
@@ -633,6 +637,8 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_upd.yml");
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_del.yml");
     
+    #$dyn_ifcfg_common_dir_g/$inv_host_g = get inv_hosts + fin = get list of interfaces
+    #$ifcfg_backup_from_remote_dir_g/inv_host = get actual ifcfg-files
 }
 ###MAIN SEQ
 
