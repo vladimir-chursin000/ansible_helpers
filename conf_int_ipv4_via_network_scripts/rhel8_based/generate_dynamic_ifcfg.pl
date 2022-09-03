@@ -681,16 +681,16 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	#hkey0_g=inv_host, hval0_g=hash
 	while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'fin'}} ) { #just only configure interfaces from 'config'
 	    #hkey1_g=ifcfg_name
-	    if ( !exists(${$hval0_g}{'now'}{$hkey1_g}) ) { # new interface -> for_upd
-	        
+	    if ( !exists(${$hval0_g}{'now'}{$hkey1_g}) ) { #new interface -> for_upd
+	        $inv_hosts_hash1_g{$hkey0_g}{'for_upd'}{$hkey1_g}=1;
 	    }
 	    else {
 		$exec_res_g=`diff $dyn_ifcfg_common_dir_g/$hkey0_g/fin/$hkey1_g $ifcfg_backup_from_remote_dir_g/$hkey0_g/$hkey1_g | wc -l`;
 		$exec_res_g=~s/\n|\r|\n\r|\r\n//g;
 		$exec_res_g=int($exec_res_g);
 		
-		if ( $exec_res_g>0 ) { #if generated ifcfg (fin) not eq actual (now)
-		    
+		if ( $exec_res_g>0 ) { #if generated ifcfg (fin) not eq actual (now) -> for_upd
+		    $inv_hosts_hash1_g{$hkey0_g}{'for_upd'}{$hkey1_g}=1;
 		}
 	    }
 	}
@@ -698,7 +698,9 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	if ( exists($inv_hosts_ifcfg_del_not_configured_g{$hkey0_g}) ) { #if need to configure AND to delete not configured at 'config' interfaces
 	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'now'}} ) {
 		#hkey1_g=ifcfg_name
-		
+		if ( !exists(${$hval0_g}{'fin'}{$hkey1_g}) ) { #interface for delete -> for_del
+		    $inv_hosts_hash1_g{$hkey0_g}{'for_del'}{$hkey1_g}=1;
+		}
 	    }
 	}
     }
