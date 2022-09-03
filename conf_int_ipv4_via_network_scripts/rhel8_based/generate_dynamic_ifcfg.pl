@@ -694,6 +694,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 		}
 	    }
 	}
+	($hkey1_g,$hval1_g)=(undef,undef);
 	
 	if ( exists($inv_hosts_ifcfg_del_not_configured_g{$hkey0_g}) ) { #if need to configure AND to delete not configured at 'config' interfaces
 	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'now'}} ) {
@@ -702,8 +703,16 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 		    $inv_hosts_hash1_g{$hkey0_g}{'for_del'}{$hkey1_g}=1;
 		}
 	    }
+	    ($hkey1_g,$hval1_g)=(undef,undef);
 	}
     }
+    ($hkey0_g,$hval0_g)=(undef,undef);
+    ($hkey1_g,$hval1_g)=(undef,undef);
+
+    while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
+	#hkey0_g=inv_host, hval0_g=hash
+    }
+    ($hkey0_g,$hval0_g)=(undef,undef);
 }
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
