@@ -678,14 +678,15 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
     
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
 	#hkey0_g=inv_host, hval0_g=hash
-	if ( exists($inv_hosts_ifcfg_del_not_configured_g{$hkey0_g}) ) { #if need to configure AND to delete not configured at 'config' interfaces
-	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'fin'}} ) {
-		#hkey1_g=ifcfg_name
-		
+	while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'fin'}} ) { #just only configure interfaces from 'config'
+	    #hkey1_g=ifcfg_name
+	    if ( !exists(${$hval0_g}{'now'}{$hkey1_g}) ) {
+	        
 	    }
 	}
-	else {
-	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'fin'}} ) { #just only configure interfaces from 'config'
+	
+	if ( exists($inv_hosts_ifcfg_del_not_configured_g{$hkey0_g}) ) { #if need to configure AND to delete not configured at 'config' interfaces
+	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'now'}} ) {
 		#hkey1_g=ifcfg_name
 		
 	    }
