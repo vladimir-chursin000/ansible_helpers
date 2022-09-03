@@ -33,6 +33,7 @@ our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our $skip_conf_line_g=0;
 our $exec_status_g='OK';
+our $exec_res_g=undef;
 our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 our @arr0_g=();
 ######
@@ -680,8 +681,17 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	#hkey0_g=inv_host, hval0_g=hash
 	while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'fin'}} ) { #just only configure interfaces from 'config'
 	    #hkey1_g=ifcfg_name
-	    if ( !exists(${$hval0_g}{'now'}{$hkey1_g}) ) {
+	    if ( !exists(${$hval0_g}{'now'}{$hkey1_g}) ) { # new interface -> for_upd
 	        
+	    }
+	    else {
+		$exec_res_g=`diff $dyn_ifcfg_common_dir_g/$hkey0_g/fin/$hkey1_g $ifcfg_backup_from_remote_dir_g/$hkey0_g/$hkey1_g | wc -l`;
+		$exec_res_g=~s/\n|\r|\n\r|\r\n//g;
+		$exec_res_g=int($exec_res_g);
+		
+		if ( $exec_res_g>0 ) { #if generated ifcfg (fin) not eq actual (now)
+		    
+		}
 	    }
 	}
 	
