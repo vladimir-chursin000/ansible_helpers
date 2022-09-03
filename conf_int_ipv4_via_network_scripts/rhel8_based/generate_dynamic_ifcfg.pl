@@ -711,6 +711,16 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
 	#hkey0_g=inv_host, hval0_g=hash
+	if ( exists(${$hval0_g}{'for_del'}) ) {
+	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
+		#hkey1_g=ifcfg_name
+		
+	    }
+	}
+	while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_upd'}} ) {
+	    #hkey1_g=ifcfg_name
+	    
+	}
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
 }
