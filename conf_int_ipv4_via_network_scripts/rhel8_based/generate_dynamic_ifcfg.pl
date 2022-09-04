@@ -589,15 +589,11 @@ while ( <CONF> ) {
 }
 close(CONF);
 
-###remove prev generated ifcfg/resolv-conf
+###remove prev generated ifcfg
 if ( -d $dyn_ifcfg_common_dir_g ) {
     system("cd $dyn_ifcfg_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
 }
-
-if ( -d $dyn_resolv_common_dir_g ) {
-    system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
-}
-###remove prev generated ifcfg/resolv-conf
+###remove prev generated ifcfg
 
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
@@ -635,6 +631,9 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 }
 
 if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final
+    if ( -d $dyn_resolv_common_dir_g ) {
+	system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
+    }
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_change.yml");
     
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
