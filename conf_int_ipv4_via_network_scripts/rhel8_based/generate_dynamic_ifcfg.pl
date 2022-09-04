@@ -813,11 +813,36 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 
 	    ###playbook for copy resolv.conf
 	    if ( exists($inv_hosts_dns_g{$hkey0_g}) ) { #use special resolv.conf for inv_host
-		
+		print DYN_YML "- name: copy/upd ifcfg-files\n";
+		print DYN_YML "  ansible.builtin.copy:\n";
+		print DYN_YML "    src: \"{{playbook_dir}}/dyn_resolv_conf/{{inventory_hostname}}_resolv\"\n";
+		print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
+    		print DYN_YML "    owner: root\n";
+    		print DYN_YML "    group: root\n";
+    		print DYN_YML "    mode: '0600'\n";
+    		print DYN_YML "    seuser: system_u\n";
+    		print DYN_YML "    setype: net_conf_t\n";
+    		print DYN_YML "    serole: object_r\n";
+    		print DYN_YML "    selevel: s0\n";
+    		print DYN_YML "    backup: yes\n";
 	    }
 	    else { #use common resolv.conf
-		
+		print DYN_YML "- name: copy/upd ifcfg-files\n";
+		print DYN_YML "  ansible.builtin.copy:\n";
+		print DYN_YML "    src: \"{{playbook_dir}}/dyn_resolv_conf/common_resolv\"\n";
+		print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
+    		print DYN_YML "    owner: root\n";
+    		print DYN_YML "    group: root\n";
+    		print DYN_YML "    mode: '0600'\n";
+    		print DYN_YML "    seuser: system_u\n";
+    		print DYN_YML "    setype: net_conf_t\n";
+    		print DYN_YML "    serole: object_r\n";
+    		print DYN_YML "    selevel: s0\n";
+    		print DYN_YML "    backup: yes\n";
 	    }
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
 	    ###playbook for copy resolv.conf
 
 	    close(DYN_YML);
