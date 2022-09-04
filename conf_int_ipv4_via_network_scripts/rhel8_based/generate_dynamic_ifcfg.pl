@@ -588,7 +588,7 @@ close(CONF);
 
 ###remove prev generated ifcfg
 if ( -d $dyn_ifcfg_common_dir_g ) {
-    system("ls $dyn_ifcfg_common_dir_g | grep -v 'info' | xargs rm -rf");
+    system("cd $dyn_ifcfg_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
 }
 ###remove prev generated ifcfg
 
@@ -715,6 +715,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	    
 	    open(DYN_YML,'>',$tmp_file0_g);
 	    if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg
+		print DYN_YML "- name: shutdown interfaces before delete\n";
 		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
 		    #hkey1_g=ifcfg_name
 		    
