@@ -1,5 +1,7 @@
 #!/usr/bin/perl
 
+###SCRIPT generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf
+
 use strict;
 use warnings;
 use Cwd;
@@ -21,6 +23,7 @@ our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
 our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
+our $dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf'; # dir for save generated resolv-conf-files
 our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
 our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt'; # dir with ifcfg templates
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
@@ -586,11 +589,15 @@ while ( <CONF> ) {
 }
 close(CONF);
 
-###remove prev generated ifcfg
+###remove prev generated ifcfg/resolv-conf
 if ( -d $dyn_ifcfg_common_dir_g ) {
     system("cd $dyn_ifcfg_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
 }
-###remove prev generated ifcfg
+
+if ( -d $dyn_resolv_common_dir_g ) {
+    system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
+}
+###remove prev generated ifcfg/resolv-conf
 
 while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     #$hkey0_h = $inv_host_g-$conf_id_g
@@ -627,7 +634,7 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
     ($inv_host_g,$conf_id_g)=(undef,undef);
 }
 
-if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for ifcfg upd/del
+if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_change.yml");
     
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
