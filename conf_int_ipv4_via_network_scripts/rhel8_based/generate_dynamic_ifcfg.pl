@@ -639,7 +639,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_change.yml");
     
     ###READ conf file 'dns_settings' and generate resolv-conf-files
-	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf'
+	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
 	#%inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
     open(CONF_DNS,'<',$conf_dns_g);
     while ( <CONF_DNS> ) {
@@ -810,6 +810,15 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	    print DYN_YML "\n";
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
+
+	    ###playbook for copy resolv.conf
+	    if ( exists($inv_hosts_dns_g{$hkey0_g}) ) { #use special resolv.conf for inv_host
+		
+	    }
+	    else { #use common resolv.conf
+		
+	    }
+	    ###playbook for copy resolv.conf
 
 	    close(DYN_YML);
 	}
