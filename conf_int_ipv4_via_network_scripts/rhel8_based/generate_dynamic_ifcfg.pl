@@ -746,6 +746,13 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	    print DYN_YML "  ansible.builtin.copy:\n";
 	    print DYN_YML "    src: \"{{playbook_dir}}/dyn_ifcfg/{{inventory_hostname}}/fin/{{item}}\"\n";
 	    print DYN_YML "    dest: \"/etc/sysconfig/network-scripts/{{item}}\"\n";
+    	    print DYN_YML "    owner: root\n";
+    	    print DYN_YML "    group: root\n";
+    	    print DYN_YML "    mode: '0600'\n";
+    	    print DYN_YML "    seuser: system_u\n";
+    	    print DYN_YML "    setype: net_conf_t\n";
+    	    print DYN_YML "    serole: object_r\n";
+    	    print DYN_YML "    selevel: s0\n";
 	    print DYN_YML "  with_items:\n";
 	    if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to add/upd ifcfg
 		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_upd'}} ) {
