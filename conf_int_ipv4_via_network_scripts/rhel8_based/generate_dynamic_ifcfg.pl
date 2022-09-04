@@ -27,13 +27,11 @@ our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_rem
 ############STATIC VARS
 
 ############VARS
-our $line_g=undef;
-our $arr_el0_g=undef;
+our $tmp_file0_g=undef; #for put file paths while processing
+our ($line_g,$arr_el0_g,$exec_res_g)=(undef,undef,undef);
 our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
-our $skip_conf_line_g=0;
-our $exec_status_g='OK';
-our $exec_res_g=undef;
+our ($skip_conf_line_g,$exec_status_g)=(0,'OK');
 our ($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 our @arr0_g=();
 ######
@@ -630,8 +628,7 @@ while ( ($hkey0_g,$hval0_g)=each %cfg0_hash_g ) {
 }
 
 if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for ifcfg upd/del
-    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_upd.yml");
-    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_del.yml");
+    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_change.yml");
     
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
     open(CONF_DEL,'<',$conf_file_del_not_configured_g);
@@ -711,18 +708,33 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
 	#hkey0_g=inv_host, hval0_g=hash
-	if ( exists(${$hval0_g}{'for_del'}) ) {
-	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
-		#hkey1_g=ifcfg_name
-		
-	    }
-	}
-	while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_upd'}} ) {
-	    #hkey1_g=ifcfg_name
+	
+	if ( exists(${$hval0_g}{'for_upd'}) or exists(${$hval0_g}{'for_del'}) ) {
 	    
+	    $tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_change.yml';
+	    
+	    open(DYN_YML,'>',$tmp_file0_g);
+	    if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg
+		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
+		    #hkey1_g=ifcfg_name
+		    
+		}
+		($hkey1_g,$hval1_g)=(undef,undef);
+	    }
+	    
+	    if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to add/upd ifcfg
+		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_upd'}} ) {
+		    #hkey1_g=ifcfg_name
+		    
+		}
+		($hkey1_g,$hval1_g)=(undef,undef);
+	    }
+	    close(DYN_YML);
 	}
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
+    ($hkey1_g,$hval1_g)=(undef,undef);
+    $tmp_file0_g=undef;
 }
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
