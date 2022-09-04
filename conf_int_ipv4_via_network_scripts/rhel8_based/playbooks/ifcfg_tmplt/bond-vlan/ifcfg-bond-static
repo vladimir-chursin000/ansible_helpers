@@ -17,3 +17,4 @@ GATEWAY=_gw_
 NETMASK=_netmask_
 NM_CONTROLLED=no
 USERCTL=no
+PEERDNS=no

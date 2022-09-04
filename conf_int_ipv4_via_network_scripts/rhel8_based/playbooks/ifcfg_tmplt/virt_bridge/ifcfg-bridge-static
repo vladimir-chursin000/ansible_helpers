@@ -12,3 +12,4 @@ IPADDR=_ipaddr_
 NETMASK=_netmask_
 NM_CONTROLLED=no
 USERCTL=no
+PEERDNS=no
