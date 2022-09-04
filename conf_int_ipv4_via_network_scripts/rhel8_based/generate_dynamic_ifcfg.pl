@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-###SCRIPT generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf
+###SCRIPT for generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf
 
 use strict;
 use warnings;
