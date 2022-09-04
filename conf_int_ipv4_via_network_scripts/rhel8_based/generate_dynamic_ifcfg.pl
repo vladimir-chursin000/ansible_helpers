@@ -747,39 +747,38 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
 	#hkey0_g=inv_host, hval0_g=hash
 	
-	if ( exists(${$hval0_g}{'for_upd'}) or exists(${$hval0_g}{'for_del'}) ) {
+	$tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_change.yml';
 	    
-	    $tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_change.yml';
-	    
-	    open(DYN_YML,'>',$tmp_file0_g);
-	    if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg
-		print DYN_YML "- name: shutdown interfaces before delete\n";
-		print DYN_YML "  ansible.builtin.command: \"ifdown {{item}}\"\n";
-		print DYN_YML "  with_items:\n";
-		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
-		    #hkey1_g=ifcfg_name
-		    print DYN_YML "    - $hkey1_g\n";
-		}
-		($hkey1_g,$hval1_g)=(undef,undef);
-		print DYN_YML "\n";
-		print DYN_YML "######################################################\n";
-		print DYN_YML "\n";
-		
-		print DYN_YML "- name: delete unconfigured ifcfg-files\n";
-		print DYN_YML "  ansible.builtin.file:\n";
-		print DYN_YML "    path: \"/etc/sysconfig/network-scripts/{{item}}\"\n";
-		print DYN_YML "    state: absent\n";
-		print DYN_YML "  with_items:\n";
-		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
-		    #hkey1_g=ifcfg_name
-		    print DYN_YML "    - $hkey1_g\n";
-		}
-		($hkey1_g,$hval1_g)=(undef,undef);
-		print DYN_YML "\n";
-		print DYN_YML "######################################################\n";
-		print DYN_YML "\n";
+	open(DYN_YML,'>',$tmp_file0_g);
+	if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg
+	    print DYN_YML "- name: shutdown interfaces before delete\n";
+	    print DYN_YML "  ansible.builtin.command: \"ifdown {{item}}\"\n";
+	    print DYN_YML "  with_items:\n";
+	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
+		#hkey1_g=ifcfg_name
+		print DYN_YML "    - $hkey1_g\n";
 	    }
+	    ($hkey1_g,$hval1_g)=(undef,undef);
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
 	    
+	    print DYN_YML "- name: delete unconfigured ifcfg-files\n";
+	    print DYN_YML "  ansible.builtin.file:\n";
+	    print DYN_YML "    path: \"/etc/sysconfig/network-scripts/{{item}}\"\n";
+	    print DYN_YML "    state: absent\n";
+	    print DYN_YML "  with_items:\n";
+	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
+		#hkey1_g=ifcfg_name
+		print DYN_YML "    - $hkey1_g\n";
+	    }
+	    ($hkey1_g,$hval1_g)=(undef,undef);
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
+	}
+	    
+	if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to remove ifcfg
 	    print DYN_YML "- name: copy/upd ifcfg-files\n";
 	    print DYN_YML "  ansible.builtin.copy:\n";
 	    print DYN_YML "    src: \"{{playbook_dir}}/dyn_ifcfg/{{inventory_hostname}}/fin/{{item}}\"\n";
@@ -810,43 +809,43 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	    print DYN_YML "\n";
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
-
-	    ###playbook for copy resolv.conf
-	    if ( exists($inv_hosts_dns_g{$hkey0_g}) ) { #use special resolv.conf for inv_host
-		print DYN_YML "- name: copy/upd ifcfg-files\n";
-		print DYN_YML "  ansible.builtin.copy:\n";
-		print DYN_YML "    src: \"{{playbook_dir}}/dyn_resolv_conf/{{inventory_hostname}}_resolv\"\n";
-		print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
-    		print DYN_YML "    owner: root\n";
-    		print DYN_YML "    group: root\n";
-    		print DYN_YML "    mode: '0600'\n";
-    		print DYN_YML "    seuser: system_u\n";
-    		print DYN_YML "    setype: net_conf_t\n";
-    		print DYN_YML "    serole: object_r\n";
-    		print DYN_YML "    selevel: s0\n";
-    		print DYN_YML "    backup: yes\n";
-	    }
-	    else { #use common resolv.conf
-		print DYN_YML "- name: copy/upd ifcfg-files\n";
-		print DYN_YML "  ansible.builtin.copy:\n";
-		print DYN_YML "    src: \"{{playbook_dir}}/dyn_resolv_conf/common_resolv\"\n";
-		print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
-    		print DYN_YML "    owner: root\n";
-    		print DYN_YML "    group: root\n";
-    		print DYN_YML "    mode: '0600'\n";
-    		print DYN_YML "    seuser: system_u\n";
-    		print DYN_YML "    setype: net_conf_t\n";
-    		print DYN_YML "    serole: object_r\n";
-    		print DYN_YML "    selevel: s0\n";
-    		print DYN_YML "    backup: yes\n";
-	    }
-	    print DYN_YML "\n";
-	    print DYN_YML "######################################################\n";
-	    print DYN_YML "\n";
-	    ###playbook for copy resolv.conf
-
-	    close(DYN_YML);
 	}
+	
+	###playbook for copy resolv.conf
+	if ( exists($inv_hosts_dns_g{$hkey0_g}) ) { #use special resolv.conf for inv_host
+	    print DYN_YML "- name: copy/upd resolv.conf\n";
+	    print DYN_YML "  ansible.builtin.copy:\n";
+	    print DYN_YML "    src: \"{{playbook_dir}}/dyn_resolv_conf/{{inventory_hostname}}_resolv\"\n";
+	    print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
+    	    print DYN_YML "    owner: root\n";
+    	    print DYN_YML "    group: root\n";
+    	    print DYN_YML "    mode: '0600'\n";
+    	    print DYN_YML "    seuser: system_u\n";
+    	    print DYN_YML "    setype: net_conf_t\n";
+    	    print DYN_YML "    serole: object_r\n";
+    	    print DYN_YML "    selevel: s0\n";
+    	    print DYN_YML "    backup: yes\n";
+	}
+	else { #use common resolv.conf
+	    print DYN_YML "- name: copy/upd ifcfg-files\n";
+	    print DYN_YML "  ansible.builtin.copy:\n";
+	    print DYN_YML "    src: \"{{playbook_dir}}/dyn_resolv_conf/common_resolv\"\n";
+	    print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
+    	    print DYN_YML "    owner: root\n";
+    	    print DYN_YML "    group: root\n";
+    	    print DYN_YML "    mode: '0600'\n";
+    	    print DYN_YML "    seuser: system_u\n";
+    	    print DYN_YML "    setype: net_conf_t\n";
+    	    print DYN_YML "    serole: object_r\n";
+    	    print DYN_YML "    selevel: s0\n";
+    	    print DYN_YML "    backup: yes\n";
+	}
+	print DYN_YML "\n";
+	print DYN_YML "######################################################\n";
+	print DYN_YML "\n";
+	###playbook for copy resolv.conf
+	
+	close(DYN_YML);
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
     ($hkey1_g,$hval1_g)=(undef,undef);
