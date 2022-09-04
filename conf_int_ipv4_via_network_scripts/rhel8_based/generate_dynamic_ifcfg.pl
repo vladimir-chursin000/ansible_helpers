@@ -716,7 +716,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	    open(DYN_YML,'>',$tmp_file0_g);
 	    if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg
 		print DYN_YML "- name: shutdown interfaces before delete\n";
-		print DYN_YML "  ansible.builtin.command: ifdown {{item}}\n";
+		print DYN_YML "  ansible.builtin.command: \"ifdown {{item}}\"\n";
 		print DYN_YML "  with_items:\n";
 		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
 		    #hkey1_g=ifcfg_name
@@ -758,6 +758,14 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
 	    
+	    print DYN_YML "- name: restart network.service\n";
+	    print DYN_YML "  ansible.builtin.systemd:\n";
+	    print DYN_YML "    name: network.service\n";
+	    print DYN_YML "    state: restarted\n";
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
+
 	    close(DYN_YML);
 	}
     }
