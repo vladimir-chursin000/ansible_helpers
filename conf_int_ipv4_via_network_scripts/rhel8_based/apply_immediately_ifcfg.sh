@@ -2,7 +2,7 @@
 
 SELF_DIR="$(dirname $(readlink -f $0))";
 INV_FILE="$SELF_DIR/conf_network_scripts_hosts";
-PLAYBOOK='apply_immediately_ifcfg_playbook.yml';
+PLAYBOOK='dyn_ifcfg_playbooks/dynamic_loader.yml';
 LOG_DIR="$SELF_DIR/run_history";
 PLAYBOOK_BEFORE='ifcfg_backup_playbook.yml';
 GEN_DYN_IFCFG_RUN='yes';

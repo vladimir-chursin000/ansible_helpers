@@ -1,3 +1,0 @@
----
-- hosts: rhel8_network_scripts_hosts
-  tasks:

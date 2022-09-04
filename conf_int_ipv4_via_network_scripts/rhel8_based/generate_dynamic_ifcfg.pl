@@ -16,7 +16,7 @@ if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
 
 ###CFG file
 our $conf_file_g=$self_dir_g.'config';
-our $conf_file_del_not_configured_g=$self_dir_g.'config_del_not_configured_ifcfg';
+our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_not_configured_ifcfg';
 ###CFG file
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
@@ -716,9 +716,11 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 	    open(DYN_YML,'>',$tmp_file0_g);
 	    if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg
 		print DYN_YML "- name: shutdown interfaces before delete\n";
+		print DYN_YML "  ansible.builtin.command: ifdown {{item}}\n";
+		print DYN_YML "  with_items:\n";
 		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
 		    #hkey1_g=ifcfg_name
-		    
+		    print DYN_YML "    - $hkey1_g\n";
 		}
 		($hkey1_g,$hval1_g)=(undef,undef);
 	    }

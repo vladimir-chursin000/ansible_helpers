@@ -30,12 +30,12 @@ if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
     ###
     echo " " >> $LOG_FILE;
     echo "#########" >> $LOG_FILE;
-    echo "Playbook_next: $SELF_DIR/playbooks/$PLAYBOOK_BEFORE" >> $LOG_FILE;
+    echo "Playbook_before: $SELF_DIR/playbooks/$PLAYBOOK_BEFORE" >> $LOG_FILE;
     /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_BEFORE" | tee -a $LOG_FILE;
 fi;
 
 if [[ ! -z "$GEN_DYN_IFCFG_RUN" ]] && [[ "$GEN_DYN_IFCFG_RUN" == "yes" ]]; then
-    $SELF_DIR/generate_dynamic_ifcfg.pl;
+    $SELF_DIR/generate_dynamic_ifcfg.pl "gen_dyn_playbooks";
     echo "Run script (before playbook): $SELF_DIR/generate_dynamic_ifcfg.pl" >> $LOG_FILE;
 
     if [[ ! -f "$SELF_DIR/GEN_DYN_IFCFG_STATUS" ]]; then
