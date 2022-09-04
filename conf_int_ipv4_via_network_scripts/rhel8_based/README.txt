@@ -2,7 +2,7 @@
 
 #1) UPDATE list (for install and configure network-scripts) of ip addresses = conf_network_scripts_hosts (inventory).
 
-#2) Fill conf_file='config'. Example config='config_example'.
+#2) Fill conf_file='config'. Example config='config_examples'.
 
 #3) Update config file 'additional_configs/dns_settings' for configure resolv.conf at remote hosts.
 
