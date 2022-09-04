@@ -20,7 +20,7 @@ our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_
 ###CFG file
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
-our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
+our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
 our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
 our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt'; # dir with ifcfg templates
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
@@ -729,7 +729,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 		
 		print DYN_YML "- name: delete unconfigured ifcfg-files\n";
 		print DYN_YML "  ansible.builtin.file:\n";
-		print DYN_YML "    path: /etc/sysconfig/network-scripts/{{item}}\n";
+		print DYN_YML "    path: \"/etc/sysconfig/network-scripts/{{item}}\"\n";
 		print DYN_YML "    state: absent\n";
 		print DYN_YML "  with_items:\n";
 		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
@@ -742,13 +742,22 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 		print DYN_YML "\n";
 	    }
 	    
+	    print DYN_YML "- name: copy/upd ifcfg-files\n";
+	    print DYN_YML "  ansible.builtin.copy:\n";
+	    print DYN_YML "    src: \"{{playbook_dir}}/dyn_ifcfg/{{inventory_hostname}}/fin/{{item}}\"\n";
+	    print DYN_YML "    dest: \"/etc/sysconfig/network-scripts/{{item}}\"\n";
+	    print DYN_YML "  with_items:\n";
 	    if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to add/upd ifcfg
 		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_upd'}} ) {
 		    #hkey1_g=ifcfg_name
-		    
+		    print DYN_YML "    - $hkey1_g\n";
 		}
 		($hkey1_g,$hval1_g)=(undef,undef);
 	    }
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
+	    
 	    close(DYN_YML);
 	}
     }
