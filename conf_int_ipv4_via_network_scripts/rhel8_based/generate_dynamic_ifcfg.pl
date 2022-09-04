@@ -723,6 +723,23 @@ if ( $gen_playbooks_next_g==1 ) { # if need generate of dynamic playbooks for if
 		    print DYN_YML "    - $hkey1_g\n";
 		}
 		($hkey1_g,$hval1_g)=(undef,undef);
+		print DYN_YML "\n";
+		print DYN_YML "######################################################\n";
+		print DYN_YML "\n";
+		
+		print DYN_YML "- name: delete unconfigured ifcfg-files\n";
+		print DYN_YML "  ansible.builtin.file:\n";
+		print DYN_YML "    path: /etc/sysconfig/network-scripts/{{item}}\n";
+		print DYN_YML "    state: absent\n";
+		print DYN_YML "  with_items:\n";
+		while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
+		    #hkey1_g=ifcfg_name
+		    print DYN_YML "    - $hkey1_g\n";
+		}
+		($hkey1_g,$hval1_g)=(undef,undef);
+		print DYN_YML "\n";
+		print DYN_YML "######################################################\n";
+		print DYN_YML "\n";
 	    }
 	    
 	    if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to add/upd ifcfg
