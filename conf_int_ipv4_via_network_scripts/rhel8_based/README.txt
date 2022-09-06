@@ -23,3 +23,5 @@
 #'just_install_network_scripts.sh' = just install network-scripts.
 
 #'just_run_ifcfg_backup.sh' = copy ifcfg-files form remote hosts.
+
+#'apply_temporary_ifcfg.sh' = NOT READY YET

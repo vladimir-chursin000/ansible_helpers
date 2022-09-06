@@ -636,7 +636,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     if ( -d $dyn_resolv_common_dir_g ) {
 	system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
     }
-    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_change.yml");
+    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_ifcfg_change.yml");
     
     ###READ conf file 'dns_settings' and generate resolv-conf-files
 	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
@@ -747,7 +747,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
 	#hkey0_g=inv_host, hval0_g=hash
 	
-	$tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_change.yml';
+	$tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_ifcfg_change.yml';
 	    
 	open(DYN_YML,'>',$tmp_file0_g);
 	if ( exists(${$hval0_g}{'for_del'}) ) { #if need to remove ifcfg

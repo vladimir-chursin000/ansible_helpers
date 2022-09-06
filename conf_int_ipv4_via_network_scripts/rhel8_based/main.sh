@@ -7,7 +7,8 @@ INV_FILE=$1;
 PLAYBOOK=$2;
 LOG_DIR=$3;
 PLAYBOOK_BEFORE=$4; #playbook for run before all
-GEN_DYN_IFCFG_RUN=$5; #possible values: yes (run 'generate_dynamic_ifcfg.pl' before  playbook), no
+PLAYBOOK_AFTER=$5;
+GEN_DYN_IFCFG_RUN=$6; #possible values: yes (run 'generate_dynamic_ifcfg.pl' before  playbook), no
 ###ARGV
 
 ###VARS
