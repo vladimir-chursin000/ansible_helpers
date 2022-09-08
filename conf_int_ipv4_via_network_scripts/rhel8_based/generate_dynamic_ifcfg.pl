@@ -19,6 +19,7 @@ if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
 ###CFG file
 our $conf_file_g=$self_dir_g.'config';
 our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_not_configured_ifcfg';
+our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_ifcfg';
 our $conf_dns_g=$self_dir_g.'/additional_configs/dns_settings'; #for configure resolv.conf
 ###CFG file
 
@@ -682,6 +683,22 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     close(CONF_DEL);
     $line_g=undef;
     ###READ conf file 'config_del_not_configured_ifcfg'
+    
+    ###READ conf file 'config_temporary_apply_ifcfg'
+    open(CONF_TMP_APPLY,'<',$conf_temp_apply_g);
+    while ( <CONF_TMP_APPLY> ) {
+	$line_g=$_;
+	$line_g=~s/\n$|\r$|\n\r$|\r\n$//g;
+	while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
+	$line_g=~s/\s+/ /g;
+	$line_g=~s/^ //g;
+	if ( length($line_g)>0 && $line_g!~/^\#/ && $line_g=~/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) (\d+)$/ ) {
+	    
+	}
+    }
+    close(CONF_TMP_APPLY);
+    $line_g=undef;
+    ###READ conf file 'config_temporary_apply_ifcfg'
     
     #$dyn_ifcfg_common_dir_g/$inv_host_g = get inv_hosts + fin = get list of interfaces
     #$ifcfg_backup_from_remote_dir_g/inv_host = get actual ifcfg-files
