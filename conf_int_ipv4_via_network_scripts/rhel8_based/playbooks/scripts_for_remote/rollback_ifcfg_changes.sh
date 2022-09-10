@@ -8,11 +8,17 @@ SELF_DIR="$(dirname $(readlink -f $0))";
 TIMEOUT_num=$1;
 ###ARGV
 
+###STATIC_VARS
+IFCFG_BACKUP_DIR="~/ifcfg_backup_now";
+IFCFG_DIR='/etc/sysconfig/networks-scripts';
+###STATIC_VARS
+
 while :
 do
-    sleep 5;
+    sleep 60;
+
     let "TIMEOUT_num-=1";
-    if [[ "$TIMEOUT_num" -gt "0" ]]; then
+    if [[ "$TIMEOUT_num" -le "0" ]]; then
 	###DO ROLLBACK of ifcfg changes
 	
 	###DO ROLLBACK of ifcfg changes

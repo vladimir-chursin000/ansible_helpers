@@ -7,8 +7,7 @@ INV_FILE=$1;
 PLAYBOOK=$2;
 LOG_DIR=$3;
 PLAYBOOK_BEFORE=$4; #playbook for run before all
-PLAYBOOK_AFTER=$5;
-GEN_DYN_IFCFG_RUN=$6; #possible values: yes (run 'generate_dynamic_ifcfg.pl' before  playbook), no
+GEN_DYN_IFCFG_RUN=$5; #possible values: yes (run 'generate_dynamic_ifcfg.pl' before  playbook), no
 ###ARGV
 
 ###VARS
@@ -35,9 +34,14 @@ if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
     /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_BEFORE" | tee -a $LOG_FILE;
 fi;
 
-if [[ ! -z "$GEN_DYN_IFCFG_RUN" ]] && [[ "$GEN_DYN_IFCFG_RUN" == "yes" ]]; then
-    $SELF_DIR/generate_dynamic_ifcfg.pl "gen_dyn_playbooks";
-    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_ifcfg.pl" >> $LOG_FILE;
+if [[ ! -z "$GEN_DYN_IFCFG_RUN" ]] && [[ "$GEN_DYN_IFCFG_RUN" =~ "yes" ]]; then
+    if [[ "$GEN_DYN_IFCFG_RUN" == "yes" ]]; then
+	$SELF_DIR/generate_dynamic_ifcfg.pl "gen_dyn_playbooks";
+	echo "Run script (before playbook): $SELF_DIR/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks\"" >> $LOG_FILE;
+    elif [[ "$GEN_DYN_IFCFG_RUN" == "yes_with_rollback" ]]; then
+	$SELF_DIR/generate_dynamic_ifcfg.pl "gen_dyn_playbooks_with_rollback";
+	echo "Run script (before playbook): $SELF_DIR/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks_with_rollback\"" >> $LOG_FILE;
+    fi;
 
     if [[ ! -f "$SELF_DIR/GEN_DYN_IFCFG_STATUS" ]]; then
 	echo "File with status of execution of 'generate_dynamic_ifcfg.pl' is not exists. Exit!";
@@ -54,10 +58,3 @@ fi;
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN
-
-if [[ ! -z "$PLAYBOOK_AFTER" ]] && [[ "$PLAYBOOK_AFTER" != "no" ]]; then
-    echo " " >> $LOG_FILE;
-    echo "#########" >> $LOG_FILE;
-    echo "Playbook_after: $SELF_DIR/playbooks/$PLAYBOOK_AFTER" >> $LOG_FILE;
-    /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_AFTER" | tee -a $LOG_FILE;
-fi;

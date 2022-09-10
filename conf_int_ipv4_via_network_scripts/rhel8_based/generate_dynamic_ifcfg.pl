@@ -11,8 +11,13 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ###ARGV
 our $gen_playbooks_next_g=0;
+our $gen_playbooks_next_with_rollback_g=0;
 if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
     $gen_playbooks_next_g=1;
+}
+elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
+    $gen_playbooks_next_g=1;
+    $gen_playbooks_next_with_rollback_g=1;
 }
 ###ARGV
 
@@ -639,7 +644,6 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
     }
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_ifcfg_change.yml");
-    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_temp_apply_change.yml");
     
     ###READ conf file 'dns_settings' and generate resolv-conf-files
 	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
@@ -797,8 +801,8 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
 	}
-	    
-	if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to remove ifcfg
+
+	if ( exists(${$hval0_g}{'for_upd'}) ) { #if need to upd ifcfg
 	    print DYN_YML "- name: copy/upd ifcfg-files\n";
 	    print DYN_YML "  ansible.builtin.copy:\n";
 	    print DYN_YML "    src: \"{{playbook_dir}}/dyn_ifcfg/{{inventory_hostname}}/fin/{{item}}\"\n";
@@ -822,6 +826,31 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
 	    
+	    ###task for config_temporary_apply_ifcfg (FOR start RUN BEFORE network restart)
+		#%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
+	    if ( $gen_playbooks_next_with_rollback_g==1 && (exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) or exists($inv_hosts_tmp_apply_cfg_g{'common'})) ) {
+		#tmp_var_g=rollback_ifcfg_timeout
+		if ( exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) ) { $tmp_var_g=$inv_hosts_tmp_apply_cfg_g{$hkey0_g}; }
+		elsif ( exists($inv_hosts_tmp_apply_cfg_g{'common'}) ) { $tmp_var_g=$inv_hosts_tmp_apply_cfg_g{'common'}; }
+		
+		print DYN_YML "- name: copy script 'rollback_ifcfg_changes.sh' to remote\n";
+		print DYN_YML "  ansible.builtin.copy:\n";
+		print DYN_YML "    src: \"{{playbook_dir}}/../scripts_for_remote/rollback_ifcfg_changes.sh\"\n";
+		print DYN_YML "    dest: \"~/rollback_ifcfg_changes.sh\"\n";
+    		print DYN_YML "    mode: '0700'\n";
+		print DYN_YML "\n";
+		print DYN_YML "######################################################\n";
+		print DYN_YML "\n";
+		
+		print DYN_YML "- name: run script 'rollback_ifcfg_changes.sh' as process\n";
+		print DYN_YML "  ansible.builtin.raw: \"nohup sh -c '~/rollback_ifcfg_changes.sh $tmp_var_g >/dev/null 2>&1' & sleep 3\"\n";
+		print DYN_YML "\n";
+		print DYN_YML "######################################################\n";
+		print DYN_YML "\n";
+
+	    }
+	    ###task for config_temporary_apply_ifcfg
+
 	    print DYN_YML "- name: restart network.service\n";
 	    print DYN_YML "  ansible.builtin.systemd:\n";
 	    print DYN_YML "    name: network.service\n";
@@ -867,28 +896,6 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	
 	close(DYN_YML);
 	$tmp_file0_g=undef;
-	
-	###dynamic playbook for config_temporary_apply_ifcfg
-	    #%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-	if ( exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) or exists($inv_hosts_tmp_apply_cfg_g{'common'}) ) {
-	    #tmp_var_g=rollback_ifcfg_timeout
-	    if ( exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) ) { $tmp_var_g=$inv_hosts_tmp_apply_cfg_g{$hkey0_g}; }
-	    elsif ( exists($inv_hosts_tmp_apply_cfg_g{'common'}) ) { $tmp_var_g=$inv_hosts_tmp_apply_cfg_g{'common'}; }
-	    
-	    $tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_temp_apply_change.yml';
-	    
-	    open(DYN_YML,'>',$tmp_file0_g);
-	    
-	    print DYN_YML "- name: copy script 'rollback_ifcfg_changes.sh' to remote\n";
-	    print DYN_YML "  ansible.builtin.copy:\n";
-	    print DYN_YML "    src: \"{{playbook_dir}}/../scripts_for_remote/rollback_ifcfg_changes.sh\"\n";
-	    print DYN_YML "    dest: \"~/rollback_ifcfg_changes.sh\"\n";
-    	    print DYN_YML "    mode: '0700'\n";
-	    
-	    close(DYN_YML);
-	    $tmp_file0_g=undef;
-	}
-	###dynamic playbook for config_temporary_apply_ifcfg
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
     ($hkey1_g,$hval1_g)=(undef,undef);
