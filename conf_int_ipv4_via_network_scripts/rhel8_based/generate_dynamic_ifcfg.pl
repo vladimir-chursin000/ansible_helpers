@@ -33,7 +33,7 @@ our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_rem
 
 ############VARS
 our $tmp_file0_g=undef; #for put file paths while processing
-our ($line_g,$arr_el0_g,$exec_res_g)=(undef,undef,undef);
+our ($line_g,$arr_el0_g,$exec_res_g,$tmp_var_g)=(undef,undef,undef,undef);
 our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our ($skip_conf_line_g,$exec_status_g)=(0,'OK');
@@ -866,14 +866,21 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	###task for copy resolv.conf
 	
 	close(DYN_YML);
+	$tmp_file0_g=undef;
 	
 	###dynamic playbook for config_temporary_apply_ifcfg
 	    #%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-	if ( exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) ) {
+	if ( exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) or exists($inv_hosts_tmp_apply_cfg_g{'common'}) ) {
+	    #tmp_var_g=rollback_ifcfg_timeout
+	    if ( exists($inv_hosts_tmp_apply_cfg_g{$hkey0_g}) ) { $tmp_var_g=$inv_hosts_tmp_apply_cfg_g{$hkey0_g}; }
+	    elsif ( exists($inv_hosts_tmp_apply_cfg_g{'common'}) ) { $tmp_var_g=$inv_hosts_tmp_apply_cfg_g{'common'}; }
 	    
-	}
-	elsif ( exists($inv_hosts_tmp_apply_cfg_g{'common'}) ) {
+	    $tmp_file0_g=$dyn_ifcfg_playbooks_dir_g.'/'.$hkey0_g.'_temp_apply_change.yml';
 	    
+	    open(DYN_YML,'>',$tmp_file0_g);
+	    
+	    close(DYN_YML);
+	    $tmp_file0_g=undef;
 	}
 	###dynamic playbook for config_temporary_apply_ifcfg
     }
