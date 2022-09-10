@@ -879,6 +879,12 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	    
 	    open(DYN_YML,'>',$tmp_file0_g);
 	    
+	    print DYN_YML "- name: copy script 'rollback_ifcfg_changes.sh' to remote\n";
+	    print DYN_YML "  ansible.builtin.copy:\n";
+	    print DYN_YML "    src: \"{{playbook_dir}}/../scripts_for_remote/rollback_ifcfg_changes.sh\"\n";
+	    print DYN_YML "    dest: \"~/rollback_ifcfg_changes.sh\"\n";
+    	    print DYN_YML "    mode: '0700'\n";
+	    
 	    close(DYN_YML);
 	    $tmp_file0_g=undef;
 	}

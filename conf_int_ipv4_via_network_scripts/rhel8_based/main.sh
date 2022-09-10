@@ -54,3 +54,10 @@ fi;
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN
+
+if [[ ! -z "$PLAYBOOK_AFTER" ]] && [[ "$PLAYBOOK_AFTER" != "no" ]]; then
+    echo " " >> $LOG_FILE;
+    echo "#########" >> $LOG_FILE;
+    echo "Playbook_after: $SELF_DIR/playbooks/$PLAYBOOK_AFTER" >> $LOG_FILE;
+    /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_AFTER" | tee -a $LOG_FILE;
+fi;
