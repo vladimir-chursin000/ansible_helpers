@@ -9,9 +9,16 @@ TIMEOUT_num=$1;
 ###ARGV
 
 ###STATIC_VARS
-IFCFG_BACKUP_DIR="~/ifcfg_backup_now";
-IFCFG_DIR='/etc/sysconfig/networks-scripts';
+IFCFG_BACKUP_DIR="$SELF_DIR/ifcfg_backup_now";
+IFCFG_DIR='/etc/sysconfig/network-scripts';
 ###STATIC_VARS
+
+###VARS
+ARR_EL0='';
+declare -a IFCFG_BACKUP_ARR_list;
+declare -a IFCFG_ARR_list;
+EXE_RES='';
+###VARS
 
 while :
 do
@@ -20,8 +27,23 @@ do
     let "TIMEOUT_num-=1";
     if [[ "$TIMEOUT_num" -le "0" ]]; then
 	###DO ROLLBACK of ifcfg changes
-	
+        IFCFG_ARR_list=($(ls "$IFCFG_DIR" | grep -i ifcfg | grep -v 'ifcfg-lo' | grep -v '.bak'));
+        for ARR_EL0 in "${IFCFG_ARR_list[@]}"
+        do
+            echo "'$ARR_EL0'";
+            EXE_RES=`ifdown $ARR_EL0`;
+            EXE_RES=`rm -f "$IFCFG_DIR/$ARR_EL0"`;
+        done;
+        
+        IFCFG_BACKUP_ARR_list=($(ls "$IFCFG_BACKUP_DIR"));
+        for ARR_EL0 in "${IFCFG_BACKUP_ARR_list[@]}"
+        do
+            echo "'$ARR_EL0'";
+            EXE_RES=`\cp "$IFCFG_BACKUP_DIR/$ARR_EL0" "$IFCFG_DIR/$ARR_EL0"`;
+        done;
+        EXE_RES=`systemctl restart network`;
 	###DO ROLLBACK of ifcfg changes
-	exit;	
+	
+	exit;
     fi;
 done;
