@@ -16,7 +16,11 @@
 #'generate_dynamic_ifcfg.pl' = SCRIPT for generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf. Used with
 #'apply_immediately_ifcfg.sh' and 'install_network_scripts_and_configure_network.sh'.
 
-#'apply_immediately_ifcfg.sh' = run for immediately apply changes (without run installation of 'network-scripts').
+#'apply_immediately_ifcfg.sh' = run for immediately apply changes (without run installation of 'network-scripts') if generated ifcfg differ from actual ifcfg on remote host.
+
+#'apply_temporary_ifcfg.sh' = run for temporary apply changes (without run installation of 'network-scripts') if generated ifcfg differs from actual ifcfg.
+#Before apply changes starts script 'rollback_ifcfg_changes.sh' on remote host for
+#rollback changes after N minutes (rollback_timeout configuration = 'additional_configs/config_temporary_apply_ifcfg').
 
 #'check_network_scripts_serv_is_started.sh' = check for network.service is started (and start if not).
 
@@ -24,4 +28,3 @@
 
 #'just_run_ifcfg_backup.sh' = copy ifcfg-files form remote hosts.
 
-#'apply_temporary_ifcfg.sh' = NOT READY YET
