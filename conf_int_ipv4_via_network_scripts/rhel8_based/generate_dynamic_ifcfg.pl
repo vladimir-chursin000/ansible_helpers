@@ -894,6 +894,16 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	print DYN_YML "\n";
 	###task for copy resolv.conf
 	
+	###for cancel operation of rollback ifcfg changes if run 'apply_immediately_ifcfg.sh' with GEN_DYN_IFCFG_RUN='yes'
+	if ( $gen_playbooks_next_with_rollback_g==0 ) {
+	    print DYN_YML "- name: cancel rollback operation (rollback_ifcfg_changes.sh) if need\n";
+	    print DYN_YML "  ansible.builtin.command: \"pkill -9 -f rollback_ifcfg_changes\"\n";
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
+	}
+	###for cancel operation of rollback ifcfg changes if run 'apply_immediately_ifcfg.sh' with GEN_DYN_IFCFG_RUN='yes'
+	
 	close(DYN_YML);
 	$tmp_file0_g=undef;
     }

@@ -17,6 +17,7 @@
 #'apply_immediately_ifcfg.sh' and 'install_network_scripts_and_configure_network.sh'.
 
 #'apply_immediately_ifcfg.sh' = run for immediately apply changes (without run installation of 'network-scripts') if generated ifcfg differ from actual ifcfg on remote host.
+#Also cancel execution of ifcfg rollback operation (rollback_ifcfg_changes.sh) on remote host if need.
 
 #'apply_temporary_ifcfg.sh' = run for temporary apply changes (without run installation of 'network-scripts') if generated ifcfg differs from actual ifcfg.
 #Before apply changes starts script 'rollback_ifcfg_changes.sh' on remote host for

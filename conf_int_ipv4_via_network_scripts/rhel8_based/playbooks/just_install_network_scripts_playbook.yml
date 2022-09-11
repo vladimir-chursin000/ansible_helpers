@@ -7,3 +7,4 @@
         state: installed
       with_items:
         - network-scripts
+        - procps-ng
