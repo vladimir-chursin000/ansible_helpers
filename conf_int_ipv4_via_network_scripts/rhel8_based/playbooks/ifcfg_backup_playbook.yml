@@ -1,32 +1,5 @@
 ---
 - hosts: rhel8_network_scripts_hosts
   tasks:
-    - name: get_list_of_ifcfg_files
-      ansible.builtin.shell: ls /etc/sysconfig/network-scripts | grep ifcfg | grep -v '.bak' | grep -v 'ifcfg\-lo'
-      register: ifcfg_files
-
-######################################################
-
-    - name: fetch_ifcfg_file
-      ansible.builtin.fetch:
-        flat: yes
-        src: "/etc/sysconfig/network-scripts/{{item}}"
-        dest: "{{playbook_dir}}/ifcfg_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
-      with_items: "{{ifcfg_files.stdout_lines}}"
-
-######################################################
-
-    - name: Create directory for actual ifcfg-files (now-dir)
-      ansible.builtin.file:
-        path: "{{playbook_dir}}/ifcfg_backup_from_remote/now/{{inventory_hostname}}"
-        state: directory
-      delegate_to: localhost
-
-######################################################
-
-    - name: Copy ifcfg-files from history-dir to now-dir
-      ansible.builtin.copy:
-        src: "{{playbook_dir}}/ifcfg_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
-        dest: "{{playbook_dir}}/ifcfg_backup_from_remote/now/{{inventory_hostname}}/{{item}}"
-      delegate_to: localhost
-      with_items: "{{ifcfg_files.stdout_lines}}"
+    - name: "run ifcfg_backup_task_main"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/ifcfg_backup_task_main.yml"
