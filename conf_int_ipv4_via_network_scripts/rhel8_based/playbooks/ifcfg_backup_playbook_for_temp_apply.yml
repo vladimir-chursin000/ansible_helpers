@@ -8,3 +8,8 @@
 
     - name: "run ifcfg_local_backup_for_temp_apply_task"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/ifcfg_local_backup_for_temp_apply_task.yml"
+
+######################################################
+
+    - name: "run ifcfg_backup_collect_raw_network_data_task"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/ifcfg_backup_collect_raw_network_data_task.yml"

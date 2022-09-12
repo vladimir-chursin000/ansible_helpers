@@ -1,0 +1,21 @@
+- name: collect and save network data to user home dir
+  ansible.builtin.shell: ip -o link | grep -v noqueue > ~/ip_link_noqueue && ip neighbour > ~/ip_neighbour
+
+######################################################
+
+- name: Create directory for raw network data (network_data-dir)
+  ansible.builtin.file:
+    path: "{{playbook_dir}}/ifcfg_backup_from_remote/network_data/{{inventory_hostname}}"
+    state: directory
+  delegate_to: localhost
+
+######################################################
+
+- name: fetch_raw_network_data
+  ansible.builtin.fetch:
+    flat: yes
+    src: "~/{{item}}"
+    dest: "{{playbook_dir}}/ifcfg_backup_from_remote/network_data/{{inventory_hostname}}/{{item}}"
+  with_items:
+    - "ip_link_noqueue"
+    - "ip_neighbour"
