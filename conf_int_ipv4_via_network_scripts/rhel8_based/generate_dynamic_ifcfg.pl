@@ -137,6 +137,8 @@ while ( <CONF> ) {
     	}
     	
     	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=@arr0_g;
+	
+	$hwaddr_list_str_g=lc($hwaddr_list_str_g);
     	
     	#######check conf_type
     	if ( $conf_type_g!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
