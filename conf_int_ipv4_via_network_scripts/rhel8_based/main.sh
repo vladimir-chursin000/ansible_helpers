@@ -26,7 +26,8 @@ echo "Start time: $NOW_DT" >> $LOG_FILE;
 echo "#########" >> $LOG_FILE;
 
 if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
-    rm -rf "$SELF_DIR/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg for now-dir
+    rm -rf "$SELF_DIR/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
+    rm -rf "$SELF_DIR/playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
     ###
     echo " " >> $LOG_FILE;
     echo "#########" >> $LOG_FILE;

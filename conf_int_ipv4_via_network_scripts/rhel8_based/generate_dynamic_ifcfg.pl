@@ -597,6 +597,8 @@ while ( <CONF> ) {
 	($inv_host_g,$conf_id_g,$conf_type_g,$int_list_str_g,$hwaddr_list_str_g,$vlan_id_g,$bond_name_g,$bridge_name_g,$ipaddr_opts_g,$bond_opts_g,$defroute_g)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
 	#############
     }
+    $skip_conf_line_g=undef;
+    $line_g=undef;
 }
 close(CONF);
 
