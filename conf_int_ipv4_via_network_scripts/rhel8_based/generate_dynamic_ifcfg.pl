@@ -34,6 +34,7 @@ our $dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_reso
 our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
 our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt'; # dir with ifcfg templates
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
+our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/network_data'; # dir contains actual network_data (eth, hwaddr, neighbour data) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 ############STATIC VARS
 
 ############VARS
@@ -111,7 +112,9 @@ our %inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
 our %inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
 ############VARS
 
-###MAIN SEQ
+######MAIN SEQ
+
+###READ config
 open(CONF,'<',$conf_file_g);
 while ( <CONF> ) {
     $line_g=$_;
@@ -601,6 +604,7 @@ while ( <CONF> ) {
     $line_g=undef;
 }
 close(CONF);
+###READ config
 
 ###remove prev generated ifcfg
 if ( -d $dyn_ifcfg_common_dir_g ) {
@@ -921,7 +925,7 @@ if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!";
     exit;
 }
-###MAIN SEQ
+######MAIN SEQ
 
 ###SUBROUTINES
 ##INCLUDED to conf_type_sub_refs_g
