@@ -112,11 +112,11 @@ our %inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
 our %inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
 ###
 our %inv_hosts_network_data_g=();
-#read ip_link_noqueue first
+#read 'ip_link_noqueue' first
 #v1) key0='ip_link', key1='hwaddr_all', key2=hwaddr, value=inv_host
 #v2) key0='ip_link', key1='inv_host', key2=inv_host, key3=interface_name, key4=hwaddr
 #
-#read ip_neighbour second
+#read 'ip_neighbour' second
 #v3) 
 ############VARS
 
