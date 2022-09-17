@@ -19,3 +19,9 @@
   with_items:
     - "ip_link_noqueue"
     - "ip_neighbour"
+
+######################################################
+
+- name: Run 'scripts_for_local/convert_raw_network_data_to_normal.pl'
+  ansible.builtin.command: /usr/bin/perl "{{playbook_dir}}/scripts_for_local/convert_raw_network_data_to_normal.pl" "{{playbook_dir}}/ifcfg_backup_from_remote/network_data"
+  delegate_to: localhost
