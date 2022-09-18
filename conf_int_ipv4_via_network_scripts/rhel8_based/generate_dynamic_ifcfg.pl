@@ -34,7 +34,7 @@ our $dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_reso
 our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
 our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt'; # dir with ifcfg templates
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
-our $ifcfg_backup_from_remote_nd_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/network_data'; # dir contains actual network_data (eth, hwaddr, neighbour data) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
+our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth, hwaddr) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 ############STATIC VARS
 
 ############VARS
@@ -113,11 +113,8 @@ our %inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_ti
 ###
 our %inv_hosts_network_data_g=();
 #read 'ip_link_noqueue' first
-#v1) key0='ip_link', key1='hwaddr_all', key2=hwaddr, value=inv_host
-#v2) key0='ip_link', key1='inv_host', key2=inv_host, key3=interface_name, key4=hwaddr
-#
-#read 'ip_neighbour' second
-#v3) 
+#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 ############VARS
 
 ######MAIN SEQ
