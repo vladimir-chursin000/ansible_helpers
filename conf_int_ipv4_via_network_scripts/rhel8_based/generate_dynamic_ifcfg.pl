@@ -119,6 +119,23 @@ our %inv_hosts_network_data_g=();
 
 ######MAIN SEQ
 
+###READ network data for checks
+if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
+    open(NDATA,'<',$ifcfg_backup_from_remote_nd_file_g);
+    while ( <NDATA> ) {
+	$line_g=$_;
+	$line_g=~s/\n$|\r$|\n\r$|\r\n$//g;
+	while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
+	$line_g=~s/\s+/ /g;
+	$line_g=~s/^ //g;
+	if ( length($line_g)>0 && $line_g!~/^\#/ ) {
+	    
+	}
+    }
+    close(NDATA);
+}
+###READ network data for checks
+
 ###READ config
 open(CONF,'<',$conf_file_g);
 while ( <CONF> ) {
