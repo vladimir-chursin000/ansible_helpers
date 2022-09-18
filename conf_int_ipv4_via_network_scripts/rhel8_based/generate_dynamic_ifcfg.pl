@@ -39,7 +39,7 @@ our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'playbooks/ifcfg_backup_from
 
 ############VARS
 our $tmp_file0_g=undef; #for put file paths while processing
-our ($line_g,$arr_el0_g,$exec_res_g,$tmp_var_g)=(undef,undef,undef,undef);
+our ($line_g,$arr_el0_g,$exec_res_g,$tmp_var_g,$arr_i0_g)=(undef,undef,undef,undef,undef);
 our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our ($skip_conf_line_g,$exec_status_g)=(0,'OK');
@@ -360,6 +360,32 @@ while ( <CONF> ) {
     	}
     	#######hwaddr check via regexp
     	
+	#######NETWORK DATA (ip link) checks
+	if ( $conf_type_g!~/^virt_bridge$/ ) {
+	    #our %inv_hosts_network_data_g=();
+	    #read 'ip_link_noqueue' first
+	    #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+	    #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
+	    for ( $arr_i0_g=0; $arr_i0_g<=$#hwaddr_list_arr_g; $arr_i0_g++ ) {
+		if ( exists($inv_hosts_network_data_g{'hwaddr_all'}{$hwaddr_list_arr_g[$arr_i0_g]}) && $inv_host_g ne $inv_hosts_network_data_g{'hwaddr_all'}{$hwaddr_list_arr_g[$arr_i0_g]} ) {
+		    print "NETWORK DATA check. HWADDR='$hwaddr_list_arr_g[$arr_i0_g]' configured for inv_host='$inv_host_g' is already used by host='$inv_hosts_network_data_g{'hwaddr_all'}{$hwaddr_list_arr_g[$arr_i0_g]}'. Please, check and correct config-file or solve problem with duplicated mac-address\n";
+		    $skip_conf_line_g=1;
+		}
+		
+		if ( !exists($inv_hosts_network_data_g{'inv_host'}{$inv_host_g}{$int_list_arr_g[$arr_i0_g]}{$hwaddr_list_arr_g[$arr_i0_g]}) ) {
+		    print "NETWORK DATA check. At inv_host='$inv_host_g' interface='$int_list_arr_g[$arr_i0_g]' not linked with hwaddr='$hwaddr_list_arr_g[$arr_i0_g]'. Please, check and correct config-file\n";
+		    $skip_conf_line_g=1;
+		}
+	    }
+
+    	    if ( $skip_conf_line_g==1 ) {
+    		print "Skip conf-line with conf_id='$conf_id_g'\n";
+		if ( $exec_status_g=~/^OK$/ ) { $exec_status_g='FAIL'; }
+    		next;
+    	    }
+	}
+	#######NETWORK DATA (ip link) checks
+
     	#######uniq checks for all hosts (hwaddr, ipaddr)
     	    #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
     	    #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
@@ -929,6 +955,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	if ( $gen_playbooks_next_with_rollback_g==0 ) {
 	    print DYN_YML "- name: cancel rollback operation (rollback_ifcfg_changes.sh) if need\n";
 	    print DYN_YML "  ansible.builtin.command: \"pkill -9 -f rollback_ifcfg_changes\"\n";
+	    print DYN_YML "  ignore_errors: yes\n";
 	    print DYN_YML "\n";
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
@@ -945,7 +972,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
-    print "EXEC_STATUS not OK. Exit!";
+    print "EXEC_STATUS not OK. Exit!\n\n";
     exit;
 }
 ######MAIN SEQ

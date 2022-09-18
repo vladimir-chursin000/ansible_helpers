@@ -1,5 +1,3 @@
-###Partially READY ansible-helper. You can use it!
-
 #1) UPDATE list (for install and configure network-scripts) of ip addresses = conf_network_scripts_hosts (inventory).
 
 #2) Fill conf_file='config'. Example config='config_examples'.
@@ -33,3 +31,4 @@
 #INFO about existing mac-addresses at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
 #INFO about network neighbours of inv_hosts -> 'inv_hosts_neighbour_info.txt'.
 
+#'check_ifcfg_without_apply.sh' = just check configuration without apply new settings.

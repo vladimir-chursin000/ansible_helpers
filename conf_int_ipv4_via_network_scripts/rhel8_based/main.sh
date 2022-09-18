@@ -69,7 +69,11 @@ if [[ "$PLAYBOOK" =~ "ifcfg_backup" ]]; then
     echo "Remove prev downloaded data from '$SELF_DIR/playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR/playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE;
 fi;
 
-/usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+#main playbook
+if [[ ! -z "$PLAYBOOK" ]] && [[ "$PLAYBOOK" != "no" ]]; then
+    /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+fi;
+#main playbook
 
 if [[ "$PLAYBOOK" =~ "ifcfg_backup" ]]; then
     /usr/bin/perl "$SELF_DIR/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR/playbooks/ifcfg_backup_from_remote/network_data";
