@@ -23,6 +23,7 @@ chomp(@ip_link_files_g);
 chomp(@ip_neighbour_files_g);
 #
 our ($arr_el0_g,$line_g,$inv_host_g,$hwaddr_g)=(undef,undef,undef,undef);
+our ($hkey0_g,$hval0_g)=(undef,undef);
 our %ip_link_uniq_hwaddr_g=(); #key=hwaddr, value=inv_host
 our %ip_neighbour_uniq_hwaddr_g=(); #key=hwaddr, value=neighbour_ip
 our @mac_warnings_g=();
@@ -51,15 +52,19 @@ foreach $arr_el0_g ( @ip_link_files_g ) {
 		    $ip_link_uniq_hwaddr_g{$hwaddr_g}=$inv_host_g;
 		}
 		else {
-		    push(@mac_warnings_g,"HWADDR='$hwaddr_g' (interface_name='$1') for inv_host='$inv_host_g' is already used at host='$ip_link_uniq_hwaddr_g{$hwaddr_g}'!");
+		    push(@mac_warnings_g,"HWADDR='$hwaddr_g' (interface_name='$1') for inv_host='$inv_host_g' is already used at host='$ip_link_uniq_hwaddr_g{$hwaddr_g}' (from ip_link)!");
 		}
 	    }
 	}
 	close(FF);
 	print F "###################################################\n";
+	
+	unlink($raw_data_dir_g.'/'.$arr_el0_g);
     }
 }
 close(F);
+
+($arr_el0_g,$inv_host_g,$line_g,$hwaddr_g)=(undef,undef,undef,undef);
 ###READ ip_link
 
 ###READ ip_neighbour
@@ -95,9 +100,34 @@ foreach $arr_el0_g ( @ip_neighbour_files_g ) {
 	}
 	close(FF);
 	print F "###################################################\n";
+	
+	unlink($raw_data_dir_g.'/'.$arr_el0_g);
     }
 }
 close(F);
+
+($arr_el0_g,$inv_host_g,$line_g,$hwaddr_g)=(undef,undef,undef,undef);
 ###READ ip_neighbour
+
+###compare ip_link and ip_neighbour
+while ( ($hkey0_g,$hval0_g)=each %ip_link_uniq_hwaddr_g ) {
+    #hkey0_g=hwaddr, hval0_g=ip_addr
+    if ( exists($ip_neighbour_uniq_hwaddr_g{$hkey0_g}) ) {
+	push(@mac_warnings_g,"HWADDR='$hkey0_g' for inv_host='$hval0_g' is already used at host='$ip_neighbour_uniq_hwaddr_g{$hkey0_g}' (from ip_neighbour)!");
+    }
+}
+
+($hkey0_g,$hval0_g)=(undef,undef);
+###compare ip_link and ip_neighbour
+
+###WRITE warnings
+if ( $#mac_warnings_g!=-1 ) {
+    open(F,'>',$raw_data_dir_g.'/WARNINGS.txt');
+    foreach $arr_el0_g ( @mac_warnings_g ) { print F "$arr_el0_g\n"; }
+    close(F);
+    
+    $arr_el0_g=undef;
+}
+###WRITE warnings
 
 ############MAIN SEQ
