@@ -129,7 +129,10 @@ if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
 	$line_g=~s/\s+/ /g;
 	$line_g=~s/^ //g;
 	if ( length($line_g)>0 && $line_g!~/^\#/ ) {
-	    
+	    #INV_HOST-0       #INT_NAME-1       #HWADDR-2
+	    @arr0_g=split(' ',$line_g);
+	    $inv_hosts_network_data_g{'hwaddr_all'}{$arr0_g[2]}=$arr0_g[0];
+	    $inv_hosts_network_data_g{'inv_host'}{$arr0_g[0]}{$arr0_g[1]}{$arr0_g[2]}=1;  
 	}
     }
     close(NDATA);
