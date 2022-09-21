@@ -18,15 +18,15 @@ LOG_FILE="$LOG_DIR/$NOW_DT-$CUR_USER.log";
 ###MAIN
 /usr/bin/mkdir -p "$LOG_DIR";
 
-echo "User: $CUR_USER" > $LOG_FILE;
-echo "Used inventory file: $INV_FILE" >> $LOG_FILE;
-echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" >> $LOG_FILE;
-echo "Start time: $NOW_DT" >> $LOG_FILE;
+echo "User: $CUR_USER" | tee -a $LOG_FILE;
+echo "Used inventory file: $INV_FILE" | tee -a $LOG_FILE;
+echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+echo "Start time: $NOW_DT" | tee -a $LOG_FILE;
 if [[ ! -z "$IS_NEED_RUN_GEN_DYN_EXPORTS" ]] && [[ "$IS_NEED_RUN_GEN_DYN_EXPORTS" == "YES" ]]; then
     $SELF_DIR/generate_dynamic_exports.sh;
-    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_exports.sh" >> $LOG_FILE;
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_exports.sh" | tee -a $LOG_FILE;
 fi;
-echo "#########" >> $LOG_FILE;
+echo "#########" | tee -a $LOG_FILE;
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN

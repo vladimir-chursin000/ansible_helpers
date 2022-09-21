@@ -19,34 +19,34 @@ LOG_FILE="$LOG_DIR/$NOW_DT-$CUR_USER.log";
 ###MAIN
 /usr/bin/mkdir -p "$LOG_DIR";
 
-echo "User: $CUR_USER" > $LOG_FILE;
-echo "Used inventory file: $INV_FILE" >> $LOG_FILE;
-echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" >> $LOG_FILE;
-echo "Start time: $NOW_DT" >> $LOG_FILE;
+echo "User: $CUR_USER" | tee -a $LOG_FILE;
+echo "Used inventory file: $INV_FILE" | tee -a $LOG_FILE;
+echo "Used playbook: $SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
+echo "Start time: $NOW_DT" | tee -a $LOG_FILE;
 if [[ ! -z "$GEN_DYN_MOUNT_RUN_TYPE" ]] && [[ "$GEN_DYN_MOUNT_RUN_TYPE" == "before_remove" ]]; then
     $SELF_DIR/generate_dynamic_mount_playbooks.sh "before_remove";
-    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_mount_playbooks.sh (with 'before_remove' option)" >> $LOG_FILE;
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_mount_playbooks.sh (with 'before_remove' option)" | tee -a $LOG_FILE;
 fi;
 
 if [[ ! -z "$GEN_DYN_MOUNT_RUN_TYPE" ]] && [[ "$GEN_DYN_MOUNT_RUN_TYPE" == "before_update" ]]; then
     $SELF_DIR/generate_dynamic_mount_playbooks.sh "before_update";
-    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_mount_playbooks.sh (with 'before_update' option)" >> $LOG_FILE;
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_mount_playbooks.sh (with 'before_update' option)" | tee -a $LOG_FILE;
 fi;
 
 if [[ ! -z "$GEN_DYN_MOUNT_RUN_TYPE" ]] && [[ "$GEN_DYN_MOUNT_RUN_TYPE" == "just_run" ]]; then
     $SELF_DIR/generate_dynamic_mount_playbooks.sh;
-    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_mount_playbooks.sh" >> $LOG_FILE;
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_mount_playbooks.sh" | tee -a $LOG_FILE;
 fi;
-echo "#########" >> $LOG_FILE;
+echo "#########" | tee -a $LOG_FILE;
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 
 if [[ ! -z "$PLAYBOOK_NEXT" ]] && [[ "$PLAYBOOK_NEXT" != "no" ]]; then
-    echo " " >> $LOG_FILE;
-    echo "#########" >> $LOG_FILE;
-    echo "Playbook_next: $SELF_DIR/playbooks/$PLAYBOOK_NEXT" >> $LOG_FILE;
+    echo " " | tee -a $LOG_FILE;
+    echo "#########" | tee -a $LOG_FILE;
+    echo "Playbook_next: $SELF_DIR/playbooks/$PLAYBOOK_NEXT" | tee -a $LOG_FILE;
     $SELF_DIR/generate_dynamic_mount_playbooks.sh;
-    echo "Run script (before playbook_next): $SELF_DIR/generate_dynamic_mount_playbooks.sh" >> $LOG_FILE;
+    echo "Run script (before playbook_next): $SELF_DIR/generate_dynamic_mount_playbooks.sh" | tee -a $LOG_FILE;
     /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_NEXT" | tee -a $LOG_FILE;
 fi;
 ###MAIN
