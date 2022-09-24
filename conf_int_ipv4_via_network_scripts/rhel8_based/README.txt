@@ -25,7 +25,7 @@
 
 #'just_install_network_scripts.sh' = just install network-scripts.
 
-#'just_run_ifcfg_backup.sh' = copy ifcfg-files form remote hosts. Also collect network data (at 'playbooks/ifcfg_backup_from_remote/network_data') and analyze it
+#'just_run_ifcfg_backup.sh' = copy ifcfg-files from remote hosts. Also collect network data (at 'playbooks/ifcfg_backup_from_remote/network_data') and analyze it
 #for find duplicates of mac-addresses. 
 #Detected mac duplicates -> 'WARNINGS.txt'
 #INFO about existing mac-addresses at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
