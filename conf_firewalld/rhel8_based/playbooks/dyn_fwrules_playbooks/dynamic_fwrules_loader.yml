@@ -1,0 +1,15 @@
+---
+- hosts: rhel8_firewall_hosts
+  tasks:
+
+    - name: "check_for_fwrules_dynamic_task_for_change"
+      delegate_to: localhost
+      stat:
+        path: "{{playbook_dir}}/{{inventory_hostname}}_fwrules_change.yml"
+      register: is_fwrules_dynamic_task_for_change
+
+######################################################
+
+    - name: "run_fwrules_dynamic_change_task_if_exists"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/{{inventory_hostname}}_fwrules_change.yml"
+      when: is_fwrules_dynamic_task_for_change.stat.exists==true

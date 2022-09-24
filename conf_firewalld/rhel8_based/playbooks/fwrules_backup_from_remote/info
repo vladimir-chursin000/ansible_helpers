@@ -1,0 +1,1 @@
+Directory for backup firewall-files (content of '/etc/firewalld' and output of 'firewall-cmd --list-all-zones') from remote host before changes

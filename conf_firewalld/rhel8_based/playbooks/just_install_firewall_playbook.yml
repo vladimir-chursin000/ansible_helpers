@@ -1,0 +1,10 @@
+---
+- hosts: rhel8_firewall_hosts
+  tasks:
+    - name: install_firewall
+      ansible.builtin.dnf:
+        name: "{{item}}"
+        state: installed
+      with_items:
+        - firewalld
+        - procps-ng

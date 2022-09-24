@@ -1,0 +1,11 @@
+---
+- hosts: rhel8_firewall_hosts
+  tasks:
+    - name: enable_n_if_started_firewalld
+      ansible.builtin.systemd:
+        name: "{{item}}"
+        state: started
+        enabled: yes
+        masked: no
+      with_items:
+        - firewalld.service

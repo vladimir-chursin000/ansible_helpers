@@ -1,0 +1,4 @@
+---
+- import_playbook: just_install_firewall_playbook.yml
+- import_playbook: check_firewall_serv_is_started_playbook.yml
+- import_playbook: "{{playbook_dir}}/dyn_fwrules_playbooks/dynamic_fwrules_loader.yml"
