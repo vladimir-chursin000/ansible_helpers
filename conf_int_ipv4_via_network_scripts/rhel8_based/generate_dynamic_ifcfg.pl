@@ -9,7 +9,7 @@ use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
-###ARGV
+############ARGV
 our $gen_playbooks_next_g=0;
 our $gen_playbooks_next_with_rollback_g=0;
 if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
@@ -19,14 +19,14 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
     $gen_playbooks_next_g=1;
     $gen_playbooks_next_with_rollback_g=1;
 }
-###ARGV
+############ARGV
 
-###CFG file
+############CFG file
 our $conf_file_g=$self_dir_g.'config';
 our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_ifcfg';
 our $conf_dns_g=$self_dir_g.'/additional_configs/dns_settings'; #for configure resolv.conf
-###CFG file
+############CFG file
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
 our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
