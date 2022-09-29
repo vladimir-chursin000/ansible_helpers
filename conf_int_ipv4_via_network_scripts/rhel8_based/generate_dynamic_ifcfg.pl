@@ -117,7 +117,7 @@ our %inv_hosts_network_data_g=();
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 ############VARS
 
-######MAIN SEQ
+############MAIN SEQ
 
 ###READ network data for checks
 if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
@@ -975,9 +975,9 @@ if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
     exit;
 }
-######MAIN SEQ
+############MAIN SEQ
 
-###SUBROUTINES
+############SUBROUTINES
 ##INCLUDED to conf_type_sub_refs_g
 #common (novlan)
 sub just_interface_gen_ifcfg {
@@ -1598,5 +1598,5 @@ sub replace_values_in_file {
     }
 }
 ##other
-###SUBROUTINES
+############SUBROUTINES
 
