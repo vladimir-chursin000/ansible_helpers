@@ -8,3 +8,23 @@ use Cwd;
 use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
+
+############ARGV
+our $gen_with_rollback_g=0;
+
+if ( defined($ARGV[0]) && $ARGV[0]=~/^with_rollback$/ ) {
+    $gen_with_rollback_g=1;
+}
+############ARGV
+
+############CFG file
+############CFG file
+
+############STATIC VARS
+############STATIC VARS
+
+############VARS
+############VARS
+
+############MAIN SEQ
+############MAIN SEQ
