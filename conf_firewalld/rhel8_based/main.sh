@@ -27,7 +27,7 @@ echo "#########" | tee -a $LOG_FILE;
 
 if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
     if [[ "$PLAYBOOK_BEFORE" =~ "fwrules_backup" ]]; then
-	rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/now/"; #remove prev downloaded backup of fwrules (content of '/etc/firewalld' and output of 'firewall-cmd --list-all-zones') from now-dir
+	rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/now/"; #remove prev downloaded backup of fwrules (content of '/etc/firewalld/zones' and output of 'firewall-cmd --list-all-zones') from now-dir
 	rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data/"; #remove prev downloaded data (output of 'ip link') from network_data
 	echo "Remove prev downloaded data from '$SELF_DIR/playbooks/fwrules_backup_from_remote/now' and '$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data'" | tee -a $LOG_FILE;
     fi;
@@ -64,7 +64,7 @@ if [[ ! -z "$GEN_DYN_FWRULES_RUN" ]] && [[ "$GEN_DYN_FWRULES_RUN" =~ "yes" ]]; t
 fi;
 
 if [[ "$PLAYBOOK" =~ "fwrules_backup" ]]; then
-    rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/now/"; #remove prev downloaded backup of fwrules (content of '/etc/firewalld' and output of 'firewall-cmd --list-all-zones') from now-dir
+    rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/now/"; #remove prev downloaded backup of fwrules (content of '/etc/firewalld/zones' and output of 'firewall-cmd --list-all-zones') from now-dir
     rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data/"; #remove prev downloaded data (output of 'ip link') from network_data
     echo "Remove prev downloaded data from '$SELF_DIR/playbooks/fwrules_backup_from_remote/now' and '$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data'" | tee -a $LOG_FILE;
 fi;

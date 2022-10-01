@@ -1,0 +1,47 @@
+- name: Remove file '~/etc_firewalld.zip' before archive '/etc/firewalld'
+  ansible.builtin.file:
+    path: "~/etc_firewalld.zip"
+    state: absent
+
+######################################################
+
+- name: Compress directory '/etc/firewalld' into '~/etc_firewalld.zip'
+  archive:
+    path: /etc/firewalld
+    dest: "~/etc_firewalld.zip"
+    format: zip
+
+######################################################
+
+- name: collect and save output of 'firewall-cmd --list-all-zones'
+  ansible.builtin.shell: firewall-cmd --list-all-zones > ~/fw_list_all_zones.txt
+
+######################################################
+
+- name: fetch fw-backup-files
+  ansible.builtin.fetch:
+    flat: yes
+    src: "~/{{item}}"
+    dest: "{{playbook_dir}}/fwrules_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
+  with_items:
+    - "fw_list_all_zones.txt"
+    - "etc_firewalld.zip"
+
+######################################################
+
+- name: Create directory for actual fwrules-files (now-dir)
+  ansible.builtin.file:
+    path: "{{playbook_dir}}/fwrules_backup_from_remote/now/{{inventory_hostname}}"
+    state: directory
+  delegate_to: localhost
+
+######################################################
+
+- name: Copy 'fw_list_all_zones.txt' from history-dir to now-dir
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/fwrules_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
+    dest: "{{playbook_dir}}/fwrules_backup_from_remote/now/{{inventory_hostname}}/{{item}}"
+  delegate_to: localhost
+  with_items:
+    - "fw_list_all_zones.txt"
+    - "etc_firewalld.zip"
