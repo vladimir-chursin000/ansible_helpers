@@ -25,6 +25,6 @@ NOT READY YET!
 
 #'just_run_fwrules_backup.sh' = copy fwrules-files (content of '/etc/firewalld' and output of 'firewall-cmd --list-all-zones') from remote hosts. 
 #Also collect network data (at 'playbooks/fwrules_backup_from_remote/network_data') for get interface names.
-#INFO about existing interface names at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
+#INFO about existing interface names (and ip addr) at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
 
 #'check_fwrules_without_apply.sh' = just check configuration without apply new settings.
