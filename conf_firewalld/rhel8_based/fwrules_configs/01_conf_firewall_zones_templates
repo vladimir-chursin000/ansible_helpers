@@ -6,3 +6,7 @@
 					      #DROP   -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
 #interface_list=none/eth0,br0 (for example). Interfaces for include into the zone. Forms type of zone
 #source_list=none/IPv4/IPv6/IPrange. IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24). Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
+#masquerade=yes/no. Yes = enable masquerade option between all interfaces/sources included into the zone.
+#description=some description
+#allowed_services=http (for example).
+#allowed_ports=1234/tcp,1234/udp,60000-61000/udp (for example).
