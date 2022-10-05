@@ -10,7 +10,7 @@
 
 #zone_source_list=empty/IPv4/IPv6/IPrange. IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24). Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
 
-#zone_general_masquerade=yes/no. Yes = enable masquerade option between all interfaces/sources included into the zone.
+#zone_masquerade_general=yes/no. Yes = enable masquerade option between all interfaces/sources included into the zone.
 
 #zone_description=empty/some description.
 
