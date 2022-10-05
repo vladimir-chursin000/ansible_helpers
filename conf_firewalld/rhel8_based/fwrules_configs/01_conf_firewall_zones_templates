@@ -1,12 +1,14 @@
 ###EXAMPLE
-#[EXAMPLE_ZONE_TEMPLATE_NAME]
+#[EXAMPLE_ZONE_TEMPLATE_NAME_begin]
 #zone_name=some_zone_name
 #zone_target=ACCEPT/REJECT/DROP (possible values). #ACCEPT -> will accept every packet that does not match any rule.
 					      #REJECT -> reject every packet not matching any rule. The system will send a packet notifying the source of the packet that it is rejected.
 					      #DROP   -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
-#zone_interface_list=none/eth0,br0 (for example). Interfaces for include into the zone. Forms interface based type of the zone.
-#zone_source_list=none/IPv4/IPv6/IPrange. IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24). Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
+#zone_interface_list=empty/eth0,br0 (for example). Interfaces for include into the zone. Forms interface based type of the zone.
+#zone_source_list=empty/IPv4/IPv6/IPrange. IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24). Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
 #zone_general_masquerade=yes/no. Yes = enable masquerade option between all interfaces/sources included into the zone.
-#zone_description=some description
-#zone_allowed_services=http (for example). Opens the standard port(s) of a specific service. For incoming connections.
-#zone_allowed_ports=1234/tcp,1234/udp,60000-61000/udp (for example). For incoming connections.
+#zone_description=empty/some description
+#zone_allowed_services=empty/http,https (for example). Opens the standard port(s) of a specific service. For incoming connections.
+#zone_allowed_ports=empty/1234/tcp,1234/udp,60000-61000/udp (for example). For incoming connections.
+#zone_allowed_protocols=empty/tcp,udp,gre (for example). If 'empty' -> allow all protocols. If at least one protocol is defined, then only it will be allowed for the zone.
+#[EXAMPLE_ZONE_TEMPLATE_NAME_end]
