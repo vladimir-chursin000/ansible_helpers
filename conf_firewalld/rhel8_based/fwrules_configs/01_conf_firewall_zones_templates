@@ -4,9 +4,10 @@
 
 #zone_name=some_zone_name
 
-#zone_target=ACCEPT/REJECT/DROP (possible values). #ACCEPT -> will accept every packet that does not match any rule.
+#zone_target=ACCEPT/REJECT/DROP/default (possible values). #ACCEPT -> will accept every packet that does not match any rule.
 					      #REJECT -> reject every packet not matching any rule. The system will send a packet notifying the source of the packet that it is rejected.
 					      #DROP   -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
+					      #default -> like REJECT, but icmp traffic is allowed by default.
 
 #zone_icmp_block_inversion
 
