@@ -9,7 +9,8 @@
 					    #DROP    -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
 					    #default -> like REJECT, but icmp traffic is allowed by default.
 
-#zone_icmp_block_inversion=yes/no. Yes = block all ICMP requests at once.
+#zone_icmp_block_inversion=yes/no. Yes = turns on the inversion of logic - the listed (at #zone_icmp_block) types of messages become allowed, the rest are blocked.
+					    #No = turns off the inversion of logic - the listed types (at #zone_icmp_block) of messages become prohibited, the rest are allowed.
 
 #zone_interface_list=empty|eth0,br0 (for example). Interfaces for include into the zone. Forms interface based type of the zone.
 
@@ -31,7 +32,7 @@
 #zone_allowed_source_ports=empty|8080/tcp,5060-5061/udp. The option sets the allowed ports for outgoing traffic.
 					    #If set to empty, then ports for outgoing traffic will be assigned from the range of 30000-60000 (approximately).
 
-#zone_icmp_blocks
+#zone_icmp_block
 
 #zone_rich_rules_list->begin
 #Every line between 'zone_rich_rules_list->begin' and 'zone_rich_rules_list->end' = rich rule
