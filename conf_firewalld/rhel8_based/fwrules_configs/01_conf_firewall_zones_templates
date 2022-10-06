@@ -32,7 +32,8 @@
 
 #zone_icmp_blocks
 
-#zone_rich_rules_list ->
-#Every line after = rich rules
+#zone_rich_rules_list->begin
+#Every line between 'zone_rich_rules_list->begin' and 'zone_rich_rules_list->end' = rich rule
+#zone_rich_rules_list->end
 
 #[EXAMPLE_ZONE_TEMPLATE_NAME_end]
