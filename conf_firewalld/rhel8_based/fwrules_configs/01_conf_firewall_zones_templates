@@ -10,15 +10,15 @@
 
 #zone_icmp_block_inversion
 
-#zone_interface_list=empty/eth0,br0 (for example). Interfaces for include into the zone. Forms interface based type of the zone.
+#zone_interface_list=empty|eth0,br0 (for example). Interfaces for include into the zone. Forms interface based type of the zone.
 
-#zone_source_list=empty/IPv4/IPv6/IPrange. IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24). Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
+#zone_source_list=empty|IPv4/IPv6/IPrange. IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24). Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
 
 #zone_allowed_services=empty/http,https (for example). Opens the standard port(s) of a specific service. For incoming connections.
 
-#zone_allowed_ports=empty/1234/tcp,1234/udp,60000-61000/udp (for example). For incoming connections.
+#zone_allowed_ports=empty|1234/tcp,1234/udp,60000-61000/udp (for example). For incoming connections.
 
-#zone_allowed_protocols=empty/tcp,udp,gre (for example). If 'empty' -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the zone.
+#zone_allowed_protocols=empty|tcp,udp,gre (for example). If 'empty' -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the zone.
 
 #zone_forward
 
@@ -26,7 +26,8 @@
 
 #zone_forward_ports
 
-#zone_allowed_source_ports
+#zone_allowed_source_ports=empty|8080/tcp,5060-5061/udp. The option sets the allowed ports for outgoing traffic.
+							 #If set to empty, then ports for outgoing traffic will be assigned from the range of 30000-60000 (approximately).
 
 #zone_icmp_blocks
 
