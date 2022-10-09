@@ -1,4 +1,4 @@
-###EXAMPLE
+###EXAMPLE (with explanation)
 #[EXAMPLE_ZONE_TEMPLATE_NAME_begin]
 #zone_name=some_zone_name
     #Create zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
@@ -16,13 +16,17 @@
 #zone_icmp_block_inversion=yes/no
     #Yes = turns on the inversion of logic - the listed (at #zone_icmp_block) types of messages become allowed, the rest are blocked.
     #No = turns off the inversion of logic - the listed types (at #zone_icmp_block) of messages become prohibited, the rest are allowed.
+    #Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_zone_name --add-icmp-block-inversion" (for information)
 
 #zone_interface_list=empty|eth0,br0 (for example)
     #Interfaces for include into the zone. Forms interface based type of the zone.
+    #Add interace to zone = "firewall-cmd --permanent --zone=some_zone_name --add-interface=some_interface_name" (for information).
 
-#zone_source_list=empty|IPv4/IPv6/IPrange
+#zone_source_list=empty|IPv4_a1,IPv4_a2,IPv6_a1,IPrange|ipset
+    #IPv4 = 10.11.2.77/32.
     #IPrange = IP/mask_prefix (for exmaple, 10.10.1.0/24).
     #Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
+    #Add source to zone = "firewall-cmd --permanent --zone=some_zone_name --add-source=10.10.1.0/24" (for information).
 
 #zone_allowed_services=empty/http,https (for example)
     #Opens the standard port(s) of a specific service. For incoming connections.
