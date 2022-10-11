@@ -1,6 +1,8 @@
 ###EXAMPLE (with explanation)
 #[EXAMPLE_ZONE_TEMPLATE_NAME:begin]
 #zone_name=some_zone_name
+    #A zone with this name will be created on the target hosts.
+    #The zone name may not match the zone template name.
     #Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
 
 #zone_description=empty|some description.
@@ -70,7 +72,7 @@
 
 #[EXAMPLE_ZONE_TEMPLATE_NAME:end]
 
-#[SOME_ZONE_TEMPLATE:begin]
+#[SOME_ZONE_TEMPLATE_NAME:begin]
 #zone_name=
 #zone_description=
 #zone_target=
@@ -82,5 +84,5 @@
 #zone_allowed_source_ports=
 #zone_icmp_block_inversion=
 #zone_icmp_block=
-#[SOME_ZONE_TEMPLATE:end]
-##############################################INSERT YOUR ZONE TEMPLATES AFTER THIS LINE
+#[SOME_ZONE_TEMPLATE_NAME:end]
+#################################INSERT YOUR ZONE TEMPLATES AFTER THIS LINE#################################
