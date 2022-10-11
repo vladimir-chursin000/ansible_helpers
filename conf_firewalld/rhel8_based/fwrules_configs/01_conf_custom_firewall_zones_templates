@@ -1,3 +1,7 @@
+###########################################
+#FOR CONFIGURATION OF CUSTOM FIREWALL ZONES
+###########################################
+
 ###EXAMPLE (with explanation)
 #[some_zone_name_TMPLT:BEGIN]
 #zone_name=some_zone_name
@@ -85,4 +89,4 @@
 #zone_icmp_block_inversion=
 #zone_icmp_block=
 #[some_zone_TMPLT:end]
-#################################INSERT YOUR ZONE TEMPLATES AFTER THIS LINE#################################
+#################################INSERT YOUR CUSTOM ZONE TEMPLATES AFTER THIS LINE#################################
