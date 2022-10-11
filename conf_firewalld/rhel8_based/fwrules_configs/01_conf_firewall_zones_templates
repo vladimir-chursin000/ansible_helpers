@@ -1,5 +1,5 @@
 ###EXAMPLE (with explanation)
-#[EXAMPLE_ZONE_TEMPLATE_NAME_begin]
+#[EXAMPLE_ZONE_TEMPLATE_NAME:begin]
 #zone_name=some_zone_name
     #Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
 
@@ -68,5 +68,19 @@
 #zone_rich_rules = rich rules configuration (DO NOT USE AT "01_conf_firewall_zones_templates"! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
 
-#[EXAMPLE_ZONE_TEMPLATE_NAME_end]
+#[EXAMPLE_ZONE_TEMPLATE_NAME:end]
+
+#[SOME_ZONE_TEMPLATE:begin]
+#zone_name=
+#zone_description=
+#zone_target=
+#zone_allowed_services=
+#zone_allowed_ports=
+#zone_allowed_protocol_list=
+#zone_forward=
+#zone_masquerade_general=
+#zone_allowed_source_ports=
+#zone_icmp_block_inversion=
+#zone_icmp_block=
+#[SOME_ZONE_TEMPLATE:end]
 ##############################################INSERT YOUR ZONE TEMPLATES AFTER THIS LINE
