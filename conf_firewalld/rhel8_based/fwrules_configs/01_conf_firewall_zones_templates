@@ -1,8 +1,8 @@
 ###EXAMPLE (with explanation)
-#[EXAMPLE_ZONE_TEMPLATE_NAME:begin]
+#[some_zone_name_TMPLT:BEGIN]
 #zone_name=some_zone_name
     #A zone with this name will be created on the target hosts.
-    #The zone name may not match the zone template name.
+    #The zone name must partially match the zone template name. For example, if zone_name="some_zone" -> zone_template_name="some_zone_TMPLT".
     #Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
 
 #zone_description=empty|some description.
@@ -70,10 +70,10 @@
 #zone_rich_rules = rich rules configuration (DO NOT USE AT "01_conf_firewall_zones_templates"! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
 
-#[EXAMPLE_ZONE_TEMPLATE_NAME:end]
+#[some_zone_name_TMPLT:END]
 
-#[SOME_ZONE_TEMPLATE_NAME:begin]
-#zone_name=
+#[some_zone_TMPLT:begin]
+#zone_name=some_zone
 #zone_description=
 #zone_target=
 #zone_allowed_services=
@@ -84,5 +84,5 @@
 #zone_allowed_source_ports=
 #zone_icmp_block_inversion=
 #zone_icmp_block=
-#[SOME_ZONE_TEMPLATE_NAME:end]
+#[some_zone_TMPLT:end]
 #################################INSERT YOUR ZONE TEMPLATES AFTER THIS LINE#################################
