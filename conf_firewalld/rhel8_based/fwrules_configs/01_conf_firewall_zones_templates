@@ -46,7 +46,7 @@
     #Allow masquerade general = "firewall-cmd --permanent --zone=some_zone_name --add-masquerade" (for information).
 
 #zone_forward_ports=DST-NAT configuration (DO NOT USE AT "01_conf_firewall_zones_templates"! For information only)
-    #To configure it is necessary to edit the file "03_conf_forward_ports".
+    #To configure it is necessary to edit the file "03_conf_zone_forward_ports".
     #With port forwarding, all traffic sent to a particular port will be redirected either to another port on the local system or to a port on the external system.
     #If forwarding to an external network is required, you must also configure masquerading (SRC-NAT).
 
