@@ -7,7 +7,7 @@
 #It is possible to create several zones (#zone_name) with the same name but within different template_names to apply to different hosts.
 #Zone template names must be unique.
 
-#[some_zone_name_TMPLT:BEGIN]
+#[zone_template_name_TMPLT:BEGIN]
 #zone_name=some_zone_name
     #A zone with this name will be created on the target hosts.
     #The zone name must not be the same as the standard zone names (block, dmz, drop, external, internal, public, trusted, work, home).
@@ -78,7 +78,7 @@
 #zone_rich_rules = rich rules configuration (DO NOT USE AT "01_conf_firewall_zones_templates"! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
 
-#[some_zone_name_TMPLT:END]
+#[zone_template_name_TMPLT:END]
 
 #[some_zone_TMPLT:BEGIN]
 #zone_name=some_zone
