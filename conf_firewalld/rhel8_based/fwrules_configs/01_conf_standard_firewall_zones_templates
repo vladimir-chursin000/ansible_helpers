@@ -74,7 +74,7 @@
 #zone_rich_rules = rich rules configuration (DO NOT USE AT at this CONFIG! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
 
-#[std_zone_name_TMPLT:END]
+#[some_std_zone_name_TMPLT:END]
 
 #[some_zone_TMPLT:BEGIN]
 #zone_name=some_zone
