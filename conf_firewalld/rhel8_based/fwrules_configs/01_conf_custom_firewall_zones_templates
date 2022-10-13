@@ -3,10 +3,12 @@
 ############################################
 
 ###EXAMPLE (with explanation)
+#The zone template name must always contain a substring "_TMPLT" at the end.
+#It is possible to create several zones (#zone_name) with the same name but within different template_names to apply to different hosts.
+
 #[some_zone_name_TMPLT:BEGIN]
 #zone_name=some_zone_name
     #A zone with this name will be created on the target hosts.
-    #The zone name must partially match the zone template name. For example, if zone_name="some_zone" -> zone_template_name="some_zone_TMPLT".
     #The zone name must not be the same as the standard zone names (block, dmz, drop, external, internal, public, trusted, work, home).
     #Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
 
