@@ -5,6 +5,7 @@
 ###EXAMPLE (with explanation)
 #The zone template name must always contain a substring "_TMPLT" at the end.
 #It is possible to create several zones (#zone_name) with the same name but within different template_names to apply to different hosts.
+#Zone template names must be unique.
 
 #[some_zone_name_TMPLT:BEGIN]
 #zone_name=some_zone_name
