@@ -2,11 +2,12 @@
 #FOR CONFIGURATION OF CUSTOM FIREWALL ZONES#
 ############################################
 
-###EXAMPLE (with explanation)
 #The zone template name must always contain a substring "_TMPLT" at the end.
 #It is possible to create several zones (#zone_name) with the same name but within different template_names to apply to different hosts.
 #Zone template names must be unique.
+#Examples: zone1_TMPLT, zone1_ver1_TMPLT, zone1_special_TMPLT, etc.
 
+###EXAMPLE (with explanation)
 #[zone_template_name_TMPLT:BEGIN]
 #zone_name=some_zone_name
     #A zone with this name will be created on the target hosts.

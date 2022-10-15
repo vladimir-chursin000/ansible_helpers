@@ -2,11 +2,11 @@
 #FOR CONFIGURATION OF STANDARD FIREWALL ZONES#
 ##############################################
 
-###EXAMPLE (with explanation)
 #The zone template name must always contain a substring "_TMPLT" at the end and at the begin - standard zone name.
 #Zone template names must be unique.
 #Examples: public_TMPLT, public_ver1_TMPLT, public_ver2_TMPLT.
 
+###EXAMPLE (with explanation)
 #[some_std_zone_name_TMPLT:BEGIN]
 #zone_name=STD_ZONE_NAME
     #A zone with this name will be created on the target hosts.
