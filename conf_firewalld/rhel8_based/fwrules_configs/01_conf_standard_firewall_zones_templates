@@ -76,7 +76,7 @@
 
 #[some_std_zone_name_TMPLT:END]
 
-#[some_zone_TMPLT:BEGIN]
+#[public_TMPLT:BEGIN]
 #zone_name=some_zone
 #zone_target=
 #zone_allowed_services=
@@ -87,5 +87,5 @@
 #zone_allowed_source_ports=
 #zone_icmp_block_inversion=
 #zone_icmp_block=
-#[some_zone_TMPLT:END]
-#################################INSERT YOUR CUSTOM ZONE TEMPLATES AFTER THIS LINE#################################
+#[public_TMPLT:END]
+#################################INSERT YOUR STANDARD ZONE TEMPLATES AFTER THIS LINE#################################
