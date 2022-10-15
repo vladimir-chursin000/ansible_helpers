@@ -2,13 +2,13 @@
 #FOR CONFIGURATION OF CUSTOM FIREWALL ZONES#
 ############################################
 
-#The zone template name must always contain a substring "_TMPLT" at the end.
+#The zone template name must always contain a substring "--TMPLT" at the end.
 #It is possible to create several zones (#zone_name) with the same name but within different template_names to apply to different hosts.
 #Zone template names must be unique.
-#Examples: zone1_TMPLT, zone1_ver1_TMPLT, zone1_special_TMPLT, etc.
+#Examples: zone1--TMPLT, zone1_ver1--TMPLT, zone1_special--TMPLT, etc.
 
 ###EXAMPLE (with explanation)
-#[zone_template_name_TMPLT:BEGIN]
+#[zone_template_name--TMPLT:BEGIN]
 #zone_name=some_zone_name
     #A zone with this name will be created on the target hosts.
     #The zone name must not be the same as the standard zone names (block, dmz, drop, external, internal, public, trusted, work, home).
@@ -79,9 +79,9 @@
 #zone_rich_rules = rich rules configuration (DO NOT USE AT this CONFIG! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
 
-#[zone_template_name_TMPLT:END]
+#[zone_template_name--TMPLT:END]
 
-#[some_zone_TMPLT:BEGIN]
+#[some_zone--TMPLT:BEGIN]
 #zone_name=some_zone
 #zone_description=
 #zone_target=
@@ -93,5 +93,5 @@
 #zone_allowed_source_ports=
 #zone_icmp_block_inversion=
 #zone_icmp_block=
-#[some_zone_TMPLT:END]
+#[some_zone--TMPLT:END]
 #################################INSERT YOUR CUSTOM ZONE TEMPLATES AFTER THIS LINE#################################
