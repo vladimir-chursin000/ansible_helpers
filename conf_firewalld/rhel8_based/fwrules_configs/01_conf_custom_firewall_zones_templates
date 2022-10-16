@@ -10,8 +10,9 @@
 ###EXAMPLE (with explanation)
 #[zone_template_name--TMPLT:BEGIN]
 #zone_name=some_zone_name
-    #A zone with this name will be created on the target hosts.
+    #A zone with this name will be created/recreated on the target hosts.
     #The zone name must not be the same as the standard zone names (block, dmz, drop, external, internal, public, trusted, work, home).
+    #The zone name must end with a substring "--custom". Examples: zone1--custom, zone1_ver1--custom, zone1_special--custom.
     #Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
 
 #zone_description=empty|some description.
@@ -82,7 +83,7 @@
 #[zone_template_name--TMPLT:END]
 
 #[some_zone--TMPLT:BEGIN]
-#zone_name=some_zone
+#zone_name=some_zone--custom
 #zone_description=
 #zone_target=
 #zone_allowed_services=
