@@ -12,7 +12,8 @@
 #zone_name=some_zone_name
     #A zone with this name will be created/recreated on the target hosts.
     #The zone name must not be the same as the standard zone names (block, dmz, drop, external, internal, public, trusted, work, home).
-    #The zone name must end with a substring "--custom". Examples: zone1--custom, zone1_ver1--custom, zone1_special--custom.
+    #The zone name must end with "--custom" substring. Examples: zone1--custom, zone1_ver1--custom, zone1_special--custom.
+    #All zones that have "--custom" substring on remote hosts but are not configured in this config will be deleted.
     #Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name" (for information).
 
 #zone_description=empty|some description.
