@@ -11,6 +11,7 @@
 #zone_name=STD_ZONE_NAME
     #A zone with this name will be created on the target hosts.
     #The #zone_name parameter must contain only the names of the standard zones (block, dmz, drop, external, internal, public, trusted, work, home).
+    #If the default zone is not configured in this config, it will be reverted to the default settings.
 
 #zone_target=ACCEPT|REJECT|DROP|default
     #ACCEPT -> will accept every packet that does not match any rule.
