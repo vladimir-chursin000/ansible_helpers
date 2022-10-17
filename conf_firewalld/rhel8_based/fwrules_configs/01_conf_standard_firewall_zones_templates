@@ -74,19 +74,19 @@
 
 #zone_rich_rules = rich rules configuration (DO NOT USE AT at this CONFIG! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
-
 #[some_std_zone_name--TMPLT:END]
 
+###STD ZONES. Copy the standard zone template from here if you want to make changes to it. Don't forget to remove the comment characters (#).
 #[public--TMPLT:BEGIN]
-#zone_name=some_zone
-#zone_target=
-#zone_allowed_services=
-#zone_allowed_ports=
-#zone_allowed_protocol_list=
-#zone_forward=
-#zone_masquerade_general=
-#zone_allowed_source_ports=
-#zone_icmp_block_inversion=
-#zone_icmp_block=
+#zone_name=public
+#zone_target=default
+#zone_allowed_services=cockpit,dhcpv6-client,ssh
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
 #[public--TMPLT:END]
 #################################INSERT YOUR STANDARD ZONE TEMPLATES AFTER THIS LINE#################################

@@ -80,9 +80,9 @@
 
 #zone_rich_rules = rich rules configuration (DO NOT USE AT this CONFIG! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules".
-
 #[zone_template_name--TMPLT:END]
 
+###CUSTOM ZONE EXAMPLE. Use this template to create custom firewall zones. Don't forget to remove the comment characters (#).
 #[some_zone--TMPLT:BEGIN]
 #zone_name=some_zone--custom
 #zone_description=
