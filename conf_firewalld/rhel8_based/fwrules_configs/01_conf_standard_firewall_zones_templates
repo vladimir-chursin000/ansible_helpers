@@ -77,7 +77,95 @@
 #[some_std_zone_name--TMPLT:END]
 
 ###STD ZONES. Copy the standard zone template from here if you want to make changes to it. Don't forget to remove the comment characters (#).
+#[block--TMPLT:BEGIN]
+#Unsolicited incoming network packets are rejected.
+#Incoming packets that are related to outgoing network connections are accepted.
+#Outgoing network connections are allowed.
+######
+#zone_name=block
+#zone_target=REJECT
+#zone_allowed_services=empty
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[block--TMPLT:END]
+
+#[dmz--TMPLT:BEGIN]
+#For computers in your demilitarized zone that are publicly-accessible with limited access to your internal network.
+#Only selected incoming connections are accepted.
+######
+#zone_name=dmz
+#zone_target=default
+#zone_allowed_services=ssh
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[dmz--TMPLT:END]
+
+#[drop--TMPLT:BEGIN]
+#Unsolicited incoming network packets are dropped.
+#Incoming packets that are related to outgoing network connections are accepted.
+#Outgoing network connections are allowed.
+######
+#zone_name=drop
+#zone_target=DROP
+#zone_allowed_services=empty
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[drop--TMPLT:END]
+
+#[external--TMPLT:BEGIN]
+#For use on external networks.
+#You do not trust the other computers on networks to not harm your computer.
+#Only selected incoming connections are accepted.
+######
+#zone_name=external
+#zone_target=default
+#zone_allowed_services=ssh
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=yes
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[external--TMPLT:END]
+
+#[internal--TMPLT:BEGIN]
+#For use on internal networks.
+#You mostly trust the other computers on the networks to not harm your computer.
+#Only selected incoming connections are accepted.
+######
+#zone_name=internal
+#zone_target=default
+#zone_allowed_services=cockpit,dhcpv6-client,mdns,samba-client,ssh
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[internal--TMPLT:END]
+
 #[public--TMPLT:BEGIN]
+#For use in public areas.
+#You do not trust the other computers on networks to not harm your computer.
+#Only selected incoming connections are accepted.
+######
 #zone_name=public
 #zone_target=default
 #zone_allowed_services=cockpit,dhcpv6-client,ssh
@@ -89,4 +177,53 @@
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
 #[public--TMPLT:END]
+
+#[trusted--TMPLT:BEGIN]
+#All network connections are accepted.
+######
+#zone_name=trusted
+#zone_target=ACCEPT
+#zone_allowed_services=empty
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[trusted--TMPLT:END]
+
+#[work--TMPLT:BEGIN]
+#For use in work areas.
+#You mostly trust the other computers on networks to not harm your computer.
+#Only selected incoming connections are accepted.
+######
+#zone_name=work
+#zone_target=default
+#zone_allowed_services=cockpit,dhcpv6-client,ssh
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[work--TMPLT:END]
+
+#[home--TMPLT:BEGIN]
+#For use in home areas.
+#You mostly trust the other computers on networks to not harm your computer.
+#Only selected incoming connections are accepted.
+######
+#zone_name=home
+#zone_target=default
+#zone_allowed_services=cockpit,dhcpv6-client,mdns,samba-client,ssh
+#zone_allowed_ports=empty
+#zone_allowed_protocol_list=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=empty
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
+#[home--TMPLT:END]
 #################################INSERT YOUR STANDARD ZONE TEMPLATES AFTER THIS LINE#################################
