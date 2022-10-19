@@ -75,7 +75,8 @@
 #zone_rich_rules_special = unique rich rules configuration for each inventory host (DO NOT USE AT this CONFIG! For information only)
     #To configure it is necessary to edit the file "04_conf_zone_rich_rules_special".
 
-#zone_rich_rules_general (Rules applied to all hosts within the firewall zone. One line - one rule. Insert rules after this line)
+#zone_rich_rules_general-> (Rules applied to all hosts within the firewall zone. One line - one rule. Insert rules after this line)
+    #Add rich rules = "firewall-cmd --permanent --zone=some_zone_name --add-rich-rule='some_rich_rule'" (for information).
     #some_rich_rule
 #[some_std_zone_name--TMPLT:END]
 
@@ -95,6 +96,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[block--TMPLT:END]
 
 #[dmz--TMPLT:BEGIN]
@@ -111,6 +113,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[dmz--TMPLT:END]
 
 #[drop--TMPLT:BEGIN]
@@ -128,6 +131,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[drop--TMPLT:END]
 
 #[external--TMPLT:BEGIN]
@@ -145,6 +149,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[external--TMPLT:END]
 
 #[internal--TMPLT:BEGIN]
@@ -162,6 +167,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[internal--TMPLT:END]
 
 #[public--TMPLT:BEGIN]
@@ -179,6 +185,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[public--TMPLT:END]
 
 #[trusted--TMPLT:BEGIN]
@@ -194,6 +201,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[trusted--TMPLT:END]
 
 #[work--TMPLT:BEGIN]
@@ -211,6 +219,7 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[work--TMPLT:END]
 
 #[home--TMPLT:BEGIN]
@@ -228,5 +237,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
+#zone_rich_rules_general->
 #[home--TMPLT:END]
 #################################INSERT YOUR STANDARD ZONE TEMPLATES AFTER THIS LINE#################################
