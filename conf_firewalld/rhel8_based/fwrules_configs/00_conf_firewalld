@@ -66,3 +66,5 @@
     # Parameter from /etc/firewalld/firewalld.conf
 
 #[some_firewalld_conf_template_name--TMPLT:END]
+
+#################################INSERT YOUR CUSTOM FIREWALL CONFIGURATION TEMPLATES AFTER THIS LINE#################################
