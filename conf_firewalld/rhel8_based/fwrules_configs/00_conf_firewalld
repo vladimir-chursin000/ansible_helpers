@@ -7,6 +7,9 @@
 #host_list_for_apply=all/list of hosts separated by ",".
     #If "all" -> the configuration will be applied to all inventory hosts.
 
+#unconfigured_custom_firewall_zones_action=remove/no_action.
+    #If "remove" -> all custom firewall zones not configured in the "01_conf_custom_firewall_zones_templates" file will be deleted.
+
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
     # Parameter from /etc/firewalld/firewalld.conf
