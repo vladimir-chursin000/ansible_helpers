@@ -5,10 +5,12 @@
 ###EXAMPLE (with explanation)
 #[some_firewalld_conf_template_name--TMPLT:BEGIN]
 #host_list_for_apply=all/list of hosts separated by ",".
-    #If "all" -> the configuration will be applied to all inventory hosts.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Custom parameter.
 
 #unconfigured_custom_firewall_zones_action=remove/no_action.
-    #If "remove" -> all custom firewall zones not configured in the "01_conf_custom_firewall_zones_templates" file will be deleted.
+    # If "remove" -> all custom firewall zones not configured in the "01_conf_custom_firewall_zones_templates" file will be deleted.
+    # Custom parameter.
 
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
@@ -16,6 +18,7 @@
 
 #CleanupOnExit=yes
     # If set to no or false the firewall configuration will not get cleaned up on exit or stop of firewalld. Default: yes.
+    # Parameter from /etc/firewalld/firewalld.conf
 
 #CleanupModulesOnExit=yes
     # Clean up kernel modules on exit. If set to yes or true the firewall related kernel modules will be unloaded on exit or stop of firewalld.
