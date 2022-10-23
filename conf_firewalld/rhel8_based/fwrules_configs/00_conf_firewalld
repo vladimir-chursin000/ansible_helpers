@@ -4,7 +4,8 @@
 
 ###EXAMPLE (with explanation)
 #[some_firewalld_conf_template_name--TMPLT:BEGIN]
-#host_list_for_apply=all/list of hosts separeted by ","
+#host_list_for_apply=all/list of hosts separated by ",".
+    #If "all" -> the configuration will be applied to all inventory hosts.
 
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
