@@ -1,0 +1,5 @@
+[rhel8_conf_linux_core_hosts]
+#WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
+
+[rhel8_conf_linux_core_hosts:vars]
+ansible_python_interpreter=/usr/bin/python3
