@@ -5,7 +5,8 @@
 # The firewall conf template name must always contain a substring "--TMPLT" at the end.
 # It is possible to create several firewall conf (#zone_name) with the same name but within different template_names to apply to different hosts.
 # Firewall conf template names must be unique.
-# Only one firewall configuration template is possible where parameter host_list_for_apply=all.
+# Only one firewall configuration template is possible where parameter "host_list_for_apply=all".
+# Configuration templates where a specific list of hosts is specified within the "host_list_for_apply" parameter take precedence.
 # Examples: firewall_conf_ver1--TMPLT, firewall_conf_ver2--TMPLT, firewall_conf_special--TMPLT, etc.
 
 ###EXAMPLE (with explanation)
