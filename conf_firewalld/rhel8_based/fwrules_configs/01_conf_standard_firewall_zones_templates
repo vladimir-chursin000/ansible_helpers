@@ -4,7 +4,7 @@
 
 # The zone template name must always contain a substring "--TMPLT" at the end and at the begin - standard zone name with "--" (for example, "public--").
 # Zone template names must be unique.
-# Examples: public--TMPLT, public--ver1--TMPLT, public--special_ver2--TMPLT.
+# Zone template name examples: public--TMPLT, public--ver1--TMPLT, public--special_ver2--TMPLT.
 
 ###EXAMPLE (with explanation)
 #[some_std_zone_name--TMPLT:BEGIN]
