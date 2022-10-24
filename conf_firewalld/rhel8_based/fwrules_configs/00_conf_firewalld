@@ -14,37 +14,37 @@
 
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #CleanupOnExit=yes
     # If set to no or false the firewall configuration will not get cleaned up on exit or stop of firewalld. Default: yes.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #CleanupModulesOnExit=yes
     # Clean up kernel modules on exit. If set to yes or true the firewall related kernel modules will be unloaded on exit or stop of firewalld.
     # This might attempt to unload  modules not originally loaded by firewalld. Default: yes.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #Lockdown=no
     # If set to enabled, firewall changes with the D-Bus interface will be limited to applications that are listed in the lockdown whitelist.
     # The lockdown whitelist file is lockdown-whitelist.xml. Default: no.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #IPv6_rpfilter=yes
     # Performs a reverse path filter test on a packet for IPv6. If a reply to the packet would be sent via the same interface that the packet arrived on, the
     # packet will match and be accepted, otherwise dropped.
     # The rp_filter for IPv4 is controlled using sysctl. Note: This feature has a performance impact. See man page FIREWALLD.CONF(5) for details. Default: yes.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #IndividualCalls=no
     # Do not use combined - restore calls, but individual calls. This increases the time that is needed to apply changes and to start the daemon, but is good for debugging.
     # Default: no.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #LogDenied=off
     # Add logging rules right before reject and drop rules in the INPUT, FORWARD and OUTPUT chains for the default rules and also final reject and drop rules in zones.
     # Possible values are: all, unicast, broadcast, multicast and off. Default: off.
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 
 #FirewallBackend=nftables
@@ -52,25 +52,72 @@
     # Choices are:
     # 	- nftables (default)
     #	- iptables (iptables, ip6tables, ebtables and ipset)
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #FlushAllOnReload=yes
     # Flush all runtime rules on a reload. In previous releases some runtime configuration was retained during a reload, namely; interface to zone assignment, and direct rules.
     # This was confusing to users. To get the old behavior set this to "no". Default: yes
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #RFC3964_IPv4=yes
     # As per RFC 3964, filter IPv6 traffic with 6to4 destination addresses that correspond to IPv4 addresses that should not be routed over the public internet. Defaults to "yes".
-    # Parameter from /etc/firewalld/firewalld.conf
-
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #AllowZoneDrifting=yes
     # Older versions of firewalld had undocumented behavior known as "zone drifting". This allowed packets to ingress multiple zones - this is a violation of zone based firewalls.
     # However, some users rely on this behavior to have a "catch-all" zone, e.g. the default zone. You can enable this if you desire such behavior. It's disabled by default for security reasons.
     # Note: If "yes" packets will only drift from source based zones to interface based zones (including the default zone). Packets never drift from interface based zones to other
     # interfaces based zones (including the default zone). Possible values; "yes", "no". Defaults to "yes".
-    # Parameter from /etc/firewalld/firewalld.conf
+    # Parameter for /etc/firewalld/firewalld.conf
 
 #[some_firewalld_conf_template_name--TMPLT:END]
 
+###CUSTOM FIREWALLD CONF EXAMPLES. Use this template to create custom firewall configurations. Don't forget to remove the comment characters (#).
+#[firewall_conf_for_all--TMPLT:BEGIN]
+#host_list_for_apply=all
+#unconfigured_custom_firewall_zones_action=no_action
+#DefaultZone=public
+#CleanupOnExit=yes
+#CleanupModulesOnExit=yes
+#Lockdown=no
+#IPv6_rpfilter=yes
+#IndividualCalls=no
+#LogDenied=off
+#FirewallBackend=nftables
+#FlushAllOnReload=yes
+#RFC3964_IPv4=yes
+#AllowZoneDrifting=yes
+#[firewall_conf_for_all--TMPLT:END]
+
+#[firewall_conf_ver1--TMPLT:BEGIN]
+#host_list_for_apply=192.168.0.2,192.168.0.3,192.168.0.10
+#unconfigured_custom_firewall_zones_action=remove
+#DefaultZone=public
+#CleanupOnExit=yes
+#CleanupModulesOnExit=yes
+#Lockdown=no
+#IPv6_rpfilter=yes
+#IndividualCalls=no
+#LogDenied=off
+#FirewallBackend=nftables
+#FlushAllOnReload=yes
+#RFC3964_IPv4=yes
+#AllowZoneDrifting=yes
+#[firewall_conf_for_all--TMPLT:END]
+
 #################################INSERT YOUR CUSTOM FIREWALL CONFIGURATION TEMPLATES AFTER THIS LINE#################################
+[firewall_conf_for_all--TMPLT:BEGIN]
+host_list_for_apply=all
+unconfigured_custom_firewall_zones_action=no_action
+DefaultZone=public
+CleanupOnExit=yes
+CleanupModulesOnExit=yes
+Lockdown=no
+IPv6_rpfilter=yes
+IndividualCalls=no
+LogDenied=off
+FirewallBackend=nftables
+FlushAllOnReload=yes
+RFC3964_IPv4=yes
+AllowZoneDrifting=yes
+[firewall_conf_for_all--TMPLT:END]
