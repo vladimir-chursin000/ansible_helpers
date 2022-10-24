@@ -9,3 +9,13 @@
 # Ipset conf template names must be unique.
 # Configuration templates where a specific list of hosts (separated by ",") is specified within the "host_list_for_apply" parameter take precedence.
 # Ipset conf template name examples: ipset1--TMPLT, ipset--ver1--TMPLT, ipset--special_ver2--TMPLT.
+
+###EXAMPLE (with explanation)
+#[some_ipset_template_name--TMPLT:BEGIN]
+#ipset_name=some_ipset_name
+    # All ipsets not configured within this config will be removed on remote hosts.
+
+#host_list_for_apply=all/list of hosts separated by ",".
+    # If "all" -> the configuration will be applied to all inventory hosts.
+
+#[some_ipset_template_name--TMPLT:END]
