@@ -1,3 +1,6 @@
 ###########################################
 #FOR CONFIGURATION OF IPSETS for FIREWALLD#
 ###########################################
+
+# For use in configuration files "02_conf_zone_sources" and "04_conf_zone_rich_rules_special" as well as within the parameter
+# "zone_rich_rules_general" (config files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates").
