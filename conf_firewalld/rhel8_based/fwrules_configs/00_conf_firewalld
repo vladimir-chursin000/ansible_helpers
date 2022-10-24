@@ -2,6 +2,12 @@
 #FOR CONFIGURATION FIREWALLD (/etc/firewalld/firewalld.conf)#
 #############################################################
 
+# The firewall conf template name must always contain a substring "--TMPLT" at the end.
+# It is possible to create several firewall conf (#zone_name) with the same name but within different template_names to apply to different hosts.
+# Firewall conf template names must be unique.
+# Only one firewall configuration template is possible where parameter host_list_for_apply=all.
+# Examples: firewall_conf_ver1--TMPLT, firewall_conf_ver2--TMPLT, firewall_conf_special--TMPLT, etc.
+
 ###EXAMPLE (with explanation)
 #[some_firewalld_conf_template_name--TMPLT:BEGIN]
 #host_list_for_apply=all/list of hosts separated by ",".
