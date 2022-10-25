@@ -18,4 +18,6 @@
 #host_list_for_apply=all/list of hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
 
+#ip_list-> (Insert ip-addresses/subnets after this line. Each line can contain multiple addresses separated by ",").
+    #10.1.2.3,10.7.8.0/24 (for example)
 #[some_ipset_template_name--TMPLT:END]
