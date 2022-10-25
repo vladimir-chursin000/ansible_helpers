@@ -16,7 +16,7 @@
     # All ipsets not configured within this config will be removed on remote hosts.
     # Create ipset-list = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
 
-#ipset_type=some_ipset_type.
+#ipset_type=some_ipset_type
     # Possible values:
 	# hash:ip
 	# hash:ip,mark
