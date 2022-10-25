@@ -31,9 +31,9 @@
     # Interfaces for include into the zone. Forms interface based type of the zone.
     # Add interace to zone = "firewall-cmd --permanent --zone=some_zone_name --add-interface=some_interface_name" (for information).
 
-#zone_source_list=IPv4_a1,IPv4_a2,IPv6_a1,IPrange|IPset_name (DO NOT USE AT this CONFIG! For information only)
+#zone_source_list=IPv4_a1,IPv4_a2,IPv6_a1,IPrange|ipset:some_ipset_name (DO NOT USE AT this CONFIG! For information only)
     # IPv4_a1,IPv4_a2,IPv6_a1,IPrange = to configure it is necessary to edit the file "02_conf_zone_sources".
-    # IPset = to configure it is necessary to edit the file "02_conf_ipset".
+    # ipset:some_ipset_name = to configure it is necessary to edit the file "02_conf_ipset".
     # Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
     # Add source to zone = "firewall-cmd --permanent --zone=some_zone_name --add-source=10.10.1.0/24" (for information).
 

@@ -14,10 +14,28 @@
 #[some_ipset_template_name--TMPLT:BEGIN]
 #ipset_name=some_ipset_name
     # All ipsets not configured within this config will be removed on remote hosts.
+    # Create ipset-list = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
 
-#host_list_for_apply=all/list of hosts separated by ",".
+#ipset_type=some_ipset_type.
+    # Possible values:
+	# hash:ip
+	# hash:ip,mark
+	# hash:ip,port
+	# hash:ip,port,ip
+	# hash:ip,port,net
+	# hash:mac
+	# hash:net
+	# hash:net,iface
+	# hash:net,net
+	# hash:net,port
+	# hash:net,port,net
+
+#inv_host_list_for_apply=all/list of inventory hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
 
-#ip_list-> (Insert ip-addresses/subnets after this line. Each line can contain multiple addresses separated by ",").
-    #10.1.2.3,10.7.8.0/24 (for example)
+#ipset_list-> (Insert ip-addresses/subnets after this line).
+    # Each line can contain multiple addresses (or other types of ipsets) separated by ",".
+    # The input values for the "ipset_list" parameter must match the selected "ipset_type".
+    # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ip_list.txt" (for information).
+#10.1.2.3,10.7.8.0/24 (example for ipset_type = hash:net)
 #[some_ipset_template_name--TMPLT:END]
