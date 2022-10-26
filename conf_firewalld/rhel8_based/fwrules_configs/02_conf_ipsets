@@ -35,6 +35,7 @@
 
 #ipset_list-> (Insert ip-addresses/subnets after this line).
     # Each line can contain multiple addresses (or other types of ipsets) separated by ",".
+    # Maximum number of items in ipset list 65536.
     # The input values for the "ipset_list" parameter must match the selected "ipset_type".
     # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ip_list.txt" (for information).
 #10.1.2.3,10.7.8.0/24 (example for ipset_type = hash:net)
