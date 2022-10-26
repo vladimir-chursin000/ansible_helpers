@@ -33,10 +33,13 @@
 #inv_host_list_for_apply=all/list of inventory hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
 
-#ipset_list-> (Insert ip-addresses/subnets after this line).
-    # Each line can contain multiple addresses (or other types of ipsets) separated by ",".
-    # Maximum number of items in ipset list 65536.
+#ipset_list_dir (for information only).
+    # The ipset list files (and subfolders) will be created in the "playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/inventory_host/some_ipset_name" directory.
+    # after run "IPSET_files_operation.pl".
+    # For example, "playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/inventory_host/some_ipset_name/some_ipset_name-NUM.txt".
+    # See file "playbooks/dyn_fwrules_playbooks/ipsets/info" for more details.
+    ###
     # The input values for the "ipset_list" parameter must match the selected "ipset_type".
-    # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ip_list.txt" (for information).
-#10.1.2.3,10.7.8.0/24 (example for ipset_type = hash:net)
+    # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
+    # Remove ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
 #[some_ipset_template_name--TMPLT:END]

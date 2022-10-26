@@ -12,6 +12,8 @@ NOT READY YET!
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host. Used with
 # 'apply_immediately_fwrules.sh' and 'install_firewall_and_configure_fwrules.sh'.
 
+# 'IPSET_files_operation.pl' = SCRIPT for create subfolders and manipulate ipset-files for each inventory host.
+
 # 'apply_immediately_fwrules.sh' = run for immediately apply changes (without run installation of 'firewalld') if generated firewall rules differ from actual rules on remote host.
 # Also cancel execution of firewall rules rollback operation (rollback_fwrules_changes.sh) on remote host if need.
 
