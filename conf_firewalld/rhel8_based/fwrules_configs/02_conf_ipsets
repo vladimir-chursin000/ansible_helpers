@@ -20,16 +20,28 @@
 #ipset_type=some_ipset_type
     # Possible values:
 	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
+	    # Examples: 192.168.10.67, 192.168.11.0/24.
 	# hash:ip,mark
+	    # Examples:
 	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address.
+	    # Examples:
 	# hash:ip,port,ip
+	    # Examples:
 	# hash:ip,port,net
+	    # Examples:
 	# hash:mac
+	    # Examples:
 	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike hash:ip, subnets with different masks can be present in one list.
+	    # Examples:
 	# hash:net,iface
+	    # Examples:
 	# hash:net,net
+	    # Examples:
 	# hash:net,port
+	    # Examples:
 	# hash:net,port,net
+	    # Examples:
+    # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
 
 #inv_host_list_for_apply=all/list of inventory hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
