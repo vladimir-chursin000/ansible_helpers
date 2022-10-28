@@ -21,11 +21,13 @@
     # Possible values:
 	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
 	    # Examples: 192.168.10.67; 192.168.11.0/24.
-	# hash:ip,mark
-	    # Examples:
+	# hash:ip,mark = uses a hash to store IP address and packet mark pairs. Allows you to set bits you are interested in the packet mark.
+	    # This values is then used to perform bitwise AND operation for every mark added. Markmask can be any value between 1 and 4294967295, by default all 32 bits are set.
+	    # The mark can be any value between 0 and 4294967295.
+	    # Examples: 192.168.1.0/24,555; 192.168.1.1,0x63; 192.168.1.1,111236.
 	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
 	    # Examples: 192.168.12.12,udp:53; 192.168.1.0/24,80-82; 192.168.1.1,vrrp:0; 192.168.1.1,80.
-	# hash:ip,port,ip
+	# hash:ip,port,ip = a selective list of IP addresses, where a port and one more IP address can be stored with each address.
 	    # Examples:
 	# hash:ip,port,net
 	    # Examples:
