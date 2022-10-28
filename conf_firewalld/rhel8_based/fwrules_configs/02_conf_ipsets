@@ -9,6 +9,7 @@
 # Ipset conf template names must be unique.
 # Configuration templates where a specific list of hosts (separated by ",") is specified within the "host_list_for_apply" parameter take precedence.
 # Ipset conf template name examples: ipset1--TMPLT, ipset--ver1--TMPLT, ipset--special_ver2--TMPLT.
+# About version of ipset = ipset v7.1, protocol version: 7
 
 ###EXAMPLE (with explanation)
 #[some_ipset_template_name--TMPLT:BEGIN]
@@ -18,13 +19,13 @@
 
 #ipset_type=some_ipset_type
     # Possible values:
-	# hash:ip
+	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
 	# hash:ip,mark
-	# hash:ip,port
+	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address.
 	# hash:ip,port,ip
 	# hash:ip,port,net
 	# hash:mac
-	# hash:net
+	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike hash:ip, subnets with different masks can be present in one list.
 	# hash:net,iface
 	# hash:net,net
 	# hash:net,port

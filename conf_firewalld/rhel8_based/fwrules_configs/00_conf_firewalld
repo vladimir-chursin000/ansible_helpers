@@ -8,6 +8,7 @@
 # Only one firewall configuration template is possible where parameter "host_list_for_apply=all".
 # Configuration templates where a specific list of hosts (separated by ",") is specified within the "host_list_for_apply" parameter take precedence.
 # Firewall conf template names examples: firewall_conf_ver1--TMPLT, firewall_conf_ver2--TMPLT, firewall_conf_special--TMPLT, etc.
+# About firewall-cmd = 0.9.3.
 
 ###EXAMPLE (with explanation)
 #[some_firewalld_conf_template_name--TMPLT:BEGIN]
