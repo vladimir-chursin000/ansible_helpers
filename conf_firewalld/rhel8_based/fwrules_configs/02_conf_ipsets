@@ -38,14 +38,16 @@
 	    # You can also store a transport layer protocol ID for each port number.
 	    # Examples: 192.168.1,tcp:8080,10.0.0/24; 192.168.2,25,10.1.0.0/16; 192.168.1,80.10.0.0/24.
 	
-	# hash:mac
-	    # Examples:
+	# hash:mac = uses a hash to store MAC addresses. Zero valued MAC addresses cannot be stored in a "hash:mac" type of set. For matches on destination MAC addresses.
+	    # Examples: 01:02:03:04:05:06.
 	
-	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike hash:ip, subnets with different masks can be present in one list.
+	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike "hash:ip", subnets with different masks can be present in one list.
 	    # Examples: 192.168.0.0/24; 10.1.0.0/16; 192.168.0/24; 192.168.0/30 nomatch (nomatch = exception).
 	
-	# hash:net,iface
-	    # Examples:
+	# hash:net,iface = a selective list of IP subnets, whereby the name of the network interface can be stored with each subnet.
+	    # There is a limitation that you cannot store more than 64 interface names with the same subnet address.
+	    # This data type is useful when a system has a large number of network interfaces (for example, hundreds of VLAN interfaces).
+	    # Examples: 192.168.0/24,eth0; 10.1.0.0/16,eth1; 192.168.0/24,eth0.
 	
 	# hash:net,net
 	    # Examples:
