@@ -49,14 +49,19 @@
 	    # This data type is useful when a system has a large number of network interfaces (for example, hundreds of VLAN interfaces).
 	    # Examples: 192.168.0/24,eth0; 10.1.0.0/16,eth1; 192.168.0/24,eth0.
 	
-	# hash:net,net
-	    # Examples:
+	# hash:net,net = uses a hash to store pairs of different sized IP network addresses.
+	    # Bear in mind that the first parameter has precedence over the second, so a nomatch entry could be potentially be ineffective if a more specific first parameter 
+	    # existed with a suitable second parameter. Network address with zero prefix size cannot be stored in this type of set.
+	    # Examples: 192.168.0.0/24,10.0.1.0/24; 10.1.0.0/16,10.255.0.0/24; 192.168.0/24,192.168.54.0-192.168.54.255; 192.168.0/30,192.168.64/30 nomatch.
 	
-	# hash:net,port
-	    # Examples:
+	# hash:net,port = uses a hash to store different sized IP network address and port pairs.
+	    # The port number is interpreted together with a protocol (default TCP) and zero protocol number cannot be used.
+	    # Network address with zero prefix size is not accepted either.
+	    # Examples: 192.168.0/24,25; 10.1.0.0/16,80; 192.168.0/24,25.
 	
-	# hash:net,port,net
-	    # Examples:
+	# hash:net,port,net = behaves similarly to hash:ip,port,net but accepts a cidr value for both the first and last parameter.
+	    # Either subnet is permitted to be a /0 should you wish to match port between all destinations.
+	    # Examples: 192.168.1.0/24,0,10.0.0/24; 192.168.2.0/24,25,10.1.0.0/16; 192.168.1.1,80,10.0.0.1.
 	
     # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
 
