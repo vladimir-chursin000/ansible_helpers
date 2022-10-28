@@ -28,7 +28,7 @@
 	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
 	    # Examples: 192.168.12.12,udp:53; 192.168.1.0/24,80-82; 192.168.1.1,vrrp:0; 192.168.1.1,80.
 	# hash:ip,port,ip = a selective list of IP addresses, where a port and one more IP address can be stored with each address.
-	    # Examples:
+	    # Examples: 192.168.1.1,80,10.0.0.1; 192.168.1.1,udp:53,10.0.0.1.
 	# hash:ip,port,net
 	    # Examples:
 	# hash:mac
