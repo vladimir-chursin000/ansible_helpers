@@ -57,11 +57,13 @@
 	# hash:net,port = uses a hash to store different sized IP network address and port pairs.
 	    # The port number is interpreted together with a protocol (default TCP) and zero protocol number cannot be used.
 	    # Network address with zero prefix size is not accepted either.
-	    # Examples: 192.168.0/24,25; 10.1.0.0/16,80; 192.168.0/24,25.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Examples: 192.168.0/24,25; 10.1.0.0/16,80; 192.168.0/24,25; 192.168.1.0/24,tcp:8081.
 	
 	# hash:net,port,net = behaves similarly to hash:ip,port,net but accepts a cidr value for both the first and last parameter.
 	    # Either subnet is permitted to be a /0 should you wish to match port between all destinations.
-	    # Examples: 192.168.1.0/24,0,10.0.0/24; 192.168.2.0/24,25,10.1.0.0/16; 192.168.1.1,80,10.0.0.1.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Examples: 192.168.1.0/24,0,10.0.0/24; 192.168.2.0/24,25,10.1.0.0/16; 192.168.1.1,80,10.0.0.1; 192.168.1.2,tcp:8081,10.0.0.2.
 	
     # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
 
