@@ -19,17 +19,43 @@
 
 #ipset_type=some_ipset_type
     # Possible values:
+	# Therefore only a limited list of ipset types can be used as sources in zones: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac.
+	###
 	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
+	    # Can be used as source in zones.
 	    # Examples: 192.168.10.67; 192.168.11.0/24.
 	
+	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
+	    # Can be used as source in zones.
+	    # Examples: 192.168.12.12,udp:53; 192.168.1.0/24,80-82; 192.168.1.1,vrrp:0; 192.168.1.1,80.
+
 	# hash:ip,mark = uses a hash to store IP address and packet mark pairs. Allows you to set bits you are interested in the packet mark.
 	    # This values is then used to perform bitwise AND operation for every mark added. Markmask can be any value between 1 and 4294967295, by default all 32 bits are set.
 	    # The mark can be any value between 0 and 4294967295.
+	    # Can be used as source in zones.
 	    # Examples: 192.168.1.0/24,555; 192.168.1.1,0x63; 192.168.1.1,111236.
-	
-	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
-	    # Examples: 192.168.12.12,udp:53; 192.168.1.0/24,80-82; 192.168.1.1,vrrp:0; 192.168.1.1,80.
-	
+
+	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike "hash:ip", subnets with different masks can be present in one list.
+	    # Can be used as source in zones.
+	    # Examples: 192.168.0.0/24; 10.1.0.0/16; 192.168.0/24; 192.168.0/30 nomatch (nomatch = exception).
+
+	# hash:net,port = uses a hash to store different sized IP network address and port pairs.
+	    # The port number is interpreted together with a protocol (default TCP) and zero protocol number cannot be used.
+	    # Network address with zero prefix size is not accepted either.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Can be used as source in zones.
+	    # Examples: 192.168.0/24,25; 10.1.0.0/16,80; 192.168.0/24,25; 192.168.1.0/24,tcp:8081.
+
+	# hash:net,iface = a selective list of IP subnets, whereby the name of the network interface can be stored with each subnet.
+	    # There is a limitation that you cannot store more than 64 interface names with the same subnet address.
+	    # This data type is useful when a system has a large number of network interfaces (for example, hundreds of VLAN interfaces).
+	    # Can be used as source in zones.
+	    # Examples: 192.168.0/24,eth0; 10.1.0.0/16,eth1; 192.168.0/24,eth0.
+
+	# hash:mac = uses a hash to store MAC addresses. Zero valued MAC addresses cannot be stored in a "hash:mac" type of set. For matches on destination MAC addresses.
+	    # Can be used as source in zones.
+	    # Examples: 01:02:03:04:05:06.
+	#############################################
 	# hash:ip,port,ip = a selective list of IP addresses, where a port and one more IP address can be stored with each address.
 	    # You can also store a transport layer protocol ID for each port number.
 	    # Examples: 192.168.1.1,80,10.0.0.1; 192.168.1.1,udp:53,10.0.0.1.
@@ -38,27 +64,10 @@
 	    # You can also store a transport layer protocol ID for each port number.
 	    # Examples: 192.168.1,tcp:8080,10.0.0/24; 192.168.2,25,10.1.0.0/16; 192.168.1,80.10.0.0/24.
 	
-	# hash:mac = uses a hash to store MAC addresses. Zero valued MAC addresses cannot be stored in a "hash:mac" type of set. For matches on destination MAC addresses.
-	    # Examples: 01:02:03:04:05:06.
-	
-	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike "hash:ip", subnets with different masks can be present in one list.
-	    # Examples: 192.168.0.0/24; 10.1.0.0/16; 192.168.0/24; 192.168.0/30 nomatch (nomatch = exception).
-	
-	# hash:net,iface = a selective list of IP subnets, whereby the name of the network interface can be stored with each subnet.
-	    # There is a limitation that you cannot store more than 64 interface names with the same subnet address.
-	    # This data type is useful when a system has a large number of network interfaces (for example, hundreds of VLAN interfaces).
-	    # Examples: 192.168.0/24,eth0; 10.1.0.0/16,eth1; 192.168.0/24,eth0.
-	
 	# hash:net,net = uses a hash to store pairs of different sized IP network addresses.
 	    # Bear in mind that the first parameter has precedence over the second, so a nomatch entry could be potentially be ineffective if a more specific first parameter 
 	    # existed with a suitable second parameter. Network address with zero prefix size cannot be stored in this type of set.
 	    # Examples: 192.168.0.0/24,10.0.1.0/24; 10.1.0.0/16,10.255.0.0/24; 192.168.0/24,192.168.54.0-192.168.54.255; 192.168.0/30,192.168.64/30 nomatch.
-	
-	# hash:net,port = uses a hash to store different sized IP network address and port pairs.
-	    # The port number is interpreted together with a protocol (default TCP) and zero protocol number cannot be used.
-	    # Network address with zero prefix size is not accepted either.
-	    # You can also store a transport layer protocol ID for each port number.
-	    # Examples: 192.168.0/24,25; 10.1.0.0/16,80; 192.168.0/24,25; 192.168.1.0/24,tcp:8081.
 	
 	# hash:net,port,net = behaves similarly to hash:ip,port,net but accepts a cidr value for both the first and last parameter.
 	    # Either subnet is permitted to be a /0 should you wish to match port between all destinations.
