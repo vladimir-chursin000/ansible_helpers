@@ -1,3 +1,5 @@
 #########################################
 #FOR ASSIGN INTERFACES to FIREWALL ZONES#
 #########################################
+
+#INVENTORY_HOST		#FIREWALL_ZONE_NAME_TMPLT		#INTERFACE_LIST
