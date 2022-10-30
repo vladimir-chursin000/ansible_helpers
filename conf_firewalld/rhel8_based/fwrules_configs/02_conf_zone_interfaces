@@ -2,4 +2,12 @@
 #FOR ASSIGN INTERFACES to FIREWALL ZONES#
 #########################################
 
+# INVENTORY_HOST = host from inventory file.
+###
+# FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates".
+###
+# INTERFACE_LIST = list of interfaces, separated by ",".
+###
 #INVENTORY_HOST		#FIREWALL_ZONE_NAME_TMPLT		#INTERFACE_LIST
+#10.1.2.3		zone1--TMPLT				eth0,eth1,ens01 (example)
+#10.3.2.2		public--TMPLT				eth11,eth12,eth12 (example)
