@@ -2,8 +2,12 @@ Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in
 with names corresponding to the "#ipset_name" parameter (config "02_conf_ipsets") for subsequent placement of lists for the ipset functionality.
 
 The maximum number of lines in each file must not exceed 65536 (tracked automatically by the script "IPSET_files_operation.pl").
+If the number of lines in the file exceeds 65536, then a file with NUM+1 will be automatically created and added
+to the appropriate firewall rules (after running "generate_dynamic_fwrules.pl").
 
 The ipset list files format "ipset_name-NUM.txt". Numbering starts from 0.
 
 For example, "playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/inventory_host/some_ipset_name-0.txt", 
 "playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/inventory_host/some_ipset_name-1.txt", etc.
+########################
+Do not make manual changes to files in this directory!!!
