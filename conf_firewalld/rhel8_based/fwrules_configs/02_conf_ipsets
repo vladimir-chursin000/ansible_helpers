@@ -18,13 +18,23 @@
     # All ipsets not configured within this config will be removed on remote hosts.
     # Create ipset-list = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
 
+#ipset_option_timeout=0|some_timeout
+
+#ipset_option_counters_is_enabled=no|yes
+
+#ipset_option_comment=empty
+
+#ipset_option_
+
 #ipset_type=some_ipset_type
     # Possible values:
 	# Therefore only a limited list of ipset types can be used as sources in zones: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac.
 	###
 	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
 	    # Can be used as source in zones.
-	    # Examples: 192.168.10.67; 192.168.11.0/24.
+	    # Examples:
+		# 192.168.10.67
+		# 192.168.11.0/24
 	
 	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
 	    # Can be used as source in zones.
