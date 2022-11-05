@@ -43,6 +43,12 @@
     # Default = 65536.
     # This parameter is valid for the create command of all hash type sets. It does define the maximal number of elements which can be stored in the set.
 
+#ipset_create_option_family=inet|inet6
+    # Default = inet (IPv4).
+    # This parameter is valid for the create command of all hash type sets except for "hash:mac".
+    # It defines the protocol family of the IP addresses to be stored in the set.
+    # For the inet family one can add or delete multiple entries by specifying a range or a network of IPv4 addresses in the IP address part of the entry.
+
 #ipset_type=some_ipset_type
     # Possible values:
 	# Therefore only a limited list of ipset types can be used as sources in zones: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac.
