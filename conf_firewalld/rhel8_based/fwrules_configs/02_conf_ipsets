@@ -18,13 +18,17 @@
     # All ipsets not configured within this config will be removed on remote hosts.
     # Create ipset-list = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
 
-#ipset_option_timeout=0|some_timeout
+#ipset_create_option_timeout=0|some_timeout
+    # Default = 0.
 
-#ipset_option_counters_is_enabled=no|yes
+#ipset_create_option_counters_is_enabled=no|yes
+    # Default = no.
+    # If "yes" -> allowed "packets, bytes" options when adding items to ipset.
 
-#ipset_option_comment=empty
+#ipset_create_option_comment=empty|some_comment
+    # Default = empty.
 
-#ipset_option_
+#ipset_create_option_skbinfo_is_enabled=no|yes
 
 #ipset_type=some_ipset_type
     # Possible values:
