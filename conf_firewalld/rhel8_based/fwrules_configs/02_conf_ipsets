@@ -20,6 +20,8 @@
 
 #ipset_create_option_timeout=0|some_timeout
     # Default = 0.
+    # If equal to "0" then ipset elements are used without time limits.
+    # If the value is greater than 0 (for example, 50) then any added element will be removed from ipset after the specified time (in seconds), for example, after 50 seconds.
 
 #ipset_create_option_counters_is_enabled=no|yes
     # Default = no.
@@ -29,6 +31,8 @@
     # Default = empty.
 
 #ipset_create_option_skbinfo_is_enabled=no|yes
+    # Default = no.
+    # If "yes" -> allowed "skbmark, skbprio, skbqueue" options when adding items to ipset.
 
 #ipset_type=some_ipset_type
     # Possible values:
