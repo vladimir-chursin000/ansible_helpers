@@ -18,6 +18,7 @@
     # All ipsets not configured within this config will be removed on remote hosts.
     # Create ipset-list = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
 
+###ipset create options
 #ipset_create_option_timeout=0|some_timeout
     # Default = 0.
     # If equal to "0" then ipset elements are used without time limits.
@@ -52,6 +53,7 @@
 #ipset_create_option_forceadd_is_enabled=no|yes
     # Default = no.
     # When sets created with this option become full (if > #ipset_create_option_maxelem) the next addition to the set may succeed and evict a random entry from the set.
+###ipset create options
 
 #ipset_type=some_ipset_type
     # Possible values:
@@ -145,6 +147,7 @@
 		# 192.168.1.2,tcp:8081,10.0.0.2.
 	
     # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
+    # Create ipset with parameters = "firewall-cmd --permanent --new-ipset=blacklist --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
 
 #inv_host_list_for_apply=all/list of inventory hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
