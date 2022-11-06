@@ -1,0 +1,1 @@
+"ipset_input/errors/some_ipset_template_name/some_inventory_host/some_ipset_name" -dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).

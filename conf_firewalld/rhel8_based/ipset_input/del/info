@@ -1,0 +1,1 @@
+"ipset_input/del/some_ipset_template_name/some_inventory_host/some_ipset_name" -dir for delete entries from ipset.
