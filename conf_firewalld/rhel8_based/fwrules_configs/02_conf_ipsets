@@ -21,18 +21,18 @@
 #ipset_create_option_timeout=0|some_timeout
     # Default = 0.
     # If equal to "0" then ipset elements are used without time limits.
-    # If the value is greater than 0 (for example, 50) then any added element will be removed from ipset after the specified time (in seconds), for example, after 50 seconds.
+    # If the value is greater than 0 (for example, 50) then any added element will be removed from the set after the specified time (in seconds), for example, after 50 seconds.
 
 #ipset_create_option_counters_is_enabled=no|yes
     # Default = no.
-    # If "yes" -> allowed "packets, bytes" options when adding items to ipset.
+    # If "yes" -> allowed "packets, bytes" options when adding items to the set.
 
 #ipset_create_option_comment=empty|some_comment
     # Default = empty.
 
 #ipset_create_option_skbinfo_is_enabled=no|yes
     # Default = no.
-    # If "yes" -> allowed "skbmark, skbprio, skbqueue" options when adding items to ipset.
+    # If "yes" -> allowed "skbmark, skbprio, skbqueue" options when adding items to the set.
 
 #ipset_create_option_hashsize=1024
     # Deault = 1024.
@@ -48,6 +48,10 @@
     # This parameter is valid for the create command of all hash type sets except for "hash:mac".
     # It defines the protocol family of the IP addresses to be stored in the set.
     # For the inet family one can add or delete multiple entries by specifying a range or a network of IPv4 addresses in the IP address part of the entry.
+
+#ipset_create_option_forceadd_is_enabled=no|yes
+    # Default = no.
+    # When sets created with this option become full (if > #ipset_create_option_maxelem) the next addition to the set may succeed and evict a random entry from the set.
 
 #ipset_type=some_ipset_type
     # Possible values:
