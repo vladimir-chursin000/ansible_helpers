@@ -1,5 +1,4 @@
-Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in the path) will be created in this directory (using the "IPSET_files_operation.pl" script)
-with names corresponding to the "#ipset_name" parameter (config "02_conf_ipsets") for subsequent placement of lists for the ipset functionality.
+Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in the path) will be created in this directory (using the "IPSET_files_operation.pl" script).
 
 Example path for permanent set = "..playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/inventory_host/some_ipset_name.txt".
 Example path for temporary set = "..playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/inventory_host/some_ipset_name-tmpset.txt".
