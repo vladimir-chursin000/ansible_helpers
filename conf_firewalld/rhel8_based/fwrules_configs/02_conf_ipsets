@@ -21,61 +21,72 @@
 ###ipset create options
 #ipset_create_option_timeout=0|some_timeout
     # Default = 0.
+    # Original name of paramameter = timeout.
     # If equal to "0" then ipset elements are used without time limits.
     # If the value is greater than 0 (for example, 50) then any added element will be removed from the set after the specified time (in seconds), for example, after 50 seconds.
 
 #ipset_create_option_counters_is_enabled=no|yes
     # Default = no.
+    # Original name of paramameter = counters.
     # If "yes" -> allowed "packets, bytes" options when adding items to the set.
 
 #ipset_create_option_comment=empty|some_comment
     # Default = empty.
+    # Original name of paramameter = comment.
 
 #ipset_create_option_skbinfo_is_enabled=no|yes
     # Default = no.
+    # Original name of paramameter = skbinfo.
     # If "yes" -> allowed "skbmark, skbprio, skbqueue" options when adding items to the set.
 
 #ipset_create_option_hashsize=1024
     # Deault = 1024.
+    # Original name of paramameter = hashsize.
     # Parameter defines the initial hash size for the set.
     # The hash size must be a power of two, the kernel automatically rounds up non power of two hash sizes to the first correct value.
 
 #ipset_create_option_maxelem=65536
     # Default = 65536.
+    # Original name of paramameter = maxelem.
     # This parameter is valid for the create command of all hash type sets. It does define the maximal number of elements which can be stored in the set.
 
 #ipset_create_option_family=inet|inet6
     # Default = inet (IPv4).
+    # Original name of paramameter = family.
     # This parameter is valid for the create command of all hash type sets except for "hash:mac".
     # It defines the protocol family of the IP addresses to be stored in the set.
     # For the inet family one can add or delete multiple entries by specifying a range or a network of IPv4 addresses in the IP address part of the entry.
 
 #ipset_create_option_forceadd_is_enabled=no|yes
     # Default = no.
+    # Original name of paramameter = forceadd.
     # When sets created with this option become full (if > #ipset_create_option_maxelem) the next addition to the set may succeed and evict a random entry from the set.
 ###ipset create options
 
 ###ipset add options
-# For information only.
-
-#nomatch 
+# nomatch (for information only)
     # When matching elements in the set, entries marked as nomatch are skipped as if those were not added to the set, which makes possible to build up sets with exceptions.
     # For apply to ipset_types: hash:net; hash:net,port; hash:net,iface; hash:ip,port,net; hash:net,net; hash:net,port,net.
 
-#packets
+# packets (for information only)
     # Allowed only if "ipset_create_option_counters_is_enabled=yes".
+    # For apply to ipset_types: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac; hash:ip,port,ip; hash:ip,port,net; hash:net,net; hash:net,port,net.
 
-#bytes
+# bytes (for information only)
     # Allowed only if "ipset_create_option_counters_is_enabled=yes".
+    # For apply to ipset_types: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac; hash:ip,port,ip; hash:ip,port,net; hash:net,net; hash:net,port,net.
 
-#skbmark
+# skbmark (for information only)
     # Allowed only if "ipset_create_option_skbinfo_is_enabled=yes".
+    # For apply to ipset_types: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac; hash:ip,port,ip; hash:ip,port,net; hash:net,net; hash:net,port,net.
 
-#skbprio
+# skbprio (for information only)
     # Allowed only if "ipset_create_option_skbinfo_is_enabled=yes".
+    # For apply to ipset_types: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac; hash:ip,port,ip; hash:ip,port,net; hash:net,net; hash:net,port,net.
 
-#skbqueue
+# skbqueue (for information only)
     # Allowed only if "ipset_create_option_skbinfo_is_enabled=yes".
+    # For apply to ipset_types: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac; hash:ip,port,ip; hash:ip,port,net; hash:net,net; hash:net,port,net.
 ###ipset add options
 
 #ipset_type=some_ipset_type
