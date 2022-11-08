@@ -61,6 +61,21 @@
 #nomatch 
     # When matching elements in the set, entries marked as nomatch are skipped as if those were not added to the set, which makes possible to build up sets with exceptions.
     # For apply to ipset_types: hash:net; hash:net,port; hash:net,iface; hash:ip,port,net; hash:net,net; hash:net,port,net.
+
+#packets
+    # Allowed only if "ipset_create_option_counters_is_enabled=yes".
+
+#bytes
+    # Allowed only if "ipset_create_option_counters_is_enabled=yes".
+
+#skbmark
+    # Allowed only if "ipset_create_option_skbinfo_is_enabled=yes".
+
+#skbprio
+    # Allowed only if "ipset_create_option_skbinfo_is_enabled=yes".
+
+#skbqueue
+    # Allowed only if "ipset_create_option_skbinfo_is_enabled=yes".
 ###ipset add options
 
 #ipset_type=some_ipset_type
