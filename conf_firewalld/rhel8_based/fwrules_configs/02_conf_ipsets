@@ -16,7 +16,7 @@
 #[some_ipset_template_name--TMPLT:BEGIN]
 #ipset_name=some_ipset_name
     # All ipsets not configured within this config will be removed on remote hosts.
-    # Create ipset-list with default create options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
+    # Create ipset-list with default options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information only).
 
 ###ipset create options
 #ipset_create_option_timeout=0|some_timeout
@@ -61,9 +61,11 @@
     # Default = no.
     # Original name of paramameter = forceadd.
     # When sets created with this option become full (if > #ipset_create_option_maxelem) the next addition to the set may succeed and evict a random entry from the set.
+    
+    # Create ipset-list with custom options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
 ###ipset create options
 
-###ipset add options
+###ipset add options (for information only)
 # nomatch (for information only)
     # When matching elements in the set, entries marked as nomatch are skipped as if those were not added to the set, which makes possible to build up sets with exceptions.
     # For apply to ipset_types: hash:net; hash:net,port; hash:net,iface; hash:ip,port,net; hash:net,net; hash:net,port,net.
