@@ -16,7 +16,7 @@
 #[some_ipset_template_name--TMPLT:BEGIN]
 #ipset_name=some_ipset_name
     # All ipsets not configured within this config will be removed on remote hosts.
-    # Create ipset-list = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
+    # Create ipset-list with default create options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information).
 
 ###ipset create options
 #ipset_create_option_timeout=0|some_timeout
