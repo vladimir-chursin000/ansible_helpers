@@ -28,3 +28,7 @@ if ( defined($ARGV[0]) && $ARGV[0]=~/^with_rollback$/ ) {
 
 ############MAIN SEQ
 ############MAIN SEQ
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

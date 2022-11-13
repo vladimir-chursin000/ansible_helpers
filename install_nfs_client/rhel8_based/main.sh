@@ -50,3 +50,7 @@ if [[ ! -z "$PLAYBOOK_NEXT" ]] && [[ "$PLAYBOOK_NEXT" != "no" ]]; then
     /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_NEXT" | tee -a $LOG_FILE;
 fi;
 ###MAIN
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

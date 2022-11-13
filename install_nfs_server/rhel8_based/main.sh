@@ -30,3 +30,7 @@ echo "#########" | tee -a $LOG_FILE;
 
 /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK" | tee -a $LOG_FILE;
 ###MAIN
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

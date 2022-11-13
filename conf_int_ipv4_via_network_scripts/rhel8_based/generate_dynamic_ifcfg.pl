@@ -9,7 +9,7 @@ use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
-############ARGV
+###ARGV
 our $gen_playbooks_next_g=0;
 our $gen_playbooks_next_with_rollback_g=0;
 if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
@@ -19,14 +19,14 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
     $gen_playbooks_next_g=1;
     $gen_playbooks_next_with_rollback_g=1;
 }
-############ARGV
+###ARGV
 
-############CFG file
+###CFG file
 our $conf_file_g=$self_dir_g.'config';
 our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_ifcfg';
 our $conf_dns_g=$self_dir_g.'/additional_configs/dns_settings'; #for configure resolv.conf
-############CFG file
+###CFG file
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
 our $dyn_ifcfg_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
@@ -117,7 +117,7 @@ our %inv_hosts_network_data_g=();
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 ############VARS
 
-############MAIN SEQ
+######MAIN SEQ
 
 ###READ network data for checks
 if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
@@ -975,9 +975,9 @@ if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
     exit;
 }
-############MAIN SEQ
+######MAIN SEQ
 
-############SUBROUTINES
+###SUBROUTINES
 ##INCLUDED to conf_type_sub_refs_g
 #common (novlan)
 sub just_interface_gen_ifcfg {
@@ -1598,5 +1598,8 @@ sub replace_values_in_file {
     }
 }
 ##other
-############SUBROUTINES
+###SUBROUTINES
 
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

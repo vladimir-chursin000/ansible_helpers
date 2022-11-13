@@ -32,3 +32,7 @@
 # INFO about network neighbours of inv_hosts -> 'inv_hosts_neighbour_info.txt'.
 
 # 'check_ifcfg_without_apply.sh' = just check configuration without apply new settings.
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

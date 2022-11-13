@@ -16,3 +16,7 @@
 # 'uninstall_chrony_server.sh' = uninstall chrony-packages and stop chrony-service.
 
 # 'update_chrony_server.sh' = update chrony-packages.
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

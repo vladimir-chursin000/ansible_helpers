@@ -30,3 +30,7 @@ NOT READY YET!
 # INFO about existing interface names (and ip addr) at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
 
 # 'check_fwrules_without_apply.sh' = just check configuration without apply new settings.
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

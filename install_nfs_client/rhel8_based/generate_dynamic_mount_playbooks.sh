@@ -40,3 +40,7 @@ while read LINE; do
 	echo " " >> $DYN_MOUNT_FILE_NAME;
     fi;
 done < "$CONF_FILE";
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

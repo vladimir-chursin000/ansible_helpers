@@ -16,3 +16,7 @@
 # 'uninstall_nfs_client.sh' = uninstall nfs-packages and unmount nfs-shares.
 
 # 'update_nfs_client.sh' = update nfs-packages.
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

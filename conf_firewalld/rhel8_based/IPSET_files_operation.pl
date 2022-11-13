@@ -23,3 +23,7 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ############MAIN SEQ
 ############MAIN SEQ
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

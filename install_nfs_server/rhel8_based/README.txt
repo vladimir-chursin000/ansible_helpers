@@ -22,3 +22,7 @@
 # 'uninstall_nfs_server.sh' = uninstall nfs-packages and stop nfs-services.
 
 # 'update_nfs_server.sh' = update nfs-packages.
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

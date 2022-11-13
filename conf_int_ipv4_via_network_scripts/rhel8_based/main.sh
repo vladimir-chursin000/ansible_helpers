@@ -86,3 +86,7 @@ if [[ -f "$SELF_DIR/playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt
     echo "PROBABLY YOU HAVE some mac duplicate WARNINGS at '$SELF_DIR/playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt'" | tee -a $LOG_FILE;
 fi;
 ###MAIN
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

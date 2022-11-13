@@ -81,3 +81,7 @@ if [[ "$PLAYBOOK" =~ "fwrules_backup" ]]; then
     echo "Run script (after playbook '$PLAYBOOK'): $SELF_DIR/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE;
 fi;
 ###MAIN
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

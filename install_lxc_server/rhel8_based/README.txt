@@ -20,3 +20,7 @@
 # 'update_lxc_server.sh' = update lxc-packages.
 
 # 'create_template_almalinux8_amd64.sh' = create template container (for cloning): almalinux8, amd64.
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

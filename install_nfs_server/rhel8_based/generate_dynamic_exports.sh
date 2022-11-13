@@ -21,3 +21,7 @@ while read LINE; do
 	echo "${PARAM_ARRAY[1]}			${PARAM_ARRAY[2]}" >> $DYN_EXPORTS_FILE_NAME;
     fi;
 done < "$CONF_FILE";
+
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )
