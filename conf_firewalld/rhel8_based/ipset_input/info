@@ -1,6 +1,5 @@
 The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
-"ipset_input/add/some_ipset_template_name/some_inventory_host/some_ipset_name" - dir for add entries from ipset.
-"ipset_input/del/some_ipset_template_name/some_inventory_host/some_ipset_name" -dir for delete entries from ipset.
-"ipset_input/errors/some_ipset_template_name/some_inventory_host/some_ipset_name" -dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).
-
-Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in the path) will be created in this directory (using the "IPSET_files_operation.pl" script).
+"ipset_input/add" - dir for add entries to some_ipset.
+"ipset_input/del" - dir for delete entries from some_ipset.
+"ipset_input/errors" - dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).
+"ipset_input/history" - dir for save add/del history.
