@@ -211,7 +211,7 @@
     # If "all" -> the configuration will be applied to all inventory hosts.
 
 #ipset_input_dir (for information only).
-    
+    # ".../ipset_input".
     # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
     # Remove ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
 #[some_ipset_template_name--TMPLT:END]
