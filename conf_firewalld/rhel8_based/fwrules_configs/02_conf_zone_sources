@@ -1,3 +1,14 @@
 ######################################
 #FOR ASSIGN SOURCES to FIREWALL ZONES#
 ######################################
+
+# INVENTORY_HOST = host from inventory file.
+###
+# FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates".
+###
+# SOURCE_LIST = list of sources/ipsets, separated by ",".
+# ipset must be preconfigured in file "02_conf_ipsets".
+###
+#INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT               #SOURCE_LIST
+#10.1.2.3               zone1--TMPLT                            10.10.11.0/24,192.168.11.0/24,ipset:ipset_for_zone1 (example)
+#10.3.2.2               public--TMPLT                           10.10.15.0/24,192.168.15.0/24,ipset:ipset_for_public (example)
