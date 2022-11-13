@@ -1,7 +1,3 @@
-Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in the path) will be created in this directory (using the "IPSET_files_operation.pl" script).
 
-Example path for permanent set = "..playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/some_inventory_host/some_ipset_name.txt".
-Example path for temporary set = "..playbooks/dyn_fwrules_playbooks/ipsets/some_ipset_template_name/some_inventory_host/some_ipset_name-tmpset.txt".
-Files with the "-tmpset" postfix - only for cases when it is necessary to temporarily add a value to the set that was created with the timeout=0 (#ipset_create_option_timeout=0) parameter.
 ########################
 Do not make manual changes to files in this directory!!!

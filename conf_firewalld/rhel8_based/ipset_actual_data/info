@@ -1,0 +1,12 @@
+Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in the path) will be created in this directory (using the "IPSET_files_operation.pl" script).
+
+Directory structure
+...ipset_actual_data/some_ipset_template_name/some_inventory_host/some_ipset_name/...
+	permanent/...
+    	    with_default_options.txt
+    	    with_changed_options.txt
+	temporary/...
+	    with_default_options.txt
+    	    with_changed_options.txt
+########################
+Do not make manual changes to files in this directory!!!
