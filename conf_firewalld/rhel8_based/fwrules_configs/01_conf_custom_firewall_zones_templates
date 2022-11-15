@@ -101,4 +101,5 @@
 #zone_icmp_block=
 #zone_rich_rules_general->
 #[some_zone--TMPLT:END]
+
 #################################INSERT YOUR CUSTOM ZONE TEMPLATES AFTER THIS LINE#################################

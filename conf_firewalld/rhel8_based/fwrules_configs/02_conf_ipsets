@@ -40,7 +40,7 @@
     # If "yes" -> allowed "skbmark, skbprio, skbqueue" options when adding items to the set.
 
 #ipset_create_option_hashsize=1024
-    # Deault = 1024.
+    # Default = 1024.
     # Original name of paramameter = hashsize.
     # Parameter defines the initial hash size for the set.
     # The hash size must be a power of two, the kernel automatically rounds up non power of two hash sizes to the first correct value.
@@ -202,7 +202,7 @@
 		# 192.168.1.0/24,0,10.0.0/24
 		# 192.168.2.0/24,25,10.1.0.0/16
 		# 192.168.1.1,80,10.0.0.1
-		# 192.168.1.2,tcp:8081,10.0.0.2.
+		# 192.168.1.2,tcp:8081,10.0.0.2
 	
     # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
     # Create ipset with parameters = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
@@ -215,3 +215,20 @@
     # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
     # Remove ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
 #[some_ipset_template_name--TMPLT:END]
+
+###CUSTOM IPSET CFG EXAMPLE. Use this template to create custom ipset. Don't forget to remove the comment characters (#).
+#[some_ipset_template_name--TMPLT:BEGIN]
+#ipset_name=some_ipset_name
+#ipset_create_option_timeout=0
+#ipset_create_option_counters_is_enabled=no
+#ipset_create_option_comment=empty
+#ipset_create_option_skbinfo_is_enabled=no
+#ipset_create_option_hashsize=1024
+#ipset_create_option_maxelem=65536
+#ipset_create_option_family=inet
+#ipset_create_option_forceadd_is_enabled=no
+#ipset_type=some_ipset_type
+#inv_host_list_for_apply=
+#[some_ipset_template_name--TMPLT:END]
+
+#################################INSERT YOUR CUSTOM IPSET TEMPLATES AFTER THIS LINE#################################
