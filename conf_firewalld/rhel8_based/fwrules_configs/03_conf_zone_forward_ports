@@ -6,10 +6,12 @@
 ###
 # FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates".
 ###
-# FORWARD_PORT_FROM
+# LOCAL_PORT
 ###
-# FORWARD_HOST_TO
+# PROTO = tcp/udp.
 ###
-# FORWARD_PORT_TO
+# TO_ADDR = if set "localhost" -> forwarding from #LOCAL_PORT to #TO_PORT at the same host.
 ###
-#INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT	#FORWARD_PORT_FROM	#FORWARD_HOST_TO	#FORWARD_PORT_TO
+# TO_PORT
+###
+#INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT	#LOCAL_PORT	#PROTO		#TO_ADDR	#TO_PORT
