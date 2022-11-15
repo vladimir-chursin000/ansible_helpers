@@ -1,3 +1,15 @@
 #######################################################
 #FOR CONFIGURATION OF FORWARD-PORTS for FIREWALL ZONES#
 #######################################################
+
+# INVENTORY_HOST = host from inventory file.
+###
+# FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates".
+###
+# FORWARD_PORT_FROM
+###
+# FORWARD_HOST_TO
+###
+# FORWARD_PORT_TO
+###
+#INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT	#FORWARD_PORT_FROM	#FORWARD_HOST_TO	#FORWARD_PORT_TO

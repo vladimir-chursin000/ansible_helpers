@@ -14,6 +14,7 @@
 #[some_firewalld_conf_template_name--TMPLT:BEGIN]
 #host_list_for_apply=all/list of hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
+    # "all" -> lower priority when applying configuration.
     # Custom parameter.
 
 #unconfigured_custom_firewall_zones_action=remove/no_action.
