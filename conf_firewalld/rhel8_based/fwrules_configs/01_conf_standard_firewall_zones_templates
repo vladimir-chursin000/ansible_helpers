@@ -20,16 +20,11 @@
     # default -> like REJECT, but icmp traffic is allowed by default.
     # Set zone target = "firewall-cmd --permanent --zone=some_std_zone_name --set-target=some_target (for information only).
 
-#zone_interface_list=eth0,br0 (for example) (DO NOT USE AT this CONFIG! For information only)
-    # To configure it is necessary to edit the file"02_conf_zone_interfaces"
-    # Interfaces for include into the zone. Forms interface based type of the zone.
-    # Add interace to zone = "firewall-cmd --permanent --zone=some_std_zone_name --add-interface=some_interface_name" (for information only).
-
-#zone_source_list=IPv4_a1,IPv4_a2,IPv6_a1,IPrange|ipset:some_ipset_name (DO NOT USE AT this CONFIG! For information only)
-    # IPv4_a1,IPv4_a2,IPv6_a1,IPrange = to configure it is necessary to edit the file "02_conf_zone_sources".
-    # ipset:some_ipset_name = to configure it is necessary to edit the file "02_conf_ipset".
-    # Source based fw-zone (source_list) has a higher priority than interface_list (zone based on interfaces).
-    # Add source to zone = "firewall-cmd --permanent --zone=some_std_zone_name --add-source=10.10.1.0/24" (for information only).
+#zone_interface_and_source_list (DO NOT USE AT this CONFIG! For information only)
+    # To configure it is necessary to edit the file "02_conf_zone_interfaces_and_sources".
+    # Also through the file "02_conf_zone_interfaces_and_sources" you can assign rich rules.
+    # Add interace to zone = "firewall-cmd --permanent --zone=some_zone_name --add-interface=some_interface_name" (for information only).
+    # Add source to zone = "firewall-cmd --permanent --zone=some_zone_name --add-source=10.10.1.0/24" (for information only).
 
 #zone_allowed_services=empty|http,https (for example)
     # Opens the standard port(s) of a specific service. For incoming connections.
@@ -71,9 +66,6 @@
 #zone_icmp_block=empty|address-unreachable,bad-header,beyond-scope|etc
     # Get full list of icmp-types = "firewall-cmd --get-icmptypes" (for information only).
     # Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block=some_icmp_type" (for information only).
-
-#zone_rich_rules_set = empty|some_rich_rules_set
-    # To configure it is necessary to edit the file "04_conf_zone_rich_rules_sets" (for create rich_rules_sets).
 #[some_std_zone_name--TMPLT:END]
 
 ###STD ZONES. Copy the standard zone template from here if you want to make changes to it. Don't forget to remove the comment characters (#).
@@ -92,7 +84,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[block--TMPLT:END]
 
 #[dmz--TMPLT:BEGIN]
@@ -109,7 +100,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[dmz--TMPLT:END]
 
 #[drop--TMPLT:BEGIN]
@@ -127,7 +117,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[drop--TMPLT:END]
 
 #[external--TMPLT:BEGIN]
@@ -145,7 +134,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[external--TMPLT:END]
 
 #[internal--TMPLT:BEGIN]
@@ -163,7 +151,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[internal--TMPLT:END]
 
 #[public--TMPLT:BEGIN]
@@ -181,7 +168,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[public--TMPLT:END]
 
 #[trusted--TMPLT:BEGIN]
@@ -197,7 +183,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[trusted--TMPLT:END]
 
 #[work--TMPLT:BEGIN]
@@ -215,7 +200,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[work--TMPLT:END]
 
 #[home--TMPLT:BEGIN]
@@ -233,7 +217,6 @@
 #zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
-#zone_rich_rules_set=empty
 #[home--TMPLT:END]
 
 #################################INSERT YOUR STANDARD ZONE TEMPLATES AFTER THIS LINE#################################
