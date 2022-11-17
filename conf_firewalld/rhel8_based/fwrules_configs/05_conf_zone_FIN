@@ -11,8 +11,9 @@
 # FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates".
 ###
 # INTERFACE_LIST = list of interfaces, separated by ",".
+    # If interface names are not used, then set "empty".
 ###
-# SOURCE_LIST = list of sources/ipsets, separated by ",".
+# SOURCE_LIST = list of sources/ipset, separated by ",".
     # ipset must be preconfigured in file "02_conf_ipsets".
     # Higher priority than setting "INTERFACE_LIST".
 ###
@@ -21,7 +22,7 @@
 	# some_rich_rule_set_name (for apply some rich rules to firewall zone)
 	# empty (for don't apply any rich rules to firewall zone).
 ###
-#INVENTORY_HOST		#FIREWALL_ZONE_NAME_TMPLT		#INTERFACE_LIST			#SOURCE_LIST							#RICH_RULES_SET
-#all			public--TMPLT				ens1,ens2,ens3 			10.10.16.0/24,192.168.16.0/24,ipset:ipset_for_all_public	empty (example)
-#10.3.2.2		public--TMPLT				eth11,eth12,eth13		10.10.15.0/24,192.168.15.0/24,ipset:ipset_for_public		rich_rules_set_for_public (example)
-#10.1.2.3,10.1.2.4	zone1--TMPLT				eth0,eth1,ens01			10.10.11.0/24,192.168.11.0/24,ipset:ipset_for_zone1		rich_rules_set_zone1 (example)
+#INVENTORY_HOST		#FIREWALL_ZONE_NAME_TMPLT	#INTERFACE_LIST		#SOURCE_LIST							#RICH_RULES_SET
+#all			public--TMPLT			ens1,ens2,ens3 		10.10.16.0/24,192.168.16.0/24,ipset:ipset_for_all_public	empty (example)
+#10.3.2.2		public--TMPLT			empty			10.10.15.0/24,192.168.15.0/24,ipset:ipset_for_public		rich_rules_set_for_public (example)
+#10.1.2.3,10.1.2.4	zone1--TMPLT			eth0,eth1,ens01		10.10.11.0/24,192.168.11.0/24,ipset:ipset_for_zone1		rich_rules_set_zone1 (example)
