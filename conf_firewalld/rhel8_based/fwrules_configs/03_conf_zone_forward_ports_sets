@@ -1,0 +1,7 @@
+#######################################################
+#FOR CONFIGURATION OF FORWARD-PORTS-SETS for FIREWALL ZONES#
+#######################################################
+
+###EXAMPLE (with explanation)
+[some_forward_ports_set_name:BEGIN]
+[some_forward_ports_set_name:END]
