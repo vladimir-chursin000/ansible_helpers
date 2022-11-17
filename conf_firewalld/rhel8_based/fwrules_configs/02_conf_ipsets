@@ -2,8 +2,7 @@
 #FOR CONFIGURATION OF IPSETS for FIREWALLD#
 ###########################################
 
-# For use in configuration files "02_conf_zone_sources" and "04_conf_zone_rich_rules_special" as well as within the parameter
-    # "zone_rich_rules_general" (config files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates").
+# For use in configuration files "02_conf_zone_sources" and "04_conf_zone_rich_rules_sets".
 # It is possible to create several ipset conf (#ipset_name) with the same name but within different template_names to apply to different hosts.
 # Ipset conf template names must be unique.
 # Configuration templates where a specific list of inventory hosts (separated by ",") is specified within
