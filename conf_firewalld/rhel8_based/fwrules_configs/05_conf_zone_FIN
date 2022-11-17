@@ -18,6 +18,9 @@
     # Higher priority than setting "INTERFACE_LIST".
 ###
 # FORWARD_PORTS_SET = name of forward ports set for apply to firewall zone. To configure #FORWARD_PORTS_SET edit file "03_conf_zone_forward_ports_sets".
+    # DST-NAT configuration.
+    # With port forwarding, all traffic sent to a particular port will be redirected either to another port on the local system or to a port on the external system.
+    # If forwarding to an external network is required, you must also configure masquerading (SRC-NAT).
     # Possible values: 
 	# some_forward_ports_set_name (for apply some forward ports rules to firewall zone)
 	# empty (for don't apply any forward ports rules to firewall zone).
