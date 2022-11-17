@@ -1,0 +1,7 @@
+#########################################################
+#FOR CONFIGURATION OF RICH RULES SETS for FIREWALL ZONES#
+#########################################################
+
+###EXAMPLE (with explanation)
+[:BEGIN]
+[:END]
