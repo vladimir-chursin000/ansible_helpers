@@ -729,7 +729,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
     ###READ conf file 'dns_settings' and generate resolv-conf-files
-
+    
     ###READ conf file 'config_del_not_configured_ifcfg'
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
     open(CONF_DEL,'<',$conf_file_del_not_configured_g);
@@ -815,11 +815,25 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	if ( exists($inv_hosts_ifcfg_del_not_configured_g{$hkey0_g}) ) { #if need to configure AND to delete not configured at 'config' interfaces
 	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'now'}} ) {
 		#hkey1_g=ifcfg_name
+		
+		#$ifcfg_backup_from_remote_nd_file_g = file for grep-check. If ifcfg-int at this file for cur inv_host -> no 'ip link delete'
 		if ( !exists(${$hval0_g}{'fin'}{$hkey1_g}) ) { #interface for delete -> for_del
-		    $inv_hosts_hash1_g{$hkey0_g}{'for_del'}{$hkey1_g}=1;
+		    $tmp_var_g=$hkey1_g;
+		    $tmp_var_g=~s/^ifcfg\-//g;
+		    $exec_res_g=`grep -a $hkey0_g $ifcfg_backup_from_remote_nd_file_g | grep $tmp_var_g | wc -l`;
+		    $exec_res_g=~s/\n|\r|\n\r|\r\n//g;
+		    $exec_res_g=int($exec_res_g);
+		    
+		    $inv_hosts_hash1_g{$hkey0_g}{'for_del'}{$hkey1_g}=1; # just shutdown and delete ifcfg-file
+		    
+		    if ( $exec_res_g!=1 ) {
+			$inv_hosts_hash1_g{$hkey0_g}{'for_del_ip_link'}{$tmp_var_g}=1; # if included (means not interface-ifcfg) -> 'ip link delete'
+		    }
+		    ($tmp_var_g,$exec_res_g)=(undef,undef);
 		}
 	    }
 	    ($hkey1_g,$hval1_g)=(undef,undef);
+	    ($tmp_var_g,$exec_res_g)=(undef,undef);
 	}
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
@@ -851,6 +865,20 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	    print DYN_YML "  with_items:\n";
 	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del'}} ) {
 		#hkey1_g=ifcfg_name
+		print DYN_YML "    - $hkey1_g\n";
+	    }
+	    ($hkey1_g,$hval1_g)=(undef,undef);
+	    print DYN_YML "\n";
+	    print DYN_YML "######################################################\n";
+	    print DYN_YML "\n";
+	}
+	
+	if ( exists(${$hval0_g}{'for_del_ip_link'}) ) { # if need to 'ip link delete' (for bridges/bond ifcfg)
+	    print DYN_YML "- name: ip link delete for unconfigured bridge/bonds\n";
+	    print DYN_YML "  ansible.builtin.command: \"ip link delete {{item}}\"\n";
+	    print DYN_YML "  with_items:\n";
+	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del_ip_link'}} ) {
+		#hkey1_g=link-name
 		print DYN_YML "    - $hkey1_g\n";
 	    }
 	    ($hkey1_g,$hval1_g)=(undef,undef);
