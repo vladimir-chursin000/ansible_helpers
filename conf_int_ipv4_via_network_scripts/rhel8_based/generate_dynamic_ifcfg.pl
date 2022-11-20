@@ -874,7 +874,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	}
 	
 	if ( exists(${$hval0_g}{'for_del_ip_link'}) ) { # if need to 'ip link delete' (for bridges/bond ifcfg)
-	    print DYN_YML "- name: ip link delete for unconfigured bridge/bonds\n";
+	    print DYN_YML "- name: ip link delete for unconfigured bridge/bonds/vlan-interfaces\n";
 	    print DYN_YML "  ansible.builtin.command: \"ip link delete {{item}}\"\n";
 	    print DYN_YML "  with_items:\n";
 	    while ( ($hkey1_g,$hval1_g)=each %{${$hval0_g}{'for_del_ip_link'}} ) {
