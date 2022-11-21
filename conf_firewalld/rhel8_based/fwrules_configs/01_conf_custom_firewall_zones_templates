@@ -27,7 +27,7 @@
     # REJECT  -> reject every packet not matching any rule. The system will send a packet notifying the source of the packet that it is rejected.
     # DROP    -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
     # default -> like REJECT, but icmp traffic is allowed by default.
-    # Set zone target = "firewall-cmd --permanent --zone=some_zone_name --set-target=some_target (for information only).
+    # Set zone target = "firewall-cmd --permanent --zone=some_zone_name --set-target=some_target" (for information only).
 
 #zone_allowed_services=empty|http,https (for example)
     # Opens the standard port(s) of a specific service. For incoming connections.

@@ -62,6 +62,7 @@
     # When sets created with this option become full (if > #ipset_create_option_maxelem) the next addition to the set may succeed and evict a random entry from the set.
     
     # Create ipset-list with custom options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
+    # Remove ipset-list = "firewall-cmd --permanent --delete-ipset=some_ipset_name" (for information only).
 ###ipset create options
 
 ###ipset add options (for information only)
