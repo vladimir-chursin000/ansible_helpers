@@ -16,6 +16,7 @@
 # SOURCE_LIST = list of sources/ipset, separated by ",".
     # ipset must be preconfigured in file "02_conf_ipsets".
     # Higher priority than setting "INTERFACE_LIST".
+    # If sources are not used, then set "empty".
 ###
 # FORWARD_PORTS_SET = name of forward ports set for apply to firewall zone. To configure #FORWARD_PORTS_SET edit file "03_conf_zone_forward_ports_sets".
     # DST-NAT configuration.
@@ -33,4 +34,4 @@
 #INVENTORY_HOST		#FIREWALL_ZONE_NAME_TMPLT	#INTERFACE_LIST	  #SOURCE_LIST				#FORWARD_PORTS_SET	#RICH_RULES_SET
 #all			public--TMPLT			ens1,ens2,ens3 	  10.10.16.0/24,ipset:ipset4all_public	empty			empty (example)
 #10.3.2.2		public--TMPLT			empty		  10.10.15.0/24,ipset:ipset4public	fw_ports_set4public	rich_rules_set4public (example)
-#10.1.2.3,10.1.2.4	zone1--TMPLT			eth0,eth1,ens01	  10.10.11.0/24,ipset:ipset4zone1	fw_ports_set4zone1	rich_rules_set4zone1 (example)
+#10.1.2.3,10.1.2.4	zone1--TMPLT			eth0,eth1,ens01	  empty					fw_ports_set4zone1	rich_rules_set4zone1 (example)
