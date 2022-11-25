@@ -24,20 +24,6 @@
     # If equal to "0" then ipset elements are used without time limits.
     # If the value is greater than 0 (for example, 50) then any added element will be removed from the set after the specified time (in seconds), for example, after 50 seconds.
 
-#ipset_create_option_counters_is_enabled=no|yes
-    # Default = no.
-    # Original name of paramameter = counters.
-    # If "yes" -> allowed "packets, bytes" options when adding items to the set.
-
-#ipset_create_option_comment=empty|some_comment
-    # Default = empty.
-    # Original name of paramameter = comment.
-
-#ipset_create_option_skbinfo_is_enabled=no|yes
-    # Default = no.
-    # Original name of paramameter = skbinfo.
-    # If "yes" -> allowed "skbmark, skbprio, skbqueue" options when adding items to the set.
-
 #ipset_create_option_hashsize=1024
     # Default = 1024.
     # Original name of paramameter = hashsize.
@@ -56,11 +42,6 @@
     # It defines the protocol family of the IP addresses to be stored in the set.
     # For the inet family one can add or delete multiple entries by specifying a range or a network of IPv4 addresses in the IP address part of the entry.
 
-#ipset_create_option_forceadd_is_enabled=no|yes
-    # Default = no.
-    # Original name of paramameter = forceadd.
-    # When sets created with this option become full (if > #ipset_create_option_maxelem) the next addition to the set may succeed and evict a random entry from the set.
-    
     # Create ipset-list with custom options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
     # Remove ipset-list = "firewall-cmd --permanent --delete-ipset=some_ipset_name" (for information only).
 ###ipset create options
@@ -96,7 +77,7 @@
 	# Therefore only a limited list of ipset types can be used as sources in zones: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac.
 	###
 	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
-	    # Allowed create-options (via this config): family, hashsize, maxelem, netmask, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, netmask, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # Can be used as source in zones.
 	    # Examples:
@@ -104,7 +85,7 @@
 		# 192.168.11.0/24
 	
 	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # Can be used as source in zones.
 	    # Examples:
@@ -114,7 +95,7 @@
 		# 192.168.1.1,80
 
 	# hash:ip,mark = uses a hash to store IP address and packet mark pairs. Allows you to set bits you are interested in the packet mark.
-	    # Allowed create-options (via this config): family, markmask, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, markmask, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # This values is then used to perform bitwise AND operation for every mark added. Markmask can be any value between 1 and 4294967295, by default all 32 bits are set.
 	    # The mark can be any value between 0 and 4294967295.
@@ -125,7 +106,7 @@
 		# 192.168.1.1,111236
 
 	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike "hash:ip", subnets with different masks can be present in one list.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, nomatch, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # Can be used as source in zones.
 	    # Examples:
@@ -135,7 +116,7 @@
 		# 192.168.0/30 nomatch (nomatch = exception)
 
 	# hash:net,port = uses a hash to store different sized IP network address and port pairs.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, nomatch, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # The port number is interpreted together with a protocol (default TCP) and zero protocol number cannot be used.
 	    # Network address with zero prefix size is not accepted either.
@@ -148,7 +129,7 @@
 		# 192.168.1.0/24,tcp:8081
 
 	# hash:net,iface = a selective list of IP subnets, whereby the name of the network interface can be stored with each subnet.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, nomatch, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # There is a limitation that you cannot store more than 64 interface names with the same subnet address.
 	    # This data type is useful when a system has a large number of network interfaces (for example, hundreds of VLAN interfaces).
@@ -159,14 +140,14 @@
 		# 192.168.0/24,eth0
 
 	# hash:mac = uses a hash to store MAC addresses. Zero valued MAC addresses cannot be stored in a "hash:mac" type of set. For matches on destination MAC addresses.
-	    # Allowed create-options (via this config): hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # Can be used as source in zones.
 	    # Examples:
 		# 01:02:03:04:05:06
 	#############################################
 	# hash:ip,port,ip = a selective list of IP addresses, where a port and one more IP address can be stored with each address.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # You can also store a transport layer protocol ID for each port number.
 	    # Examples:
@@ -174,7 +155,7 @@
 		# 192.168.1.1,udp:53,10.0.0.1
 	
 	# hash:ip,port,net = a selective list of IP addresses, where a port and an IP subnet can be stored with each address.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, nomatch, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # You can also store a transport layer protocol ID for each port number.
 	    # Examples:
@@ -183,7 +164,7 @@
 		# 192.168.1,80.10.0.0/24
 	
 	# hash:net,net = uses a hash to store pairs of different sized IP network addresses.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, nomatch, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # Bear in mind that the first parameter has precedence over the second, so a nomatch entry could be potentially be ineffective if a more specific first parameter 
 	    # existed with a suitable second parameter. Network address with zero prefix size cannot be stored in this type of set.
@@ -194,7 +175,7 @@
 		# 192.168.0/30,192.168.64/30 nomatch
 	
 	# hash:net,port,net = behaves similarly to hash:ip,port,net but accepts a cidr value for both the first and last parameter.
-	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout, counters, comment, skbinfo.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
 	    # Allowed add-options (via "ipset_input_dir"): timeout, nomatch, packets, bytes, comment, skbmark, skbprio, skbqueue (for information only).
 	    # Either subnet is permitted to be a /0 should you wish to match port between all destinations.
 	    # You can also store a transport layer protocol ID for each port number.
