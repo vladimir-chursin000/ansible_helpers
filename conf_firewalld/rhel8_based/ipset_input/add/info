@@ -1,1 +1,2 @@
 "ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
+    # Add-file name format - "add-inventory_host--ipset_name.txt".
