@@ -1,5 +1,5 @@
 The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
-"ipset_input/add" - dir for add entries to some_ipset.
-"ipset_input/del" - dir for delete entries from some_ipset.
+"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
+"ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
 "ipset_input/errors" - dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).
 "ipset_input/history" - dir for save add/del history.

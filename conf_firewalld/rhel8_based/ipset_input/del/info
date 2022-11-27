@@ -1,1 +1,1 @@
-"ipset_input/del/some_ipset_template_name/some_inventory_host/some_ipset_name" -dir for delete entries from ipset.
+"ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).

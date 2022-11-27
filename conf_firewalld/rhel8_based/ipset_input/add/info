@@ -1,1 +1,1 @@
-"ipset_input/add/some_ipset_template_name/some_inventory_host/some_ipset_name" - dir for add entries from ipset.
+"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
