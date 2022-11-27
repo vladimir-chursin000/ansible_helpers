@@ -160,8 +160,9 @@
 
 #ipset_input_dir (for information only).
     # ".../ipset_input".
-    # Add ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
-    # Remove ipset list from file = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
+    # Add ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
+    # Remove ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
+    # Add entry to ipset (using for add entry to ipset with timeout) = "firewall-cmd --ipset=some_ipset_name --add-entry="some_entry"" (for information only).
 #[some_ipset_template_name--TMPLT:END]
 
 ###CUSTOM IPSET CFG EXAMPLE. Use this template to create custom ipset. Don't forget to remove the comment characters (#).
