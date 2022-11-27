@@ -9,6 +9,6 @@ Directory structure
 	    some_ipset_name.txt
 		# One line - one record according to #ipset_type (conf-file "02_conf_ipsets"), but the record format is "expire datetime;+record associated with ipset_type".
 		# Expire datetime has the format "YYYYMMDDHHMISS".
-		# Expire date when adding an element to ipset via "ipset input/add" is calculated as follows - current date + #ipset_create_option_timeout.
+		# Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
 ########################
 Do not make manual changes to files in this directory!!!
