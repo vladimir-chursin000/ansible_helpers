@@ -73,6 +73,7 @@
 #[some_zone--TMPLT:BEGIN]
 #zone_name=some_zone--custom
 #zone_description=
+#zone_short_description=
 #zone_target=
 #zone_allowed_services=
 #zone_allowed_ports=
