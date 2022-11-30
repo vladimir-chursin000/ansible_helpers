@@ -9,9 +9,15 @@
 
 ###EXAMPLE (with explanation)
 #[policy_template_name--TMPLT:BEGIN]
-#zone_name=some_policy_name
+#policy_name=some_policy_name
     # A policy with this name will be created/recreated on the target hosts.
     # All policies are not configured in this config will be deleted on remote hosts.
-    # Create policy = "firewall-cmd --permanent --new-zone=some_zone_name" (for information only).
+    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name" (for information only).
+
+#policy_description=empty|some description.
+    # Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description="some_description" (for information only).
+    
+#policy_short_description=empty|some short description.
+    # Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short="some_short_description" (for information only).
 
 #[policy_template_name--TMPLT:END]
