@@ -8,3 +8,10 @@
 # Policy template name examples: policy1--TMPLT, policy1_ver1--TMPLT, policy1_special--TMPLT, etc.
 
 ###EXAMPLE (with explanation)
+#[policy_template_name--TMPLT:BEGIN]
+#zone_name=some_policy_name
+    # A policy with this name will be created/recreated on the target hosts.
+    # All policies are not configured in this config will be deleted on remote hosts.
+    # Create policy = "firewall-cmd --permanent --new-zone=some_zone_name" (for information only).
+
+#[policy_template_name--TMPLT:END]
