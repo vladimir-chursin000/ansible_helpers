@@ -1,3 +1,10 @@
 ######################################################################
 #FOR CONFIGURATION OF POLICIES (between firewall zones) for FIREWALLD#
 ######################################################################
+
+# The policy template name must always contain a substring "--TMPLT" at the end.
+# It is possible to create several policies (#policy_name) with the same name but within different template_names to apply to different hosts.
+# Policy template names must be unique.
+# Policy template name examples: policy1--TMPLT, policy1_ver1--TMPLT, policy1_special--TMPLT, etc.
+
+###EXAMPLE (with explanation)
