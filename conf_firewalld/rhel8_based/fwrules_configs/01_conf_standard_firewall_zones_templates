@@ -8,7 +8,7 @@
 
 ###EXAMPLE (with explanation)
 #[some_std_zone_name--TMPLT:BEGIN]
-#zone_FINAL_CONF (DO NOT USE AT this CONFIG! For information only)
+#zone_FINAL_CONF = "05_conf_zone_FIN" (DO NOT USE AT this CONFIG! For information only)
     # To configure it is necessary to edit the file "05_conf_zone_FIN".
 #################################
 #zone_name=STD_ZONE_NAME
