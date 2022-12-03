@@ -1,6 +1,6 @@
-##########################################################################################
-#FOR ASSIGN INTERFACES, SOURCES, FORWARD_PORTS_SETS and RICH_RULES_SETS to FIREWALL ZONES#
-##########################################################################################
+####################################################################################################################
+#FOR ASSIGN INTERFACES, SOURCES, FORWARD_PORTS_SETS and RICH_RULES_SETS to FIREWALL ZONES (for each INVENTORY HOST)#
+####################################################################################################################
 
 # INVENTORY_HOST = all/list of inventory hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.

@@ -1,1 +1,6 @@
+######################################
+#FOR ASSIGN IPSETS to INVENTORY HOSTS#
+######################################
+
+###
 #INVENTORY_HOST		#IPSET_TEMPLATE_NAME		#IPSET_NAME
