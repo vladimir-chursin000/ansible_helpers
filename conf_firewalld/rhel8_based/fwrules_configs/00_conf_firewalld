@@ -18,7 +18,7 @@
     # Custom parameter.
 
 #unconfigured_custom_firewall_zones_action=remove/no_action.
-    # If "remove" -> all custom firewall zones not configured in the "01_conf_custom_firewall_zones_templates" file will be deleted.
+    # If "remove" -> all custom firewall zones not configured in the "02_conf_custom_firewall_zones_templates" file will be deleted.
     # Custom parameter.
 
 #DefaultZone=public

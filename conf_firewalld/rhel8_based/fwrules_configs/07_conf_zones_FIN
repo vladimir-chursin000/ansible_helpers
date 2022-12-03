@@ -1,6 +1,6 @@
-#####################################################
-#FOR ASSIGN INTERFACES and SOURCES to FIREWALL ZONES#
-#####################################################
+##########################################################################################
+#FOR ASSIGN INTERFACES, SOURCES, FORWARD_PORTS_SETS and RICH_RULES_SETS to FIREWALL ZONES#
+##########################################################################################
 
 # INVENTORY_HOST = all/list of inventory hosts separated by ",".
     # If "all" -> the configuration will be applied to all inventory hosts.
@@ -8,17 +8,18 @@
     # If you want to apply the settings to a group of hosts or to all hosts, then make sure that each host has the interfaces specified in the #INTERFACE_LIST parameter.
     # Configurations like "all" have low priority over host groups (separated by ",") or individual hosts.
 ###
-# FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "01_conf_custom_firewall_zones_templates" and "01_conf_standard_firewall_zones_templates".
+# FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "02_conf_custom_firewall_zones_templates" and "02_conf_standard_firewall_zones_templates".
 ###
 # INTERFACE_LIST = list of interfaces, separated by ",".
     # If interface names are not used, then set "empty".
 ###
 # SOURCE_LIST = list of sources/ipset, separated by ",".
-    # ipset must be preconfigured in file "02_conf_ipsets".
+    # Possible ipset names are specified in the "01_conf ipset templates" file (parameter "#ipset_name") within ipset_templates.
+    # Ipset must be defined for inventory host at "06_conf_ipsets_FIN".
     # Higher priority than setting "INTERFACE_LIST".
     # If sources are not used, then set "empty".
 ###
-# FORWARD_PORTS_SET = name of forward ports set for apply to firewall zone. To configure #FORWARD_PORTS_SET edit file "03_conf_zone_forward_ports_sets".
+# FORWARD_PORTS_SET = name of forward ports set for apply to firewall zone. To configure #FORWARD_PORTS_SET edit file "04_conf_zone_forward_ports_sets".
     # DST-NAT configuration.
     # With port forwarding, all traffic sent to a particular port will be redirected either to another port on the local system or to a port on the external system.
     # If forwarding to an external network is required, you must also configure masquerading (SRC-NAT).
@@ -26,7 +27,7 @@
 	# some_forward_ports_set_name (for apply some forward ports rules to firewall zone)
 	# empty (for don't apply any forward ports rules to firewall zone).
 ###
-# RICH_RULES_SET = name of rich rules set for apply to firewall zone. To configure #RICH_RULES_SET edit file "04_conf_zone_rich_rules_sets".
+# RICH_RULES_SET = name of rich rules set for apply to firewall zone. To configure #RICH_RULES_SET edit file "05_conf_zone_rich_rules_sets".
     # Possible values: 
 	# some_rich_rules_set_name (for apply some rich rules to firewall zone)
 	# empty (for don't apply any rich rules to firewall zone).
