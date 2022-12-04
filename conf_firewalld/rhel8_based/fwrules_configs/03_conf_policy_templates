@@ -9,6 +9,9 @@
 
 ###EXAMPLE (with explanation)
 #[policy_template_name--TMPLT:BEGIN]
+#policy_FINAL_CONF = "08_conf_policies_FIN" (DO NOT USE AT this CONFIG! For information only)
+    # To configure it is necessary to edit the file "08_conf_policies_FIN".
+#################################
 #policy_name=some_policy_name
     # A policy with this name will be created/recreated on the target hosts.
     # All policies are not configured in this config will be deleted on remote hosts.
