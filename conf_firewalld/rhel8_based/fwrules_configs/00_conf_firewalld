@@ -17,7 +17,7 @@
     # "all" -> lower priority when applying configuration.
     # Custom parameter.
 
-#unconfigured_custom_firewall_zones_action=remove/no_action.
+#unconfigured_custom_firewall_zones_action=remove|no_action
     # If "remove" -> all custom firewall zones not configured in the "02_conf_custom_firewall_zones_templates" file will be deleted.
     # Custom parameter.
 
@@ -55,6 +55,10 @@
     # Possible values are: all, unicast, broadcast, multicast and off. Default: off.
     # Parameter for /etc/firewalld/firewalld.conf
 
+#enable_logging_of_dropped_packets=yes|no
+    # Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
+    # If "yes" -> all dropped/rejected packets will be written to file "/var/log/firewalld-droppd".
+    # Custom parameter.
 
 #FirewallBackend=nftables
     # Selects the firewall backend implementation.
@@ -92,6 +96,7 @@
 #IPv6_rpfilter=yes
 #IndividualCalls=no
 #LogDenied=off
+#enable_logging_of_dropped_packets=no
 #FirewallBackend=nftables
 #FlushAllOnReload=yes
 #RFC3964_IPv4=yes
@@ -108,6 +113,7 @@
 #IPv6_rpfilter=yes
 #IndividualCalls=no
 #LogDenied=off
+#enable_logging_of_dropped_packets=no
 #FirewallBackend=nftables
 #FlushAllOnReload=yes
 #RFC3964_IPv4=yes
@@ -125,6 +131,7 @@ Lockdown=no
 IPv6_rpfilter=yes
 IndividualCalls=no
 LogDenied=off
+enable_logging_of_dropped_packets=no
 FirewallBackend=nftables
 FlushAllOnReload=yes
 RFC3964_IPv4=yes
