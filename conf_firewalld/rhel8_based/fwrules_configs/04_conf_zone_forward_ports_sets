@@ -1,6 +1,6 @@
-#######################################################
-#FOR CONFIGURATION OF FORWARD-PORTS-SETS for FIREWALL ZONES#
-#######################################################
+########################################################################
+#FOR CONFIGURATION OF FORWARD-PORTS-SETS for FIREWALL ZONES or POLICIES#
+########################################################################
 
 # Forward ports set name must be unique.
 

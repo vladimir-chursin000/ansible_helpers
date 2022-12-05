@@ -12,4 +12,17 @@
 ###
 # EGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the egress zone is the zone to which the packet is destined.
 ###
-#INVENTORY_HOST		#POLICY_TEMPLATE_NAME		#INGRESS-FIREWALL_ZONE_TEMPLATE_NAME	#EGRESS-FIREWALL_ZONE_TEMPLATE_NAME
+# FORWARD_PORTS_SET = name of forward ports set for apply to policy. To configure #FORWARD_PORTS_SET edit file "04_conf_zone_forward_ports_sets".
+    # DST-NAT configuration.
+    # With port forwarding, all traffic sent to a particular port will be redirected either to another port on the local system or to a port on the external system.
+    # If forwarding to an external network is required, you must also configure masquerading (SRC-NAT).
+    # Possible values:
+        # some_forward_ports_set_name (for apply some forward ports rules to firewall zone)
+        # empty (for don't apply any forward ports rules to firewall zone).
+###
+# RICH_RULES_SET = name of rich rules set for apply to policy. To configure #RICH_RULES_SET edit file "05_conf_zone_rich_rules_sets".
+    # Possible values:
+        # some_rich_rules_set_name (for apply some rich rules to firewall zone)
+        # empty (for don't apply any rich rules to firewall zone).
+###
+#INVENTORY_HOST		#POLICY_TEMPLATE_NAME		#INGRESS-FIREWALL_ZONE_TEMPLATE_NAME	#EGRESS-FIREWALL_ZONE_TEMPLATE_NAME	#FORWARD_PORTS_SET      #RICH_RULES_SET

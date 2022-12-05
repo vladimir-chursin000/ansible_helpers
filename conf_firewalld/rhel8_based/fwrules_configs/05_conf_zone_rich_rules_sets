@@ -1,6 +1,6 @@
-#########################################################
-#FOR CONFIGURATION OF RICH-RULES-SETS for FIREWALL ZONES#
-#########################################################
+#####################################################################
+#FOR CONFIGURATION OF RICH-RULES-SETS for FIREWALL ZONES or POLICIES#
+#####################################################################
 
 # Rich rules set name must be unique.
 
