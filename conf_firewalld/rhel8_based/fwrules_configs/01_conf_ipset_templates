@@ -17,9 +17,9 @@
     # To configure it is necessary to edit the file "06_conf_ipsets_FIN".
 #################################
 #ipset_name=some_ipset_name
+    # Ipset with this name will be created/recreated on the target hosts.    
     # All ipsets not configured within this config will be removed on remote hosts.
     # Create ipset-list with default options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information only).
-    # Ipset with a name equal to this parameter will be created on the remote host.
 
 #ipset_description=empty|some_description
     # Default = empty.

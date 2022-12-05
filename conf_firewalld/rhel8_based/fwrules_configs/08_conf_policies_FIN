@@ -6,10 +6,10 @@
     # If "all" -> the configuration will be applied to all inventory hosts.
     # Configurations like "all" have low priority over host groups (separated by ",") or individual hosts.
 ###
-# POLICY_TEMPLATE_NAME
+# POLICY_TEMPLATE_NAME = must be equal to the corresponding policy template configured in the file "03_conf_policy_templates".
 ###
-# INGRESS-FIREWALL_ZONE_TEMPLATE_NAME
+# INGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the ingress zone is the zone from which the packet originated.
 ###
-# EGRESS-FIREWALL_ZONE_TEMPLATE_NAME
+# EGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the egress zone is the zone to which the packet is destined.
 ###
 #INVENTORY_HOST		#POLICY_TEMPLATE_NAME		#INGRESS-FIREWALL_ZONE_TEMPLATE_NAME	#EGRESS-FIREWALL_ZONE_TEMPLATE_NAME
