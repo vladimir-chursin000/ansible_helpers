@@ -81,12 +81,13 @@
     # As per RFC 3964, filter IPv6 traffic with 6to4 destination addresses that correspond to IPv4 addresses that should not be routed over the public internet. Defaults to "yes".
     # Parameter for /etc/firewalld/firewalld.conf
 
-#AllowZoneDrifting=yes
+#AllowZoneDrifting=no
     # Older versions of firewalld had undocumented behavior known as "zone drifting". This allowed packets to ingress multiple zones - this is a violation of zone based firewalls.
     # However, some users rely on this behavior to have a "catch-all" zone, e.g. the default zone. You can enable this if you desire such behavior. It's disabled by default for security reasons.
     # Note: If "yes" packets will only drift from source based zones to interface based zones (including the default zone). Packets never drift from interface based zones to other
     # interfaces based zones (including the default zone). Possible values; "yes", "no". Defaults to "yes".
     # Parameter for /etc/firewalld/firewalld.conf
+    # Recommended = no.
 
 #[some_firewalld_conf_template_name--TMPLT:END]
 
@@ -105,7 +106,7 @@
 #FirewallBackend=nftables
 #FlushAllOnReload=yes
 #RFC3964_IPv4=yes
-#AllowZoneDrifting=yes
+#AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
 
 #[firewall_conf_ver1--TMPLT:BEGIN]
@@ -122,7 +123,7 @@
 #FirewallBackend=nftables
 #FlushAllOnReload=yes
 #RFC3964_IPv4=yes
-#AllowZoneDrifting=yes
+#AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
 
 #################################INSERT YOUR CUSTOM FIREWALL CONFIGURATION TEMPLATES AFTER THIS LINE#################################
@@ -140,5 +141,5 @@ enable_logging_of_dropped_packets=no
 FirewallBackend=nftables
 FlushAllOnReload=yes
 RFC3964_IPv4=yes
-AllowZoneDrifting=yes
+AllowZoneDrifting=no
 [firewall_conf_for_all--TMPLT:END]
