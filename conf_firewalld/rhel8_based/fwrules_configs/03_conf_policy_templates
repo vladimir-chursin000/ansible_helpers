@@ -17,18 +17,27 @@
     # All policies are not configured in this config will be deleted on remote hosts.
     # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name" (for information only).
 
-#policy_description=empty|some description.
+#policy_description=empty|some description
     # Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description="some_description" (for information only).
     
-#policy_short_description=empty|some short description.
+#policy_short_description=empty|some short description
     # Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short="some_short_description" (for information only).
 
-#policy_target=ACCEPT|REJECT|DROP|default
+#policy_target=ACCEPT|REJECT|DROP|CONTINUE
     # ACCEPT -> will accept every packet that does not match any rule.
     # REJECT  -> reject every packet not matching any rule. The system will send a packet notifying the source of the packet that it is rejected.
     # DROP    -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
-    # CONTINUE -> 
+    # CONTINUE -> packets will be subject to rules in following policies and zones.
+    # Default value = CONTINUE.
     # Set policy target = "firewall-cmd --permanent --policy=some_policy_name --set-target=some_target" (for information only).
+
+#policy_priority=num
+    # Default = "-1".
+    # The priority determines the relative ordering of policies.
+    # This is an integer value between -32768 and 32767 where -1 is the default value for new policies and 0 is reserved for internal use.
+    # If a priority is < 0, then the policy's rules will execute before all rules in all zones.
+    # If a priority is > 0, then the policy's rules will execute after all rules in all zones.
+    # Set policy priority = "firewall-cmd --permanent --policy=some_policy_name --set-priority=-1" (for information only).
 
 #policy_allowed_services=empty|http,https (for example)
     # Opens the standard port(s) of a specific service. For incoming connections.
@@ -57,3 +66,20 @@
     # Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type" (for information only).
 
 #[policy_template_name--TMPLT:END]
+
+###POLICY EXAMPLE. Use this template to create policies. Don't forget to remove the comment characters (#).
+#[some_policy--TMPLT:BEGIN]
+#policy_name=some_policy_name
+#policy_description=empty
+#policy_short_description=empty
+#policy_target=CONTINUE
+#policy_priority=-1
+#policy_allowed_services=empty
+#policy_allowed_ports=empty
+#policy_allowed_protocol_list=empty
+#policy_masquerade_general=no
+#policy_allowed_source_ports=empty
+#policy_icmp_block=empty
+#[some_policy--TMPLT:END]
+
+#################################INSERT YOUR CUSTOM POLICY TEMPLATES AFTER THIS LINE#################################
