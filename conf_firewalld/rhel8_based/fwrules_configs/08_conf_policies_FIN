@@ -26,3 +26,5 @@
         # empty (for don't apply any rich rules to firewall zone).
 ###
 #INVENTORY_HOST		#POLICY_TEMPLATE_NAME		#INGRESS-FIREWALL_ZONE_TEMPLATE_NAME	#EGRESS-FIREWALL_ZONE_TEMPLATE_NAME	#FORWARD_PORTS_SET      #RICH_RULES_SET
+#all			policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set1		rich_rules_set1 (example)
+#10.3.2.2		policy_zoneone2zonetwo--TMPLT	zoneone--TMPLT				zonetwo--TMPLT				fw_ports_set2		rich_rules_set2 (example)
