@@ -18,10 +18,10 @@
     # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name" (for information only).
 
 #policy_description=empty|some description
-    # Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description="some_description" (for information only).
+    # Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description="some_description"" (for information only).
     
 #policy_short_description=empty|some short description
-    # Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short="some_short_description" (for information only).
+    # Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short="some_short_description"" (for information only).
 
 #policy_target=ACCEPT|REJECT|DROP|CONTINUE
     # ACCEPT -> will accept every packet that does not match any rule.
