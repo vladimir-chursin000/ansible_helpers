@@ -18,6 +18,17 @@ if ( defined($ARGV[0]) && $ARGV[0]=~/^with_rollback$/ ) {
 ############ARGV
 
 ############CFG file
+#00_conf_firewalld
+#01_conf_ipset_templates
+#02_conf_custom_firewall_zones_templates
+#02_conf_standard_firewall_zones_templates
+#03_conf_policy_templates
+#04_conf_zone_forward_ports_sets
+#05_conf_zone_rich_rules_sets
+#06_conf_ipsets_FIN
+#07_conf_zones_FIN
+#08_conf_policies_FIN
+###
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
 our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_configs/02_conf_custom_firewall_zones_templates';
@@ -34,6 +45,16 @@ our $f08_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/08_conf_policies
 ############STATIC VARS
 
 ############VARS
+our %h00_conf_firewalld_hash_g=();
+our %h01_conf_ipset_templates_hash_g=();
+our %h02_conf_custom_firewall_zones_templates_hash_g=();
+our %h02_conf_standard_firewall_zones_templates_hash_g=();
+our %h03_conf_policy_templates_hash_g=();
+our %h04_conf_zone_forward_ports_sets_hash_g=();
+our %h05_conf_zone_rich_rules_sets_hash_g=();
+our %h06_conf_ipsets_FIN_hash_g=();
+our %h07_conf_zones_FIN_hash_g=();
+our %h08_conf_policies_FIN_hash_g=();
 ############VARS
 
 ############MAIN SEQ
