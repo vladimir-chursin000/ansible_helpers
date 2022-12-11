@@ -18,6 +18,16 @@ if ( defined($ARGV[0]) && $ARGV[0]=~/^with_rollback$/ ) {
 ############ARGV
 
 ############CFG file
+our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
+our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
+our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_configs/02_conf_custom_firewall_zones_templates';
+our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_configs/02_conf_standard_firewall_zones_templates';
+our $f03_conf_policy_templates_path_g=$self_dir_g.'/fwrules_configs/03_conf_policy_templates';
+our $f04_conf_zone_forward_ports_sets_path_g=$self_dir_g.'/fwrules_configs/04_conf_zone_forward_ports_sets';
+our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/fwrules_configs/05_conf_zone_rich_rules_sets';
+our $f06_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/06_conf_ipsets_FIN';
+our $f07_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/07_conf_zones_FIN';
+our $f08_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/08_conf_policies_FIN';
 ############CFG file
 
 ############STATIC VARS
@@ -29,6 +39,8 @@ if ( defined($ARGV[0]) && $ARGV[0]=~/^with_rollback$/ ) {
 ############MAIN SEQ
 ############MAIN SEQ
 
+############SUBROUTINES
+############SUBROUTINES
 
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
