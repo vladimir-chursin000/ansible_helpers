@@ -64,7 +64,7 @@
     # No = turns off the inversion of logic - the listed types (at #zone_icmp_block) of messages become prohibited, the rest are allowed.
     # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_zone_name --add-icmp-block-inversion" (for information only).
 
-#zone_icmp_block=empty|address-unreachable,bad-header,beyond-scope|etc
+#zone_icmp_block=empty|address-unreachable,bad-header,beyond-scope,etc
     # Get full list of icmp-types = "firewall-cmd --get-icmptypes" (for information only).
     # Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_zone_name --add-icmp-block=some_icmp_type" (for information only).
 #[zone_template_name--TMPLT:END]

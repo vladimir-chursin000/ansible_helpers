@@ -68,7 +68,7 @@ our %h00_conf_firewalld_hash_g=();
 #AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
 ###
-#$h00_conf_firewalld_hash_g{host_ip}{fwconf_tmplt_name}->
+#$h00_conf_firewalld_hash_g{host_ip}{fwconf_tmplt_name--TMPLT}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
@@ -97,10 +97,10 @@ our %h01_conf_ipset_templates_hash_g=();
 #ipset_type=some_ipset_type
 #[some_ipset_template_name--TMPLT:END]
 ###
-#$h01_conf_ipset_templates_hash_g{ipset_template_name}->
+#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
 #{'ipset_name'}=value
-#{'ipset_description'}=value
-#{'ipset_short_description'}=value
+#{'ipset_description'}=empty|value
+#{'ipset_short_description'}=empty|value
 #{'ipset_create_option_timeout'}=num
 #{'ipset_create_option_hashsize'}=num
 #{'ipset_create_option_maxelem'}=num
@@ -124,6 +124,30 @@ our %h02_conf_custom_firewall_zones_templates_hash_g=();
 #zone_icmp_block_inversion=
 #zone_icmp_block=
 #[some_zone--TMPLT:END]
+###
+#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+#{'zone_name'}=some_zone--custom
+#{'zone_description'}=empty|value
+#{'zone_short_description'}=empty|value
+#{'zone_target'}=ACCEPT|REJECT|DROP|default
+#{'zone_allowed_services'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of services]
+#{'zone_allowed_ports'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
+#{'zone_allowed_protocol_list'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of protocols]
+#{'zone_forward'}=yes|no
+#{'zone_masquerade_general'}=yes|no
+#{'zone_allowed_source_ports'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of ports] (for example, 8080/tcp,5060-5061/udp)
+#{'zone_icmp_block_inversion'}=yes|no
+#{'zone_icmp_block'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of icmptypes] (for example, address-unreachable,bad-header,beyond-scope,...etc)
 ######
 
 ######
