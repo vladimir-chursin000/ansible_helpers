@@ -62,6 +62,21 @@ our %h00_conf_firewalld_hash_g=();
 #RFC3964_IPv4=yes
 #AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
+###
+#$h00_conf_firewalld_hash_g{fwconf_tmplt_name}{'all'/host_ip}->
+#{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+#{'DefaultZone'}=name_of_default_zone
+#{'CleanupOnExit'}=yes|no
+#{'CleanupModulesOnExit'}=yes|no
+#{'Lockdown'}=yes|no
+#{'IPv6_rpfilter'}=yes|no
+#{'IndividualCalls'}=yes|no
+#{'LogDenied'}=all|unicast|broadcast|multicast|off
+#{'enable_logging_of_dropped_packets'}=yes|no
+#{'FirewallBackend'}=nftables|iptables
+#{'FlushAllOnReload'}=yes|no
+#{'RFC3964_IPv4'}=yes|no
+#{'AllowZoneDrifting'}=yes|no
 ######
 
 ######

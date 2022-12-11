@@ -28,11 +28,13 @@
 #CleanupOnExit=yes
     # If set to no or false the firewall configuration will not get cleaned up on exit or stop of firewalld. Default: yes.
     # Parameter for /etc/firewalld/firewalld.conf
+    # Recommended = yes.
 
 #CleanupModulesOnExit=yes
     # Clean up kernel modules on exit. If set to yes or true the firewall related kernel modules will be unloaded on exit or stop of firewalld.
-    # This might attempt to unload  modules not originally loaded by firewalld. Default: yes.
+    # This might attempt to unload modules not originally loaded by firewalld. Default: yes.
     # Parameter for /etc/firewalld/firewalld.conf
+    # Recommended = yes.
 
 #Lockdown=no
     # If set to enabled, firewall changes with the D-Bus interface will be limited to applications that are listed in the lockdown whitelist.
@@ -76,6 +78,7 @@
     # Flush all runtime rules on a reload. In previous releases some runtime configuration was retained during a reload, namely; interface to zone assignment, and direct rules.
     # This was confusing to users. To get the old behavior set this to "no". Default: yes
     # Parameter for /etc/firewalld/firewalld.conf
+    # Recommended = yes.
 
 #RFC3964_IPv4=yes
     # As per RFC 3964, filter IPv6 traffic with 6to4 destination addresses that correspond to IPv4 addresses that should not be routed over the public internet. Defaults to "yes".
