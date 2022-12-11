@@ -159,9 +159,6 @@
     # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
     # Create ipset with parameters = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
 
-#inv_host_list_for_apply=all/list of inventory hosts separated by ",".
-    # If "all" -> the configuration will be applied to all inventory hosts.
-
 #ipset_input_dir (for information only).
     # ".../ipset_input".
     # Add ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
@@ -179,7 +176,6 @@
 #ipset_create_option_maxelem=65536
 #ipset_create_option_family=inet
 #ipset_type=some_ipset_type
-#inv_host_list_for_apply=
 #[some_ipset_template_name--TMPLT:END]
 
 #################################INSERT YOUR CUSTOM IPSET TEMPLATES AFTER THIS LINE#################################
