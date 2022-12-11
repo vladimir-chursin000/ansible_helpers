@@ -68,7 +68,7 @@ our %h00_conf_firewalld_hash_g=();
 #AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
 ###
-#$h00_conf_firewalld_hash_g{fwconf_tmplt_name}{host_ip}->
+#$h00_conf_firewalld_hash_g{host_ip}{fwconf_tmplt_name}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
@@ -95,10 +95,17 @@ our %h01_conf_ipset_templates_hash_g=();
 #ipset_create_option_maxelem=65536
 #ipset_create_option_family=inet
 #ipset_type=some_ipset_type
-#inv_host_list_for_apply=
 #[some_ipset_template_name--TMPLT:END]
 ###
-#
+#$h01_conf_ipset_templates_hash_g{ipset_template_name}->
+#{'ipset_name'}=value
+#{'ipset_description'}=value
+#{'ipset_short_description'}=value
+#{'ipset_create_option_timeout'}=num
+#{'ipset_create_option_hashsize'}=num
+#{'ipset_create_option_maxelem'}=num
+#{'ipset_create_option_family'}=inet|inet6
+#{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
 ######
 
 ######
