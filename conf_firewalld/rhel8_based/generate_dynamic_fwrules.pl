@@ -10,9 +10,14 @@ use Data::Dumper;
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ############ARGV
+our $inventory_conf_path_g='no';
 our $gen_with_rollback_g=0;
 
-if ( defined($ARGV[0]) && $ARGV[0]=~/^with_rollback$/ ) {
+if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
+    $inventory_conf_path_g=$ARGV[0];
+}
+
+if ( defined($ARGV[1]) && $ARGV[1]=~/^with_rollback$/ ) {
     $gen_with_rollback_g=1;
 }
 ############ARGV
@@ -63,7 +68,7 @@ our %h00_conf_firewalld_hash_g=();
 #AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
 ###
-#$h00_conf_firewalld_hash_g{fwconf_tmplt_name}{'all'/host_ip}->
+#$h00_conf_firewalld_hash_g{fwconf_tmplt_name}{host_ip}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
@@ -92,6 +97,8 @@ our %h01_conf_ipset_templates_hash_g=();
 #ipset_type=some_ipset_type
 #inv_host_list_for_apply=
 #[some_ipset_template_name--TMPLT:END]
+###
+#
 ######
 
 ######
