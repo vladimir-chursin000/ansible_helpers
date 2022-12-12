@@ -147,7 +147,10 @@ our %h02_conf_custom_firewall_zones_templates_hash_g=();
 #{'zone_icmp_block_inversion'}=yes|no
 #{'zone_icmp_block'}->
     #{'empty'}=1 or
-    #{'list'}=[array of icmptypes] (for example, address-unreachable,bad-header,beyond-scope,...etc)
+    #{'list'}->
+	#{'icmptype-0'}
+	#{'icmptype-1'}
+	#etc
 ######
 
 ######
@@ -185,7 +188,10 @@ our %h02_conf_standard_firewall_zones_templates_hash_g=();
 #{'zone_icmp_block_inversion'}=yes|no
 #{'zone_icmp_block'}->
     #{'empty'}=1 or
-    #{'list'}=[array of icmptypes] (for example, address-unreachable,bad-header,beyond-scope,...etc)
+    #{'list'}->
+	#{'icmptype-0'}
+	#{'icmptype-1'}
+	#etc
 ######
 
 ######
@@ -226,7 +232,10 @@ our %h03_conf_policy_templates_hash_g=();
 #{'policy_icmp_block_inversion'}=yes|no
 #{'policy_icmp_block'}->
     #{'empty'}=1 or
-    #{'list'}=[array of icmptypes] (for example, address-unreachable,bad-header,beyond-scope,...etc)
+    #{'list'}->
+	#{'icmptype-0'}
+	#{'icmptype-1'}
+	#etc
 ######
 
 ######
@@ -236,7 +245,10 @@ our %h04_conf_zone_forward_ports_sets_hash_g=();
 #port=80:proto=tcp:toport=8080 (example)
 #[some_forward_ports_set_name:END]
 ###
-#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->[array of fw_ports_rules]
+#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    #{'rule-0'}
+    #{'rule-1'}
+    #etc
 ######
 
 ######
@@ -246,7 +258,10 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
 #rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
 #[some_rich_rules_set_name:END]
 ###
-#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->[array of rich_rules]
+#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    #{'rule-0'}
+    #{'rule-1'}
+    #etc
 ######
 
 ######
@@ -254,6 +269,9 @@ our %h06_conf_ipsets_FIN_hash_g=();
 #INVENTORY_HOST         #IPSET_TEMPLATE_NAME_LIST
 #all                    ipset1--TMPLT,ipset4all_public--TMPLT (example)
 #10.3.2.2               ipset4public--TMPLT (example)
+###
+#$h06_conf_ipsets_FIN_hash_g{host_ip}->
+    #{template_name}=1;
 ######
 
 ######
@@ -262,6 +280,17 @@ our %h07_conf_zones_FIN_hash_g=();
 #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24,ipset:ipset4all_public--TMPLT   empty                   empty (example)
 #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24,ipset:ipset4public--TMPLT       fw_ports_set4public     rich_rules_set4public (example)
 #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                                         fw_ports_set4zone1      rich_rules_set4zone1 (example)
+#$h06_conf_ipsets_FIN_hash_g{host_ip}{firewall_template_name}->
+    #{'interface_list'}->;
+	#{'interface-0'}
+	#{'interface-1'}
+	#etc
+    #{'source_list'}->
+	#{'source-0'}
+	#{'source-1'}
+	#etc
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
 ######
 
 ######
