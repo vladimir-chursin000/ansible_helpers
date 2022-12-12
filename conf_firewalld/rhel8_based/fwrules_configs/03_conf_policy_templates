@@ -47,7 +47,7 @@
     # For incoming connections.
     # Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp" (for information only).
 
-#policy_allowed_protocol_list=empty|tcp,udp,gre (etc) (for example)
+#policy_allowed_protocols=empty|tcp,udp,gre (etc) (for example)
     # If "empty" -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the policy.
     # The list of protocols is contained in the file "/etc/protocols".
     # Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre" (for information only).
@@ -76,7 +76,7 @@
 #policy_priority=-1
 #policy_allowed_services=empty
 #policy_allowed_ports=empty
-#policy_allowed_protocol_list=empty
+#policy_allowed_protocols=empty
 #policy_masquerade_general=no
 #policy_allowed_source_ports=empty
 #policy_icmp_block=empty

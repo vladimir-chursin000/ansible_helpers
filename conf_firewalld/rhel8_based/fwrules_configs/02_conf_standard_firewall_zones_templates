@@ -31,7 +31,7 @@
     # For incoming connections.
     # Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp" (for information only).
 
-#zone_allowed_protocol_list=empty|tcp,udp,gre (etc) (for example)
+#zone_allowed_protocols=empty|tcp,udp,gre (etc) (for example)
     # If "empty" -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the zone.
     # The list of protocols is contained in the file "/etc/protocols".
     # Allow protocol="firewall-cmd --permanent --zone=some_std_zone_name --add-protocol=gre" (for information only).
@@ -70,7 +70,7 @@
 #zone_target=REJECT
 #zone_allowed_services=empty
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -86,7 +86,7 @@
 #zone_target=default
 #zone_allowed_services=ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -103,7 +103,7 @@
 #zone_target=DROP
 #zone_allowed_services=empty
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -120,7 +120,7 @@
 #zone_target=default
 #zone_allowed_services=ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=yes
 #zone_allowed_source_ports=empty
@@ -137,7 +137,7 @@
 #zone_target=default
 #zone_allowed_services=cockpit,dhcpv6-client,mdns,samba-client,ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -154,7 +154,7 @@
 #zone_target=default
 #zone_allowed_services=cockpit,dhcpv6-client,ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -169,7 +169,7 @@
 #zone_target=ACCEPT
 #zone_allowed_services=empty
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -186,7 +186,7 @@
 #zone_target=default
 #zone_allowed_services=cockpit,dhcpv6-client,ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -203,7 +203,7 @@
 #zone_target=default
 #zone_allowed_services=cockpit,dhcpv6-client,mdns,samba-client,ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty

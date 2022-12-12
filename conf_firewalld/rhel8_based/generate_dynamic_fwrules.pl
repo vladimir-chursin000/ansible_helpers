@@ -117,7 +117,7 @@ our %h02_conf_custom_firewall_zones_templates_hash_g=();
 #zone_target=
 #zone_allowed_services=
 #zone_allowed_ports=
-#zone_allowed_protocol_list=
+#zone_allowed_protocols=
 #zone_forward=
 #zone_masquerade_general=
 #zone_allowed_source_ports=
@@ -136,7 +136,7 @@ our %h02_conf_custom_firewall_zones_templates_hash_g=();
 #{'zone_allowed_ports'}->
     #{'empty'}=1 or
     #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
-#{'zone_allowed_protocol_list'}->
+#{'zone_allowed_protocols'}->
     #{'empty'}=1 or
     #{'list'}=[array of protocols]
 #{'zone_forward'}=yes|no
@@ -157,7 +157,7 @@ our %h02_conf_standard_firewall_zones_templates_hash_g=();
 #zone_target=default
 #zone_allowed_services=cockpit,dhcpv6-client,ssh
 #zone_allowed_ports=empty
-#zone_allowed_protocol_list=empty
+#zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
 #zone_allowed_source_ports=empty
@@ -174,7 +174,7 @@ our %h02_conf_standard_firewall_zones_templates_hash_g=();
 #{'zone_allowed_ports'}->
     #{'empty'}=1 or
     #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
-#{'zone_allowed_protocol_list'}->
+#{'zone_allowed_protocols'}->
     #{'empty'}=1 or
     #{'list'}=[array of protocols]
 #{'zone_forward'}=yes|no
@@ -198,14 +198,35 @@ our %h03_conf_policy_templates_hash_g=();
 #policy_priority=-1
 #policy_allowed_services=empty
 #policy_allowed_ports=empty
-#policy_allowed_protocol_list=empty
+#policy_allowed_protocols=empty
 #policy_masquerade_general=no
 #policy_allowed_source_ports=empty
 #policy_icmp_block=empty
 #[some_policy--TMPLT:END]
 ###
 #$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
-
+#{'policy_name'}=value
+#{'policy_description'}=empty|value
+#{'policy_short_description'}=empty|value
+#{'policy_target'}=ACCEPT|REJECT|DROP|CONTINUE
+#{'policy_priority'}=num (+/-)
+#{'policy_allowed_services'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of services]
+#{'policy_allowed_ports'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
+#{'policy_allowed_protocols'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of protocols]
+#{'policy_masquerade_general'}=yes|no
+#{'policy_allowed_source_ports'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of ports] (for example, 8080/tcp,5060-5061/udp)
+#{'policy_icmp_block_inversion'}=yes|no
+#{'policy_icmp_block'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of icmptypes] (for example, address-unreachable,bad-header,beyond-scope,...etc)
 ######
 
 ######

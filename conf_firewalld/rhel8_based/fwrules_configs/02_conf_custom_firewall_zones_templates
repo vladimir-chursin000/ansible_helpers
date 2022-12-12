@@ -40,7 +40,7 @@
     # For incoming connections.
     # Allow port = "firewall-cmd --permanent --zone=some_zone_name --add-port=1234/tcp" (for information only).
 
-#zone_allowed_protocol_list=empty|tcp,udp,gre (etc) (for example)
+#zone_allowed_protocols=empty|tcp,udp,gre (etc) (for example)
     # If "empty" -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the zone.
     # The list of protocols is contained in the file "/etc/protocols".
     # Allow protocol="firewall-cmd --permanent --zone=some_zone_name --add-protocol=gre" (for information only).
@@ -77,7 +77,7 @@
 #zone_target=
 #zone_allowed_services=
 #zone_allowed_ports=
-#zone_allowed_protocol_list=
+#zone_allowed_protocols=
 #zone_forward=
 #zone_masquerade_general=
 #zone_allowed_source_ports=
