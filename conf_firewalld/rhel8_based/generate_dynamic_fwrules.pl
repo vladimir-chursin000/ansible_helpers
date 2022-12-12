@@ -164,6 +164,28 @@ our %h02_conf_standard_firewall_zones_templates_hash_g=();
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
 #[public--TMPLT:END]
+###
+#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+#{'zone_name'}=std_zone_name
+#{'zone_target'}=ACCEPT|REJECT|DROP|default
+#{'zone_allowed_services'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of services]
+#{'zone_allowed_ports'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
+#{'zone_allowed_protocol_list'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of protocols]
+#{'zone_forward'}=yes|no
+#{'zone_masquerade_general'}=yes|no
+#{'zone_allowed_source_ports'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of ports] (for example, 8080/tcp,5060-5061/udp)
+#{'zone_icmp_block_inversion'}=yes|no
+#{'zone_icmp_block'}->
+    #{'empty'}=1 or
+    #{'list'}=[array of icmptypes] (for example, address-unreachable,bad-header,beyond-scope,...etc)
 ######
 
 ######
@@ -181,6 +203,9 @@ our %h03_conf_policy_templates_hash_g=();
 #policy_allowed_source_ports=empty
 #policy_icmp_block=empty
 #[some_policy--TMPLT:END]
+###
+#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
+
 ######
 
 ######
