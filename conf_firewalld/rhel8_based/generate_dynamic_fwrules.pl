@@ -235,6 +235,8 @@ our %h04_conf_zone_forward_ports_sets_hash_g=();
 #port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
 #port=80:proto=tcp:toport=8080 (example)
 #[some_forward_ports_set_name:END]
+###
+#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->[array of fw_ports_rules]
 ######
 
 ######
@@ -243,6 +245,8 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
 #rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80 (example)
 #rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
 #[some_rich_rules_set_name:END]
+###
+#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->[array of rich_rules]
 ######
 
 ######
