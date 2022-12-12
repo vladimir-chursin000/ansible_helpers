@@ -132,18 +132,30 @@ our %h02_conf_custom_firewall_zones_templates_hash_g=();
 #{'zone_target'}=ACCEPT|REJECT|DROP|default
 #{'zone_allowed_services'}->
     #{'empty'}=1 or
-    #{'list'}=[array of services]
+    #{'list'}->
+	#{'service-0'}
+	#{'service-1'}
+	#etc
 #{'zone_allowed_ports'}->
     #{'empty'}=1 or
-    #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
+    #{'list'}->
+	#{'port-0'}
+	#{'port-1'}
+	#etc
 #{'zone_allowed_protocols'}->
     #{'empty'}=1 or
-    #{'list'}=[array of protocols]
+    #{'list'}->
+	#{'proto-0'}
+	#{'proto-1'}
+	#etc
 #{'zone_forward'}=yes|no
 #{'zone_masquerade_general'}=yes|no
 #{'zone_allowed_source_ports'}->
     #{'empty'}=1 or
-    #{'list'}=[array of ports] (for example, 8080/tcp,5060-5061/udp)
+    #{'list'}->
+	#{'port-0'}
+	#{'port-1'}
+	#etc
 #{'zone_icmp_block_inversion'}=yes|no
 #{'zone_icmp_block'}->
     #{'empty'}=1 or
@@ -173,18 +185,30 @@ our %h02_conf_standard_firewall_zones_templates_hash_g=();
 #{'zone_target'}=ACCEPT|REJECT|DROP|default
 #{'zone_allowed_services'}->
     #{'empty'}=1 or
-    #{'list'}=[array of services]
+    #{'list'}->
+	#{'service-0'}
+	#{'service-1'}
+	#etc
 #{'zone_allowed_ports'}->
     #{'empty'}=1 or
-    #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
+    #{'list'}->
+	#{'port-0'}
+	#{'port-1'}
+	#etc
 #{'zone_allowed_protocols'}->
     #{'empty'}=1 or
-    #{'list'}=[array of protocols]
+    #{'list'}->
+	#{'proto-0'}
+	#{'proto-1'}
+	#etc
 #{'zone_forward'}=yes|no
 #{'zone_masquerade_general'}=yes|no
 #{'zone_allowed_source_ports'}->
     #{'empty'}=1 or
-    #{'list'}=[array of ports] (for example, 8080/tcp,5060-5061/udp)
+    #{'list'}->
+	#{'port-0'}
+	#{'port-1'}
+	#etc
 #{'zone_icmp_block_inversion'}=yes|no
 #{'zone_icmp_block'}->
     #{'empty'}=1 or
@@ -218,17 +242,29 @@ our %h03_conf_policy_templates_hash_g=();
 #{'policy_priority'}=num (+/-)
 #{'policy_allowed_services'}->
     #{'empty'}=1 or
-    #{'list'}=[array of services]
+    #{'list'}->
+	#{'service-0'}
+	#{'service-1'}
+	#etc
 #{'policy_allowed_ports'}->
     #{'empty'}=1 or
-    #{'list'}=[array of ports] (for example, 1234/tcp,1234/udp,60000-61000/udp)
+    #{'list'}->
+	#{'port-0'}
+	#{'port-1'}
+	#etc
 #{'policy_allowed_protocols'}->
     #{'empty'}=1 or
-    #{'list'}=[array of protocols]
+    #{'list'}->
+	#{'proto-0'}
+	#{'proto-1'}
+	#etc
 #{'policy_masquerade_general'}=yes|no
 #{'policy_allowed_source_ports'}->
     #{'empty'}=1 or
-    #{'list'}=[array of ports] (for example, 8080/tcp,5060-5061/udp)
+    #{'list'}->
+	#{'port-0'}
+	#{'port-1'}
+	#etc
 #{'policy_icmp_block_inversion'}=yes|no
 #{'policy_icmp_block'}->
     #{'empty'}=1 or
@@ -280,6 +316,7 @@ our %h07_conf_zones_FIN_hash_g=();
 #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24,ipset:ipset4all_public--TMPLT   empty                   empty (example)
 #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24,ipset:ipset4public--TMPLT       fw_ports_set4public     rich_rules_set4public (example)
 #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                                         fw_ports_set4zone1      rich_rules_set4zone1 (example)
+###
 #$h06_conf_ipsets_FIN_hash_g{host_ip}{firewall_template_name}->
     #{'interface_list'}->;
 	#{'interface-0'}
@@ -298,6 +335,8 @@ our %h08_conf_policies_FIN_hash_g=();
 #INVENTORY_HOST         #POLICY_TEMPLATE_NAME           #INGRESS-FIREWALL_ZONE_TEMPLATE_NAME    #EGRESS-FIREWALL_ZONE_TEMPLATE_NAME     #FORWARD_PORTS_SET      #RICH_RULES_SET
 #all                    policy_public2home--TMPLT       public--TMPLT                           home--TMPLT                             fw_ports_set1           rich_rules_set1 (example)
 #10.3.2.2               policy_zoneone2zonetwo--TMPLT   zoneone--TMPLT                          zonetwo--TMPLT                          fw_ports_set2           rich_rules_set2 (example)
+###
+
 ######
 ############VARS
 
