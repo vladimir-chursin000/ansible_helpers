@@ -9,6 +9,6 @@
 # IPSET_TEMPLATE_NAME_LIST = list of ipset_templates, separated by ",".
     # IPSET_TEMPLATES must be equal to the corresponding ipset template configured in the file "01_conf_ipset_templates".
 ###
-#INVENTORY_HOST		#IPSET_TEMPLATE_NAME_LIST
+#INVENTORY_HOST		#IPSET_NAME_TMPLT_LIST
 #all			ipset1--TMPLT,ipset4all_public--TMPLT (example)
 #10.3.2.2		ipset4public--TMPLT (example)
