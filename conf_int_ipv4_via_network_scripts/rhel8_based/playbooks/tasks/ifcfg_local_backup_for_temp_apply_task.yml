@@ -5,13 +5,13 @@
 ######################################################
 
 - name: remove_prev_ifcfg_files_from-ifcfg_backup_now (remote-fs)
-  ansible.builtin.shell: rm -rf ~/ifcfg_backup_now/ && mkdir ~/ifcfg_backup_now
+  ansible.builtin.shell: rm -rf ~/ansible_helpers/conf_int_ipv4_via_network_scripts/ifcfg_backup_now/ && mkdir ~/ansible_helpers/conf_int_ipv4_via_network_scripts/ifcfg_backup_now
 
 ######################################################
  
 - name: Copy ifcfg-files from etc (remote-fs) to now-dir (remote-fs)
   ansible.builtin.copy:
     src: "/etc/sysconfig/network-scripts/{{item}}"
-    dest: "~/ifcfg_backup_now/{{item}}"
+    dest: "~/ansible_helpers/conf_int_ipv4_via_network_scripts/ifcfg_backup_now/{{item}}"
     remote_src: yes
   with_items: "{{ifcfg_files_l.stdout_lines}}"

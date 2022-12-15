@@ -35,6 +35,7 @@ our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks'; # di
 our $ifcfg_tmplt_dir_g=$self_dir_g.'playbooks/ifcfg_tmplt'; # dir with ifcfg templates
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth, hwaddr) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
+our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_int_ipv4_via_network_scripts'; # dir for creating files
 ############STATIC VARS
 
 ############VARS
@@ -920,14 +921,14 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 		print DYN_YML "- name: copy script 'rollback_ifcfg_changes.sh' to remote\n";
 		print DYN_YML "  ansible.builtin.copy:\n";
 		print DYN_YML "    src: \"{{playbook_dir}}/../scripts_for_remote/rollback_ifcfg_changes.sh\"\n";
-		print DYN_YML "    dest: \"~/rollback_ifcfg_changes.sh\"\n";
+		print DYN_YML "    dest: \"$remote_dir_for_absible_helper_g/rollback_ifcfg_changes.sh\"\n";
     		print DYN_YML "    mode: '0700'\n";
 		print DYN_YML "\n";
 		print DYN_YML "######################################################\n";
 		print DYN_YML "\n";
 		
 		print DYN_YML "- name: run script 'rollback_ifcfg_changes.sh' as process\n";
-		print DYN_YML "  ansible.builtin.raw: \"nohup sh -c '~/rollback_ifcfg_changes.sh $tmp_var_g >/dev/null 2>&1' & sleep 3\"\n";
+		print DYN_YML "  ansible.builtin.raw: \"nohup sh -c '$remote_dir_for_absible_helper_g/rollback_ifcfg_changes.sh $tmp_var_g >/dev/null 2>&1' & sleep 3\"\n";
 		print DYN_YML "\n";
 		print DYN_YML "######################################################\n";
 		print DYN_YML "\n";

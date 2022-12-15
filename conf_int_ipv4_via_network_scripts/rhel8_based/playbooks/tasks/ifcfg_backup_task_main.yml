@@ -1,3 +1,10 @@
+- name: create_dir "ansible_helpers/conf_int_ipv4_via_network_scripts"
+  ansible.builtin.file:
+    path: "~/ansible_helpers/conf_int_ipv4_via_network_scripts"
+    state: directory
+
+######################################################
+
 - name: get_list_of_ifcfg_files
   ansible.builtin.shell: ls /etc/sysconfig/network-scripts | grep ifcfg | grep -v '.bak' | grep -v 'ifcfg\-lo'
   register: ifcfg_files
