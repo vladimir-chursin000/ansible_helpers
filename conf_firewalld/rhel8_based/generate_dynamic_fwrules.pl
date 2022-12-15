@@ -47,6 +47,7 @@ our $f08_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/08_conf_policies
 ############CFG file
 
 ############STATIC VARS
+our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
 ############STATIC VARS
 
 ############VARS
