@@ -3,11 +3,11 @@
 ###
 # CONF_ID - string without spaces. Must be unique for inventory_host (INV_HOST).
 ###
-# INT_LIST - list of interfaces separated by "," (without spaces) or just one interface name.
-# For conf_type virt_bridge set "no".
-###
 # CONF_TYPE (possible values): just_interface, interface-vlan, virt_bridge, just_bridge, bridge-vlan, just_bond, bond-vlan, bond-bridge, bond-bridge-vlan.
 # For using vlans port (or ports for bonding) at switch/router-side must be in trunk state.
+###
+# INT_LIST - list of interfaces separated by "," (without spaces) or just one interface name.
+# For conf_type virt_bridge set "no".
 ###
 # HWADDR_LIST - list of hwaddr (mac-addr like 'xx:xx:xx:xx:xx:xx') separated by "," (without spaces) or just one hwaddr (mac-addr).
 # Must corresponds to interface_list by sequence. For example, interface_list=eth0,eth1 -> hwaddr_list=xx:xx:xx:xx:ET:H0,xx:xx:xx:xx:ET:H1.
