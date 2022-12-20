@@ -356,6 +356,24 @@ our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ip
 ############MAIN SEQ
 
 ############SUBROUTINES
+sub read_inventory_file {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
+            
+    my $line_l=undef;
+            
+    open(INVDATA,'<',$file_l);
+    while ( <INVDATA> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+        }
+    }
+    close(INVDATA);
+}
 ############SUBROUTINES
 
 #With best regards
