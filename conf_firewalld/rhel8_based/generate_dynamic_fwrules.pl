@@ -353,6 +353,8 @@ our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ip
 ############VARS
 
 ############MAIN SEQ
+&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
+#$file_l,$res_href_l
 ############MAIN SEQ
 
 ############SUBROUTINES
@@ -360,7 +362,7 @@ sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
             
-    my $line_l=undef;
+    my ($line_l,$start_read_hosts_flag_l)=(undef,0);
             
     open(INVDATA,'<',$file_l);
     while ( <INVDATA> ) {
@@ -370,6 +372,12 @@ sub read_inventory_file {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    if ( $line_l=~/^\[rhel8_firewall_hosts\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
+	    elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[rhel8_firewall_hosts\:vars\]/ ) {
+		$start_read_hosts_flag_l=0;
+		last;
+	    }
+	    elsif ( $start_read_hosts_flag_l==1 ) { ${$res_href_l}{$line_l}=1; }
         }
     }
     close(INVDATA);
