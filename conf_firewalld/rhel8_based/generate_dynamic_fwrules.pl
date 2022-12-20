@@ -343,6 +343,13 @@ our %h08_conf_policies_FIN_hash_g=();
 #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
 #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
 ######
+
+######
+our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ipsets_FIN_hash_g/h07_conf_zones_FIN_hash_g/h08_conf_policies_FIN_hash_g 
+# and operate with 'all' (apply for all inv hosts) options
+###
+#Key=inventory_host, value=1
+######
 ############VARS
 
 ############MAIN SEQ
