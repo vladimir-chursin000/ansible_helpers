@@ -122,21 +122,8 @@ our %inv_hosts_network_data_g=();
 
 ###READ network data for checks
 if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
-    open(NDATA,'<',$ifcfg_backup_from_remote_nd_file_g);
-    while ( <NDATA> ) {
-	$line_g=$_;
-	$line_g=~s/\n$|\r$|\n\r$|\r\n$//g;
-	while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
-	$line_g=~s/\s+/ /g;
-	$line_g=~s/^ //g;
-	if ( length($line_g)>0 && $line_g!~/^\#/ ) {
-	    #INV_HOST-0       #INT_NAME-1       #HWADDR-2
-	    @arr0_g=split(' ',$line_g);
-	    $inv_hosts_network_data_g{'hwaddr_all'}{$arr0_g[2]}=$arr0_g[0];
-	    $inv_hosts_network_data_g{'inv_host'}{$arr0_g[0]}{$arr0_g[1]}{$arr0_g[2]}=1;  
-	}
-    }
-    close(NDATA);
+    &read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+    #$file_l,$res_href_l
 }
 ###READ network data for checks
 
@@ -1008,6 +995,31 @@ if ( $exec_status_g!~/^OK$/ ) {
 ###SUBROUTINES
 ##INCLUDED to conf_type_sub_refs_g
 #common (novlan)
+sub read_network_data_for_checks {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$ifcfg_backup_from_remote_nd_file_g
+    #res_href_l=hash-ref for %inv_hosts_network_data_g
+    
+    my $line_l=undef;
+    my @arr0_l=undef;
+    
+    open(NDATA,'<',$file_l);
+    while ( <NDATA> ) {
+	$line_l=$_;
+	$line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+	$line_l=~s/\s+/ /g;
+	$line_l=~s/^ //g;
+	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    #INV_HOST-0       #INT_NAME-1       #HWADDR-2
+	    @arr0_l=split(' ',$line_l);
+	    ${$res_href_l}{'hwaddr_all'}{$arr0_l[2]}=$arr0_l[0];
+	    ${$res_href_l}{'inv_host'}{$arr0_l[0]}{$arr0_l[1]}{$arr0_l[2]}=1;  
+	}
+    }
+    close(NDATA);
+}
+
 sub just_interface_gen_ifcfg {
     my ($tmplt_dir_l,$target_dyn_ifcfg_dir_l,$prms_href_l)=@_;
     ###if STATIC. TMPLT = playbooks/ifcfg_tmplt/just_interface/ifcfg-eth-static
