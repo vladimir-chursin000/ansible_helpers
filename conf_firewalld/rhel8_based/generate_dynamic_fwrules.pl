@@ -381,6 +381,8 @@ sub read_inventory_file {
         }
     }
     close(INVDATA);
+    
+    ($line_l,$start_read_hosts_flag_l)=(undef,undef);
 }
 ############SUBROUTINES
 
