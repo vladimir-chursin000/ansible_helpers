@@ -44,6 +44,8 @@ our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/fwrules_configs/05_conf_
 our $f06_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/06_conf_ipsets_FIN';
 our $f07_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/07_conf_zones_FIN';
 our $f08_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/08_conf_policies_FIN';
+###
+our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth) downloaded from remote hosts with help of playbook 'fwrules_backup_playbook.yml' before run this script
 ############CFG file
 
 ############STATIC VARS
@@ -350,14 +352,49 @@ our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ip
 ###
 #Key=inventory_host, value=1
 ######
+
+######
+our %inv_hosts_network_data_g=();
+#INV_HOST       #INT_NAME       #IPADDR
+#$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
+######
 ############VARS
 
 ############MAIN SEQ
 &read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
 #$file_l,$res_href_l
+
+&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+#$file_l,$res_href_l
 ############MAIN SEQ
 
 ############SUBROUTINES
+sub read_network_data_for_checks {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$ifcfg_backup_from_remote_nd_file_g
+    #res_href_l=hash-ref for %inv_hosts_network_data_g
+        
+    my $line_l=undef;
+    my @arr0_l=undef;
+            
+    open(NDATA,'<',$file_l);
+    while ( <NDATA> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+            #INV_HOST-0       #INT_NAME-1       #IPADDR-2
+	    #$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
+	    ###
+            @arr0_l=split(' ',$line_l);
+            ${$res_href_l}{$arr0_l[0]}{$arr0_l[1]}=$arr0_l[2];
+        }
+    }
+    close(NDATA);
+}
+
 sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
