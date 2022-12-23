@@ -369,6 +369,14 @@ our %inv_hosts_network_data_g=();
 ############MAIN SEQ
 
 ############SUBROUTINES
+sub read_00_conf_firewalld {
+    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    #file_l=$f00_conf_firewalld_path_g
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
+    
+}
+
 sub read_network_data_for_checks {
     my ($file_l,$res_href_l)=@_;
     #file_l=$ifcfg_backup_from_remote_nd_file_g
