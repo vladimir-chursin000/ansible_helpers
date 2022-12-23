@@ -374,7 +374,40 @@ sub read_00_conf_firewalld {
     #file_l=$f00_conf_firewalld_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
+
+    my $line_l=undef;
     
+    #[firewall_conf_for_all--TMPLT:BEGIN]
+    #host_list_for_apply=all	#unconfigured_custom_firewall_zones_action=no_action
+    #DefaultZone=public		#CleanupOnExit=yes
+    #CleanupModulesOnExit=yes	#Lockdown=no
+    #IPv6_rpfilter=yes		#IndividualCalls=no
+    #LogDenied=off		#enable_logging_of_dropped_packets=no
+    #FirewallBackend=nftables	#FlushAllOnReload=yes
+    #RFC3964_IPv4=yes		#AllowZoneDrifting=no
+    #[firewall_conf_for_all--TMPLT:END]
+    ###
+    #$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+    #{'unconfigured_custom_firewall_zones_action'}=no_action|remove	#{'DefaultZone'}=name_of_default_zone
+    #{'CleanupOnExit'}=yes|no						#{'CleanupModulesOnExit'}=yes|no
+    #{'Lockdown'}=yes|no						#{'IPv6_rpfilter'}=yes|no
+    #{'IndividualCalls'}=yes|no						#{'LogDenied'}=all|unicast|broadcast|multicast|off
+    #{'enable_logging_of_dropped_packets'}=yes|no			#{'FirewallBackend'}=nftables|iptables
+    #{'FlushAllOnReload'}=yes|no					#{'RFC3964_IPv4'}=yes|no
+    #{'AllowZoneDrifting'}=yes|no
+
+    open(CONF_FIREWALLD,'<',$file_l);
+    while ( <CONF_FIREWALLD> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    
+	}
+    }
+    close(CONF_FIREWALLD);
 }
 
 sub read_network_data_for_checks {
