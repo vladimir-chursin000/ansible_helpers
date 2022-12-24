@@ -374,8 +374,6 @@ sub read_00_conf_firewalld {
     #file_l=$f00_conf_firewalld_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
-
-    my $line_l=undef;
     
     #[firewall_conf_for_all--TMPLT:BEGIN]
     #host_list_for_apply=all	#unconfigured_custom_firewall_zones_action=no_action
@@ -396,6 +394,10 @@ sub read_00_conf_firewalld {
     #{'FlushAllOnReload'}=yes|no					#{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
 
+    my $line_l=undef;
+    my ($begin_tmplt_l,$end_tmplt_l)=(0,0);
+    my $tmplt_name_l=undef;
+
     open(CONF_FIREWALLD,'<',$file_l);
     while ( <CONF_FIREWALLD> ) {
         $line_l=$_;
@@ -404,7 +406,10 @@ sub read_00_conf_firewalld {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-	    
+	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) {
+		$tmplt_name_l=$1;
+		$begin_tmplt_l=1;
+	    }
 	}
     }
     close(CONF_FIREWALLD);
