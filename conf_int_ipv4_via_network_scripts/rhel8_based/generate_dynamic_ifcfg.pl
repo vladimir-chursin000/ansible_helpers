@@ -122,8 +122,12 @@ our %inv_hosts_network_data_g=();
 
 ###READ network data for checks
 if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
-    &read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+    $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
     #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+    }
 }
 ###READ network data for checks
 
@@ -999,10 +1003,13 @@ sub read_network_data_for_checks {
     my ($file_l,$res_href_l)=@_;
     #file_l=$ifcfg_backup_from_remote_nd_file_g
     #res_href_l=hash-ref for %inv_hosts_network_data_g
+    my $proc_name_l='read_network_data_for_checks';
     
-    my $line_l=undef;
+    my ($line_l,$value_cnt_l)=(undef,0);
     my @arr0_l=undef;
     
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+
     open(NDATA,'<',$file_l);
     while ( <NDATA> ) {
 	$line_l=$_;
@@ -1014,10 +1021,17 @@ sub read_network_data_for_checks {
 	    #INV_HOST-0       #INT_NAME-1       #HWADDR-2
 	    @arr0_l=split(' ',$line_l);
 	    ${$res_href_l}{'hwaddr_all'}{$arr0_l[2]}=$arr0_l[0];
-	    ${$res_href_l}{'inv_host'}{$arr0_l[0]}{$arr0_l[1]}{$arr0_l[2]}=1;  
+	    ${$res_href_l}{'inv_host'}{$arr0_l[0]}{$arr0_l[1]}{$arr0_l[2]}=1;
+	    $value_cnt_l++; 
 	}
     }
     close(NDATA);
+
+    $line_l=undef;
+
+    if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
+
+    return 'OK';
 }
 
 sub just_interface_gen_ifcfg {

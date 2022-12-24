@@ -358,14 +358,37 @@ our %inv_hosts_network_data_g=();
 #INV_HOST       #INT_NAME       #IPADDR
 #$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
 ######
+
+our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ############VARS
 
 ############MAIN SEQ
-&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
+$exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
 #$file_l,$res_href_l
+if ( $exec_res_g=~/^fail/ ) {
+    $exec_status_g='FAIL';
+    print "$exec_res_g\n";
+}
 
-&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+$exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
 #$file_l,$res_href_l
+if ( $exec_res_g=~/^fail/ ) {
+    $exec_status_g='FAIL';
+    print "$exec_res_g\n";
+}
+
+$exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
+#$file_l,$inv_hosts_href_l,$res_href_l
+if ( $exec_res_g=~/^fail/ ) {
+    $exec_status_g='FAIL';
+    print "$exec_res_g\n";
+}
+
+system("echo $exec_status_g > GEN_DYN_FWRULES_STATUS");
+if ( $exec_status_g!~/^OK$/ ) {
+    print "EXEC_STATUS not OK. Exit!\n\n";
+    exit;
+}
 ############MAIN SEQ
 
 ############SUBROUTINES
@@ -374,6 +397,7 @@ sub read_00_conf_firewalld {
     #file_l=$f00_conf_firewalld_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
+    my $proc_name_l='read_00_conf_firewalld';
     
     #[firewall_conf_for_all--TMPLT:BEGIN]
     #host_list_for_apply=all	#unconfigured_custom_firewall_zones_action=no_action
@@ -398,6 +422,8 @@ sub read_00_conf_firewalld {
     my ($begin_tmplt_l,$end_tmplt_l)=(0,0);
     my $tmplt_name_l=undef;
 
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+
     open(CONF_FIREWALLD,'<',$file_l);
     while ( <CONF_FIREWALLD> ) {
         $line_l=$_;
@@ -419,10 +445,13 @@ sub read_network_data_for_checks {
     my ($file_l,$res_href_l)=@_;
     #file_l=$ifcfg_backup_from_remote_nd_file_g
     #res_href_l=hash-ref for %inv_hosts_network_data_g
+    my $proc_name_l='read_network_data_for_checks';
         
-    my $line_l=undef;
+    my ($line_l,$value_cnt_l)=(undef,0);
     my @arr0_l=undef;
-            
+
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+
     open(NDATA,'<',$file_l);
     while ( <NDATA> ) {
         $line_l=$_;
@@ -436,36 +465,53 @@ sub read_network_data_for_checks {
 	    ###
             @arr0_l=split(' ',$line_l);
             ${$res_href_l}{$arr0_l[0]}{$arr0_l[1]}=$arr0_l[2];
+	    $value_cnt_l++;
         }
     }
     close(NDATA);
+    
+    $line_l=undef;
+
+    if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
+
+    return 'OK';
 }
 
 sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
+    my $proc_name_l='read_inventory_file';
             
-    my ($line_l,$start_read_hosts_flag_l)=(undef,0);
-            
+    my ($line_l,$start_read_hosts_flag_l,$value_cnt_l)=(undef,0,0);
+    
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+    
     open(INVDATA,'<',$file_l);
     while ( <INVDATA> ) {
-        $line_l=$_;
-        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
-        $line_l=~s/\s+/ /g;
-        $line_l=~s/^ //g;
-        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+    	$line_l=$_;
+    	$line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+    	$line_l=~s/\s+/ /g;
+    	$line_l=~s/^ //g;
+    	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[rhel8_firewall_hosts\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
 	    elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[rhel8_firewall_hosts\:vars\]/ ) {
 		$start_read_hosts_flag_l=0;
 		last;
 	    }
-	    elsif ( $start_read_hosts_flag_l==1 ) { ${$res_href_l}{$line_l}=1; }
-        }
+	    elsif ( $start_read_hosts_flag_l==1 ) {
+		${$res_href_l}{$line_l}=1;
+		$value_cnt_l++;
+	    }
+    	}
     }
     close(INVDATA);
     
     ($line_l,$start_read_hosts_flag_l)=(undef,undef);
+    
+    if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
+    
+    return 'OK';
 }
 ############SUBROUTINES
 
