@@ -121,13 +121,11 @@ our %inv_hosts_network_data_g=();
 ######MAIN SEQ
 
 ###READ network data for checks
-if ( -e($ifcfg_backup_from_remote_nd_file_g) ) {
-    $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
-    #$file_l,$res_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-	$exec_status_g='FAIL';
-	print "$exec_res_g\n";
-    }
+$exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+#$file_l,$res_href_l
+if ( $exec_res_g=~/^fail/ ) {
+    $exec_status_g='FAIL';
+    print "$exec_res_g\n";
 }
 ###READ network data for checks
 

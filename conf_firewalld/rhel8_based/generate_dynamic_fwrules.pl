@@ -363,7 +363,7 @@ our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ############VARS
 
 ############MAIN SEQ
-while ( 1 ) { # one run
+while ( 1 ) { # ONE RUN CYCLE begin
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -388,7 +388,8 @@ while ( 1 ) { # one run
 	last;
     }
     last;
-}
+} # ONE RUN CYCLE end
+
 system("echo $exec_status_g > GEN_DYN_FWRULES_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
