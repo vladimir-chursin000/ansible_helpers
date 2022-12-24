@@ -425,7 +425,7 @@ sub read_00_conf_firewalld {
     #{'AllowZoneDrifting'}=yes|no
 
     my $line_l=undef;
-    my ($begin_tmplt_l,$end_tmplt_l)=(0,0);
+    my ($read_tmplt_flag_l)=(0);
     my $tmplt_name_l=undef;
 
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
@@ -440,7 +440,14 @@ sub read_00_conf_firewalld {
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) {
 		$tmplt_name_l=$1;
-		$begin_tmplt_l=1;
+		$read_tmplt_flag_l=1;
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[$tmplt_name_l\:END\]$/ ) {
+		$read_tmplt_flag_l=0;
+		$tmplt_name_l='notmplt';
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) {
+		
 	    }
 	}
     }
