@@ -363,27 +363,32 @@ our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ############VARS
 
 ############MAIN SEQ
-$exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
-#$file_l,$res_href_l
-if ( $exec_res_g=~/^fail/ ) {
-    $exec_status_g='FAIL';
-    print "$exec_res_g\n";
-}
+while ( 1 ) { # one run
+    $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
 
-$exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
-#$file_l,$res_href_l
-if ( $exec_res_g=~/^fail/ ) {
-    $exec_status_g='FAIL';
-    print "$exec_res_g\n";
-}
+    $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
 
-$exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
-#$file_l,$inv_hosts_href_l,$res_href_l
-if ( $exec_res_g=~/^fail/ ) {
-    $exec_status_g='FAIL';
-    print "$exec_res_g\n";
+    $exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
+    #$file_l,$inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+    last;
 }
-
 system("echo $exec_status_g > GEN_DYN_FWRULES_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
