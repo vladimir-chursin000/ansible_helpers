@@ -1015,6 +1015,7 @@ sub read_network_data_for_checks {
 	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
 	$line_l=~s/\s+/ /g;
 	$line_l=~s/^ //g;
+	$line_l=~s/ $//g;
 	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    #INV_HOST-0       #INT_NAME-1       #HWADDR-2
 	    @arr0_l=split(' ',$line_l);

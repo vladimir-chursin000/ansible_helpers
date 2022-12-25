@@ -406,27 +406,65 @@ sub read_00_conf_firewalld {
     my $proc_name_l='read_00_conf_firewalld';
     
     #[firewall_conf_for_all--TMPLT:BEGIN]
-    #host_list_for_apply=all	#unconfigured_custom_firewall_zones_action=no_action
-    #DefaultZone=public		#CleanupOnExit=yes
-    #CleanupModulesOnExit=yes	#Lockdown=no
-    #IPv6_rpfilter=yes		#IndividualCalls=no
-    #LogDenied=off		#enable_logging_of_dropped_packets=no
-    #FirewallBackend=nftables	#FlushAllOnReload=yes
-    #RFC3964_IPv4=yes		#AllowZoneDrifting=no
+    #host_list_for_apply=all
+    #unconfigured_custom_firewall_zones_action=no_action
+    #DefaultZone=public
+    #CleanupOnExit=yes
+    #CleanupModulesOnExit=yes
+    #Lockdown=no
+    #IPv6_rpfilter=yes
+    #IndividualCalls=no
+    #LogDenied=off
+    #enable_logging_of_dropped_packets=no
+    #FirewallBackend=nftables
+    #FlushAllOnReload=yes
+    #RFC3964_IPv4=yes
+    #AllowZoneDrifting=no
     #[firewall_conf_for_all--TMPLT:END]
     ###
     #$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
-    #{'unconfigured_custom_firewall_zones_action'}=no_action|remove	#{'DefaultZone'}=name_of_default_zone
-    #{'CleanupOnExit'}=yes|no						#{'CleanupModulesOnExit'}=yes|no
-    #{'Lockdown'}=yes|no						#{'IPv6_rpfilter'}=yes|no
-    #{'IndividualCalls'}=yes|no						#{'LogDenied'}=all|unicast|broadcast|multicast|off
-    #{'enable_logging_of_dropped_packets'}=yes|no			#{'FirewallBackend'}=nftables|iptables
-    #{'FlushAllOnReload'}=yes|no					#{'RFC3964_IPv4'}=yes|no
+    #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'DefaultZone'}=name_of_default_zone
+    #{'CleanupOnExit'}=yes|no
+    #{'CleanupModulesOnExit'}=yes|no
+    #{'Lockdown'}=yes|no
+    #{'IPv6_rpfilter'}=yes|no
+    #{'IndividualCalls'}=yes|no
+    #{'LogDenied'}=all|unicast|broadcast|multicast|off
+    #{'enable_logging_of_dropped_packets'}=yes|no
+    #{'FirewallBackend'}=nftables|iptables
+    #{'FlushAllOnReload'}=yes|no
+    #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
 
     my $line_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
     my ($read_tmplt_flag_l)=(0);
-    my $tmplt_name_l=undef;
+    my ($tmplt_name_l,$host_list_for_apply_l)=(undef,undef);
+    my $return_str_l='OK';
+    
+    my @split_arr0_l=();
+    
+    my %res_tmp_lv0_l=();
+	#key=param (except 'host_list_for_apply'), value=value filtered by regex
+    my %res_tmp_lv1_l=();
+	#key=host_list_for_apply, value=hash ref for %res_tmp_lv0_l
+    my %cfg_params_and_regex_l=(
+	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
+	'DefaultZone'=>'\S+',
+	'CleanupOnExit'=>'^yes$|^no$',
+	'CleanupModulesOnExit'=>'^yes$|^no$',
+	'Lockdown'=>'^yes$|^no$',
+	'IPv6_rpfilter'=>'^yes$|^no$',
+	'IndividualCalls'=>'^yes$|^no$',
+	'LogDenied'=>'^all$|^unicast$|^broadcast$|^multicast$|^off$',
+	'enable_logging_of_dropped_packets'=>'^yes$|^no$',
+	'FirewallBackend'=>'^nftables$|^iptables$',
+	'FlushAllOnReload'=>'^yes$|^no$',
+	'RFC3964_IPv4'=>'^yes$|^no$',
+	'AllowZoneDrifting'=>'^yes$|^no$'
+    );
 
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
 
@@ -437,21 +475,84 @@ sub read_00_conf_firewalld {
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
+	$line_l=~s/ $//g;
+	$line_l=~s/ \,|\, /\,/g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) {
+	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
 		$tmplt_name_l=$1;
 		$read_tmplt_flag_l=1;
 	    }
-	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[$tmplt_name_l\:END\]$/ ) {
+	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[$tmplt_name_l\:END\]$/ ) { # if cfg block ends
+		%{$res_tmp_lv1_l{$host_list_for_apply_l}}=%res_tmp_lv0_l;
+		###
 		$read_tmplt_flag_l=0;
 		$tmplt_name_l='notmplt';
+		$host_list_for_apply_l=undef;
+		%res_tmp_lv0_l=();
 	    }
-	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) {
-		
+	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) { # if cfg param + value
+		@split_arr0_l=split(/\=/,$line_l);
+		if ( $line_l!~/^host_list_for_apply$/ && exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]=~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
+		    $res_tmp_lv0_l{$split_arr0_l[0]}=$split_arr0_l[1];
+		}
+		elsif ( $line_l!~/^host_list_for_apply$/ && exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]!~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
+		    $return_str_l="fail [$proc_name_l]. For param='$split_arr0_l[0]' value ('$split_arr0_l[1]') is incorrect";
+		    last;
+		}
+		elsif ( $split_arr0_l[0]!~/^host_list_for_apply$/ && !exists($cfg_params_and_regex_l{$split_arr0_l[0]}) ) {
+		    $return_str_l="fail [$proc_name_l]. Param='$split_arr0_l[0]' is not allowed";
+		    last;
+		}
+		elsif ( $split_arr0_l[0]=~/^host_list_for_apply$/ ) {
+		    $host_list_for_apply_l=$split_arr0_l[1];
+		}
+		@split_arr0_l=();
 	    }
 	}
     }
     close(CONF_FIREWALLD);
+        
+    $line_l=undef;
+    @split_arr0_l=();
+    %res_tmp_lv0_l=();
+
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
+    
+    if ( exists($res_tmp_lv1_l{'all'}) ) { # check for 'all' exists
+	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+	    #hkey0_l=inv-host-name
+	    %{${$res_href_l}{$hkey0_l}}=%{$res_tmp_lv1_l{'all'}};
+	}
+	
+	($hkey0_l,$hval0_l)=(undef,undef);
+	delete($res_tmp_lv1_l{'all'}); # remove key 'all' after operations
+    }
+    
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
+	@split_arr0_l=split(/\,/,$hkey0_l);	
+	foreach $arr_el0_l ( @split_arr0_l ) {
+	    #arr_el0_l=inv-host-name
+	    if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) && !exists(${$res_href_l}{$arr_el0_l}) ) { # ex at inventory and not added to result before
+		%{${$res_href_l}{$arr_el0_l}}=%{$res_tmp_lv1_l{$hkey0_l}};
+	    }
+	    elsif ( exists(${$inv_hosts_href_l}{$arr_el0_l}) && exists(${$res_href_l}{$arr_el0_l}) ) { # not 'all' => high priority
+		print "[$proc_name_l]. Redefine inv-host='$arr_el0_l' config\n";
+		%{${$res_href_l}{$arr_el0_l}}=%{$res_tmp_lv1_l{$hkey0_l}};
+	    }
+	    else {
+		$return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' is not exists at inventory";
+		last;
+	    }
+	}
+	$arr_el0_l=undef;
+	@split_arr0_l=();
+    }
+    
+    $arr_el0_l=undef;
+    @split_arr0_l=();
+    %res_tmp_lv1_l=();
+    
+    return $return_str_l;
 }
 
 sub read_network_data_for_checks {
@@ -472,6 +573,7 @@ sub read_network_data_for_checks {
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
+	$line_l=~s/ $//g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             #INV_HOST-0       #INT_NAME-1       #IPADDR-2
 	    #$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
@@ -506,6 +608,7 @@ sub read_inventory_file {
     	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
     	$line_l=~s/\s+/ /g;
     	$line_l=~s/^ //g;
+	$line_l=~s/ $//g;
     	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[rhel8_firewall_hosts\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
 	    elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[rhel8_firewall_hosts\:vars\]/ ) {
