@@ -521,7 +521,7 @@ sub read_00_conf_firewalld {
     if ( exists($res_tmp_lv1_l{'all'}) ) { # check for 'all' exists
 	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
 	    #hkey0_l=inv-host-name
-	    %{${$res_href_l}{$hkey0_l}}=%{$res_tmp_lv1_l{'all'}};
+	    %{${$res_href_l}{$hkey0_l}}=%{$res_tmp_lv1_l{'all'}}; # set config for all inventory hosts
 	}
 	
 	($hkey0_l,$hval0_l)=(undef,undef);
@@ -547,6 +547,16 @@ sub read_00_conf_firewalld {
 	$arr_el0_l=undef;
 	@split_arr0_l=();
     }
+    
+    # check for not existing configs for inv-hosts
+    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+	#hkey0_l=inv-host-name
+	if ( !exists(${$res_href_l}{$hkey0_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Host='$hkey0_l' have not configuration";
+	    last;
+	}
+    }
+    ###
     
     $arr_el0_l=undef;
     @split_arr0_l=();
