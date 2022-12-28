@@ -388,7 +388,15 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    print Dumper(\%h00_conf_firewalld_hash_g);
+    
+    $exec_res_g=&read_01_conf_ipset_templates($f01_conf_ipset_templates_path_g,\%h01_conf_ipset_templates_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+
     last;
 } # ONE RUN CYCLE end
 
@@ -715,6 +723,9 @@ sub read_01_conf_ipset_templates {
 
     my @split_arr0_l=();
 
+    my %res_tmp_lv0_l=();
+	#key=param, value=value filtered by regex
+
     my %cfg_params_and_regex_l=(
 	'ipset_name'=>'^\S+$',
 	'ipset_description'=>'^empty$|^.*$',
@@ -725,6 +736,58 @@ sub read_01_conf_ipset_templates {
 	'ipset_create_option_family'=>'^inet$|^inet6$',
 	'ipset_type'=>'^hash\:ip$|^hash\:ip\,port$|^hash\:ip\,mark$|^hash\:net$|^hash\:net\,port$|^hash\:net\,iface$|^hash\:mac$|^hash\:ip\,port\,ip$|^hash\:ip\,port\,net$|^hash\:net\,net$|^hash\:net\,port\,net$',
     );
+    
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+    
+    # read file
+    open(CONF_IPSET_TMPLT,'<',$file_l);
+    while ( <CONF_IPSET_TMPLT> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+	$line_l=~s/ $//g;
+	
+	$line_l=~s/ \,/\,/g;
+	$line_l=~s/\, /\,/g;
+
+	$line_l=~s/ \=/\=/g;
+	$line_l=~s/\= /\=/g;
+        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
+		$tmplt_name_l=$1;
+		$read_tmplt_flag_l=1;
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[$tmplt_name_l\:END\]$/ ) { # if cfg block ends
+		$read_tmplt_flag_l=0;
+		$tmplt_name_l='notmplt';
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) { # if cfg param + value
+		@split_arr0_l=split(/\=/,$line_l);
+		if ( exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]=~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
+		    $res_tmp_lv0_l{$tmplt_name_l}{$split_arr0_l[0]}=$split_arr0_l[1];
+		}
+		elsif ( exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]!~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
+		    $return_str_l="fail [$proc_name_l]. For param='$split_arr0_l[0]' value ('$split_arr0_l[1]') is incorrect (tmplt_name='$tmplt_name_l')";
+		    last;
+		}
+		elsif ( !exists($cfg_params_and_regex_l{$split_arr0_l[0]}) ) {
+		    $return_str_l="fail [$proc_name_l]. Param='$split_arr0_l[0]' is not allowed (tmplt_name='$tmplt_name_l')";
+		    last;
+		}
+		@split_arr0_l=();
+	    }
+	}
+    }
+    close(CONF_IPSET_TMPLT);
+        
+    $line_l=undef;
+    @split_arr0_l=();
+    %res_tmp_lv0_l=();
+
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
+    ###
 }
 ############SUBROUTINES
 
