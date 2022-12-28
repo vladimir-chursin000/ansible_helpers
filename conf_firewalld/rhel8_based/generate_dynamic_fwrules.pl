@@ -388,6 +388,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    print Dumper(\%h00_conf_firewalld_hash_g);
     last;
 } # ONE RUN CYCLE end
 
@@ -529,7 +530,7 @@ sub read_00_conf_firewalld {
 	#key=host_list_for_apply, value=hash ref for %res_tmp_lv0_l
     my %cfg_params_and_regex_l=(
 	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
-	'DefaultZone'=>'\S+',
+	'DefaultZone'=>'^\S+$',
 	'CleanupOnExit'=>'^yes$|^no$',
 	'CleanupModulesOnExit'=>'^yes$|^no$',
 	'Lockdown'=>'^yes$|^no$',
@@ -708,6 +709,17 @@ sub read_01_conf_ipset_templates {
     my $return_str_l='OK';
 
     my @split_arr0_l=();
+
+    my %cfg_params_and_regex_l=(
+	'ipset_name'=>'^\S+$',
+	'ipset_description'=>'^empty$|^.*$',
+	'ipset_short_description'=>'^empty$|^.*$',
+	'ipset_create_option_timeout'=>'^\d+$',
+	'ipset_create_option_hashsize'=>'^\d+$',
+	'ipset_create_option_maxelem'=>'^\d+$',
+	'ipset_create_option_family'=>'^inet$|^inet6$',
+	'ipset_type'=>'^hash\:ip$|^hash\:ip\,port$|^hash\:ip\,mark$|^hash\:net$|^hash\:net\,port$|^hash\:net\,iface$|^hash\:mac$|^hash\:ip\,port\,ip$|^hash\:ip\,port\,net$|^hash\:net\,net$|^hash\:net\,port\,net$',
+    );
 }
 ############SUBROUTINES
 
