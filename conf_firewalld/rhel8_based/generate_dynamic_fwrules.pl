@@ -717,6 +717,7 @@ sub read_01_conf_ipset_templates {
     my ($line_l)=(undef);
     my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($read_tmplt_flag_l)=(0);
     my ($tmplt_name_l)=(undef);
     my $return_str_l='OK';
@@ -790,6 +791,28 @@ sub read_01_conf_ipset_templates {
 
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
     ###
+    
+    # check for not existsing params
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	# hkey0_l = tmplt_name
+	# hval0_l = hash with params
+	while ( ($hkey1_l,$hval1_l)=each %cfg_params_and_regex_l ) {
+	    #hkey1_l = param
+	    if ( !exists(${$hval0_l}{$hkey1_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Param '$hkey1_l' is not exists at cfg for tmplt_name='$hkey0_l'";
+		last;
+	    }
+	}
+	if ( $return_str_l!~/^OK$/ ) { last; }
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after 'check for not existsing params'
+    ###
+
+    return $return_str_l;    
 }
 ############SUBROUTINES
 
