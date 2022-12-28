@@ -8,7 +8,7 @@
 # Configuration templates where a specific list of inventory hosts (separated by ",") is specified within
     # the "inv_host_list_for_apply" parameter take precedence (over "inv_host_list_for_apply=all").
 # The ipset template name must always contain a substring "--TMPLT" at the end.
-# Ipset conf template name examples: ipset1--TMPLT, ipset--ver1--TMPLT, ipset--special_ver2--TMPLT.
+# Ipset conf template name examples: ipset1--TMPLT, ipset-ver1--TMPLT, ipset-special_ver2--TMPLT.
 # About version of ipset = ipset v7.1, protocol version: 7
 
 ###EXAMPLE (with explanation)
