@@ -514,8 +514,8 @@ sub read_00_conf_firewalld {
     #{'AllowZoneDrifting'}=yes|no
 
     my $line_l=undef;
-    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($read_tmplt_flag_l)=(0);
     my ($tmplt_name_l,$host_list_for_apply_l)=(undef,undef);
     my $return_str_l='OK';
@@ -642,7 +642,38 @@ sub read_00_conf_firewalld {
 }
 
 sub read_01_conf_ipset_templates {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$f00_conf_firewalld_path_g
+    #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
+    my $proc_name_l='read_01_conf_ipset_templates';
+
+    #[some_ipset_template_name--TMPLT:BEGIN]
+    #ipset_name=some_ipset_name
+    #ipset_description=empty
+    #ipset_short_description=empty
+    #ipset_create_option_timeout=0
+    #ipset_create_option_hashsize=1024
+    #ipset_create_option_maxelem=65536
+    #ipset_create_option_family=inet
+    #ipset_type=some_ipset_type
+    #[some_ipset_template_name--TMPLT:END]
+    ###
+    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #{'ipset_name'}=value
+    #{'ipset_description'}=empty|value
+    #{'ipset_short_description'}=empty|value
+    #{'ipset_create_option_timeout'}=num
+    #{'ipset_create_option_hashsize'}=num
+    #{'ipset_create_option_maxelem'}=num
+    #{'ipset_create_option_family'}=inet|inet6
+    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     
+    my $line_l=undef;
+    my $arr_el0_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($read_tmplt_flag_l)=(0);
+    my ($tmplt_name_l)=(undef);
+    my $return_str_l='OK';
 }
 ############SUBROUTINES
 
