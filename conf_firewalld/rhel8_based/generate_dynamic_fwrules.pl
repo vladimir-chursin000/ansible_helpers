@@ -555,7 +555,12 @@ sub read_00_conf_firewalld {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
 	$line_l=~s/ $//g;
-	$line_l=~s/ \,|\, /\,/g;
+	
+	$line_l=~s/ \,/\,/g;
+	$line_l=~s/\, /\,/g;
+
+	$line_l=~s/ \=/\=/g;
+	$line_l=~s/\= /\=/g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
 		$tmplt_name_l=$1;
