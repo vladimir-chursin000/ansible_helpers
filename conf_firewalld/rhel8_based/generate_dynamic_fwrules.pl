@@ -752,8 +752,6 @@ sub read_01_conf_ipset_templates {
 	$line_l=~s/ \,/\,/g;
 	$line_l=~s/\, /\,/g;
 
-	$line_l=~s/ \=/\=/g;
-	$line_l=~s/\= /\=/g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
 		$tmplt_name_l=$1;
@@ -765,6 +763,11 @@ sub read_01_conf_ipset_templates {
 	    }
 	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) { # if cfg param + value
 		@split_arr0_l=split(/\=/,$line_l);
+		foreach $arr_el0_l ( @split_arr0_l ) {
+		    $arr_el0_l=~s/^ //g;
+		    $arr_el0_l=~s/ $//g;
+		}
+		
 		if ( exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]=~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
 		    $res_tmp_lv0_l{$tmplt_name_l}{$split_arr0_l[0]}=$split_arr0_l[1];
 		}

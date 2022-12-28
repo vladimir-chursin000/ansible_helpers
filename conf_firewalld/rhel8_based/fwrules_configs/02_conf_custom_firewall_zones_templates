@@ -72,17 +72,17 @@
 ###CUSTOM ZONE EXAMPLE. Use this template to create custom firewall zones. Don't forget to remove the comment characters (#).
 #[some_zone--TMPLT:BEGIN]
 #zone_name=some_zone--custom
-#zone_description=
-#zone_short_description=
-#zone_target=
-#zone_allowed_services=
-#zone_allowed_ports=
-#zone_allowed_protocols=
-#zone_forward=
-#zone_masquerade_general=
-#zone_allowed_source_ports=
-#zone_icmp_block_inversion=
-#zone_icmp_block=
+#zone_description=empty
+#zone_short_description=empty
+#zone_target=DROP
+#zone_allowed_services=http,https
+#zone_allowed_ports=12345/udp
+#zone_allowed_protocols=empty
+#zone_forward=no
+#zone_masquerade_general=no
+#zone_allowed_source_ports=8080/tcp
+#zone_icmp_block_inversion=no
+#zone_icmp_block=empty
 #[some_zone--TMPLT:END]
 
 #################################INSERT YOUR CUSTOM ZONE TEMPLATES AFTER THIS LINE#################################
