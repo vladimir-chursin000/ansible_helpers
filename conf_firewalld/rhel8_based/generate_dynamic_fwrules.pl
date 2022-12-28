@@ -53,6 +53,20 @@ our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_firewalld'; # dir f
 ############STATIC VARS
 
 ############VARS
+######
+our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ipsets_FIN_hash_g/h07_conf_zones_FIN_hash_g/h08_conf_policies_FIN_hash_g 
+# and operate with 'all' (apply for all inv hosts) options
+###
+#Key=inventory_host, value=1
+######
+
+######
+our %inv_hosts_network_data_g=();
+#INV_HOST       #INT_NAME       #IPADDR
+#$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
+######
+
+######
 our %h00_conf_firewalld_hash_g=();
 #[firewall_conf_for_all--TMPLT:BEGIN]
 #host_list_for_apply=all
@@ -344,19 +358,6 @@ our %h08_conf_policies_FIN_hash_g=();
 #{'egress-firewall_zone_name_tmplt'}=value
 #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
 #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
-######
-
-######
-our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ipsets_FIN_hash_g/h07_conf_zones_FIN_hash_g/h08_conf_policies_FIN_hash_g 
-# and operate with 'all' (apply for all inv hosts) options
-###
-#Key=inventory_host, value=1
-######
-
-######
-our %inv_hosts_network_data_g=();
-#INV_HOST       #INT_NAME       #IPADDR
-#$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
 ######
 
 our ($exec_res_g,$exec_status_g)=(undef,'OK');
