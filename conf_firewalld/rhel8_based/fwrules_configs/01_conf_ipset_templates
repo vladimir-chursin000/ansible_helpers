@@ -23,10 +23,12 @@
 
 #ipset_description=empty|some_description
     # Default = empty.
+    # Do not use here "=" or ",".
     # Set description + create ipset = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type --set-description=some_description" (for information only).
 
 #ipset_short_description=empty|some_short_description
     # Default = empty.
+    # Do not use here "=" or ",".
     # Set short description + create ipset = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type --set-short=some_short_description" (for information only).
 
 ###ipset create options

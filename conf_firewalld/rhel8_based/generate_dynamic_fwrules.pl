@@ -522,8 +522,8 @@ sub read_00_conf_firewalld {
     #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
 
-    my $line_l=undef;
-    my $arr_el0_l=undef;
+    my ($line_l)=(undef);
+    my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($read_tmplt_flag_l)=(0);
@@ -714,8 +714,8 @@ sub read_01_conf_ipset_templates {
     #{'ipset_create_option_family'}=inet|inet6
     #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     
-    my $line_l=undef;
-    my $arr_el0_l=undef;
+    my ($line_l)=(undef);
+    my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($read_tmplt_flag_l)=(0);
     my ($tmplt_name_l)=(undef);
@@ -752,6 +752,9 @@ sub read_01_conf_ipset_templates {
 	$line_l=~s/ \,/\,/g;
 	$line_l=~s/\, /\,/g;
 
+	$line_l=~s/ \=/\=/g;
+	$line_l=~s/\= /\=/g;
+
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
 		$tmplt_name_l=$1;
@@ -763,10 +766,6 @@ sub read_01_conf_ipset_templates {
 	    }
 	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) { # if cfg param + value
 		@split_arr0_l=split(/\=/,$line_l);
-		foreach $arr_el0_l ( @split_arr0_l ) {
-		    $arr_el0_l=~s/^ //g;
-		    $arr_el0_l=~s/ $//g;
-		}
 		
 		if ( exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]=~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
 		    $res_tmp_lv0_l{$tmplt_name_l}{$split_arr0_l[0]}=$split_arr0_l[1];
