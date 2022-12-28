@@ -516,6 +516,7 @@ sub read_00_conf_firewalld {
     my $line_l=undef;
     my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($read_tmplt_flag_l)=(0);
     my ($tmplt_name_l,$host_list_for_apply_l)=(undef,undef);
     my $return_str_l='OK';
@@ -544,6 +545,7 @@ sub read_00_conf_firewalld {
 
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
 
+    # read file and some preprocessing
     open(CONF_FIREWALLD,'<',$file_l);
     while ( <CONF_FIREWALLD> ) {
         $line_l=$_;
@@ -593,21 +595,45 @@ sub read_00_conf_firewalld {
     %res_tmp_lv0_l=();
 
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
+    ###
     
-    if ( exists($res_tmp_lv1_l{'all'}) ) { # check for 'all' exists
+    # check for not existsing params
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
+	# hkey0_l = inv-host-name/all/list of hosts
+	# hval0_l = hash with params
+	while ( ($hkey1_l,$hval1_l)=each %cfg_params_and_regex_l ) {
+	    #hkey1_l = param
+	    if ( !exists(${$hval0_l}{$hkey1_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Param '$hkey1_l' is not exists at cfg for '$hkey0_l'";
+		last;
+	    }
+	}
+	if ( $return_str_l!~/^OK$/ ) { last; }
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after 'check for not existsing params'
+    ###
+    
+    # check for 'all' exists
+    if ( exists($res_tmp_lv1_l{'all'}) ) { 
 	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-	    #hkey0_l=inv-host-name
+	    # hkey0_l = inv-host-name
 	    %{${$res_href_l}{$hkey0_l}}=%{$res_tmp_lv1_l{'all'}}; # set config for all inventory hosts
 	}
 	
 	($hkey0_l,$hval0_l)=(undef,undef);
 	delete($res_tmp_lv1_l{'all'}); # remove key 'all' after operations
     }
+    ###
     
+    # fill result hash
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
 	@split_arr0_l=split(/\,/,$hkey0_l);	
 	foreach $arr_el0_l ( @split_arr0_l ) {
-	    #arr_el0_l=inv-host-name
+	    # arr_el0_l = inv-host-name
 	    if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) && !exists(${$res_href_l}{$arr_el0_l}) ) { # ex at inventory and not added to result before
 		%{${$res_href_l}{$arr_el0_l}}=%{$res_tmp_lv1_l{$hkey0_l}};
 	    }
@@ -620,13 +646,19 @@ sub read_00_conf_firewalld {
 		last;
 	    }
 	}
+	
 	$arr_el0_l=undef;
 	@split_arr0_l=();
+
+	if ( $return_str_l!~/^OK$/ ) { last; }
     }
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after 'fill result hash'
+    ###
     
     # check for not existing configs for inv-hosts
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-	#hkey0_l=inv-host-name
+	# hkey0_l = inv-host-name
 	if ( !exists(${$res_href_l}{$hkey0_l}) ) {
 	    $return_str_l="fail [$proc_name_l]. Host='$hkey0_l' have not configuration";
 	    last;
@@ -674,6 +706,8 @@ sub read_01_conf_ipset_templates {
     my ($read_tmplt_flag_l)=(0);
     my ($tmplt_name_l)=(undef);
     my $return_str_l='OK';
+
+    my @split_arr0_l=();
 }
 ############SUBROUTINES
 
