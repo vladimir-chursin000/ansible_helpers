@@ -396,7 +396,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-
+    
     last;
 } # ONE RUN CYCLE end
 
@@ -408,6 +408,7 @@ if ( $exec_status_g!~/^OK$/ ) {
 ############MAIN SEQ
 
 ############SUBROUTINES
+######general subs
 sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
@@ -522,21 +523,20 @@ sub read_00_conf_firewalld {
     #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
 
-    my ($line_l)=(undef);
-    my ($arr_el0_l)=(undef);
+    my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
-    my ($read_tmplt_flag_l)=(0);
-    my ($tmplt_name_l,$host_list_for_apply_l)=(undef,undef);
+    my $exec_res_l=undef;
     my $return_str_l='OK';
     
-    my @split_arr0_l=();
+    my @inv_hosts_arr_l=();
     
     my %res_tmp_lv0_l=();
-	#key=param (except 'host_list_for_apply'), value=value filtered by regex
+	#key0=tmplt_name, key1=param, value=value filtered by regex
     my %res_tmp_lv1_l=();
-	#key=host_list_for_apply, value=hash ref for %res_tmp_lv0_l
+	#key0=inv-host, key1=param (except = host_list_for_apply), value=hash ref for %res_tmp_lv0_l
     my %cfg_params_and_regex_l=(
+	'host_list_for_apply'=>'^all$|\S+',
 	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
 	'DefaultZone'=>'^\S+$',
 	'CleanupOnExit'=>'^yes$|^no$',
@@ -552,137 +552,53 @@ sub read_00_conf_firewalld {
 	'AllowZoneDrifting'=>'^yes$|^no$'
     );
 
-    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
-
-    # read file and some preprocessing
-    open(CONF_FIREWALLD,'<',$file_l);
-    while ( <CONF_FIREWALLD> ) {
-        $line_l=$_;
-        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
-        $line_l=~s/\s+/ /g;
-        $line_l=~s/^ //g;
-	$line_l=~s/ $//g;
+    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    #$file_l,$regex_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l=tmplt_name, hval0_l=hash of params
+	if ( ${$hval0_l}{'host_list_for_apply'} eq 'all' ) {
+	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
+		#$hkey1_l=inv-host from inv-host-hash
+		push(@inv_hosts_arr_l,$hkey1_l);
+	    }
+	    
+	    ($hkey1_l,$hval1_l)=(undef,undef);
+	}
+	else {
+	    @inv_hosts_arr_l=split(/\,/,${$hval0_l}{'host_list_for_apply'});
+	}
+	delete(${$hval0_l}{'host_list_for_apply'});
 	
-	$line_l=~s/ \,/\,/g;
-	$line_l=~s/\, /\,/g;
-
-	$line_l=~s/ \=/\=/g;
-	$line_l=~s/\= /\=/g;
-        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
-		$tmplt_name_l=$1;
-		$read_tmplt_flag_l=1;
-	    }
-	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[$tmplt_name_l\:END\]$/ ) { # if cfg block ends
-		%{$res_tmp_lv1_l{$host_list_for_apply_l}}=%res_tmp_lv0_l;
-		###
-		$read_tmplt_flag_l=0;
-		$tmplt_name_l='notmplt';
-		$host_list_for_apply_l=undef;
-		%res_tmp_lv0_l=();
-	    }
-	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) { # if cfg param + value
-		@split_arr0_l=split(/\=/,$line_l);
-		if ( $line_l!~/^host_list_for_apply$/ && exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]=~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
-		    $res_tmp_lv0_l{$split_arr0_l[0]}=$split_arr0_l[1];
-		}
-		elsif ( $line_l!~/^host_list_for_apply$/ && exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]!~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
-		    $return_str_l="fail [$proc_name_l]. For param='$split_arr0_l[0]' value ('$split_arr0_l[1]') is incorrect";
-		    last;
-		}
-		elsif ( $split_arr0_l[0]!~/^host_list_for_apply$/ && !exists($cfg_params_and_regex_l{$split_arr0_l[0]}) ) {
-		    $return_str_l="fail [$proc_name_l]. Param='$split_arr0_l[0]' is not allowed";
-		    last;
-		}
-		elsif ( $split_arr0_l[0]=~/^host_list_for_apply$/ ) {
-		    $host_list_for_apply_l=$split_arr0_l[1];
-		}
-		@split_arr0_l=();
-	    }
-	}
-    }
-    close(CONF_FIREWALLD);
-        
-    $line_l=undef;
-    @split_arr0_l=();
-    %res_tmp_lv0_l=();
-
-    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
-    ###
-    
-    # check for not existsing params
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
-	# hkey0_l = inv-host-name/all/list of hosts
-	# hval0_l = hash with params
-	while ( ($hkey1_l,$hval1_l)=each %cfg_params_and_regex_l ) {
-	    #hkey1_l = param
-	    if ( !exists(${$hval0_l}{$hkey1_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Param '$hkey1_l' is not exists at cfg for '$hkey0_l'";
-		last;
-	    }
-	}
-	if ( $return_str_l!~/^OK$/ ) { last; }
-    }
-    
-    ($hkey0_l,$hval0_l)=(undef,undef);
-    ($hkey1_l,$hval1_l)=(undef,undef);
-    
-    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after 'check for not existsing params'
-    ###
-    
-    # check for 'all' exists
-    if ( exists($res_tmp_lv1_l{'all'}) ) { 
-	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-	    # hkey0_l = inv-host-name
-	    %{${$res_href_l}{$hkey0_l}}=%{$res_tmp_lv1_l{'all'}}; # set config for all inventory hosts
-	}
-	
-	($hkey0_l,$hval0_l)=(undef,undef);
-	delete($res_tmp_lv1_l{'all'}); # remove key 'all' after operations
-    }
-    ###
-    
-    # fill result hash
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
-	@split_arr0_l=split(/\,/,$hkey0_l);	
-	foreach $arr_el0_l ( @split_arr0_l ) {
-	    # arr_el0_l = inv-host-name
-	    if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) && !exists(${$res_href_l}{$arr_el0_l}) ) { # ex at inventory and not added to result before
-		%{${$res_href_l}{$arr_el0_l}}=%{$res_tmp_lv1_l{$hkey0_l}};
-	    }
-	    elsif ( exists(${$inv_hosts_href_l}{$arr_el0_l}) && exists(${$res_href_l}{$arr_el0_l}) ) { # not 'all' => high priority
-		print "[$proc_name_l]. Redefine inv-host='$arr_el0_l' config\n";
-		%{${$res_href_l}{$arr_el0_l}}=%{$res_tmp_lv1_l{$hkey0_l}};
-	    }
-	    else {
-		$return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' is not exists at inventory";
-		last;
-	    }
+	foreach $arr_el0_l ( @inv_hosts_arr_l ) {
+	    #arr_el0_l=inv-host
+	    %{$res_tmp_lv1_l{$arr_el0_l}}=%{$hval0_l};
 	}
 	
 	$arr_el0_l=undef;
-	@split_arr0_l=();
-
-	if ( $return_str_l!~/^OK$/ ) { last; }
+	@inv_hosts_arr_l=();
     }
     
-    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after 'fill result hash'
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    @inv_hosts_arr_l=();
+    %res_tmp_lv0_l=();
     ###
-    
+
     # check for not existing configs for inv-hosts
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
 	# hkey0_l = inv-host-name
-	if ( !exists(${$res_href_l}{$hkey0_l}) ) {
+	if ( !exists($res_tmp_lv1_l{$hkey0_l}) ) {
 	    $return_str_l="fail [$proc_name_l]. Host='$hkey0_l' have not configuration";
 	    last;
 	}
     }
     ###
     
-    $arr_el0_l=undef;
-    @split_arr0_l=();
-    %res_tmp_lv1_l=();
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
     
     return $return_str_l;
 }
@@ -714,15 +630,8 @@ sub read_01_conf_ipset_templates {
     #{'ipset_create_option_family'}=inet|inet6
     #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     
-    my ($line_l)=(undef);
-    my ($arr_el0_l)=(undef);
-    my ($hkey0_l,$hval0_l)=(undef,undef);
-    my ($hkey1_l,$hval1_l)=(undef,undef);
-    my ($read_tmplt_flag_l)=(0);
-    my ($tmplt_name_l)=(undef);
+    my $exec_res_l=undef;
     my $return_str_l='OK';
-
-    my @split_arr0_l=();
 
     my %res_tmp_lv0_l=();
 	#key=param, value=value filtered by regex
@@ -737,12 +646,46 @@ sub read_01_conf_ipset_templates {
 	'ipset_create_option_family'=>'^inet$|^inet6$',
 	'ipset_type'=>'^hash\:ip$|^hash\:ip\,port$|^hash\:ip\,mark$|^hash\:net$|^hash\:net\,port$|^hash\:net\,iface$|^hash\:mac$|^hash\:ip\,port\,ip$|^hash\:ip\,port\,net$|^hash\:net\,net$|^hash\:net\,port\,net$',
     );
+
+    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    #$file_l,$regex_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv0_l;
+    ###
+    
+    return $return_str_l;    
+}
+######general subs
+
+######other subs
+sub read_templates_from_config {
+    my ($file_l,$regex_href_l,$res_href_l)=@_;
+    #file_l=config with templates
+    #regex_href_l=hash-ref for %cfg_params_and_regex_l
+    #res_href_l=hash-ref for result-hash
+    my $proc_name_l='read_templates_from_config';
+
+    my ($line_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($read_tmplt_flag_l)=(0);
+    my ($tmplt_name_begin_l,$tmplt_name_end_l)=(undef,undef);
+    my $return_str_l='OK';
+
+    my @split_arr0_l=();
+
+    my %res_tmp_lv0_l=();
+	#key=param, value=value filtered by regex
+    my %uniq_tmplt_name_check_l=();
+	#key=tmplt_name, value=1
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
-    
+
     # read file
-    open(CONF_IPSET_TMPLT,'<',$file_l);
-    while ( <CONF_IPSET_TMPLT> ) {
+    open(CONF_TMPLT,'<',$file_l);
+    while ( <CONF_TMPLT> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
@@ -758,45 +701,57 @@ sub read_01_conf_ipset_templates {
 
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
-		$tmplt_name_l=$1;
+		$tmplt_name_begin_l=$1;
 		$read_tmplt_flag_l=1;
-	    }
-	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[$tmplt_name_l\:END\]$/ ) { # if cfg block ends
-		$read_tmplt_flag_l=0;
-		$tmplt_name_l='notmplt';
-	    }
-	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_l ne 'notmplt' ) { # if cfg param + value
-		@split_arr0_l=split(/\=/,$line_l);
-		
-		if ( exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]=~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
-		    $res_tmp_lv0_l{$tmplt_name_l}{$split_arr0_l[0]}=$split_arr0_l[1];
-		}
-		elsif ( exists($cfg_params_and_regex_l{$split_arr0_l[0]}) && $split_arr0_l[1]!~/$cfg_params_and_regex_l{$split_arr0_l[0]}/ ) {
-		    $return_str_l="fail [$proc_name_l]. For param='$split_arr0_l[0]' value ('$split_arr0_l[1]') is incorrect (tmplt_name='$tmplt_name_l')";
+		if ( exists($uniq_tmplt_name_check_l{$tmplt_name_begin_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. Duplicated template='$tmplt_name_begin_l'. Check and correct config='$file_l'";
 		    last;
 		}
-		elsif ( !exists($cfg_params_and_regex_l{$split_arr0_l[0]}) ) {
-		    $return_str_l="fail [$proc_name_l]. Param='$split_arr0_l[0]' is not allowed (tmplt_name='$tmplt_name_l')";
+		$uniq_tmplt_name_check_l{$tmplt_name_begin_l}=1;
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[(\S+\-\-TMPLT)\:END\]$/ ) { # if cfg block ends
+		$tmplt_name_end_l=$1;
+		if ( $tmplt_name_begin_l eq $tmplt_name_end_l ) { # if correct begin and end of template
+		    $read_tmplt_flag_l=0;
+		    $tmplt_name_begin_l='notmplt';
+		}
+		else { # if incorrect begin and end of template
+		    $return_str_l="fail [$proc_name_l]. Tmplt_name_begin ('$tmplt_name_begin_l') != tmplt_name_end ('$tmplt_name_end_l'). Check and correct config='$file_l'";
+		    last;
+		}
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_begin_l ne 'notmplt' ) { # if cfg param + value
+		@split_arr0_l=split(/\=/,$line_l);
+		
+		if ( exists(${$regex_href_l}{$split_arr0_l[0]}) && $split_arr0_l[1]=~/${$regex_href_l}{$split_arr0_l[0]}/ ) {
+		    $res_tmp_lv0_l{$tmplt_name_begin_l}{$split_arr0_l[0]}=$split_arr0_l[1];
+		}
+		elsif ( exists(${$regex_href_l}{$split_arr0_l[0]}) && $split_arr0_l[1]!~/${$regex_href_l}{$split_arr0_l[0]}/ ) {
+		    $return_str_l="fail [$proc_name_l]. For param='$split_arr0_l[0]' value ('$split_arr0_l[1]') is incorrect (tmplt_name='$tmplt_name_begin_l')";
+		    last;
+		}
+		elsif ( !exists(${$regex_href_l}{$split_arr0_l[0]}) ) {
+		    $return_str_l="fail [$proc_name_l]. Param='$split_arr0_l[0]' is not allowed (tmplt_name='$tmplt_name_begin_l')";
 		    last;
 		}
 		@split_arr0_l=();
 	    }
 	}
     }
-    close(CONF_IPSET_TMPLT);
+    close(CONF_TMPLT);
         
     $line_l=undef;
+    ($tmplt_name_begin_l,$tmplt_name_end_l)=(undef,undef);
     @split_arr0_l=();
-    %res_tmp_lv0_l=();
 
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
     ###
-    
+
     # check for not existsing params
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	# hkey0_l = tmplt_name
 	# hval0_l = hash with params
-	while ( ($hkey1_l,$hval1_l)=each %cfg_params_and_regex_l ) {
+	while ( ($hkey1_l,$hval1_l)=each %{$regex_href_l} ) {
 	    #hkey1_l = param
 	    if ( !exists(${$hval0_l}{$hkey1_l}) ) {
 		$return_str_l="fail [$proc_name_l]. Param '$hkey1_l' is not exists at cfg for tmplt_name='$hkey0_l'";
@@ -812,8 +767,15 @@ sub read_01_conf_ipset_templates {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after 'check for not existsing params'
     ###
 
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv0_l;
+    ###
+    
+    %res_tmp_lv0_l=();
+    
     return $return_str_l;    
 }
+######other subs
 ############SUBROUTINES
 
 #With best regards
