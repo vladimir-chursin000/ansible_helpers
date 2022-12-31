@@ -1,3 +1,5 @@
+#WORK but at refactoring process
+####
 # 1) UPDATE list (for install and configure network-scripts) of ip addresses = conf_network_scripts_hosts (inventory).
 
 # 2) Fill conf_file='config'. Example config='config_examples'.
