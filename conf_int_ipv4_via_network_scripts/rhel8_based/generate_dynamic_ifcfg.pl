@@ -116,12 +116,7 @@ if ( $exec_res_g=~/^fail/ ) {
 }
 ###REcreate ifcfg_tmplt
 
-if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final
-    if ( -d $dyn_resolv_common_dir_g ) {
-	system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
-    }
-    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_ifcfg_change.yml");
-    
+if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final    
     ###READ conf file 'dns_settings' and generate resolv-conf-files
 	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
 	#%inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
@@ -137,6 +132,11 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
 	}
     }
     close(CONF_DNS);
+
+
+    if ( -d $dyn_resolv_common_dir_g ) {
+	system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
+    }
     
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_dns_g ) {
 	#hkey0_g=inv_host
@@ -257,6 +257,8 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
     ($hkey1_g,$hval1_g)=(undef,undef);
+
+    system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_ifcfg_change.yml");
 
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
 	#hkey0_g=inv_host, hval0_g=hash
