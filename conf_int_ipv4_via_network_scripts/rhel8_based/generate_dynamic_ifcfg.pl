@@ -130,19 +130,12 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     
     ###READ conf file 'config_del_not_configured_ifcfg'
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
-    open(CONF_DEL,'<',$conf_file_del_not_configured_g);
-    while ( <CONF_DEL> ) {
-	$line_g=$_;
-	$line_g=~s/\n$|\r$|\n\r$|\r\n$//g;
-	while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
-	$line_g=~s/\s+/ /g;
-	$line_g=~s/^ //g;
-	if ( length($line_g)>0 && $line_g!~/^\#/ && $line_g=~/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/ ) {
-	    $inv_hosts_ifcfg_del_not_configured_g{$1}=1;
-	}
+    $exec_res_g=&read_config_del_not_configured_ifcfg($conf_file_del_not_configured_g,\%inv_hosts_ifcfg_del_not_configured_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
     }
-    close(CONF_DEL);
-    $line_g=undef;
     ###READ conf file 'config_del_not_configured_ifcfg'
     
     ###READ conf file 'config_temporary_apply_ifcfg'
@@ -1015,6 +1008,33 @@ sub generate_resolv_conf_files {
     $arr_el0_l=undef;
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###READ conf file 'dns_settings' and generate resolv-conf-files
+    
+    return $return_str_l;
+}
+
+sub read_config_del_not_configured_ifcfg {
+    my ($file_l,$res_href_l)=@_;
+    #$file_l=$conf_file_del_not_configured_g
+    #$res_href_l=hash ref for %inv_hosts_ifcfg_del_not_configured_g
+    my $proc_name_l='read_config_del_not_configured_ifcfg';
+    
+    my $line_l=undef;
+    my $return_str_l='OK';
+    
+    open(CONF_DEL,'<',$file_l);
+    while ( <CONF_DEL> ) {
+	$line_l=$_;
+	$line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+	$line_l=~s/\s+/ /g;
+	$line_l=~s/^ //g;
+	if ( length($line_l)>0 && $line_l!~/^\#/ && $line_l=~/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})$/ ) {
+	    ${$res_href_l}{$1}=1;
+	}
+    }
+    close(CONF_DEL);
+    
+    $line_l=undef;
     
     return $return_str_l;
 }
