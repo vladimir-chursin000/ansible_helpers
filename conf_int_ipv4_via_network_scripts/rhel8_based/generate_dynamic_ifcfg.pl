@@ -133,7 +133,6 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     }
     close(CONF_DNS);
 
-
     if ( -d $dyn_resolv_common_dir_g ) {
 	system("cd $dyn_resolv_common_dir_g && ls | grep -v 'info' | xargs rm -rf");
     }
@@ -184,6 +183,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     $line_g=undef;
     ###READ conf file 'config_temporary_apply_ifcfg'
     
+    ######
     #$dyn_ifcfg_common_dir/$inv_host = get inv_hosts + fin = get list of interfaces
     #$ifcfg_backup_from_remote_dir/inv_host = get actual ifcfg-files
     #%inv_hosts_hash0_g=(); #key=inv_host, value=1
@@ -257,7 +257,9 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     }
     ($hkey0_g,$hval0_g)=(undef,undef);
     ($hkey1_g,$hval1_g)=(undef,undef);
-
+    ######
+    
+    ######
     system("rm -rf ".$dyn_ifcfg_playbooks_dir_g."/*_ifcfg_change.yml");
 
     while ( ($hkey0_g,$hval0_g)=each %inv_hosts_hash1_g ) {
@@ -417,6 +419,7 @@ if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for if
     ($hkey0_g,$hval0_g)=(undef,undef);
     ($hkey1_g,$hval1_g)=(undef,undef);
     $tmp_file0_g=undef;
+    ######
 }
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
