@@ -1056,7 +1056,7 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
     my $proc_name_l='fill_inv_hosts_hash1_with_fin_n_now_dirs';
     
     my $line_l=undef;
-    my ($hkey0_g,$hval0_g)=(undef,undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
     
     while ( ($hkey0_g,$hval0_g)=each %{$inv_hosts_hash0_href_l} ) {
