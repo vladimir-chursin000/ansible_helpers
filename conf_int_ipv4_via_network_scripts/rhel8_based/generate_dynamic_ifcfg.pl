@@ -40,7 +40,7 @@ our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_int_ipv4_via_networ
 
 ############VARS
 our $tmp_file0_g=undef; #for put file paths while processing
-our ($line_g,$exec_res_g,$tmp_var_g)=(undef,undef,undef);
+our ($exec_res_g,$tmp_var_g)=(undef,undef);
 our ($hkey0_g,$hval0_g)=(undef,undef);
 our ($hkey1_g,$hval1_g)=(undef,undef);
 our ($exec_status_g)=('OK');
