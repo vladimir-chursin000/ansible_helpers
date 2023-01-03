@@ -84,100 +84,112 @@ our %inv_hosts_network_data_g=();
 ############VARS
 
 ######MAIN SEQ
-
-###READ network data for checks
-$exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
-#$file_l,$res_href_l
-if ( $exec_res_g=~/^fail/ ) {
-    $exec_status_g='FAIL';
-    print "$exec_res_g\n";
-}
-###READ network data for checks
-
-###READ config
-$exec_res_g=&read_main_config($conf_file_g,\%inv_hosts_network_data_g,\%cfg0_hash_g);
-#$file_l,$inv_hosts_network_data_href_l,$res_href_l
-if ( $exec_res_g=~/^fail/ ) {
-    $exec_status_g='FAIL';
-    print "$exec_res_g\n";
-}
-###READ config
-
-###REcreate ifcfg_tmplt
-$exec_res_g=&recreate_ifcfg_tmplt_based_on_cfg0_hash($dyn_ifcfg_common_dir_g,$ifcfg_tmplt_dir_g,\%cfg0_hash_g,\%conf_type_sub_refs_g,\%inv_hosts_hash0_g);
-#$dyn_ifcfg_common_dir_l,$ifcfg_tmplt_dir_l,$cfg0_hash_href_l,$conf_type_sub_refs_href_l,$res_inv_hosts_hash0_href_l
-if ( $exec_res_g=~/^fail/ ) {
-    $exec_status_g='FAIL';
-    print "$exec_res_g\n";
-}
-###REcreate ifcfg_tmplt
-
-if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final    
-    ###READ conf file 'dns_settings' and generate resolv-conf-files
-	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
-	#%inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
-    $exec_res_g=&generate_resolv_conf_files($conf_dns_g,$dyn_resolv_common_dir_g,\%inv_hosts_dns_g);
-    #$conf_dns_l,$dyn_resolv_common_dir_l,$res_inv_hosts_dns_href_l
+while ( 1 ) { # ONE RUN CYCLE begin
+    ###READ network data for checks
+    $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+    #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
 	print "$exec_res_g\n";
+	last;
     }
-    ###READ conf file 'dns_settings' and generate resolv-conf-files
+    ###READ network data for checks
     
-    ###READ conf file 'config_del_not_configured_ifcfg'
-    #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
-    $exec_res_g=&read_config_del_not_configured_ifcfg($conf_file_del_not_configured_g,\%inv_hosts_ifcfg_del_not_configured_g);
-    #$file_l,$res_href_l
+    ###READ config
+    $exec_res_g=&read_main_config($conf_file_g,\%inv_hosts_network_data_g,\%cfg0_hash_g);
+    #$file_l,$inv_hosts_network_data_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
     }
-    ###READ conf file 'config_del_not_configured_ifcfg'
+    ###READ config
     
-    ###READ conf file 'config_temporary_apply_ifcfg'
-	#%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-    $exec_res_g=&read_config_temporary_apply_ifcfg($conf_temp_apply_g,\%inv_hosts_tmp_apply_cfg_g);
-    #$file_l,$res_href_l
+    ###REcreate ifcfg_tmplt
+    $exec_res_g=&recreate_ifcfg_tmplt_based_on_cfg0_hash($dyn_ifcfg_common_dir_g,$ifcfg_tmplt_dir_g,\%cfg0_hash_g,\%conf_type_sub_refs_g,\%inv_hosts_hash0_g);
+    #$dyn_ifcfg_common_dir_l,$ifcfg_tmplt_dir_l,$cfg0_hash_href_l,$conf_type_sub_refs_href_l,$res_inv_hosts_hash0_href_l
     if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
     }
-    ###READ conf file 'config_temporary_apply_ifcfg'
+    ###REcreate ifcfg_tmplt
     
-    ###FILL %inv_hosts_hash1_g
-	#$dyn_ifcfg_common_dir/$inv_host = get inv_hosts + fin = get list of interfaces
-	#$ifcfg_backup_from_remote_dir/inv_host = get actual ifcfg-files
-	#%inv_hosts_hash0_g=(); #key=inv_host, value=1
-    $exec_res_g=&fill_inv_hosts_hash1_with_fin_n_now_dirs($dyn_ifcfg_common_dir_g,$ifcfg_backup_from_remote_dir_g,\%inv_hosts_hash0_g,\%inv_hosts_hash1_g);
-    #$dyn_ifcfg_common_dir_l,$ifcfg_backup_from_remote_dir_l,$inv_hosts_hash0_href_l,$res_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
+    if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final    
+	###READ conf file 'dns_settings' and generate resolv-conf-files
+	    #$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
+	    #%inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
+	$exec_res_g=&generate_resolv_conf_files($conf_dns_g,$dyn_resolv_common_dir_g,\%inv_hosts_dns_g);
+	#$conf_dns_l,$dyn_resolv_common_dir_l,$res_inv_hosts_dns_href_l
+	if ( $exec_res_g=~/^fail/ ) {
+	    $exec_status_g='FAIL';
+	    print "$exec_res_g\n";
+	    last;
+	}
+	###READ conf file 'dns_settings' and generate resolv-conf-files
+	
+	###READ conf file 'config_del_not_configured_ifcfg'
+	#%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
+	$exec_res_g=&read_config_del_not_configured_ifcfg($conf_file_del_not_configured_g,\%inv_hosts_ifcfg_del_not_configured_g);
+	#$file_l,$res_href_l
+	if ( $exec_res_g=~/^fail/ ) {
+    	    $exec_status_g='FAIL';
+    	    print "$exec_res_g\n";
+	    last;
+	}
+	###READ conf file 'config_del_not_configured_ifcfg'
+	
+	###READ conf file 'config_temporary_apply_ifcfg'
+	    #%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
+	$exec_res_g=&read_config_temporary_apply_ifcfg($conf_temp_apply_g,\%inv_hosts_tmp_apply_cfg_g);
+	#$file_l,$res_href_l
+	if ( $exec_res_g=~/^fail/ ) {
+    	    $exec_status_g='FAIL';
+    	    print "$exec_res_g\n";
+	    last;
+	}
+	###READ conf file 'config_temporary_apply_ifcfg'
+	
+	###FILL %inv_hosts_hash1_g
+	    #$dyn_ifcfg_common_dir/$inv_host = get inv_hosts + fin = get list of interfaces
+	    #$ifcfg_backup_from_remote_dir/inv_host = get actual ifcfg-files
+	    #%inv_hosts_hash0_g=(); #key=inv_host, value=1
+	$exec_res_g=&fill_inv_hosts_hash1_with_fin_n_now_dirs($dyn_ifcfg_common_dir_g,$ifcfg_backup_from_remote_dir_g,\%inv_hosts_hash0_g,\%inv_hosts_hash1_g);
+	#$dyn_ifcfg_common_dir_l,$ifcfg_backup_from_remote_dir_l,$inv_hosts_hash0_href_l,$res_href_l
+	if ( $exec_res_g=~/^fail/ ) {
+    	    $exec_status_g='FAIL';
+    	    print "$exec_res_g\n";
+	    last;
+	}
+	######
+	
+	######MODIFY %inv_hosts_hash1_g
+	    #%inv_hosts_hash1_g=(); #key0=inv_host, key1=now/fin (generated by this script)/for_upd/for_del, key2=ifcfg_name
+	    #$dyn_ifcfg_common_dir/$inv_host = get inv_hosts + fin = get list of interfaces
+	    #$ifcfg_backup_from_remote_dir/inv_host = get actual ifcfg-files
+	    #%inv_hosts_hash0_g=(); #key=inv_host, value=1
+	$exec_res_g=&modify_inv_hosts_hash1($dyn_ifcfg_common_dir_g,$ifcfg_backup_from_remote_dir_g,$ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_ifcfg_del_not_configured_g,\%inv_hosts_hash1_g);
+	#$dyn_ifcfg_common_dir_l,$ifcfg_backup_from_remote_dir_l,$ifcfg_backup_from_remote_nd_file_l,$inv_hosts_ifcfg_del_not_configured_href_l,$res_href_l
+	if ( $exec_res_g=~/^fail/ ) {
+    	    $exec_status_g='FAIL';
+    	    print "$exec_res_g\n";
+	    last;
+	}
+	######
+	
+	######GENERATE dynamic playbooks
+	$exec_res_g=&generate_dynamic_playbooks($dyn_ifcfg_playbooks_dir_g,$remote_dir_for_absible_helper_g,$gen_playbooks_next_with_rollback_g,\%inv_hosts_tmp_apply_cfg_g,\%inv_hosts_dns_g,\%inv_hosts_hash1_g);
+	#$dyn_ifcfg_playbooks_dir_l,$remote_dir_for_absible_helper_l,$gen_playbooks_next_with_rollback_l,$inv_hosts_tmp_apply_cfg_href_l,$inv_hosts_dns_href_l,$inv_hosts_hash1_href_l
+	if ( $exec_res_g=~/^fail/ ) {
+    	    $exec_status_g='FAIL';
+    	    print "$exec_res_g\n";
+	    last;
+	}
+	######
     }
-    ######
     
-    ######MODIFY %inv_hosts_hash1_g
-	#%inv_hosts_hash1_g=(); #key0=inv_host, key1=now/fin (generated by this script)/for_upd/for_del, key2=ifcfg_name
-	#$dyn_ifcfg_common_dir/$inv_host = get inv_hosts + fin = get list of interfaces
-	#$ifcfg_backup_from_remote_dir/inv_host = get actual ifcfg-files
-	#%inv_hosts_hash0_g=(); #key=inv_host, value=1
-    $exec_res_g=&modify_inv_hosts_hash1($dyn_ifcfg_common_dir_g,$ifcfg_backup_from_remote_dir_g,$ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_ifcfg_del_not_configured_g,\%inv_hosts_hash1_g);
-    #$dyn_ifcfg_common_dir_l,$ifcfg_backup_from_remote_dir_l,$ifcfg_backup_from_remote_nd_file_l,$inv_hosts_ifcfg_del_not_configured_href_l,$res_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
-    }
-    ######
-    
-    ######GENERATE dynamic playbooks
-    $exec_res_g=&generate_dynamic_playbooks($dyn_ifcfg_playbooks_dir_g,$remote_dir_for_absible_helper_g,$gen_playbooks_next_with_rollback_g,\%inv_hosts_tmp_apply_cfg_g,\%inv_hosts_dns_g,\%inv_hosts_hash1_g);
-    #$dyn_ifcfg_playbooks_dir_l,$remote_dir_for_absible_helper_l,$gen_playbooks_next_with_rollback_l,$inv_hosts_tmp_apply_cfg_href_l,$inv_hosts_dns_href_l,$inv_hosts_hash1_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
-    }
-    ######
-}
+    last;
+}# ONE RUN CYCLE end
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
