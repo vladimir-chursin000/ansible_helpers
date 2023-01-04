@@ -24,11 +24,13 @@
 #ipset_description=empty|some_description
     # Default = empty.
     # Do not use here "=" or ",".
+    # The maximum length is 100 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
     # Set description + create ipset = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type --set-description=some_description" (for information only).
 
 #ipset_short_description=empty|some_short_description
     # Default = empty.
     # Do not use here "=" or ",".
+    # The maximum length is 20 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
     # Set short description + create ipset = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type --set-short=some_short_description" (for information only).
 
 ###ipset create options
