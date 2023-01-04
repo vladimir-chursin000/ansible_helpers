@@ -766,21 +766,25 @@ sub read_02_conf_custom_firewall_zones_templates {
 		    @split_arr0_l=split(/\,/,$hval1_l);
 		    foreach $arr_el0_l ( @split_arr0_l ) {
 			if ( $hkey1_l=~/_ports$/ ) {
-			    $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+			    $arr_el0_l=~s/\/ /\//g;
+			    $arr_el0_l=~s/ \//\//g;
+			    if ( $arr_el0_l=~/\/tcp$|\/udp$/ ) { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
+			    else {
+				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like 'NUM/tcp' or 'NUM/udp'";
+				last;
+			    }
 			}
-			else {
-			    $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
-			}
+			else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
 		    }
+		    
+		    if ( $return_str_l!~/^OK$/ ) { last; }
 		}
-		else {
-		    $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'empty'}=1;
-		}
+		else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'empty'}=1; }
 	    }
-	    else {
-		$res_tmp_lv1_l{$hkey0_l}{$hkey1_l}=$hval1_l;
-	    }
+	    else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}=$hval1_l; }
 	}
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
     }
     ###
     
