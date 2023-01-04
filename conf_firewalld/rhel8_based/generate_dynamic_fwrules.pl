@@ -727,6 +727,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    #etc
 
     my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -750,6 +752,15 @@ sub read_02_conf_custom_firewall_zones_templates {
     $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # postprocessing for %res_tmp_lv0_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #hkey1_l=param_name, hval1_l=param_value
+	}
+    }
+    ###
     
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
