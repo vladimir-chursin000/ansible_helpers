@@ -758,11 +758,13 @@ sub read_02_conf_custom_firewall_zones_templates {
 	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=param_name, hval1_l=param_value
-	    if ( $hkey1_l=~/^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$/ &&  ) { # for params just separated with ","
-		
-	    }
-	    elsif ( $hkey1_l=~/^zone_allowed_ports$|^zone_allowed_source_ports$/ ) { # for params with postfix "/tcp" or "/udp"
-		
+	    if ( $hkey1_l=~/^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$/ ) {
+		if ( $hval1_l!~/^empty$/ ) {
+		    
+		}
+		else {
+		    
+		}
 	    }
 	}
     }
