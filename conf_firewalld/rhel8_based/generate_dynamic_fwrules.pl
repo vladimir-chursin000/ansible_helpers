@@ -150,35 +150,35 @@ our %h02_conf_custom_firewall_zones_templates_hash_g=();
 #{'zone_allowed_services'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'service-0'}
-	#{'service-1'}
+	#{'service-0'}=1
+	#{'service-1'}=1
 	#etc
 #{'zone_allowed_ports'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'port-0'}
-	#{'port-1'}
+	#{'port-0'}=1
+	#{'port-1'}=1
 	#etc
 #{'zone_allowed_protocols'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'proto-0'}
-	#{'proto-1'}
+	#{'proto-0'}=1
+	#{'proto-1'}=1
 	#etc
 #{'zone_forward'}=yes|no
 #{'zone_masquerade_general'}=yes|no
 #{'zone_allowed_source_ports'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'port-0'}
-	#{'port-1'}
+	#{'port-0'}=1
+	#{'port-1'}=1
 	#etc
 #{'zone_icmp_block_inversion'}=yes|no
 #{'zone_icmp_block'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'icmptype-0'}
-	#{'icmptype-1'}
+	#{'icmptype-0'}=1
+	#{'icmptype-1'}=1
 	#etc
 ######
 
@@ -203,35 +203,35 @@ our %h02_conf_standard_firewall_zones_templates_hash_g=();
 #{'zone_allowed_services'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'service-0'}
-	#{'service-1'}
+	#{'service-0'}=1
+	#{'service-1'}=1
 	#etc
 #{'zone_allowed_ports'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'port-0'}
-	#{'port-1'}
+	#{'port-0'}=1
+	#{'port-1'}=1
 	#etc
 #{'zone_allowed_protocols'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'proto-0'}
-	#{'proto-1'}
+	#{'proto-0'}=1
+	#{'proto-1'}=1
 	#etc
 #{'zone_forward'}=yes|no
 #{'zone_masquerade_general'}=yes|no
 #{'zone_allowed_source_ports'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'port-0'}
-	#{'port-1'}
+	#{'port-0'}=1
+	#{'port-1'}=1
 	#etc
 #{'zone_icmp_block_inversion'}=yes|no
 #{'zone_icmp_block'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'icmptype-0'}
-	#{'icmptype-1'}
+	#{'icmptype-0'}=1
+	#{'icmptype-1'}=1
 	#etc
 ######
 
@@ -260,34 +260,34 @@ our %h03_conf_policy_templates_hash_g=();
 #{'policy_allowed_services'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'service-0'}
-	#{'service-1'}
+	#{'service-0'}=1
+	#{'service-1'}=1
 	#etc
 #{'policy_allowed_ports'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'port-0'}
-	#{'port-1'}
+	#{'port-0'}=1
+	#{'port-1'}=1
 	#etc
 #{'policy_allowed_protocols'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'proto-0'}
-	#{'proto-1'}
+	#{'proto-0'}=1
+	#{'proto-1'}=1
 	#etc
 #{'policy_masquerade_general'}=yes|no
 #{'policy_allowed_source_ports'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'port-0'}
-	#{'port-1'}
+	#{'port-0'}=1
+	#{'port-1'}=1
 	#etc
 #{'policy_icmp_block_inversion'}=yes|no
 #{'policy_icmp_block'}->
     #{'empty'}=1 or
     #{'list'}->
-	#{'icmptype-0'}
-	#{'icmptype-1'}
+	#{'icmptype-0'}=1
+	#{'icmptype-1'}=1
 	#etc
 ######
 
@@ -299,8 +299,8 @@ our %h04_conf_zone_forward_ports_sets_hash_g=();
 #[some_forward_ports_set_name:END]
 ###
 #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
-    #{'rule-0'}
-    #{'rule-1'}
+    #{'rule-0'}=1
+    #{'rule-1'}=1
     #etc
 ######
 
@@ -312,8 +312,8 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
 #[some_rich_rules_set_name:END]
 ###
 #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
-    #{'rule-0'}
-    #{'rule-1'}
+    #{'rule-0'}=1
+    #{'rule-1'}=1
     #etc
 ######
 
@@ -336,12 +336,12 @@ our %h07_conf_zones_FIN_hash_g=();
 ###
 #$h06_conf_ipsets_FIN_hash_g{inventory_host}{firewall_zone_name_tmplt}->
 #{'interface_list'}->;
-    #{'interface-0'}
-    #{'interface-1'}
+    #{'interface-0'}=1
+    #{'interface-1'}=1
     #etc
 #{'source_list'}->
-    #{'source-0'}
-    #{'source-1'}
+    #{'source-0'}=1
+    #{'source-1'}=1
     #etc
 #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
 #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
@@ -695,35 +695,35 @@ sub read_02_conf_custom_firewall_zones_templates {
     #{'zone_allowed_services'}->
 	#{'empty'}=1 or
 	#{'list'}->
-    	    #{'service-0'}
-    	    #{'service-1'}
+    	    #{'service-0'}=1
+    	    #{'service-1'}=1
     	    #etc
     #{'zone_allowed_ports'}->
 	#{'empty'}=1 or
 	#{'list'}->
-    	    #{'port-0'}
-    	    #{'port-1'}
+    	    #{'port-0'}=1
+    	    #{'port-1'}=1
     	    #etc
     #{'zone_allowed_protocols'}->
 	#{'empty'}=1 or
 	#{'list'}->
-    	    #{'proto-0'}
-    	    #{'proto-1'}
+    	    #{'proto-0'}=1
+    	    #{'proto-1'}=1
     	    #etc
     #{'zone_forward'}=yes|no
     #{'zone_masquerade_general'}=yes|no
     #{'zone_allowed_source_ports'}->
 	#{'empty'}=1 or
 	#{'list'}->
-    	    #{'port-0'}
-    	    #{'port-1'}
+    	    #{'port-0'}=1
+    	    #{'port-1'}=1
     	    #etc
     #{'zone_icmp_block_inversion'}=yes|no
     #{'zone_icmp_block'}->
 	#{'empty'}=1 or
 	#{'list'}->
-    	    #{'icmptype-0'}
-    	    #{'icmptype-1'}
+    	    #{'icmptype-0'}=1
+    	    #{'icmptype-1'}=1
     	    #etc
 
     my $exec_res_l=undef;
@@ -758,6 +758,12 @@ sub read_02_conf_custom_firewall_zones_templates {
 	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=param_name, hval1_l=param_value
+	    if ( $hkey1_l=~/^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$/ &&  ) { # for params just separated with ","
+		
+	    }
+	    elsif ( $hkey1_l=~/^zone_allowed_ports$|^zone_allowed_source_ports$/ ) { # for params with postfix "/tcp" or "/udp"
+		
+	    }
 	}
     }
     ###
