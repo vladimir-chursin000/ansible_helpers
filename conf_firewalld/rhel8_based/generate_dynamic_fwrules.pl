@@ -396,7 +396,15 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    
+
+    $exec_res_g=&read_02_conf_custom_firewall_zones_templates($f02_conf_custom_firewall_zones_templates_path_g,\%h02_conf_custom_firewall_zones_templates_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+    print Dumper(\%h02_conf_custom_firewall_zones_templates_hash_g);
     last;
 } # ONE RUN CYCLE end
 
@@ -605,8 +613,8 @@ sub read_00_conf_firewalld {
 
 sub read_01_conf_ipset_templates {
     my ($file_l,$res_href_l)=@_;
-    #file_l=$f00_conf_firewalld_path_g
-    #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
+    #file_l=$f01_conf_ipset_templates_path_g
+    #res_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     my $proc_name_l='read_01_conf_ipset_templates';
 
     #[some_ipset_template_name--TMPLT:BEGIN]
@@ -645,6 +653,98 @@ sub read_01_conf_ipset_templates {
 	'ipset_create_option_maxelem'=>'^\d+$',
 	'ipset_create_option_family'=>'^inet$|^inet6$',
 	'ipset_type'=>'^hash\:ip$|^hash\:ip\,port$|^hash\:ip\,mark$|^hash\:net$|^hash\:net\,port$|^hash\:net\,iface$|^hash\:mac$|^hash\:ip\,port\,ip$|^hash\:ip\,port\,net$|^hash\:net\,net$|^hash\:net\,port\,net$',
+    );
+
+    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    #$file_l,$regex_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv0_l;
+    ###
+    
+    return $return_str_l;    
+}
+
+sub read_02_conf_custom_firewall_zones_templates {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$f02_conf_custom_firewall_zones_templates_path_g
+    #res_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+    my $proc_name_l='read_02_conf_custom_firewall_zones_templates';
+
+    #[some_zone--TMPLT:BEGIN]
+    #zone_name=some_zone--custom
+    #zone_description=
+    #zone_short_description=
+    #zone_target=
+    #zone_allowed_services=
+    #zone_allowed_ports=
+    #zone_allowed_protocols=
+    #zone_forward=
+    #zone_masquerade_general=
+    #zone_allowed_source_ports=
+    #zone_icmp_block_inversion=
+    #zone_icmp_block=
+    #[some_zone--TMPLT:END]
+    ###
+    #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+    #{'zone_name'}=some_zone--custom
+    #{'zone_description'}=empty|value
+    #{'zone_short_description'}=empty|value
+    #{'zone_target'}=ACCEPT|REJECT|DROP|default
+    #{'zone_allowed_services'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'service-0'}
+    	    #{'service-1'}
+    	    #etc
+    #{'zone_allowed_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'port-0'}
+    	    #{'port-1'}
+    	    #etc
+    #{'zone_allowed_protocols'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'proto-0'}
+    	    #{'proto-1'}
+    	    #etc
+    #{'zone_forward'}=yes|no
+    #{'zone_masquerade_general'}=yes|no
+    #{'zone_allowed_source_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'port-0'}
+    	    #{'port-1'}
+    	    #etc
+    #{'zone_icmp_block_inversion'}=yes|no
+    #{'zone_icmp_block'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'icmptype-0'}
+    	    #{'icmptype-1'}
+    	    #etc
+
+    my $exec_res_l=undef;
+    my $return_str_l='OK';
+
+    my %res_tmp_lv0_l=();
+	#key=param, value=value filtered by regex
+
+    my %cfg_params_and_regex_l=(
+	'zone_name'=>'^\S+\-\-custom$',
+	'zone_description'=>'^empty$|^.*$',
+	'zone_short_description'=>'^empty$|^.*$',
+	'zone_target'=>'^ACCEPT$|^REJECT$|^DROP$|^default$',
+	'zone_allowed_services'=>'^empty$|^.*$',
+	'zone_allowed_ports'=>'^empty$|^.*$',
+	'zone_allowed_protocols'=>'^empty$|^.*$',
+	'zone_forward'=>'$yes$|^no$',
+	'zone_masquerade_general'=>'$yes$|^no$',
+	'zone_allowed_source_ports'=>'^empty$|^.*$',
+	'zone_icmp_block_inversion'=>'$yes$|^no$',
+	'zone_icmp_block'=>'^empty$|^.*$',
     );
 
     $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
