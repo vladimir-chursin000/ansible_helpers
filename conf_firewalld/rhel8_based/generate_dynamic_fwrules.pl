@@ -777,6 +777,9 @@ sub read_02_conf_custom_firewall_zones_templates {
 			else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
 		    }
 		    
+		    $arr_el0_l=undef;
+		    @split_arr0_l=();
+		    
 		    if ( $return_str_l!~/^OK$/ ) { last; }
 		}
 		else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'empty'}=1; }
@@ -784,8 +787,14 @@ sub read_02_conf_custom_firewall_zones_templates {
 	    else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}=$hval1_l; }
 	}
 	
+	($hkey1_l,$hval1_l)=(undef,undef);
+	
 	if ( $return_str_l!~/^OK$/ ) { last; }
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    %res_tmp_lv0_l=();
     ###
     
     # fill result hash
