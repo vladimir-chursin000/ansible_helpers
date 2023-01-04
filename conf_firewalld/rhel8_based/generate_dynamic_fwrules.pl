@@ -380,7 +380,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-
+    
     $exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
     #$file_l,$inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -396,7 +396,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-
+    
     $exec_res_g=&read_02_conf_custom_firewall_zones_templates($f02_conf_custom_firewall_zones_templates_path_g,\%h02_conf_custom_firewall_zones_templates_hash_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -404,7 +404,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    print Dumper(\%h02_conf_custom_firewall_zones_templates_hash_g);
+    
     last;
 } # ONE RUN CYCLE end
 
@@ -646,8 +646,8 @@ sub read_01_conf_ipset_templates {
 
     my %cfg_params_and_regex_l=(
 	'ipset_name'=>'^\S+$',
-	'ipset_description'=>'^empty$|^.*$',
-	'ipset_short_description'=>'^empty$|^.*$',
+	'ipset_description'=>'^empty$|^.{1,100}',
+	'ipset_short_description'=>'^empty$|^.{1,20}',
 	'ipset_create_option_timeout'=>'^\d+$',
 	'ipset_create_option_hashsize'=>'^\d+$',
 	'ipset_create_option_maxelem'=>'^\d+$',
@@ -734,8 +734,8 @@ sub read_02_conf_custom_firewall_zones_templates {
 
     my %cfg_params_and_regex_l=(
 	'zone_name'=>'^\S+\-\-custom$',
-	'zone_description'=>'^empty$|^.*$',
-	'zone_short_description'=>'^empty$|^.*$',
+	'zone_description'=>'^empty$|^.{1,100}',
+	'zone_short_description'=>'^empty$|^.{1,20}',
 	'zone_target'=>'^ACCEPT$|^REJECT$|^DROP$|^default$',
 	'zone_allowed_services'=>'^empty$|^.*$',
 	'zone_allowed_ports'=>'^empty$|^.*$',
@@ -824,7 +824,7 @@ sub read_templates_from_config {
 		@split_arr0_l=split(/\=/,$line_l);
 		
 		if ( exists(${$regex_href_l}{$split_arr0_l[0]}) && $split_arr0_l[1]=~/${$regex_href_l}{$split_arr0_l[0]}/ ) {
-		    $res_tmp_lv0_l{$tmplt_name_begin_l}{$split_arr0_l[0]}=$split_arr0_l[1];
+		    ($res_tmp_lv0_l{$tmplt_name_begin_l}{$split_arr0_l[0]})=$split_arr0_l[1]=~/(${$regex_href_l}{$split_arr0_l[0]})/;
 		}
 		elsif ( exists(${$regex_href_l}{$split_arr0_l[0]}) && $split_arr0_l[1]!~/${$regex_href_l}{$split_arr0_l[0]}/ ) {
 		    $return_str_l="fail [$proc_name_l]. For param='$split_arr0_l[0]' value ('$split_arr0_l[1]') is incorrect (tmplt_name='$tmplt_name_begin_l')";
