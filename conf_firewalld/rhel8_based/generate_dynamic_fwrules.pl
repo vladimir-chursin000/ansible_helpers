@@ -404,7 +404,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    
+    print Dumper(\%h02_conf_custom_firewall_zones_templates_hash_g);
     last;
 } # ONE RUN CYCLE end
 
@@ -727,12 +727,15 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    #etc
 
     my $exec_res_l=undef;
+    my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my @split_arr0_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-	#key=param, value=value filtered by regex
+	#key0=tmplt_name,key1=param, value=value filtered by regex
+    my %res_tmp_lv1_l=();
 
     my %cfg_params_and_regex_l=(
 	'zone_name'=>'^\S+\-\-custom$',
@@ -753,25 +756,36 @@ sub read_02_conf_custom_firewall_zones_templates {
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # postprocessing for %res_tmp_lv0_l
+    # fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=param_name, hval1_l=param_value
 	    if ( $hkey1_l=~/^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$/ ) {
 		if ( $hval1_l!~/^empty$/ ) {
-		    
+		    @split_arr0_l=split(/\,/,$hval1_l);
+		    foreach $arr_el0_l ( @split_arr0_l ) {
+			if ( $hkey1_l=~/_ports$/ ) {
+			    $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+			}
+			else {
+			    $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+			}
+		    }
 		}
 		else {
-		    
+		    $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'empty'}=1;
 		}
+	    }
+	    else {
+		$res_tmp_lv1_l{$hkey0_l}{$hkey1_l}=$hval1_l;
 	    }
 	}
     }
     ###
     
     # fill result hash
-    %{$res_href_l}=%res_tmp_lv0_l;
+    %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
     return $return_str_l;    
