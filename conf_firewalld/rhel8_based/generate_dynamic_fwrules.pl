@@ -732,6 +732,7 @@ sub read_02_conf_custom_firewall_zones_templates {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @split_arr0_l=();
     my $return_str_l='OK';
+    my $param_list_regex_l='^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$';
 
     my %res_tmp_lv0_l=();
 	#key0=tmplt_name,key1=param, value=value filtered by regex
@@ -756,45 +757,10 @@ sub read_02_conf_custom_firewall_zones_templates {
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # fill %res_tmp_lv1_l
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
-	    #hkey1_l=param_name, hval1_l=param_value
-	    if ( $hkey1_l=~/^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$/ ) {
-		if ( $hval1_l!~/^empty$/ ) {
-		    @split_arr0_l=split(/\,/,$hval1_l);
-		    foreach $arr_el0_l ( @split_arr0_l ) {
-			if ( $hkey1_l=~/_ports$/ ) {
-			    $arr_el0_l=~s/\/ /\//g;
-			    $arr_el0_l=~s/ \//\//g;
-			    if ( $arr_el0_l=~/\/tcp$|\/udp$/ ) { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
-			    else {
-				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like 'NUM/tcp' or 'NUM/udp'";
-				last;
-			    }
-			}
-			else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
-		    }
-		    
-		    $arr_el0_l=undef;
-		    @split_arr0_l=();
-		    
-		    if ( $return_str_l!~/^OK$/ ) { last; }
-		}
-		else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}{'empty'}=1; }
-	    }
-	    else { $res_tmp_lv1_l{$hkey0_l}{$hkey1_l}=$hval1_l; }
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef);
-	
-	if ( $return_str_l!~/^OK$/ ) { last; }
-    }
-    
-    ($hkey0_l,$hval0_l)=(undef,undef);
-    ($hkey1_l,$hval1_l)=(undef,undef);
-    %res_tmp_lv0_l=();
+    # fill %res_tmp_lv1_l (postprocessing_after_read_templates_from_config)
+    $exec_res_l=&postprocessing_after_v1_read_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
     
     # fill result hash
@@ -920,6 +886,61 @@ sub read_templates_from_config {
     %res_tmp_lv0_l=();
     
     return $return_str_l;    
+}
+
+sub postprocessing_after_v1_read_templates_from_config {
+    my ($param_list_regex_for_postproc_l,$src_href_l,$res_href_l)=@_;
+    #$param_list_regex_for_postproc_l = string like '^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$'
+    #$src_href_l=hash ref for result hash of '&read_templates_from_config'
+    #$res_href_lhash ref for result hash
+    my $proc_name_l='postprocessing_v1_after_read_templates_from_config';
+    
+    my $arr_el0_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    my @split_arr0_l=();
+    my $return_str_l='OK';
+    
+    while ( ($hkey0_l,$hval0_l)=each %{$src_href_l} ) {
+	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #hkey1_l=param_name, hval1_l=param_value
+	    if ( $hkey1_l=~/$param_list_regex_for_postproc_l/ ) {
+		if ( $hval1_l!~/^empty$/ ) {
+		    @split_arr0_l=split(/\,/,$hval1_l);
+		    foreach $arr_el0_l ( @split_arr0_l ) {
+			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
+			    $arr_el0_l=~s/\/ /\//g;
+			    $arr_el0_l=~s/ \//\//g;
+			    if ( $arr_el0_l=~/\/tcp$|\/udp$/ ) { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
+			    else {
+				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like 'NUM/tcp' or 'NUM/udp'";
+				last;
+			    }
+			}
+			else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
+		    }
+		    
+		    $arr_el0_l=undef;
+		    @split_arr0_l=();
+		    
+		    if ( $return_str_l!~/^OK$/ ) { last; }
+		}
+		else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'empty'}=1; }
+	    }
+	    else { ${$res_href_l}{$hkey0_l}{$hkey1_l}=$hval1_l; }
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    %{$src_href_l}=();
+    
+    return $return_str_l;
 }
 ######other subs
 ############SUBROUTINES
