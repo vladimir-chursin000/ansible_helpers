@@ -16,7 +16,7 @@
 ###
 # SOURCE_LIST = list of sources/ipset_templates, separated by ",".
     # Possible ipset templates names must be specified in the "01_conf ipset templates" file.
-    # Ipset templates must be assign for each inventory host at "06_conf_ipsets_FIN" file.
+    # Ipset templates must be assign for each inventory host at "66_conf_ipsets_FIN" file.
     # Higher priority than setting "INTERFACE_LIST".
     # If sources are not used, then set "empty".
     # Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=some_source" (for information only).

@@ -30,9 +30,9 @@ if ( defined($ARGV[1]) && $ARGV[1]=~/^with_rollback$/ ) {
 #03_conf_policy_templates
 #04_conf_zone_forward_ports_sets
 #05_conf_zone_rich_rules_sets
-#06_conf_ipsets_FIN
-#07_conf_zones_FIN
-#08_conf_policies_FIN
+#66_conf_ipsets_FIN
+#77_conf_zones_FIN
+#88_conf_policies_FIN
 ###
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
@@ -41,9 +41,9 @@ our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_con
 our $f03_conf_policy_templates_path_g=$self_dir_g.'/fwrules_configs/03_conf_policy_templates';
 our $f04_conf_zone_forward_ports_sets_path_g=$self_dir_g.'/fwrules_configs/04_conf_zone_forward_ports_sets';
 our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/fwrules_configs/05_conf_zone_rich_rules_sets';
-our $f06_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/06_conf_ipsets_FIN';
-our $f07_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/07_conf_zones_FIN';
-our $f08_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/08_conf_policies_FIN';
+our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN';
+our $f77_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/77_conf_zones_FIN';
+our $f88_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/88_conf_policies_FIN';
 ###
 our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth) downloaded from remote hosts with help of playbook 'fwrules_backup_playbook.yml' before run this script
 ############CFG file
@@ -54,7 +54,7 @@ our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_firewalld'; # dir f
 
 ############VARS
 ######
-our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h06_conf_ipsets_FIN_hash_g/h07_conf_zones_FIN_hash_g/h08_conf_policies_FIN_hash_g 
+our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h66_conf_ipsets_FIN_hash_g/h77_conf_zones_FIN_hash_g/h88_conf_policies_FIN_hash_g 
 # and operate with 'all' (apply for all inv hosts) options
 ###
 #Key=inventory_host, value=1
@@ -318,23 +318,23 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
 ######
 
 ######
-our %h06_conf_ipsets_FIN_hash_g=();
+our %h66_conf_ipsets_FIN_hash_g=();
 #INVENTORY_HOST         #IPSET_NAME_TMPLT_LIST
 #all                    ipset1--TMPLT,ipset4all_public--TMPLT (example)
 #10.3.2.2               ipset4public--TMPLT (example)
 ###
-#$h06_conf_ipsets_FIN_hash_g{inventory_host}->
+#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
 #{ipset_name_tmplt}=1;
 ######
 
 ######
-our %h07_conf_zones_FIN_hash_g=();
+our %h77_conf_zones_FIN_hash_g=();
 #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST                                  #FORWARD_PORTS_SET      #RICH_RULES_SET
 #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24,ipset:ipset4all_public--TMPLT   empty                   empty (example)
 #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24,ipset:ipset4public--TMPLT       fw_ports_set4public     rich_rules_set4public (example)
 #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                                         fw_ports_set4zone1      rich_rules_set4zone1 (example)
 ###
-#$h06_conf_ipsets_FIN_hash_g{inventory_host}{firewall_zone_name_tmplt}->
+#$h77_conf_zones_FIN_hash_g{inventory_host}{firewall_zone_name_tmplt}->
 #{'interface_list'}->;
     #{'interface-0'}=1
     #{'interface-1'}=1
@@ -348,12 +348,12 @@ our %h07_conf_zones_FIN_hash_g=();
 ######
 
 ######
-our %h08_conf_policies_FIN_hash_g=();
+our %h88_conf_policies_FIN_hash_g=();
 #INVENTORY_HOST         #POLICY_NAME_TMPLT           	#INGRESS-FIREWALL_ZONE_NAME_TMPLT    	#EGRESS-FIREWALL_ZONE_NAME_TMPLT     	#FORWARD_PORTS_SET      #RICH_RULES_SET
 #all                    policy_public2home--TMPLT       public--TMPLT                           home--TMPLT                             fw_ports_set1           rich_rules_set1 (example)
 #10.3.2.2               policy_zoneone2zonetwo--TMPLT   zoneone--TMPLT                          zonetwo--TMPLT                          fw_ports_set2           rich_rules_set2 (example)
 ###
-#$h08_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
+#$h88_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
 #{'ingress-firewall_zone_name_tmplt'}=value
 #{'egress-firewall_zone_name_tmplt'}=value
 #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')

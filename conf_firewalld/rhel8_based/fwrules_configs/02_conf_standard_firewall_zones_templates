@@ -8,8 +8,8 @@
 
 ###EXAMPLE (with explanation)
 #[some_std_zone_name--TMPLT:BEGIN]
-#zone_FINAL_CONF = "07_conf_zones_FIN" (DO NOT USE AT this CONFIG! For information only)
-    # To configure it is necessary to edit the file "07_conf_zones_FIN".
+#zone_FINAL_CONF = "77_conf_zones_FIN" (DO NOT USE AT this CONFIG! For information only)
+    # To configure it is necessary to edit the file "77_conf_zones_FIN".
 #################################
 #zone_name=STD_ZONE_NAME
     # A zone with this name will be created on the target hosts.
