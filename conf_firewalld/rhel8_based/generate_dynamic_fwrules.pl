@@ -1203,8 +1203,8 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=param_name, hval1_l=param_value
-	    if ( $hkey1_l=~/$param_list_regex_for_postproc_l/ ) {
-		if ( $hval1_l!~/^empty$/ ) {
+	    if ( $hkey1_l=~/$param_list_regex_for_postproc_l/ ) { #if regex list params
+		if ( $hval1_l!~/^empty$/ ) { # if regex list params and value is not empty
 		    @split_arr0_l=split(/\,/,$hval1_l);
 		    foreach $arr_el0_l ( @split_arr0_l ) {
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
@@ -1216,7 +1216,9 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 				last;
 			    }
 			}
-			else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
+			else {
+			    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+			}
 		    }
 		    
 		    $arr_el0_l=undef;
@@ -1224,9 +1226,9 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 		    
 		    if ( $return_str_l!~/^OK$/ ) { last; }
 		}
-		else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'empty'}=1; }
+		else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'empty'}=1; } # regex params and value = empty
 	    }
-	    else { ${$res_href_l}{$hkey0_l}{$hkey1_l}=$hval1_l; }
+	    else { ${$res_href_l}{$hkey0_l}{$hkey1_l}=$hval1_l; } # just param=value
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
