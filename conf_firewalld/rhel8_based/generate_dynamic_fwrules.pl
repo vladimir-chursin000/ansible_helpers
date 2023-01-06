@@ -1243,8 +1243,8 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
 			    if ( $arr_el0_l=~/^\d+\/tcp$|^\d+\/udp$|^\d+\-\d+\/tcp$|^\d+\-\d+\/udp/ ) {
+				if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
 				${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
-				push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l);
 			    }
 			    else {
 				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like portNUM/tcp|portNUM/udp|portBEGIN-portEND/tcp|portBEGIN-portEND/udp";
@@ -1252,8 +1252,8 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 			    }
 			}
 			else {
+			    if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
 			    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
-			    push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l);
 			}
 		    }
 		    
