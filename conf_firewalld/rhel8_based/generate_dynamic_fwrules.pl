@@ -575,7 +575,7 @@ sub read_00_conf_firewalld {
 	'AllowZoneDrifting'=>'^yes$|^no$'
     );
 
-    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    $exec_res_l=&read_param_value_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
@@ -670,7 +670,7 @@ sub read_01_conf_ipset_templates {
 	'ipset_type'=>'^hash\:ip$|^hash\:ip\,port$|^hash\:ip\,mark$|^hash\:net$|^hash\:net\,port$|^hash\:net\,iface$|^hash\:mac$|^hash\:ip\,port\,ip$|^hash\:ip\,port\,net$|^hash\:net\,net$|^hash\:net\,port\,net$',
     );
 
-    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    $exec_res_l=&read_param_value_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
@@ -768,12 +768,12 @@ sub read_02_conf_custom_firewall_zones_templates {
 	'zone_icmp_block'=>'^empty$|^.*$',
     );
 
-    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    $exec_res_l=&read_param_value_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # fill %res_tmp_lv1_l (postprocessing_v1_after_read_templates_from_config)
-    $exec_res_l=&postprocessing_v1_after_read_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    # fill %res_tmp_lv1_l (postprocessing_v1_after_read_param_value_templates_from_config)
+    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
     #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
@@ -866,12 +866,12 @@ sub read_02_conf_standard_firewall_zones_templates {
 	'zone_icmp_block'=>'^empty$|^.*$',
     );
 
-    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    $exec_res_l=&read_param_value_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # fill %res_tmp_lv1_l (postprocessing_v1_after_read_templates_from_config)
-    $exec_res_l=&postprocessing_v1_after_read_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    # fill %res_tmp_lv1_l (postprocessing_v1_after_read_param_value_templates_from_config)
+    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
     #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
@@ -967,12 +967,12 @@ sub read_03_conf_policy_templates {
 	'policy_icmp_block'=>'^empty$|^.*$',
     );
 
-    $exec_res_l=&read_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
+    $exec_res_l=&read_param_value_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # fill %res_tmp_lv1_l (postprocessing_v1_after_read_templates_from_config)
-    $exec_res_l=&postprocessing_v1_after_read_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    # fill %res_tmp_lv1_l (postprocessing_v1_after_read_param_value_templates_from_config)
+    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
     #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
@@ -986,12 +986,12 @@ sub read_03_conf_policy_templates {
 ######general subs
 
 ######other subs
-sub read_templates_from_config {
+sub read_param_value_templates_from_config {
     my ($file_l,$regex_href_l,$res_href_l)=@_;
     #file_l=config with templates
     #regex_href_l=hash-ref for %cfg_params_and_regex_l
     #res_href_l=hash-ref for result-hash
-    my $proc_name_l='read_templates_from_config';
+    my $proc_name_l='read_param_value_templates_from_config';
 
     my ($line_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -1102,12 +1102,12 @@ sub read_templates_from_config {
     return $return_str_l;    
 }
 
-sub postprocessing_v1_after_read_templates_from_config {
+sub postprocessing_v1_after_read_param_value_templates_from_config {
     my ($param_list_regex_for_postproc_l,$src_href_l,$res_href_l)=@_;
     #$param_list_regex_for_postproc_l = string like '^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$'
     #$src_href_l=hash ref for result hash of '&read_templates_from_config'
     #$res_href_lhash ref for result hash
-    my $proc_name_l='postprocessing_v1_after_read_templates_from_config';
+    my $proc_name_l='postprocessing_v1_after_read_param_value_templates_from_config';
     
     my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
