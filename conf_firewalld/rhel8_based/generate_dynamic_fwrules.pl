@@ -1102,6 +1102,90 @@ sub read_param_value_templates_from_config {
     return $return_str_l;    
 }
 
+sub read_param_only_templates_from_config {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=config with templates
+    #res_href_l=hash-ref for result-hash
+    my $proc_name_l='read_param_only_templates_from_config';
+
+    my ($line_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($read_tmplt_flag_l)=(0);
+    my ($tmplt_name_begin_l,$tmplt_name_end_l)=(undef,undef);
+    my $return_str_l='OK';
+
+    my @split_arr0_l=();
+
+    my %res_tmp_lv0_l=();
+	#key=param, value=1
+    my %uniq_tmplt_name_check_l=();
+	#key=tmplt_name, value=1
+    
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+
+    # read file
+    open(CONF_TMPLT,'<',$file_l);
+    while ( <CONF_TMPLT> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+	$line_l=~s/ $//g;
+	
+	$line_l=~s/ \./\./g;
+	$line_l=~s/\. /\./g;
+
+	$line_l=~s/ \:/\:/g;
+	$line_l=~s/\: /\:/g;
+
+	$line_l=~s/ \=/\=/g;
+	$line_l=~s/\= /\=/g;
+
+        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    if ( $line_l=~/^\[(\S+)\:BEGIN\]$/ ) { # if cfg block begin
+		$tmplt_name_begin_l=$1;
+		$read_tmplt_flag_l=1;
+		if ( exists($uniq_tmplt_name_check_l{$tmplt_name_begin_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. Duplicated template='$tmplt_name_begin_l'. Check and correct config='$file_l'";
+		    last;
+		}
+		$uniq_tmplt_name_check_l{$tmplt_name_begin_l}=1;
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $line_l=~/^\[(\S+)\:END\]$/ ) { # if cfg block ends
+		$tmplt_name_end_l=$1;
+		if ( $tmplt_name_begin_l eq $tmplt_name_end_l ) { # if correct begin and end of template
+		    $read_tmplt_flag_l=0;
+		    $tmplt_name_begin_l='notmplt';
+		}
+		else { # if incorrect begin and end of template
+		    $return_str_l="fail [$proc_name_l]. Tmplt_name_begin ('$tmplt_name_begin_l') != tmplt_name_end ('$tmplt_name_end_l'). Check and correct config='$file_l'";
+		    last;
+		}
+	    }
+	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_begin_l ne 'notmplt' ) { # if param str
+		${$res_tmp_lv0_l}{$line_l}=1;
+	    }
+	}
+    }
+    close(CONF_TMPLT);
+        
+    $line_l=undef;
+    ($tmplt_name_begin_l,$tmplt_name_end_l)=(undef,undef);
+
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
+    ###
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv0_l;
+    ###
+    
+    %res_tmp_lv0_l=();
+    
+    return $return_str_l;    
+}
+
 sub postprocessing_v1_after_read_param_value_templates_from_config {
     my ($param_list_regex_for_postproc_l,$src_href_l,$res_href_l)=@_;
     #$param_list_regex_for_postproc_l = string like '^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$'
