@@ -1018,9 +1018,9 @@ sub postprocessing_v1_after_read_templates_from_config {
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
-			    if ( $arr_el0_l=~/\/tcp$|\/udp$/ ) { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
+			    if ( $arr_el0_l=~/^\d+\/tcp$|^\d+\/udp$|^\d+\-\d+\/tcp$|^\d+\-\d+\/udp/ ) { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1; }
 			    else {
-				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like 'NUM/tcp' or 'NUM/udp'";
+				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like portNUM/tcp|portNUM/udp|portBEGIN-portEND/tcp|portBEGIN-portEND/udp";
 				last;
 			    }
 			}
