@@ -1059,7 +1059,7 @@ sub read_04_conf_zone_forward_ports_sets {
 		$port_str4check1_l=$to_port_l.'/'.$proto_l;
 	    }
 	    elsif ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
-		$from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$3;
+		$from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$4;
 		$port_str4check0_l=$from_port_l.'/'.$proto_l;
 		$port_str4check1_l=$to_port_l.'/'.$proto_l;
 	    }
