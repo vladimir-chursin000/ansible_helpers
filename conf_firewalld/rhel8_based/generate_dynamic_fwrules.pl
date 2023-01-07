@@ -1242,14 +1242,14 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
-			    if ( $arr_el0_l=~/^\d+\/\S+$|^\d+\-\d+\/\S+$/ ) {
-				if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
-				${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
-			    }
-			    else {
-				$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like portNUM/tcp|portNUM/udp|portBEGIN-portEND/tcp|portBEGIN-portEND/udp";
-				last;
-			    }
+			    #if ( $arr_el0_l=~/^\d+\/\S+$|^\d+\-\d+\/\S+$/ ) {
+			    #	if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
+			    #	${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+			    #}
+			    #else {
+			    #	$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like portNUM/tcp|portNUM/udp|portBEGIN-portEND/tcp|portBEGIN-portEND/udp";
+			    #	last;
+			    #}
 			}
 			else {
 			    if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
@@ -1284,15 +1284,26 @@ sub check_port_for_apply_to_fw_conf {
     #port=NUM/udp, NUM/tcp, NUM_begin-NUM_end/tcp, NUM_begin-NUM_end/udp (sctp and dccp)
     my $proc_name_l='check_port_for_apply_to_fw_conf';
     
-    my $port_num_l=undef;
+    my ($port_num0_l,$port_num1_l)=(undef,undef);
     my $return_str_l='OK';
     
     if ( $port_str_l=~/^(\d+)\/tcp$|^(\d+)\/udp$|^(\d+)\/sctp$|^(\d+)\/dccp$/ ) {
-	($port_num_l)=$port_str_l=~/^(\d+)\//;
-	$port_num_l=int($port_num_l);
+	($port_num0_l)=$port_str_l=~/^(\d+)\//;
+	$port_num0_l=int($port_num0_l);
+	if ( $port_num0_l<1 or $port_num0_l>65535 ) {
+	    return "fail [$proc_name_l]. Port number must be >= 1 and <= 65535";
+	}
     }
     elsif ( $port_str_l=~/^\d+\-\d+\/tcp$|^\d+\-\d+\/udp$|^\d+\-\d+\/sctp$|^\d+\-\d+\/dccp$/ ) {
-	
+	($port_num0_l,$port_num1_l)=$port_l=~/^(\d+)\-(\d+)\//;
+	$port_num0_l=int($port_num0_l);
+	$port_num1_l=int($port_num1_l);
+	if ( $port_num0_l<1 or $port_num0_l>65535 ) { return "fail [$proc_name_l]. Port number must be >= 1 and <= 65535"; }
+	if ( $port_num1_l<1 or $port_num1_l>65535 ) { return "fail [$proc_name_l]. Port number must be >= 1 and <= 65535"; }
+	if ( $port_num0_l>=$port_num1_l ) { return "fail [$proc_name_l]. Begin_port can not be >= end_port"; }
+    }
+    else {
+	return "fail [$proc_name_l]. Port (or port range)='$port_str_l' is not correct. It must be like 'NUM/port_type' or 'NUMbegin-NUMend/port_type' where port_type='udp/tcp/sctp/dccp'";
     }
     
     return $return_str_l;
