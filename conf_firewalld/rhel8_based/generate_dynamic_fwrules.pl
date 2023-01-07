@@ -1015,6 +1015,14 @@ sub read_03_conf_policy_templates {
     
     return $return_str_l;    
 }
+
+sub read_04_conf_zone_forward_ports_sets {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$f04_conf_zone_forward_ports_sets_path_g
+    #res_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    my $proc_name_l='read_04_conf_zone_forward_ports_sets';
+    
+}
 ######general subs
 
 ######other subs
