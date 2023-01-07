@@ -1278,6 +1278,25 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
     
     return $return_str_l;
 }
+
+sub check_port_for_apply_to_fw_conf {
+    my ($port_str_l)=@_;
+    #port=NUM/udp, NUM/tcp, NUM_begin-NUM_end/tcp, NUM_begin-NUM_end/udp
+    my $proc_name_l='check_port_for_apply_to_fw_conf';
+    
+    my $port_num_l=undef;
+    my $return_str_l='OK';
+    
+    if ( $port_str_l=~/^(\d+)\/tcp$|^(\d+)\/udp$/ ) {
+	($port_num_l)=$port_str_l=~/^(\d+)\//;
+	$port_num_l=int($port_num_l);
+    }
+    elsif ( $port_str_l=~/^\d+\-\d+\/tcp$|^\d+\-\d+\/udp$/ ) {
+	
+    }
+    
+    return $return_str_l;
+}
 ######other subs
 ############SUBROUTINES
 
