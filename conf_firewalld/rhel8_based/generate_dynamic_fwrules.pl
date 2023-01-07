@@ -1022,6 +1022,32 @@ sub read_04_conf_zone_forward_ports_sets {
     #res_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
     my $proc_name_l='read_04_conf_zone_forward_ports_sets';
     
+    #[some_forward_ports_set_name:BEGIN]
+    #port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
+    #port=80:proto=tcp:toport=8080 (example)
+    #[some_forward_ports_set_name:END]
+    ###
+    #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+	#{'rule-0'}=1
+	#{'rule-1'}=1
+	#etc
+	#{'seq'}=[val-0,val-1] (val=rule)
+    
+    my $exec_res_l=undef;
+    my $return_str_l='OK';
+    
+    my %res_tmp_lv0_l=();
+	#key=rule, value=value filtered by regex
+
+    $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
+    #$file_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv0_l;
+    ###
+
+    return $return_str_l;
 }
 ######general subs
 
