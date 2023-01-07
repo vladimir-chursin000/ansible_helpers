@@ -1036,6 +1036,7 @@ sub read_04_conf_zone_forward_ports_sets {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,undef);
+    my $port_str4check_l=undef;
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -1053,10 +1054,15 @@ sub read_04_conf_zone_forward_ports_sets {
 	#port=80:proto=tcp:toport=8080 (example)
 	
 	if ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)$/ ) {
+	    $from_port_l=$1; $proto_l=$2; $to_port_l=$3;
 	    
 	}
 	elsif ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
+	    $from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$3;
 	    
+	}
+	else {
+	    return "fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
 	}
     }
     ###
