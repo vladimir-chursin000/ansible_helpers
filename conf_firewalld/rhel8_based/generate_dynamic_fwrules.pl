@@ -436,7 +436,15 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    print Dumper(\%h03_conf_policy_templates_hash_g);
+    
+    $exec_res_g=&read_04_conf_zone_forward_ports_sets($f04_conf_zone_forward_ports_sets_path_g,\%h04_conf_zone_forward_ports_sets_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+    print Dumper(\%h04_conf_zone_forward_ports_sets_hash_g);
     last;
 } # ONE RUN CYCLE end
 
@@ -1035,6 +1043,7 @@ sub read_04_conf_zone_forward_ports_sets {
     
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,'localhost');
     my ($port_str4check0_l,$port_str4check1_l)=(undef,undef);
     my $return_str_l='OK';
@@ -1047,41 +1056,51 @@ sub read_04_conf_zone_forward_ports_sets {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # check rules with regex
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=fw_ports_rules
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
+	#hkey0_l=tmplt_name, hval0_l=hash ref where key=rule
 	###
-	#port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
-	#port=80:proto=tcp:toport=8080 (example)
-	if ( $hkey0_l!~/^seq$/ ) {
-	    if ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)$/ ) {
-		$from_port_l=$1; $proto_l=$2; $to_port_l=$3;
-		$port_str4check0_l=$from_port_l.'/'.$proto_l;
-		$port_str4check1_l=$to_port_l.'/'.$proto_l;
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle 1
+	    #hkey1_l=rule
+	    #port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
+	    #port=80:proto=tcp:toport=8080 (example)
+	    if ( $hkey1_l!~/^seq$/ ) {
+		if ( $hkey1_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)$/ ) {
+		    $from_port_l=$1; $proto_l=$2; $to_port_l=$3;
+		    $port_str4check0_l=$from_port_l.'/'.$proto_l;
+		    $port_str4check1_l=$to_port_l.'/'.$proto_l;
+		}
+		elsif ( $hkey1_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
+		    $from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$4;
+		    $port_str4check0_l=$from_port_l.'/'.$proto_l;
+		    $port_str4check1_l=$to_port_l.'/'.$proto_l;
+		}
+		else {
+		    return "fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
+		}
+		
+		$exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check0_l);
+    		#$port_str_l
+		if ( $exec_res_l=~/^fail/ ) {
+		    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		    last;
+		}
+		
+		$exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check1_l);
+    		#$port_str_l
+		if ( $exec_res_l=~/^fail/ ) {
+		    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		    last;
+		}
+		
+		if ( $to_addr_l!~/^localhost$/ && $to_addr_l=~/^\d{1,3}\./ && $to_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) { # check ipv4
+		    $return_str_l="fail [$proc_name_l]. The IPv4 addr must be like 'xxx.yyy.zzz.qqq'";
+		    last;
+		}	
 	    }
-	    elsif ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
-		$from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$4;
-		$port_str4check0_l=$from_port_l.'/'.$proto_l;
-		$port_str4check1_l=$to_port_l.'/'.$proto_l;
-	    }
-	    else {
-		return "fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
-	    }
-	    
-	    $exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check0_l);
-    	    #$port_str_l
-	    if ( $exec_res_l=~/^fail/ ) {
-		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-		last;
-	    }
+	} # cycle 1
 	
-	    $exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check1_l);
-    	    #$port_str_l
-	    if ( $exec_res_l=~/^fail/ ) {
-		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-		last;
-	    }
-	}
-    }
+	if ( $return_str_l!~/^OK$/ ) { last; }
+    } # cycle 0
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
@@ -1275,8 +1294,8 @@ sub read_param_only_templates_from_config {
 	    }
 	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_begin_l ne 'notmplt' ) { # if param str
 		if ( !exists($res_tmp_lv0_l{$line_l}) ) {
-		    push(@{$res_tmp_lv0_l{'seq'}},$line_l);
-		    $res_tmp_lv0_l{$line_l}=1;
+		    push(@{$res_tmp_lv0_l{$tmplt_name_begin_l}{'seq'}},$line_l);
+		    $res_tmp_lv0_l{$tmplt_name_begin_l}{$line_l}=1;
 		}
 		else { # duplicated value
 		    $return_str_l="fail [$proc_name_l]. Duplicated value ('$line_l') at file='$file_l' for tmplt='$tmplt_name_begin_l'. Fix it!";
