@@ -795,8 +795,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l (postprocessing_v1_after_read_param_value_templates_from_config)
-    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
-    #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
+    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($file_l,$param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    #$file_l,$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
     
@@ -898,8 +898,8 @@ sub read_02_conf_standard_firewall_zones_templates {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l (postprocessing_v1_after_read_param_value_templates_from_config)
-    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
-    #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
+    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($file_l,$param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    #$file_l,$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
     
@@ -1004,8 +1004,8 @@ sub read_03_conf_policy_templates {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l (postprocessing_v1_after_read_param_value_templates_from_config)
-    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
-    #$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
+    $exec_res_l=&postprocessing_v1_after_read_param_value_templates_from_config($file_l,$param_list_regex_l,\%res_tmp_lv0_l,\%res_tmp_lv1_l);
+    #$file_l,$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
     
@@ -1052,33 +1052,34 @@ sub read_04_conf_zone_forward_ports_sets {
 	###
 	#port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
 	#port=80:proto=tcp:toport=8080 (example)
+	if ( $hkey0_l!~/^seq$/ ) {
+	    if ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)$/ ) {
+		$from_port_l=$1; $proto_l=$2; $to_port_l=$3;
+		$port_str4check0_l=$from_port_l.'/'.$proto_l;
+		$port_str4check1_l=$to_port_l.'/'.$proto_l;
+	    }
+	    elsif ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
+		$from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$3;
+		$port_str4check0_l=$from_port_l.'/'.$proto_l;
+		$port_str4check1_l=$to_port_l.'/'.$proto_l;
+	    }
+	    else {
+		return "fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
+	    }
+	    
+	    $exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check0_l);
+    	    #$port_str_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
 	
-	if ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)$/ ) {
-	    $from_port_l=$1; $proto_l=$2; $to_port_l=$3;
-	    $port_str4check0_l=$from_port_l.'/'.$proto_l;
-	    $port_str4check1_l=$to_port_l.'/'.$proto_l;
-	}
-	elsif ( $hkey0_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
-	    $from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$3;
-	    $port_str4check0_l=$from_port_l.'/'.$proto_l;
-	    $port_str4check1_l=$to_port_l.'/'.$proto_l;
-	}
-	else {
-	    return "fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
-	}
-	
-	$exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check0_l);
-        #$port_str_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-
-	$exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check1_l);
-        #$port_str_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
+	    $exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check1_l);
+    	    #$port_str_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
 	}
     }
     
@@ -1273,7 +1274,14 @@ sub read_param_only_templates_from_config {
 		}
 	    }
 	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_begin_l ne 'notmplt' ) { # if param str
-		$res_tmp_lv0_l{$line_l}=1;
+		if ( !exists($res_tmp_lv0_l{$line_l}) ) {
+		    push(@{$res_tmp_lv0_l{'seq'}},$line_l);
+		    $res_tmp_lv0_l{$line_l}=1;
+		}
+		else { # duplicated value
+		    $return_str_l="fail [$proc_name_l]. Duplicated value ('$line_l') at file='$file_l' for tmplt='$tmplt_name_begin_l'. Fix it!";
+		    last;
+		}
 	    }
 	}
     }
@@ -1295,7 +1303,7 @@ sub read_param_only_templates_from_config {
 }
 
 sub postprocessing_v1_after_read_param_value_templates_from_config {
-    my ($param_list_regex_for_postproc_l,$src_href_l,$res_href_l)=@_;
+    my ($file_l,$param_list_regex_for_postproc_l,$src_href_l,$res_href_l)=@_;
     #$param_list_regex_for_postproc_l = string like '^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$'
     #$src_href_l=hash ref for result hash of '&read_templates_from_config'
     #$res_href_lhash ref for result hash
@@ -1327,9 +1335,14 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 				last;
 			    }
 			}
-			else {
-			    if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
+			
+			if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) {
+			    push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l);
 			    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+			}
+			else { # duplicate list-value
+			    $return_str_l="fail [$proc_name_l]. Duplicated list-value ('$arr_el0_l') at file='$file_l' for tmlt='$hkey0_l'. Fix it!";
+			    last;
 			}
 		    } # cycle 2
 		    
