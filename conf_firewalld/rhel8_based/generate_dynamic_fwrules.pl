@@ -1226,6 +1226,7 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
     my $proc_name_l='postprocessing_v1_after_read_param_value_templates_from_config';
     
     my $arr_el0_l=undef;
+    my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @split_arr0_l=();
@@ -1239,17 +1240,16 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 		if ( $hval1_l!~/^empty$/ ) { # if regex list params and value is not empty
 		    @split_arr0_l=split(/\,/,$hval1_l);
 		    foreach $arr_el0_l ( @split_arr0_l ) {
+			#$arr_el0_l=port/port_type or port_begin-port_end/port_type
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
-			    #if ( $arr_el0_l=~/^\d+\/\S+$|^\d+\-\d+\/\S+$/ ) {
-			    #	if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
-			    #	${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
-			    #}
-			    #else {
-			    #	$return_str_l="fail [$proc_name_l]. For param='$hkey1_l' port must be like portNUM/tcp|portNUM/udp|portBEGIN-portEND/tcp|portBEGIN-portEND/udp";
-			    #	last;
-			    #}
+			    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
+			    #$port_str_l
+			    if ( $exec_res_l=~/^fail/ ) {
+				$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+				last;
+			    }
 			}
 			else {
 			    if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
@@ -1295,7 +1295,7 @@ sub check_port_for_apply_to_fw_conf {
 	}
     }
     elsif ( $port_str_l=~/^\d+\-\d+\/tcp$|^\d+\-\d+\/udp$|^\d+\-\d+\/sctp$|^\d+\-\d+\/dccp$/ ) {
-	($port_num0_l,$port_num1_l)=$port_l=~/^(\d+)\-(\d+)\//;
+	($port_num0_l,$port_num1_l)=$port_str_l=~/^(\d+)\-(\d+)\//;
 	$port_num0_l=int($port_num0_l);
 	$port_num1_l=int($port_num1_l);
 	if ( $port_num0_l<1 or $port_num0_l>65535 ) { return "fail [$proc_name_l]. Port number must be >= 1 and <= 65535"; }
