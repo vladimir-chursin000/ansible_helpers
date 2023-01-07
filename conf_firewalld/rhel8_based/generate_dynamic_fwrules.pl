@@ -1232,21 +1232,21 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
     my @split_arr0_l=();
     my $return_str_l='OK';
     
-    while ( ($hkey0_l,$hval0_l)=each %{$src_href_l} ) {
+    while ( ($hkey0_l,$hval0_l)=each %{$src_href_l} ) { # cycle 0
 	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle 1
 	    #hkey1_l=param_name, hval1_l=param_value
 	    if ( $hkey1_l=~/$param_list_regex_for_postproc_l/ ) { #if regex list params
 		if ( $hval1_l!~/^empty$/ ) { # if regex list params and value is not empty
 		    @split_arr0_l=split(/\,/,$hval1_l);
-		    foreach $arr_el0_l ( @split_arr0_l ) {
+		    foreach $arr_el0_l ( @split_arr0_l ) { # cycle 2
 			#$arr_el0_l=port/port_type or port_begin-port_end/port_type
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
 			    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
 			    #$port_str_l
-			    if ( $exec_res_l=~/^fail/ ) {
+			    if ( $exec_res_l=~/^fail/ ) { # exit from cycle 2 if error
 				$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 				last;
 			    }
@@ -1255,22 +1255,22 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 			    if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) { push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l); }
 			    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
 			}
-		    }
+		    } # cycle 2
 		    
 		    $arr_el0_l=undef;
 		    @split_arr0_l=();
 		    
-		    if ( $return_str_l!~/^OK$/ ) { last; }
+		    if ( $return_str_l!~/^OK$/ ) { last; } # exit from cycle 1 if at cycle 2 catched error
 		}
 		else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'empty'}=1; } # regex params and value = empty
 	    }
 	    else { ${$res_href_l}{$hkey0_l}{$hkey1_l}=$hval1_l; } # just param=value
-	}
+	} # cycle 1
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
 	
-	if ( $return_str_l!~/^OK$/ ) { last; }
-    }
+	if ( $return_str_l!~/^OK$/ ) { last; } # exit from cycle 0 if at cycle 1/2 catched error
+    } # cycle 0
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     ($hkey1_l,$hval1_l)=(undef,undef);
