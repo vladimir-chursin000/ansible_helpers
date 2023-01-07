@@ -29,6 +29,7 @@
 
 #zone_allowed_ports=empty|1234/tcp,1234/udp,60000-61000/udp (for example)
     # For incoming connections.
+    # Common format = port_num/port_type (or port_num_begin-port_num_end/port_type). Available port types: tcp, udp, sctp, dccp.
     # Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp" (for information only).
 
 #zone_allowed_protocols=empty|tcp,udp,gre (etc) (for example)
@@ -47,6 +48,7 @@
 
 #zone_allowed_source_ports=empty|8080/tcp,5060-5061/udp
     # The option sets the allowed ports for outgoing traffic.
+    # Common format = port_num/port_type (or port_num_begin-port_num_end/port_type). Available port types: tcp, udp, sctp, dccp.
     # If set to empty, then ports for outgoing traffic will be assigned from the range of 30000-60000 (approximately).
     # Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp" (for information only).
 
