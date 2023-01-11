@@ -947,7 +947,7 @@ sub read_02_conf_standard_firewall_zones_templates {
 sub read_03_conf_policy_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f03_conf_policy_templates_path_g
-    #res_href_l=hash-ref for %h02_conf_policy_templates_hash_g
+    #res_href_l=hash-ref for %h03_conf_policy_templates_hash_g
     my $proc_name_l=(caller(0))[3];
 
     #[some_policy--TMPLT:BEGIN]
@@ -1216,8 +1216,14 @@ sub read_66_conf_ipsets_FIN {
 }
 
 sub read_77_conf_zones_FIN {
-    my ($file_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$ipset_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l)=@_;
     #$file_l=$f77_conf_zones_FIN_path_g
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
@@ -1255,8 +1261,14 @@ sub read_77_conf_zones_FIN {
 }
 
 sub read_88_conf_policies_FIN {
-    my ($file_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$policy_templates_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l)=@_;
     #$file_l=$f88_conf_policies_FIN_path_g
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
+    #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     #$res_href_l=hash ref for %h88_conf_policies_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
