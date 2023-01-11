@@ -1197,6 +1197,20 @@ sub read_66_conf_ipsets_FIN {
     #$file_l=$f66_conf_ipsets_FIN_path_g
     #$res_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    #INVENTORY_HOST         #IPSET_NAME_TMPLT_LIST
+    #all                    ipset1--TMPLT,ipset4all_public--TMPLT (example)
+    #10.3.2.2               ipset4public--TMPLT (example)
+    ###
+    #$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+	#{'empty'}=1
+	#{'list'}=>
+    	    #{ipset_name_tmplt-0}=1;
+    	    #{ipset_name_tmplt-1}=1;
+    	    #etc
+        #{'seq'}=[val-0,val-1] (val=tmplt)
+    ###
+    
 }
 
 sub read_77_conf_zones_FIN {
@@ -1204,6 +1218,38 @@ sub read_77_conf_zones_FIN {
     #$file_l=$f77_conf_zones_FIN_path_g
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST                       #FORWARD_PORTS_SET      #RICH_RULES_SET
+    #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24         ipset:ipset4all_public--TMPLT           empty                   empty (example)
+    #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset:ipset4public--TMPLT               fw_ports_set4public     rich_rules_set4public (example)
+    #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                                   fw_ports_set4zone1      rich_rules_set4zone1 (example)
+    ###
+    #$h77_conf_zones_FIN_hash_g{inventory_host}{firewall_zone_name_tmplt}->
+    #{'interface_list'}->;
+	#{'empty'}=1
+	#{'list'}->
+    	    #{'interface-0'}=1
+    	    #{'interface-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=interface)
+    #{'source_list'}->
+	#{'empty'}=1
+	#{'list'}->
+    	    #{'source-0'}=1
+    	    #{'source-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=source)
+    #{'ipset_tmplt_list'}->
+	#{'epmty'}=1
+	#{'list'}->
+    	    #{'ipset_tmplt-0'}=1
+    	    #{'ipset_tmplt-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=ipset_tmplt)
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    ###
+
 }
 
 sub read_88_conf_policies_FIN {
@@ -1211,6 +1257,18 @@ sub read_88_conf_policies_FIN {
     #$file_l=$f88_conf_policies_FIN_path_g
     #$res_href_l=hash ref for %h88_conf_policies_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    #INVENTORY_HOST         #POLICY_NAME_TMPLT              #INGRESS-FIREWALL_ZONE_NAME_TMPLT       #EGRESS-FIREWALL_ZONE_NAME_TMPLT        #FORWARD_PORTS_SET      #RICH_RULES_SET
+    #all                    policy_public2home--TMPLT       public--TMPLT                           home--TMPLT                             fw_ports_set1           rich_rules_set1 (example)
+    #10.3.2.2               policy_zoneone2zonetwo--TMPLT   zoneone--TMPLT                          zonetwo--TMPLT                          fw_ports_set2           rich_rules_set2 (example)
+    ###
+    #$h88_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
+    #{'ingress-firewall_zone_name_tmplt'}=value
+    #{'egress-firewall_zone_name_tmplt'}=value
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    ###
+
 }
 ######general subs
 
