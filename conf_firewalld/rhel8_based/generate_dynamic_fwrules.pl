@@ -1193,8 +1193,10 @@ sub read_05_conf_zone_rich_rules_sets {
 }
 
 sub read_66_conf_ipsets_FIN {
-    my ($file_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$ipset_templates_href_l,$res_href_l)=@_;
     #$file_l=$f66_conf_ipsets_FIN_path_g
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$res_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
