@@ -204,7 +204,7 @@ sub read_network_data_for_checks {
     my ($file_l,$res_href_l)=@_;
     #file_l=$ifcfg_backup_from_remote_nd_file_g
     #res_href_l=hash-ref for %inv_hosts_network_data_g
-    my $proc_name_l='read_network_data_for_checks';
+    my $proc_name_l=(caller(0))[3];
     
     my ($line_l,$value_cnt_l)=(undef,0);
     my @arr0_l=undef;
@@ -240,7 +240,7 @@ sub read_main_config {
     my ($file_l,$inv_hosts_network_data_href_l,$res_href_l)=@_;
     #file_l=config,$res_href_l=hash rer for %cfg0_hash_g
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
-    my $proc_name_l='read_main_config';
+    my $proc_name_l=(caller(0))[3];
     
     my ($line_l,$arr_el0_l,$arr_i0_l)=(undef,undef,undef);
     my $return_str_l='OK';
@@ -691,7 +691,7 @@ sub read_main_config {
 
 sub recreate_ifcfg_tmplt_based_on_cfg0_hash {
     my ($dyn_ifcfg_common_dir_l,$ifcfg_tmplt_dir_l,$cfg0_hash_href_l,$conf_type_sub_refs_href_l,$res_inv_hosts_hash0_href_l)=@_;
-    my $proc_name_l='recreate_ifcfg_tmplt_based_on_cfg0_hash';
+    my $proc_name_l=(caller(0))[3];
     #$dyn_ifcfg_common_dir_l=$dyn_ifcfg_common_dir_g
     #$ifcfg_tmplt_dir_l=$ifcfg_tmplt_dir_g
     #cfg0_hash_href_l=hash ref for %cfg0_hash_g
@@ -762,7 +762,7 @@ sub generate_resolv_conf_files {
     #$conf_dns_l=$conf_dns_g
     #$dyn_resolv_common_dir_l=$dyn_resolv_common_dir_g
     #$res_inv_hosts_dns_href_l=hash ref for %inv_hosts_dns_h
-    my $proc_name_l='generate_resolv_conf_files';
+    my $proc_name_l=(caller(0))[3];
     ###READ conf file 'dns_settings' and generate resolv-conf-files
 	#$dyn_resolv_common_dir_g=$self_dir_g.'playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf' -> files: 'inv_host_resolv' or 'common_resolv'
 	#%inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
@@ -813,7 +813,7 @@ sub read_config_del_not_configured_ifcfg {
     my ($file_l,$res_href_l)=@_;
     #$file_l=$conf_file_del_not_configured_g
     #$res_href_l=hash ref for %inv_hosts_ifcfg_del_not_configured_g
-    my $proc_name_l='read_config_del_not_configured_ifcfg';
+    my $proc_name_l=(caller(0))[3];
     
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config 'config_del_not_configured_ifcfg'. Key=inv_host
     
@@ -842,7 +842,7 @@ sub read_config_temporary_apply_ifcfg {
     my ($file_l,$res_href_l)=@_;
     #file_l=conf_temp_apply_g
     #res_href_l=hash ref for %inv_hosts_tmp_apply_cfg_g
-    my $proc_name_l='read_config_temporary_apply_ifcfg';
+    my $proc_name_l=(caller(0))[3];
     
     #%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
     
@@ -873,7 +873,7 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
     #$ifcfg_backup_from_remote_dir_l=$ifcfg_backup_from_remote_dir_g
     #$inv_hosts_hash0_href_l=hash ref for %inv_hosts_hash0_g
     #$res_href_l=hash ref for %inv_hosts_hash1_g
-    my $proc_name_l='fill_inv_hosts_hash1_with_fin_n_now_dirs';
+    my $proc_name_l=(caller(0))[3];
     
     my $line_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -915,7 +915,7 @@ sub modify_inv_hosts_hash1 {
     #$ifcfg_backup_from_remote_nd_file_l=$ifcfg_backup_from_remote_nd_file_g
     #$inv_hosts_ifcfg_del_not_configured_href_l=hash ref for %inv_hosts_ifcfg_del_not_configured_g
     #$res_href_l=hash ref for %inv_hosts_hash1_g
-    my $proc_name_l='modify_inv_hosts_hash1';
+    my $proc_name_l=(caller(0))[3];
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
@@ -979,7 +979,7 @@ sub generate_dynamic_playbooks {
     #inv_hosts_tmp_apply_cfg_href_l=hash ref for %inv_hosts_tmp_apply_cfg_g
     #inv_hosts_dns_href_l=hash ref for %inv_hosts_dns_g
     #inv_hosts_hash1_href_l=hash ref for inv_hosts_hash1_g
-    my $proc_name_l='generate_dynamic_playbooks';
+    my $proc_name_l=(caller(0))[3];
     
     my ($tmp_file0_l,$tmp_var_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);    

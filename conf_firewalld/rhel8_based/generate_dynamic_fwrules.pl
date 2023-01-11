@@ -486,7 +486,7 @@ if ( $exec_status_g!~/^OK$/ ) {
 sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
-    my $proc_name_l='read_inventory_file';
+    my $proc_name_l=(caller(0))[3];
             
     my ($line_l,$start_read_hosts_flag_l,$value_cnt_l)=(undef,0,0);
     
@@ -525,7 +525,7 @@ sub read_network_data_for_checks {
     my ($file_l,$res_href_l)=@_;
     #file_l=$ifcfg_backup_from_remote_nd_file_g
     #res_href_l=hash-ref for %inv_hosts_network_data_g
-    my $proc_name_l='read_network_data_for_checks';
+    my $proc_name_l=(caller(0))[3];
         
     my ($line_l,$value_cnt_l)=(undef,0);
     my @arr0_l=undef;
@@ -563,7 +563,7 @@ sub read_00_conf_firewalld {
     #file_l=$f00_conf_firewalld_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
-    my $proc_name_l='read_00_conf_firewalld';
+    my $proc_name_l=(caller(0))[3];
     
     #[firewall_conf_for_all--TMPLT:BEGIN]
     #host_list_for_apply=all
@@ -681,7 +681,7 @@ sub read_01_conf_ipset_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f01_conf_ipset_templates_path_g
     #res_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    my $proc_name_l='read_01_conf_ipset_templates';
+    my $proc_name_l=(caller(0))[3];
 
     #[some_ipset_template_name--TMPLT:BEGIN]
     #ipset_name=some_ipset_name
@@ -736,7 +736,7 @@ sub read_02_conf_custom_firewall_zones_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f02_conf_custom_firewall_zones_templates_path_g
     #res_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
-    my $proc_name_l='read_02_conf_custom_firewall_zones_templates';
+    my $proc_name_l=(caller(0))[3];
 
     #[some_zone--TMPLT:BEGIN]
     #zone_name=some_zone--custom
@@ -845,7 +845,7 @@ sub read_02_conf_standard_firewall_zones_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f02_conf_standard_firewall_zones_templates_path_g
     #res_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
-    my $proc_name_l='read_02_conf_standard_firewall_zones_templates';
+    my $proc_name_l=(caller(0))[3];
 
     #[public--TMPLT:BEGIN]
     #zone_name=public
@@ -948,7 +948,7 @@ sub read_03_conf_policy_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f03_conf_policy_templates_path_g
     #res_href_l=hash-ref for %h02_conf_policy_templates_hash_g
-    my $proc_name_l='read_03_conf_policy_templates';
+    my $proc_name_l=(caller(0))[3];
 
     #[some_policy--TMPLT:BEGIN]
     #policy_name=some_policy_name
@@ -1054,7 +1054,7 @@ sub read_04_conf_zone_forward_ports_sets {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f04_conf_zone_forward_ports_sets_path_g
     #res_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
-    my $proc_name_l='read_04_conf_zone_forward_ports_sets';
+    my $proc_name_l=(caller(0))[3];
     
     #[some_forward_ports_set_name:BEGIN]
     #port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
@@ -1142,7 +1142,7 @@ sub read_05_conf_zone_rich_rules_sets {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f05_conf_zone_rich_rules_sets_path_g
     #res_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
-    my $proc_name_l='read_05_conf_zone_rich_rules_sets';
+    my $proc_name_l=(caller(0))[3];
     
     #[some_rich_rules_set_name:BEGIN]
     #rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80 (example)
@@ -1196,18 +1196,21 @@ sub read_66_conf_ipsets_FIN {
     my ($file_l,$res_href_l)=@_;
     #$file_l=$f66_conf_ipsets_FIN_path_g
     #$res_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
+    my $proc_name_l=(caller(0))[3];
 }
 
 sub read_77_conf_zones_FIN {
     my ($file_l,$res_href_l)=@_;
     #$file_l=$f77_conf_zones_FIN_path_g
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
+    my $proc_name_l=(caller(0))[3];
 }
 
 sub read_88_conf_policies_FIN {
     my ($file_l,$res_href_l)=@_;
     #$file_l=$f88_conf_policies_FIN_path_g
     #$res_href_l=hash ref for %h88_conf_policies_FIN_hash_g
+    my $proc_name_l=(caller(0))[3];
 }
 ######general subs
 
@@ -1217,7 +1220,7 @@ sub read_param_value_templates_from_config {
     #file_l=config with templates
     #regex_href_l=hash-ref for %cfg_params_and_regex_l
     #res_href_l=hash-ref for result-hash
-    my $proc_name_l='read_param_value_templates_from_config';
+    my $proc_name_l=(caller(0))[3];
 
     my ($line_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -1332,7 +1335,7 @@ sub read_param_only_templates_from_config {
     my ($file_l,$res_href_l)=@_;
     #file_l=config with templates
     #res_href_l=hash-ref for result-hash
-    my $proc_name_l='read_param_only_templates_from_config';
+    my $proc_name_l=(caller(0))[3];
 
     my ($line_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -1424,7 +1427,7 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
     #$param_list_regex_for_postproc_l = string like '^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$'
     #$src_href_l=hash ref for result hash of '&read_templates_from_config'
     #$res_href_lhash ref for result hash
-    my $proc_name_l='postprocessing_v1_after_read_param_value_templates_from_config';
+    my $proc_name_l=(caller(0))[3];
     
     my $arr_el0_l=undef;
     my $exec_res_l=undef;
@@ -1488,7 +1491,7 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 sub check_port_for_apply_to_fw_conf {
     my ($port_str_l)=@_;
     #port=NUM/udp, NUM/tcp, NUM_begin-NUM_end/tcp, NUM_begin-NUM_end/udp (sctp and dccp)
-    my $proc_name_l='check_port_for_apply_to_fw_conf';
+    my $proc_name_l=(caller(0))[3];
     
     my ($port_num0_l,$port_num1_l)=(undef,undef);
     my $return_str_l='OK';
