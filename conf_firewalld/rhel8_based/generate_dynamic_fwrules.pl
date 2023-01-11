@@ -1193,14 +1193,21 @@ sub read_05_conf_zone_rich_rules_sets {
 }
 
 sub read_66_conf_ipsets_FIN {
+    my ($file_l,$res_href_l)=@_;
+    #$file_l=$f66_conf_ipsets_FIN_path_g
+    #$res_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
 }
 
 sub read_77_conf_zones_FIN {
-    
+    my ($file_l,$res_href_l)=@_;
+    #$file_l=$f77_conf_zones_FIN_path_g
+    #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
 }
 
 sub read_88_conf_policies_FIN {
-    
+    my ($file_l,$res_href_l)=@_;
+    #$file_l=$f88_conf_policies_FIN_path_g
+    #$res_href_l=hash ref for %h88_conf_policies_FIN_hash_g
 }
 ######general subs
 
