@@ -1602,7 +1602,24 @@ sub read_config_FIN_level0 {
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash ref for result-hash
 	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
+    my $proc_name_l=(caller(0))[3];
     
+    my ($line_l)=(undef);
+    my @arr0_l=();
+    my $return_str_l='OK';
+    
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+
+    open(CONF_FIN,'<',$file_l);
+    while ( <CONF_TMPLT> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+	$line_l=~s/ $//g;
+	
+    }
 }
 ######other subs
 ############SUBROUTINES
