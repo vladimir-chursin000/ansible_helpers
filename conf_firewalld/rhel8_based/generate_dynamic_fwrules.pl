@@ -1626,6 +1626,13 @@ sub read_config_FIN_level0 {
 	
 	@arr0_l=$line_l=~/(\S+)/g;
 	
+	#$arr0_l[0]=inv-host
+	if ( $arr0_l[0]=~/^all$/ ) {
+	    
+	}
+	else { # list, separated by ",", or single inv-host
+	    
+	}
 	
     }
     close(CONF_FIN);
