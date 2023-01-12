@@ -1101,7 +1101,13 @@ sub read_04_conf_zone_forward_ports_sets {
 		    $port_str4check1_l=$to_port_l.'/'.$proto_l;
 		}
 		else {
-		    return "fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
+		    $return_str_l="fail [$proc_name_l]. Rule for port forwarding must be like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60' or 'port=80:proto=tcp:toport=8080' (for example)";
+		    last;
+		}
+		
+		if ( $proto_l!~/^tcp$|^udp$|^sctp$|^dccp$/ ) {
+		    $return_str_l="fail [$proc_name_l]. Proto must be like 'tcp/udp/sctp/dccp'";
+		    last;
 		}
 		
 		$exec_res_l=&check_port_for_apply_to_fw_conf($port_str4check0_l);
