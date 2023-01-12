@@ -1606,12 +1606,14 @@ sub read_config_FIN_level0 {
     
     my ($line_l)=(undef);
     my @arr0_l=();
+    my %res_tmp_lv0_l=();
+	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
     my $return_str_l='OK';
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
 
     open(CONF_FIN,'<',$file_l);
-    while ( <CONF_TMPLT> ) {
+    while ( <CONF_FIN> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
@@ -1619,7 +1621,20 @@ sub read_config_FIN_level0 {
         $line_l=~s/^ //g;
 	$line_l=~s/ $//g;
 	
+	$line_l=~s/ \,/\,/g;
+	$line_l=~s/\, /\,/g;
+	
+	@arr0_l=$line_l=~/(\S+)/g;
+	
+	
     }
+    close(CONF_FIN);
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv0_l;
+    ###
+    
+    return $return_str_l;
 }
 ######other subs
 ############SUBROUTINES
