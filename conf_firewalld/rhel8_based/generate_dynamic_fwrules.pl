@@ -1595,6 +1595,15 @@ sub check_port_for_apply_to_fw_conf {
     
     return $return_str_l;
 }
+
+sub read_config_FIN_level0 {
+    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    #$file_l=fin conf file '66_conf_ipsets_FIN/77_conf_zones_FIN/88_conf_policies_FIN'
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #res_href_l=hash ref for result-hash
+	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
+    
+}
 ######other subs
 ############SUBROUTINES
 
