@@ -1658,12 +1658,20 @@ sub read_config_FIN_level0 {
 	    @arr1_l=split(/\,/,$arr0_l[0]);
 	    foreach $arr_el0_l ( @arr1_l ) {
 		#$arr_el0_l=inv-host
-		$res_tmp_lv0_l{$arr_el0_l}=[@arr0_l[1..$#arr0_l]];
+		if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+		    $res_tmp_lv0_l{$arr_el0_l}=[@arr0_l[1..$#arr0_l]];
+		}
+		else {
+		    $return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' (config='$file_l') is not exists at inventory file";
+		    last;
+		}
 	    }
 	    
 	    $arr_el0_l=undef;
 	    @arr1_l=();
 	}
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
 	
 	@arr0_l=();
     }
@@ -1672,6 +1680,8 @@ sub read_config_FIN_level0 {
     $line_l=undef;
     ###
 
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
     ###
