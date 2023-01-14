@@ -1605,9 +1605,10 @@ sub read_config_FIN_level0 {
     my $proc_name_l=(caller(0))[3];
     
     my ($line_l)=(undef);
+    my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my @arr0_l=();
-    my @inv_hosts_arr_l=();
+    my @arr1_l=();
     my %res_tmp_lv0_l=();
 	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
     my $return_str_l='OK';
@@ -1632,13 +1633,18 @@ sub read_config_FIN_level0 {
 	if ( $arr0_l[0]=~/^all$/ ) {
 	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
                 #$hkey0_l=inv-host from inv-host-hash
-                push(@inv_hosts_arr_l,$hkey0_l);
+                #push(@inv_hosts_arr_l,$hkey0_l);
+		$res_tmp_lv0_l{$hkey0_l}=[@arr0_l[1..$#arr0_l]];
             }
     
             ($hkey0_l,$hval0_l)=(undef,undef);
 	}
 	else { # list, separated by ",", or single inv-host
-	    @inv_hosts_arr_l=split(/\,/,$arr0_l[0]);
+	    @arr1_l=split(/\,/,$arr0_l[0]);
+	    foreach $arr_el0_l ( @arr1_l ) {
+		#$arr_el0_l=inv-host
+		$res_tmp_lv0_l{$arr_el0_l}=[@arr0_l[1..$#arr0_l]];
+	    }
 	}
 	
     }
