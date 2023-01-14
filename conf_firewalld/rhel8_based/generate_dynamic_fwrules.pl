@@ -1615,6 +1615,7 @@ sub read_config_FIN_level0 {
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
 
+    # read file
     open(CONF_FIN,'<',$file_l);
     while ( <CONF_FIN> ) {
         $line_l=$_;
@@ -1645,10 +1646,17 @@ sub read_config_FIN_level0 {
 		#$arr_el0_l=inv-host
 		$res_tmp_lv0_l{$arr_el0_l}=[@arr0_l[1..$#arr0_l]];
 	    }
+	    
+	    $arr_el0_l=undef;
+	    @arr1_l=();
 	}
 	
+	@arr0_l=();
     }
     close(CONF_FIN);
+    
+    $line_l=undef;
+    ###
 
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
