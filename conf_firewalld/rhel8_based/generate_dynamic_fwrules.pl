@@ -673,6 +673,8 @@ sub read_00_conf_firewalld {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
+
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
@@ -728,6 +730,8 @@ sub read_01_conf_ipset_templates {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
     ###
+
+    %res_tmp_lv0_l=();
     
     return $return_str_l;    
 }
@@ -837,6 +841,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
+
+    %res_tmp_lv1_l=();
     
     return $return_str_l;    
 }
@@ -941,6 +947,8 @@ sub read_02_conf_standard_firewall_zones_templates {
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
+    %res_tmp_lv1_l=();
+
     return $return_str_l;    
 }
 
@@ -1046,6 +1054,8 @@ sub read_03_conf_policy_templates {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
+
+    %res_tmp_lv1_l=();
     
     return $return_str_l;    
 }
@@ -1141,6 +1151,8 @@ sub read_04_conf_zone_forward_ports_sets {
     %{$res_href_l}=%res_tmp_lv0_l;
     ###
 
+    %res_tmp_lv0_l=();
+
     return $return_str_l;
 }
 
@@ -1194,6 +1206,8 @@ sub read_05_conf_zone_rich_rules_sets {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
     ###
+
+    %res_tmp_lv0_l=();
 
     return $return_str_l;
 }
@@ -1661,6 +1675,8 @@ sub read_config_FIN_level0 {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
     ###
+    
+    %res_tmp_lv0_l=();
     
     return $return_str_l;
 }
