@@ -1232,7 +1232,30 @@ sub read_66_conf_ipsets_FIN {
     	    #etc
         #{'seq'}=[val-0,val-1] (val=tmplt)
     ###
+
+    my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
     
+    my %res_tmp_lv0_l=();
+	#key=inv-host, value=[array of values]. IPSET_NAME_TMPLT_LIST-0
+    my %res_tmp_lv1_l=();
+	#final hash
+    
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill %res_tmp_lv1_l
+    ###
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+
+    %res_tmp_lv1_l=();
+
+    return $return_str_l;
 }
 
 sub read_77_conf_zones_FIN {
@@ -1278,6 +1301,29 @@ sub read_77_conf_zones_FIN {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ###
 
+    my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
+    
+    my %res_tmp_lv0_l=();
+	#key=inv-host, value=[array of values]. FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, etc
+    my %res_tmp_lv1_l=();
+	#final hash
+    
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill %res_tmp_lv1_l
+    ###
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+
+    %res_tmp_lv1_l=();
+
+    return $return_str_l;
 }
 
 sub read_88_conf_policies_FIN {
@@ -1303,6 +1349,29 @@ sub read_88_conf_policies_FIN {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ###
 
+    my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
+    
+    my %res_tmp_lv0_l=();
+	#key=inv-host, value=[array of values]. POLICY_NAME_TMPLT-0, INGRESS-FIREWALL_ZONE_NAME_TMPLT-1, etc
+    my %res_tmp_lv1_l=();
+	#final hash
+    
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # fill %res_tmp_lv1_l
+    ###
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+
+    %res_tmp_lv1_l=();
+
+    return $return_str_l;
 }
 ######general subs
 
