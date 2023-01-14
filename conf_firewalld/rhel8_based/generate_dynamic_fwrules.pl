@@ -1242,8 +1242,8 @@ sub read_66_conf_ipsets_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,\%res_tmp_lv0_l);
-    #$file_l,$inv_hosts_href_l,$res_href_l
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,2,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
@@ -1310,8 +1310,8 @@ sub read_77_conf_zones_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,\%res_tmp_lv0_l);
-    #$file_l,$inv_hosts_href_l,$res_href_l
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,7,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
@@ -1358,8 +1358,8 @@ sub read_88_conf_policies_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,\%res_tmp_lv0_l);
-    #$file_l,$inv_hosts_href_l,$res_href_l
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,6,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
@@ -1680,9 +1680,10 @@ sub check_port_for_apply_to_fw_conf {
 }
 
 sub read_config_FIN_level0 {
-    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$res_href_l)=@_;
     #$file_l=fin conf file '66_conf_ipsets_FIN/77_conf_zones_FIN/88_conf_policies_FIN'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$needed_elements_at_line_arr_l=needed count of elements at array formed from line
     #res_href_l=hash ref for result-hash
 	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
     my $proc_name_l=(caller(0))[3];
@@ -1690,6 +1691,7 @@ sub read_config_FIN_level0 {
     my ($line_l)=(undef);
     my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_cnt_l=undef;
     my @arr0_l=();
     my @arr1_l=();
     my %res_tmp_lv0_l=();
@@ -1712,6 +1714,12 @@ sub read_config_FIN_level0 {
 	$line_l=~s/\, /\,/g;
 	
 	@arr0_l=$line_l=~/(\S+)/g;
+	
+	$arr_cnt_l=$#arr0_l+1;
+	if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
+	    $return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
+	    last;
+	}
 	
 	#$arr0_l[0]=inv-host
 	if ( $arr0_l[0]=~/^all$/ ) {
