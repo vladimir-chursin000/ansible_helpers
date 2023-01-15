@@ -353,7 +353,7 @@ our %h77_conf_zones_FIN_hash_g=();
 #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24		ipset:ipset4public--TMPLT       	fw_ports_set4public     rich_rules_set4public (example)
 #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                        		fw_ports_set4zone1      rich_rules_set4zone1 (example)
 ###
-#$h77_conf_zones_FIN_hash_g{inventory_host}{firewall_zone_name_tmplt}->
+#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
 #{'interface_list'}->;
     #{'empty'}=1
     #{'list'}->
@@ -1356,7 +1356,7 @@ sub read_77_conf_zones_FIN {
     #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset:ipset4public--TMPLT               fw_ports_set4public     rich_rules_set4public (example)
     #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                                   fw_ports_set4zone1      rich_rules_set4zone1 (example)
     ###
-    #$h77_conf_zones_FIN_hash_g{inventory_host}{firewall_zone_name_tmplt}->
+    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
 	#{'empty'}=1
 	#{'list'}->
