@@ -340,11 +340,9 @@ our %h66_conf_ipsets_FIN_hash_g=();
 #10.3.2.2               ipset4public--TMPLT (example)
 ###
 #$h66_conf_ipsets_FIN_hash_g{inventory_host}->
-    #{'empty'}=1
-    #{'list'}=>
-	#{ipset_name_tmplt-0}=1;
-	#{ipset_name_tmplt-1}=1;
-	#etc
+    #{ipset_name_tmplt-0}=1;
+    #{ipset_name_tmplt-1}=1;
+    #etc
     #{'seq'}=[val-0,val-1] (val=tmplt)
 ######
 
@@ -1225,11 +1223,9 @@ sub read_66_conf_ipsets_FIN {
     #10.3.2.2               ipset4public--TMPLT (example)
     ###
     #$h66_conf_ipsets_FIN_hash_g{inventory_host}->
-	#{'empty'}=1
-	#{'list'}=>
-    	    #{ipset_name_tmplt-0}=1;
-    	    #{ipset_name_tmplt-1}=1;
-    	    #etc
+    	#{ipset_name_tmplt-0}=1;
+    	#{ipset_name_tmplt-1}=1;
+    	#etc
         #{'seq'}=[val-0,val-1] (val=tmplt)
     ###
 
@@ -1247,6 +1243,9 @@ sub read_66_conf_ipsets_FIN {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	
+    }
     ###
     
     # fill result hash
