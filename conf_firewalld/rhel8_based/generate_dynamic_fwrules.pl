@@ -496,7 +496,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&read_66_conf_ipsets_FIN($f66_conf_ipsets_FIN_path_g,\%inventory_hosts_g,\%h01_conf_ipset_templates_hash_g,%h66_conf_ipsets_FIN_hash_g);
+    $exec_res_g=&read_66_conf_ipsets_FIN($f66_conf_ipsets_FIN_path_g,\%inventory_hosts_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
     #$file_l,$inv_hosts_href_l,$ipset_templates_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
