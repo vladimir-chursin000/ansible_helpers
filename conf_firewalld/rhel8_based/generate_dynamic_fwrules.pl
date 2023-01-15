@@ -404,7 +404,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-
+    $exec_res_g=undef;
+    
+    ######
+    
     $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -412,6 +415,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    $exec_res_g=undef;
+    
+    ######
     
     $exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
     #$file_l,$inv_hosts_href_l,$res_href_l
@@ -420,6 +426,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    $exec_res_g=undef;
+    
+    ######
     
     $exec_res_g=&read_01_conf_ipset_templates($f01_conf_ipset_templates_path_g,\%h01_conf_ipset_templates_hash_g);
     #$file_l,$res_href_l
@@ -428,6 +437,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    $exec_res_g=undef;
+    
+    ######
     
     $exec_res_g=&read_02_conf_custom_firewall_zones_templates($f02_conf_custom_firewall_zones_templates_path_g,\%h02_conf_custom_firewall_zones_templates_hash_g);
     #$file_l,$res_href_l
@@ -436,6 +448,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    $exec_res_g=undef;
+    
+    ######
     
     $exec_res_g=&read_02_conf_standard_firewall_zones_templates($f02_conf_standard_firewall_zones_templates_path_g,\%h02_conf_standard_firewall_zones_templates_hash_g);
     #$file_l,$res_href_l
@@ -444,6 +459,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    $exec_res_g=undef;
+    
+    ######
     
     $exec_res_g=&read_03_conf_policy_templates($f03_conf_policy_templates_path_g,\%h03_conf_policy_templates_hash_g);
     #$file_l,$res_href_l
@@ -452,6 +470,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
+    $exec_res_g=undef;
+    
+    ######
     
     $exec_res_g=&read_04_conf_zone_forward_ports_sets($f04_conf_zone_forward_ports_sets_path_g,\%h04_conf_zone_forward_ports_sets_hash_g);
     #$file_l,$res_href_l
@@ -460,7 +481,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-
+    $exec_res_g=undef;
+    
+    ######
+    
     $exec_res_g=&read_05_conf_zone_rich_rules_sets($f05_conf_zone_rich_rules_sets_path_g,\%h05_conf_zone_rich_rules_sets_hash_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -468,7 +492,21 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    print Dumper(\%h05_conf_zone_rich_rules_sets_hash_g);
+    $exec_res_g=undef;
+    
+    ######
+    
+    $exec_res_g=&read_66_conf_ipsets_FIN($f66_conf_ipsets_FIN_path_g,\%inventory_hosts_g,\%h01_conf_ipset_templates_hash_g,%h66_conf_ipsets_FIN_hash_g);
+    #$file_l,$inv_hosts_href_l,$ipset_templates_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+    $exec_res_g=undef;
+    print Dumper(\%h66_conf_ipsets_FIN_hash_g);
+    ######
+    
     last;
 } # ONE RUN CYCLE end
 
@@ -1273,6 +1311,10 @@ sub read_66_conf_ipsets_FIN {
 		$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}=1;
 		push(@{$res_tmp_lv1_l{$hkey0_l}{'seq'}},$arr_el0_l);
 	    }
+	    else { # duplicated value
+		$return_str_l="fail [$proc_name_l]. Duplicated template name value ('$arr_el0_l') at file='$file_l' at substring='${$hval0_l}[0]'. Fix it!";
+                last;
+	    }
 	}
 	
 	if ( $return_str_l!~/^OK$/ ) { last; }
@@ -1752,44 +1794,44 @@ sub read_config_FIN_level0 {
 	$line_l=~s/ \,/\,/g;
 	$line_l=~s/\, /\,/g;
 	
-	@arr0_l=$line_l=~/(\S+)/g;
-	
-	$arr_cnt_l=$#arr0_l+1;
-	if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
-	    $return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
-	    last;
-	}
-	
-	#$arr0_l[0]=inv-host
-	if ( $arr0_l[0]=~/^all$/ ) {
-	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-                #$hkey0_l=inv-host from inv-host-hash
-                #push(@inv_hosts_arr_l,$hkey0_l);
-		$res_tmp_lv0_l{$hkey0_l}=[@arr0_l[1..$#arr0_l]];
-            }
-    
-            ($hkey0_l,$hval0_l)=(undef,undef);
-	}
-	else { # list, separated by ",", or single inv-host
-	    @arr1_l=split(/\,/,$arr0_l[0]);
-	    foreach $arr_el0_l ( @arr1_l ) {
-		#$arr_el0_l=inv-host
-		if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-		    $res_tmp_lv0_l{$arr_el0_l}=[@arr0_l[1..$#arr0_l]];
-		}
-		else {
-		    $return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' (config='$file_l') is not exists at inventory file";
-		    last;
-		}
+	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    @arr0_l=$line_l=~/(\S+)/g;
+	    
+	    $arr_cnt_l=$#arr0_l+1;
+	    if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
+		$return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
+		last;
 	    }
 	    
-	    $arr_el0_l=undef;
-	    @arr1_l=();
+	    #$arr0_l[0]=inv-host
+	    if ( $arr0_l[0]=~/^all$/ ) {
+		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+            	    #$hkey0_l=inv-host from inv-host-hash
+            	    #push(@inv_hosts_arr_l,$hkey0_l);
+		    $res_tmp_lv0_l{$hkey0_l}=[@arr0_l[1..$#arr0_l]];
+        	}
+		
+        	($hkey0_l,$hval0_l)=(undef,undef);
+	    }
+	    else { # list, separated by ",", or single inv-host
+		@arr1_l=split(/\,/,$arr0_l[0]);
+		foreach $arr_el0_l ( @arr1_l ) {
+		    #$arr_el0_l=inv-host
+		    if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) ) { $res_tmp_lv0_l{$arr_el0_l}=[@arr0_l[1..$#arr0_l]]; }
+		    else {
+			$return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' (config='$file_l') is not exists at inventory file";
+			last;
+		    }
+		}
+		
+		$arr_el0_l=undef;
+		@arr1_l=();
+	    }
+	    
+	    if ( $return_str_l!~/^OK$/ ) { last; }
+	    
+	    @arr0_l=();
 	}
-	
-	if ( $return_str_l!~/^OK$/ ) { last; }
-	
-	@arr0_l=();
     }
     close(CONF_FIN);
     
