@@ -1791,10 +1791,10 @@ sub read_config_FIN_level0 {
         $line_l=~s/^ //g;
 	$line_l=~s/ $//g;
 	
-	$line_l=~s/ \,/\,/g;
-	$line_l=~s/\, /\,/g;
-	
 	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    $line_l=~s/ \,/\,/g;
+	    $line_l=~s/\, /\,/g;
+
 	    @arr0_l=$line_l=~/(\S+)/g;
 	    
 	    $arr_cnt_l=$#arr0_l+1;
