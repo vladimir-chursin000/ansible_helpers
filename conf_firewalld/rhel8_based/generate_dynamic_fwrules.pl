@@ -1268,6 +1268,11 @@ sub read_66_conf_ipsets_FIN {
 		$return_str_l="fail [$proc_name_l]. Template '$arr_el0_l' (used at '$file_l') is not exists at '01_conf_ipset_templates'";
 		last;
 	    }
+	    
+	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}) ) {
+		$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}=1;
+		push(@{$res_tmp_lv1_l{$hkey0_l}{'seq'}},$arr_el0_l);
+	    }
 	}
 	
 	if ( $return_str_l!~/^OK$/ ) { last; }
