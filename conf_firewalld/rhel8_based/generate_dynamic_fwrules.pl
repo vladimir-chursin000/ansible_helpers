@@ -1102,6 +1102,7 @@ sub read_04_conf_zone_forward_ports_sets {
 		    $from_port_l=$1; $proto_l=$2; $to_port_l=$3;
 		    $port_str4check0_l=$from_port_l.'/'.$proto_l;
 		    $port_str4check1_l=$to_port_l.'/'.$proto_l;
+		    $to_addr_l='localhost';
 		}
 		elsif ( $hkey1_l=~/^port\=(\d+)\:proto\=(\S+)\:toport\=(\d+)\:toaddr\=(\S+)$/ ) {
 		    $from_port_l=$1; $proto_l=$2; $to_port_l=$3; $to_addr_l=$4;
@@ -1137,10 +1138,22 @@ sub read_04_conf_zone_forward_ports_sets {
 		    last;
 		}	
 	    }
+	    
+	    ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,undef);
+	    
 	} # cycle 1
+	
+	$exec_res_l=undef;
+	($hkey1_l,$hval1_l)=(undef,undef);
+	($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,undef);
 	
 	if ( $return_str_l!~/^OK$/ ) { last; }
     } # cycle 0
+    
+    $exec_res_l=undef;
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
@@ -1230,7 +1243,9 @@ sub read_66_conf_ipsets_FIN {
     ###
 
     my $exec_res_l=undef;
+    my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @arr0_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -1244,8 +1259,28 @@ sub read_66_conf_ipsets_FIN {
     
     # fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l=inv-host
+	@arr0_l=split(/\,/,${$hval0_l}[0]);
+	foreach $arr_el0_l ( @arr0_l ) {
+	    #$arr_el0_l=ipset_template_name
+	    ##$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
+	    if ( !exists(${$ipset_templates_href_l}{$arr_el0_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Template '$arr_el0_l' (used at '$file_l') is not exists at '01_conf_ipset_templates'";
+		last;
+	    }
+	}
 	
+	if ( $return_str_l!~/^OK$/ ) { last; }
+	
+	$arr_el0_l=undef;
+	@arr0_l=();
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    $arr_el0_l=undef;
+    @arr0_l=();
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
     # fill result hash
