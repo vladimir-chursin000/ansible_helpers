@@ -1522,7 +1522,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 
 	# RICH_RULES_SET ops [5] (begin)
-	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'rich_rules_set'}='empty'; }
+	if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'rich_rules_set'}='empty'; }
 	else {
 	    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
