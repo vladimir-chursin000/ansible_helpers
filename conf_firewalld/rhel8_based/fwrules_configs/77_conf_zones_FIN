@@ -40,6 +40,6 @@
 	# empty (for don't apply any rich rules to firewall zone).
 ###
 #INVENTORY_HOST		#FIREWALL_ZONE_NAME_TMPLT	#INTERFACE_LIST	  #SOURCE_LIST		#IPSET_TMPLT_LIST		#FORWARD_PORTS_SET	#RICH_RULES_SET
-#all			public--TMPLT			ens1,ens2,ens3 	  10.10.16.0/24		ipset:ipset4all_public--TMPLT	empty			empty (example)
-#10.3.2.2		public--TMPLT			empty		  10.10.15.0/24		ipset:ipset4public--TMPLT	fw_ports_set4public	rich_rules_set4public (example)
+#all			public--TMPLT			ens1,ens2,ens3 	  10.10.16.0/24		ipset4all_public--TMPLT		empty			empty (example)
+#10.3.2.2		public--TMPLT			empty		  10.10.15.0/24		ipset4public--TMPLT		fw_ports_set4public	rich_rules_set4public (example)
 #10.1.2.3,10.1.2.4	zone1--TMPLT			eth0,eth1,ens01	  empty			empty				fw_ports_set4zone1	rich_rules_set4zone1 (example)

@@ -8,6 +8,7 @@ use Cwd;
 use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
+$self_dir_g=~s/\/$//g;
 
 ############ARGV
 our $inventory_conf_path_g='no';
@@ -45,7 +46,7 @@ our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN
 our $f77_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/77_conf_zones_FIN';
 our $f88_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/88_conf_policies_FIN';
 ###
-our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth) downloaded from remote hosts with help of playbook 'fwrules_backup_playbook.yml' before run this script
+our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth) downloaded from remote hosts with help of playbook 'fwrules_backup_playbook.yml' before run this script
 ############CFG file
 
 ############STATIC VARS
@@ -504,8 +505,18 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
-    print Dumper(\%h66_conf_ipsets_FIN_hash_g);
+    
     ######
+    
+    $exec_res_g=&read_77_conf_zones_FIN($f77_conf_zones_FIN_path_g,\%inventory_hosts_g,\%inv_hosts_network_data_g,\%h02_conf_custom_firewall_zones_templates_hash_g,\%h02_conf_standard_firewall_zones_templates_hash_g,\%h01_conf_ipset_templates_hash_g,\%h04_conf_zone_forward_ports_sets_hash_g,\%h05_conf_zone_rich_rules_sets_hash_g,\%h77_conf_zones_FIN_hash_g);
+    #$file_l,$inv_hosts_href_l,$inv_hosts_nd_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$ipset_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+    $exec_res_g=undef;
+    print Dumper(\%h77_conf_zones_FIN_hash_g);
     
     last;
 } # ONE RUN CYCLE end
@@ -1461,6 +1472,10 @@ sub read_77_conf_zones_FIN {
 	    @arr0_l=split(/\,/,${$hval0_l}[2]);
 	    foreach $arr_el0_l ( @arr0_l ) {
 		#$arr_el0_l=source
+		#if ( $arr_el0_l!~/some_regex/ ) {
+		    #maybe need to add regex for check sources
+		#}
+		
 		if ( !exists($res_tmp_lv1_l{$hkey0_l}{'source_list'}{'list'}{$arr_el0_l}) ) {
 		    $res_tmp_lv1_l{$hkey0_l}{'source_list'}{'list'}{$arr_el0_l}=1;
 		    push(@{$res_tmp_lv1_l{$hkey0_l}{'source_list'}{'seq'}},$arr_el0_l);
