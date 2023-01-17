@@ -704,6 +704,11 @@ sub read_00_conf_firewalld {
 	    last;
 	}
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/OK$/ ) { return $return_str_l; }
+    
     ###
     
     # fill result hash
@@ -1442,11 +1447,14 @@ sub read_77_conf_zones_FIN {
 		}
 	    }
 	    
+	    @arr0_l=();
+	    $arr_el0_l=undef;
+	    
 	    if ( $return_str_l!~/^OK$/ ) { last; }
 	}
 	###
 	
-	# GET source list array
+	# SOURCE ops
 	@source_list_l=split(/\,/,${$hval0_l}[2]);
 	###
 	
