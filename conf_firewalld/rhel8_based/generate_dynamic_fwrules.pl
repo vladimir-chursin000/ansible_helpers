@@ -1413,7 +1413,7 @@ sub read_77_conf_zones_FIN {
 	#$hkey0_l=inv-host
 	#hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
 
-	# CHECK FW-ZONE
+	# CHECK FW-ZONE [0]
 	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
 	    #$custom_zone_templates_href_l
 	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
@@ -1426,7 +1426,7 @@ sub read_77_conf_zones_FIN {
 	}
 	###
 	
-	# INTERFACES ops
+	# INTERFACES ops [1]
 	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[1]);
@@ -1454,8 +1454,27 @@ sub read_77_conf_zones_FIN {
 	}
 	###
 	
-	# SOURCE ops
-	@source_list_l=split(/\,/,${$hval0_l}[2]);
+	# SOURCE ops [2]
+	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'source_list'}{'empty'}=1; }
+	else {
+	    @arr0_l=split(/\,/,${$hval0_l}[2]);
+	    foreach $arr_el0_l ( @arr0_l ) {
+		#$arr_el0_l=source
+		if ( !exists($res_tmp_lv1_l{$hkey0_l}{'source_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$hkey0_l}{'source_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$hkey0_l}{'source_list'}{'seq'}},$arr_el0_l);
+		}
+		else { # duplicate source
+		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-tmplt-name='${$hval0_l}[0]";
+		    last;
+		}
+	    }
+	    
+	    @arr0_l=();
+	    $arr_el0_l=undef;
+	    
+	    if ( $return_str_l!~/^OK$/ ) { last; }
+	}
 	###
 	
     }
