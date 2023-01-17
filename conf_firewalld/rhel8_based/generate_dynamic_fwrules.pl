@@ -1356,7 +1356,9 @@ sub read_77_conf_zones_FIN {
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
 	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
     #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
@@ -1412,7 +1414,7 @@ sub read_77_conf_zones_FIN {
 	#$hkey0_l=inv-host
 	#hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
 
-	# CHECK FW-ZONE [0] (begin)
+	# FIREWALL_ZONE_NAME_TMPLT ops [0] (begin)
 	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
 	    #$custom_zone_templates_href_l
 	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
@@ -1425,7 +1427,7 @@ sub read_77_conf_zones_FIN {
 	}
 	### (end)
 	
-	# INTERFACES ops [1] (begin)
+	# INTERFACE_LIST ops [1] (begin)
 	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[1]);
@@ -1453,7 +1455,7 @@ sub read_77_conf_zones_FIN {
 	}
 	### (end)
 	
-	# SOURCE ops [2] (begin)
+	# SOURCE_LIST ops [2] (begin)
 	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'source_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[2]);
@@ -1476,13 +1478,14 @@ sub read_77_conf_zones_FIN {
 	}
 	### (end)
 	
-	# IPSET_TMPLT ops [3] (begin)
+	# IPSET_TMPLT_LIST ops [3] (begin)
 	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[3]);
 	    foreach $arr_el0_l ( @arr0_l ) {
 		#$arr_el0_l=ipset_tmplt_name
-		#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
+		#$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+		    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
 		if ( !exists(${$ipset_templates_href_l}{$arr_el0_l}) ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
 		    last;
@@ -1492,7 +1495,7 @@ sub read_77_conf_zones_FIN {
 		    $res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
 		    push(@{$res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
 		}
-		else { # duplicate source
+		else { # duplicate ipset_template_name
 		    $return_str_l="fail [$proc_name_l]. Duplicated ipset_tmplt_name='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
 		    last;
 		}
@@ -1502,6 +1505,19 @@ sub read_77_conf_zones_FIN {
 	    $arr_el0_l=undef;
 	    
 	    if ( $return_str_l!~/^OK$/ ) { last; }
+	}
+	### (end)
+	
+	# FORWARD_PORTS_SET ops [4] (begin)
+	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'forward_ports_set'}='empty'; }
+	else {
+	    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    		#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+	    if ( !exists(${$fw_ports_set_href_l}{${$hval0_l}[4]}) ) {
+		$return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets'";
+		last;
+	    }
+	    else { $res_tmp_lv1_l{$hkey0_l}{'forward_ports_set'}=${$hval0_l}[4]; }
 	}
 	### (end)
     }
