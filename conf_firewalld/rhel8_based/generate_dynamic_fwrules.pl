@@ -1402,18 +1402,23 @@ sub read_77_conf_zones_FIN {
 	#hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
 
 	# CHECK FW-ZONE
-	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
 	    #$custom_zone_templates_href_l
-	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
 	    #$std_zone_templates_href_l
 	if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[0]}) ) { $zone_type_l='custom'; }
 	elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[0]}) ) { $zone_type_l='standard'; }
 	else {
-	    
+	    $return_str_l="fail [$proc_name_l]. Fw-zone-tmplt='${$hval0_l}[0]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
+	    last;
 	}
 	###
 	
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
     # fill result hash
