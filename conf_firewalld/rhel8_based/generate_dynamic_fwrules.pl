@@ -1340,9 +1340,12 @@ sub read_66_conf_ipsets_FIN {
 }
 
 sub read_77_conf_zones_FIN {
-    my ($file_l,$inv_hosts_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$ipset_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$inv_hosts_nd_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$ipset_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l)=@_;
     #$file_l=$f77_conf_zones_FIN_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$inv_hosts_nd_href_l=hash-ref for %inv_hosts_network_data_g
+	#INV_HOST-0       #INT_NAME-1       #IPADDR-2
+    	#$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
@@ -1413,6 +1416,8 @@ sub read_77_conf_zones_FIN {
 	    last;
 	}
 	###
+	
+	# 
 	
     }
     
