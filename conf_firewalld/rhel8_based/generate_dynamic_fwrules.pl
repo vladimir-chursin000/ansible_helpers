@@ -1512,12 +1512,25 @@ sub read_77_conf_zones_FIN {
 	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'forward_ports_set'}='empty'; }
 	else {
 	    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
-    		#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    		#$h04_conf_zone_forward_ports_sets_hash_g{set_name}-> ...
 	    if ( !exists(${$fw_ports_set_href_l}{${$hval0_l}[4]}) ) {
 		$return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets'";
 		last;
 	    }
 	    else { $res_tmp_lv1_l{$hkey0_l}{'forward_ports_set'}=${$hval0_l}[4]; }
+	}
+	### (end)
+
+	# RICH_RULES_SET ops [5] (begin)
+	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'rich_rules_set'}='empty'; }
+	else {
+	    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+    		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
+	    if ( !exists(${$rich_rules_set_href_l}{${$hval0_l}[5]}) ) {
+		$return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets'";
+		last;
+	    }
+	    else { $res_tmp_lv1_l{$hkey0_l}{'rich_rules_set'}=${$hval0_l}[5]; }
 	}
 	### (end)
     }
