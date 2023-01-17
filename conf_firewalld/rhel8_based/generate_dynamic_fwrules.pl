@@ -1395,8 +1395,6 @@ sub read_77_conf_zones_FIN {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
     my @arr0_l=();
-    my @int_list_l=();
-    my @source_list_l=();
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $return_str_l='OK';
     
