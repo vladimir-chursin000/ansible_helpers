@@ -1354,6 +1354,7 @@ sub read_77_conf_zones_FIN {
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
     #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
@@ -1442,7 +1443,7 @@ sub read_77_conf_zones_FIN {
 		    push(@{$res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate interface name
-		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-tmplt-name='${$hval0_l}[0]";
+		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
 		    last;
 		}
 	    }
@@ -1465,7 +1466,7 @@ sub read_77_conf_zones_FIN {
 		    push(@{$res_tmp_lv1_l{$hkey0_l}{'source_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate source
-		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-tmplt-name='${$hval0_l}[0]";
+		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
 		    last;
 		}
 	    }
@@ -1477,6 +1478,34 @@ sub read_77_conf_zones_FIN {
 	}
 	###
 	
+	# IPSET_TMPLT ops [3]
+	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'empty'}=1; }
+	else {
+	    @arr0_l=split(/\,/,${$hval0_l}[3]);
+	    foreach $arr_el0_l ( @arr0_l ) {
+		#$arr_el0_l=ipset_tmplt_name
+		#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
+		if ( !exists(${$ipset_templates_href_l}{$arr_el0_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
+		    last;
+		}
+		
+		if ( !exists($res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
+		}
+		else { # duplicate source
+		    $return_str_l="fail [$proc_name_l]. Duplicated ipset_tmplt_name='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
+		    last;
+		}
+	    }
+	    
+	    @arr0_l=();
+	    $arr_el0_l=undef;
+	    
+	    if ( $return_str_l!~/^OK$/ ) { last; }
+	}
+	###
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
