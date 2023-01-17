@@ -1384,6 +1384,7 @@ sub read_77_conf_zones_FIN {
 
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $zone_type_l=undef; # possible_values: custom, standard 
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -1399,6 +1400,19 @@ sub read_77_conf_zones_FIN {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=inv-host
 	#hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
+
+	# CHECK FW-ZONE
+	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+	    #$custom_zone_templates_href_l
+	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+	    #$std_zone_templates_href_l
+	if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[0]}) ) { $zone_type_l='custom'; }
+	elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[0]}) ) { $zone_type_l='standard'; }
+	else {
+	    
+	}
+	###
+	
     }
     ###
     
