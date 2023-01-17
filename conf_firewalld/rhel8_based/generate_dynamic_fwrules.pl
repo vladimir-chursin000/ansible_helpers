@@ -1409,12 +1409,12 @@ sub read_77_conf_zones_FIN {
     #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # fill %res_tmp_lv1_l
+    # fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=inv-host
 	#hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
 
-	# CHECK FW-ZONE [0]
+	# CHECK FW-ZONE [0] (begin)
 	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
 	    #$custom_zone_templates_href_l
 	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
@@ -1425,9 +1425,9 @@ sub read_77_conf_zones_FIN {
 	    $return_str_l="fail [$proc_name_l]. Fw-zone-tmplt='${$hval0_l}[0]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
 	    last;
 	}
-	###
+	### (end)
 	
-	# INTERFACES ops [1]
+	# INTERFACES ops [1] (begin)
 	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[1]);
@@ -1453,9 +1453,9 @@ sub read_77_conf_zones_FIN {
 	    
 	    if ( $return_str_l!~/^OK$/ ) { last; }
 	}
-	###
+	### (end)
 	
-	# SOURCE ops [2]
+	# SOURCE ops [2] (begin)
 	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'source_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[2]);
@@ -1476,9 +1476,9 @@ sub read_77_conf_zones_FIN {
 	    
 	    if ( $return_str_l!~/^OK$/ ) { last; }
 	}
-	###
+	### (end)
 	
-	# IPSET_TMPLT ops [3]
+	# IPSET_TMPLT ops [3] (begin)
 	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'ipset_tmplt_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[3]);
@@ -1505,13 +1505,13 @@ sub read_77_conf_zones_FIN {
 	    
 	    if ( $return_str_l!~/^OK$/ ) { last; }
 	}
-	###
+	### (end)
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
+    ### fill %res_tmp_lv1_l (end)
     
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
