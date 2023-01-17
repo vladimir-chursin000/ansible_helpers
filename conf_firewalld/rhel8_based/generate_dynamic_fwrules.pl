@@ -1388,7 +1388,9 @@ sub read_77_conf_zones_FIN {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
+    my @arr0_l=();
     my @int_list_l=();
+    my @source_list_l=();
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $return_str_l='OK';
     
@@ -1419,20 +1421,35 @@ sub read_77_conf_zones_FIN {
 	}
 	###
 	
-	# CHECK INTERFACES
-	@int_list_l=split(/\,/,${$hval0_l}[1]);
-	foreach $arr_el0_l ( @int_list_l ) {
-	    #$arr_el0_l=interface name
-	    if ( !exists(${$inv_hosts_nd_href_l}{$hkey0_l}{$arr_el0_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$hkey0_l' (conf='$file_l')";
-		last;
+	# INTERFACES ops
+	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'empty'}=1; }
+	else {
+	    @arr0_l=split(/\,/,${$hval0_l}[1]);
+	    foreach $arr_el0_l ( @arr0_l ) {
+		#$arr_el0_l=interface name
+		if ( !exists(${$inv_hosts_nd_href_l}{$hkey0_l}{$arr_el0_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$hkey0_l' (conf='$file_l')";
+		    last;
+		}
+		
+		if ( !exists($res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$hkey0_l}{'interface_list'}{'seq'}},$arr_el0_l);
+		}
+		else { # duplicate interface name
+		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$hkey0_l' and fw-tmplt-name='${$hval0_l}[0]";
+		    last;
+		}
 	    }
+	    
+	    if ( $return_str_l!~/^OK$/ ) { last; }
 	}
-
-	if ( $return_str_l!~/^OK$/ ) { last; }
 	###
 	
-
+	# GET source list array
+	@source_list_l=split(/\,/,${$hval0_l}[2]);
+	###
+	
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
