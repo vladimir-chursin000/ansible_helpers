@@ -1317,10 +1317,10 @@ sub read_66_conf_ipsets_FIN {
 	    }
 	}
 	
-	if ( $return_str_l!~/^OK$/ ) { last; }
-	
 	$arr_el0_l=undef;
 	@arr0_l=();
+
+	if ( $return_str_l!~/^OK$/ ) { last; }
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -1387,6 +1387,8 @@ sub read_77_conf_zones_FIN {
 
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
+    my @int_list_l=();
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $return_str_l='OK';
     
@@ -1417,8 +1419,20 @@ sub read_77_conf_zones_FIN {
 	}
 	###
 	
-	# 
+	# CHECK INTERFACES
+	@int_list_l=split(/\,/,${$hval0_l}[1]);
+	foreach $arr_el0_l ( @int_list_l ) {
+	    #$arr_el0_l=interface name
+	    if ( !exists(${$inv_hosts_nd_href_l}{$hkey0_l}{$arr_el0_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$hkey0_l' (conf='$file_l')";
+		last;
+	    }
+	}
+
+	if ( $return_str_l!~/^OK$/ ) { last; }
+	###
 	
+
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
