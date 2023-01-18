@@ -1569,6 +1569,7 @@ sub read_88_conf_policies_FIN {
     #$file_l=$f88_conf_policies_FIN_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
+	#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
     #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
@@ -1601,6 +1602,16 @@ sub read_88_conf_policies_FIN {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=inv-host
+	#hval0_l=arr-ref for [#POLICY_NAME_TMPLT-0 #INGRESS-FIREWALL_ZONE_NAME_TMPLT-1 #EGRESS-FIREWALL_ZONE_NAME_TMPLT-2 #FORWARD_PORTS_SET-3 #RICH_RULES_SET-4]
+	
+	# POLICY_NAME_TMPLT [0] ops
+	    #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
+    		#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
+	#if ( !exists(${$policy_templates_href_l}{$hkey0_l}{}) )
+	###
+    }
     ###
     
     # fill result hash
