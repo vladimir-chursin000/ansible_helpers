@@ -406,6 +406,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%inventory_hosts_g);
     
     ######
     
@@ -417,6 +418,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%inv_hosts_network_data_g);
     
     ######
     
@@ -428,6 +430,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h00_conf_firewalld_hash_g);
     
     ######
     
@@ -439,6 +442,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h01_conf_ipset_templates_hash_g);
     
     ######
     
@@ -450,6 +454,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h02_conf_custom_firewall_zones_templates_hash_g);
     
     ######
     
@@ -461,6 +466,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h02_conf_standard_firewall_zones_templates_hash_g);
     
     ######
     
@@ -472,6 +478,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h03_conf_policy_templates_hash_g);
     
     ######
     
@@ -483,6 +490,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h04_conf_zone_forward_ports_sets_hash_g);
     
     ######
     
@@ -494,6 +502,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h05_conf_zone_rich_rules_sets_hash_g);
     
     ######
     
@@ -505,6 +514,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
+    #print Dumper(\%h66_conf_ipsets_FIN_hash_g);
     
     ######
     
@@ -516,8 +526,20 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
-    print Dumper(\%h77_conf_zones_FIN_hash_g);
+    #print Dumper(\%h77_conf_zones_FIN_hash_g);
     
+    ######
+    
+    $exec_res_g=&read_88_conf_policies_FIN($f88_conf_policies_FIN_path_g,\%inventory_hosts_g,\%h03_conf_policy_templates_hash_g,\%h02_conf_custom_firewall_zones_templates_hash_g,\%h02_conf_standard_firewall_zones_templates_hash_g,\%h04_conf_zone_forward_ports_sets_hash_g,\%h05_conf_zone_rich_rules_sets_hash_g,\%h88_conf_policies_FIN_hash_g);
+    #$file_l,$inv_hosts_href_l,$policy_templates_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h88_conf_policies_FIN_hash_g);
+
     last;
 } # ONE RUN CYCLE end
 
@@ -1440,7 +1462,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# INTERFACE_LIST ops [1] (begin)
-	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'interface_list'}{'empty'}=1; }
+	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[1]);
 	    foreach $arr_el0_l ( @arr0_l ) {
@@ -1450,9 +1472,9 @@ sub read_77_conf_zones_FIN {
 		    last;
 		}
 		
-		if ( !exists($res_tmp_lv1_l{$inv_host_l}{'interface_list'}{'list'}{$arr_el0_l}) ) {
-		    $res_tmp_lv1_l{$inv_host_l}{'interface_list'}{'list'}{$arr_el0_l}=1;
-		    push(@{$res_tmp_lv1_l{$inv_host_l}{'interface_list'}{'seq'}},$arr_el0_l);
+		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate interface name
 		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
@@ -1468,7 +1490,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# SOURCE_LIST ops [2] (begin)
-	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'source_list'}{'empty'}=1; }
+	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[2]);
 	    foreach $arr_el0_l ( @arr0_l ) {
@@ -1477,9 +1499,9 @@ sub read_77_conf_zones_FIN {
 		    #maybe need to add regex for check sources
 		#}
 		
-		if ( !exists($res_tmp_lv1_l{$inv_host_l}{'source_list'}{'list'}{$arr_el0_l}) ) {
-		    $res_tmp_lv1_l{$inv_host_l}{'source_list'}{'list'}{$arr_el0_l}=1;
-		    push(@{$res_tmp_lv1_l{$inv_host_l}{'source_list'}{'seq'}},$arr_el0_l);
+		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate source
 		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
@@ -1495,7 +1517,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# IPSET_TMPLT_LIST ops [3] (begin)
-	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'ipset_tmplt_list'}{'empty'}=1; }
+	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[3]);
 	    foreach $arr_el0_l ( @arr0_l ) {
@@ -1507,9 +1529,9 @@ sub read_77_conf_zones_FIN {
 		    last;
 		}
 		
-		if ( !exists($res_tmp_lv1_l{$inv_host_l}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
-		    $res_tmp_lv1_l{$inv_host_l}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
-		    push(@{$res_tmp_lv1_l{$inv_host_l}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
+		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate ipset_template_name
 		    $return_str_l="fail [$proc_name_l]. Duplicated ipset_tmplt_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
@@ -1525,7 +1547,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# FORWARD_PORTS_SET ops [4] (begin)
-	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'forward_ports_set'}='empty'; }
+	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
 	else {
 	    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
     		#$h04_conf_zone_forward_ports_sets_hash_g{set_name}-> ...
@@ -1533,12 +1555,12 @@ sub read_77_conf_zones_FIN {
 		$return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets'";
 		last;
 	    }
-	    else { $res_tmp_lv1_l{$inv_host_l}{'forward_ports_set'}=${$hval0_l}[4]; }
+	    else { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
 	}
 	### (end)
 
 	# RICH_RULES_SET ops [5] (begin)
-	if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'rich_rules_set'}='empty'; }
+	if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
 	else {
 	    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
@@ -1546,7 +1568,7 @@ sub read_77_conf_zones_FIN {
 		$return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets'";
 		last;
 	    }
-	    else { $res_tmp_lv1_l{$inv_host_l}{'rich_rules_set'}=${$hval0_l}[5]; }
+	    else { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }
 	}
 	### (end)
     }
@@ -1613,7 +1635,7 @@ sub read_88_conf_policies_FIN {
 	    #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
     		#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
 	if ( !exists(${$policy_templates_href_l}{${$hval0_l}[0]}) ) {
-	    $return_str_l="fail [$proc_name_l]. POLICY_NAME_TMPLT='${$hval0_l}}[0]' (conf='$file_l') is not exists at '03_conf_policy_templates'";
+	    $return_str_l="fail [$proc_name_l]. POLICY_NAME_TMPLT='${$hval0_l}[0]' (conf='$file_l') is not exists at '03_conf_policy_templates'";
             last;
 	}
 	###
@@ -1645,7 +1667,7 @@ sub read_88_conf_policies_FIN {
                 $return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[3]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets'";
                 last;
             }
-            else { $res_tmp_lv1_l{$inv_host_l}{'forward_ports_set'}=${$hval0_l}[3]; }
+            else { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[3]; }
         }
 	###
 	
@@ -1658,7 +1680,7 @@ sub read_88_conf_policies_FIN {
 		$return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets'";
 		last;
 	    }
-	    else { $res_tmp_lv1_l{$inv_host_l}{'rich_rules_set'}=${$hval0_l}[4]; }
+	    else { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[4]; }
 	}
 	###
     }
