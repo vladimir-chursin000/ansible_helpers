@@ -1612,18 +1612,28 @@ sub read_88_conf_policies_FIN {
 	# POLICY_NAME_TMPLT ops [0]
 	    #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
     		#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
-	if ( !exists(${$policy_templates_href_l}{${$hval0_l}}[0]) ) {
+	if ( !exists(${$policy_templates_href_l}{${$hval0_l}[0]}) ) {
 	    $return_str_l="fail [$proc_name_l]. POLICY_NAME_TMPLT='${$hval0_l}}[0]' (conf='$file_l') is not exists at '03_conf_policy_templates'";
             last;
 	}
 	###
 	
 	# INGRESS-FIREWALL_ZONE_NAME_TMPLT ops [1]
+	if ( !exists(${$custom_zone_templates_href_l}{${$hval0_l}[1]}) && !exists(${$std_zone_templates_href_l}{${$hval0_l}[1]}) ) {
+	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
+	    last;
+	}
 	
+	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'ingress-firewall_zone_name_tmplt'}=${$hval0_l}[1];
 	###
 	
 	# EGRESS-FIREWALL_ZONE_NAME_TMPLT ops [2]
+	if ( !exists(${$custom_zone_templates_href_l}{${$hval0_l}[2]}) && !exists(${$std_zone_templates_href_l}{${$hval0_l}[2]}) ) {
+	    $return_str_l="fail [$proc_name_l]. Egress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
+	    last;
+	}
 	
+	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'egress-firewall_zone_name_tmplt'}=${$hval0_l}[2];
 	###
 	
 	# FORWARD_PORTS_SET ops [3]
