@@ -1404,10 +1404,9 @@ sub read_77_conf_zones_FIN {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ###
 
-    my $exec_res_l=undef;
+    my ($exec_res_l,$inv_host_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
-    my $inv_host_l=undef;
     my @arr0_l=();
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $return_str_l='OK';
@@ -1591,7 +1590,7 @@ sub read_88_conf_policies_FIN {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ###
 
-    my $exec_res_l=undef;
+    my ($exec_res_l,$inv_host_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
     
@@ -1606,8 +1605,9 @@ sub read_88_conf_policies_FIN {
     
     # fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#$hkey0_l=inv-host
 	#hval0_l=arr-ref for [#POLICY_NAME_TMPLT-0 #INGRESS-FIREWALL_ZONE_NAME_TMPLT-1 #EGRESS-FIREWALL_ZONE_NAME_TMPLT-2 #FORWARD_PORTS_SET-3 #RICH_RULES_SET-4]
+	$inv_host_l=$hkey0_l;
+        $inv_host_l=~s/\+\S+$//g;
 	
 	# POLICY_NAME_TMPLT [0] ops
 	    #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
@@ -1615,6 +1615,9 @@ sub read_88_conf_policies_FIN {
 	#if ( !exists(${$policy_templates_href_l}{$hkey0_l}{}) )
 	###
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    $inv_host_l=undef;
     ###
     
     # fill result hash
