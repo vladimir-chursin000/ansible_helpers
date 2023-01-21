@@ -543,14 +543,23 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&read_88_conf_policies_FIN($f88_conf_policies_FIN_path_g,\%inventory_hosts_g,\%h03_conf_policy_templates_hash_g,\%h02_conf_custom_firewall_zones_templates_hash_g,\%h02_conf_standard_firewall_zones_templates_hash_g,\%h04_conf_zone_forward_ports_sets_hash_g,\%h05_conf_zone_rich_rules_sets_hash_g,\%h88_conf_policies_FIN_hash_g);
-    #$file_l,$inv_hosts_href_l,$policy_templates_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l
+    %input_hash4proc_g=(
+	'inventory_hosts_href'=>\%inventory_hosts_g,
+	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
+	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
+	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,
+	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
+	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+    );
+    $exec_res_g=&read_88_conf_policies_FIN($f88_conf_policies_FIN_path_g,\%input_hash4proc_g,\%h88_conf_policies_FIN_hash_g);
+    #$file_l,$input_hash4proc_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
         last;
     }
     $exec_res_g=undef;
+    %input_hash4proc_g=();
     #print Dumper(\%h88_conf_policies_FIN_hash_g);
 
     last;
@@ -1618,16 +1627,30 @@ sub read_77_conf_zones_FIN {
 }
 
 sub read_88_conf_policies_FIN {
-    my ($file_l,$inv_hosts_href_l,$policy_templates_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l)=@_;
+    my ($file_l,$input_hash4proc_href_l,$res_href_l)=@_;
     #$file_l=$f88_conf_policies_FIN_path_g
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
+    #$res_href_l=hash ref for %h88_conf_policies_FIN_hash_g
+    
+    my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    
+    my $policy_templates_href_l=${$input_hash4proc_href_l}{'h03_conf_policy_templates_href'};
     #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
 	#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
+    
+    my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};    
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+
+    my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+    
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
     #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
-    #$res_href_l=hash ref for %h88_conf_policies_FIN_hash_g
+    
     my $proc_name_l=(caller(0))[3];
 
     #INVENTORY_HOST         #POLICY_NAME_TMPLT              #INGRESS-FIREWALL_ZONE_NAME_TMPLT       #EGRESS-FIREWALL_ZONE_NAME_TMPLT        #FORWARD_PORTS_SET      #RICH_RULES_SET
