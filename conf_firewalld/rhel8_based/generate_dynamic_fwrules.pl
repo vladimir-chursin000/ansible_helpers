@@ -394,6 +394,9 @@ our %h88_conf_policies_FIN_hash_g=();
 ######
 
 our ($exec_res_g,$exec_status_g)=(undef,'OK');
+
+our %input_hash4proc_g=();
+#hash with hash refs for input
 ############VARS
 
 ############MAIN SEQ
@@ -518,14 +521,24 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&read_77_conf_zones_FIN($f77_conf_zones_FIN_path_g,\%inventory_hosts_g,\%inv_hosts_network_data_g,\%h02_conf_custom_firewall_zones_templates_hash_g,\%h02_conf_standard_firewall_zones_templates_hash_g,\%h01_conf_ipset_templates_hash_g,\%h04_conf_zone_forward_ports_sets_hash_g,\%h05_conf_zone_rich_rules_sets_hash_g,\%h77_conf_zones_FIN_hash_g);
-    #$file_l,$inv_hosts_href_l,$inv_hosts_nd_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$ipset_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l
+    %input_hash4proc_g=(
+	'inventory_hosts_href'=>\%inventory_hosts_g,
+	'inv_hosts_network_data_href'=>\%inv_hosts_network_data_g,
+	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
+	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
+	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
+	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+    );
+    $exec_res_g=&read_77_conf_zones_FIN($f77_conf_zones_FIN_path_g,\%input_hash4proc_g,\%h77_conf_zones_FIN_hash_g);
+    #$file_l,$input_hash4proc_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
 	print "$exec_res_g\n";
 	last;
     }
     $exec_res_g=undef;
+    %input_hash4proc_g=();
     #print Dumper(\%h77_conf_zones_FIN_hash_g);
     
     ######
@@ -1378,21 +1391,37 @@ sub read_66_conf_ipsets_FIN {
 }
 
 sub read_77_conf_zones_FIN {
-    my ($file_l,$inv_hosts_href_l,$inv_hosts_nd_href_l,$custom_zone_templates_href_l,$std_zone_templates_href_l,$ipset_templates_href_l,$fw_ports_set_href_l,$rich_rules_set_href_l,$res_href_l)=@_;
+    my ($file_l,$input_hash4proc_href_l,$res_href_l)=@_;
     #$file_l=$f77_conf_zones_FIN_path_g
-    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
-    #$inv_hosts_nd_href_l=hash-ref for %inv_hosts_network_data_g
-	#INV_HOST-0       #INT_NAME-1       #IPADDR-2
-    	#$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
-    #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
-    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
-    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
-    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
-	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
-    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
-	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
+    
+    my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    
+    my $inv_hosts_nd_href_l=${$input_hash4proc_href_l}{'inv_hosts_network_data_href'};
+    #$inv_hosts_nd_href_l=hash-ref for %inv_hosts_network_data_g
+    	#INV_HOST-0       #INT_NAME-1       #IPADDR-2
+    	#$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
+    
+    my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+
+    my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
+    #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+    
+    my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
+    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+        
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+    	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    
     my $proc_name_l=(caller(0))[3];
 
     #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST                       #FORWARD_PORTS_SET      #RICH_RULES_SET
