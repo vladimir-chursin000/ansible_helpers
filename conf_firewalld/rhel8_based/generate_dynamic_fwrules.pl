@@ -1805,7 +1805,7 @@ sub read_88_conf_policies_FIN {
 	}
 	###
 	
-	# CHECK for uniq index 'inv-host + ingress + egress'
+	# CHECK for uniq 'inv-host + ingress + egress'
 	if ( !exists($ingress_egress_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}) ) {
 	    $ingress_egress_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}=${$hval0_l}[0];
 	}
