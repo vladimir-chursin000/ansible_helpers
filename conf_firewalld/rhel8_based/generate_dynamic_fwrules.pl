@@ -1903,6 +1903,18 @@ sub generate_zones_create_scripts {
         #{'seq'}=[val-0,val-1] (val=icmptype)
 
     ######
+    #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+        #{'rule-0'}=1
+        #{'rule-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=rule)
+    ######
+    #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+        #{'rule-0'}=1
+        #{'rule-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=rule)
+    ######
     #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
 	#{'empty'}=1
