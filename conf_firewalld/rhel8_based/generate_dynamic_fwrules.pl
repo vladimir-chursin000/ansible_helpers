@@ -551,6 +551,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,
 	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
 	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
     $exec_res_g=&read_88_conf_policies_FIN($f88_conf_policies_FIN_path_g,\%input_hash4proc_g,\%h88_conf_policies_FIN_hash_g);
     #$file_l,$input_hash4proc_href_l,$res_href_l
@@ -1667,6 +1668,10 @@ sub read_88_conf_policies_FIN {
     my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     
+    my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
+    #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    
     my $proc_name_l=(caller(0))[3];
 
     #INVENTORY_HOST         #POLICY_NAME_TMPLT              #INGRESS-FIREWALL_ZONE_NAME_TMPLT       #EGRESS-FIREWALL_ZONE_NAME_TMPLT        #FORWARD_PORTS_SET      #RICH_RULES_SET
@@ -1714,6 +1719,13 @@ sub read_88_conf_policies_FIN {
 	    last;
 	}
 	
+	#$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+	    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+	if ( !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'custom'}{${$hval0_l}[1]}) && !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'standard'}{${$hval0_l}[1]}) ) {
+	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
+	    last;
+	}
+	
 	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'ingress-firewall_zone_name_tmplt'}=${$hval0_l}[1];
 	###
 	
@@ -1723,6 +1735,13 @@ sub read_88_conf_policies_FIN {
 	    last;
 	}
 	
+	#$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+	    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+	if ( !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'custom'}{${$hval0_l}[2]}) && !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'standard'}{${$hval0_l}[2]}) ) {
+	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
+	    last;
+	}
+
 	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'egress-firewall_zone_name_tmplt'}=${$hval0_l}[2];
 	###
 	
