@@ -1781,7 +1781,60 @@ sub generate_ipsets_create_scripts {
 }
 
 sub generate_zones_create_scripts {
+    my ($input_hash4proc_href_l,$res_href_l)=@_;
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
+    #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
     
+    my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+
+    my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
+    #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+    
+    my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
+    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+        
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+    	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    
+    my $proc_name_l=(caller(0))[3];
+
+    ###
+    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    #{'interface_list'}->;
+	#{'empty'}=1
+	#{'list'}->
+    	    #{'interface-0'}=1
+    	    #{'interface-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=interface)
+    #{'source_list'}->
+	#{'empty'}=1
+	#{'list'}->
+    	    #{'source-0'}=1
+    	    #{'source-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=source)
+    #{'ipset_tmplt_list'}->
+	#{'epmty'}=1
+	#{'list'}->
+    	    #{'ipset_tmplt-0'}=1
+    	    #{'ipset_tmplt-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=ipset_tmplt)
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    ###
+
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
 }
 
 sub generate_policies_create_scripts {
