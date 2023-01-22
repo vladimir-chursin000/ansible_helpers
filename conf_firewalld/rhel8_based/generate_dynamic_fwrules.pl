@@ -1481,6 +1481,13 @@ sub read_77_conf_zones_FIN {
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $return_str_l='OK';
     
+    my %int_uniq_check_l=();
+	#key0=inv-host, key1=interface, value=firewall_zone_tmplt_name
+    my %src_uniq_check_l=();
+	#key0=inv-host, key1=source, value=firewall_zone_tmplt_name
+    my %ipset_uniq_check_l=();
+	#key0=inv-host, key1=ipset_tmplt_name, value=firewall_zone_tmplt_name
+    
     my %res_tmp_lv0_l=();
 	#key=inv-host, value=[array of values]. FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, etc
     my %res_tmp_lv1_l=();
