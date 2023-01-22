@@ -1805,6 +1805,62 @@ sub generate_zones_create_scripts {
     
     my $proc_name_l=(caller(0))[3];
 
+    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #{'ipset_name'}=value
+    #{'ipset_description'}=empty|value
+    #{'ipset_short_description'}=empty|value
+    #{'ipset_create_option_timeout'}=num
+    #{'ipset_create_option_hashsize'}=num
+    #{'ipset_create_option_maxelem'}=num
+    #{'ipset_create_option_family'}=inet|inet6
+    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+    ###
+    #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+    #{'zone_name'}=some_zone--custom
+    #{'zone_description'}=empty|value
+    #{'zone_short_description'}=empty|value
+    #{'zone_target'}=ACCEPT|REJECT|DROP|default
+    #{'zone_allowed_services'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'service-0'}=1
+    	    #{'service-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=service)
+    #{'zone_allowed_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'port-0'}=1
+    	    #{'port-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=port)
+    #{'zone_allowed_protocols'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'proto-0'}=1
+    	    #{'proto-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=proto)
+    #{'zone_forward'}=yes|no
+    #{'zone_masquerade_general'}=yes|no
+    #{'zone_allowed_source_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'port-0'}=1
+    	    #{'port-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=port)
+    #{'zone_icmp_block_inversion'}=yes|no
+    #{'zone_icmp_block'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'icmptype-0'}=1
+    	    #{'icmptype-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=icmptype)
+
+    ###
+    
     ###
     #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
