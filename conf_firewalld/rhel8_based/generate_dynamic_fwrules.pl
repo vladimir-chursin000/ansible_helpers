@@ -2337,6 +2337,8 @@ sub read_config_FIN_level0 {
     my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($arr_cnt_l,$key_ind_l)=(undef,undef);
+    my %key_ind_cnt_l=();
+	#key=$key_ind_l, value=1
     my @arr0_l=();
     my @arr1_l=();
     my %res_tmp_lv0_l=();
@@ -2367,6 +2369,17 @@ sub read_config_FIN_level0 {
 		last;
 	    }
 	    
+	    # Fist time check uniq with key_ind
+	    $key_ind_l=$arr0_l[0];
+	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
+	    if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
+	    else {
+		$return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
+		last;
+	    }
+	    $key_ind_l=undef;
+	    ###
+
 	    #$arr0_l[0]=inv-host
 	    if ( $arr0_l[0]=~/^all$/ ) {
 		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
@@ -2387,6 +2400,14 @@ sub read_config_FIN_level0 {
 		    if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
 			$key_ind_l=$arr_el0_l;
                 	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
+			
+			# Second time check uniq with key_ind (for target inv-host)
+			if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
+			else {
+			    $return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
+			    last;
+			}
+			###
 
 			$res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]];
 		    }
