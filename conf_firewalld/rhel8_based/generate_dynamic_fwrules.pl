@@ -1527,6 +1527,14 @@ sub read_77_conf_zones_FIN {
 		    last;
 		}
 		
+		# check for 'interface is already belongs to fw-zone-tmplt'
+		if ( !exists($int_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) { $int_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0]; }
+		else {
+		    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is already used for fw-zone-tmplt='$int_uniq_check_l{$inv_host_l}{$arr_el0_l}' at inv-host='$inv_host_l'";
+		    last;
+		}
+		###
+		
 		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}) ) {
 		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}=1;
 		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'seq'}},$arr_el0_l);
