@@ -1725,6 +1725,9 @@ sub read_88_conf_policies_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
+    my %ingress_egress_uniq_check_l=();
+	#key=inv_host+ingress_zone_tmplt+egress_zone_tmplt, value=policy_tmplt
+    
     $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,6,1,\%res_tmp_lv0_l);
     #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
@@ -1799,6 +1802,16 @@ sub read_88_conf_policies_FIN {
 		last;
 	    }
 	    else { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[4]; }
+	}
+	###
+	
+	# CHECK for uniq index 'inv-host + ingress + egress'
+	if ( !exists($ingress_egress_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}) ) {
+	    $ingress_egress_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}=${$hval0_l}[0];
+	}
+	else {
+	    $return_str_l="fail [$proc_name_l]. Incorrect policy='${$hval0_l}[0]' for inv-host='$inv_host_l'. Pair = '${$hval0_l}[1]' (ingress) + '${$hval0_l}[2]' (egress) is already used for policy-tmplt='$ingress_egress_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}'";
+	    last;
 	}
 	###
     }
