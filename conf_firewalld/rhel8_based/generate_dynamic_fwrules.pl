@@ -1753,7 +1753,31 @@ sub read_88_conf_policies_FIN {
 }
 
 sub generate_ipsets_create_scripts {
-    
+    my ($ipset_templates_href_l,$conf_ipsets_href_l)=@_;
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
+    my $proc_name_l=(caller(0))[3];
+
+    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #{'ipset_name'}=value
+    #{'ipset_description'}=empty|value
+    #{'ipset_short_description'}=empty|value
+    #{'ipset_create_option_timeout'}=num
+    #{'ipset_create_option_hashsize'}=num
+    #{'ipset_create_option_maxelem'}=num
+    #{'ipset_create_option_family'}=inet|inet6
+    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+    ###
+    #$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+    	#{ipset_name_tmplt-0}=1;
+    	#{ipset_name_tmplt-1}=1;
+    	#etc
+        #{'seq'}=[val-0,val-1] (val=tmplt)
+    ###
+
+    my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
 }
 
 sub generate_zones_create_scripts {
