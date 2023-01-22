@@ -2369,26 +2369,27 @@ sub read_config_FIN_level0 {
 		last;
 	    }
 	    
-	    # Fist time check uniq with key_ind
-	    $key_ind_l=$arr0_l[0];
-	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
-	    if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
-	    else {
-		$return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
-		last;
-	    }
-	    $key_ind_l=undef;
-	    ###
-
 	    #$arr0_l[0]=inv-host
 	    if ( $arr0_l[0]=~/^all$/ ) {
+		# Fist time check uniq with key_ind
+		$key_ind_l=$arr0_l[0];
+		if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
+		if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
+		else {
+		    $return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l' (0). Check config and run again";
+		    last;
+		}
+		$key_ind_l=undef;
+		###
+
 		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
             	    #$hkey0_l=inv-host from inv-host-hash
             	    #push(@inv_hosts_arr_l,$hkey0_l);
 		    $key_ind_l=$hkey0_l;
 		    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
 		    
-		    $res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]];
+		    #if exists -> not replace $key_ind_l (inv-host+add_ind)
+		    if ( !exists($res_tmp_lv0_l{$key_ind_l}) ) { $res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]]; }
         	}
 		
         	($hkey0_l,$hval0_l)=(undef,undef);
@@ -2404,7 +2405,7 @@ sub read_config_FIN_level0 {
 			# Second time check uniq with key_ind (for target inv-host)
 			if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
 			else {
-			    $return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
+			    $return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l' (1). Check config and run again";
 			    last;
 			}
 			###
