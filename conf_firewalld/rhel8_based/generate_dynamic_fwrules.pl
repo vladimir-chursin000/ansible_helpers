@@ -1751,6 +1751,18 @@ sub read_88_conf_policies_FIN {
 
     return $return_str_l;
 }
+
+sub generate_ipsets_create_scripts {
+    
+}
+
+sub generate_zones_create_scripts {
+    
+}
+
+sub generate_policies_create_scripts {
+    
+}
 ######general subs
 
 ######other subs
