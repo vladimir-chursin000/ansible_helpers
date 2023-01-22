@@ -529,6 +529,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
 	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
 	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+	'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
     );
     $exec_res_g=&read_77_conf_zones_FIN($f77_conf_zones_FIN_path_g,\%input_hash4proc_g,\%h77_conf_zones_FIN_hash_g);
     #$file_l,$input_hash4proc_href_l,$res_href_l
@@ -1431,6 +1432,14 @@ sub read_77_conf_zones_FIN {
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
     
+    my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+	#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+    	    #{ipset_name_tmplt-0}=1;
+    	    #{ipset_name_tmplt-1}=1;
+    	    #etc
+    	    #{'seq'}=[val-0,val-1] (val=tmplt)
+    
     my $proc_name_l=(caller(0))[3];
 
     #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST                       #FORWARD_PORTS_SET      #RICH_RULES_SET
@@ -1564,6 +1573,13 @@ sub read_77_conf_zones_FIN {
 		    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
 		if ( !exists(${$ipset_templates_href_l}{$arr_el0_l}) ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
+		    last;
+		}
+		
+		#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+        	    #{ipset_name_tmplt-0}=1;
+		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{$inv_host_l}{$arr_el0_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '66_conf_ipsets_FIN' for inv-host='$inv_host_l'";
 		    last;
 		}
 		
