@@ -1832,7 +1832,7 @@ sub read_88_conf_policies_FIN {
 }
 
 sub generate_ipsets_create_scripts {
-    my ($ipset_templates_href_l,$conf_ipsets_href_l)=@_;
+    my ($ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
@@ -1940,7 +1940,6 @@ sub generate_zones_create_scripts {
     	    #{'icmptype-1'}=1
     	    #etc
 	#{'seq'}=[val-0,val-1] (val=icmptype)
-
     ######
     #$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
     #{'zone_name'}=std_zone_name
@@ -2029,7 +2028,152 @@ sub generate_zones_create_scripts {
 }
 
 sub generate_policies_create_scripts {
+    my ($input_hash4proc_href_l)=@_;
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
+    my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+
+    my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
+    #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
+    
+    my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
+    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+        
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+    	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    
+    my $h88_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h88_conf_policies_FIN_href'};
+    #$h88_conf_policies_FIN_href_l=hash-ref for %h88_conf_policies_FIN_hash_g
+	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    
+    my $proc_name_l=(caller(0))[3];
+
+    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #{'ipset_name'}=value
+    #{'ipset_description'}=empty|value
+    #{'ipset_short_description'}=empty|value
+    #{'ipset_create_option_timeout'}=num
+    #{'ipset_create_option_hashsize'}=num
+    #{'ipset_create_option_maxelem'}=num
+    #{'ipset_create_option_family'}=inet|inet6
+    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+    ######
+    #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+    #{'zone_name'}=some_zone--custom
+    #{'zone_description'}=empty|value
+    #{'zone_short_description'}=empty|value
+    #{'zone_target'}=ACCEPT|REJECT|DROP|default
+    #{'zone_allowed_services'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'service-0'}=1
+    	    #{'service-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=service)
+    #{'zone_allowed_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'port-0'}=1
+    	    #{'port-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=port)
+    #{'zone_allowed_protocols'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'proto-0'}=1
+    	    #{'proto-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=proto)
+    #{'zone_forward'}=yes|no
+    #{'zone_masquerade_general'}=yes|no
+    #{'zone_allowed_source_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'port-0'}=1
+    	    #{'port-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=port)
+    #{'zone_icmp_block_inversion'}=yes|no
+    #{'zone_icmp_block'}->
+	#{'empty'}=1 or
+	#{'list'}->
+    	    #{'icmptype-0'}=1
+    	    #{'icmptype-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=icmptype)
+    ######
+    #$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
+    #{'zone_name'}=std_zone_name
+    #{'zone_target'}=ACCEPT|REJECT|DROP|default
+    #{'zone_allowed_services'}->
+        #{'empty'}=1 or
+        #{'list'}->
+            #{'service-0'}=1
+            #{'service-1'}=1
+            #etc
+        #{'seq'}=[val-0,val-1] (val=service)
+    #{'zone_allowed_ports'}->
+        #{'empty'}=1 or
+        #{'list'}->
+            #{'port-0'}=1
+            #{'port-1'}=1
+            #etc
+        #{'seq'}=[val-0,val-1] (val=port)
+    #{'zone_allowed_protocols'}->
+        #{'empty'}=1 or
+        #{'list'}->
+            #{'proto-0'}=1
+            #{'proto-1'}=1
+            #etc
+        #{'seq'}=[val-0,val-1] (val=proto)
+    #{'zone_forward'}=yes|no
+    #{'zone_masquerade_general'}=yes|no
+    #{'zone_allowed_source_ports'}->
+        #{'empty'}=1 or
+        #{'list'}->
+            #{'port-0'}=1
+            #{'port-1'}=1
+            #etc
+        #{'seq'}=[val-0,val-1] (val=port)
+    #{'zone_icmp_block_inversion'}=yes|no
+    #{'zone_icmp_block'}->
+        #{'empty'}=1 or
+        #{'list'}->
+            #{'icmptype-0'}=1
+            #{'icmptype-1'}=1
+            #etc
+        #{'seq'}=[val-0,val-1] (val=icmptype)
+
+    ######
+    #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+        #{'rule-0'}=1
+        #{'rule-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=rule)
+    ######
+    #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+        #{'rule-0'}=1
+        #{'rule-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=rule)
+    ######
+    #$h88_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
+    #{'ingress-firewall_zone_name_tmplt'}=value
+    #{'egress-firewall_zone_name_tmplt'}=value
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    ######
+
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
 }
 ######general subs
 
