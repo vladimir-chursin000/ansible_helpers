@@ -1831,7 +1831,7 @@ sub read_88_conf_policies_FIN {
     return $return_str_l;
 }
 
-sub generate_ipsets_create_scripts {
+sub generate_shell_script_for_recreate_ipsets {
     my ($ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
@@ -1859,7 +1859,7 @@ sub generate_ipsets_create_scripts {
     my $return_str_l='OK';
 }
 
-sub generate_zones_create_scripts {
+sub generate_shell_script_for_recreate_custom_zones {
     my ($input_hash4proc_href_l)=@_;
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
@@ -1870,9 +1870,6 @@ sub generate_zones_create_scripts {
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
     
-    my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
-    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
-        
     my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
     #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
     	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
@@ -1940,6 +1937,84 @@ sub generate_zones_create_scripts {
     	    #{'icmptype-1'}=1
     	    #etc
 	#{'seq'}=[val-0,val-1] (val=icmptype)
+    ######
+    #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+        #{'rule-0'}=1
+        #{'rule-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=rule)
+    ######
+    #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+        #{'rule-0'}=1
+        #{'rule-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=rule)
+    ######
+    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    #{'interface_list'}->;
+	#{'empty'}=1
+	#{'list'}->
+    	    #{'interface-0'}=1
+    	    #{'interface-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=interface)
+    #{'source_list'}->
+	#{'empty'}=1
+	#{'list'}->
+    	    #{'source-0'}=1
+    	    #{'source-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=source)
+    #{'ipset_tmplt_list'}->
+	#{'epmty'}=1
+	#{'list'}->
+    	    #{'ipset_tmplt-0'}=1
+    	    #{'ipset_tmplt-1'}=1
+    	    #etc
+	#{'seq'}=[val-0,val-1] (val=ipset_tmplt)
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    ######
+
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
+}
+
+sub generate_shell_script_for_modify_standard_zones {
+    my ($input_hash4proc_href_l)=@_;
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
+    
+    my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+
+    my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
+    #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+        
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+    	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    
+    my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
+    #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    
+    my $proc_name_l=(caller(0))[3];
+
+    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #{'ipset_name'}=value
+    #{'ipset_description'}=empty|value
+    #{'ipset_short_description'}=empty|value
+    #{'ipset_create_option_timeout'}=num
+    #{'ipset_create_option_hashsize'}=num
+    #{'ipset_create_option_maxelem'}=num
+    #{'ipset_create_option_family'}=inet|inet6
+    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     ######
     #$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}->
     #{'zone_name'}=std_zone_name
@@ -2027,7 +2102,7 @@ sub generate_zones_create_scripts {
     my $return_str_l='OK';
 }
 
-sub generate_policies_create_scripts {
+sub generate_shell_script_for_recreate_policies {
     my ($input_hash4proc_href_l)=@_;
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
