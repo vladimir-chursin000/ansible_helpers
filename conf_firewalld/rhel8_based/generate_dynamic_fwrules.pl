@@ -1860,9 +1860,8 @@ sub generate_ipsets_create_scripts {
 }
 
 sub generate_zones_create_scripts {
-    my ($input_hash4proc_href_l,$res_href_l)=@_;
+    my ($input_hash4proc_href_l)=@_;
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
-    #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
@@ -1881,6 +1880,10 @@ sub generate_zones_create_scripts {
     my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    
+    my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
+    #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
 
