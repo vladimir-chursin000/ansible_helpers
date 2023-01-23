@@ -10,16 +10,16 @@
 ###
 # FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "02_conf_custom_firewall_zones_templates" and "02_conf_standard_firewall_zones_templates".
 ###
-# INTERFACE_LIST = list of interfaces, separated by ",".
+# INTERFACE_LIST = list of interfaces, separated by "," (for add/change zone source).
     # If interface names are not used, then set "empty".
     # Change interface affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-interface=some_interface_name" (for information only).
 ###
-# SOURCE_LIST = list of sources, separated by ",".
+# SOURCE_LIST = list of sources, separated by "," (for add/change zone source).
     # Higher priority than setting "INTERFACE_LIST".
     # If sources are not used, then set "empty".
     # Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=some_source" (for information only).
 ###
-# IPSET_TMPLT_LIST = list of ipsets templates, separated by ",".
+# IPSET_TMPLT_LIST = list of ipsets templates, separated by "," (for add/change zone source).
     # Possible ipset templates names must be specified in the "01_conf ipset templates" file.
     # Ipset templates must be assign for each inventory host at "66_conf_ipsets_FIN" file.
     # Higher priority than setting "INTERFACE_LIST".
