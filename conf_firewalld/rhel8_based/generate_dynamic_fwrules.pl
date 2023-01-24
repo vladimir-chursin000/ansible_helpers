@@ -563,7 +563,20 @@ while ( 1 ) { # ONE RUN CYCLE begin
     $exec_res_g=undef;
     %input_hash4proc_g=();
     #print Dumper(\%h88_conf_policies_FIN_hash_g);
+    
+    ######
+    
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets(\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    #$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
 
+    ######
+    
     last;
 } # ONE RUN CYCLE end
 
@@ -1856,7 +1869,17 @@ sub generate_shell_script_for_recreate_ipsets {
 
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
     my $return_str_l='OK';
+    
+    while ( ($hkey0_l,$hval0_l)=each %{$h66_conf_ipsets_FIN_href_l} ) {
+	#$hkey0_l=inv-host
+	
+	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
+	    #$arr_el0_l=ipset_tmplt_name
+	    
+	}
+    }
 }
 
 sub generate_shell_script_for_recreate_custom_zones {
