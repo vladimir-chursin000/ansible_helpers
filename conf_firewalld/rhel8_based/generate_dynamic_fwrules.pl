@@ -1880,6 +1880,8 @@ sub generate_shell_script_for_recreate_ipsets {
 	    
 	}
     }
+    
+    return $return_str_l;
 }
 
 sub generate_shell_script_for_recreate_custom_zones {
