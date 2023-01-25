@@ -115,7 +115,7 @@ our %h01_conf_ipset_templates_hash_g=();
 #ipset_type=some_ipset_type
 #[some_ipset_template_name--TMPLT:END]
 ###
-#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 #{'ipset_name'}=value
 #{'ipset_description'}=empty|value
 #{'ipset_short_description'}=empty|value
@@ -340,7 +340,7 @@ our %h66_conf_ipsets_FIN_hash_g=();
 #all                    ipset1--TMPLT,ipset4all_public--TMPLT (example)
 #10.3.2.2               ipset4public--TMPLT (example)
 ###
-#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
     #{ipset_name_tmplt-0}=1;
     #{ipset_name_tmplt-1}=1;
     #etc
@@ -807,7 +807,7 @@ sub read_01_conf_ipset_templates {
     #ipset_type=some_ipset_type
     #[some_ipset_template_name--TMPLT:END]
     ###
-    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
     #{'ipset_short_description'}=empty|value
@@ -818,10 +818,12 @@ sub read_01_conf_ipset_templates {
     #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     
     my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-	#key=param, value=value filtered by regex
+	#key0=ipset_tmplt_name, key1=param, value=value filtered by regex
+    my %res_tmp_lv1_l=();
 
     my %cfg_params_and_regex_l=(
 	'ipset_name'=>'^\S+$',
@@ -838,11 +840,22 @@ sub read_01_conf_ipset_templates {
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
+    # fill %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=tmplt_name, $hval0_l=href for hash slice with params and values
+	if ( ${$hval0_l}{'ipset_create_option_timeout'}>0 ) { %{$res_tmp_lv1_l{'temporary'}{$hkey0_l}}=%{$hval0_l}; }
+	else { %{$res_tmp_lv1_l{'permanent'}{$hkey0_l}}=%{$hval0_l}; }
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    %res_tmp_lv0_l=();
+    ###
+    
     # fill result hash
-    %{$res_href_l}=%res_tmp_lv0_l;
+    %{$res_href_l}=%res_tmp_lv1_l;
     ###
 
-    %res_tmp_lv0_l=();
+    %res_tmp_lv1_l=();
     
     return $return_str_l;    
 }
@@ -1348,7 +1361,7 @@ sub read_66_conf_ipsets_FIN {
     #all                    ipset1--TMPLT,ipset4all_public--TMPLT (example)
     #10.3.2.2               ipset4public--TMPLT (example)
     ###
-    #$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+    #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
     	#{ipset_name_tmplt-0}=1;
     	#{ipset_name_tmplt-1}=1;
     	#etc
@@ -1357,6 +1370,7 @@ sub read_66_conf_ipsets_FIN {
 
     my $exec_res_l=undef;
     my $arr_el0_l=undef;
+    my $ipset_type_l=undef; # temporary / permanent
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my @arr0_l=();
     my $return_str_l='OK';
@@ -1377,14 +1391,16 @@ sub read_66_conf_ipsets_FIN {
 	foreach $arr_el0_l ( @arr0_l ) {
 	    #$arr_el0_l=ipset_template_name
 	    ##$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
-	    if ( !exists(${$ipset_templates_href_l}{$arr_el0_l}) ) {
+	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) { $ipset_type_l='temporary'; }
+	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) { $ipset_type_l='permanent'; }
+	    else {
 		$return_str_l="fail [$proc_name_l]. Template '$arr_el0_l' (used at '$file_l') is not exists at '01_conf_ipset_templates'";
 		last;
 	    }
 	    
-	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}) ) {
-		$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}=1;
-		push(@{$res_tmp_lv1_l{$hkey0_l}{'seq'}},$arr_el0_l);
+	    if ( !exists($res_tmp_lv1_l{$ipset_type_l}{$hkey0_l}{$arr_el0_l}) ) {
+		$res_tmp_lv1_l{$ipset_type_l}{$hkey0_l}{$arr_el0_l}=1;
+		push(@{$res_tmp_lv1_l{$ipset_type_l}{$hkey0_l}{'seq'}},$arr_el0_l);
 	    }
 	    else { # duplicated value
 		$return_str_l="fail [$proc_name_l]. Duplicated template name value ('$arr_el0_l') at file='$file_l' at substring='${$hval0_l}[0]'. Fix it!";
@@ -1393,6 +1409,7 @@ sub read_66_conf_ipsets_FIN {
 	}
 	
 	$arr_el0_l=undef;
+	$ipset_type_l=undef;
 	@arr0_l=();
 
 	if ( $return_str_l!~/^OK$/ ) { last; }
@@ -1430,7 +1447,7 @@ sub read_77_conf_zones_FIN {
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
@@ -1448,7 +1465,7 @@ sub read_77_conf_zones_FIN {
     
     my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
-	#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+	#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
     	    #{ipset_name_tmplt-0}=1;
     	    #{ipset_name_tmplt-1}=1;
     	    #etc
@@ -1608,14 +1625,14 @@ sub read_77_conf_zones_FIN {
 		#$arr_el0_l=ipset_tmplt_name
 		#$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
 		    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
-		if ( !exists(${$ipset_templates_href_l}{$arr_el0_l}) ) {
+		if ( !exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) && !exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
 		    last;
 		}
 		
 		#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
         	    #{ipset_name_tmplt-0}=1;
-		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{$inv_host_l}{$arr_el0_l}) ) {
+		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_l}{$arr_el0_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_l}{$arr_el0_l}) ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '66_conf_ipsets_FIN' for inv-host='$inv_host_l'";
 		    last;
 		}
@@ -1850,7 +1867,7 @@ sub generate_shell_script_for_recreate_ipsets {
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
-    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
     #{'ipset_short_description'}=empty|value
@@ -1860,7 +1877,7 @@ sub generate_shell_script_for_recreate_ipsets {
     #{'ipset_create_option_family'}=inet|inet6
     #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     ###
-    #$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+    #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
     	#{ipset_name_tmplt-0}=1;
     	#{ipset_name_tmplt-1}=1;
     	#etc
@@ -1890,7 +1907,7 @@ sub generate_shell_script_for_recreate_custom_zones {
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
@@ -1909,7 +1926,7 @@ sub generate_shell_script_for_recreate_custom_zones {
     
     my $proc_name_l=(caller(0))[3];
 
-    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
     #{'ipset_short_description'}=empty|value
@@ -2012,7 +2029,7 @@ sub generate_shell_script_for_modify_standard_zones {
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 
     my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
@@ -2031,7 +2048,7 @@ sub generate_shell_script_for_modify_standard_zones {
     
     my $proc_name_l=(caller(0))[3];
 
-    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
     #{'ipset_short_description'}=empty|value
@@ -2133,7 +2150,7 @@ sub generate_shell_script_for_recreate_policies {
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    	#$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
@@ -2155,7 +2172,7 @@ sub generate_shell_script_for_recreate_policies {
     
     my $proc_name_l=(caller(0))[3];
 
-    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}->
+    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
     #{'ipset_short_description'}=empty|value
@@ -2295,7 +2312,7 @@ sub read_param_value_templates_from_config {
     my @split_arr0_l=();
 
     my %res_tmp_lv0_l=();
-	#key=param, value=value filtered by regex
+	#key0=tmplt_name, key1=param, value=value filtered by regex
     my %uniq_tmplt_name_check_l=();
 	#key=tmplt_name, value=1
     
