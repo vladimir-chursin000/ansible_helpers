@@ -566,7 +566,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&generate_shell_script_for_recreate_permanent_ipsets(\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets(\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
     #$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
@@ -577,17 +577,6 @@ while ( 1 ) { # ONE RUN CYCLE begin
 
     ######
 
-    $exec_res_g=&generate_shell_script_for_recreate_temporary_ipsets(\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
-    #$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
-        last;
-    }
-    $exec_res_g=undef;
-
-    ######
-    
     last;
 } # ONE RUN CYCLE end
 
@@ -1872,47 +1861,7 @@ sub read_88_conf_policies_FIN {
     return $return_str_l;
 }
 
-sub generate_shell_script_for_recreate_permanent_ipsets {
-    my ($ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
-    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
-    my $proc_name_l=(caller(0))[3];
-
-    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
-    #{'ipset_name'}=value
-    #{'ipset_description'}=empty|value
-    #{'ipset_short_description'}=empty|value
-    #{'ipset_create_option_timeout'}=num
-    #{'ipset_create_option_hashsize'}=num
-    #{'ipset_create_option_maxelem'}=num
-    #{'ipset_create_option_family'}=inet|inet6
-    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
-    ###
-    #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
-    	#{ipset_name_tmplt-0}=1;
-    	#{ipset_name_tmplt-1}=1;
-    	#etc
-        #{'seq'}=[val-0,val-1] (val=tmplt)
-    ###
-
-    my $exec_res_l=undef;
-    my ($hkey0_l,$hval0_l)=(undef,undef);
-    my $arr_el0_l=undef;
-    my $return_str_l='OK';
-    
-    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
-	#$hkey0_l=inv-host
-
-	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
-	    #$arr_el0_l=ipset_tmplt_name
-	    
-	}
-    }
-    
-    return $return_str_l;
-}
-
-sub generate_shell_script_for_recreate_temporary_ipsets {
+sub generate_shell_script_for_recreate_ipsets {
     my ($ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
@@ -1941,6 +1890,15 @@ sub generate_shell_script_for_recreate_temporary_ipsets {
     my $return_str_l='OK';
     
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
+	#$hkey0_l=inv-host
+
+	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
+	    #$arr_el0_l=ipset_tmplt_name
+	    
+	}
+    }
+
+    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
 	#$hkey0_l=inv-host
 
 	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
