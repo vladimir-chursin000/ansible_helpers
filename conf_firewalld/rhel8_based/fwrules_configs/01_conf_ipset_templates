@@ -39,6 +39,7 @@
     # Original name of paramameter = timeout.
     # If equal to "0" then ipset elements are used without time limits.
     # If the value is greater than 0 (for example, 50) then any added element will be removed from the set after the specified time (in seconds), for example, after 50 seconds.
+    # If timeout = 0 --> ipset is permanent. If timeout > 0 --> ipset is temporary. 
 
 #ipset_create_option_hashsize=1024
     # Default = 1024.
@@ -63,6 +64,7 @@
 ###ipset create options
 
 #ipset_type=some_ipset_type
+    # Original name of paramameter = type.
     # Possible values:
 	# Therefore only a limited list of ipset types can be used as sources in zones: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac.
 	###
@@ -168,6 +170,12 @@
     # Add ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
     # Remove ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
     # Add entry to ipset (using for add entry to ipset with timeout) = "firewall-cmd --ipset=some_ipset_name --add-entry="some_entry"" (for information only).
+
+######
+# Conditions for changing the parameters of an already created ipset:
+# 1) For an already existing ipset, you cannot change the parameters ipset_create_option_timeout (orig. name = timeout) and ipset_type (orig. name = type).
+# 2) If you change any parameters (except those mentioned above), the ipset will be recreated. If the ipset is temporary, then its contents will be cleared. 
+#    If ipset is constant, then its contents will be preserved.
 #[some_ipset_template_name--TMPLT:END]
 
 ###CUSTOM IPSET CFG EXAMPLE. Use this template to create custom ipset. Don't forget to remove the comment characters (#).
