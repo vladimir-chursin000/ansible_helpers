@@ -174,8 +174,8 @@
 ######
 # Conditions for changing the parameters of an already created ipset:
 # 1) For an already existing ipset, you cannot change the parameters ipset_create_option_timeout (orig. name = timeout) and ipset_type (orig. name = type).
-# 2) If you change any parameters (except those mentioned above), the ipset will be recreated. If the ipset is temporary, then its contents will be cleared. 
-#    If ipset is constant, then its contents will be preserved.
+# 2) If you change any parameters (except those mentioned above), the ipset will be recreated. If the ipset is temporary (ipset_create_option_timeout > 0), then its contents will be cleared. 
+#    If ipset is permanent (ipset_create_option_timeout = 0), then its contents will be preserved.
 #[some_ipset_template_name--TMPLT:END]
 
 ###CUSTOM IPSET CFG EXAMPLE. Use this template to create custom ipset. Don't forget to remove the comment characters (#).
