@@ -1896,7 +1896,9 @@ sub generate_shell_script_for_recreate_ipsets {
 
 	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
 	    #$arr_el0_l=ipset_tmplt_name
-	    
+	    if ( !exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) {
+		
+	    }
 	}
     }
 
@@ -1905,7 +1907,9 @@ sub generate_shell_script_for_recreate_ipsets {
 
 	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
 	    #$arr_el0_l=ipset_tmplt_name
-	    
+	    if ( !exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
+		
+	    }
 	}
     }
     
