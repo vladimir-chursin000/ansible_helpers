@@ -1889,6 +1889,8 @@ sub generate_shell_script_for_recreate_ipsets {
     my $arr_el0_l=undef;
     my $return_str_l='OK';
     
+    #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
+	# --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
 	#$hkey0_l=inv-host
 
