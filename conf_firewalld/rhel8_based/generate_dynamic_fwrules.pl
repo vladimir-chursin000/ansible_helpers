@@ -1887,8 +1887,12 @@ sub generate_shell_script_for_recreate_ipsets {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
+    my $wr_str_l=undef;
+    my $wr_file_l=undef;
+    my @wr_arr_l=();
     my $return_str_l='OK';
     
+    # fill scripts (for each host) with command for create temporary ipsets
     #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
 	# --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
@@ -1897,21 +1901,42 @@ sub generate_shell_script_for_recreate_ipsets {
 	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
 	    #$arr_el0_l=ipset_tmplt_name
 	    if ( !exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) {
-		
+		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
+		last;
 	    }
 	}
+	
+	$arr_el0_l=undef;
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
     }
-
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
+    
+    # fill scripts (for each host) with command for create permanent ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
-	#$hkey0_l=inv-host
-
-	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
-	    #$arr_el0_l=ipset_tmplt_name
-	    if ( !exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
-		
-	    }
-	}
+    	#$hkey0_l=inv-host
+    
+    	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
+    	    #$arr_el0_l=ipset_tmplt_name
+    	    if ( !exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
+    		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
+    		last;
+    	    }
+    	}
+    	
+    	$arr_el0_l=undef;
+    	
+    	if ( $return_str_l!~/^OK$/ ) { last; }
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
     
     return $return_str_l;
 }
