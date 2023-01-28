@@ -2156,6 +2156,8 @@ sub generate_shell_script_for_recreate_custom_zones {
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
+    
+    return $return_str_l;
 }
 
 sub generate_shell_script_for_modify_standard_zones {
@@ -2274,9 +2276,26 @@ sub generate_shell_script_for_modify_standard_zones {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ######
 
-    my ($exec_res_l)=(undef);
+    my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
+    my $wr_str_l=undef;
+    my $wr_file_l=undef;
+    my @wr_arr_l=();
     my $return_str_l='OK';
+    
+    # fill scripts (for each host) with command for recreate standard fw-zones
+    while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'standard'}} ) {
+    	#$hkey0_l=inv-host
+	
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
+    
+    return $return_str_l;
 }
 
 sub generate_shell_script_for_recreate_policies {
