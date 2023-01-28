@@ -51,6 +51,7 @@ our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_f
 
 ############STATIC VARS
 our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
+our $dyn_fwrules_playbooks_dir_g=$self_dir_g.'/playbooks/dyn_fwrules_playbooks'; # dir for recreate shell-scripts for executing it at remote side (if need)
 ############STATIC VARS
 
 ############VARS
@@ -566,8 +567,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&generate_shell_script_for_recreate_ipsets(\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
-    #$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_playbooks_dir_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    #$dyn_fwrules_playbooks_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -1862,7 +1863,8 @@ sub read_88_conf_policies_FIN {
 }
 
 sub generate_shell_script_for_recreate_ipsets {
-    my ($ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    my ($dyn_fwrules_playbooks_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
@@ -1896,14 +1898,43 @@ sub generate_shell_script_for_recreate_ipsets {
     #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
 	# --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
-	#$hkey0_l=inv-host
-
-	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
+    	#$hkey0_l=inv-host
+	
+    	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
 	    #$arr_el0_l=ipset_tmplt_name
 	    if ( !exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) {
 		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
 		last;
 	    }
+	    
+	    $wr_str_l="firewall-cmd --permanent";
+	    $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'};
+	    $wr_str_l.=" --type=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_type'};
+	    if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
+		$wr_str_l.=" --set-description=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'};
+	    }
+	    if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
+		$wr_str_l.=" --set-short=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_short_description'};
+	    }
+	    $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_timeout'};
+	    $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_family'};
+	    $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_hashsize'};
+	    $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_maxelem'};
+	    
+	    push(@wr_arr_l,$wr_str_l);
+	}
+	
+	if ( $#wr_arr_l!=-1 ) {
+	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_temporary_ipsets.sh';
+	    
+	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
+	    
+	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+	    #$file_l,$aref_l
+	    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+	    
+	    $wr_file_l=undef;
+	    @wr_arr_l=();
 	}
 	
 	$arr_el0_l=undef;
@@ -1926,8 +1957,37 @@ sub generate_shell_script_for_recreate_ipsets {
     		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
     		last;
     	    }
+
+	    $wr_str_l="firewall-cmd --permanent";
+	    $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'};
+	    $wr_str_l.=" --type=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_type'};
+	    if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
+		$wr_str_l.=" --set-description=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'};
+	    }
+	    if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
+		$wr_str_l.=" --set-short=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_short_description'};
+	    }
+	    $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_timeout'};
+	    $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_family'};
+	    $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_hashsize'};
+	    $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_maxelem'};
+	    
+	    push(@wr_arr_l,$wr_str_l);
     	}
     	
+	if ( $#wr_arr_l!=-1 ) {
+	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_permanent_ipsets.sh';
+	    
+	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
+	    
+	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+	    #$file_l,$aref_l
+	    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+	    
+	    $wr_file_l=undef;
+	    @wr_arr_l=();
+	}
+
     	$arr_el0_l=undef;
     	
     	if ( $return_str_l!~/^OK$/ ) { last; }
