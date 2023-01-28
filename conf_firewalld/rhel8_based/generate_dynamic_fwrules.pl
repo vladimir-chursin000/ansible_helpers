@@ -355,7 +355,7 @@ our %h77_conf_zones_FIN_hash_g=();
 #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24		ipset:ipset4public--TMPLT       	fw_ports_set4public     rich_rules_set4public (example)
 #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                        		fw_ports_set4zone1      rich_rules_set4zone1 (example)
 ###
-#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
 #{'interface_list'}->;
     #{'empty'}=1
     #{'list'}->
@@ -577,7 +577,26 @@ while ( 1 ) { # ONE RUN CYCLE begin
     $exec_res_g=undef;
 
     ######
-
+    
+    %input_hash4proc_g=(
+	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
+	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
+	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
+    );
+    $exec_res_g=&generate_shell_script_for_recreate_custom_zones($dyn_fwrules_playbooks_dir_g,\%input_hash4proc_g);
+    #$dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    %input_hash4proc_g=();
+    
+    ######
+    
     last;
 } # ONE RUN CYCLE end
 
@@ -1479,7 +1498,7 @@ sub read_77_conf_zones_FIN {
     #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset:ipset4public--TMPLT               fw_ports_set4public     rich_rules_set4public (example)
     #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                                   fw_ports_set4zone1      rich_rules_set4zone1 (example)
     ###
-    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
 	#{'empty'}=1
 	#{'list'}->
@@ -1548,7 +1567,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# INTERFACE_LIST ops [1] (begin)
-	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'empty'}=1; }
+	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[1]);
 	    foreach $arr_el0_l ( @arr0_l ) {
@@ -1566,9 +1585,9 @@ sub read_77_conf_zones_FIN {
 		}
 		###
 		
-		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}) ) {
-		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}=1;
-		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'interface_list'}{'seq'}},$arr_el0_l);
+		if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate interface name
 		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
@@ -1584,7 +1603,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# SOURCE_LIST ops [2] (begin)
-	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'empty'}=1; }
+	if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[2]);
 	    foreach $arr_el0_l ( @arr0_l ) {
@@ -1601,9 +1620,9 @@ sub read_77_conf_zones_FIN {
 		}
 		###
 
-		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}) ) {
-		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}=1;
-		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'source_list'}{'seq'}},$arr_el0_l);
+		if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate source
 		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
@@ -1619,7 +1638,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# IPSET_TMPLT_LIST ops [3] (begin)
-	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'empty'}=1; }
+	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'empty'}=1; }
 	else {
 	    @arr0_l=split(/\,/,${$hval0_l}[3]);
 	    foreach $arr_el0_l ( @arr0_l ) {
@@ -1646,9 +1665,9 @@ sub read_77_conf_zones_FIN {
 		}
 		###
 
-		if ( !exists($res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
-		    $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
-		    push(@{$res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
+		if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
+		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
+		    push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate ipset_template_name
 		    $return_str_l="fail [$proc_name_l]. Duplicated ipset_tmplt_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
@@ -1664,7 +1683,7 @@ sub read_77_conf_zones_FIN {
 	### (end)
 	
 	# FORWARD_PORTS_SET ops [4] (begin)
-	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
+	if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
 	else {
 	    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
     		#$h04_conf_zone_forward_ports_sets_hash_g{set_name}-> ...
@@ -1672,12 +1691,12 @@ sub read_77_conf_zones_FIN {
 		$return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets'";
 		last;
 	    }
-	    else { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
+	    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
 	}
 	### (end)
 
 	# RICH_RULES_SET ops [5] (begin)
-	if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
+	if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
 	else {
 	    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
@@ -1685,7 +1704,7 @@ sub read_77_conf_zones_FIN {
 		$return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets'";
 		last;
 	    }
-	    else { $res_tmp_lv1_l{$inv_host_l}{$zone_type_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }
+	    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }
 	}
 	### (end)
     }
@@ -1732,7 +1751,7 @@ sub read_88_conf_policies_FIN {
     
     my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
     #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+	#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
 
@@ -1785,8 +1804,8 @@ sub read_88_conf_policies_FIN {
 	}
 	
 	#$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
-	if ( !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'custom'}{${$hval0_l}[1]}) && !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'standard'}{${$hval0_l}[1]}) ) {
+	    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
+	if ( !exists(${$h77_conf_zones_FIN_href_l}{'custom'}{$inv_host_l}{${$hval0_l}[1]}) && !exists(${$h77_conf_zones_FIN_href_l}{'standard'}{$inv_host_l}{${$hval0_l}[1]}) ) {
 	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
 	    last;
 	}
@@ -1801,8 +1820,8 @@ sub read_88_conf_policies_FIN {
 	}
 	
 	#$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
-	if ( !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'custom'}{${$hval0_l}[2]}) && !exists(${$h77_conf_zones_FIN_href_l}{$inv_host_l}{'standard'}{${$hval0_l}[2]}) ) {
+	    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
+	if ( !exists(${$h77_conf_zones_FIN_href_l}{'custom'}{$inv_host_l}{${$hval0_l}[2]}) && !exists(${$h77_conf_zones_FIN_href_l}{'standard'}{$inv_host_l}{${$hval0_l}[2]}) ) {
 	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
 	    last;
 	}
@@ -1894,7 +1913,7 @@ sub generate_shell_script_for_recreate_ipsets {
     my @wr_arr_l=();
     my $return_str_l='OK';
     
-    # fill scripts (for each host) with command for create temporary ipsets
+    # fill scripts (for each host) with command for recreate temporary ipsets
     #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
 	# --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
@@ -1947,7 +1966,7 @@ sub generate_shell_script_for_recreate_ipsets {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
-    # fill scripts (for each host) with command for create permanent ipsets
+    # fill scripts (for each host) with command for recreate permanent ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
     	#$hkey0_l=inv-host
     
@@ -2002,7 +2021,8 @@ sub generate_shell_script_for_recreate_ipsets {
 }
 
 sub generate_shell_script_for_recreate_custom_zones {
-    my ($input_hash4proc_href_l)=@_;
+    my ($dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l)=@_;
+    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
@@ -2022,7 +2042,7 @@ sub generate_shell_script_for_recreate_custom_zones {
     
     my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
     #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+	#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
 
@@ -2092,7 +2112,7 @@ sub generate_shell_script_for_recreate_custom_zones {
         #etc
         #{'seq'}=[val-0,val-1] (val=rule)
     ######
-    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
 	#{'empty'}=1
 	#{'list'}->
@@ -2118,9 +2138,24 @@ sub generate_shell_script_for_recreate_custom_zones {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ######
 
-    my ($exec_res_l)=(undef);
+    my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
+    my $wr_str_l=undef;
+    my $wr_file_l=undef;
+    my @wr_arr_l=();
     my $return_str_l='OK';
+    
+    # fill scripts (for each host) with command for recreate custom fw-zones
+    while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'custom'}} ) {
+    	#$hkey0_l=inv-host
+	
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
 }
 
 sub generate_shell_script_for_modify_standard_zones {
@@ -2144,7 +2179,7 @@ sub generate_shell_script_for_modify_standard_zones {
     
     my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
     #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+	#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
 
@@ -2213,7 +2248,7 @@ sub generate_shell_script_for_modify_standard_zones {
         #etc
         #{'seq'}=[val-0,val-1] (val=rule)
     ######
-    #$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
 	#{'empty'}=1
 	#{'list'}->
@@ -2268,7 +2303,7 @@ sub generate_shell_script_for_recreate_policies {
     
     my $h88_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h88_conf_policies_FIN_href'};
     #$h88_conf_policies_FIN_href_l=hash-ref for %h88_conf_policies_FIN_hash_g
-	#$h77_conf_zones_FIN_hash_g{inventory_host}{'custom/standard'}{firewall_zone_name_tmplt}->
+	#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
 
