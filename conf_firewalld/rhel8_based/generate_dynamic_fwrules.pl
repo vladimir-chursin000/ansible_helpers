@@ -1911,9 +1911,11 @@ sub generate_shell_script_for_recreate_ipsets {
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my @wr_arr_l=();
+    my %wr_hash_l=();
+	#key=inv-host, value=array of strings
     my $return_str_l='OK';
     
-    # fill scripts (for each host) with command for recreate temporary ipsets
+    # fill arra (for each host) with command for recreate temporary ipsets
     #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
 	# --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
@@ -1938,23 +1940,19 @@ sub generate_shell_script_for_recreate_ipsets {
 	    $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_timeout'};
 	    $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_family'};
 	    $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_hashsize'};
-	    $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_maxelem'};
+	    $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_maxelem'}.";";
 	    
 	    push(@wr_arr_l,$wr_str_l);
+	    
+	    $wr_str_l=undef;
 	}
 	
 	if ( $#wr_arr_l!=-1 ) {
-	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_temporary_ipsets.sh';
-	    
-	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
-	    
-	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
-	    #$file_l,$aref_l
-	    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-	    
-	    $wr_file_l=undef;
+	    push(@wr_arr_l,' ');
+	    @{$wr_hash_l{$hkey0_l}}=@wr_arr_l;
 	    @wr_arr_l=();
 	}
+	else { @{$wr_hash_l{$hkey0_l}}=(); }
 	
 	$arr_el0_l=undef;
 	
@@ -1966,7 +1964,7 @@ sub generate_shell_script_for_recreate_ipsets {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
-    # fill scripts (for each host) with command for recreate permanent ipsets
+    # fill array (for each host) with command for recreate permanent ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
     	#$hkey0_l=inv-host
     
@@ -1989,23 +1987,19 @@ sub generate_shell_script_for_recreate_ipsets {
 	    $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_timeout'};
 	    $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_family'};
 	    $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_hashsize'};
-	    $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_maxelem'};
+	    $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_maxelem'}.";";
 	    
 	    push(@wr_arr_l,$wr_str_l);
+	    
+	    $wr_str_l=undef;
     	}
     	
 	if ( $#wr_arr_l!=-1 ) {
-	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_permanent_ipsets.sh';
-	    
-	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
-	    
-	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
-	    #$file_l,$aref_l
-	    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-	    
-	    $wr_file_l=undef;
+	    push(@wr_arr_l,' ');
+	    @{$wr_hash_l{$hkey0_l}}=(@{$wr_hash_l{$hkey0_l}},@wr_arr_l);
 	    @wr_arr_l=();
 	}
+	else { @{$wr_hash_l{$hkey0_l}}=(); }
 
     	$arr_el0_l=undef;
     	
@@ -2017,6 +2011,29 @@ sub generate_shell_script_for_recreate_ipsets {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
+    # create scripts for copy to remote hosts
+    while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
+	#hkey0_l=inv-host
+	
+	@wr_arr_l=@{$hval0_l};
+	
+	if ( $#wr_arr_l!=-1 ) {
+	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_ipsets.sh';
+	    
+	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
+	    
+	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+	    #$file_l,$aref_l
+	    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+	    
+	    $wr_file_l=undef;
+	    @wr_arr_l=();
+	}
+	
+	@wr_arr_l=();	
+    }
+    ###
+
     return $return_str_l;
 }
 
