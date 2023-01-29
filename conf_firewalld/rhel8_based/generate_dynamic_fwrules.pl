@@ -1913,6 +1913,8 @@ sub generate_shell_script_for_recreate_ipsets {
     my @wr_arr_l=();
     my %wr_hash_l=();
 	#key=inv-host, value=array of strings
+    my %permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
+	#key=inv-host, value=array of permanent ipset names at current inv-host
     my $return_str_l='OK';
     
     # fill arra (for each host) with command for recreate temporary ipsets
@@ -1974,7 +1976,9 @@ sub generate_shell_script_for_recreate_ipsets {
     		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
     		last;
     	    }
-
+	    
+	    push(@{$permanet_ipset_names_l{$hkey0_l}},${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'});
+	    
 	    $wr_str_l="firewall-cmd --permanent";
 	    $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'};
 	    $wr_str_l.=" --type=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_type'};
@@ -2020,7 +2024,10 @@ sub generate_shell_script_for_recreate_ipsets {
 	if ( $#wr_arr_l!=-1 ) {
 	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_ipsets.sh';
 	    
+	    # insert strings at the begin 
+	    
 	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
+	    ###
 	    
 	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
 	    #$file_l,$aref_l
