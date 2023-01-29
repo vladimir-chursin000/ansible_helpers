@@ -164,6 +164,7 @@
 	
     # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
     # Create ipset with parameters = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0 --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
+    # Get ipset entries (if "ipset_create_option_timeout = 0") = "firewall-cmd --permanent --ipset=some_ipset_name --get-entries" (for information only).
 
 #ipset_input_dir (for information only).
     # ".../ipset_input".

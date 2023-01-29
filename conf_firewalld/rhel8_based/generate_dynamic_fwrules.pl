@@ -2026,6 +2026,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_ipsets.sh';
 	    
 	    # 1) form array of commands for get and save ipset entries (for permanent ipsets) and save it to the '$remote_dir_for_absible_helper_l'
+		#"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
 	    ###
 	    
 	    # 2) form array of commands for remove ipset xml-s
@@ -2035,7 +2036,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
 	    ###
 
-	    # 3) form array of commands for add saved entries to permanent ipsets (for add to end of wr_array_l)
+	    # 3) form array of commands for add saved entries to permanent ipsets (for add to end of the wr_array_l)
 	    ###
 	    
 	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
