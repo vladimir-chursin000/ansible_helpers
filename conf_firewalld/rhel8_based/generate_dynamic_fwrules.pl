@@ -567,7 +567,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_playbooks_dir_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_playbooks_dir_g,$remote_dir_for_absible_helper_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
     #$dyn_fwrules_playbooks_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
@@ -1882,8 +1882,9 @@ sub read_88_conf_policies_FIN {
 }
 
 sub generate_shell_script_for_recreate_ipsets {
-    my ($dyn_fwrules_playbooks_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    my ($dyn_fwrules_playbooks_dir_l,$remote_dir_for_absible_helper_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
+    #$remote_dir_for_absible_helper_l=$remote_dir_for_absible_helper_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
