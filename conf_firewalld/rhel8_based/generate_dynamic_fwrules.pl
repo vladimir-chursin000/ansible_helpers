@@ -2030,6 +2030,8 @@ sub generate_shell_script_for_recreate_ipsets {
 	    ###
 	    
 	    # 2) form array of commands for remove ipset xml-s
+		#rm -rf  /etc/firewalld/ipsets/*
+		#or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
 	    ###
 	    	    
 	    # insert compiler path at the begin of the script
