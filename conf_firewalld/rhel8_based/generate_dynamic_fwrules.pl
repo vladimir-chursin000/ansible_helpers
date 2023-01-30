@@ -1911,8 +1911,6 @@ sub generate_shell_script_for_recreate_ipsets {
     my $arr_el0_l=undef;
     my $wr_str_l=undef;
     my $wr_file_l=undef;
-    my @tmp_arr0_l=();
-    my @tmp_arr1_l=();
     my @wr_arr_l=();
     my %wr_hash_l=();
 	#key=inv-host, value=array of strings
@@ -2052,6 +2050,14 @@ sub generate_shell_script_for_recreate_ipsets {
 	    ###
 
 	    # 3) form array of commands for add saved entries to permanent ipsets (for add to end of the wr_array_l)
+		#"firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt"
+	    if ( exists($permanet_ipset_names_l{$hkey0_l}) ) {
+		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
+		    #arr_el0_l=permanent ipset name
+		    $wr_str_l="firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt";';
+		    push(@wr_arr_l,$wr_str_l);
+		}
+	    }	    
 	    ###
 	    
 	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
