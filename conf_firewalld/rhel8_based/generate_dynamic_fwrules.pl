@@ -1911,6 +1911,8 @@ sub generate_shell_script_for_recreate_ipsets {
     my $arr_el0_l=undef;
     my $wr_str_l=undef;
     my $wr_file_l=undef;
+    my @tmp_arr0_l=();
+    my @tmp_arr1_l=();
     my @wr_arr_l=();
     my %wr_hash_l=();
 	#key=inv-host, value=array of strings
@@ -2027,10 +2029,19 @@ sub generate_shell_script_for_recreate_ipsets {
 	    
 	    # 1) form array of commands for get and save ipset entries (for permanent ipsets) and save it to the '$remote_dir_for_absible_helper_l'
 		#"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
+		###
+		#%permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
+    		    #key=inv-host, value=array of permanent ipset names at current inv-host
+	    if ( exists($permanet_ipset_names_l{$hkey0_l}) ) {
+		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
+		    #arr_el0_l=permanent ipset name
+		    
+		}
+	    }
 	    ###
 	    
 	    # 2) form array of commands for remove ipset xml-s
-		#rm -rf  /etc/firewalld/ipsets/*
+		#rm -rf  /etc/firewalld/ipsets/* +
 		#or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
 	    ###
 	    	    
