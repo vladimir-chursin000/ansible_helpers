@@ -1391,9 +1391,13 @@ sub read_66_conf_ipsets_FIN {
     my $exec_res_l=undef;
     my $arr_el0_l=undef;
     my $ipset_type_l=undef; # temporary / permanent
+    my $ipset_name_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my @arr0_l=();
     my $return_str_l='OK';
+    
+    my %ipset_uniq_check_l=();
+	#key0=inv-host, key1=ipset_name (not tmplt-name), value=1
     
     my %res_tmp_lv0_l=();
 	#key=inv-host, value=[array of values]. IPSET_NAME_TMPLT_LIST-0
@@ -1410,7 +1414,16 @@ sub read_66_conf_ipsets_FIN {
 	@arr0_l=split(/\,/,${$hval0_l}[0]);
 	foreach $arr_el0_l ( @arr0_l ) {
 	    #$arr_el0_l=ipset_template_name
-	    ##$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
+	    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+		#{'ipset_name'}=value
+		#{'ipset_description'}=empty|value
+		#{'ipset_short_description'}=empty|value
+		#{'ipset_create_option_timeout'}=num
+		#{'ipset_create_option_hashsize'}=num
+		#{'ipset_create_option_maxelem'}=num
+		#{'ipset_create_option_family'}=inet|inet6
+		#{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+
 	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) { $ipset_type_l='temporary'; }
 	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) { $ipset_type_l='permanent'; }
 	    else {
