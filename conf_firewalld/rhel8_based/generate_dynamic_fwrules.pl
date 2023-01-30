@@ -2027,7 +2027,13 @@ sub generate_shell_script_for_recreate_ipsets {
 	if ( $#wr_arr_l!=-1 ) {
 	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_ipsets.sh';
 	    
-	    # 1) form array of commands for get and save ipset entries (for permanent ipsets) and save it to the '$remote_dir_for_absible_helper_l'
+	    # 1) form array of commands for remove ipset xml-s
+		#rm -rf  /etc/firewalld/ipsets/* +
+		#or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
+	    @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;',' ',@wr_arr_l);
+	    ###
+
+	    # 2) form array of commands for get and save ipset entries (for permanent ipsets) and save it to the '$remote_dir_for_absible_helper_l'
 		#"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
 		###
 		#%permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
@@ -2035,16 +2041,12 @@ sub generate_shell_script_for_recreate_ipsets {
 	    if ( exists($permanet_ipset_names_l{$hkey0_l}) ) {
 		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
 		    #arr_el0_l=permanent ipset name
-		    
+		    $wr_str_l="firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt;';
+		    @wr_arr_l=($wr_str_l,@wr_arr_l);
 		}
 	    }
 	    ###
 	    
-	    # 2) form array of commands for remove ipset xml-s
-		#rm -rf  /etc/firewalld/ipsets/* +
-		#or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
-	    ###
-	    	    
 	    # insert compiler path at the begin of the script
 	    @wr_arr_l=('#!/usr/bin/bash',' ',@wr_arr_l);
 	    ###
