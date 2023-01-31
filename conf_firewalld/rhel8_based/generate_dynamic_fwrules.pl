@@ -2110,6 +2110,10 @@ sub generate_shell_script_for_recreate_firewall_zones {
     #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
+    my $conf_firewalld_href_l=${$input_hash4proc_href_l}{'h00_conf_firewalld_href'};
+    #$conf_firewalld_href_l=hash-ref for %h00_conf_firewalld_hash_g
+	#$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+    
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
@@ -2134,6 +2138,21 @@ sub generate_shell_script_for_recreate_firewall_zones {
     
     my $proc_name_l=(caller(0))[3];
 
+    #$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+    #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'DefaultZone'}=name_of_default_zone
+    #{'CleanupOnExit'}=yes|no
+    #{'CleanupModulesOnExit'}=yes|no
+    #{'Lockdown'}=yes|no
+    #{'IPv6_rpfilter'}=yes|no
+    #{'IndividualCalls'}=yes|no
+    #{'LogDenied'}=all|unicast|broadcast|multicast|off
+    #{'enable_logging_of_dropped_packets'}=yes|no
+    #{'FirewallBackend'}=nftables|iptables
+    #{'FlushAllOnReload'}=yes|no
+    #{'RFC3964_IPv4'}=yes|no
+    #{'AllowZoneDrifting'}=yes|no
+    ######
     #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
