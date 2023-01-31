@@ -579,6 +579,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     ######
     
     %input_hash4proc_g=(
+	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
 	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
