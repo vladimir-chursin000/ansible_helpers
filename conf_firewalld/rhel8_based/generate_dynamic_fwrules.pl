@@ -1560,8 +1560,11 @@ sub read_77_conf_zones_FIN {
     my $arr_el0_l=undef;
     my @arr0_l=();
     my $zone_type_l=undef; # possible_values: custom, standard 
+    my $fwzone_name_l=undef; # for fwzone_uniq_check
     my $return_str_l='OK';
-    
+
+    my %fwzone_uniq_check_l=();
+	#key=inv-host, key1=firewall_zone_name(not tmplt), value=firewall_zone_tmplt_name
     my %int_uniq_check_l=();
 	#key0=inv-host, key1=interface, value=firewall_zone_tmplt_name
     my %src_uniq_check_l=();
@@ -1585,17 +1588,31 @@ sub read_77_conf_zones_FIN {
 	$inv_host_l=~s/\+\S+$//g;
 
 	# FIREWALL_ZONE_NAME_TMPLT ops [0] (begin)
-	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
+	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ... #{'zone_name'}
 	    #$custom_zone_templates_href_l
-	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ...
+	#$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ... #{'zone_name'}
 	    #$std_zone_templates_href_l
-	if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[0]}) ) { $zone_type_l='custom'; }
-	elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[0]}) ) { $zone_type_l='standard'; }
+	if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[0]}) ) {
+	    $zone_type_l='custom';
+	    $fwzone_name_l=${$custom_zone_templates_href_l}{${$hval0_l}[0]}{'zone_name'};
+	}
+	elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[0]}) ) {
+	    $zone_type_l='standard';
+	    $fwzone_name_l=${$std_zone_templates_href_l}{${$hval0_l}[0]}{'zone_name'};
+	}
 	else {
 	    $return_str_l="fail [$proc_name_l]. Fw-zone-tmplt='${$hval0_l}[0]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
 	    last;
 	}
 	### (end)
+	
+	# fwzone_name uniq check
+	if ( exists($fwzone_uniq_check_l{$inv_host_l}{$fwzone_name_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Fwzone_name='$fwzone_name_l' (inv-host='$inv_host_l', fwzone-tmplt='${$hval0_l}[0]') is already assign to fwzone-tmplt='$fwzone_uniq_check_l{$inv_host_l}{$fwzone_name_l}' at conf='77_conf_zones_FIN'";
+	    last;
+	}
+	$fwzone_uniq_check_l{$inv_host_l}{$fwzone_name_l}=${$hval0_l}[0];
+	###
 	
 	# INTERFACE_LIST ops [1] (begin)
 	if ( ${$hval0_l}[1]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'empty'}=1; }
