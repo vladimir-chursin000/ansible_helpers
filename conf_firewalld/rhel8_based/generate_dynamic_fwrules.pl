@@ -1948,7 +1948,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	#key=inv-host, value=array of permanent ipset names at current inv-host
     my $return_str_l='OK';
     
-    # fill arra (for each host) with command for recreate temporary ipsets
+    # fill array (for each host) with commands for recreate temporary ipsets
     #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
 	# --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
@@ -1997,7 +1997,7 @@ sub generate_shell_script_for_recreate_ipsets {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
-    # fill array (for each host) with command for recreate permanent ipsets
+    # fill array (for each host) with commands for recreate permanent ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
     	#$hkey0_l=inv-host
     
@@ -2276,7 +2276,18 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @wr_arr_l=();
     my $return_str_l='OK';
     
-    # fill scripts (for each host) with command for recreate custom fw-zones
+    # fill array (for each host) with commands for recreate standard fw-zones
+    while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'standard'}} ) {
+    	#$hkey0_l=inv-host
+	
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
+
+    # fill array (for each host) with commands for recreate custom fw-zones
     while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'custom'}} ) {
     	#$hkey0_l=inv-host
 	
