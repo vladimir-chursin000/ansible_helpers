@@ -2290,16 +2290,23 @@ sub generate_shell_script_for_recreate_firewall_zones {
 
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my $arr_el0_l=undef;
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my @wr_arr_l=();
+    my @tmp_arr_l=();
     my $return_str_l='OK';
     
     # fill array (for each host) with commands for recreate standard fw-zones
     while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'standard'}} ) {
     	#$hkey0_l=inv-host
 	
+	@tmp_arr_l=sort(keys %{$hval0_l});
+	foreach $arr_el0_l ( @tmp_arr_l ) {
+	    #$arr_el0_l=fw-zone-tmplt-name
+	    
+	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -2310,7 +2317,12 @@ sub generate_shell_script_for_recreate_firewall_zones {
     # fill array (for each host) with commands for recreate custom fw-zones
     while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'custom'}} ) {
     	#$hkey0_l=inv-host
-	
+    	
+	@tmp_arr_l=sort(keys %{$hval0_l});
+	foreach $arr_el0_l ( @tmp_arr_l ) {
+	    #$arr_el0_l=fw-zone-tmplt-name
+	    
+	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
