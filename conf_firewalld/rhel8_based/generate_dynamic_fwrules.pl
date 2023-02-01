@@ -1443,7 +1443,7 @@ sub read_66_conf_ipsets_FIN {
 	    
 	    # check for uniq inv-host+ipset_name
 	    if ( exists($ipset_uniq_check_l{$hkey0_l}{$ipset_name_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Duplicate ipset_name='$ipset_name_l' (tmplt_name='$arr_el0_l') for inv-host='$hkey0_l' at conf '01_conf_ipset_templates'";
+		$return_str_l="fail [$proc_name_l]. Duplicate ipset_name='$ipset_name_l' (tmplt_name='$arr_el0_l') for inv-host='$hkey0_l' at conf '66_conf_ipsets_FIN'. Check '01_conf_ipset_templates' and '66_conf_ipsets_FIN'";
 		last;
 	    }
 	    $ipset_uniq_check_l{$hkey0_l}{$ipset_name_l}=1;
@@ -1525,8 +1525,8 @@ sub read_77_conf_zones_FIN {
     my $proc_name_l=(caller(0))[3];
 
     #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST                       #FORWARD_PORTS_SET      #RICH_RULES_SET
-    #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24         ipset:ipset4all_public--TMPLT           empty                   empty (example)
-    #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset:ipset4public--TMPLT               fw_ports_set4public     rich_rules_set4public (example)
+    #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24         ipset4all_public--TMPLT           	    empty                   empty (example)
+    #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset4public--TMPLT                     fw_ports_set4public     rich_rules_set4public (example)
     #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                                   fw_ports_set4zone1      rich_rules_set4zone1 (example)
     ###
     #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
@@ -1569,9 +1569,8 @@ sub read_77_conf_zones_FIN {
 	#key0=inv-host, key1=interface, value=firewall_zone_tmplt_name
     my %src_uniq_check_l=();
 	#key0=inv-host, key1=source, value=firewall_zone_tmplt_name
-    my %ipset_uniq_check_l=();
+    my %ipset_tmplt_uniq_check_l=();
 	#key0=inv-host, key1=ipset_tmplt_name, value=firewall_zone_tmplt_name
-    
     my %res_tmp_lv0_l=();
 	#key=inv-host, value=[array of values]. FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, etc
     my %res_tmp_lv1_l=();
@@ -1621,14 +1620,14 @@ sub read_77_conf_zones_FIN {
 	    foreach $arr_el0_l ( @arr0_l ) {
 		#$arr_el0_l=interface name
 		if ( !exists(${$inv_hosts_nd_href_l}{$inv_host_l}{$arr_el0_l}) ) {
-		    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$inv_host_l' (conf='$file_l')";
+		    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$inv_host_l' (conf='$file_l') at conf='77_conf_zones_FIN'";
 		    last;
 		}
 		
 		# check for 'interface is already belongs to fw-zone-tmplt'
 		if ( !exists($int_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) { $int_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0]; }
 		else {
-		    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is already used for fw-zone-tmplt='$int_uniq_check_l{$inv_host_l}{$arr_el0_l}' at inv-host='$inv_host_l'";
+		    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is already used for fw-zone-tmplt='$int_uniq_check_l{$inv_host_l}{$arr_el0_l}' for inv-host='$inv_host_l' at conf='77_conf_zones_FIN'";
 		    last;
 		}
 		###
@@ -1638,7 +1637,7 @@ sub read_77_conf_zones_FIN {
 		    push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate interface name
-		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
+		    $return_str_l="fail [$proc_name_l]. Duplicated interface_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0] at conf='77_conf_zones_FIN'";
 		    last;
 		}
 	    }
@@ -1663,7 +1662,7 @@ sub read_77_conf_zones_FIN {
 		# check for 'source is already belongs to fw-zone-tmplt'
 		if ( !exists($src_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) { $src_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0]; }
 		else {
-		    $return_str_l="fail [$proc_name_l]. Source='$arr_el0_l' is already used for fw-zone-tmplt='$src_uniq_check_l{$inv_host_l}{$arr_el0_l}' at inv-host='$inv_host_l'";
+		    $return_str_l="fail [$proc_name_l]. Source='$arr_el0_l' is already used for fw-zone-tmplt='$src_uniq_check_l{$inv_host_l}{$arr_el0_l}' for inv-host='$inv_host_l' at conf='77_conf_zones_FIN'";
 		    last;
 		}
 		###
@@ -1673,7 +1672,7 @@ sub read_77_conf_zones_FIN {
 		    push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate source
-		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
+		    $return_str_l="fail [$proc_name_l]. Duplicated source='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0] at conf='77_conf_zones_FIN'";
 		    last;
 		}
 	    }
@@ -1692,7 +1691,7 @@ sub read_77_conf_zones_FIN {
 	    foreach $arr_el0_l ( @arr0_l ) {
 		#$arr_el0_l=ipset_tmplt_name
 		#$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-		    #$h01_conf_ipset_templates_hash_g{ipset_template_name--TMPLT}-> ...
+		    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}-> ... #{'ipset_name'}
 		if ( !exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) && !exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
 		    last;
@@ -1706,19 +1705,19 @@ sub read_77_conf_zones_FIN {
 		}
 		
 		# check for 'ipset-tmplt is already belongs to fw-zone-tmplt'
-		if ( !exists($ipset_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) { $ipset_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0]; }
-		else {
-		    $return_str_l="fail [$proc_name_l]. IPSET-tmplt='$arr_el0_l' is already used for fw-zone-tmplt='$ipset_uniq_check_l{$inv_host_l}{$arr_el0_l}' at inv-host='$inv_host_l'";
-		    last;
+		if ( exists($ipset_tmplt_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. IPSET-tmplt='$arr_el0_l' is already used for fwzone-tmplt='$ipset_tmplt_uniq_check_l{$inv_host_l}{$arr_el0_l}' for inv-host='$inv_host_l' at conf='77_conf_zones_FIN'";
+		    last;    
 		}
+		$ipset_tmplt_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0];
 		###
-
+		
 		if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
 		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
 		    push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
 		}
 		else { # duplicate ipset_template_name
-		    $return_str_l="fail [$proc_name_l]. Duplicated ipset_tmplt_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0]";
+		    $return_str_l="fail [$proc_name_l]. Duplicated ipset_tmplt_name='$arr_el0_l' (conf='$file_l') for inv-host='$inv_host_l' and fw-zone-tmplt-name='${$hval0_l}[0] at conf='77_conf_zones_FIN'";
 		    last;
 		}
 	    }
@@ -1736,7 +1735,7 @@ sub read_77_conf_zones_FIN {
 	    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
     		#$h04_conf_zone_forward_ports_sets_hash_g{set_name}-> ...
 	    if ( !exists(${$fw_ports_set_href_l}{${$hval0_l}[4]}) ) {
-		$return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets'";
+		$return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets' (conf='77_conf_zones_FIN')";
 		last;
 	    }
 	    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
@@ -1749,7 +1748,7 @@ sub read_77_conf_zones_FIN {
 	    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
 	    if ( !exists(${$rich_rules_set_href_l}{${$hval0_l}[5]}) ) {
-		$return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets'";
+		$return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets' (conf='77_conf_zones_FIN')";
 		last;
 	    }
 	    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }
