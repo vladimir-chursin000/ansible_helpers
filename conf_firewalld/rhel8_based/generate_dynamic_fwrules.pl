@@ -1758,6 +1758,7 @@ sub read_77_conf_zones_FIN {
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     $inv_host_l=undef;
+    $fwzone_name_l=undef;
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill %res_tmp_lv1_l (end)
@@ -1782,7 +1783,7 @@ sub read_88_conf_policies_FIN {
     
     my $policy_templates_href_l=${$input_hash4proc_href_l}{'h03_conf_policy_templates_href'};
     #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
-	#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
+	#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}-> ... #{'policy_name'}
     
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};    
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
@@ -1815,6 +1816,7 @@ sub read_88_conf_policies_FIN {
 
     my ($exec_res_l,$inv_host_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $policy_name_l=undef;
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -1845,6 +1847,18 @@ sub read_88_conf_policies_FIN {
 	    $return_str_l="fail [$proc_name_l]. POLICY_NAME_TMPLT='${$hval0_l}[0]' (conf='$file_l') is not exists at '03_conf_policy_templates'";
             last;
 	}
+	$policy_name_l=${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_name'};
+	###
+	
+	# check for uniq policy_name
+	    #%policy_name_uniq_check_l=(); # uniq check for 'inv-host + policy_name (not tmplt)'
+    		#key0=inv-host, key1=policy_name (not_tmplt), value=policy-tmplt-name
+
+	if ( exists($policy_name_uniq_check_l{$inv_host_l}{$policy_name_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Policy_name='$policy_name_l' (inv-host='$inv_host_l', policy-tmplt='${$hval0_l}[0]') is already assign to policy-tmplt='$policy_name_uniq_check_l{$inv_host_l}{$policy_name_l}' at conf='88_conf_policies_FIN'";
+	    last;
+	}
+	$policy_name_uniq_check_l{$inv_host_l}{$policy_name_l}=${$hval0_l}[0];
 	###
 	
 	# INGRESS-FIREWALL_ZONE_NAME_TMPLT ops [1]
@@ -1918,6 +1932,7 @@ sub read_88_conf_policies_FIN {
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     $inv_host_l=undef;
+    $policy_name_l=undef;
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
