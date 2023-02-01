@@ -579,13 +579,13 @@ while ( 1 ) { # ONE RUN CYCLE begin
     ######
     
     %input_hash4proc_g=(
-	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
-	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
-	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
-	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
-	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
-	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
-	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
+    	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
+    	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+    	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
+    	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
+    	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
+    	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+    	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
     $exec_res_g=&generate_shell_script_for_recreate_firewall_zones($dyn_fwrules_playbooks_dir_g,\%input_hash4proc_g);
     #$dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l
@@ -599,6 +599,26 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
+    %input_hash4proc_g=(
+    	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+    	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
+    	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
+    	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
+    	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+    	'h88_conf_policies_FIN_href'=>\%h88_conf_policies_FIN_hash_g,
+    );
+    $exec_res_g=&generate_shell_script_for_recreate_policies($dyn_fwrules_playbooks_dir_g,\%input_hash4proc_g);
+    #$dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    %input_hash4proc_g=();
+    
+    ######
+        
     last;
 } # ONE RUN CYCLE end
 
@@ -2386,7 +2406,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 }
 
 sub generate_shell_script_for_recreate_policies {
-    my ($input_hash4proc_href_l)=@_;
+    my ($dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l)=@_;
+    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
