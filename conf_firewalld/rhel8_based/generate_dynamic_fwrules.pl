@@ -1585,7 +1585,7 @@ sub read_77_conf_zones_FIN {
 	#hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
 	$inv_host_l=$hkey0_l;
 	$inv_host_l=~s/\+\S+$//g;
-
+	
 	# FIREWALL_ZONE_NAME_TMPLT ops [0] (begin)
 	#$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ... #{'zone_name'}
 	    #$custom_zone_templates_href_l
