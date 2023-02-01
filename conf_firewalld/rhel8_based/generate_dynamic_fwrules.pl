@@ -1817,6 +1817,7 @@ sub read_88_conf_policies_FIN {
     my ($exec_res_l,$inv_host_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $policy_name_l=undef;
+    my ($ingress_zone_name_l,$egress_zone_name_l)=(undef,undef); # for ingress_egress_uniq_check_l
     my $return_str_l='OK';
     
     my %policy_name_uniq_check_l=(); # uniq check for 'inv-host + policy_name (not tmplt)'
