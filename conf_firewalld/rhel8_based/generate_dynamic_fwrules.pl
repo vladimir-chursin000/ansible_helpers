@@ -1576,7 +1576,7 @@ sub read_77_conf_zones_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,7,1,\%res_tmp_lv0_l);
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,7,1,\%res_tmp_lv0_l); # protects from not uniq 'inv-host+fwzone-tmplt'
     #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
@@ -1819,18 +1819,21 @@ sub read_88_conf_policies_FIN {
     my $policy_name_l=undef;
     my $return_str_l='OK';
     
-    my %res_tmp_lv0_l=();
-	#key=inv-host, value=[array of values]. POLICY_NAME_TMPLT-0, INGRESS-FIREWALL_ZONE_NAME_TMPLT-1, etc
-    my %res_tmp_lv1_l=();
-	#final hash
-    
     my %policy_name_uniq_check_l=(); # uniq check for 'inv-host + policy_name (not tmplt)'
-	#key0=inv-host, key1=policy_name (not_tmplt), value=policy-tmplt-name
+    	#key0=inv-host, key1=policy_name (not_tmplt), value=policy-tmplt-name
     
     my %ingress_egress_tmplt_uniq_check_l=(); # uniq for 'inv_host + ingress_zone_tmplt + egress_zone_tmplt'
-	#key0=inv_host, key1=ingress_zone_tmplt, key2=egress_zone_tmplt, value=policy_tmplt
+    	#key0=inv_host, key1=ingress_zone_tmplt, key2=egress_zone_tmplt, value=policy_tmplt
+
+    my %ingress_egress_uniq_check_l=(); # uniq for 'inv_host + ingress_zone_tmplt + egress_zone_tmplt'
+    	#key0=inv_host, key1=ingress_zone_name (not tmplt), key2=egress_zone_name (not tmplt), value=policy_tmplt -> policy_name
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,6,1,\%res_tmp_lv0_l);
+    my %res_tmp_lv0_l=();
+    	#key=inv-host, value=[array of values]. POLICY_NAME_TMPLT-0, INGRESS-FIREWALL_ZONE_NAME_TMPLT-1, etc
+    my %res_tmp_lv1_l=();
+    	#final hash
+        
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,6,1,\%res_tmp_lv0_l); #protects from not uniq 'inv-host+policy-tmplt'
     #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
