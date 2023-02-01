@@ -1563,13 +1563,13 @@ sub read_77_conf_zones_FIN {
     my $fwzone_name_l=undef; # for fwzone_uniq_check
     my $return_str_l='OK';
 
-    my %fwzone_uniq_check_l=();
+    my %fwzone_uniq_check_l=(); # uniq for 'inv-host + firewall_zone_name(not tmplt)'
 	#key=inv-host, key1=firewall_zone_name(not tmplt), value=firewall_zone_tmplt_name
-    my %int_uniq_check_l=();
+    my %int_uniq_check_l=(); # uniq for 'inv-host + interface'
 	#key0=inv-host, key1=interface, value=firewall_zone_tmplt_name
-    my %src_uniq_check_l=();
+    my %src_uniq_check_l=(); # uniq for 'inv-host + source'
 	#key0=inv-host, key1=source, value=firewall_zone_tmplt_name
-    my %ipset_tmplt_uniq_check_l=();
+    my %ipset_tmplt_uniq_check_l=(); # uniq for 'inv-host + impset-tmplt'
 	#key0=inv-host, key1=ipset_tmplt_name, value=firewall_zone_tmplt_name
     my %res_tmp_lv0_l=();
 	#key=inv-host, value=[array of values]. FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, etc
@@ -1822,8 +1822,11 @@ sub read_88_conf_policies_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    my %ingress_egress_tmplt_uniq_check_l=();
-	#key=inv_host+ingress_zone_tmplt+egress_zone_tmplt, value=policy_tmplt
+    my %policy_name_uniq_check_l=(); # uniq check for 'inv-host + policy_name (not tmplt)'
+	#key0=inv-host, key1=policy_name (not_tmplt), value=policy-tmplt-name
+    
+    my %ingress_egress_tmplt_uniq_check_l=(); # uniq for 'inv_host + ingress_zone_tmplt + egress_zone_tmplt'
+	#key0=inv_host, key1=ingress_zone_tmplt, key2=egress_zone_tmplt, value=policy_tmplt
     
     $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,6,1,\%res_tmp_lv0_l);
     #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
@@ -1876,6 +1879,16 @@ sub read_88_conf_policies_FIN {
 	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'egress-firewall_zone_name_tmplt'}=${$hval0_l}[2];
 	###
 	
+	# CHECK for uniq 'inv-host + ingress + egress'
+	if ( !exists($ingress_egress_tmplt_uniq_check_l{$inv_host_l}{${$hval0_l}[1]}{${$hval0_l}[2]}) ) {
+	    $ingress_egress_tmplt_uniq_check_l{$inv_host_l}{${$hval0_l}[1]}{${$hval0_l}[2]}=${$hval0_l}[0];
+	}
+	else {
+	    $return_str_l="fail [$proc_name_l]. Incorrect policy='${$hval0_l}[0]' for inv-host='$inv_host_l'. Pair = '${$hval0_l}[1]' (ingress-tmplt) + '${$hval0_l}[2]' (egress-tmplt) is already used for policy-tmplt='$ingress_egress_tmplt_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}'";
+	    last;
+	}
+	###
+
 	# FORWARD_PORTS_SET ops [3]
 	if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'forward_ports_set'}='empty'; }
         else {
@@ -1899,16 +1912,6 @@ sub read_88_conf_policies_FIN {
 		last;
 	    }
 	    else { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[4]; }
-	}
-	###
-	
-	# CHECK for uniq 'inv-host + ingress + egress'
-	if ( !exists($ingress_egress_tmplt_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}) ) {
-	    $ingress_egress_tmplt_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}=${$hval0_l}[0];
-	}
-	else {
-	    $return_str_l="fail [$proc_name_l]. Incorrect policy='${$hval0_l}[0]' for inv-host='$inv_host_l'. Pair = '${$hval0_l}[1]' (ingress-tmplt) + '${$hval0_l}[2]' (egress-tmplt) is already used for policy-tmplt='$ingress_egress_tmplt_uniq_check_l{$inv_host_l.'+'.${$hval0_l}[1].'+'.${$hval0_l}[2]}'";
-	    last;
 	}
 	###
     }
