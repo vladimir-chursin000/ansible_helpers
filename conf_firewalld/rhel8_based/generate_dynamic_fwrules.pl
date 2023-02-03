@@ -345,7 +345,6 @@ our %h66_conf_ipsets_FIN_hash_g=();
     #{ipset_name_tmplt-0}=1;
     #{ipset_name_tmplt-1}=1;
     #etc
-    #{'seq'}=[val-0,val-1] (val=tmplt)
 ######
 
 ######
@@ -1407,7 +1406,6 @@ sub read_66_conf_ipsets_FIN {
     	#{ipset_name_tmplt-0}=1;
     	#{ipset_name_tmplt-1}=1;
     	#etc
-        #{'seq'}=[val-0,val-1] (val=tmplt)
     ###
 
     my $exec_res_l=undef;
@@ -1471,7 +1469,6 @@ sub read_66_conf_ipsets_FIN {
 	    
 	    if ( !exists($res_tmp_lv1_l{$ipset_type_l}{$hkey0_l}{$arr_el0_l}) ) {
 		$res_tmp_lv1_l{$ipset_type_l}{$hkey0_l}{$arr_el0_l}=1;
-		push(@{$res_tmp_lv1_l{$ipset_type_l}{$hkey0_l}{'seq'}},$arr_el0_l);
 	    }
 	    else { # duplicated value
 		$return_str_l="fail [$proc_name_l]. Duplicated template name value ('$arr_el0_l') at file='$file_l' at substring='${$hval0_l}[0]'. Fix it!";
@@ -1540,7 +1537,6 @@ sub read_77_conf_zones_FIN {
     	    #{ipset_name_tmplt-0}=1;
     	    #{ipset_name_tmplt-1}=1;
     	    #etc
-    	    #{'seq'}=[val-0,val-1] (val=tmplt)
     
     my $proc_name_l=(caller(0))[3];
 
@@ -1717,7 +1713,7 @@ sub read_77_conf_zones_FIN {
 		    last;
 		}
 		
-		#$h66_conf_ipsets_FIN_hash_g{inventory_host}->
+		#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
         	    #{ipset_name_tmplt-0}=1;
 		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_l}{$arr_el0_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_l}{$arr_el0_l}) ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '66_conf_ipsets_FIN' for inv-host='$inv_host_l'";
@@ -2006,7 +2002,6 @@ sub generate_shell_script_for_recreate_ipsets {
     	#{ipset_name_tmplt-0}=1;
     	#{ipset_name_tmplt-1}=1;
     	#etc
-        #{'seq'}=[val-0,val-1] (val=tmplt)
     ###
 
     my $exec_res_l=undef;
@@ -2015,6 +2010,7 @@ sub generate_shell_script_for_recreate_ipsets {
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my @wr_arr_l=();
+    my @tmp_arr_l=();
     my %wr_hash_l=();
 	#key=inv-host, value=array of strings
     my %permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
@@ -2027,7 +2023,8 @@ sub generate_shell_script_for_recreate_ipsets {
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
     	#$hkey0_l=inv-host
 	
-    	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
+	@tmp_arr_l=sort(keys %{$hval0_l});
+    	foreach $arr_el0_l ( @tmp_arr_l ) {
 	    #$arr_el0_l=ipset_tmplt_name
 	    if ( !exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) {
 		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
@@ -2074,7 +2071,8 @@ sub generate_shell_script_for_recreate_ipsets {
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
     	#$hkey0_l=inv-host
     
-    	foreach $arr_el0_l ( @{${$hval0_l}{'seq'}} ) {
+	@tmp_arr_l=sort(keys %{$hval0_l});
+    	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=ipset_tmplt_name
     	    if ( !exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
     		$return_str_l="fail [$proc_name_l]. Ipset-template is not exists at '01_conf_ipset_templates'";
