@@ -1,0 +1,5 @@
+# DIVISION_NAME/GROUP_NAME - group name. Must contain only latin letters, numbers and the symbol "_".
+###
+# LIST_OF_HOSTS - list of hosts separated by ",". Must contain only the hosts specified in the "conf_firewall_hosts".
+###
+#DIVISION_NAME/GROUP_NAME	#LIST_OF_HOSTS
