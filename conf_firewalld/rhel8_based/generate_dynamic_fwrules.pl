@@ -2366,6 +2366,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $wr_file_l=undef;
     my @wr_arr_l=();
     my @tmp_arr_l=();
+    my %wr_hash_l=();
+	#key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
     my $return_str_l='OK';
     
     # fill array (for each host) with commands for recreate standard fw-zones
