@@ -87,7 +87,7 @@ our %h00_conf_firewalld_hash_g=();
 #AllowZoneDrifting=no
 #[firewall_conf_for_all--TMPLT:END]
 ###
-#$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+#$h00_conf_firewalld_hash_g{inventory_host}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
@@ -729,7 +729,7 @@ sub read_00_conf_firewalld {
     #AllowZoneDrifting=no
     #[firewall_conf_for_all--TMPLT:END]
     ###
-    #$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+    #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
@@ -2183,7 +2183,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     
     my $conf_firewalld_href_l=${$input_hash4proc_href_l}{'h00_conf_firewalld_href'};
     #$conf_firewalld_href_l=hash-ref for %h00_conf_firewalld_hash_g
-	#$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+	#$h00_conf_firewalld_hash_g{inventory_host}->
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
@@ -2209,7 +2209,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     
     my $proc_name_l=(caller(0))[3];
 
-    #$h00_conf_firewalld_hash_g{inventory_host}{fwconf_tmplt_name--TMPLT}->
+    #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
@@ -2364,6 +2364,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $arr_el0_l=undef;
     my $wr_str_l=undef;
     my $wr_file_l=undef;
+    my $unconf_custom_fw_zones_act_l=undef;
     my @wr_arr_l=();
     my @tmp_arr_l=();
     my %wr_hash_l=();
