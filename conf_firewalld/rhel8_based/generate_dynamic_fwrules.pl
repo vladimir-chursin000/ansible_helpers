@@ -447,15 +447,15 @@ while ( 1 ) { # ONE RUN CYCLE begin
 
     ######
     
-    $exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
-    #$file_l,$inv_hosts_href_l,$res_href_l
+    $exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h00_conf_firewalld_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
 	print "$exec_res_g\n";
 	last;
     }
     $exec_res_g=undef;
-    #print Dumper(\%h00_conf_firewalld_hash_g);
+    print Dumper(\%h00_conf_firewalld_hash_g);
     
     ######
     
@@ -761,6 +761,11 @@ sub read_00_conf_divisions_for_inv_hosts {
 	    #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
 	    ###
             @arr0_l=split(' ',$line_l);
+	    if ( $arr0_l[0]!~/^gr_/ ) {
+		$return_str_l="fail [$proc_name_l]. Group='$arr0_l[0]'. The group name must start with the substring 'gr_'";
+		last;
+	    }
+	    
 	    @arr1_l=split(',',$arr0_l[1]);
 	    foreach $arr_el0_l ( @arr1_l ) {
 		#$arr0_l[0]=group-name
@@ -797,9 +802,10 @@ sub read_00_conf_divisions_for_inv_hosts {
 }
 
 sub read_00_conf_firewalld {
-    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l)=@_;
     #file_l=$f00_conf_firewalld_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     #res_href_l=hash-ref for %h00_conf_firewalld_hash_g
     my $proc_name_l=(caller(0))[3];
     
@@ -835,6 +841,11 @@ sub read_00_conf_firewalld {
     #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
 
+    #DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
+    ###
+    #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
+    ###
+
     my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
@@ -869,7 +880,7 @@ sub read_00_conf_firewalld {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill res_tmp_lv1_l
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # read only host_list_for_apply=all
 	#hkey0_l=tmplt_name, hval0_l=hash of params
 	if ( ${$hval0_l}{'host_list_for_apply'} eq 'all' ) {
 	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
@@ -878,19 +889,58 @@ sub read_00_conf_firewalld {
 	    }
 	    
 	    ($hkey1_l,$hval1_l)=(undef,undef);
+	    
+	    foreach $arr_el0_l ( @inv_hosts_arr_l ) {
+		#arr_el0_l=inv-host
+		%{$res_tmp_lv1_l{$arr_el0_l}}=%{$hval0_l};
+	    }
+
+	    $arr_el0_l=undef;
+	    @inv_hosts_arr_l=();
+	    
+	    delete($res_tmp_lv0_l{$hkey0_l});
 	}
-	else {
-	    @inv_hosts_arr_l=split(/\,/,${$hval0_l}{'host_list_for_apply'});
-	}
-	delete(${$hval0_l}{'host_list_for_apply'});
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # read only host_list_for_apply=host groups
+	#hkey0_l=tmplt_name, hval0_l=hash of params
 	
-	foreach $arr_el0_l ( @inv_hosts_arr_l ) {
-	    #arr_el0_l=inv-host
-	    %{$res_tmp_lv1_l{$arr_el0_l}}=%{$hval0_l};
+	if ( ${$hval0_l}{'host_list_for_apply'}=~/^gr_/ && exists(${$divisions_for_inv_hosts_href_l}{${$hval0_l}{'host_list_for_apply'}}) ) {
+	    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{${$hval0_l}{'host_list_for_apply'}}} ) {
+		#hkey1_l=inv-host
+		%{$res_tmp_lv1_l{$hkey1_l}}=%{$hval0_l};
+	    }
+	    
+	    ($hkey1_l,$hval1_l)=(undef,undef);
+	    
+	    delete($res_tmp_lv0_l{$hkey0_l});
 	}
+	elsif ( ${$hval0_l}{'host_list_for_apply'}=~/^gr_/ && !exists(${$divisions_for_inv_hosts_href_l}{${$hval0_l}{'host_list_for_apply'}}) ) {
+	    $return_str_l="fail [$proc_name_l]. Group='${$hval0_l}{'host_list_for_apply'}' is not configured at '00_conf_divisions_for_inv_hosts'";
+	    last;
+	}
+    }
+    
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # read only host_list_for_apply=some host or list of hosts (separated by ',')
+	#hkey0_l=tmplt_name, hval0_l=hash of params
+    	@inv_hosts_arr_l=split(/\,/,${$hval0_l}{'host_list_for_apply'});
+    	
+    	foreach $arr_el0_l ( @inv_hosts_arr_l ) {
+    	    #arr_el0_l=inv-host
+	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' is not exists at inventory file";
+		last;
+	    }
+	    
+    	    %{$res_tmp_lv1_l{$arr_el0_l}}=%{$hval0_l};
+    	}
+    	
+    	$arr_el0_l=undef;
+    	@inv_hosts_arr_l=();
 	
-	$arr_el0_l=undef;
-	@inv_hosts_arr_l=();
+	delete($res_tmp_lv0_l{$hkey0_l});
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);

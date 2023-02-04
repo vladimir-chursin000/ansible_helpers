@@ -1,6 +1,7 @@
-# DIVISION_NAME/GROUP_NAME - group name. Must contain only latin letters, numbers and the symbol "_".
+# DIVISION_NAME/GROUP_NAME - group name. Must contain only latin letters, numbers and the symbol "_" and start with the substring "gr_".
+# 
 ###
 # LIST_OF_HOSTS - list of hosts separated by ",". Must contain only the hosts specified in the "conf_firewall_hosts".
 ###
 #DIVISION_NAME/GROUP_NAME	#LIST_OF_HOSTS
-#some_example_group		192.168.2.3,192.168.4.5,192.168.10.6
+#gr_some_example_group		192.168.2.3,192.168.4.5,192.168.10.6
