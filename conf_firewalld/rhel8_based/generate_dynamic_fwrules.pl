@@ -24,6 +24,7 @@ if ( defined($ARGV[1]) && $ARGV[1]=~/^with_rollback$/ ) {
 ############ARGV
 
 ############CFG file
+#00_conf_divisions_for_inv_hosts
 #00_conf_firewalld
 #01_conf_ipset_templates
 #02_conf_custom_firewall_zones_templates
@@ -35,6 +36,7 @@ if ( defined($ARGV[1]) && $ARGV[1]=~/^with_rollback$/ ) {
 #77_conf_zones_FIN
 #88_conf_policies_FIN
 ###
+our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
 our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_configs/02_conf_custom_firewall_zones_templates';
@@ -65,7 +67,15 @@ our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h66_conf_ip
 ######
 our %inv_hosts_network_data_g=();
 #INV_HOST       #INT_NAME       #IPADDR
+###
 #$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
+######
+
+######
+our %h00_conf_divisions_for_inv_hosts_hash_g=();
+#DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
+###
+#$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
 ######
 
 ######
@@ -425,6 +435,18 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
+    $exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
+
+    ######
+    
     $exec_res_g=&read_00_conf_firewalld($f00_conf_firewalld_path_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
     #$file_l,$inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -703,6 +725,19 @@ sub read_network_data_for_checks {
     if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
 
     return 'OK';
+}
+
+sub read_00_conf_divisions_for_inv_hosts {
+    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    #file_l=$f00_conf_firewalld_path_g
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #res_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+    my $proc_name_l=(caller(0))[3];
+    
+    #DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
+    ###
+    #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
+
 }
 
 sub read_00_conf_firewalld {

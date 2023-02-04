@@ -2,11 +2,11 @@
 #FOR ASSIGN INTERFACES, SOURCES, FORWARD_PORTS_SETS and RICH_RULES_SETS to FIREWALL ZONES (for each INVENTORY HOST)#
 ####################################################################################################################
 
-# INVENTORY_HOST = all/list of inventory hosts separated by ",".
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
     # If "all" -> the configuration will be applied to all inventory hosts.
     # It is forbidden to include the same interface in several firewall zones.
     # If you want to apply the settings to a group of hosts or to all hosts, then make sure that each host has the interfaces specified in the #INTERFACE_LIST parameter.
-    # Configurations like "all" have low priority over host groups (separated by ",") or individual hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
 ###
 # FIREWALL_ZONE_NAME_TMPLT = name of the firewall zone template configured in the files "02_conf_custom_firewall_zones_templates" and "02_conf_standard_firewall_zones_templates".
 ###

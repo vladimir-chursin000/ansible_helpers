@@ -2,9 +2,9 @@
 #FOR ASSIGN POLICIES to INVENTORY_HOSTS#
 ########################################
 
-# INVENTORY_HOST = all/list of inventory hosts separated by ",".
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
     # If "all" -> the configuration will be applied to all inventory hosts.
-    # Configurations like "all" have low priority over host groups (separated by ",") or individual hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
 ###
 # POLICY_TEMPLATE_NAME = must be equal to the corresponding policy template configured in the file "03_conf_policy_templates".
 ###

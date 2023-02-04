@@ -12,9 +12,9 @@
 
 ###EXAMPLE (with explanation)
 #[some_firewalld_conf_template_name--TMPLT:BEGIN]
-#host_list_for_apply=all/list of hosts separated by ",".
+#host_list_for_apply=all / list of hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
     # If "all" -> the configuration will be applied to all inventory hosts.
-    # "all" -> lower priority when applying configuration.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
     # Custom parameter.
 
 #unconfigured_custom_firewall_zones_action=remove|no_action
