@@ -762,7 +762,12 @@ sub read_00_conf_divisions_for_inv_hosts {
 	    ###
             @arr0_l=split(' ',$line_l);
 	    if ( $arr0_l[0]!~/^gr_/ ) {
-		$return_str_l="fail [$proc_name_l]. Group='$arr0_l[0]'. The group name must start with the substring 'gr_'";
+		$return_str_l="fail [$proc_name_l]. Group='$arr0_l[0]'. The group name must start with the substring 'gr_' (at conf '00_conf_divisions_for_inv_hosts')";
+		last;
+	    }
+	    
+	    if ( $arr0_l[0]=~/^gr_all$/i ) {
+		$return_str_l="fail [$proc_name_l]. Deny using group name like '$arr0_l[0]' at conf '00_conf_divisions_for_inv_hosts'";
 		last;
 	    }
 	    
@@ -772,7 +777,7 @@ sub read_00_conf_divisions_for_inv_hosts {
 		#$arr_el0_l=inv-host
 		
 		if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-		    $return_str_l="fail [$proc_name_l]. Inv-host='$arr_el0_l' is not exists at inventory-file";
+		    $return_str_l="fail [$proc_name_l]. Inv-host='$arr_el0_l' is not exists at inventory-file (conf '00_conf_divisions_for_inv_hosts')";
 		    last;
 		}
 		
