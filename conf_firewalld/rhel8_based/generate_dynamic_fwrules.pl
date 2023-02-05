@@ -3045,7 +3045,21 @@ sub read_config_FIN_level0 {
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
 
+    # first read conf file
+    open(CONF_FIN,'<',$file_l);
+    while ( <CONF_FIN> ) {
+	$line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+	$line_l=~s/ $//g;
 
+    }
+    close(CONF_FIN);
+    
+    $line_l=undef;
+    ###
 
 #    # read file
 #    open(CONF_FIN,'<',$file_l);
