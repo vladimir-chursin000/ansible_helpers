@@ -455,7 +455,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
-    print Dumper(\%h00_conf_firewalld_hash_g);
+    #print Dumper(\%h00_conf_firewalld_hash_g);
     
     ######
     
@@ -3055,6 +3055,18 @@ sub read_config_FIN_level0 {
         $line_l=~s/^ //g;
 	$line_l=~s/ $//g;
 
+	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+	    $line_l=~s/ \,/\,/g;
+	    $line_l=~s/\, /\,/g;
+
+	    @arr0_l=$line_l=~/(\S+)/g;
+	    
+	    $arr_cnt_l=$#arr0_l+1;
+	    if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
+		$return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
+		last;
+	    }
+	}
     }
     close(CONF_FIN);
     
