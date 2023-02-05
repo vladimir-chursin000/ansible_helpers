@@ -3038,10 +3038,14 @@ sub read_config_FIN_level0 {
     my @arr0_l=();
     my @arr1_l=();
     my %res_tmp_lv0_l=();
-	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc]
+    my %res_tmp_lv1_l=();
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc] (AFTER prereturnPROCESSING)
     my $return_str_l='OK';
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+
+
 
 #    # read file
 #    open(CONF_FIN,'<',$file_l);
