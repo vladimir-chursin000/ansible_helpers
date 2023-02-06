@@ -3043,7 +3043,7 @@ sub read_config_FIN_level0 {
     my @arr0_l=();
     my @arr1_l=();
     my %res_tmp_lv0_l=();
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc]
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
     my %res_tmp_lv1_l=();
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc] (AFTER prereturnPROCESSING)
     my $return_str_l='OK';
@@ -3095,11 +3095,19 @@ sub read_config_FIN_level0 {
     $line_l=undef;
     $key_ind_l=undef;
     @arr0_l=();
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
     # first read %res_tmp_lv0_l (for inv-host='all')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
 	
+	if ( ${$hval0_l}[0] eq 'all' ) {
+	    
+	    ###
+	    delete($res_tmp_lv0_l{$hkey0_l});
+	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -3107,18 +3115,34 @@ sub read_config_FIN_level0 {
 
     # second read %res_tmp_lv0_l (for inv-host='some_group')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
 	
+	if ( ${$hval0_l}[0]=~/gr_\S+/ && ${$hval0_l}[0]=~/\,/ ) {
+	    $return_str_l="";
+	    last;
+	}
+	
+	if ( ${$hval0_l}[0]=~/^gr_\S+$/ ) {
+	    
+	    ###
+	    delete($res_tmp_lv0_l{$hkey0_l});
+	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
 
-    # third read %res_tmp_lv0_l (for inv-host='some inv-host' or inv-host='list of inv hosts')
+    # third (last) read %res_tmp_lv0_l (for inv-host='some inv-host' or inv-host='list of inv hosts')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
 	
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
 
 #    # read file
@@ -3205,8 +3229,8 @@ sub read_config_FIN_level0 {
 #    
 #    $line_l=undef;
 #    ###
-
-    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+#
+#    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
