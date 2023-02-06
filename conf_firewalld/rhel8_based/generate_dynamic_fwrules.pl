@@ -3149,7 +3149,7 @@ sub read_config_FIN_level0 {
 	
 	# check for group-name inside the list (via ",")
 	if ( ${$hval0_l}[0]=~/gr_\S+/ && ${$hval0_l}[0]=~/\,/ ) {
-	    $return_str_l="fail [$proc_name_l]. Deny to include group-name ('${$hval0_l}[0]') to the list separated by ','.";
+	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Deny to include group-name ('${$hval0_l}[0]') to the list separated by ','.";
 	    last;
 	}
 	###
@@ -3161,7 +3161,7 @@ sub read_config_FIN_level0 {
 	    
 	    # check for exists at '00_conf_divisions_for_inv_hosts'
 	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Inv-group='$inv_hosts_group_name_l' is not configured at '00_conf_divisions_for_inv_hosts'";
+		$return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-group='$inv_hosts_group_name_l' is not configured at '00_conf_divisions_for_inv_hosts'";
 		last;
 	    }
 	    ###
@@ -3196,10 +3196,25 @@ sub read_config_FIN_level0 {
 	foreach $arr_el0_l ( @arr0_l ) {
 	    #$arr_el0_l=inv-host
 	    
+	    # check if exists at inventory-file
+	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='$arr_el0_l' is not exists at inventory-file";
+		last;
+	    }
+	    ###
+	    
+	    $key_ind_l=$hkey1_l;
+	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+	    	
+	    $res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+	    	
+	    $key_ind_l=undef;
 	}
 	
 	$arr_el0_l=undef;
 	@arr0_l=();
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -3207,93 +3222,6 @@ sub read_config_FIN_level0 {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
 
-#    # read file
-#    open(CONF_FIN,'<',$file_l);
-#    while ( <CONF_FIN> ) {
-#        $line_l=$_;
-#        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-#        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
-#        $line_l=~s/\s+/ /g;
-#        $line_l=~s/^ //g;
-#	$line_l=~s/ $//g;
-#	
-#	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-#	    $line_l=~s/ \,/\,/g;
-#	    $line_l=~s/\, /\,/g;
-#
-#	    @arr0_l=$line_l=~/(\S+)/g;
-#	    
-#	    $arr_cnt_l=$#arr0_l+1;
-#	    if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
-#		$return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
-#		last;
-#	    }
-#	    
-#	    #$arr0_l[0]=inv-host
-#	    if ( $arr0_l[0]=~/^all$/ ) {
-#		# Fist time check uniq with key_ind
-#		$key_ind_l=$arr0_l[0];
-#		if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
-#		if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
-#		else {
-#		    $return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l' (0). Check config and run again";
-#		    last;
-#		}
-#		$key_ind_l=undef;
-#		###
-#
-#		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-#            	    #$hkey0_l=inv-host from inv-host-hash
-#            	    #push(@inv_hosts_arr_l,$hkey0_l);
-#		    $key_ind_l=$hkey0_l;
-#		    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
-#		    
-#		    #if exists -> not replace $key_ind_l (inv-host+add_ind)
-#		    if ( !exists($res_tmp_lv0_l{$key_ind_l}) ) { $res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]]; }
-#        	}
-#		
-#        	($hkey0_l,$hval0_l)=(undef,undef);
-#	    }
-#	    else { # list, separated by ",", or single inv-host
-#		@arr1_l=split(/\,/,$arr0_l[0]);
-#		foreach $arr_el0_l ( @arr1_l ) {
-#		    #$arr_el0_l=inv-host
-#		    if ( exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-#			$key_ind_l=$arr_el0_l;
-#                	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
-#			
-#			# Second time check uniq with key_ind (for target inv-host)
-#			if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
-#			else {
-#			    $return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l' (1). Check config and run again";
-#			    last;
-#			}
-#			###
-#
-#			$res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]];
-#		    }
-#		    else {
-#			$return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' (config='$file_l') is not exists at inventory file";
-#			last;
-#		    }
-#		}
-#		
-#		$arr_el0_l=undef;
-#		@arr1_l=();
-#	    }
-#	    
-#	    if ( $return_str_l!~/^OK$/ ) { last; }
-#	    
-#	    @arr0_l=();
-#	}
-#    }
-#    close(CONF_FIN);
-#    
-#    $line_l=undef;
-#    ###
-#
-#    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
