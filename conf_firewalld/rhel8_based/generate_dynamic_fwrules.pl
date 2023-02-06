@@ -3066,11 +3066,24 @@ sub read_config_FIN_level0 {
 
 	    @arr0_l=$line_l=~/(\S+)/g;
 	    
+	    # arr0_l element count check
 	    $arr_cnt_l=$#arr0_l+1;
 	    if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
 		$return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
 		last;
 	    }
+	    ###
+
+	    # key-ind uniq check
+	    $key_ind_l=$arr0_l[0];
+	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
+	    if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
+	    else {
+		$return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
+		last;
+	    }
+	    $key_ind_l=undef;
+	    ###
 	}
     }
     close(CONF_FIN);
