@@ -3043,14 +3043,14 @@ sub read_config_FIN_level0 {
     my @arr0_l=();
     my @arr1_l=();
     my %res_tmp_lv0_l=();
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc]
     my %res_tmp_lv1_l=();
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc] (AFTER prereturnPROCESSING)
     my $return_str_l='OK';
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
 
-    # first read conf file
+    # read conf file
     open(CONF_FIN,'<',$file_l);
     while ( <CONF_FIN> ) {
 	$line_l=$_;
@@ -3082,13 +3082,28 @@ sub read_config_FIN_level0 {
 		$return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
 		last;
 	    }
-	    $key_ind_l=undef;
 	    ###
+	    
+	    $res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]];
+	    
+	    $key_ind_l=undef;
+	    @arr0_l=();
 	}
     }
     close(CONF_FIN);
     
     $line_l=undef;
+    $key_ind_l=undef;
+    @arr0_l=();
+    ###
+    
+    # first read %res_tmp_lv0_l (for inv-host='all')
+    ###
+
+    # second read %res_tmp_lv0_l (for inv-host='some_group')
+    ###
+
+    # third read %res_tmp_lv0_l (for inv-host='some inv-host' or inv-host='list of inv hosts')
     ###
 
 #    # read file
