@@ -3113,6 +3113,8 @@ sub read_config_FIN_level0 {
 	    	
 	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
     	    }
+	    
+	    ($hkey1_l,$hval1_l)=(undef,undef);
 	    ###
 	    delete($res_tmp_lv0_l{$hkey0_l});
 	}
@@ -3128,7 +3130,7 @@ sub read_config_FIN_level0 {
 	
 	# check for group-name inside the list (via ",")
 	if ( ${$hval0_l}[0]=~/gr_\S+/ && ${$hval0_l}[0]=~/\,/ ) {
-	    $return_str_l="";
+	    $return_str_l="fail [$proc_name_l]. Deny to include group-name ('${$hval0_l}[0]') to the list separated by ','.";
 	    last;
 	}
 	###
