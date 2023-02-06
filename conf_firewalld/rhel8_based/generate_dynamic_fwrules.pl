@@ -3084,7 +3084,7 @@ sub read_config_FIN_level0 {
 	    }
 	    ###
 	    
-	    $res_tmp_lv0_l{$key_ind_l}=[@arr0_l[1..$#arr0_l]];
+	    $res_tmp_lv0_l{$key_ind_l}=[@arr0_l];
 	    
 	    $key_ind_l=undef;
 	    @arr0_l=();
@@ -3194,10 +3194,10 @@ sub read_config_FIN_level0 {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
     # fill result hash
-    %{$res_href_l}=%res_tmp_lv0_l;
+    %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
-    %res_tmp_lv0_l=();
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
