@@ -531,8 +531,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&read_66_conf_ipsets_FIN($f66_conf_ipsets_FIN_path_g,\%inventory_hosts_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
-    #$file_l,$inv_hosts_href_l,$ipset_templates_href_l,$res_href_l
+    $exec_res_g=&read_66_conf_ipsets_FIN($f66_conf_ipsets_FIN_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
 	print "$exec_res_g\n";
@@ -546,6 +546,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=(
 	'inventory_hosts_href'=>\%inventory_hosts_g,
 	'inv_hosts_network_data_href'=>\%inv_hosts_network_data_g,
+	'divisions_for_inv_hosts_href'=>\%h00_conf_divisions_for_inv_hosts_hash_g,
 	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
@@ -565,9 +566,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
     #print Dumper(\%h77_conf_zones_FIN_hash_g);
     
     ######
-    
+
     %input_hash4proc_g=(
 	'inventory_hosts_href'=>\%inventory_hosts_g,
+	'divisions_for_inv_hosts_href'=>\%h00_conf_divisions_for_inv_hosts_hash_g,
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
 	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,
@@ -1537,11 +1539,15 @@ sub read_05_conf_zone_rich_rules_sets {
 }
 
 sub read_66_conf_ipsets_FIN {
-    my ($file_l,$inv_hosts_href_l,$ipset_templates_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$res_href_l)=@_;
     #$file_l=$f66_conf_ipsets_FIN_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+        #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$res_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
+
+
     my $proc_name_l=(caller(0))[3];
 
     #INVENTORY_HOST         #IPSET_NAME_TMPLT_LIST
@@ -1570,8 +1576,8 @@ sub read_66_conf_ipsets_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,2,0,\%res_tmp_lv0_l);
-    #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,2,0,\%res_tmp_lv0_l);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
@@ -1654,6 +1660,10 @@ sub read_77_conf_zones_FIN {
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     
+    my $divisions_for_inv_hosts_href_l=${$input_hash4proc_href_l}{'divisions_for_inv_hosts_href'};
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+        #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
+
     my $inv_hosts_nd_href_l=${$input_hash4proc_href_l}{'inv_hosts_network_data_href'};
     #$inv_hosts_nd_href_l=hash-ref for %inv_hosts_network_data_g
     	#INV_HOST-0       #INT_NAME-1       #IPADDR-2
@@ -1738,8 +1748,8 @@ sub read_77_conf_zones_FIN {
     my %res_tmp_lv1_l=();
 	#final hash
     
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,7,1,\%res_tmp_lv0_l); # protects from not uniq 'inv-host+fwzone-tmplt'
-    #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,7,1,\%res_tmp_lv0_l); # protects from not uniq 'inv-host+fwzone-tmplt'
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l (begin)
@@ -1943,6 +1953,10 @@ sub read_88_conf_policies_FIN {
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     
+    my $divisions_for_inv_hosts_href_l=${$input_hash4proc_href_l}{'divisions_for_inv_hosts_href'};
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+	#$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
+    
     my $policy_templates_href_l=${$input_hash4proc_href_l}{'h03_conf_policy_templates_href'};
     #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
 	#$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}-> ... #{'policy_name'}
@@ -1996,8 +2010,8 @@ sub read_88_conf_policies_FIN {
     my %res_tmp_lv1_l=();
     	#final hash
         
-    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,6,1,\%res_tmp_lv0_l); #protects from not uniq 'inv-host+policy-tmplt'
-    #$file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
+    $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,6,1,\%res_tmp_lv0_l); #protects from not uniq 'inv-host+policy-tmplt'
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
     # fill %res_tmp_lv1_l
@@ -3023,9 +3037,10 @@ sub check_port_for_apply_to_fw_conf {
 }
 
 sub read_config_FIN_level0 {
-    my ($file_l,$inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l)=@_;
     #$file_l=fin conf file '66_conf_ipsets_FIN/77_conf_zones_FIN/88_conf_policies_FIN'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     #$needed_elements_at_line_arr_l=needed count of elements at array formed from line
     #$add_ind4key_l (addditional index of array for hash-key)=by default at result hash key=first element of array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
     #res_href_l=hash ref for result-hash
