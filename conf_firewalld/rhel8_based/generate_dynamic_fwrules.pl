@@ -3041,6 +3041,7 @@ sub read_config_FIN_level0 {
     #$file_l=fin conf file '66_conf_ipsets_FIN/77_conf_zones_FIN/88_conf_policies_FIN'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+	#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$needed_elements_at_line_arr_l=needed count of elements at array formed from line
     #$add_ind4key_l (addditional index of array for hash-key)=by default at result hash key=first element of array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
     #res_href_l=hash ref for result-hash
@@ -3054,6 +3055,7 @@ sub read_config_FIN_level0 {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($arr_cnt_l,$key_ind_l)=(undef,undef);
+    my $inv_hosts_group_name_l=undef;
     my %key_ind_cnt_l=();
 	#key=$key_ind_l, value=1
     my @arr0_l=();
@@ -3150,8 +3152,16 @@ sub read_config_FIN_level0 {
 	}
 	###
 	
-	if ( ${$hval0_l}[0]=~/^gr_\S+$/ ) {
-	    
+	if ( ${$hval0_l}[0]=~/^(gr_\S+)$/ ) {
+	    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+    		#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
+	    $inv_hosts_group_name_l=$1;
+	    if ( exists(${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}) ) {
+		while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}} ) {
+		    #$hkey1_l=inv-host
+		    
+		}
+	    }
 	    ###
 	    delete($res_tmp_lv0_l{$hkey0_l});
 	}
