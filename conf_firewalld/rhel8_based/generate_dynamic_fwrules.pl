@@ -3037,6 +3037,7 @@ sub read_config_FIN_level0 {
     my ($line_l)=(undef);
     my ($arr_el0_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($arr_cnt_l,$key_ind_l)=(undef,undef);
     my %key_ind_cnt_l=();
 	#key=$key_ind_l, value=1
@@ -3101,10 +3102,17 @@ sub read_config_FIN_level0 {
     
     # first read %res_tmp_lv0_l (for inv-host='all')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#%res_tmp_lv0_l
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
 	
 	if ( ${$hval0_l}[0] eq 'all' ) {
-	    
+	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
+            	#$hkey1_l=inv-host from inv-host-hash
+	    	$key_ind_l=$hkey1_l;
+	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+	    	
+	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+    	    }
 	    ###
 	    delete($res_tmp_lv0_l{$hkey0_l});
 	}
@@ -3115,12 +3123,15 @@ sub read_config_FIN_level0 {
 
     # second read %res_tmp_lv0_l (for inv-host='some_group')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#%res_tmp_lv0_l
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
 	
+	# check for group-name inside the list (via ",")
 	if ( ${$hval0_l}[0]=~/gr_\S+/ && ${$hval0_l}[0]=~/\,/ ) {
 	    $return_str_l="";
 	    last;
 	}
+	###
 	
 	if ( ${$hval0_l}[0]=~/^gr_\S+$/ ) {
 	    
@@ -3136,6 +3147,7 @@ sub read_config_FIN_level0 {
 
     # third (last) read %res_tmp_lv0_l (for inv-host='some inv-host' or inv-host='list of inv hosts')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#%res_tmp_lv0_l
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
 	
     }
