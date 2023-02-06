@@ -3129,6 +3129,8 @@ sub read_config_FIN_level0 {
 	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
 	    	
 	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+		
+		$key_ind_l=undef;
     	    }
 	    
 	    ($hkey1_l,$hval1_l)=(undef,undef);
@@ -3156,12 +3158,26 @@ sub read_config_FIN_level0 {
 	    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     		#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
 	    $inv_hosts_group_name_l=$1;
-	    if ( exists(${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}) ) {
-		while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}} ) {
-		    #$hkey1_l=inv-host
-		    
-		}
+	    
+	    # check for exists at '00_conf_divisions_for_inv_hosts'
+	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}) ) {
+		$return_str_l="fail [$proc_name_l]. Inv-group='$inv_hosts_group_name_l' is not configured at '00_conf_divisions_for_inv_hosts'";
+		last;
 	    }
+	    ###
+	    
+	    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}} ) {
+		#$hkey1_l=inv-host
+		$key_ind_l=$hkey1_l;
+	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+	    	
+	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+		
+		$key_ind_l=undef;
+	    }
+	    
+	    ($hkey1_l,$hval1_l)=(undef,undef);
+	    $inv_hosts_group_name_l=undef;
 	    ###
 	    delete($res_tmp_lv0_l{$hkey0_l});
 	}
