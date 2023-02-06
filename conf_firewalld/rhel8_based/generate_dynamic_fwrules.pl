@@ -3098,12 +3098,27 @@ sub read_config_FIN_level0 {
     ###
     
     # first read %res_tmp_lv0_l (for inv-host='all')
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
     # second read %res_tmp_lv0_l (for inv-host='some_group')
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
     # third read %res_tmp_lv0_l (for inv-host='some inv-host' or inv-host='list of inv hosts')
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
 #    # read file
