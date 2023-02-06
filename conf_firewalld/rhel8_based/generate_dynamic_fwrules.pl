@@ -3192,7 +3192,14 @@ sub read_config_FIN_level0 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#%res_tmp_lv0_l
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+	@arr0_l=split(/\,/,${$hval0_l}[0]);
+	foreach $arr_el0_l ( @arr0_l ) {
+	    #$arr_el0_l=inv-host
+	    
+	}
 	
+	$arr_el0_l=undef;
+	@arr0_l=();
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
