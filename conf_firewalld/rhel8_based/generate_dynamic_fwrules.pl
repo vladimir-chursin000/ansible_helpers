@@ -2563,7 +2563,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$arr_el0_l=undef;
 	###
 	
-	# commands for correcting std std fw-zones
+	# commands for configure and correcting std fw-zones
 	    #internal=cockpit,dhcpv6-client,mdns,samba-client,ssh (services)
 	    #public=cockpit,dhcpv6-client,ssh (services)
 	    #work=cockpit,dhcpv6-client,ssh
