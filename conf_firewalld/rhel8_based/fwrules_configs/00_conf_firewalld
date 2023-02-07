@@ -19,7 +19,8 @@
 
 #unconfigured_custom_firewall_zones_action=remove|no_action
     # If "remove" -> all custom firewall zones not configured in the "02_conf_custom_firewall_zones_templates" file will be deleted.
-    # Custom firewall zones = zones not at list of standard firewall zones (block, dmz, drop, external, internal, public, trusted, work, home).
+    # Custom firewall zones = zones not at list of standard firewall zones (block, dmz, drop, external, internal, public, trusted, work, home)
+	#and not onfigured in the "02_conf_custom_firewall_zones_templates".
     # Custom parameter.
 
 #DefaultZone=public
