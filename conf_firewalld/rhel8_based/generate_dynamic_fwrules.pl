@@ -2564,6 +2564,10 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	###
 	
 	# commands for correcting std std fw-zones
+	    #internal=cockpit,dhcpv6-client,mdns,samba-client,ssh (services)
+	    #public=cockpit,dhcpv6-client,ssh (services)
+	    #work=cockpit,dhcpv6-client,ssh
+	    #home=cockpit,dhcpv6-client,mdns,samba-client,ssh
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
