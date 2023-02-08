@@ -2530,12 +2530,17 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @tmp_arr_l=();
     my @std_fwzones_l=('block','dmz','drop','external','internal','public','trusted','work','home');
     my %std_fwzones_defs_services_l=();
+
     # fill %std_fwzones_defs_services_l
     $std_fwzones_defs_services_l{'internal'}{'cockpit'}=1;
     $std_fwzones_defs_services_l{'internal'}{'dhcpv6-client'}=1;
     $std_fwzones_defs_services_l{'internal'}{'mdns'}=1;
     $std_fwzones_defs_services_l{'internal'}{'samba-client'}=1;
     $std_fwzones_defs_services_l{'internal'}{'ssh'}=1;
+    
+    $std_fwzones_defs_services_l{'public'}{'cockpit'}=1;
+    $std_fwzones_defs_services_l{'public'}{'dhcpv6-client'}=1;
+    $std_fwzones_defs_services_l{'public'}{'ssh'}=1;
     ###
 		
     my @begin_script_arr_l=();
