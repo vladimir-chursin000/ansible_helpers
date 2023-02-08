@@ -2537,10 +2537,20 @@ sub generate_shell_script_for_recreate_firewall_zones {
     $std_fwzones_defs_services_l{'internal'}{'mdns'}=1;
     $std_fwzones_defs_services_l{'internal'}{'samba-client'}=1;
     $std_fwzones_defs_services_l{'internal'}{'ssh'}=1;
+
+    $std_fwzones_defs_services_l{'home'}{'cockpit'}=1;
+    $std_fwzones_defs_services_l{'home'}{'dhcpv6-client'}=1;
+    $std_fwzones_defs_services_l{'home'}{'mdns'}=1;
+    $std_fwzones_defs_services_l{'home'}{'samba-client'}=1;
+    $std_fwzones_defs_services_l{'home'}{'ssh'}=1;
     
     $std_fwzones_defs_services_l{'public'}{'cockpit'}=1;
     $std_fwzones_defs_services_l{'public'}{'dhcpv6-client'}=1;
     $std_fwzones_defs_services_l{'public'}{'ssh'}=1;
+
+    $std_fwzones_defs_services_l{'work'}{'cockpit'}=1;
+    $std_fwzones_defs_services_l{'work'}{'dhcpv6-client'}=1;
+    $std_fwzones_defs_services_l{'work'}{'ssh'}=1;
     ###
 		
     my @begin_script_arr_l=();
@@ -2579,9 +2589,9 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	# commands for configure and correcting std fw-zones
 	    #internal=cockpit,dhcpv6-client,mdns,samba-client,ssh (services)
+	    #home=cockpit,dhcpv6-client,mdns,samba-client,ssh
 	    #public=cockpit,dhcpv6-client,ssh (services)
 	    #work=cockpit,dhcpv6-client,ssh
-	    #home=cockpit,dhcpv6-client,mdns,samba-client,ssh
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
