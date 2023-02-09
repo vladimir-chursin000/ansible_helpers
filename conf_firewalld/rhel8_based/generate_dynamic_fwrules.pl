@@ -2526,6 +2526,18 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my $unconf_custom_fw_zones_act_l=undef;
+
+    # init fw-zone-params
+    my ($zone_name_l,$zone_description_l,$zone_short_description_l,$zone_target_l)=(undef,undef,undef,undef);
+    my @zone_allowed_services_arr_l=();
+    my @zone_allowed_ports_arr_l=();
+    my @zone_allowed_protocols_arr_l=();
+    my ($zone_forward_l,$zone_masquerade_general_l)=(undef,undef);
+    my @zone_allowed_source_ports_arr_l=();
+    my ($zone_icmp_block_inversion_l)=(undef);
+    my @zone_icmp_block_arr_l=();
+    ###
+    
     my @wr_arr_l=();
     my @tmp_arr_l=();
     my @std_fwzones_l=('block','dmz','drop','external','internal','public','trusted','work','home');
