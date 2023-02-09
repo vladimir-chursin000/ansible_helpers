@@ -2522,10 +2522,15 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $arr_el0_l=undef;
+    my @tmp_arr_l=();
     
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my $unconf_custom_fw_zones_act_l=undef;
+    my @wr_arr_l=();
+
+    my @std_fwzones_l=('block','dmz','drop','external','internal','public','trusted','work','home');
+    my %std_fwzones_defs_services_l=();
 
     # init fw-zone-params
     my ($zone_name_l,$zone_description_l,$zone_short_description_l,$zone_target_l)=(undef,undef,undef,undef);
@@ -2538,11 +2543,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @zone_icmp_block_arr_l=();
     ###
     
-    my @wr_arr_l=();
-    my @tmp_arr_l=();
-    my @std_fwzones_l=('block','dmz','drop','external','internal','public','trusted','work','home');
-    my %std_fwzones_defs_services_l=();
-
     # fill %std_fwzones_defs_services_l
     $std_fwzones_defs_services_l{'internal'}{'cockpit'}=1;
     $std_fwzones_defs_services_l{'internal'}{'dhcpv6-client'}=1;
