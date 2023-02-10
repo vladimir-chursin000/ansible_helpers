@@ -2534,7 +2534,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 
     # init fw-zone-params
     my ($zone_name_l,$zone_target_l)=(undef,undef,undef,undef); # std, custom
-    my ($zone_description_l,$zone_short_description_l)=(undef,undef); # custom
+    my ($zone_description_l,$zone_short_description_l)=(undef,undef); # custom only
     my @zone_allowed_services_arr_l=(); # std, custom
     my @zone_allowed_ports_arr_l=(); # std, custom
     my @zone_allowed_protocols_arr_l=(); # std, custom
@@ -2607,8 +2607,9 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    #work=cockpit,dhcpv6-client,ssh
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
-    	    #$arr_el0_l=fw-zone-tmplt-name	    
-    	    $zone_name_l=${$h77_conf_zones_FIN_href_l}{'standard'}{$hkey0_l}{$arr_el0_l}{'zone_name'};
+    	    #$arr_el0_l=fw-zone-tmplt-name
+    	    $zone_name_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_name'};
+	    $zone_target_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
 	    
     	}
 	###
