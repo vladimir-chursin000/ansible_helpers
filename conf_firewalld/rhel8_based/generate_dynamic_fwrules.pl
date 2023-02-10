@@ -2601,16 +2601,65 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	###
 	
 	# commands for configure and correcting std fw-zones
-	    #internal=cockpit,dhcpv6-client,mdns,samba-client,ssh (services)
-	    #home=cockpit,dhcpv6-client,mdns,samba-client,ssh
-	    #public=cockpit,dhcpv6-client,ssh (services)
-	    #work=cockpit,dhcpv6-client,ssh
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
     	    $zone_name_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_name'};
-	    $zone_target_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
 	    
+	    # target
+	    $zone_target_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
+	    # Set zone target = "firewall-cmd --permanent --zone=some_std_zone_name --set-target=some_target"
+	    ###
+	    
+	    # services
+	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'list'}) ) {
+		#internal=cockpit,dhcpv6-client,mdns,samba-client,ssh (services)
+		#home=cockpit,dhcpv6-client,mdns,samba-client,ssh
+		#public=cockpit,dhcpv6-client,ssh (services)
+		#work=cockpit,dhcpv6-client,ssh
+		#$std_fwzones_defs_services_l{zone-name}{service-name}=1
+		# Allow service = "firewall-cmd --permanent --zone=some_std_zone_name --add-service=http"
+	    }
+	    ###
+	    
+	    # ports
+	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'list'}) ) {
+		# Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp"
+	    }
+	    ###
+	    
+	    # protocols
+	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'list'}) ) {
+		# Allow protocol="firewall-cmd --permanent --zone=some_std_zone_name --add-protocol=gre"
+	    }
+	    ###
+	    
+	    # forward
+	    $zone_forward_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_forward'};
+	    # Allow intra zone forwarding = "firewall-cmd --permanent --zone=some_std_zone_name --add-forward"
+	    ###
+
+	    # masquerade
+	    $zone_masquerade_general_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_masquerade_general'};
+	    # Allow masquerade general = "firewall-cmd --permanent --zone=some_std_zone_name --add-masquerade"
+	    ###
+	    
+	    # source ports
+	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'list'}) ) {
+		# Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp"
+	    }
+	    ###
+
+	    # icmp block inversion
+	    $zone_icmp_block_inversion_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
+	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block-inversion"
+	    ###
+
+	    # icmp block
+	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'list'}) ) {
+		# Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp"
+	    }
+	    ###
     	}
 	###
     }
