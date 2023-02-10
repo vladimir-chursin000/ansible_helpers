@@ -2533,14 +2533,15 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my %std_fwzones_defs_services_l=();
 
     # init fw-zone-params
-    my ($zone_name_l,$zone_description_l,$zone_short_description_l,$zone_target_l)=(undef,undef,undef,undef);
-    my @zone_allowed_services_arr_l=();
-    my @zone_allowed_ports_arr_l=();
-    my @zone_allowed_protocols_arr_l=();
-    my ($zone_forward_l,$zone_masquerade_general_l)=(undef,undef);
-    my @zone_allowed_source_ports_arr_l=();
-    my ($zone_icmp_block_inversion_l)=(undef);
-    my @zone_icmp_block_arr_l=();
+    my ($zone_name_l,$zone_target_l)=(undef,undef,undef,undef); # std, custom
+    my ($zone_description_l,$zone_short_description_l)=(undef,undef); # custom
+    my @zone_allowed_services_arr_l=(); # std, custom
+    my @zone_allowed_ports_arr_l=(); # std, custom
+    my @zone_allowed_protocols_arr_l=(); # std, custom
+    my ($zone_forward_l,$zone_masquerade_general_l)=(undef,undef); # std, custom
+    my @zone_allowed_source_ports_arr_l=(); # std, custom
+    my ($zone_icmp_block_inversion_l)=(undef); # std, custom
+    my @zone_icmp_block_arr_l=(); # std, custom
     ###
     
     # fill %std_fwzones_defs_services_l
@@ -2606,8 +2607,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    #work=cockpit,dhcpv6-client,ssh
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
-    	    #$arr_el0_l=fw-zone-tmplt-name
-	    
+    	    #$arr_el0_l=fw-zone-tmplt-name	    
     	    $zone_name_l=${$h77_conf_zones_FIN_href_l}{'standard'}{$hkey0_l}{$arr_el0_l}{'zone_name'};
 	    
     	}
