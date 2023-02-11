@@ -2545,6 +2545,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @interface_list_arr_l=(); # std, custom
     my @source_list_arr_l=(); # std, custom
     my @ipset_tmplt_list_arr_l=(); # std, custom
+    my $forward_ports_set_l=undef; # std, custom
+    my $rich_rules_set_l=undef; # std, custom
     ###
     
     # fill %std_fwzones_defs_services_l
@@ -2680,6 +2682,14 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}) ) {
 		# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=ipset:some_ipset"
 	    }
+	    ###
+	    
+	    # forward_ports_set
+	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
+	    ###
+
+	    # rich_rules_set
+	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
 	    ###
     	}
 	$arr_el0_l=undef;
