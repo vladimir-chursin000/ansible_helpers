@@ -2542,6 +2542,9 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @zone_allowed_source_ports_arr_l=(); # std, custom
     my ($zone_icmp_block_inversion_l)=(undef); # std, custom
     my @zone_icmp_block_arr_l=(); # std, custom
+    my @interface_list_arr_l=(); # std, custom
+    my @source_list_arr_l=(); # std, custom
+    my @ipset_tmplt_list_arr_l=(); # std, custom
     ###
     
     # fill %std_fwzones_defs_services_l
