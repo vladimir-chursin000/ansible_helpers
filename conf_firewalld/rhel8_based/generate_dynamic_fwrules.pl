@@ -2600,7 +2600,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$arr_el0_l=undef;
 	###
 	
-	# commands for configure and correcting std fw-zones
+	# commands for configure and correcting std fw-zones. Without interface_list, source_list, ipset_tmplt_list,
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
@@ -2661,6 +2661,15 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    }
 	    ###
     	}
+	###
+	
+	# commands for configure and correcting std fw-zones with !!!interface_list!!!
+	###
+
+	# commands for configure and correcting std fw-zones with !!!source_list!!!
+	###
+
+	# commands for configure and correcting std fw-zones with !!!ipset_tmplt_list!!!
 	###
     }
     
