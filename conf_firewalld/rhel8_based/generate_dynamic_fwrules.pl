@@ -2709,11 +2709,23 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    # forward
 	    $zone_forward_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_forward'};
 	    # Allow intra zone forwarding = "firewall-cmd --permanent --zone=some_std_zone_name --add-forward"
+	    if ( $zone_forward_l eq 'yes' ) {
+		$wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-forward;";
+        	push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+        	                
+        	$wr_str_l=undef;
+	    }
 	    ###
 
 	    # masquerade
 	    $zone_masquerade_general_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_masquerade_general'};
 	    # Allow masquerade general = "firewall-cmd --permanent --zone=some_std_zone_name --add-masquerade"
+	    if ( $zone_masquerade_general_l eq 'yes' ) {
+		$wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-masquerade;";
+        	push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+        	                
+        	$wr_str_l=undef;
+	    }
 	    ###
 	    
 	    # source ports
@@ -2736,6 +2748,12 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    # icmp block inversion
 	    $zone_icmp_block_inversion_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
 	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block-inversion"
+	    if ( $zone_icmp_block_inversion_l eq 'yes' ) {
+		$wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-icmp-block-inversion;";
+        	push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+        	                
+        	$wr_str_l=undef;
+	    }
 	    ###
 
 	    # icmp block
@@ -2839,7 +2857,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$arr_el0_l=undef;
 	###
     }
-    
+
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
@@ -2862,6 +2880,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
+
+    print Dumper(\%wr_hash_l);
     
     return $return_str_l;
 }
