@@ -2598,6 +2598,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    #$arr_el0_l=std zone name
 	    $wr_str_l="\cp /usr/lib/firewalld/zones/$arr_el0_l.xml /etc/firewalld/zones/$arr_el0_l.xml;";
 	    push(@{$wr_hash_l{'std_recreate'}},$wr_str_l);
+	    
 	    $wr_str_l=undef;
 	}
 	
@@ -2615,6 +2616,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    # Set zone target = "firewall-cmd --permanent --zone=some_std_zone_name --set-target=some_target"
 	    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --set-target=$zone_target_l;";
 	    push(@{$wr_hash_l{'standard'}},$wr_str_l);
+	    
 	    $wr_str_l=undef;
 	    ###
 	    
@@ -2626,18 +2628,21 @@ sub generate_shell_script_for_recreate_firewall_zones {
 		#work=cockpit,dhcpv6-client,ssh
 		#$std_fwzones_defs_services_l{zone-name}{service-name}=1
 		# Allow service = "firewall-cmd --permanent --zone=some_std_zone_name --add-service=http"
+		@zone_allowed_services_arr_l=@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}};
 	    }
 	    ###
 	    
 	    # ports
 	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}) ) {
 		# Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp"
+		@zone_allowed_ports_arr_l=@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}};
 	    }
 	    ###
 	    
 	    # protocols
 	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}) ) {
 		# Allow protocol="firewall-cmd --permanent --zone=some_std_zone_name --add-protocol=gre"
+		@zone_allowed_protocols_arr_l=@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}};
 	    }
 	    ###
 	    
@@ -2654,6 +2659,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    # source ports
 	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}) ) {
 		# Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp"
+		@zone_allowed_source_ports_arr_l=@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}};
 	    }
 	    ###
 
@@ -2665,24 +2671,28 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    # icmp block
 	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) ) {
 		# Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp"
+		@zone_icmp_block_arr_l=@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}};
 	    }
 	    ###
 
 	    # interface_list
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}) ) {
 		# Change interface affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-interface=some_interface_name"
+		@interface_list_arr_l=@{${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}};
 	    }
 	    ###
 	    
 	    # source_list
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}) ) {
 		# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=some_source"
+		@source_list_arr_l=@{${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}};
 	    }
 	    ###
 	    
 	    # ipset_tmplt_list
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}) ) {
 		# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=ipset:some_ipset"
+		@ipset_tmplt_list_arr_l=@{${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}};
 	    }
 	    ###
 	    
