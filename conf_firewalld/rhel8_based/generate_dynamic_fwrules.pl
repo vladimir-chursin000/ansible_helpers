@@ -2841,9 +2841,20 @@ sub generate_shell_script_for_recreate_firewall_zones {
     		    #{'rule-1'}=1
     		    #etc
     		    #{'seq'}=[val-0,val-1] (val=rule)
+	    # Add forward-port = "firewall-cmd --permanent --zone=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
 	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
 	    if ( $forward_ports_set_l ne 'empty' ) {
 		@forward_ports_arr_l=@{${$fw_ports_set_href_l}{$forward_ports_set_l}{'seq'}};
+		foreach $arr_el1_l ( @forward_ports_arr_l ) {
+                    #$arr_el1_l=forward-port rule
+                    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-forward-port='$arr_el1_l';";
+                    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+            
+                    $wr_str_l=undef;
+                }
+            
+                $arr_el1_l=undef;
+                @forward_ports_arr_l=();
 	    }
 	    ###
 
@@ -2854,9 +2865,20 @@ sub generate_shell_script_for_recreate_firewall_zones {
     		    #{'rule-1'}=1
     		    #etc
     		    #{'seq'}=[val-0,val-1] (val=rule)
+	    # Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name --add-rich-rule='some-rich-rule-string'" (for information only).
 	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
 	    if ( $rich_rules_set_l ne 'empty' ) {
 		@rich_rules_arr_l=@{${$rich_rules_set_href_l}{$rich_rules_set_l}{'seq'}};
+		foreach $arr_el1_l ( @rich_rules_arr_l ) {
+                    #$arr_el1_l=rich-rule
+                    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-rich-rule='$arr_el1_l';";
+                    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+            
+                    $wr_str_l=undef;
+                }
+            
+                $arr_el1_l=undef;
+                @rich_rules_arr_l=();
 	    }
 	    ###
 	    

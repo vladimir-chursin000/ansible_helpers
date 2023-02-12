@@ -21,11 +21,13 @@
     # Possible values:
         # some_forward_ports_set_name (for apply some forward ports rules to firewall zone)
         # empty (for don't apply any forward ports rules to firewall zone).
+    # Add forward-port = "firewall-cmd --permanent --zone=some_policy_name --add-forward-port='some-fw-port-string'" (for information only).
 ###
 # RICH_RULES_SET = name of rich rules set for apply to policy. To configure #RICH_RULES_SET edit file "05_conf_zone_rich_rules_sets".
     # Possible values:
         # some_rich_rules_set_name (for apply some rich rules to firewall zone)
         # empty (for don't apply any rich rules to firewall zone).
+    # Add rich-rule = "firewall-cmd --permanent --zone=some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
 ###
 #INVENTORY_HOST		#POLICY_NAME_TMPLT		#INGRESS-FIREWALL_ZONE_NAME_TMPLT	#EGRESS-FIREWALL_ZONE_NAME_TMPLT	#FORWARD_PORTS_SET      #RICH_RULES_SET
 #all			policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set1		rich_rules_set1 (example)

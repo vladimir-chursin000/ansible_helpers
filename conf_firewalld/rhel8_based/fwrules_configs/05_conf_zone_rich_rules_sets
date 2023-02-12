@@ -3,6 +3,7 @@
 #####################################################################
 
 # Rich rules set name must be unique.
+# Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name/some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
 
 ###CUSTOM RICH RULES SET EXAMPLE. Use this template to define rich rules sets. Don't forget to remove the comment characters (#).
 #[some_rich_rules_set_name:BEGIN]

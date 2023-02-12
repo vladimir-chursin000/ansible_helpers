@@ -3,6 +3,7 @@
 ########################################################################
 
 # Forward ports set name must be unique.
+# Add forward-port = "firewall-cmd --permanent --zone=some_zone_name/some_policy_name --add-forward-port='some-fw-port-string'" (for information only).
 
 ###CUSTOM FORWARD PORTS SET EXAMPLE. Use this template to define forward ports sets. Don't forget to remove the comment characters (#).
 #[some_forward_ports_set_name:BEGIN]
