@@ -2545,9 +2545,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @zone_icmp_block_arr_l=(); # std, custom
     my @interface_list_arr_l=(); # std, custom
     my @source_list_arr_l=(); # std, custom
+    
     my @ipset_tmplt_list_arr_l=(); # std, custom
+    my $ipset_name_l=undef;
+    
     my $forward_ports_set_l=undef; # std, custom
     my @forward_ports_arr_l=(); 
+    
     my $rich_rules_set_l=undef; # std, custom
     my @rich_rules_arr_l=();
     ###
@@ -2789,6 +2793,25 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}) ) {
 		# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=ipset:some_ipset"
 		@ipset_tmplt_list_arr_l=@{${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}};
+		foreach $arr_el1_l ( @ipset_tmplt_list_arr_l ) {
+                    #$arr_el1_l=ipset-tmplt-name
+			#$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+			#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+			    #{'ipset_name'}=value
+		    if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el1_l}) ) {
+			$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$arr_el1_l}{'ipset_name'};
+		    }
+		    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el1_l}) ) {
+			$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$arr_el1_l}{'ipset_name'};
+		    }
+                    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --change-source=ipset:$ipset_name_l;";
+                    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+            
+                    $wr_str_l=undef;
+                }
+            
+                $arr_el1_l=undef;
+                @ipset_tmplt_list_arr_l=();
 	    }
 	    ###
 	    
