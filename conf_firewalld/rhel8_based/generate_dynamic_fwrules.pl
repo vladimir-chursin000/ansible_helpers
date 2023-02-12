@@ -2755,6 +2755,16 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}) ) {
 		# Change interface affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-interface=some_interface_name"
 		@interface_list_arr_l=@{${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}};
+		foreach $arr_el1_l ( @interface_list_arr_l ) {
+                    #$arr_el1_l=interface
+                    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --change-interface=$arr_el1_l;";
+                    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+            
+                    $wr_str_l=undef;
+                }
+            
+                $arr_el1_l=undef;
+                @interface_list_arr_l=();
 	    }
 	    ###
 	    
@@ -2762,6 +2772,16 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}) ) {
 		# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=some_source"
 		@source_list_arr_l=@{${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}};
+		foreach $arr_el1_l ( @source_list_arr_l ) {
+                    #$arr_el1_l=source
+                    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --change-source=$arr_el1_l;";
+                    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+            
+                    $wr_str_l=undef;
+                }
+            
+                $arr_el1_l=undef;
+                @source_list_arr_l=();
 	    }
 	    ###
 	    
