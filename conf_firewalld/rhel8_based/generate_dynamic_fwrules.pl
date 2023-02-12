@@ -2598,7 +2598,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    #$arr_el0_l=std zone name
 	    $wr_str_l="\cp /usr/lib/firewalld/zones/$arr_el0_l.xml /etc/firewalld/zones/$arr_el0_l.xml;";
 	    push(@{$wr_hash_l{'std_recreate'}},$wr_str_l);
-	    
 	    $wr_str_l=undef;
 	}
 	
@@ -2614,6 +2613,9 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    # target
 	    $zone_target_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
 	    # Set zone target = "firewall-cmd --permanent --zone=some_std_zone_name --set-target=some_target"
+	    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --set-target=$zone_target_l;";
+	    push(@{$wr_hash_l{'standard'}},$wr_str_l);
+	    $wr_str_l=undef;
 	    ###
 	    
 	    # services
