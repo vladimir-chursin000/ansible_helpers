@@ -2685,10 +2685,20 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    ###
 	    
 	    # forward_ports_set
+	        #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    		    #{'rule-0'}=1
+    		    #{'rule-1'}=1
+    		    #etc
+    		    #{'seq'}=[val-0,val-1] (val=rule)
 	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
 	    ###
 
 	    # rich_rules_set
+		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    		    #{'rule-0'}=1
+    		    #{'rule-1'}=1
+    		    #etc
+    		    #{'seq'}=[val-0,val-1] (val=rule)
 	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
 	    ###
     	}
