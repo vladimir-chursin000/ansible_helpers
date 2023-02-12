@@ -2612,7 +2612,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$arr_el0_l=undef;
 	###
 	
-	# commands for configure and correcting std fw-zones
+	# commands for configure and correcting std fw-zones (begin)
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
@@ -2717,7 +2717,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
         	$wr_str_l=undef;
 	    }
 	    ###
-
+	
 	    # masquerade
 	    $zone_masquerade_general_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_masquerade_general'};
 	    # Allow masquerade general = "firewall-cmd --permanent --zone=some_std_zone_name --add-masquerade"
@@ -2737,15 +2737,15 @@ sub generate_shell_script_for_recreate_firewall_zones {
                     #$arr_el1_l=source-port for allow
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-source-port=$arr_el1_l;";
                     push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
-
+	
                     $wr_str_l=undef;
                 }
-
+	
                 $arr_el1_l=undef;
                 @zone_allowed_source_ports_arr_l=();
 	    }
 	    ###
-
+	
 	    # icmp block inversion
 	    $zone_icmp_block_inversion_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
 	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block-inversion"
@@ -2756,7 +2756,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
         	$wr_str_l=undef;
 	    }
 	    ###
-
+	
 	    # icmp block
 	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) ) {
 		# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block=some_icmp_type"
@@ -2773,7 +2773,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
                 @zone_icmp_block_arr_l=();
 	    }
 	    ###
-
+	
 	    # interface_list
 	    if ( exists(${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}) ) {
 		# Change interface affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-interface=some_interface_name"
@@ -2857,7 +2857,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
                 @forward_ports_arr_l=();
 	    }
 	    ###
-
+	
 	    # rich_rules_set
 		#$rich_rules_set_href_l
 		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
@@ -2883,19 +2883,20 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    ###
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},' ');
-    	}
+    	} # commands for configure and correcting std fw-zones (end)
 	
 	$arr_el0_l=undef;
 	$zone_name_l=undef;
+	@tmp_arr_l=();
 	###
     }
-
+    
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
-    # fill array (for each host) with commands for recreate custom fw-zones
+    # fill array (for each host) with commands for recreate custom fw-zones (begin)
     while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'custom'}} ) {
     	#$hkey0_l=inv-host
     	
@@ -2906,7 +2907,10 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	    #$arr_el0_l=fw-zone-tmplt-name
     	    
     	}
-    }
+	
+	$arr_el0_l=undef;
+	@tmp_arr_l=();
+    } # fill array (for each host) with commands for recreate custom fw-zones (end)
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
