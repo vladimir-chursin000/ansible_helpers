@@ -2521,7 +2521,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
-    my $arr_el0_l=undef;
+    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     my @tmp_arr_l=();
     
     my $wr_str_l=undef;
@@ -2536,6 +2536,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my ($zone_name_l,$zone_target_l)=(undef,undef,undef,undef); # std, custom
     my ($zone_description_l,$zone_short_description_l)=(undef,undef); # custom only
     my @zone_allowed_services_arr_l=(); # std, custom
+    my @zone_services_for_remove_arr_l=(); # std
     my @zone_allowed_ports_arr_l=(); # std, custom
     my @zone_allowed_protocols_arr_l=(); # std, custom
     my ($zone_forward_l,$zone_masquerade_general_l)=(undef,undef); # std, custom
@@ -2546,7 +2547,9 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my @source_list_arr_l=(); # std, custom
     my @ipset_tmplt_list_arr_l=(); # std, custom
     my $forward_ports_set_l=undef; # std, custom
+    my @forward_ports_arr_l=(); 
     my $rich_rules_set_l=undef; # std, custom
+    my @rich_rules_arr_l=();
     ###
     
     # fill %std_fwzones_defs_services_l
@@ -2596,8 +2599,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	# commands for remove and recreate std fw-zones
 	foreach $arr_el0_l ( @std_fwzones_l ) {
 	    #$arr_el0_l=std zone name
-	    $wr_str_l="\cp /usr/lib/firewalld/zones/$arr_el0_l.xml /etc/firewalld/zones/$arr_el0_l.xml;";
-	    push(@{$wr_hash_l{'std_recreate'}},$wr_str_l);
+	    $wr_str_l='\cp '."/usr/lib/firewalld/zones/$arr_el0_l.xml /etc/firewalld/zones/$arr_el0_l.xml;";
+	    push(@{$wr_hash_l{$hkey0_l}{'std_recreate'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
 	}
@@ -2615,7 +2618,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    $zone_target_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
 	    # Set zone target = "firewall-cmd --permanent --zone=some_std_zone_name --set-target=some_target"
 	    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --set-target=$zone_target_l;";
-	    push(@{$wr_hash_l{'standard'}},$wr_str_l);
+	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
 	    ###
@@ -2629,6 +2632,39 @@ sub generate_shell_script_for_recreate_firewall_zones {
 		#$std_fwzones_defs_services_l{zone-name}{service-name}=1
 		# Allow service = "firewall-cmd --permanent --zone=some_std_zone_name --add-service=http"
 		@zone_allowed_services_arr_l=@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}};
+		if ( exists($std_fwzones_defs_services_l{$zone_name_l}) ) {
+		    while ( ($hkey1_l,$hval1_l)=each %{$std_fwzones_defs_services_l{$zone_name_l}} ) {
+			#$hkey1_l=def service for zone=$zone_name_l
+			if ( !exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'list'}{$hkey1_l}) ) {
+			    push(@zone_services_for_remove_arr_l,$hkey1_l);
+			}
+		    }
+		    
+		    if ( $#zone_services_for_remove_arr_l!=-1 ) {
+			@zone_services_for_remove_arr_l=sort(@zone_services_for_remove_arr_l);
+			foreach $arr_el1_l ( @zone_services_for_remove_arr_l ) {
+			    #$arr_el1_l=service name for remove
+			    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --remove-service=$arr_el1_l;";
+			    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+			    
+			    $wr_str_l=undef;
+			}
+			$arr_el1_l=undef;
+		    }
+		    
+		    @zone_services_for_remove_arr_l=();
+		}
+		
+		foreach $arr_el1_l ( @zone_allowed_services_arr_l ) {
+		    #$arr_el1_l=service name for add
+		    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-service=$arr_el1_l;";
+		    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+		    	    
+		    $wr_str_l=undef;
+		}
+		$arr_el1_l=undef;
+		
+		@zone_allowed_services_arr_l=();
 	    }
 	    ###
 	    
@@ -2713,11 +2749,12 @@ sub generate_shell_script_for_recreate_firewall_zones {
     		    #{'seq'}=[val-0,val-1] (val=rule)
 	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
 	    ###
+	    
+	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},' ');
     	}
+	
 	$arr_el0_l=undef;
 	###
-	
-
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
