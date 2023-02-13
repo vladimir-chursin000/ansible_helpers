@@ -2914,6 +2914,12 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	
     	    #$arr_el0_l=fw-zone-tmplt-name
     	    $zone_name_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_name'};
+	    # Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name"
+	    $wr_str_l="firewall-cmd --permanent --new-zone='$zone_name_l';";
+	    push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
+	    
+	    $wr_str_l=undef;
+	    ###
 	    
 	    # target
 	    $zone_target_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
