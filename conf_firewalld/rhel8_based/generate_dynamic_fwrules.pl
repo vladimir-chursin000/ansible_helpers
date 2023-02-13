@@ -2593,21 +2593,21 @@ sub generate_shell_script_for_recreate_firewall_zones {
     );
     ###
     
-    # fill array (for each host) with commands for recreate standard fw-zones
+    # fill array (for each host) with commands for recreate standard fw-zones (begin)
     while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'standard'}} ) {
     	#$hkey0_l=inv-host
     	
     	#%wr_hash_l=();
     	    #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
-	
-	# commands for remove and recreate std fw-zones
-	foreach $arr_el0_l ( @std_fwzones_l ) {
-	    #$arr_el0_l=std zone name
-	    $wr_str_l='\cp '."/usr/lib/firewalld/zones/$arr_el0_l.xml /etc/firewalld/zones/$arr_el0_l.xml;";
-	    push(@{$wr_hash_l{$hkey0_l}{'std_recreate'}},$wr_str_l);
-	    
-	    $wr_str_l=undef;
-	}
+    	
+    	# commands for remove and recreate std fw-zones
+    	foreach $arr_el0_l ( @std_fwzones_l ) {
+    	    #$arr_el0_l=std zone name
+    	    $wr_str_l='\cp '."/usr/lib/firewalld/zones/$arr_el0_l.xml /etc/firewalld/zones/$arr_el0_l.xml;";
+    	    push(@{$wr_hash_l{$hkey0_l}{'std_recreate'}},$wr_str_l);
+    	    
+    	    $wr_str_l=undef;
+    	}
 	
 	$arr_el0_l=undef;
 	###
@@ -2883,18 +2883,18 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    ###
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},' ');
-    	} # commands for configure and correcting std fw-zones (end)
+    	}
 	
 	$arr_el0_l=undef;
 	$zone_name_l=undef;
 	@tmp_arr_l=();
-	###
+	### commands for configure and correcting std fw-zones (end)
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
+    ### fill array (for each host) with commands for recreate standard fw-zones (end)
     
     # fill array (for each host) with commands for recreate custom fw-zones (begin)
     while ( ($hkey0_l,$hval0_l)=each %{${$h77_conf_zones_FIN_href_l}{'custom'}} ) {
@@ -2902,6 +2902,12 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	
     	#%wr_hash_l=();
     	    #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
+	
+	# commands for remove custom fw-zones
+	
+	###
+	
+	# commands for configure custom fw-zones (begin)
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
@@ -2910,12 +2916,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	$arr_el0_l=undef;
 	@tmp_arr_l=();
-    } # fill array (for each host) with commands for recreate custom fw-zones (end)
+	### commands for configure custom fw-zones (end)
+    }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
+    ### fill array (for each host) with commands for recreate custom fw-zones (end)
 
     print Dumper(\%wr_hash_l);
     
