@@ -2905,9 +2905,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	# commands for remove custom fw-zones
 	$wr_str_l="rm -rf /etc/firewalld/zones/*--custom.xml;";
-        push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
-                
+        push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);        
         $wr_str_l=undef;
+	
+	$unconf_custom_fw_zones_act_l=${$conf_firewalld_href_l}{$hkey0_l}{'unconfigured_custom_firewall_zones_action'};
+	if ( $unconf_custom_fw_zones_act_l eq 'remove' ) {
+	    
+	}
 	###
 	
 	# commands for configure custom fw-zones (begin)
