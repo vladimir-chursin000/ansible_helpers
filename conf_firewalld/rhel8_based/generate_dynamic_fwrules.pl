@@ -2904,7 +2904,10 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	    #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
 	
 	# commands for remove custom fw-zones
-	
+	$wr_str_l="rm -rf /etc/firewalld/zones/*--custom.xml;";
+        push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
+                
+        $wr_str_l=undef;
 	###
 	
 	# commands for configure custom fw-zones (begin)
