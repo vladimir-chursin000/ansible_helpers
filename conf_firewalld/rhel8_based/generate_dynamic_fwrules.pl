@@ -2910,7 +2910,11 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	$unconf_custom_fw_zones_act_l=${$conf_firewalld_href_l}{$hkey0_l}{'unconfigured_custom_firewall_zones_action'};
 	if ( $unconf_custom_fw_zones_act_l eq 'remove' ) {
+	    # 'block','dmz','drop','external','internal','public','trusted','work','home'
+	    $wr_str_l="find /etc/firewalld/zones -type f | grep -v '\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$' | xargs rm -f;";
+	    push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
 	    
+	    $wr_str_l=undef;
 	}
 	###
 	
