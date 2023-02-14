@@ -22,12 +22,12 @@
 #zone_description=empty|some description
     # Do not use here "=" or ",".
     # The maximum length is 100 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
-    # Set zone description = "firewall-cmd --permanent --zone=some_zone_name --set-description="some_description"" (for information only).
+    # Set zone description = "firewall-cmd --permanent --zone=some_zone_name --set-description='some_description'" (for information only).
 
 #zone_short_description=empty|some short description
     # Do not use here "=" or ",".
     # The maximum length is 20 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
-    # Set zone short description = "firewall-cmd --permanent --zone=some_zone_name --set-short="some_short_description"" (for information only).
+    # Set zone short description = "firewall-cmd --permanent --zone=some_zone_name --set-short='some_short_description'" (for information only).
 
 #zone_target=ACCEPT|REJECT|DROP|default
     # ACCEPT -> will accept every packet that does not match any rule.

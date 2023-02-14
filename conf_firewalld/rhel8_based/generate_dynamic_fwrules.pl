@@ -2921,6 +2921,32 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    $wr_str_l=undef;
 	    ###
 	    
+	    # description
+	    $zone_description_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_description'};
+	    if ( $zone_description_l ne 'empty' ) {
+		# Set zone description = "firewall-cmd --permanent --zone=some_zone_name --set-description='some_description'"	
+		$wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --set-description='$zone_description_l';";
+		push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
+	    
+		$wr_str_l=undef;
+	    }
+	    
+	    $zone_description_l=undef;
+	    ###
+	    
+	    # short description
+	    $zone_short_description_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_short_description'};
+	    if ( $zone_short_description_l ne 'empty' ) {
+		# Set zone short description = "firewall-cmd --permanent --zone=some_zone_name --set-short='some_short_description'"
+		$wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --set-short='$zone_short_description_l';";
+		push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
+	    
+		$wr_str_l=undef;
+	    }
+	    
+	    $zone_short_description_l=undef;
+	    ###
+	    
 	    # target
 	    $zone_target_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_target'};
 	    # Set zone target = "firewall-cmd --permanent --zone=some_custom_zone_name --set-target=some_target"
