@@ -2527,6 +2527,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my $unconf_custom_fw_zones_act_l=undef;
+    my $enable_logging_of_dropped_packets_l=undef;
     my @wr_arr_l=();
 
     my @std_fwzones_l=('block','dmz','drop','external','internal','public','trusted','work','home');
@@ -3201,13 +3202,22 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$zone_name_l=undef;
 	@tmp_arr_l=();
 	### commands for configure custom fw-zones (end)
+
+	# enable_logging_of_dropped_packets
+	$enable_logging_of_dropped_packets_l=${$conf_firewalld_href_l}{$hkey0_l}{'enable_logging_of_dropped_packets'};
+	if ( $enable_logging_of_dropped_packets_l eq 'yes' ) {
+	    
+	}
+	###
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill array (for each host) with commands for recreate custom fw-zones (end)
+    
 
+    
     print Dumper(\%wr_hash_l);
     
     return $return_str_l;
