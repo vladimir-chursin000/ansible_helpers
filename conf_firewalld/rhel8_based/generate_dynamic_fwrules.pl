@@ -3206,7 +3206,15 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	# enable_logging_of_dropped_packets
 	$enable_logging_of_dropped_packets_l=${$conf_firewalld_href_l}{$hkey0_l}{'enable_logging_of_dropped_packets'};
 	if ( $enable_logging_of_dropped_packets_l eq 'yes' ) {
-	    
+	    #enable_logging_of_dropped_packets=yes|no
+		# Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
+		# If "yes" -> all dropped/rejected packets will be written to file "/var/log/firewalld-droppd".
+		# Log collecting released via rsyslog and createing conf file "/etc/rsyslog.d/firewalld-droppd.conf"
+    		    # with content:
+    			# :msg,contains,"_DROP" /var/log/firewalld-droppd.log
+    			# :msg,contains,"_REJECT" /var/log/firewalld-droppd.log
+    			# & stop
+		# Custom parameter.
 	}
 	###
     }
