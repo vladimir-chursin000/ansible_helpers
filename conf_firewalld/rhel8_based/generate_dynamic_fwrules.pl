@@ -3212,8 +3212,18 @@ sub generate_shell_script_for_recreate_firewall_zones {
     print Dumper(\%wr_hash_l);
 
     # create scripts for each host
+	#@begin_script_arr_l
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
 	#$hkey0_l=inv-host
+	    #subkeys: custom, standard, custom_remove, std_recreate
+	$wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_fw_zones.sh';
+	@wr_arr_l=(@begin_script_arr_l);
+	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+        #$file_l,$aref_l
+        if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+
+	$wr_file_l=undef;
+	@wr_arr_l=();
     }
     ###
     
