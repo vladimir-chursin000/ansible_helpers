@@ -3209,7 +3209,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill array (for each host) with commands for recreate custom fw-zones (end)
     
-    print Dumper(\%wr_hash_l);
+    #print Dumper(\%wr_hash_l);
 
     # create scripts for each host
 	#@begin_script_arr_l
@@ -3218,6 +3218,11 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    #subkeys: custom, standard, custom_remove, std_recreate
 	$wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_fw_zones.sh';
 	@wr_arr_l=(@begin_script_arr_l);
+	if ( exists(${$hval0_l}{'std_recreate'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'std_recreate'}}); }
+	if ( exists(${$hval0_l}{'custom_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'custom_remove'}}); }
+	if ( exists(${$hval0_l}{'standard'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'standard'}}); }
+	if ( exists(${$hval0_l}{'custom'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'custom'}}); }
+	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
         if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
