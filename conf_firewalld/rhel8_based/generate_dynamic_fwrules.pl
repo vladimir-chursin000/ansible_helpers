@@ -2912,7 +2912,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$unconf_custom_fw_zones_act_l=${$conf_firewalld_href_l}{$hkey0_l}{'unconfigured_custom_firewall_zones_action'};
 	if ( $unconf_custom_fw_zones_act_l eq 'remove' ) {
 	    # 'block','dmz','drop','external','internal','public','trusted','work','home'
-	    $wr_str_l="find /etc/firewalld/zones -type f | grep -v '\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$' | xargs rm -f;";
+	    $wr_str_l='find /etc/firewalld/zones -type f | grep -v "\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$" | xargs rm -f;';
 	    push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
@@ -3202,21 +3202,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$zone_name_l=undef;
 	@tmp_arr_l=();
 	### commands for configure custom fw-zones (end)
-
-	# enable_logging_of_dropped_packets
-	$enable_logging_of_dropped_packets_l=${$conf_firewalld_href_l}{$hkey0_l}{'enable_logging_of_dropped_packets'};
-	if ( $enable_logging_of_dropped_packets_l eq 'yes' ) {
-	    #enable_logging_of_dropped_packets=yes|no
-		# Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
-		# If "yes" -> all dropped/rejected packets will be written to file "/var/log/firewalld-droppd".
-		# Log collecting released via rsyslog and createing conf file "/etc/rsyslog.d/firewalld-droppd.conf"
-    		    # with content:
-    			# :msg,contains,"_DROP" /var/log/firewalld-droppd.log
-    			# :msg,contains,"_REJECT" /var/log/firewalld-droppd.log
-    			# & stop
-		# Custom parameter.
-	}
-	###
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -3224,9 +3209,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill array (for each host) with commands for recreate custom fw-zones (end)
     
-
-    
     print Dumper(\%wr_hash_l);
+
+    # create scripts for each host
+    while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
+	#$hkey0_l=inv-host
+    }
+    ###
     
     return $return_str_l;
 }
