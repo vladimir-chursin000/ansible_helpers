@@ -83,7 +83,6 @@ our %h00_conf_firewalld_hash_g=();
 #[firewall_conf_for_all--TMPLT:BEGIN]
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
-#unconfigured_firewall_policies_action=no_action
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -100,7 +99,6 @@ our %h00_conf_firewalld_hash_g=();
 ###
 #$h00_conf_firewalld_hash_g{inventory_host}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
-#{'unconfigured_firewall_policies_action'}=no_action|remove
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
 #{'CleanupModulesOnExit'}=yes|no
@@ -822,7 +820,6 @@ sub read_00_conf_firewalld {
     #[firewall_conf_for_all--TMPLT:BEGIN]
     #host_list_for_apply=all
     #unconfigured_custom_firewall_zones_action=no_action
-    #unconfigured_firewall_policies_action=no_action
     #DefaultZone=public
     #CleanupOnExit=yes
     #CleanupModulesOnExit=yes
@@ -839,7 +836,6 @@ sub read_00_conf_firewalld {
     ###
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
-    #{'unconfigured_firewall_policies_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -873,7 +869,6 @@ sub read_00_conf_firewalld {
     my %cfg_params_and_regex_l=(
 	'host_list_for_apply'=>'^all$|\S+',
 	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
-	'unconfigured_firewall_policies_action'=>'^no_action$|^remove$',
 	'DefaultZone'=>'^\S+$',
 	'CleanupOnExit'=>'^yes$|^no$',
 	'CleanupModulesOnExit'=>'^yes$|^no$',
@@ -2377,7 +2372,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
 
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
-    #{'unconfigured_firewall_policies_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
