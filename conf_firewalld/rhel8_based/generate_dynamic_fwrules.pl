@@ -628,6 +628,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
     	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
     	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
+	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,
     	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
     	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
     	'h88_conf_policies_FIN_href'=>\%h88_conf_policies_FIN_hash_g,
@@ -3255,6 +3256,9 @@ sub generate_shell_script_for_recreate_policies {
     
     my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
+    
+    my $conf_policy_templates_href_l=${$input_hash4proc_href_l}{'h03_conf_policy_templates_href'};
+    #$conf_policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
         
     my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
     #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
@@ -3366,6 +3370,49 @@ sub generate_shell_script_for_recreate_policies {
             #etc
         #{'seq'}=[val-0,val-1] (val=icmptype)
 
+    ######
+    #$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}->
+    #{'policy_name'}=value
+    #{'policy_description'}=empty|value
+    #{'policy_short_description'}=empty|value
+    #{'policy_target'}=ACCEPT|REJECT|DROP|CONTINUE
+    #{'policy_priority'}=num (+/-)
+    #{'policy_allowed_services'}->
+	#{'empty'}=1 or
+	#{'list'}->
+	    #{'service-0'}=1
+	    #{'service-1'}=1
+	    #etc
+	#{'seq'}=[val-0,val-1] (val=service)
+    #{'policy_allowed_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+	    #{'port-0'}=1
+	    #{'port-1'}=1
+	    #etc
+	#{'seq'}=[val-0,val-1] (val=port)
+    #{'policy_allowed_protocols'}->
+	#{'empty'}=1 or
+	#{'list'}->
+	    #{'proto-0'}=1
+	    #{'proto-1'}=1
+	    #etc
+	#{'seq'}=[val-0,val-1] (val=proto)
+    #{'policy_masquerade_general'}=yes|no
+    #{'policy_allowed_source_ports'}->
+	#{'empty'}=1 or
+	#{'list'}->
+	    #{'port-0'}=1
+	    #{'port-1'}=1
+	    #etc
+	#{'seq'}=[val-0,val-1] (val=port)
+    #{'policy_icmp_block'}->
+	#{'empty'}=1 or
+	#{'list'}->
+	    #{'icmptype-0'}=1
+	    #{'icmptype-1'}=1
+	    #etc
+        #{'seq'}=[val-0,val-1] (val=icmptype)
     ######
     #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
         #{'rule-0'}=1
