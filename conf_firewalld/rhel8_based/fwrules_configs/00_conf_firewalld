@@ -18,9 +18,15 @@
     # Custom parameter.
 
 #unconfigured_custom_firewall_zones_action=remove|no_action
-    # If "remove" -> all custom firewall zones not configured in the "02_conf_custom_firewall_zones_templates" file will be deleted.
+    # If "remove" -> all custom firewall zones not configured at conf files
+	# "02_conf_custom_firewall_zones_templates" and "77_conf_zones_FIN" will be deleted.
     # Custom firewall zones = zones not at list of standard firewall zones (block, dmz, drop, external, internal, public, trusted, work, home)
-	#and not onfigured in the "02_conf_custom_firewall_zones_templates".
+	# and not onfigured in the "02_conf_custom_firewall_zones_templates".
+    # Custom parameter.
+
+#unconfigured_firewall_policies_action=remove|no_action
+    # If "remove" -> all custom firewall policies not configured at conf files "03_conf_policy_templates"
+	# and "88_conf_policies_FIN" will be deleted.
     # Custom parameter.
 
 #DefaultZone=public
@@ -100,6 +106,7 @@
 #[firewall_conf_for_all--TMPLT:BEGIN]
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
+#unconfigured_firewall_policies_action=no_action
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -117,6 +124,7 @@
 #[firewall_conf_ver1--TMPLT:BEGIN]
 #host_list_for_apply=192.168.0.2,192.168.0.3,192.168.0.10
 #unconfigured_custom_firewall_zones_action=remove
+#unconfigured_firewall_policies_action=remove
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -135,6 +143,7 @@
 [firewall_conf_for_all--TMPLT:BEGIN]
 host_list_for_apply=all
 unconfigured_custom_firewall_zones_action=no_action
+unconfigured_firewall_policies_action=no_action
 DefaultZone=public
 CleanupOnExit=yes
 CleanupModulesOnExit=yes

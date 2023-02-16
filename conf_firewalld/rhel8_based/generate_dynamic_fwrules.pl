@@ -83,6 +83,7 @@ our %h00_conf_firewalld_hash_g=();
 #[firewall_conf_for_all--TMPLT:BEGIN]
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
+#unconfigured_firewall_policies_action=no_action
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -99,6 +100,7 @@ our %h00_conf_firewalld_hash_g=();
 ###
 #$h00_conf_firewalld_hash_g{inventory_host}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+#{'unconfigured_firewall_policies_action'}=no_action|remove
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
 #{'CleanupModulesOnExit'}=yes|no
@@ -819,6 +821,7 @@ sub read_00_conf_firewalld {
     #[firewall_conf_for_all--TMPLT:BEGIN]
     #host_list_for_apply=all
     #unconfigured_custom_firewall_zones_action=no_action
+    #unconfigured_firewall_policies_action=no_action
     #DefaultZone=public
     #CleanupOnExit=yes
     #CleanupModulesOnExit=yes
@@ -835,6 +838,7 @@ sub read_00_conf_firewalld {
     ###
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'unconfigured_firewall_policies_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -868,6 +872,7 @@ sub read_00_conf_firewalld {
     my %cfg_params_and_regex_l=(
 	'host_list_for_apply'=>'^all$|\S+',
 	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
+	'unconfigured_firewall_policies_action'=>'^no_action$|^remove$',
 	'DefaultZone'=>'^\S+$',
 	'CleanupOnExit'=>'^yes$|^no$',
 	'CleanupModulesOnExit'=>'^yes$|^no$',
@@ -2371,6 +2376,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'unconfigured_firewall_policies_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -3260,7 +3266,7 @@ sub generate_shell_script_for_recreate_policies {
     
     my $h88_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h88_conf_policies_FIN_href'};
     #$h88_conf_policies_FIN_href_l=hash-ref for %h88_conf_policies_FIN_hash_g
-	#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
+	#$h88_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
 
@@ -3383,6 +3389,12 @@ sub generate_shell_script_for_recreate_policies {
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
+
+    while ( ($hkey0_l,$hval0_l)=each %{$h88_conf_zones_FIN_href_l} ) {
+    	#$hkey0_l=inv-host
+    }
+
+    return $return_str_l;
 }
 ######general subs
 
