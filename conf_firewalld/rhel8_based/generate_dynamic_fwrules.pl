@@ -3436,6 +3436,23 @@ sub generate_shell_script_for_recreate_policies {
     my $wr_file_l=undef;
     my @wr_arr_l=();
 
+    # init fw-zone-params
+    my ($policy_name_l,$policy_target_l)=(undef,undef,undef,undef);
+    my ($policy_description_l,$policy_short_description_l,$policy_priority_l)=(undef,undef,undef);
+    my @policy_allowed_services_arr_l=();
+    my @policy_allowed_ports_arr_l=();
+    my @policy_allowed_protocols_arr_l=();
+    my $policy_masquerade_general_l=undef;
+    my @policy_allowed_source_ports_arr_l=();
+    my @policy_icmp_block_arr_l=();
+    
+    my $forward_ports_set_l=undef;
+    my @forward_ports_arr_l=(); 
+    
+    my $rich_rules_set_l=undef;
+    my @rich_rules_arr_l=();
+    ###
+
     my @begin_script_arr_l=();
     my %wr_hash_l=();
         #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
