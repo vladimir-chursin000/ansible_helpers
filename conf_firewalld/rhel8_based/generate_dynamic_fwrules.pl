@@ -2923,8 +2923,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=fw-zone-tmplt-name
-    	
-    	    #$arr_el0_l=fw-zone-tmplt-name
     	    $zone_name_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_name'};
 	    # Create custom zone = "firewall-cmd --permanent --new-zone=some_zone_name"
 	    $wr_str_l="firewall-cmd --permanent --new-zone='$zone_name_l';";
@@ -3474,9 +3472,45 @@ sub generate_shell_script_for_recreate_policies {
     );
     ###
 
+    # fill array (for each host) with commands for recreate policies (begin)
     while ( ($hkey0_l,$hval0_l)=each %{$h88_conf_zones_FIN_href_l} ) {
     	#$hkey0_l=inv-host
+
+    	#%wr_hash_l=();
+    	    #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
+	
+	# commands for remove policies
+	$wr_str_l="rm -rf /etc/firewalld/policies/*;";
+        push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},$wr_str_l);
+	
+        $wr_str_l=undef;
+	###
+
+	# commands for configure policies (begin)
+    	@tmp_arr_l=sort(keys %{$hval0_l});
+    	foreach $arr_el0_l ( @tmp_arr_l ) {
+    	    #$arr_el0_l=policy-tmplt-name
+    	    $policy_name_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_name'};
+	    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name"
+	    $wr_str_l="firewall-cmd --permanent --new-policy='$policy_name_l';";
+	    push(@{$wr_hash_l{$hkey0_l}{'policy_create'}},$wr_str_l);
+	    
+	    $wr_str_l=undef;
+	    ###
+	    
+	    
+	}
+	
+	$arr_el0_l=undef;
+	$policy_name_l=undef;
+	@tmp_arr_l=();
+	### commands for configure policies (end)
     }
+
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ### fill array (for each host) with commands for recreate policies (end)
 
     return $return_str_l;
 }
