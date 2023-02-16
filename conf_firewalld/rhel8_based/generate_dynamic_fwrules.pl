@@ -3446,6 +3446,12 @@ sub generate_shell_script_for_recreate_policies {
     my @policy_allowed_source_ports_arr_l=();
     my @policy_icmp_block_arr_l=();
     
+    my $ingress_firewall_zone_name_tmplt_l=undef;
+    my $ingress_firewall_zone_name_l=undef;
+    
+    my $egress_firewall_zone_name_tmplt_l=undef;
+    my $egress_firewall_zone_name_l=undef;
+
     my $forward_ports_set_l=undef;
     my @forward_ports_arr_l=(); 
     
