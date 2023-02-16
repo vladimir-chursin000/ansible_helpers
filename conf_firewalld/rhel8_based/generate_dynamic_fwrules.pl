@@ -3492,13 +3492,13 @@ sub generate_shell_script_for_recreate_policies {
     	    #$arr_el0_l=policy-tmplt-name
     	    $policy_name_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_name'};
 	    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name"
-	    $wr_str_l="firewall-cmd --permanent --new-policy='$policy_name_l';";
-	    push(@{$wr_hash_l{$hkey0_l}{'policy_create'}},$wr_str_l);
+	    $wr_str_l="firewall-cmd --permanent --new-policy=$policy_name_l;";
+	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
 	    ###
 	    
-	    
+	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
 	}
 	
 	$arr_el0_l=undef;
@@ -3511,6 +3511,25 @@ sub generate_shell_script_for_recreate_policies {
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill array (for each host) with commands for recreate policies (end)
+
+    # create scripts for each host
+	#@begin_script_arr_l
+    while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
+	#$hkey0_l=inv-host
+	    #subkeys: policies_remove, policies_recreate
+	$wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_policies.sh';
+	@wr_arr_l=(@begin_script_arr_l);
+	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_remove'}}); }
+	if ( exists(${$hval0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_recreate'}}); }
+	
+	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+        #$file_l,$aref_l
+        if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+
+	$wr_file_l=undef;
+	@wr_arr_l=();
+    }
+    ###
 
     return $return_str_l;
 }
