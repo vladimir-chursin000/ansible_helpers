@@ -2528,7 +2528,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $wr_str_l=undef;
     my $wr_file_l=undef;
     my $unconf_custom_fw_zones_act_l=undef;
-    my $enable_logging_of_dropped_packets_l=undef;
     my @wr_arr_l=();
 
     my @std_fwzones_l=('block','dmz','drop','external','internal','public','trusted','work','home');
@@ -3427,8 +3426,15 @@ sub generate_shell_script_for_recreate_policies {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
     ######
 
-    my ($exec_res_l)=(undef);
+    my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
+    my @tmp_arr_l=();
+
+    my $wr_str_l=undef;
+    my $wr_file_l=undef;
+    my @wr_arr_l=();
 
     my @begin_script_arr_l=();
     my %wr_hash_l=();
