@@ -3502,7 +3502,7 @@ sub generate_shell_script_for_recreate_policies {
 	    $policy_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_description'};
 	    if ( $policy_description_l ne 'empty' ) {
 		# Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description='some_description'"	
-		$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-description='$policy_description_l';";
+		$wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-description='$policy_description_l';";
 		push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 		$wr_str_l=undef;
@@ -3515,14 +3515,34 @@ sub generate_shell_script_for_recreate_policies {
 	    $policy_short_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_short_description'};
 	    if ( $policy_short_description_l ne 'empty' ) {
 		# Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short='some_short_description'"
-		$wr_str_l="firewall-cmd --permanent --zone='$policy_name_l' --set-short='$policy_short_description_l';";
+		$wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-short='$policy_short_description_l';";
 		push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 		$wr_str_l=undef;
 	    }
 	    
 	    $policy_short_description_l=undef;
-	    ### 
+	    ###
+	    
+	    # policy_target
+	    $policy_target_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_target'};
+	    # Set policy target = "firewall-cmd --permanent --policy=some_policy_name --set-target=some_target"
+	    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-target=$policy_target_l;";
+	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+	    
+	    $wr_str_l=undef;
+	    $policy_priority_l=undef;
+	    ###
+
+	    # policy_priority
+	    $policy_priority_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_priority'};
+	    # Set policy priority = "firewall-cmd --permanent --policy=some_policy_name --set-priority=-1"
+	    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-priority=$policy_priority_l;";
+	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+	    
+	    $wr_str_l=undef;
+	    $policy_priority_l=undef;
+	    ###
 	    
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
