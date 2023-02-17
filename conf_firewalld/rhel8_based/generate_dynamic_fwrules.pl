@@ -3605,6 +3605,23 @@ sub generate_shell_script_for_recreate_policies {
         	$wr_str_l=undef;
 	    }
 	    ###
+
+	    # source ports
+	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}) ) {
+		# Allow source port="firewall-cmd --permanent --policy=some_policy_name --add-source-port=8080/tcp"
+		@policy_allowed_source_ports_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}};
+		foreach $arr_el1_l ( @policy_allowed_source_ports_arr_l ) {
+		    #$arr_el1_l=port for allow
+		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-source-port=$arr_el1_l;";
+		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+		        
+		    $wr_str_l=undef;
+		}
+		
+		$arr_el1_l=undef;
+		@policy_allowed_source_ports_arr_l=();
+	    }
+	    ###
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
 	}
