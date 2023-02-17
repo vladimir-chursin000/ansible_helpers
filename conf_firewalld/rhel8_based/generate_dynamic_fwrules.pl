@@ -3622,6 +3622,23 @@ sub generate_shell_script_for_recreate_policies {
 		@policy_allowed_source_ports_arr_l=();
 	    }
 	    ###
+
+	    # icmp block
+	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}) ) {
+		# Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type"
+		@policy_icmp_block_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}};
+                foreach $arr_el1_l ( @policy_icmp_block_arr_l ) {
+                    #$arr_el1_l=icmp-block
+                    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-icmp-block=$arr_el1_l;";
+                    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+            
+                    $wr_str_l=undef;
+                }
+            
+                $arr_el1_l=undef;
+                @policy_icmp_block_arr_l=();
+	    }
+	    ###
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
 	}
