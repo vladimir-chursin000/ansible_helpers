@@ -3544,6 +3544,56 @@ sub generate_shell_script_for_recreate_policies {
 	    $policy_priority_l=undef;
 	    ###
 	    
+	    # services
+	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) ) {
+		# Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http"
+		@policy_allowed_services_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}};
+		foreach $arr_el1_l ( @policy_allowed_services_arr_l ) {
+		    #$arr_el1_l=service name for add
+		    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --add-service=$arr_el1_l;";
+		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+		    	    
+		    $wr_str_l=undef;
+		}
+		
+		$arr_el1_l=undef;
+		@policy_allowed_services_arr_l=();
+	    }
+	    ###
+	    
+	    # ports
+	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}) ) {
+		# Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp"
+		@policy_allowed_ports_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}};
+		foreach $arr_el1_l ( @policy_allowed_ports_arr_l ) {
+		    #$arr_el1_l=port for allow
+		    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --add-port=$arr_el1_l;";
+		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+		        
+		    $wr_str_l=undef;
+		}
+		
+		$arr_el1_l=undef;
+		@policy_allowed_ports_arr_l=();
+	    }
+	    ###
+	    
+	    # protocols
+	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}) ) {
+		# Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre"
+		@policy_allowed_protocols_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}};
+		foreach $arr_el1_l ( @policy_allowed_protocols_arr_l ) {
+		    #$arr_el1_l=proto for allow
+		    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --add-protocol=$arr_el1_l;";
+		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+		        
+		    $wr_str_l=undef;
+		}
+		
+		$arr_el1_l=undef;
+		@policy_allowed_protocols_arr_l=();
+	    }
+	    ###
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
 	}
@@ -3566,7 +3616,7 @@ sub generate_shell_script_for_recreate_policies {
 	    #subkeys: policies_remove, policies_recreate
 	$wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_policies.sh';
 	@wr_arr_l=(@begin_script_arr_l);
-	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_remove'}}); }
+	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'policies_remove'}}); }
 	if ( exists(${$hval0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_recreate'}}); }
 	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
