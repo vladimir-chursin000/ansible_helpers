@@ -590,6 +590,17 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
+    $exec_res_g=&generate_firewall_configs(\%h00_conf_firewalld_hash_g);
+    #$conf_firewalld_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+
+    ######
+    
     $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_playbooks_dir_g,$remote_dir_for_absible_helper_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
     #$dyn_fwrules_playbooks_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -2139,6 +2150,25 @@ sub read_88_conf_policies_FIN {
     %res_tmp_lv1_l=();
 
     return $return_str_l;
+}
+
+sub generate_firewall_configs {
+    my ($conf_firewalld_href_l)=@_;
+    
+    #$h00_conf_firewalld_hash_g{inventory_host}->
+    #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'DefaultZone'}=name_of_default_zone
+    #{'CleanupOnExit'}=yes|no
+    #{'CleanupModulesOnExit'}=yes|no
+    #{'Lockdown'}=yes|no
+    #{'IPv6_rpfilter'}=yes|no
+    #{'IndividualCalls'}=yes|no
+    #{'LogDenied'}=all|unicast|broadcast|multicast|off
+    #{'enable_logging_of_dropped_packets'}=yes|no
+    #{'FirewallBackend'}=nftables|iptables
+    #{'FlushAllOnReload'}=yes|no
+    #{'RFC3964_IPv4'}=yes|no
+    #{'AllowZoneDrifting'}=yes|no
 }
 
 sub generate_shell_script_for_recreate_ipsets {
