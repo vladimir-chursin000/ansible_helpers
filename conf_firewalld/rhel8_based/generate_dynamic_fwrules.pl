@@ -3259,7 +3259,7 @@ sub generate_shell_script_for_recreate_policies {
     #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
     	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
     
-    my $h88_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h88_conf_policies_FIN_href'};
+    my $h88_conf_policies_FIN_href_l=${$input_hash4proc_href_l}{'h88_conf_policies_FIN_href'};
     #$h88_conf_policies_FIN_href_l=hash-ref for %h88_conf_policies_FIN_hash_g
 	#$h88_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
     
@@ -3473,7 +3473,7 @@ sub generate_shell_script_for_recreate_policies {
     ###
 
     # fill array (for each host) with commands for recreate policies (begin)
-    while ( ($hkey0_l,$hval0_l)=each %{$h88_conf_zones_FIN_href_l} ) {
+    while ( ($hkey0_l,$hval0_l)=each %{$h88_conf_policies_FIN_href_l} ) {
     	#$hkey0_l=inv-host
 
     	#%wr_hash_l=();
@@ -3638,6 +3638,40 @@ sub generate_shell_script_for_recreate_policies {
                 $arr_el1_l=undef;
                 @policy_icmp_block_arr_l=();
 	    }
+	    ###
+	    
+	    # ingress
+	    $ingress_firewall_zone_name_tmplt_l=${$h88_conf_policies_FIN_href_l}{$hkey0_l}{$arr_el0_l}{'ingress-firewall_zone_name_tmplt'};
+	    if ( exists(${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
+		$ingress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+	    }
+	    elsif ( exists(${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
+		$ingress_firewall_zone_name_l=${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+	    }
+	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-ingress-zone=some_firewall_zone"
+	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-ingress='$ingress_firewall_zone_name_l';";
+    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+        	                
+    	    $wr_str_l=undef;
+	    $ingress_firewall_zone_name_l=undef;
+	    $ingress_firewall_zone_name_tmplt_l=undef;
+	    ###
+	    
+	    # egress
+	    $egress_firewall_zone_name_tmplt_l=${$h88_conf_policies_FIN_href_l}{$hkey0_l}{$arr_el0_l}{'egress-firewall_zone_name_tmplt'};
+	    if ( exists(${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
+		$egress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+	    }
+	    elsif ( exists(${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
+		$egress_firewall_zone_name_l=${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+	    }
+	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-egress-zone=some_firewall_zone"
+	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-egress='$egress_firewall_zone_name_l';";
+    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+        	                
+    	    $wr_str_l=undef;
+	    $egress_firewall_zone_name_l=undef;
+	    $egress_firewall_zone_name_tmplt_l=undef;
 	    ###
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
