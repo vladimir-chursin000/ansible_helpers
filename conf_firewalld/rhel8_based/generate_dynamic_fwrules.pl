@@ -1135,10 +1135,10 @@ sub read_02_conf_custom_firewall_zones_templates {
 	'zone_allowed_services'=>'^empty$|^.*$',
 	'zone_allowed_ports'=>'^empty$|^.*$',
 	'zone_allowed_protocols'=>'^empty$|^.*$',
-	'zone_forward'=>'$yes$|^no$',
-	'zone_masquerade_general'=>'$yes$|^no$',
+	'zone_forward'=>'^yes$|^no$',
+	'zone_masquerade_general'=>'^yes$|^no$',
 	'zone_allowed_source_ports'=>'^empty$|^.*$',
-	'zone_icmp_block_inversion'=>'$yes$|^no$',
+	'zone_icmp_block_inversion'=>'^yes$|^no$',
 	'zone_icmp_block'=>'^empty$|^.*$',
     );
 
@@ -1240,10 +1240,10 @@ sub read_02_conf_standard_firewall_zones_templates {
 	'zone_allowed_services'=>'^empty$|^.*$',
 	'zone_allowed_ports'=>'^empty$|^.*$',
 	'zone_allowed_protocols'=>'^empty$|^.*$',
-	'zone_forward'=>'$yes$|^no$',
-	'zone_masquerade_general'=>'$yes$|^no$',
+	'zone_forward'=>'^yes$|^no$',
+	'zone_masquerade_general'=>'^yes$|^no$',
 	'zone_allowed_source_ports'=>'^empty$|^.*$',
-	'zone_icmp_block_inversion'=>'$yes$|^no$',
+	'zone_icmp_block_inversion'=>'^yes$|^no$',
 	'zone_icmp_block'=>'^empty$|^.*$',
     );
 
@@ -1350,7 +1350,7 @@ sub read_03_conf_policy_templates {
 	'policy_allowed_services'=>'^empty$|^.*$',
 	'policy_allowed_ports'=>'^empty$|^.*$',
 	'policy_allowed_protocols'=>'^empty$|^.*$',
-	'policy_masquerade_general'=>'$yes$|^no$',
+	'policy_masquerade_general'=>'^yes$|^no$',
 	'policy_allowed_source_ports'=>'^empty$|^.*$',
 	'policy_icmp_block'=>'^empty$|^.*$',
     );
@@ -3492,7 +3492,7 @@ sub generate_shell_script_for_recreate_policies {
     	    #$arr_el0_l=policy-tmplt-name
     	    $policy_name_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_name'};
 	    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name"
-	    $wr_str_l="firewall-cmd --permanent --new-policy=$policy_name_l;";
+	    $wr_str_l="firewall-cmd --permanent --new-policy='$policy_name_l';";
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
@@ -3502,7 +3502,7 @@ sub generate_shell_script_for_recreate_policies {
 	    $policy_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_description'};
 	    if ( $policy_description_l ne 'empty' ) {
 		# Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description='some_description'"	
-		$wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-description='$policy_description_l';";
+		$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-description='$policy_description_l';";
 		push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 		$wr_str_l=undef;
@@ -3515,7 +3515,7 @@ sub generate_shell_script_for_recreate_policies {
 	    $policy_short_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_short_description'};
 	    if ( $policy_short_description_l ne 'empty' ) {
 		# Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short='some_short_description'"
-		$wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-short='$policy_short_description_l';";
+		$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-short='$policy_short_description_l';";
 		push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 		$wr_str_l=undef;
@@ -3527,7 +3527,7 @@ sub generate_shell_script_for_recreate_policies {
 	    # policy_target
 	    $policy_target_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_target'};
 	    # Set policy target = "firewall-cmd --permanent --policy=some_policy_name --set-target=some_target"
-	    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-target=$policy_target_l;";
+	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-target=$policy_target_l;";
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
@@ -3537,7 +3537,7 @@ sub generate_shell_script_for_recreate_policies {
 	    # policy_priority
 	    $policy_priority_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_priority'};
 	    # Set policy priority = "firewall-cmd --permanent --policy=some_policy_name --set-priority=-1"
-	    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --set-priority=$policy_priority_l;";
+	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-priority=$policy_priority_l;";
 	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
@@ -3550,7 +3550,7 @@ sub generate_shell_script_for_recreate_policies {
 		@policy_allowed_services_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}};
 		foreach $arr_el1_l ( @policy_allowed_services_arr_l ) {
 		    #$arr_el1_l=service name for add
-		    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --add-service=$arr_el1_l;";
+		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-service=$arr_el1_l;";
 		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 		    	    
 		    $wr_str_l=undef;
@@ -3567,7 +3567,7 @@ sub generate_shell_script_for_recreate_policies {
 		@policy_allowed_ports_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}};
 		foreach $arr_el1_l ( @policy_allowed_ports_arr_l ) {
 		    #$arr_el1_l=port for allow
-		    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --add-port=$arr_el1_l;";
+		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-port=$arr_el1_l;";
 		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 		        
 		    $wr_str_l=undef;
@@ -3584,7 +3584,7 @@ sub generate_shell_script_for_recreate_policies {
 		@policy_allowed_protocols_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}};
 		foreach $arr_el1_l ( @policy_allowed_protocols_arr_l ) {
 		    #$arr_el1_l=proto for allow
-		    $wr_str_l="firewall-cmd --permanent --policy=$policy_name_l --add-protocol=$arr_el1_l;";
+		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-protocol=$arr_el1_l;";
 		    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
 		        
 		    $wr_str_l=undef;
@@ -3592,6 +3592,17 @@ sub generate_shell_script_for_recreate_policies {
 		
 		$arr_el1_l=undef;
 		@policy_allowed_protocols_arr_l=();
+	    }
+	    ###
+
+	    # masquerade
+	    $policy_masquerade_general_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_masquerade_general'};
+	    # Allow masquerade general = "firewall-cmd --permanent --policy=some_policy_name --add-masquerade"
+	    if ( $policy_masquerade_general_l eq 'yes' ) {
+		$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-masquerade;";
+        	push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+        	                
+        	$wr_str_l=undef;
 	    }
 	    ###
 	    
