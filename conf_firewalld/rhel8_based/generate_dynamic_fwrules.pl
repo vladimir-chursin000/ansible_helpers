@@ -3641,7 +3641,7 @@ sub generate_shell_script_for_recreate_policies {
 	    ###
 	    
 	    # ingress
-	    $ingress_firewall_zone_name_tmplt_l=${$h88_conf_policies_FIN_href_l}{$hkey0_l}{$arr_el0_l}{'ingress-firewall_zone_name_tmplt'};
+	    $ingress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'ingress-firewall_zone_name_tmplt'};
 	    if ( exists(${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
 		$ingress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
 	    }
@@ -3658,7 +3658,7 @@ sub generate_shell_script_for_recreate_policies {
 	    ###
 	    
 	    # egress
-	    $egress_firewall_zone_name_tmplt_l=${$h88_conf_policies_FIN_href_l}{$hkey0_l}{$arr_el0_l}{'egress-firewall_zone_name_tmplt'};
+	    $egress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'egress-firewall_zone_name_tmplt'};
 	    if ( exists(${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
 		$egress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
 	    }
