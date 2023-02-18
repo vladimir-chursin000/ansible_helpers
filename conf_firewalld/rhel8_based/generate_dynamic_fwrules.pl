@@ -2182,7 +2182,19 @@ sub generate_firewall_configs {
     my @tmp_arr_l=();
     my %wr_hash_l=();
         #key=inv-host, value=array of strings
-    my @fw_config_seq_l=('DefaultZone','CleanupOnExit','CleanupModulesOnExit','Lockdown','IPv6_rpfilter','IndividualCalls','LogDenied','FirewallBackend','FlushAllOnReload','RFC3964_IPv4','AllowZoneDrifting');
+    my @fw_config_seq_l=(
+	'DefaultZone',
+	'CleanupOnExit',
+	'CleanupModulesOnExit',
+	'Lockdown',
+	'IPv6_rpfilter',
+	'IndividualCalls',
+	'LogDenied',
+	'FirewallBackend',
+	'FlushAllOnReload',
+	'RFC3964_IPv4',
+	'AllowZoneDrifting'
+    );
     my $return_str_l='OK';
 
     # form arrays for create fw-configs
