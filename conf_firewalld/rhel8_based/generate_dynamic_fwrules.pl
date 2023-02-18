@@ -2212,6 +2212,10 @@ sub generate_firewall_configs {
 	
 	$arr_el0_l=undef;
 	###
+	
+	if ( ${$hval0_l}{'enable_logging_of_dropped_packets'} eq 'yes' && ${$hval0_l}{'LogDenied'} eq 'all' ) {
+	    
+	}
     }
     ###
 
