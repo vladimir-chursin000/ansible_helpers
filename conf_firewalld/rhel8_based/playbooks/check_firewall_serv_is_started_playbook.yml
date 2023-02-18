@@ -9,3 +9,4 @@
         masked: no
       with_items:
         - firewalld.service
+        - rsyslog.service
