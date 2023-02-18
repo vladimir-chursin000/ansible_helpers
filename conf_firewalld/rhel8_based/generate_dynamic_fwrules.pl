@@ -2185,10 +2185,23 @@ sub generate_firewall_configs {
     my @fw_config_seq_l=('DefaultZone','CleanupOnExit','CleanupModulesOnExit','Lockdown','IPv6_rpfilter','IndividualCalls','LogDenied','FirewallBackend','FlushAllOnReload','RFC3964_IPv4','AllowZoneDrifting');
     my $return_str_l='OK';
 
+    # form arrays for create fw-configs
     while ( ($hkey0_l,$hval0_l)=each %{$conf_firewalld_href_l} ) {
 	#$hkey0_l=inv-host
 	
+	# form firewalld.conf
+	foreach $arr_el0_l ( @fw_config_seq_l ) {
+	    #$arr_el0_l=fw-param
+	    $wr_str_l="$arr_el0_l=${$hval0_l}{$arr_el0_l}";
+	    push(@{$wr_hash_l{$hkey0_l}{'fw_config'}},$wr_str_l);
+        
+            $wr_str_l=undef;
+	}
+	
+	$arr_el0_l=undef;
+	###
     }
+    ###
 
     # create fw-configs for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
