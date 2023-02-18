@@ -2154,7 +2154,9 @@ sub read_88_conf_policies_FIN {
 
 sub generate_firewall_configs {
     my ($conf_firewalld_href_l)=@_;
+    #$conf_firewalld_href_l = hash-ref for %h00_conf_firewalld_hash_g
     
+    my $proc_name_l=(caller(0))[3];
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'DefaultZone'}=name_of_default_zone
@@ -2169,6 +2171,19 @@ sub generate_firewall_configs {
     #{'FlushAllOnReload'}=yes|no
     #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
+
+    my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
+    my $wr_str_l=undef;
+    my $wr_file_l=undef;
+    my @wr_arr_l=();
+    my @tmp_arr_l=();
+    my %wr_hash_l=();
+        #key=inv-host, value=array of strings
+    my $return_str_l='OK';
+
+    return $return_str_l;    
 }
 
 sub generate_shell_script_for_recreate_ipsets {
