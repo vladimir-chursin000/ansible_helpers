@@ -2221,6 +2221,9 @@ sub generate_firewall_configs {
 	###
 	
 	# logging_of_dropped_packets
+	@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=@begin_conf_arr_l;
+	push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},'# NO CHANGES');
+	
 	if ( ${$hval0_l}{'enable_logging_of_dropped_packets'} eq 'yes' && ${$hval0_l}{'LogDenied'} eq 'all' ) {
 	    #enable_logging_of_dropped_packets=yes|no
 		# Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
@@ -2230,7 +2233,12 @@ sub generate_firewall_configs {
     		    # :msg,contains,"_DROP" /var/log/firewalld-droppd.log
     		    # :msg,contains,"_REJECT" /var/log/firewalld-droppd.log
     		    # & stop
+	    @{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=();
 	    
+	    @{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=@begin_conf_arr_l;
+	    push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},':msg,contains,"_DROP" /var/log/firewalld-droppd.log');
+	    push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},':msg,contains,"_REJECT" /var/log/firewalld-droppd.log');
+	    push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},'& stop');
 	}
 	###
     }
@@ -2241,6 +2249,23 @@ sub generate_firewall_configs {
         #$hkey0_l=inv-host
         $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_firewalld.conf';
         if ( exists(${$hval0_l}{'fw_config'}) ) { @wr_arr_l=@{${$hval0_l}{'fw_config'}}; }
+
+        $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+        #$file_l,$aref_l
+        if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+
+        $wr_file_l=undef;
+        @wr_arr_l=();
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
+
+    # create 'firewalld-droppd' (for rsyslog) for each host
+    while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
+        #$hkey0_l=inv-host
+        $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_rsyslog_firewalld-droppd.conf';
+        if ( exists(${$hval0_l}{'firewalld-droppd'}) ) { @wr_arr_l=@{${$hval0_l}{'firewalld-droppd'}}; }
 
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
