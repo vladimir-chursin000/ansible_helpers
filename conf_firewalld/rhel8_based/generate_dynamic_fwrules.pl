@@ -590,7 +590,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&generate_firewall_configs(\%h00_conf_firewalld_hash_g);
+    $exec_res_g=&generate_firewall_configs($dyn_fwrules_playbooks_dir_g,\%h00_conf_firewalld_hash_g);
     #$conf_firewalld_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
@@ -2153,7 +2153,8 @@ sub read_88_conf_policies_FIN {
 }
 
 sub generate_firewall_configs {
-    my ($conf_firewalld_href_l)=@_;
+    my ($dyn_fwrules_playbooks_dir_l,$conf_firewalld_href_l)=@_;
+    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
     #$conf_firewalld_href_l = hash-ref for %h00_conf_firewalld_hash_g
     
     my $proc_name_l=(caller(0))[3];
@@ -2181,7 +2182,30 @@ sub generate_firewall_configs {
     my @tmp_arr_l=();
     my %wr_hash_l=();
         #key=inv-host, value=array of strings
+    my @fw_config_seq_l=('DefaultZone','CleanupOnExit','CleanupModulesOnExit','Lockdown','IPv6_rpfilter','IndividualCalls','LogDenied','FirewallBackend','FlushAllOnReload','RFC3964_IPv4','AllowZoneDrifting');
     my $return_str_l='OK';
+
+    while ( ($hkey0_l,$hval0_l)=each %{$conf_firewalld_href_l} ) {
+	#$hkey0_l=inv-host
+	
+    }
+
+    # create fw-configs for each host
+    while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
+        #$hkey0_l=inv-host
+        $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_firewalld.conf';
+        if ( exists(${$hval0_l}{'fw_config'}) ) { @wr_arr_l=@{${$hval0_l}{'fw_config'}}; }
+
+        $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
+        #$file_l,$aref_l
+        if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+
+        $wr_file_l=undef;
+        @wr_arr_l=();
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
 
     return $return_str_l;    
 }
@@ -2330,7 +2354,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	@wr_arr_l=@{$hval0_l};
 	
 	if ( $#wr_arr_l!=-1 ) {
-	    $wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_ipsets.sh';
+	    $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_recreate_ipsets.sh';
 	    
 	    # 1) form array of commands for remove ipset xml-s
 		#rm -rf  /etc/firewalld/ipsets/* +
@@ -2377,6 +2401,8 @@ sub generate_shell_script_for_recreate_ipsets {
 	
 	@wr_arr_l=();	
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
     return $return_str_l;
@@ -3259,7 +3285,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
 	#$hkey0_l=inv-host
 	    #subkeys: custom, standard, custom_remove, std_recreate
-	$wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_fw_zones.sh';
+	$wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_recreate_fw_zones.sh';
 	@wr_arr_l=(@begin_script_arr_l);
 	if ( exists(${$hval0_l}{'std_recreate'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'std_recreate'}}); }
 	if ( exists(${$hval0_l}{'custom_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'custom_remove'}}); }
@@ -3273,6 +3299,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	$wr_file_l=undef;
 	@wr_arr_l=();
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
     return $return_str_l;
@@ -3786,7 +3814,7 @@ sub generate_shell_script_for_recreate_policies {
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
 	#$hkey0_l=inv-host
 	    #subkeys: policies_remove, policies_recreate
-	$wr_file_l=$dyn_fwrules_playbooks_dir_g.'/'.$hkey0_l.'_recreate_policies.sh';
+	$wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_recreate_policies.sh';
 	@wr_arr_l=(@begin_script_arr_l);
 	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'policies_remove'}}); }
 	if ( exists(${$hval0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_recreate'}}); }
@@ -3798,6 +3826,8 @@ sub generate_shell_script_for_recreate_policies {
 	$wr_file_l=undef;
 	@wr_arr_l=();
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
     return $return_str_l;
