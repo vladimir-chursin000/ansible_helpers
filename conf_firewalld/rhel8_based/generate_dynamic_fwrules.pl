@@ -2213,9 +2213,19 @@ sub generate_firewall_configs {
 	$arr_el0_l=undef;
 	###
 	
+	# logging_of_dropped_packets
 	if ( ${$hval0_l}{'enable_logging_of_dropped_packets'} eq 'yes' && ${$hval0_l}{'LogDenied'} eq 'all' ) {
+	    #enable_logging_of_dropped_packets=yes|no
+		# Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
+		# If "yes" -> all dropped/rejected packets will be written to file "/var/log/firewalld-droppd".
+		# Log collecting released via rsyslog and createing conf file "/etc/rsyslog.d/firewalld-droppd.conf"
+    		    # with content:
+    		    # :msg,contains,"_DROP" /var/log/firewalld-droppd.log
+    		    # :msg,contains,"_REJECT" /var/log/firewalld-droppd.log
+    		    # & stop
 	    
 	}
+	###
     }
     ###
 
