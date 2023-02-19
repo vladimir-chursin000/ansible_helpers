@@ -60,14 +60,14 @@
 ###VLAN Examples for "bond-vlan", static IP
 #Bond for native vlan (with id=1)
 192.168.1.2  vlanstat7	just_bond	 eth14,eth15	00:01:02:03:04:16,00:01:02:03:04:17	no	    bond4	  no	       10.5.1.2,10.1.8.1,255.255.255.0	 def	     no
-192.168.1.2  vlanstat8	bond-vlan	 eth14,eth15	00:01:02:03:04:16,00:01:02:03:04:17	8	    bond4.8	  no	       10.5.8.2,10.1.8.1,255.255.255.0	 def	     no
-192.168.1.2  vlanstat9	bond-vlan	 eth14,eth15	00:01:02:03:04:16,00:01:02:03:04:17	88	    bond4.88	  no	       10.5.88.2,10.1.8.1,255.255.255.0  def	     no
+192.168.1.2  vlanstat8	bond-vlan	 eth14,eth15	00:01:02:03:04:16,00:01:02:03:04:17	8	    bond4	  no	       10.5.8.2,10.1.8.1,255.255.255.0	 def	     no
+192.168.1.2  vlanstat9	bond-vlan	 eth14,eth15	00:01:02:03:04:16,00:01:02:03:04:17	88	    bond4	  no	       10.5.88.2,10.1.8.1,255.255.255.0  def	     no
 
 ###VLAN Examples for "bond-bridge-vlan", static IP
 #Bond and bridge for native vlan (with id=1)
 192.168.1.2  vlanstat10	bond-bridge	 eth16,eth17	00:01:02:03:04:18,00:01:02:03:04:19	no	    bond5	  brvlan1n     10.6.1.2,10.1.9.1,255.255.255.0	 def	     no
-192.168.1.2  vlanstat11	bond-bridge-vlan eth16,eth17	00:01:02:03:04:18,00:01:02:03:04:19	9	    bond5.9	  brvlan9      10.6.9.2,10.1.9.1,255.255.255.0	 def	     no
-192.168.1.2  vlanstat12	bond-bridge-vlan eth16,eth17	00:01:02:03:04:18,00:01:02:03:04:19	99	    bond5.99  	  brvlan99     10.6.99.2,10.1.99.1,255.255.255.0 def	     no
+192.168.1.2  vlanstat11	bond-bridge-vlan eth16,eth17	00:01:02:03:04:18,00:01:02:03:04:19	9	    bond5	  brvlan9      10.6.9.2,10.1.9.1,255.255.255.0	 def	     no
+192.168.1.2  vlanstat12	bond-bridge-vlan eth16,eth17	00:01:02:03:04:18,00:01:02:03:04:19	99	    bond5  	  brvlan99     10.6.99.2,10.1.99.1,255.255.255.0 def	     no
 
 ###VLAN Examples for "interface-vlan", dhcp
 #Interface for native vlan (with id=1)
@@ -84,11 +84,11 @@
 ###VLAN Examples for "bond-vlan", dhcp
 #Bond for native vlan (with id=1)
 192.168.1.2  vlandhcp7	just_bond	 eth20,eth21	00:01:02:03:04:22,00:01:02:03:04:23	no	    bond6  	  no	       dhcp				 def	     no
-192.168.1.2  vlandhcp8	bond-vlan	 eth20,eth21	00:01:02:03:04:22,00:01:02:03:04:23	12	    bond6.12  	  no	       dhcp				 def	     no
-192.168.1.2  vlandhcp9	bond-vlan	 eth20,eth21	00:01:02:03:04:22,00:01:02:03:04:23	112	    bond6.112     no	       dhcp				 def	     no
+192.168.1.2  vlandhcp8	bond-vlan	 eth20,eth21	00:01:02:03:04:22,00:01:02:03:04:23	12	    bond6  	  no	       dhcp				 def	     no
+192.168.1.2  vlandhcp9	bond-vlan	 eth20,eth21	00:01:02:03:04:22,00:01:02:03:04:23	112	    bond6     	  no	       dhcp				 def	     no
 
 ###VLAN Examples for "bond-bridge-vlan", dhcp
 #Bond and bridge for native vlan (with id=1)
 192.168.1.2  vlandhcp10	bond-bridge	 eth22,eth23	00:01:02:03:04:24,00:01:02:03:04:25	no	    bond7  	  brvlan3n     dhcp				 def	     no
-192.168.1.2  vlandhcp11	bond-bridge-vlan eth22,eth23	00:01:02:03:04:24,00:01:02:03:04:25	13	    bond7.13  	  brvlan13     dhcp				 def	     no
-192.168.1.2  vlandhcp12	bond-bridge-vlan eth22,eth23	00:01:02:03:04:24,00:01:02:03:04:25	113	    bond7.113     brvlan113    dhcp				 def	     no
+192.168.1.2  vlandhcp11	bond-bridge-vlan eth22,eth23	00:01:02:03:04:24,00:01:02:03:04:25	13	    bond7  	  brvlan13     dhcp				 def	     no
+192.168.1.2  vlandhcp12	bond-bridge-vlan eth22,eth23	00:01:02:03:04:24,00:01:02:03:04:25	113	    bond7     	  brvlan113    dhcp				 def	     no
