@@ -7,6 +7,7 @@
 # For using vlans port (or ports for bonding) at switch/router-side must be in trunk state.
 ###
 # INT_LIST - list of interfaces separated by "," (without spaces) or just one interface name.
+# If using vlan then interface will be renamed to "interface_name.vlan_id" automatically. At INT_LIST is not need add VLAN_ID to the interface names manually.
 # For conf_type virt_bridge set "no".
 ###
 # HWADDR_LIST - list of hwaddr (mac-addr like 'xx:xx:xx:xx:xx:xx') separated by "," (without spaces) or just one hwaddr (mac-addr).
@@ -17,7 +18,7 @@
 ###
 # BOND_NAME - used only for config_type="just_bond/bond-vlan/bond-bridge/bond-bridge-vlan". Sets bond-name for connections with bond using.
 # If bonding not using set "no".
-# If using vlan over bond BOND_NAME must be like "bond_name.vlan_id" automatically.
+# If using vlan over bond BOND_NAME must be like "bond_name.vlan_id" automatically. At BOND_NAME is not need add VLAN_ID to the nond name manually.
 # For example, some_bond.10. "some_bond" = bond interface withoit VLAN_ID, "10" = VLAN_ID, full bond name for vlan = "some_bond.10".
 ###
 # BRIDGE_NAME - used only for config_type="virt_bridge/just_bridge/bridge-vlan/bond-bridge/bond-bridge-vlan". Sets bridge-name for connections with bridge using.
