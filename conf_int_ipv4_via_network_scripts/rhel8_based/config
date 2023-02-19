@@ -23,6 +23,7 @@
 ###
 # BRIDGE_NAME - used only for config_type="virt_bridge/just_bridge/bridge-vlan/bond-bridge/bond-bridge-vlan". Sets bridge-name for connections with bridge using.
 # If bridging not using set "no".
+# Must be unique within a current host.
 ###
 # IPv4_ADDR_OPTS - defines ip-addr. Possible values: string with "ipv4,gateway,netmask" or "dhcp". For config_type="virt_bridge" set gateway to value 'nogw'.
 ###
