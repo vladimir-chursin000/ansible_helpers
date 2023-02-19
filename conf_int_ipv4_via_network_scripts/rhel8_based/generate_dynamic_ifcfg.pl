@@ -657,9 +657,11 @@ sub read_main_config {
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_inv_host_'}=$inv_host_l;
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_conf_id_'}=$conf_id_l;
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_vlan_id_'}=$vlan_id_l;
-		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_name_'}=$bond_name_l;
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bridge_name_'}=$bridge_name_l;
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_defroute_'}=$defroute_l;
+		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_opts_'}=$bond_opts_str_l;
+    		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'hwaddr_list'}=[@hwaddr_list_arr_l];
+		
 		if ( $ipaddr_opts_arr_l[0] ne 'dhcp' ) {
 		    ${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_ipaddr_'}=$ipaddr_opts_arr_l[0];
 		    ${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_gw_'}=$ipaddr_opts_arr_l[1];
@@ -670,9 +672,19 @@ sub read_main_config {
 		    ${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_gw_'}='dhcp';
 		    ${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_netmask_'}='dhcp';
 		}
-		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_opts_'}=$bond_opts_str_l;
-    		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'int_list'}=[@int_list_arr_l];
-    		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'hwaddr_list'}=[@hwaddr_list_arr_l];
+		
+		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_name_'}=$bond_name_l;
+		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'int_list'}=[@int_list_arr_l];
+		
+		if ( $conf_type_l=~/vlan$/ ) { # redifine interface/bond names if VLAN
+		    if ( $bond_name_l eq 'no' ) { # for cases there vlan applied to interface (interface-vlan, bridge-vlan)
+			${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_name_'}=$bond_name_l;
+			foreach $arr_el0_l (@{${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'int_list'}}) { $arr_el0_l.='.'.$vlan_id_l; }
+		    }
+		    elsif ( $bond_name_l ne 'no' ) { # for cases there vlan applied to bond (bond-vlan, bond-bridge-vlan)
+			${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_name_'}=$bond_name_l.'.'.$vlan_id_l;
+		    }
+		}
     	    }
     	    else {
     		$return_str_l="fail [$proc_name_l]. For inv_host='$inv_host_l' conf_id='$conf_id_l' is already exists. Please, check and correct config-file";
@@ -1791,9 +1803,10 @@ sub replace_values_in_file {
 	'bond-for-bridge'=>	['_bond_name_','_bond_opts_','_bridge_name_','_conf_id_']
     );
     
-    if ( $int_name_l ne 'no' ) { system("sed -i -e 's/_interface_name_/$int_name_l/g' $file_path_l"); }
     if ( $hwaddr_l ne 'no' ) { system("sed -i -e 's/_hwaddr_/$hwaddr_l/g' $file_path_l"); }
     
+    #if ( ${$prms_href_l}{'main'}{'_vlan_id_'} )
+    if ( $int_name_l ne 'no' ) { system("sed -i -e 's/_interface_name_/$int_name_l/g' $file_path_l"); }    
     foreach $arr_el0_l ( @{$file_type_hash_l{$file_type_l}} ) {
 	system("sed -i -e 's/$arr_el0_l/${$prms_href_l}{'main'}{$arr_el0_l}/g' $file_path_l");
     }
