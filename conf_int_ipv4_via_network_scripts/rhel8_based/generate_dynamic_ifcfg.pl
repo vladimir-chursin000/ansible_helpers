@@ -399,6 +399,13 @@ sub read_main_config {
     		$bond_opts_str_l=~s/\,/ /g;
     	    }
     	    #######extract complex vars
+	    
+	    #######CHECK if ip=gw
+	    if ( $ipaddr_opts_arr_l[0] eq $ipaddr_opts_arr_l[1] ) {
+		$return_str_l="fail [$proc_name_l]. It is deny to set ip=gw (conf_id='$conf_id_l'). Please, check and correct config-file";
+		last;
+	    }
+	    #######CHECK if ip=gw
     	    
     	    #######interfaces + hwaddr count checks for each conf_type
     	    if ( $conf_type_l=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
@@ -513,134 +520,134 @@ sub read_main_config {
 	    
     	    ########uniq checks (for local params of hosts)
     	    if ( $vlan_id_l=~/^no$/ ) { #if novlan
-    		###$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
-    		foreach $arr_el0_l ( @int_list_arr_l ) {
-    		    if ( $arr_el0_l=~/^no$/ ) { last; }
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
-			last;
-    		    }
-    		}
-		
-		if ( $return_str_l!~/^OK$/ ) { last; }
-    		###
-		
-    		###$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
-    		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
-			last;
-    		    }
-    		}
-		
-		if ( $return_str_l!~/^OK$/ ) { last; }
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
-    		if ( $bond_name_l ne 'no' ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
-    			last;
-    		    }
-    		}
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
-    		if ( $bridge_name_l ne 'no' ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Bridge_name='$bridge_name_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
-			last;
-    		    }
-    		}
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
-    		if ( $ipaddr_opts_arr_l[0] ne 'dhcp' ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}) ) {
-    		        $cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Ipaddr='$ipaddr_opts_arr_l[0]' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}' (conf_id='$conf_id_l'). Please, check and correct config-file";
-			last;
-    		    }
-    		}
-    		###
+    	    	###$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
+    	    	foreach $arr_el0_l ( @int_list_arr_l ) {
+    	    	    if ( $arr_el0_l=~/^no$/ ) { last; }
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+	    		last;
+    	    	    }
+    	    	}
+	    	
+	    	if ( $return_str_l!~/^OK$/ ) { last; }
+    	    	###
+	    	
+    	    	###$cfg0_uniq_check{inv_host}{'common'}{hwaddr}=conf_id; if vlan_id eq 'no'.
+    	    	foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+	    		last;
+    	    	    }
+    	    	}
+	    	
+	    	if ( $return_str_l!~/^OK$/ ) { last; }
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'common'}{bond_name}=conf_id; #if bond_name ne 'no' and vlan_id eq 'no'.
+    	    	if ( $bond_name_l ne 'no' ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    	    		last;
+    	    	    }
+    	    	}
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'common'}{bridge_name}=conf_id; #if bridge_name ne 'no' and vlan_id eq 'no'.
+    	    	if ( $bridge_name_l ne 'no' ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Bridge_name='$bridge_name_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+	    		last;
+    	    	    }
+    	    	}
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'common'}{ipaddr}=conf_id; #if ipaddr_opts ne 'dhcp'.
+    	    	if ( $ipaddr_opts_arr_l[0] ne 'dhcp' ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}) ) {
+    	    	        $cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Ipaddr='$ipaddr_opts_arr_l[0]' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+	    		last;
+    	    	    }
+    	    	}
+    	    	###
     	    }
     	    else { #if vlan
-    		###$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
-    		if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}) ) {
-    		    $cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}=$conf_id_l;
-    		}
-    		else {
-    		    $return_str_l="fail [$proc_name_l]. Vlan_id='$vlan_id_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
-		    last;
-    		}
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
-    		foreach $arr_el0_l ( @int_list_arr_l ) {
-    		    if ( $arr_el0_l=~/^no$/ ) { last; }
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
-			last;
-    		    }
-    		}
-		
-		if ( $return_str_l!~/^OK$/ ) { last; }
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=conf_id; #if vlan_id ne 'no'.
-    		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}=$conf_id_l;
-    		    }
-    		    else {
-    		        $return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
-			last;
-    		    }
-    		}
-		
-		if ( $return_str_l!~/^OK$/ ) { last; }
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
-    		if ( $bond_name_l ne 'no' ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
-    			last;
-    		    }
-    		}
-    		###
-    		
-    		###$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
-    		if ( $bridge_name_l ne 'no' ) {
-    		    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bridge_name_l.'-'.$vlan_id_l}) ) {
-    			$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bridge_name_l.'-'.$vlan_id_l}=$conf_id_l;
-    		    }
-    		    else {
-    			$return_str_l="fail [$proc_name_l]. Bridge_name='$bond_name_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bridge_name_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
-    			last;
-    		    }
-    		}
-    		###
+    	    	###$cfg0_uniq_check{inv_host}{'vlan'}{vlan_id}=conf_id; #if vlan_id ne 'no'.
+    	    	if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}) ) {
+    	    	    $cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}=$conf_id_l;
+    	    	}
+    	    	else {
+    	    	    $return_str_l="fail [$proc_name_l]. Vlan_id='$vlan_id_l' (inv_host='$inv_host_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+	    	    last;
+    	    	}
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'vlan'}{interface_name-vlan_id}=conf_id; #if vlan_id ne 'no'.
+    	    	foreach $arr_el0_l ( @int_list_arr_l ) {
+    	    	    if ( $arr_el0_l=~/^no$/ ) { last; }
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+	    		last;
+    	    	    }
+    	    	}
+	    	
+	    	if ( $return_str_l!~/^OK$/ ) { last; }
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'vlan'}{hwaddr-vlan_id}=conf_id; #if vlan_id ne 'no'.
+    	    	foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    	        $return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+	    		last;
+    	    	    }
+    	    	}
+	    	
+	    	if ( $return_str_l!~/^OK$/ ) { last; }
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
+    	    	if ( $bond_name_l ne 'no' ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+    	    		last;
+    	    	    }
+    	    	}
+    	    	###
+    	    	
+    	    	###$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
+    	    	if ( $bridge_name_l ne 'no' ) {
+    	    	    if ( !exists($cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bridge_name_l.'-'.$vlan_id_l}) ) {
+    	    		$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bridge_name_l.'-'.$vlan_id_l}=$conf_id_l;
+    	    	    }
+    	    	    else {
+    	    		$return_str_l="fail [$proc_name_l]. Bridge_name='$bond_name_l' (inv_host='$inv_host_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bridge_name_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+    	    		last;
+    	    	    }
+    	    	}
+    	    	###
     	    }
     	    ########uniq checks
     	    
