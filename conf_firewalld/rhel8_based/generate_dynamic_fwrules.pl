@@ -53,7 +53,7 @@ our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_f
 
 ############STATIC VARS
 our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
-our $dyn_fwrules_playbooks_dir_g=$self_dir_g.'/playbooks/dyn_fwrules_playbooks'; # dir for recreate shell-scripts for executing it at remote side (if need)
+our $dyn_fwrules_files_dir_g=$self_dir_g.'/playbooks/scripts_for_remote/fwrules_files'; # dir for recreate shell-scripts for executing it at remote side (if need)
 ############STATIC VARS
 
 ############VARS
@@ -410,6 +410,8 @@ our %input_hash4proc_g=();
 ############VARS
 
 ############MAIN SEQ
+system("mkdir -p $dyn_fwrules_files_dir_g");
+
 while ( 1 ) { # ONE RUN CYCLE begin
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
     #$file_l,$res_href_l
@@ -590,7 +592,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&generate_firewall_configs($dyn_fwrules_playbooks_dir_g,\%h00_conf_firewalld_hash_g);
+    $exec_res_g=&generate_firewall_configs($dyn_fwrules_files_dir_g,\%h00_conf_firewalld_hash_g);
     #$conf_firewalld_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
@@ -601,8 +603,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
 
     ######
     
-    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_playbooks_dir_g,$remote_dir_for_absible_helper_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
-    #$dyn_fwrules_playbooks_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_files_dir_g,$remote_dir_for_absible_helper_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    #$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -621,8 +623,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
     	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
-    $exec_res_g=&generate_shell_script_for_recreate_firewall_zones($dyn_fwrules_playbooks_dir_g,\%input_hash4proc_g);
-    #$dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l
+    $exec_res_g=&generate_shell_script_for_recreate_firewall_zones($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
+    #$dyn_fwrules_files_dir_l,$input_hash4proc_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -642,8 +644,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
     	'h88_conf_policies_FIN_href'=>\%h88_conf_policies_FIN_hash_g,
     );
-    $exec_res_g=&generate_shell_script_for_recreate_policies($dyn_fwrules_playbooks_dir_g,\%input_hash4proc_g);
-    #$dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l
+    $exec_res_g=&generate_shell_script_for_recreate_policies($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
+    #$dyn_fwrules_files_dir_l,$input_hash4proc_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -2153,8 +2155,8 @@ sub read_88_conf_policies_FIN {
 }
 
 sub generate_firewall_configs {
-    my ($dyn_fwrules_playbooks_dir_l,$conf_firewalld_href_l)=@_;
-    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
+    my ($dyn_fwrules_files_dir_l,$conf_firewalld_href_l)=@_;
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$conf_firewalld_href_l = hash-ref for %h00_conf_firewalld_hash_g
     
     my $proc_name_l=(caller(0))[3];
@@ -2247,7 +2249,7 @@ sub generate_firewall_configs {
     # create fw-configs for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_firewalld.conf';
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_firewalld.conf';
         if ( exists(${$hval0_l}{'fw_config'}) ) { @wr_arr_l=@{${$hval0_l}{'fw_config'}}; }
 
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
@@ -2264,7 +2266,7 @@ sub generate_firewall_configs {
     # create 'firewalld-droppd' (for rsyslog) for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_rsyslog_firewalld-droppd.conf';
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_rsyslog_firewalld-droppd.conf';
         if ( exists(${$hval0_l}{'firewalld-droppd'}) ) { @wr_arr_l=@{${$hval0_l}{'firewalld-droppd'}}; }
 
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
@@ -2282,8 +2284,8 @@ sub generate_firewall_configs {
 }
 
 sub generate_shell_script_for_recreate_ipsets {
-    my ($dyn_fwrules_playbooks_dir_l,$remote_dir_for_absible_helper_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
-    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
+    my ($dyn_fwrules_files_dir_l,$remote_dir_for_absible_helper_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$remote_dir_for_absible_helper_l=$remote_dir_for_absible_helper_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
@@ -2425,7 +2427,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	@wr_arr_l=@{$hval0_l};
 	
 	if ( $#wr_arr_l!=-1 ) {
-	    $wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_recreate_ipsets.sh';
+	    $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_ipsets.sh';
 	    
 	    # 1) form array of commands for remove ipset xml-s
 		#rm -rf  /etc/firewalld/ipsets/* +
@@ -2487,8 +2489,8 @@ sub generate_shell_script_for_recreate_ipsets {
 }
 
 sub generate_shell_script_for_recreate_firewall_zones {
-    my ($dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l)=@_;
-    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
+    my ($dyn_fwrules_files_dir_l,$input_hash4proc_href_l)=@_;
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
     my $conf_firewalld_href_l=${$input_hash4proc_href_l}{'h00_conf_firewalld_href'};
@@ -3363,7 +3365,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
 	#$hkey0_l=inv-host
 	    #subkeys: custom, standard, custom_remove, std_recreate
-	$wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_recreate_fw_zones.sh';
+	$wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_fw_zones.sh';
 	@wr_arr_l=(@begin_script_arr_l);
 	if ( exists(${$hval0_l}{'std_recreate'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'std_recreate'}}); }
 	if ( exists(${$hval0_l}{'custom_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'custom_remove'}}); }
@@ -3385,8 +3387,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 }
 
 sub generate_shell_script_for_recreate_policies {
-    my ($dyn_fwrules_playbooks_dir_l,$input_hash4proc_href_l)=@_;
-    #$dyn_fwrules_playbooks_dir_l=$dyn_fwrules_playbooks_dir_g
+    my ($dyn_fwrules_files_dir_l,$input_hash4proc_href_l)=@_;
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
@@ -3892,7 +3894,7 @@ sub generate_shell_script_for_recreate_policies {
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
 	#$hkey0_l=inv-host
 	    #subkeys: policies_remove, policies_recreate
-	$wr_file_l=$dyn_fwrules_playbooks_dir_l.'/'.$hkey0_l.'_recreate_policies.sh';
+	$wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_policies.sh';
 	@wr_arr_l=(@begin_script_arr_l);
 	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'policies_remove'}}); }
 	if ( exists(${$hval0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_recreate'}}); }
