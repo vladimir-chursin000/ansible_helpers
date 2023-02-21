@@ -44,13 +44,8 @@ if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
 fi;
 
 if [[ ! -z "$GEN_DYN_FWRULES_RUN" ]] && [[ "$GEN_DYN_FWRULES_RUN" =~ "yes" ]]; then
-    if [[ "$GEN_DYN_FWRULES_RUN" == "yes" ]]; then
-	$SELF_DIR/generate_dynamic_fwrules.pl "$INV_FILE";
-	echo "Run script (before playbook): $SELF_DIR/generate_dynamic_fwrules.pl \"$INV_FILE\"" | tee -a $LOG_FILE;
-    elif [[ "$GEN_DYN_FWRULES_RUN" == "yes_with_rollback" ]]; then
-	$SELF_DIR/generate_dynamic_fwrules.pl "$INV_FILE" "with_rollback";
-	echo "Run script (before playbook '$PLAYBOOK'): $SELF_DIR/generate_dynamic_fwrules.pl \"$INV_FILE\" \"with_rollback\"" | tee -a $LOG_FILE;
-    fi;
+    $SELF_DIR/generate_dynamic_fwrules.pl "$INV_FILE";
+    echo "Run script (before playbook): $SELF_DIR/generate_dynamic_fwrules.pl \"$INV_FILE\"" | tee -a $LOG_FILE;
 
     if [[ ! -f "$SELF_DIR/GEN_DYN_FWRULES_STATUS" ]]; then
 	echo "File with status of execution of 'generate_dynamic_fwrules.pl' is not exists. Exit!" | tee -a $LOG_FILE;

@@ -12,14 +12,9 @@ $self_dir_g=~s/\/$//g;
 
 ############ARGV
 our $inventory_conf_path_g='no';
-our $gen_with_rollback_g=0;
 
 if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
     $inventory_conf_path_g=$ARGV[0];
-}
-
-if ( defined($ARGV[1]) && $ARGV[1]=~/^with_rollback$/ ) {
-    $gen_with_rollback_g=1;
 }
 ############ARGV
 
@@ -411,6 +406,8 @@ our %input_hash4proc_g=();
 
 ############MAIN SEQ
 system("mkdir -p $dyn_fwrules_files_dir_g");
+system("rm -rf $dyn_fwrules_files_dir_g/*.sh");
+system("rm -rf $dyn_fwrules_files_dir_g/*.conf");
 
 while ( 1 ) { # ONE RUN CYCLE begin
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
