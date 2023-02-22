@@ -1,4 +1,3 @@
-
 - name: collect and save network data to user home dir
   ansible.builtin.shell: ip -o addr > ~/ansible_helpers/conf_firewalld/ip_addr
 
