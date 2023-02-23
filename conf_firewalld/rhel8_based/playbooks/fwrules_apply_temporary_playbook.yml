@@ -6,18 +6,8 @@
 
 ######################################################
 
-    - name: "run fwrules_apply_ipset_task"
-      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_ipset_task.yml"
-
-######################################################
-
-    - name: "run fwrules_apply_zones_task"
-      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_zones_task.yml"
-
-######################################################
-
-    - name: "run fwrules_apply_policies_task"
-      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_policies_task.yml"
+    - name: "run fwrules_apply_task"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_task.yml"
 
 ######################################################
 
