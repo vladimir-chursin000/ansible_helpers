@@ -36,7 +36,7 @@
     dest: "~/ansible_helpers/conf_firewalld/recreate_ipsets.sh"
     owner: root
     group: root
-    mode: '0644'
+    mode: '0770'
     backup: yes
   register: copy_recreate_ipset_to_remote_res
   when: recreate_ipsets_sh_exists.stat.exists==true
@@ -49,7 +49,7 @@
     dest: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
     owner: root
     group: root
-    mode: '0644'
+    mode: '0770'
     backup: yes
   register: copy_recreate_fw_zones_to_remote_res
   when: recreate_fw_zones_sh_exists.stat.exists==true
@@ -62,7 +62,28 @@
     dest: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
     owner: root
     group: root
-    mode: '0644'
+    mode: '0770'
     backup: yes
   register: copy_recreate_policies_to_remote_res
   when: recreate_policies_sh_exists.stat.exists==true
+
+######################################################
+
+- name: "run 'recreate_ipsets.sh' at remote"
+  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_ipsets.sh
+  when: copy_recreate_ipset_to_remote_res.changed==true
+
+######################################################
+
+- name: "run 'recreate_fw_zones.sh' at remote"
+  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh
+  when: copy_recreate_fw_zones_to_remote_res.changed==true
+
+######################################################
+
+- name: "run 'recreate_policies.sh' at remote"
+  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_policies.sh
+  when: copy_recreate_policies_to_remote_res.changed==true
+
+######################################################
+
