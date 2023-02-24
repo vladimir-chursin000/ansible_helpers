@@ -1,1 +1,22 @@
 # APPLY IPSET, ZONES, POLICIES
+- name: "if exists 'INV-HOST_recreate_ipsets.sh' for apply"
+  delegate_to: localhost
+  stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_ipsets.sh"
+  register: recreate_ipsets_sh_exists
+
+######################################################
+
+- name: "if exists 'INV-HOST_recreate_fw_zones.sh' for apply"
+  delegate_to: localhost
+  stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_fw_zones.sh"
+  register: recreate_fw_zones_sh_exists
+
+######################################################
+
+- name: "if exists 'INV-HOST_recreate_policies.sh' for apply"
+  delegate_to: localhost
+  stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_policies.sh"
+  register: recreate_policies_sh_exists

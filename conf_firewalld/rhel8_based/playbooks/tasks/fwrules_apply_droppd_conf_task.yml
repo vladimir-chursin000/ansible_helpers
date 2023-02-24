@@ -1,1 +1,6 @@
 # APPLY DROPPD CONF
+- name: "if exists 'INV-HOST_rsyslog_firewalld-droppd.conf' for apply"
+  delegate_to: localhost
+  stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rsyslog_firewalld-droppd.conf"
+  register: droppd_conf_exists

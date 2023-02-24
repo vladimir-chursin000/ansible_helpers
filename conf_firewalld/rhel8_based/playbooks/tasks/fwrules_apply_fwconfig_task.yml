@@ -1,1 +1,7 @@
 # APPLY FIREWALL CONFIG
+- name: "if exists 'INV-HOST_firewall.conf' for apply"
+  delegate_to: localhost
+  stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_firewalld.conf"
+  register: firewalld_conf_exists
+
