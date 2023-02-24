@@ -5,3 +5,33 @@
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_firewalld.conf"
   register: firewalld_conf_exists
 
+######################################################
+
+- name: copy_firewalld_conf_to_remote
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_firewalld.conf"
+    dest: /etc/firewalld/firewalld.conf
+    owner: root
+    group: root
+    mode: '0644'
+    ###COMMENT this if selinux is disabled
+    seuser: system_u
+    setype: firewalld_etc_rw_t
+    serole: object_r
+    selevel: s0
+    ###COMMENT this if selinux is disabled
+    backup: yes
+  register: copy_firewalld_conf_to_remote_res
+  when: firewalld_conf_exists.stat.exists==true
+
+######################################################
+
+- name: enable_n_restart_firewalld_service
+  ansible.builtin.systemd:
+    name: "{{item}}"
+    state: restarted
+    enabled: yes
+    masked: no
+  with_items:
+    - firewalld.service
+  when: copy_firewalld_conf_to_remote_res.changed==true
