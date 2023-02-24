@@ -87,3 +87,6 @@
 
 ######################################################
 
+- name: "run 'firewall-cmd --reload' at remote"
+  ansible.builtin.shell: firewall-cmd --reload
+  when: copy_recreate_ipset_to_remote_res.changed==true or copy_recreate_fw_zones_to_remote_res.changed==true or copy_recreate_policies_to_remote_res.changed==true
