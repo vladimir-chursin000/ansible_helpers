@@ -3386,7 +3386,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	if ( exists(${$hval0_l}{'custom_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'custom_remove'}}); }
 	if ( exists(${$hval0_l}{'standard'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'standard'}}); }
 	if ( exists(${$hval0_l}{'custom'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'custom'}}); }
-	@wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload;');
+	@wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
@@ -3916,7 +3916,7 @@ sub generate_shell_script_for_recreate_policies {
 	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'policies_remove'}}); }
 	if ( exists(${$hval0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_recreate'}}); }
 	
-	@wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload');
+	@wr_arr_l=(@wr_arr_l,'firewall-cmd --reload');
 	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
