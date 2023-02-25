@@ -3074,6 +3074,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    
 	    $wr_str_l=undef;
 	}
+	
+	push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},'firewall-cmd --reload;');
 	###
 	
 	# commands for configure custom fw-zones (begin)
@@ -3643,6 +3645,8 @@ sub generate_shell_script_for_recreate_policies {
         push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},$wr_str_l);
 	
         $wr_str_l=undef;
+	
+	push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},'firewall-cmd --reload;');
 	###
 
 	# commands for configure policies (begin)
