@@ -47,7 +47,7 @@ our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_f
 ############CFG file
 
 ############STATIC VARS
-our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
+our $remote_dir_for_absible_helper_g='$HOME/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
 our $dyn_fwrules_files_dir_g=$self_dir_g.'/playbooks/scripts_for_remote/fwrules_files'; # dir for recreate shell-scripts for executing it at remote side (if need)
 ############STATIC VARS
 
@@ -2309,6 +2309,7 @@ sub generate_shell_script_for_recreate_ipsets {
     my $arr_el0_l=undef;
     my $wr_str_l=undef;
     my $wr_file_l=undef;
+    my $ipset_list_l=undef;
     my @wr_arr_l=();
     my @tmp_arr_l=();
     my %wr_hash_l=();
@@ -2429,7 +2430,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	    # 1) form array of commands for remove ipset xml-s
 		#rm -rf  /etc/firewalld/ipsets/* +
 		#or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
-	    @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;',' ',@wr_arr_l);
+	    @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;','firewall-cmd --reload;',' ',@wr_arr_l);
 	    ###
 
 	    # 2) form array of commands for get and save ipset entries (for permanent ipsets) and save it to the '$remote_dir_for_absible_helper_l'
@@ -2440,8 +2441,12 @@ sub generate_shell_script_for_recreate_ipsets {
 	    if ( exists($permanet_ipset_names_l{$hkey0_l}) ) {
 		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
 		    #arr_el0_l=permanent ipset name
-		    $wr_str_l="firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt;';
+		    $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
+		    $wr_str_l="firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $ipset_list_l;";
 		    @wr_arr_l=($wr_str_l,@wr_arr_l);
+		    
+		    $wr_str_l=undef;
+		    $ipset_list_l=undef;
 		}
 	    }
 	    ###
@@ -2462,8 +2467,12 @@ sub generate_shell_script_for_recreate_ipsets {
 	    if ( exists($permanet_ipset_names_l{$hkey0_l}) ) {
 		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
 		    #arr_el0_l=permanent ipset name
-		    $wr_str_l="firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt";';
+		    $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
+		    $wr_str_l="if [[ ! -z \"$ipset_list_l\" ]]; then firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$ipset_list_l\"; fi; rm -f $ipset_list_l;";
 		    push(@wr_arr_l,$wr_str_l);
+		    
+		    $wr_str_l=undef;
+		    $ipset_list_l=undef;
 		}
 	    }	    
 	    ###
