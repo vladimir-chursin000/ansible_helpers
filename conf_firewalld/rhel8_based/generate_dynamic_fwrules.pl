@@ -2474,8 +2474,10 @@ sub generate_shell_script_for_recreate_ipsets {
 		    $wr_str_l=undef;
 		    $ipset_list_l=undef;
 		}
-	    }	    
+	    }
 	    ###
+	    
+	    @wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload;');
 	    
 	    $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
 	    #$file_l,$aref_l
@@ -2768,6 +2770,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	}
 	
 	$arr_el0_l=undef;
+	
+	push(@{$wr_hash_l{$hkey0_l}{'std_recreate'}},'firewall-cmd --reload;');
 	###
 	
 	# commands for configure and correcting std fw-zones (begin)
@@ -3065,7 +3069,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	# commands for remove custom fw-zones
 	$wr_str_l="rm -rf /etc/firewalld/zones/*--custom.xml;";
-        push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);        
+        push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
+        
         $wr_str_l=undef;
 	
 	$unconf_custom_fw_zones_act_l=${$conf_firewalld_href_l}{$hkey0_l}{'unconfigured_custom_firewall_zones_action'};
@@ -3381,6 +3386,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	if ( exists(${$hval0_l}{'custom_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'custom_remove'}}); }
 	if ( exists(${$hval0_l}{'standard'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'standard'}}); }
 	if ( exists(${$hval0_l}{'custom'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'custom'}}); }
+	@wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload;');
 	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
@@ -3645,10 +3651,9 @@ sub generate_shell_script_for_recreate_policies {
 	# commands for remove policies
 	$wr_str_l="rm -rf /etc/firewalld/policies/*;";
         push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},$wr_str_l);
+	push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},'firewall-cmd --reload;');
 	
         $wr_str_l=undef;
-	
-	push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},'firewall-cmd --reload;');
 	###
 
 	# commands for configure policies (begin)
@@ -3910,6 +3915,8 @@ sub generate_shell_script_for_recreate_policies {
 	@wr_arr_l=(@begin_script_arr_l);
 	if ( exists(${$hval0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{${$hval0_l}{'policies_remove'}}); }
 	if ( exists(${$hval0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{${$hval0_l}{'policies_recreate'}}); }
+	
+	@wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload');
 	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l

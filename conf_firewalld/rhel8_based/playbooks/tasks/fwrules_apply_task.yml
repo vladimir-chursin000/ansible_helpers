@@ -70,23 +70,17 @@
 ######################################################
 
 - name: "run 'recreate_ipsets.sh' at remote"
-  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_ipsets.sh
+  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_ipsets.sh > ~/ansible_helpers/conf_firewalld/recreate_ipsets-res.txt
   when: copy_recreate_ipset_to_remote_res.changed==true
 
 ######################################################
 
 - name: "run 'recreate_fw_zones.sh' at remote"
-  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh
+  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh > ~/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt
   when: copy_recreate_fw_zones_to_remote_res.changed==true
 
 ######################################################
 
 - name: "run 'recreate_policies.sh' at remote"
-  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_policies.sh
+  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_policies.sh > ~/ansible_helpers/conf_firewalld/recreate_policies-res.txt
   when: copy_recreate_policies_to_remote_res.changed==true
-
-######################################################
-
-- name: "run 'firewall-cmd --reload' at remote"
-  ansible.builtin.shell: firewall-cmd --reload
-  when: copy_recreate_ipset_to_remote_res.changed==true or copy_recreate_fw_zones_to_remote_res.changed==true or copy_recreate_policies_to_remote_res.changed==true
