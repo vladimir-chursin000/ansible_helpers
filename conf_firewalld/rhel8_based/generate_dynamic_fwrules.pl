@@ -2805,7 +2805,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 		    
 		    if ( $#zone_services_for_remove_arr_l!=-1 ) {
 			@zone_services_for_remove_arr_l=sort(@zone_services_for_remove_arr_l);
-			foreach $arr_el1_l ( @zone_services_for_remove_arr_l ) {
+			foreach $arr_el1_l ( @zone_services_for_remove_arr_l ) { # need to remove-service if it default at zone, but not in 'zone_allowed_services'
 			    #$arr_el1_l=service name for remove
 			    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --remove-service=$arr_el1_l;";
 			    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
@@ -2820,10 +2820,12 @@ sub generate_shell_script_for_recreate_firewall_zones {
 		
 		foreach $arr_el1_l ( @zone_allowed_services_arr_l ) {
 		    #$arr_el1_l=service name for add
-		    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-service=$arr_el1_l;";
-		    push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
+		    if ( !exists($std_fwzones_defs_services_l{$zone_name_l}{$arr_el1_l}) ) { # need to add-service if service is not default
+			$wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-service=$arr_el1_l;";
+			push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
 		    	    
-		    $wr_str_l=undef;
+			$wr_str_l=undef;
+		    }
 		}
 		
 		$arr_el1_l=undef;
