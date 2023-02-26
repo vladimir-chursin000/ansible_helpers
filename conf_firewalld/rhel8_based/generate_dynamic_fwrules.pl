@@ -2053,39 +2053,51 @@ sub read_88_conf_policies_FIN {
 	###
 	
 	# INGRESS-FIREWALL_ZONE_NAME_TMPLT ops [1]
-	if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[1]}) ) { $ingress_zone_name_l=${$custom_zone_templates_href_l}{${$hval0_l}[1]}{'zone_name'}; }
-	elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[1]}) ) { $ingress_zone_name_l=${$std_zone_templates_href_l}{${$hval0_l}[1]}{'zone_name'}; }
-	else {
-	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
-	    last;
+	if ( ${$hval0_l}[1]=~/^ANY$|^HOST$/ ) {
+	    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'ingress-firewall_zone_name_tmplt'}=${$hval0_l}[1];
+	    $ingress_zone_name_l=${$hval0_l}[1];
 	}
+	else { # INGRESS = firewall zone tmplt
+	    if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[1]}) ) { $ingress_zone_name_l=${$custom_zone_templates_href_l}{${$hval0_l}[1]}{'zone_name'}; }
+	    elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[1]}) ) { $ingress_zone_name_l=${$std_zone_templates_href_l}{${$hval0_l}[1]}{'zone_name'}; }
+	    else {
+		$return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
+		last;
+	    }
 	
-	#$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
-	if ( !exists(${$h77_conf_zones_FIN_href_l}{'custom'}{$inv_host_l}{${$hval0_l}[1]}) && !exists(${$h77_conf_zones_FIN_href_l}{'standard'}{$inv_host_l}{${$hval0_l}[1]}) ) {
-	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
-	    last;
+	    #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+		#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
+	    if ( !exists(${$h77_conf_zones_FIN_href_l}{'custom'}{$inv_host_l}{${$hval0_l}[1]}) && !exists(${$h77_conf_zones_FIN_href_l}{'standard'}{$inv_host_l}{${$hval0_l}[1]}) ) {
+		$return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[1]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
+		last;
+	    }
+	    
+	    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'ingress-firewall_zone_name_tmplt'}=${$hval0_l}[1];
 	}
-	
-	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'ingress-firewall_zone_name_tmplt'}=${$hval0_l}[1];
 	###
 	
 	# EGRESS-FIREWALL_ZONE_NAME_TMPLT ops [2]
-	if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[2]}) ) { $egress_zone_name_l=${$custom_zone_templates_href_l}{${$hval0_l}[1]}{'zone_name'}; }
-	elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[2]}) ) { $egress_zone_name_l=${$std_zone_templates_href_l}{${$hval0_l}[1]}{'zone_name'}; }
-	else {
-	    $return_str_l="fail [$proc_name_l]. Egress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
-	    last;
+	if ( ${$hval0_l}[2]=~/^ANY$|^HOST$/ ) {
+	    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'egress-firewall_zone_name_tmplt'}=${$hval0_l}[2];
+	    $egress_zone_name_l=${$hval0_l}[2];
 	}
-	
-	#$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
-	    #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
-	if ( !exists(${$h77_conf_zones_FIN_href_l}{'custom'}{$inv_host_l}{${$hval0_l}[2]}) && !exists(${$h77_conf_zones_FIN_href_l}{'standard'}{$inv_host_l}{${$hval0_l}[2]}) ) {
-	    $return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
-	    last;
+	else { # EGRESS = firewall zone tmplt
+	    if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[2]}) ) { $egress_zone_name_l=${$custom_zone_templates_href_l}{${$hval0_l}[2]}{'zone_name'}; }
+	    elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[2]}) ) { $egress_zone_name_l=${$std_zone_templates_href_l}{${$hval0_l}[2]}{'zone_name'}; }
+	    else {
+		$return_str_l="fail [$proc_name_l]. Egress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
+		last;
+	    }
+	    
+	    #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
+		#$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
+	    if ( !exists(${$h77_conf_zones_FIN_href_l}{'custom'}{$inv_host_l}{${$hval0_l}[2]}) && !exists(${$h77_conf_zones_FIN_href_l}{'standard'}{$inv_host_l}{${$hval0_l}[2]}) ) {
+		$return_str_l="fail [$proc_name_l]. Ingress-fw-zone-tmplt='${$hval0_l}[2]' (conf='$file_l') is not exists at '77_conf_zones_FIN' for inv-host='$inv_host_l'";
+		last;
+	    }
+	    
+	    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'egress-firewall_zone_name_tmplt'}=${$hval0_l}[2];
 	}
-
-	$res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'egress-firewall_zone_name_tmplt'}=${$hval0_l}[2];
 	###
 	
 	# CHECK for uniq 'inv-host + ingress-zone-tmplt + egress-zone-tmplt'
@@ -3812,12 +3824,15 @@ sub generate_shell_script_for_recreate_policies {
 	    
 	    # ingress
 	    $ingress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'ingress-firewall_zone_name_tmplt'};
-	    if ( exists(${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
-		$ingress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+	    if ( $ingress_firewall_zone_name_tmplt_l!~/^ANY$|^HOST$/ ) {
+		if ( exists(${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
+		    $ingress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+		}
+		elsif ( exists(${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
+		    $ingress_firewall_zone_name_l=${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+		}
 	    }
-	    elsif ( exists(${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
-		$ingress_firewall_zone_name_l=${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
-	    }
+	    else { $ingress_firewall_zone_name_l=$ingress_firewall_zone_name_tmplt_l; }
 	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-ingress-zone=some_firewall_zone"
 	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-ingress='$ingress_firewall_zone_name_l';";
     	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
@@ -3829,12 +3844,15 @@ sub generate_shell_script_for_recreate_policies {
 	    
 	    # egress
 	    $egress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'egress-firewall_zone_name_tmplt'};
-	    if ( exists(${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
-		$egress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+	    if ( $egress_firewall_zone_name_tmplt_l!~/^ANY$|^HOST$/ ) {
+		if ( exists(${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
+		    $egress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+		}
+		elsif ( exists(${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
+		    $egress_firewall_zone_name_l=${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+		}
 	    }
-	    elsif ( exists(${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
-		$egress_firewall_zone_name_l=${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
-	    }
+	    else { $egress_firewall_zone_name_l=$egress_firewall_zone_name_tmplt_l; }
 	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-egress-zone=some_firewall_zone"
 	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-egress='$egress_firewall_zone_name_l';";
     	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
