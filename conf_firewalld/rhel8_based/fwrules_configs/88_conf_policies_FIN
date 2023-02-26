@@ -11,10 +11,14 @@
 # INGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the ingress zone is the zone from which the packet originated.
     # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-ingress-zone=some_firewall_zone" (for information only).
     # Other possible values: HOST, ANY.
+    # The HOST symbolic zone allows policies for the traffic originating from or has a destination to the host running firewalld.
+    # The ANY symbolic zone applies policy to all the current and future zones. ANY symbolic zone acts as a wildcard for all zones.
 ###
 # EGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the egress zone is the zone to which the packet is destined.
     # Add egress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-egress-zone=some_firewall_zone" (for information only).
     # Other possible values: HOST, ANY.
+    # The HOST symbolic zone allows policies for the traffic originating from or has a destination to the host running firewalld.
+    # The ANY symbolic zone applies policy to all the current and future zones. ANY symbolic zone acts as a wildcard for all zones.
 ###
 # FORWARD_PORTS_SET = name of forward ports set for apply to policy. To configure #FORWARD_PORTS_SET edit file "04_conf_zone_forward_ports_sets".
     # DST-NAT configuration.
