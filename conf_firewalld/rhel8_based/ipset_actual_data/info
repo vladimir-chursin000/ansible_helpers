@@ -1,13 +1,13 @@
 Subfolders (pointing to a specific "inventory_host" and "ipset_template_name" in the path) will be created in this directory (using the "IPSET_files_operation.pl" script).
 
 Directory structure
-...ipset_actual_data/some_ipset_template_name/some_inventory_host/...
+...ipset_actual_data/some_inventory_host/ipset_template_name/...
 	permanent/...
-    	    some_ipset_name.txt
+    	    ipset_name.txt
 		# One line - one record according to #ipset_type (conf-file "02_conf_ipsets").
 		# This file can be used to recreate the set if it was deleted (for some reason) on the side of the inventory host.
 	temporary/...
-	    some_ipset_name.txt
+	    ipset_name.txt
 		# One line - one record according to #ipset_type (conf-file "02_conf_ipsets"), but the record format is "expire datetime;+record associated with ipset_type".
 		# Expire datetime has the format "YYYYMMDDHHMISS".
 		# Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
