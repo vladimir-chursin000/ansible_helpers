@@ -1,10 +1,10 @@
 The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
 "ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
-    # Add-file name format - "add-inventory_host--ipset_name.txt".
+    # Add-file name format - "add-inventory_host--ipset_template_name.txt".
 	# One line - one record according to #ipset_type (conf-file "02_conf_ipsets").
 
 "ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
-    # Delete-file name format - "del-inventory_host--ipset_name.txt".
+    # Delete-file name format - "del-inventory_host--ipset_template_name.txt".
 	# One line - one record according to #ipset_type (conf-file "02_conf_ipsets").
 
 "ipset_input/errors" - dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).

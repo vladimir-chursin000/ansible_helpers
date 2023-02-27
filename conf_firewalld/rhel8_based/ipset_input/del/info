@@ -1,3 +1,3 @@
 "ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
-    # Delete-file name format - "del-inventory_host--ipset_name.txt".
+    # Delete-file name format - "del-inventory_host--ipset_template_name.txt".
 	# One line - one record according to #ipset_type (conf-file "02_conf_ipsets").
