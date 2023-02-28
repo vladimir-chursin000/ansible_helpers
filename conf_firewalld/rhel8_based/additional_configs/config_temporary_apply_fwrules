@@ -1,0 +1,7 @@
+# Write here inventory hosts if you need to use temporary fwrules apply mechanism.
+# One line = "inventory_host timeout_in_minutes" or "common timeout_in_minutes".
+# If "common" -> temporary fwrules apply mechanism for all inventory hosts if run 'apply_temporary_fwrules.sh'.
+###EXAMPLES
+#192.168.1.10   15
+###
+common		10

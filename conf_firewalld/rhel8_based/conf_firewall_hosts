@@ -1,5 +1,7 @@
 [rhel8_firewall_hosts]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
+10.1.2.10
+#10.1.2.11
 
 [rhel8_firewall_hosts:vars]
 ansible_python_interpreter=/usr/bin/python3
