@@ -656,7 +656,13 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=();
     
     ######
-        
+    
+    if ( $with_rollback_l==1 ) {
+	
+    }
+
+    ######
+    
     last;
 } # ONE RUN CYCLE end
 
@@ -2458,7 +2464,7 @@ sub generate_shell_script_for_recreate_ipsets {
 		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
 		    #arr_el0_l=permanent ipset name
 		    $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
-		    $wr_str_l="firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $ipset_list_l;";
+		    $wr_str_l="if [ -s \"/etc/firewalld/ipsets/$arr_el0_l.xml\" ]; then firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $ipset_list_l; fi;";
 		    @wr_arr_l=($wr_str_l,@wr_arr_l);
 		    
 		    $wr_str_l=undef;
@@ -2484,7 +2490,7 @@ sub generate_shell_script_for_recreate_ipsets {
 		foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
 		    #arr_el0_l=permanent ipset name
 		    $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
-		    $wr_str_l="if [[ ! -z \"$ipset_list_l\" ]]; then firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$ipset_list_l\"; fi; rm -f $ipset_list_l;";
+		    $wr_str_l="if [ -s \"$ipset_list_l\" ]; then firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$ipset_list_l\"; rm -f $ipset_list_l; fi;";
 		    push(@wr_arr_l,$wr_str_l);
 		    
 		    $wr_str_l=undef;
