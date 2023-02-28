@@ -69,18 +69,19 @@
 
 ######################################################
 
-- name: "run 'recreate_ipsets.sh' at remote"
-  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_ipsets.sh > ~/ansible_helpers/conf_firewalld/recreate_ipsets-res.txt
-  when: copy_recreate_ipset_to_remote_res.changed==true
+- name: copy_apply_fwrules_sh_to_remote
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/apply_fwrules.sh"
+    dest: "~/ansible_helpers/conf_firewalld/apply_fwrules.sh"
+    owner: root
+    group: root
+    mode: '0770'
+    backup: yes
+  register: copy_apply_fwrules_sh_to_remote_res
+  when: copy_recreate_ipset_to_remote_res.changed==true or copy_recreate_fw_zones_to_remote_res.changed==true or copy_recreate_policies_to_remote_res.changed==true
 
 ######################################################
 
-- name: "run 'recreate_fw_zones.sh' at remote"
-  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh > ~/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt
-  when: copy_recreate_fw_zones_to_remote_res.changed==true
-
-######################################################
-
-- name: "run 'recreate_policies.sh' at remote"
-  ansible.builtin.shell: ~/ansible_helpers/conf_firewalld/recreate_policies.sh > ~/ansible_helpers/conf_firewalld/recreate_policies-res.txt
-  when: copy_recreate_policies_to_remote_res.changed==true
+- name: "run 'apply_fwrules.sh' at remote"
+  ansible.builtin.raw: "nohup sh -c '~/ansible_helpers/conf_firewalld/apply_fwrules.sh >/dev/null 2>&1' & sleep 1"
+  when: copy_apply_fwrules_sh_to_remote_res.changed==true
