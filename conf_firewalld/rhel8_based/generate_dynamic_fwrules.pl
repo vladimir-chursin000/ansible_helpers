@@ -35,6 +35,7 @@ if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
 #77_conf_zones_FIN
 #88_conf_policies_FIN
 ###
+our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_fwrules';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
@@ -56,6 +57,10 @@ our $dyn_fwrules_files_dir_g=$self_dir_g.'/playbooks/scripts_for_remote/fwrules_
 ############STATIC VARS
 
 ############VARS
+######
+our %inv_hosts_tmp_apply_fwrules_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
+######
+
 ######
 our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h66_conf_ipsets_FIN_hash_g/h77_conf_zones_FIN_hash_g/h88_conf_policies_FIN_hash_g 
 # and operate with 'all' (apply for all inv hosts) options
@@ -414,6 +419,19 @@ system("rm -rf $dyn_fwrules_files_dir_g/*.sh");
 system("rm -rf $dyn_fwrules_files_dir_g/*.conf");
 
 while ( 1 ) { # ONE RUN CYCLE begin
+    ###READ conf file 'config_temporary_apply_fwrules'
+        #%inv_hosts_tmp_apply_fwrules_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
+    $exec_res_g=&read_config_temporary_apply_fwrules($conf_temp_apply_g,\%inv_hosts_tmp_apply_fwrules_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    ###READ conf file 'config_temporary_apply_fwrules'
+    
+    ######
+
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -675,6 +693,35 @@ if ( $exec_status_g!~/^OK$/ ) {
 
 ############SUBROUTINES
 ######general subs
+sub read_config_temporary_apply_fwrules {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=conf_temp_apply_g
+    #res_href_l=hash ref for %inv_hosts_tmp_apply_fwrules_g
+    my $proc_name_l=(caller(0))[3];
+        
+    #%inv_hosts_tmp_apply_fwrules_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
+            
+    my $line_l=undef;
+    my $return_str_l='OK';
+
+    open(CONF_TMP_APPLY,'<',$file_l);
+    while ( <CONF_TMP_APPLY> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+        if ( length($line_l)>0 && $line_l!~/^\#/ && $line_l=~/^(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|common) (\d+)$/ ) {
+            ${$res_href_l}{$1}=$2;
+        }
+    }
+    close(CONF_TMP_APPLY);
+
+    $line_l=undef;
+
+    return $return_str_l;
+}
+
 sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
