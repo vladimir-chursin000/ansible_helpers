@@ -5,7 +5,7 @@
 SELF_DIR="$(dirname $(readlink -f $0))";
 
 ###ARGV
-TIMEOUT_num=$1;
+TIMEOUT_num=!_TIMEOUT_NUM_!;
 ###ARGV
 
 ###STATIC_VARS

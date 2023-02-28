@@ -5,14 +5,14 @@
 
 ######################################################
 
-- name: Remove file '~/etc_firewalld.zip' before archive '/etc/firewalld'
+- name: Remove file '~/ansible_helpers/conf_firewalld/etc_firewalld.zip' before archive '/etc/firewalld'
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/etc_firewalld.zip"
     state: absent
 
 ######################################################
 
-- name: Compress directory '/etc/firewalld' into '~/etc_firewalld.zip'
+- name: Compress directory '/etc/firewalld' into '~/ansible_helpers/conf_firewalld/etc_firewalld.zip'
   archive:
     path: /etc/firewalld
     dest: "~/ansible_helpers/conf_firewalld/etc_firewalld.zip"
