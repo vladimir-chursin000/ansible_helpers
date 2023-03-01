@@ -4016,7 +4016,24 @@ sub generate_rollback_fwrules_changes_sh {
     my ($with_rollback_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l)=@_;
     #$with_rollback_l=$with_rollback_g
     #$inv_hosts_href_l=hash-ref for %inventory_hosts_g
+	#Key=inventory_host, value=1
     #$inv_hosts_tmp_apply_fwrules_href_l=hash-ref for %inv_hosts_tmp_apply_fwrules_g
+	#key=inv_host/common, value=rollback_ifcfg_timeout
+	
+    my $proc_name_l=(caller(0))[3];
+
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $return_str_l='OK';
+    
+    ###
+    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+	#hkey0_l=inv-host
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
+    
+    return $return_str_l;
 }
 ######general subs
 
@@ -4134,7 +4151,7 @@ sub read_param_value_templates_from_config {
     
     %res_tmp_lv0_l=();
     
-    return $return_str_l;    
+    return $return_str_l;
 }
 
 sub read_param_only_templates_from_config {
