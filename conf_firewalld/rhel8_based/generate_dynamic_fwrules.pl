@@ -12,13 +12,13 @@ $self_dir_g=~s/\/$//g;
 
 ############ARGV
 our $inventory_conf_path_g='no';
-our $with_rollback_l=0;
+our $with_rollback_g=0;
 
 if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
     $inventory_conf_path_g=$ARGV[0];
 }
 if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
-    $with_rollback_l=1;
+    $with_rollback_g=1;
 }
 ############ARGV
 
@@ -675,7 +675,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    if ( $with_rollback_l==1 ) {
+    if ( $with_rollback_g==1 ) {
 	
     }
 
