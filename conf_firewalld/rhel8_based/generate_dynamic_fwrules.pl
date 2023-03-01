@@ -457,7 +457,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     ######
     
     $exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
-    #$file_l,$res_href_l
+    #$file_l,$inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -674,11 +674,16 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=();
     
     ######
-    
-    if ( $with_rollback_g==1 ) {
-	
-    }
 
+    $exec_res_g=&generate_rollback_fwrules_changes_sh($with_rollback_g,\%inventory_hosts_g,\%inv_hosts_tmp_apply_fwrules_g);
+    #$with_rollback_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    
     ######
     
     last;
@@ -4005,6 +4010,13 @@ sub generate_shell_script_for_recreate_policies {
     ###
 
     return $return_str_l;
+}
+
+sub generate_rollback_fwrules_changes_sh {
+    my ($with_rollback_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l)=@_;
+    #$with_rollback_l=$with_rollback_g
+    #$inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$inv_hosts_tmp_apply_fwrules_href_l=hash-ref for %inv_hosts_tmp_apply_fwrules_g
 }
 ######general subs
 
