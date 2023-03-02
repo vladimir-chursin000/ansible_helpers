@@ -9,15 +9,9 @@ TIMEOUT_num=!_TIMEOUT_NUM_!;
 ###ARGV
 
 ###STATIC_VARS
-FWRULES_BACKUP_DIR="$SELF_DIR/fwrules_backup_now";
-FWRULES_DIR='/etc/firewalld';
 ###STATIC_VARS
 
 ###VARS
-ARR_EL0='';
-declare -a FWRULES_BACKUP_ARR_list;
-declare -a FWRULES_ARR_list;
-EXE_RES='';
 ###VARS
 
 while :
