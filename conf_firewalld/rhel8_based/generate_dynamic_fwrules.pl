@@ -4048,7 +4048,7 @@ sub generate_rollback_fwrules_changes_sh {
 	    $rollback_fwrules_changes_tmplt_file_l=$scripts_for_remote_dir_l.'/rollback_fwrules_changes_tmplt.sh';
 	    $rollback_fwrules_changes_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_rollback_fwrules_changes.sh';
 	    system("\\cp $rollback_fwrules_changes_tmplt_file_l $rollback_fwrules_changes_file_l");
-	    
+	    system("sed -i 's/!_TIMEOUT_NUM_!/$rollback_timeout_l/g' $rollback_fwrules_changes_file_l");
 	    
 	    ($rollback_fwrules_changes_tmplt_file_l,$rollback_fwrules_changes_file_l)=(undef,undef);
     	}
