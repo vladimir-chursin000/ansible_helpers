@@ -4026,14 +4026,26 @@ sub generate_rollback_fwrules_changes_sh {
     my $proc_name_l=(caller(0))[3];
 
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $rollback_timeout_l=undef;
     my $return_str_l='OK';
     
     ###
     if ( $with_rollback_l==1 ) {
     	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
     	    #hkey0_l=inv-host
-    		
+    	    if ( exists(${$inv_hosts_tmp_apply_fwrules_href_l}{$hkey0_l}) ) {
+		$rollback_timeout_l=${$inv_hosts_tmp_apply_fwrules_href_l}{$hkey0_l};
+	    }
+	    elsif ( exists(${$inv_hosts_tmp_apply_fwrules_href_l}{'common'}) ) {
+		$rollback_timeout_l=${$inv_hosts_tmp_apply_fwrules_href_l}{'common'};
+	    }
+	    else {
+		$return_str_l="fail [$proc_name_l]. No inv-host (or 'common') conf at file 'additional_configs/config_temporary_apply_fwrules'";
+		last;
+	    }
     	}
+	
+	if ( $return_str_l=~/^fail/ ) { return $return_str_l; }
     
 	($hkey0_l,$hval0_l)=(undef,undef);
     }
