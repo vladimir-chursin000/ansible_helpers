@@ -4027,6 +4027,7 @@ sub generate_rollback_fwrules_changes_sh {
 
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $rollback_timeout_l=undef;
+    my ($rollback_fwrules_changes_tmplt_file_l,$rollback_fwrules_changes_file_l)=(undef,undef);
     my $return_str_l='OK';
     
     ###
@@ -4043,6 +4044,13 @@ sub generate_rollback_fwrules_changes_sh {
 		$return_str_l="fail [$proc_name_l]. No inv-host (or 'common') conf at file 'additional_configs/config_temporary_apply_fwrules'";
 		last;
 	    }
+	    
+	    $rollback_fwrules_changes_tmplt_file_l=$scripts_for_remote_dir_l.'/rollback_fwrules_changes_tmplt.sh';
+	    $rollback_fwrules_changes_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_rollback_fwrules_changes.sh';
+	    system("\\cp $rollback_fwrules_changes_tmplt_file_l $rollback_fwrules_changes_file_l");
+	    
+	    
+	    ($rollback_fwrules_changes_tmplt_file_l,$rollback_fwrules_changes_file_l)=(undef,undef);
     	}
 	
 	if ( $return_str_l=~/^fail/ ) { return $return_str_l; }
