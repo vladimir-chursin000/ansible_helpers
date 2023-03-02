@@ -27,6 +27,11 @@ do
     let "TIMEOUT_num-=1";
     if [[ "$TIMEOUT_num" -le "0" ]]; then
 	###DO ROLLBACK of firewall rules changes
+	if [ -d "$HOME/ansible_helpers/conf_firewalld/fwrules_backup_now" ]; then
+	    rm -rf /etc/firewalld/*;
+	    cp -r ~/ansible_helpers/conf_firewalld/fwrules_backup_now/* /etc/firewalld;
+	    firewall-cmd --reload;
+	fi;
 	###DO ROLLBACK of firewall rules changes
 	
 	exit;
