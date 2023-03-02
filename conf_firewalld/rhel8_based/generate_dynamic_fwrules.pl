@@ -53,7 +53,8 @@ our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_f
 
 ############STATIC VARS
 our $remote_dir_for_absible_helper_g='$HOME/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
-our $dyn_fwrules_files_dir_g=$self_dir_g.'/playbooks/scripts_for_remote/fwrules_files'; # dir for recreate shell-scripts for executing it at remote side (if need)
+our $scripts_for_remote_dir_g=$self_dir_g.'/playbooks/scripts_for_remote';
+our $dyn_fwrules_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files'; # dir for recreate shell-scripts for executing it at remote side (if need)
 ############STATIC VARS
 
 ############VARS
@@ -675,8 +676,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
 
-    $exec_res_g=&generate_rollback_fwrules_changes_sh($with_rollback_g,\%inventory_hosts_g,\%inv_hosts_tmp_apply_fwrules_g);
-    #$with_rollback_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l
+    $exec_res_g=&generate_rollback_fwrules_changes_sh($with_rollback_g,$scripts_for_remote_dir_g,$dyn_fwrules_files_dir_g,\%inventory_hosts_g,\%inv_hosts_tmp_apply_fwrules_g);
+    #$with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -4013,8 +4014,10 @@ sub generate_shell_script_for_recreate_policies {
 }
 
 sub generate_rollback_fwrules_changes_sh {
-    my ($with_rollback_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l)=@_;
+    my ($with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l)=@_;
     #$with_rollback_l=$with_rollback_g
+    #$scripts_for_remote_dir_l=$scripts_for_remote_dir_g
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$inv_hosts_href_l=hash-ref for %inventory_hosts_g
 	#Key=inventory_host, value=1
     #$inv_hosts_tmp_apply_fwrules_href_l=hash-ref for %inv_hosts_tmp_apply_fwrules_g
@@ -4026,11 +4029,14 @@ sub generate_rollback_fwrules_changes_sh {
     my $return_str_l='OK';
     
     ###
-    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-	#hkey0_l=inv-host
-    }
+    if ( $with_rollback_l==1 ) {
+    	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+    	    #hkey0_l=inv-host
+    		
+    	}
     
-    ($hkey0_l,$hval0_l)=(undef,undef);
+	($hkey0_l,$hval0_l)=(undef,undef);
+    }
     ###
     
     return $return_str_l;
