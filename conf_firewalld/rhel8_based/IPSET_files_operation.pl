@@ -87,6 +87,9 @@ our %h66_conf_ipsets_FIN_hash_g=();
 ############VARS
 
 ############MAIN SEQ
+system("mkdir -p $dyn_fwrules_files_dir_g/ipsets");
+system("rm -rf $dyn_fwrules_files_dir_g/ipsets/*");
+
 ############MAIN SEQ
 
 
