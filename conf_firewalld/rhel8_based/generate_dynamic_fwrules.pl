@@ -419,7 +419,6 @@ our %input_hash4proc_g=();
 system("mkdir -p $dyn_fwrules_files_dir_g");
 system("rm -rf $dyn_fwrules_files_dir_g/*.sh");
 system("rm -rf $dyn_fwrules_files_dir_g/*.conf");
-system("rm -rf $dyn_fwrules_files_dir_g/ipsets/*");
 
 while ( 1 ) { # ONE RUN CYCLE begin
     ###READ conf file 'config_temporary_apply_fwrules'
