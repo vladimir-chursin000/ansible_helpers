@@ -84,12 +84,24 @@ our %h66_conf_ipsets_FIN_hash_g=();
     #{ipset_name_tmplt-1}=1;
     #etc
 ######
+
+our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ############VARS
 
 ############MAIN SEQ
 system("mkdir -p $dyn_ipsets_files_dir_g");
 system("rm -rf $dyn_ipsets_files_dir_g/*");
 
+while ( 1 ) { # ONE RUN CYCLE begin
+    
+    last;
+} # ONE RUN CYCLE end
+
+system("echo $exec_status_g > $self_dir_g/GEN_DYN_FWRULES_STATUS");
+if ( $exec_status_g!~/^OK$/ ) {
+    print "EXEC_STATUS not OK. Exit!\n\n";
+    exit;
+}
 ############MAIN SEQ
 
 

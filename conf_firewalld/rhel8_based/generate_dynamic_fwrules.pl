@@ -695,7 +695,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     last;
 } # ONE RUN CYCLE end
 
-system("echo $exec_status_g > GEN_DYN_FWRULES_STATUS");
+system("echo $exec_status_g > $self_dir_g/GEN_DYN_FWRULES_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
     exit;
