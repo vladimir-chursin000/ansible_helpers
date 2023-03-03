@@ -687,6 +687,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
+    system("$self_dir_g/IPSET_files_operation.pl");
+    
+    ######
+    
     last;
 } # ONE RUN CYCLE end
 
