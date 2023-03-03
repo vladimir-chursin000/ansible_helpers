@@ -27,7 +27,7 @@ our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN
 ############STATIC VARS
 our $remote_dir_for_absible_helper_g='$HOME/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
 our $scripts_for_remote_dir_g=$self_dir_g.'/playbooks/scripts_for_remote';
-our $dyn_ipsets_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files/ipsets'; # dir for recreate shell-scripts for executing it at remote side (if need)
+our $dyn_ipsets_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files/ipset_files'; # dir for recreate shell-scripts (for add/remove ipsets) for executing it at remote side (if need)
 ############STATIC VARS
 
 ############VARS
