@@ -90,7 +90,12 @@ our ($exec_res_g,$exec_status_g)=(undef,'OK');
 
 ############MAIN SEQ
 system("mkdir -p $dyn_ipsets_files_dir_g");
-system("rm -rf $dyn_ipsets_files_dir_g/*");
+system("mkdir -p $dyn_ipsets_files_dir_g/remove_queue");
+    # for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove_queue'
+system("mkdir -p $dyn_ipsets_files_dir_g/add_queue");
+    # for copy content of dir '../add_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/add_queue'
+system("rm -rf $dyn_ipsets_files_dir_g/remove_queue/*");
+system("rm -rf $dyn_ipsets_files_dir_g/add_queue/*");
 
 while ( 1 ) { # ONE RUN CYCLE begin
     
