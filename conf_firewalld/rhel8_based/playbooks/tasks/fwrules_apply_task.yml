@@ -115,8 +115,10 @@
 
 ######################################################STEP 3. Copy recreated fwrules-files and rollback-script if need (end)
 
-######################################################
+######################################################STEP 4. Run 'apply_fwrules.sh' as process (begin)
 
 - name: "run 'apply_fwrules.sh' at remote"
   ansible.builtin.raw: "nohup sh -c '~/ansible_helpers/conf_firewalld/apply_fwrules.sh >/dev/null 2>&1' & sleep 1"
   when: copy_apply_fwrules_sh_to_remote_res.changed==true
+
+######################################################STEP 4. Run 'apply_fwrules.sh' as process (end)
