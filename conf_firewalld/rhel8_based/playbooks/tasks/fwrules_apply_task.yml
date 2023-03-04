@@ -1,11 +1,15 @@
 # APPLY IPSET, ZONES, POLICIES
+######################################################STEP 1. Check for locally generated fwrules exists (begin)
+#fill vars: recreate_ipsets_sh_exists, recreate_fw_zones_sh_exists, 
+##########  recreate_policies_sh_exists, rollback_fwrules_changes_sh_exists
+
 - name: "if exists 'INV-HOST_recreate_ipsets.sh' for apply"
   delegate_to: localhost
   stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_ipsets.sh"
   register: recreate_ipsets_sh_exists
 
-######################################################
+######
 
 - name: "if exists 'INV-HOST_recreate_fw_zones.sh' for apply"
   delegate_to: localhost
@@ -13,7 +17,7 @@
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_fw_zones.sh"
   register: recreate_fw_zones_sh_exists
 
-######################################################
+######
 
 - name: "if exists 'INV-HOST_recreate_policies.sh' for apply"
   delegate_to: localhost
@@ -21,7 +25,7 @@
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_policies.sh"
   register: recreate_policies_sh_exists
 
-######################################################
+######
 
 - name: "if exists 'INV-HOST_rollback_fwrules_changes.sh'"
   delegate_to: localhost
@@ -29,21 +33,25 @@
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rollback_fwrules_changes.sh"
   register: rollback_fwrules_changes_sh_exists
 
-######################################################
+######################################################STEP 1. Check for locally generated fwrules exists (end)
+
+######################################################STEP 2. Create or remove some files (begin)
 
 - name: create_dir "~/ansible_helpers/conf_firewalld"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld"
     state: directory
 
-######################################################
+######
 
 - name: Remove file '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh' at remote side before run 'apply_fwrules.sh'
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh"
     state: absent
 
-######################################################
+######################################################STEP 2. Create or remove some files (end)
+
+######################################################STEP 3. Copy recreated fwrules-files and rollback-script if need (begin)
 
 - name: copy_recreate_ipset_to_remote
   ansible.builtin.copy:
@@ -56,7 +64,7 @@
   register: copy_recreate_ipset_to_remote_res
   when: recreate_ipsets_sh_exists.stat.exists==true
 
-######################################################
+######
 
 - name: copy_recreate_fw_zones_to_remote
   ansible.builtin.copy:
@@ -69,7 +77,7 @@
   register: copy_recreate_fw_zones_to_remote_res
   when: recreate_fw_zones_sh_exists.stat.exists==true
 
-######################################################
+######
 
 - name: copy_recreate_policies_to_remote
   ansible.builtin.copy:
@@ -82,7 +90,7 @@
   register: copy_recreate_policies_to_remote_res
   when: recreate_policies_sh_exists.stat.exists==true
 
-######################################################
+######
 
 - name: copy_rollback_fwrules_changes_to_remote_if_need
   ansible.builtin.copy:
@@ -93,7 +101,7 @@
     mode: '0770'
   when: rollback_fwrules_changes_sh_exists.stat.exists==true
 
-######################################################
+######
 
 - name: copy_apply_fwrules_sh_to_remote
   ansible.builtin.copy:
@@ -102,9 +110,10 @@
     owner: root
     group: root
     mode: '0770'
-    backup: yes
   register: copy_apply_fwrules_sh_to_remote_res
   when: copy_recreate_ipset_to_remote_res.changed==true or copy_recreate_fw_zones_to_remote_res.changed==true or copy_recreate_policies_to_remote_res.changed==true
+
+######################################################STEP 3. Copy recreated fwrules-files and rollback-script if need (end)
 
 ######################################################
 
