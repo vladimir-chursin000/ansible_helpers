@@ -36,7 +36,6 @@ if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
 #77_conf_zones_FIN
 #88_conf_policies_FIN
 ###
-our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_fwrules';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
@@ -59,10 +58,6 @@ our $dyn_fwrules_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files'; # dir f
 ############STATIC VARS
 
 ############VARS
-######
-our %inv_hosts_tmp_apply_fwrules_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-######
-
 ######
 our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h66_conf_ipsets_FIN_hash_g/h77_conf_zones_FIN_hash_g/h88_conf_policies_FIN_hash_g 
 # and operate with 'all' (apply for all inv hosts) options
@@ -89,6 +84,7 @@ our %h00_conf_firewalld_hash_g=();
 #[firewall_conf_for_all--TMPLT:BEGIN]
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
+#temporary_apply_fwrules_timeout=10
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -105,6 +101,7 @@ our %h00_conf_firewalld_hash_g=();
 ###
 #$h00_conf_firewalld_hash_g{inventory_host}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+#{'temporary_apply_fwrules_timeout'}=NUM
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
 #{'CleanupModulesOnExit'}=yes|no
@@ -421,17 +418,6 @@ system("rm -rf $dyn_fwrules_files_dir_g/*.sh");
 system("rm -rf $dyn_fwrules_files_dir_g/*.conf");
 
 while ( 1 ) { # ONE RUN CYCLE begin
-    ###READ conf file 'config_temporary_apply_fwrules'
-        #%inv_hosts_tmp_apply_fwrules_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-    $exec_res_g=&read_config_temporary_apply_fwrules($conf_temp_apply_g,\%inv_hosts_tmp_apply_fwrules_g);
-    #$file_l,$res_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
-        last;
-    }
-    ###READ conf file 'config_temporary_apply_fwrules'
-    
     ######
 
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
@@ -624,8 +610,15 @@ while ( 1 ) { # ONE RUN CYCLE begin
 
     ######
     
-    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_files_dir_g,$remote_dir_for_absible_helper_g,\%inventory_hosts_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
-    #$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
+    %input_hash4proc_g=(
+	'inventory_hosts_href'=>\%inventory_hosts_g,
+    	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
+    	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+	'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
+    );
+
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_files_dir_g,$remote_dir_for_absible_helper_g,\%input_hash4proc_g);
+    #$dyn_fwrules_files_dir_l,$remote_dir_for_absible_helper_l,$input_hash4proc_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -659,6 +652,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     %input_hash4proc_g=(
 	'inventory_hosts_href'=>\%inventory_hosts_g,
+    	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
     	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
     	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
     	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
@@ -679,8 +673,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
 
-    $exec_res_g=&generate_rollback_fwrules_changes_sh($with_rollback_g,$scripts_for_remote_dir_g,$dyn_fwrules_files_dir_g,\%inventory_hosts_g,\%inv_hosts_tmp_apply_fwrules_g);
-    #$with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l
+    $exec_res_g=&generate_rollback_fwrules_changes_sh($with_rollback_g,$scripts_for_remote_dir_g,$dyn_fwrules_files_dir_g,\%inventory_hosts_g,\%h00_conf_firewalld_hash_g);
+    #$with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$conf_firewalld_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
@@ -900,6 +894,7 @@ sub read_00_conf_firewalld {
     #[firewall_conf_for_all--TMPLT:BEGIN]
     #host_list_for_apply=all
     #unconfigured_custom_firewall_zones_action=no_action
+    #temporary_apply_fwrules_timeout=10
     #DefaultZone=public
     #CleanupOnExit=yes
     #CleanupModulesOnExit=yes
@@ -916,6 +911,7 @@ sub read_00_conf_firewalld {
     ###
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'temporary_apply_fwrules_timeout'}=NUM
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -949,6 +945,7 @@ sub read_00_conf_firewalld {
     my %cfg_params_and_regex_l=(
 	'host_list_for_apply'=>'^all$|\S+',
 	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
+	'temporary_apply_fwrules_timeout'=>'^\d+$',
 	'DefaultZone'=>'^\S+$',
 	'CleanupOnExit'=>'^yes$|^no$',
 	'CleanupModulesOnExit'=>'^yes$|^no$',
@@ -2241,6 +2238,7 @@ sub generate_firewall_configs {
     my $proc_name_l=(caller(0))[3];
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'temporary_apply_fwrules_timeout'}=NUM
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -2363,13 +2361,26 @@ sub generate_firewall_configs {
 }
 
 sub generate_shell_script_for_recreate_ipsets {
-    my ($dyn_fwrules_files_dir_l,$remote_dir_for_absible_helper_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    my ($dyn_fwrules_files_dir_l,$remote_dir_for_absible_helper_l,$input_hash4proc_href_l)=@_;
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$remote_dir_for_absible_helper_l=$remote_dir_for_absible_helper_g
-    #$inv_hosts_href_l=hash-ref for %inventory_hosts_g
-    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    #$conf_ipsets_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     my $proc_name_l=(caller(0))[3];
+
+    my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
+    #$inv_hosts_href_l=hash-ref for %invetory_hosts_g
+
+    my $conf_firewalld_href_l=${$input_hash4proc_href_l}{'h00_conf_firewalld_href'};
+    #$conf_firewalld_href_l=hash-ref for %h00_conf_firewalld_hash_g
+	#$h00_conf_firewalld_hash_g{inventory_host}->
+
+    my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+    
+    my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
 
     #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
@@ -2617,6 +2628,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'temporary_apply_fwrules_timeout'}=NUM
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -3500,6 +3512,10 @@ sub generate_shell_script_for_recreate_policies {
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #$inv_hosts_href_l=hash-ref for %invetory_hosts_g
 
+    my $conf_firewalld_href_l=${$input_hash4proc_href_l}{'h00_conf_firewalld_href'};
+    #$conf_firewalld_href_l=hash-ref for %h00_conf_firewalld_hash_g
+	#$h00_conf_firewalld_hash_g{inventory_host}->
+
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
@@ -4036,14 +4052,28 @@ sub generate_shell_script_for_recreate_policies {
 }
 
 sub generate_rollback_fwrules_changes_sh {
-    my ($with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$inv_hosts_tmp_apply_fwrules_href_l)=@_;
+    my ($with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$conf_firewalld_href_l)=@_;
     #$with_rollback_l=$with_rollback_g
     #$scripts_for_remote_dir_l=$scripts_for_remote_dir_g
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$inv_hosts_href_l=hash-ref for %inventory_hosts_g
 	#Key=inventory_host, value=1
-    #$inv_hosts_tmp_apply_fwrules_href_l=hash-ref for %inv_hosts_tmp_apply_fwrules_g
-	#key=inv_host/common, value=rollback_ifcfg_timeout
+    
+    #$h00_conf_firewalld_hash_g{inventory_host}->
+    #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
+    #{'temporary_apply_fwrules_timeout'}=NUM
+    #{'DefaultZone'}=name_of_default_zone
+    #{'CleanupOnExit'}=yes|no
+    #{'CleanupModulesOnExit'}=yes|no
+    #{'Lockdown'}=yes|no
+    #{'IPv6_rpfilter'}=yes|no
+    #{'IndividualCalls'}=yes|no
+    #{'LogDenied'}=all|unicast|broadcast|multicast|off
+    #{'enable_logging_of_dropped_packets'}=yes|no
+    #{'FirewallBackend'}=nftables|iptables
+    #{'FlushAllOnReload'}=yes|no
+    #{'RFC3964_IPv4'}=yes|no
+    #{'AllowZoneDrifting'}=yes|no
 	
     my $proc_name_l=(caller(0))[3];
 
@@ -4056,17 +4086,7 @@ sub generate_rollback_fwrules_changes_sh {
     if ( $with_rollback_l==1 ) {
     	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
     	    #hkey0_l=inv-host
-    	    if ( exists(${$inv_hosts_tmp_apply_fwrules_href_l}{$hkey0_l}) ) {
-		$rollback_timeout_l=${$inv_hosts_tmp_apply_fwrules_href_l}{$hkey0_l};
-	    }
-	    elsif ( exists(${$inv_hosts_tmp_apply_fwrules_href_l}{'common'}) ) {
-		$rollback_timeout_l=${$inv_hosts_tmp_apply_fwrules_href_l}{'common'};
-	    }
-	    else {
-		$return_str_l="fail [$proc_name_l]. No inv-host (or 'common') conf at file 'additional_configs/config_temporary_apply_fwrules'";
-		last;
-	    }
-	    
+	    $rollback_timeout_l=${$conf_firewalld_href_l}{$hkey0_l}{'temporary_apply_fwrules_timeout'};
 	    $rollback_fwrules_changes_tmplt_file_l=$scripts_for_remote_dir_l.'/rollback_fwrules_changes_tmplt.sh';
 	    $rollback_fwrules_changes_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_rollback_fwrules_changes.sh';
 	    system("\\cp $rollback_fwrules_changes_tmplt_file_l $rollback_fwrules_changes_file_l");
