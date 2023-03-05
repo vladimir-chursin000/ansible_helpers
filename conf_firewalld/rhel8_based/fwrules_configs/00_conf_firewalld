@@ -28,11 +28,21 @@
     # Timeout (in minutes) for temporary apply firewall rules and rollback all changes.
     # Custom parameter.
 
-#if_no_ipsets_conf_action
+#if_no_ipsets_conf_action=remove|no_action
+    # If "remove" -> all ipsets at remote hosts (not configured at "66_conf_ipsets_FIN", but included to "conf_firewall_hosts")
+	# will be deleted.
+    # Custom parameter.
 
-#if_no_zones_conf_action
+#if_no_zones_conf_action=restore_defaults|no_action
+    # If "restore_defaults" -> all zones at remote hosts (not configured at "77_conf_zones_FIN", but included to "conf_firewall_hosts")
+	# will be deleted and will be restored standard zones with default settings.
+	# Default zones: block, dmz, drop, external, internal, public, trusted, work, home.
+    # Custom parameter.
 
-#if_no_policies_conf_action
+#if_no_policies_conf_action=remove|no_action
+    # If "remove" -> all policies at remote hosts (not configured at "88_conf_policies_FIN", but included to "conf_firewall_hosts")
+	# will be deleted.
+    # Custom parameter.
 
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
