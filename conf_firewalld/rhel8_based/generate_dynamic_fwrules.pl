@@ -4056,7 +4056,12 @@ sub generate_shell_script_for_recreate_policies {
 	    
 	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload');
 	}
-	else { @wr_arr_l=('#!/usr/bin/bash',' ','#NO NEED TO RECREATE POLICIES'); }
+	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_policies_conf_action'}=~/^remove$/ ) {
+	    @wr_arr_l=(@begin_script_arr_l);
+	    @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/policies/*;',' ');
+	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
+	}
+	else { @wr_arr_l=(@begin_script_arr_l,'#NO NEED TO RECREATE POLICIES'); }
 	
 	$exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
     	#$file_l,$aref_l
