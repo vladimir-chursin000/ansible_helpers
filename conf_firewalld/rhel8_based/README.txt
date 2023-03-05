@@ -6,7 +6,7 @@ NOT READY YET!
 
 # 3) Make sure that the pub-ssh-key is thrown to the hosts (conf_firewall_hosts).
 
-# 4) Run '00_install_firewall_and_configure_fwrules.sh' (or 'apply_immediately_fwrules.sh').
+# 4) Run '00_install_firewall_and_configure_fwrules.sh' (or '03_apply_immediately_fwrules.sh').
 ##################
 
 # '00_just_install_firewall.sh' = just install firewalld.
