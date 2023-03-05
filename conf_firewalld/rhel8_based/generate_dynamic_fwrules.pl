@@ -3509,7 +3509,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    if ( exists($wr_hash_l{$hkey0_l}{'custom'}) ) { @wr_arr_l=(@wr_arr_l,@{$wr_hash_l{$hkey0_l}{'custom'}}); }
 	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	}
-	else { @wr_arr_l=('#!/usr/bin/bash',' ','#NO NEED TO RECREATE FIREWALL ZONES'); }
+	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_zones_conf_action'}=~/^restore_defaults$/ ) {
+	    @wr_arr_l=(@begin_script_arr_l);
+	    @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/zones/*;','cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones;',' ');
+	    
+	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
+	}
+	else { @wr_arr_l=(@begin_script_arr_l,'#NO NEED TO RECREATE FIREWALL ZONES'); }
 
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
@@ -4054,7 +4060,7 @@ sub generate_shell_script_for_recreate_policies {
 	    if ( exists($wr_hash_l{$hkey0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{$wr_hash_l{$hkey0_l}{'policies_remove'}}); }
 	    if ( exists($wr_hash_l{$hkey0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{$wr_hash_l{$hkey0_l}{'policies_recreate'}}); }
 	    
-	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload');
+	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	}
 	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_policies_conf_action'}=~/^remove$/ ) {
 	    @wr_arr_l=(@begin_script_arr_l);
