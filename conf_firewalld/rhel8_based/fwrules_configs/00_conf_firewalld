@@ -122,6 +122,9 @@
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
 #temporary_apply_fwrules_timeout=10
+#if_no_ipsets_conf_action=no_action
+#if_no_zones_conf_action=no_action
+#if_no_policies_conf_action=no_action
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -140,6 +143,9 @@
 #host_list_for_apply=192.168.0.2,192.168.0.3,192.168.0.10
 #unconfigured_custom_firewall_zones_action=remove
 #temporary_apply_fwrules_timeout=10
+#if_no_ipsets_conf_action=remove
+#if_no_zones_conf_action=restore_defaults
+#if_no_policies_conf_action=remove
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -159,6 +165,9 @@
 host_list_for_apply=all
 unconfigured_custom_firewall_zones_action=no_action
 temporary_apply_fwrules_timeout=10
+if_no_ipsets_conf_action=no_action
+if_no_zones_conf_action=no_action
+if_no_policies_conf_action=no_action
 DefaultZone=public
 CleanupOnExit=yes
 CleanupModulesOnExit=yes

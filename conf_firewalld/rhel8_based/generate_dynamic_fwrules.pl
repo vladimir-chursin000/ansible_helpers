@@ -85,6 +85,9 @@ our %h00_conf_firewalld_hash_g=();
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
 #temporary_apply_fwrules_timeout=10
+#if_no_ipsets_conf_action=no_action
+#if_no_zones_conf_action=no_action
+#if_no_policies_conf_action=no_action
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -102,6 +105,9 @@ our %h00_conf_firewalld_hash_g=();
 #$h00_conf_firewalld_hash_g{inventory_host}->
 #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
 #{'temporary_apply_fwrules_timeout'}=NUM
+#{'if_no_ipsets_conf_action'}=remove|no_action
+#{'if_no_zones_conf_action'}=restore_defaults|no_action
+#{'if_no_policies_conf_action'}=remove|no_action
 #{'DefaultZone'}=name_of_default_zone
 #{'CleanupOnExit'}=yes|no
 #{'CleanupModulesOnExit'}=yes|no
@@ -895,6 +901,9 @@ sub read_00_conf_firewalld {
     #host_list_for_apply=all
     #unconfigured_custom_firewall_zones_action=no_action
     #temporary_apply_fwrules_timeout=10
+    #if_no_ipsets_conf_action=no_action
+    #if_no_zones_conf_action=no_action
+    #if_no_policies_conf_action=no_action
     #DefaultZone=public
     #CleanupOnExit=yes
     #CleanupModulesOnExit=yes
@@ -912,6 +921,9 @@ sub read_00_conf_firewalld {
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'temporary_apply_fwrules_timeout'}=NUM
+    #{'if_no_ipsets_conf_action'}=remove|no_action
+    #{'if_no_zones_conf_action'}=restore_defaults|no_action
+    #{'if_no_policies_conf_action'}=remove|no_action
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -946,6 +958,9 @@ sub read_00_conf_firewalld {
 	'host_list_for_apply'=>'^all$|\S+',
 	'unconfigured_custom_firewall_zones_action'=>'^no_action$|^remove$',
 	'temporary_apply_fwrules_timeout'=>'^\d+$',
+	'if_no_ipsets_conf_action'=>'^no_action$|^remove$',
+	'if_no_zones_conf_action'=>'^no_action$|^restore_defaults$',
+	'if_no_policies_conf_action'=>'^no_action$|^remove$',
 	'DefaultZone'=>'^\S+$',
 	'CleanupOnExit'=>'^yes$|^no$',
 	'CleanupModulesOnExit'=>'^yes$|^no$',
@@ -2239,6 +2254,9 @@ sub generate_firewall_configs {
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'temporary_apply_fwrules_timeout'}=NUM
+    #{'if_no_ipsets_conf_action'}=remove|no_action
+    #{'if_no_zones_conf_action'}=restore_defaults|no_action
+    #{'if_no_policies_conf_action'}=remove|no_action
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -2629,6 +2647,9 @@ sub generate_shell_script_for_recreate_firewall_zones {
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'temporary_apply_fwrules_timeout'}=NUM
+    #{'if_no_ipsets_conf_action'}=remove|no_action
+    #{'if_no_zones_conf_action'}=restore_defaults|no_action
+    #{'if_no_policies_conf_action'}=remove|no_action
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
@@ -4062,6 +4083,9 @@ sub generate_rollback_fwrules_changes_sh {
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
     #{'temporary_apply_fwrules_timeout'}=NUM
+    #{'if_no_ipsets_conf_action'}=remove|no_action
+    #{'if_no_zones_conf_action'}=restore_deaults|no_action
+    #{'if_no_policies_conf_action'}=remove|no_action
     #{'DefaultZone'}=name_of_default_zone
     #{'CleanupOnExit'}=yes|no
     #{'CleanupModulesOnExit'}=yes|no
