@@ -18,7 +18,6 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
 ############ARGV
 
 ############CFG file
-our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_fwrules';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
 our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN';
@@ -31,10 +30,6 @@ our $dyn_ipsets_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files/ipset_file
 ############STATIC VARS
 
 ############VARS
-######
-our %inv_hosts_tmp_apply_fwrules_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-######
-
 ######
 our %inventory_hosts_g=(); # for checks of h00_conf_firewalld_hash_g/h66_conf_ipsets_FIN_hash_g/h77_conf_zones_FIN_hash_g/h88_conf_policies_FIN_hash_g
 # and operate with 'all' (apply for all inv hosts) options

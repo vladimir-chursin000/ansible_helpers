@@ -24,6 +24,16 @@
 	# and not configured in the "02_conf_custom_firewall_zones_templates".
     # Custom parameter.
 
+#temporary_apply_fwrules_timeout=10
+    # Timeout (in minutes) for temporary apply firewall rules and rollback all changes.
+    # Custom parameter.
+
+#if_no_ipsets_conf_action
+
+#if_no_zones_conf_action
+
+#if_no_policies_conf_action
+
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
     # Parameter for /etc/firewalld/firewalld.conf
@@ -101,6 +111,7 @@
 #[firewall_conf_for_all--TMPLT:BEGIN]
 #host_list_for_apply=all
 #unconfigured_custom_firewall_zones_action=no_action
+#temporary_apply_fwrules_timeout=10
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -118,6 +129,7 @@
 #[firewall_conf_ver1--TMPLT:BEGIN]
 #host_list_for_apply=192.168.0.2,192.168.0.3,192.168.0.10
 #unconfigured_custom_firewall_zones_action=remove
+#temporary_apply_fwrules_timeout=10
 #DefaultZone=public
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
@@ -136,6 +148,7 @@
 [firewall_conf_for_all--TMPLT:BEGIN]
 host_list_for_apply=all
 unconfigured_custom_firewall_zones_action=no_action
+temporary_apply_fwrules_timeout=10
 DefaultZone=public
 CleanupOnExit=yes
 CleanupModulesOnExit=yes
