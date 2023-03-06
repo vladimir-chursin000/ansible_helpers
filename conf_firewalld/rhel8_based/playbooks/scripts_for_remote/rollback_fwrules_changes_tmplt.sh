@@ -16,6 +16,7 @@ TIMEOUT_num=!_TIMEOUT_NUM_!;
 
 while :
 do
+    touch ~/ansible_helpers/conf_firewalld/rollback_fwrules_changes_is_run_now;
     sleep 60;
 
     let "TIMEOUT_num-=1";
@@ -31,6 +32,7 @@ do
 	fi;
 	###DO ROLLBACK of firewall rules changes
 	
+	rm -rf ~/ansible_helpers/conf_firewalld/rollback_fwrules_changes_is_run_now;
 	exit;
     fi;
 done;
