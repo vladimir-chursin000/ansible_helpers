@@ -22,6 +22,9 @@ do
     if [[ "$TIMEOUT_num" -le "0" ]]; then
 	###DO ROLLBACK of firewall rules changes
 	if [ -d "$HOME/ansible_helpers/conf_firewalld/fwrules_backup_now" ]; then
+	    rm -rf ~/ansible_helpers/conf_firewalld/recreate_ipsets.sh;
+	    rm -rf ~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh;
+	    rm -rf ~/ansible_helpers/conf_firewalld/recreate_policies.sh;
 	    rm -rf /etc/firewalld/*;
 	    cp -r ~/ansible_helpers/conf_firewalld/fwrules_backup_now/* /etc/firewalld;
 	    firewall-cmd --reload;
