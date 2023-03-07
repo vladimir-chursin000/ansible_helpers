@@ -113,10 +113,6 @@
 
 ######################################################STEP 3. Copy recreated fwrules-files and rollback-script if need (end)
 
-- name: cancel rollback operation (rollback_fwrules_changes.sh) if need
-  ansible.builtin.command: "pkill -9 -f rollback_fwrules_changes"
-  ignore_errors: yes
-
 ######################################################STEP 4. Run 'apply_fwrules.sh' as process (begin)
 
 - name: "run 'apply_fwrules.sh' at remote"

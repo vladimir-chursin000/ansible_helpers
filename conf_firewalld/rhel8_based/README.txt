@@ -20,11 +20,15 @@ NOT READY YET!
 # INFO about existing interface names (and ip addr) at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
 
 # '03_apply_immediately_fwrules.sh' = run for immediately apply changes (without run installation of 'firewalld') if generated firewall rules differ from actual rules on remote host.
+# Actual rules = content of scrips 'recreate_ipsets.sh', 'recreate_fw_zones.sh' and 'recreate_policies.sh' at remote side.
+# That is, idempotency is provided at the level of the files listed below.
 # Also cancel execution of firewall rules rollback operation (rollback_fwrules_changes.sh) on remote host if need.
 
 # '03_apply_temporary_fwrules.sh' = run for temporary apply changes (without run installation of 'firewalld') if generated firewall rules differs from actual rules.
 # Before apply changes starts script 'rollback_fwrules_changes.sh' on remote host for
 # rollback changes after N minutes (rollback_timeout configuration = 'fwrules_configs/config_temporary_apply_fwrules').
+
+# '03_force_apply_fwrules.sh' = force apply changes (without run installation of 'firewalld') without comparing generated and actual rules.
 
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
