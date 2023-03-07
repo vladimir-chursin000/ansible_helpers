@@ -690,7 +690,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    system("$self_dir_g/IPSET_files_operation.pl $inventory_conf_path_g");
+    #system("$self_dir_g/IPSET_files_operation.pl $inventory_conf_path_g");
     
     ######
     
