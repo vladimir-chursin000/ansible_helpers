@@ -11,12 +11,11 @@ READY helpers:
 5. conf_int_ipv4_via_network_scripts
 
 Partially READY helpers (can be used):
-***
+1. conf_firewalld
 
 NOT READY helpers:
-1. conf_firewalld
-2. conf_linux_core
-3. install_fileserv
-4. install_openssh
+1. conf_linux_core
+2. install_fileserv
+3. install_openssh
 
 DATE: 2022-09-11 18:01
