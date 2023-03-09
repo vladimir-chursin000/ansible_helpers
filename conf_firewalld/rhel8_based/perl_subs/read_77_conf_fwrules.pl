@@ -43,10 +43,10 @@ sub read_77_conf_zones_FIN {
 
     my $proc_name_l=(caller(0))[3];
 
-    #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST
-    #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24         ipset4all_public--TMPLT
-    #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset4public--TMPLT
-    #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty
+    #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST               #FORWARD_PORTS_SET      #RICH_RULES_SET
+    #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24         ipset4all_public--TMPLT         empty                   empty (example)
+    #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset4public--TMPLT             fw_ports_set4public     rich_rules_set4public (example)
+    #10.1.2.3,10.1.2.4      zone1--TMPLT                    eth0,eth1,ens01   empty                 empty                           fw_ports_set4zone1      rich_rules_set4zone1 (example)
     ###
     #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
