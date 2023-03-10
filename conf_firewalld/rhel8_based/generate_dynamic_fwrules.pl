@@ -29,7 +29,6 @@ our @do_arr_g=(
     'read_88_conf_fwrules.pl',
     'read_conf_fwrules_common.pl',
     'read_conf_other.pl',
-    'test_ololo.pl',
     'value_check.pl'
 );
 
