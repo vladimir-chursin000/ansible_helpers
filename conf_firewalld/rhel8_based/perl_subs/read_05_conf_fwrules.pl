@@ -53,3 +53,6 @@ sub read_05_conf_zone_rich_rules_sets {
 
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

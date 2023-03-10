@@ -72,3 +72,6 @@ sub read_network_data_for_checks {
 
     return 'OK';
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

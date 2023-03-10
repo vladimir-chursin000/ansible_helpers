@@ -67,3 +67,6 @@ sub read_01_conf_ipset_templates {
 
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

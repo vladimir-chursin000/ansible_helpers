@@ -549,3 +549,6 @@ sub generate_shell_script_for_recreate_policies {
 
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

@@ -213,3 +213,6 @@ sub read_02_conf_standard_firewall_zones_templates {
 
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

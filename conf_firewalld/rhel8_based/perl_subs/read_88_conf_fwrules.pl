@@ -205,3 +205,6 @@ sub read_88_conf_policies_FIN {
 
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

@@ -259,3 +259,6 @@ sub read_00_conf_firewalld {
 
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )

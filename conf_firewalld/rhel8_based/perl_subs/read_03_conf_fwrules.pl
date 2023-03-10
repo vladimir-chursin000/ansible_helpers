@@ -105,3 +105,6 @@ sub read_03_conf_policy_templates {
         
     return $return_str_l;
 }
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )
