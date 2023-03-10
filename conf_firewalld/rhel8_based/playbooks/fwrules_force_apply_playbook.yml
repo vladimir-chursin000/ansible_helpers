@@ -34,7 +34,8 @@
 ######
 
     - name: remove content of "~/ansible_helpers/conf_firewalld"
-      ansible.builtin.command: "rm -rf ~/ansible_helpers/conf_firewalld/*"
+      ansible.builtin.raw: "rm -rf ~/ansible_helpers/conf_firewalld/*"
+      ignore_errors: yes
 
 ######################################################Kill rollback/apply_fwrules processes and remove content of '~/ansible_helpers/conf_firewalld' if need (end)
 
