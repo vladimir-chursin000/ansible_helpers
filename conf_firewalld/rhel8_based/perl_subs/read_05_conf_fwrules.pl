@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl
+
 sub read_05_conf_zone_rich_rules_sets {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f05_conf_zone_rich_rules_sets_path_g

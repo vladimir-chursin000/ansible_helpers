@@ -1,3 +1,5 @@
+###NO DEPENDENCIES
+
 sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g

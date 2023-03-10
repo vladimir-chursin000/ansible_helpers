@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl
+
 sub read_02_conf_custom_firewall_zones_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f02_conf_custom_firewall_zones_templates_path_g

@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl, value_check.pl
+
 sub read_04_conf_zone_forward_ports_sets {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f04_conf_zone_forward_ports_sets_path_g

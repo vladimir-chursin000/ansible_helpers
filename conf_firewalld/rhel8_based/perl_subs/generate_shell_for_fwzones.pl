@@ -1,3 +1,5 @@
+###DEPENDENCIES: file_operations.pl
+
 sub generate_shell_script_for_recreate_firewall_zones {
     my ($dyn_fwrules_files_dir_l,$input_hash4proc_href_l)=@_;
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g

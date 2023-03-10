@@ -1,3 +1,5 @@
+###NO DEPENDENCIES
+
 sub read_param_value_templates_from_config {
     my ($file_l,$regex_href_l,$res_href_l)=@_;
     #file_l=config with templates

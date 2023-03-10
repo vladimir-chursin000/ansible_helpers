@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl
+
 sub read_01_conf_ipset_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f01_conf_ipset_templates_path_g

@@ -1,3 +1,5 @@
+###DEPENDENCIES: file_operations.pl
+
 sub generate_firewall_configs {
     my ($dyn_fwrules_files_dir_l,$conf_firewalld_href_l)=@_;
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g

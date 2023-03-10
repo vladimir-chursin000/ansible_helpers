@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl
+
 sub read_03_conf_policy_templates {
     my ($file_l,$res_href_l)=@_;
     #file_l=$f03_conf_policy_templates_path_g

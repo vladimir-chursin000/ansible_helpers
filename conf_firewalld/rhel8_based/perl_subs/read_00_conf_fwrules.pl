@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl
+
 sub read_00_conf_divisions_for_inv_hosts {
     my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
     #file_l=$f00_conf_firewalld_path_g

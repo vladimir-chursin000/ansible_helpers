@@ -1,3 +1,5 @@
+###NO DEPENDENCIES
+
 sub rewrite_file_from_array_ref {
     my ($file_l,$aref_l)=@_;
     my $proc_name_l=(caller(0))[3];

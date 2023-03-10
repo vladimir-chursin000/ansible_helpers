@@ -1,3 +1,5 @@
+###NO DEPENDENCIES
+
 sub generate_rollback_fwrules_changes_sh {
     my ($with_rollback_l,$scripts_for_remote_dir_l,$dyn_fwrules_files_dir_l,$inv_hosts_href_l,$conf_firewalld_href_l)=@_;
     #$with_rollback_l=$with_rollback_g

@@ -1,3 +1,5 @@
+###DEPENDENCIES: read_conf_fwrules_common.pl
+
 sub read_88_conf_policies_FIN {
     my ($file_l,$input_hash4proc_href_l,$res_href_l)=@_;
     #$file_l=$f88_conf_policies_FIN_path_g

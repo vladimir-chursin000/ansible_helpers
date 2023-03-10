@@ -1,3 +1,5 @@
+###NO DEPENDENCIES
+
 sub check_port_for_apply_to_fw_conf {
     my ($port_str_l)=@_;
     #port=NUM/udp, NUM/tcp, NUM_begin-NUM_end/tcp, NUM_begin-NUM_end/udp (sctp and dccp)
