@@ -133,6 +133,18 @@ while ( 1 ) { # ONE RUN CYCLE begin
     #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
 
     ######
+    
+    $exec_res_g=&read_01_conf_ipset_templates($f01_conf_ipset_templates_path_g,\%h01_conf_ipset_templates_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h01_conf_ipset_templates_hash_g);
+
+    ######
 
     last;
 } # ONE RUN CYCLE end
