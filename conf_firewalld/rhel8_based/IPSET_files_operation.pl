@@ -9,6 +9,20 @@ use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
+###LOAD SUBROUTINES
+our @do_arr_g=(
+    'read_00_conf_fwrules.pl',
+    'read_01_conf_fwrules.pl',
+    'read_66_conf_fwrules.pl',
+    'read_conf_fwrules_common.pl'
+);
+
+foreach my $do_g ( @do_arr_g ) {
+    do ($self_dir_g.'/perl_subs/'.$do_g);
+    if ( $@ ) { die "'$do_g' error:$@"; }
+}
+###LOAD SUBROUTINES
+
 ############ARGV
 our $inventory_conf_path_g='no';
 
