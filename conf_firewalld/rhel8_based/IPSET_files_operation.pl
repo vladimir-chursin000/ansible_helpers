@@ -11,6 +11,7 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ###LOAD SUBROUTINES
 our @do_arr_g=(
+    'read_conf_other.pl',
     'read_00_conf_fwrules.pl',
     'read_01_conf_fwrules.pl',
     'read_66_conf_fwrules.pl',
@@ -107,7 +108,32 @@ system("rm -rf $dyn_ipsets_files_dir_g/remove_queue/*");
 system("rm -rf $dyn_ipsets_files_dir_g/add_queue/*");
 
 while ( 1 ) { # ONE RUN CYCLE begin
-    
+    ######
+
+    $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%inventory_hosts_g);
+
+    ######
+
+    $exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
+    #$file_l,$inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
+
+    ######
+
     last;
 } # ONE RUN CYCLE end
 
