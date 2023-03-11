@@ -146,6 +146,18 @@ while ( 1 ) { # ONE RUN CYCLE begin
 
     ######
 
+    $exec_res_g=&read_66_conf_ipsets_FIN($f66_conf_ipsets_FIN_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h01_conf_ipset_templates_hash_g,\%h66_conf_ipsets_FIN_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h66_conf_ipsets_FIN_hash_g);
+        
+    ######
+
     last;
 } # ONE RUN CYCLE end
 
