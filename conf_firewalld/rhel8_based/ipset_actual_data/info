@@ -5,12 +5,14 @@ Directory structure
 ...ipset_actual_data/inv-host/...
 	permanent/ipset_template_name/...
     	    actual--ipset_name.txt
-		# First line - creation date in the format "YYYYMMDDHHMISS".
+		# First line - creation date & time in the format "YYYYMMDDHHMISS".
+		# Second line - ipset type ('hash:ip', 'hash:ip,port', etc). Format: "IPSET_TYPE=ipset type."
 		# One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
 		# This file can be used to recreate the set if it was deleted (for some reason) on the side of the inventory host.
 	temporary/ipset_template_name/..
 	    actual--ipset_name.txt
-		# First line - creation date in the format "YYYYMMDDHHMISS".
+		# First line - creation date & time in the format "YYYYMMDDHHMISS".
+		# Second line - ipset type ('hash:ip', 'hash:ip,port', etc). Format: "IPSET_TYPE=ipset type."
 		# One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates"), but the record format is "expire datetime;+record associated with ipset_type".
 		# Expire datetime has the format "YYYYMMDDHHMISS".
 		# Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
