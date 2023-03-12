@@ -1,3 +1,6 @@
+Subfolders (pointing to a specific "inv-host" and "ipset_template_name" in the path) will be created automatically
+in this directory (using the "IPSET_files_operation.pl" script).
+########################
 Directory structure
 ...ipset_actual_data/inv-host/...
 	permanent/ipset_template_name/...
