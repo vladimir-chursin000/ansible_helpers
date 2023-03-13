@@ -18,5 +18,13 @@ sub rewrite_file_from_array_ref {
     return $return_str_l;
 }   
 
+sub ops_with_local_dyn_fwrules_files_dir {
+    my ($dyn_fwrules_files_dir_l)=@_;
+    
+    system("mkdir -p $dyn_fwrules_files_dir_l");
+    system("rm -rf $dyn_fwrules_files_dir_l/*.sh");
+    system("rm -rf $dyn_fwrules_files_dir_l/*.conf");
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

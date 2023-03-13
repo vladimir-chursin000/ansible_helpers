@@ -447,11 +447,12 @@ our %input_hash4proc_g=();
 ############VARS
 
 ############MAIN SEQ
-system("mkdir -p $dyn_fwrules_files_dir_g");
-system("rm -rf $dyn_fwrules_files_dir_g/*.sh");
-system("rm -rf $dyn_fwrules_files_dir_g/*.conf");
-
 while ( 1 ) { # ONE RUN CYCLE begin
+    ######
+    
+    &ops_with_local_dyn_fwrules_files_dir($dyn_fwrules_files_dir_g);
+    #$dyn_fwrules_files_dir_l
+    
     ######
 
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
