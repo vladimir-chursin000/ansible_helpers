@@ -11,6 +11,7 @@ our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 
 ###LOAD SUBROUTINES
 our @do_arr_g=(
+    'file_operations.pl',
     'read_conf_other.pl',
     'read_00_conf_fwrules.pl',
     'read_01_conf_fwrules.pl',
@@ -100,15 +101,17 @@ our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ############VARS
 
 ############MAIN SEQ
-system("mkdir -p $dyn_ipsets_files_dir_g");
-system("mkdir -p $dyn_ipsets_files_dir_g/remove_queue");
-    # for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove_queue'
-system("mkdir -p $dyn_ipsets_files_dir_g/add_queue");
-    # for copy content of dir '../add_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/add_queue'
-system("rm -rf $dyn_ipsets_files_dir_g/remove_queue/*");
-system("rm -rf $dyn_ipsets_files_dir_g/add_queue/*");
-
 while ( 1 ) { # ONE RUN CYCLE begin
+    ######
+
+    &ops_with_local_dyn_ipsets_files_dir($dyn_ipsets_files_dir_g);
+    #$dyn_ipsets_files_dir_l
+    #$dyn_ipsets_files_dir_g/remove_queue
+	# for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove_queue'
+    #$dyn_ipsets_files_dir_g/add_queue
+	# for copy content of dir '../add_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/add_queue'
+    ###
+
     ######
 
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
