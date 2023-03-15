@@ -154,14 +154,15 @@ while ( 1 ) { # ONE RUN CYCLE begin
         
     ######
 
-    &ops_with_local_dyn_ipsets_files_dir($dyn_ipsets_files_dir_g);
+    $exec_res_g=&apply_IPSET_files_operation_main($dyn_ipsets_files_dir_l);
     #$dyn_ipsets_files_dir_l
-    #$dyn_ipsets_files_dir_g/remove_queue
-	# for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove_queue'
-    #$dyn_ipsets_files_dir_g/add_queue
-	# for copy content of dir '../add_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/add_queue'
-    ###
-
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    
     ######
 
     last;
