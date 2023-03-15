@@ -45,7 +45,8 @@ our $remote_dir_for_absible_helper_g='$HOME/ansible_helpers/conf_firewalld/ipset
 our $scripts_for_remote_dir_g=$self_dir_g.'/playbooks/scripts_for_remote';
 
 our $dyn_ipsets_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files/ipset_files'; # dir for recreate shell-scripts (for add/remove ipsets) for executing it at remote side (if need)
-our $ipset_input_g=$self_dir_g.'/ipset_input';
+our $ipset_input_dir_g=$self_dir_g.'/ipset_input';
+our $ipset_actual_data_dir_g=$self_dir_g.'/ipset_actual_data';
 ############STATIC VARS
 
 ############VARS
@@ -154,8 +155,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
         
     ######
 
-    $exec_res_g=&apply_IPSET_files_operation_main($dyn_ipsets_files_dir_l);
-    #$dyn_ipsets_files_dir_l
+    $exec_res_g=&apply_IPSET_files_operation_main($dyn_ipsets_files_dir_g,$ipset_input_dir_g,$ipset_actual_data_dir_g);
+    #$dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";

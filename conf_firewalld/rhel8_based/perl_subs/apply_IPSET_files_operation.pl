@@ -1,6 +1,8 @@
 sub apply_IPSET_files_operation_main {
-    my ($dyn_ipsets_files_dir_l)=@_;
+    my ($dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l)=@_;
     #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g
+    #$ipset_input_dir_l=$ipset_input_dir_g
+    #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     
     my $return_str_l='OK';
     
