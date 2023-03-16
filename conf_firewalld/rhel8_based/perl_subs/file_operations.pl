@@ -29,7 +29,6 @@ sub ops_with_local_dyn_fwrules_files_dir {
 
 sub ops_with_local_dyn_ipsets_files_dir {
     my ($dyn_ipsets_files_dir_l)=@_;
-    #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g
     
     system("mkdir -p $dyn_ipsets_files_dir_l");
     system("mkdir -p $dyn_ipsets_files_dir_l/remove_queue");
@@ -40,5 +39,18 @@ sub ops_with_local_dyn_ipsets_files_dir {
     system("rm -rf $dyn_ipsets_files_dir_l/add_queue/*");
 }
 
+sub ops_with_local_ipset_input_dir {
+    my ($ipset_input_dir_l)=@_;
+    
+    #add
+    #del
+    #errors
+    #history
+
+    system("mkdir -p $ipset_input_dir_l/add");
+    system("mkdir -p $ipset_input_dir_l/del");
+    system("mkdir -p $ipset_input_dir_l/errors");
+    system("mkdir -p $ipset_input_dir_l/history");
+}
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
