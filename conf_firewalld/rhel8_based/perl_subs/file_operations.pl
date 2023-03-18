@@ -89,15 +89,23 @@ sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_o
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
 	#hkey0_l=inv-host
 	
+	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent");
+	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary");
+	
+	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/delete_history/permanent");
+	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/delete_history/temporary");
+	
 	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}) ) {
 	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}} ) {
 		#$hkey1_l=ipset_name_tmplt
+		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/change_history");
 	    }
 	}
 	
 	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
 	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}} ) {
 		#$hkey1_l=ipset_name_tmplt
+		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/change_history");
 	    }
 	}
     }
