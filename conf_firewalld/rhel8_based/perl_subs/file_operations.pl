@@ -90,11 +90,15 @@ sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_o
 	#hkey0_l=inv-host
 	
 	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}) ) {
-	    
+	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}} ) {
+		#$hkey1_l=ipset_name_tmplt
+	    }
 	}
 	
 	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
-	    
+	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}} ) {
+		#$hkey1_l=ipset_name_tmplt
+	    }
 	}
     }
     
