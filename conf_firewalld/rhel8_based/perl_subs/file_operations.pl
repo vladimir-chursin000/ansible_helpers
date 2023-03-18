@@ -27,7 +27,7 @@ sub ops_with_local_dyn_fwrules_files_dir {
     system("rm -rf $dyn_fwrules_files_dir_l/*.conf");
 }
 
-sub ops_with_local_dyn_ipsets_files_dir {
+sub ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation.pl'
     my ($dyn_ipsets_files_dir_l)=@_;
     
     system("mkdir -p $dyn_ipsets_files_dir_l");
@@ -39,7 +39,7 @@ sub ops_with_local_dyn_ipsets_files_dir {
     system("rm -rf $dyn_ipsets_files_dir_l/add_queue/*");
 }
 
-sub ops_with_local_ipset_input_dir {
+sub ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl'
     my ($ipset_input_dir_l)=@_;
     
     #add
