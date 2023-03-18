@@ -7,6 +7,8 @@ sub apply_IPSET_files_operation_main {
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
+    my $proc_name_l=(caller(0))[3];
+    
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
 
@@ -32,12 +34,14 @@ sub apply_IPSET_files_operation_main {
             #{ipset_name_tmplt-0}=1;
             #{ipset_name_tmplt-1}=1;
             #etc
-
+    
+    our ($exec_res_l)=(undef);
+    
     my $return_str_l='OK';
     
     ######
 
-    &ops_with_local_dyn_ipsets_files_dir($dyn_ipsets_files_dir_l);
+    &system_ops_with_local_dyn_ipsets_files_dir($dyn_ipsets_files_dir_l);
     #$dyn_ipsets_files_dir_l
     #$dyn_ipsets_files_dir_l/remove_queue
         # for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove
@@ -47,7 +51,7 @@ sub apply_IPSET_files_operation_main {
     
     ######
     
-    &ops_with_local_ipset_input_dir($ipset_input_dir_l);
+    &system_ops_with_local_ipset_input_dir($ipset_input_dir_l);
     #$ipset_input_dir_l
     #
     #$ipset_input_dir_l/add
@@ -55,6 +59,13 @@ sub apply_IPSET_files_operation_main {
     #$ipset_input_dir_l/errors
     #$ipset_input_dir_l/history
     ###
+    
+    ######
+    
+    $exec_res_l=&system_ops_with_local_ipset_actual_data_dir($ipset_actual_data_dir_l,$inv_hosts_href_l,$h66_conf_ipsets_FIN_href_l);
+    #$ipset_actual_data_dir_l,$inv_hosts_href_l,$h66_conf_ipsets_FIN_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
     
     ######
     

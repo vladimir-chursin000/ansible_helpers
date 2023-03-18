@@ -18,7 +18,7 @@ sub rewrite_file_from_array_ref {
     return $return_str_l;
 }   
 
-sub ops_with_local_dyn_fwrules_files_dir {
+sub system_ops_with_local_dyn_fwrules_files_dir {
     my ($dyn_fwrules_files_dir_l)=@_;
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     
@@ -27,8 +27,10 @@ sub ops_with_local_dyn_fwrules_files_dir {
     system("rm -rf $dyn_fwrules_files_dir_l/*.conf");
 }
 
-sub ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation.pl'
+sub system_ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
     my ($dyn_ipsets_files_dir_l)=@_;
+    
+    my $proc_name_l=(caller(0))[3];
     
     system("mkdir -p $dyn_ipsets_files_dir_l");
     system("mkdir -p $dyn_ipsets_files_dir_l/remove_queue");
@@ -39,8 +41,10 @@ sub ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation
     system("rm -rf $dyn_ipsets_files_dir_l/add_queue/*");
 }
 
-sub ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl'
+sub system_ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
     my ($ipset_input_dir_l)=@_;
+    
+    my $proc_name_l=(caller(0))[3];
     
     #add
     #del
@@ -52,5 +56,50 @@ sub ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl'
     system("mkdir -p $ipset_input_dir_l/errors");
     system("mkdir -p $ipset_input_dir_l/history");
 }
+
+sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
+    my ($ipset_actual_data_dir_l,$inv_hosts_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    
+    my $proc_name_l=(caller(0))[3];
+    
+    #Directory structure
+    #...ipset_actual_data/inv-host/... (dir)
+    	    #permanent/ipset_template_name/... (dir)
+        	#/change_history/ (dir)
+	    #temporary/ipset_template_name/.. (dir)
+        	#/change_history/ (dir)
+    	    #delete_history/... (dir)
+        	#permanent/... (dir)
+        	#temporary/... (dir)
+    
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+	#Key=inventory_host, value=1
+    
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
+    
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    
+    my $return_str_l='OK';
+    
+    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+	#hkey0_l=inv-host
+	
+	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}) ) {
+	    
+	}
+	
+	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
+	    
+	}
+    }
+    
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
