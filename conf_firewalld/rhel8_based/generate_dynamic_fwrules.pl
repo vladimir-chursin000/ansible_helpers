@@ -450,7 +450,7 @@ our %input_hash4proc_g=();
 while ( 1 ) { # ONE RUN CYCLE begin
     ######
     
-    &ops_with_local_dyn_fwrules_files_dir($dyn_fwrules_files_dir_g);
+    &system_ops_with_local_dyn_fwrules_files_dir($dyn_fwrules_files_dir_g);
     #$dyn_fwrules_files_dir_l
     
     ######
