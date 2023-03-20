@@ -58,7 +58,7 @@ sub system_ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operati
 }
 
 sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
-    my ($ipset_actual_data_dir_l,$inv_hosts_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    my ($ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
     

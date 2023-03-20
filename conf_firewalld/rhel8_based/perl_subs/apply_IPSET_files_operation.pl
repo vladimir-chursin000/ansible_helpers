@@ -62,8 +62,8 @@ sub apply_IPSET_files_operation_main {
     
     ######
     
-    $exec_res_l=&system_ops_with_local_ipset_actual_data_dir($ipset_actual_data_dir_l,$inv_hosts_href_l,$h66_conf_ipsets_FIN_href_l);
-    #$ipset_actual_data_dir_l,$inv_hosts_href_l,$h66_conf_ipsets_FIN_href_l
+    $exec_res_l=&system_ops_with_local_ipset_actual_data_dir($ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
+    #$ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     
