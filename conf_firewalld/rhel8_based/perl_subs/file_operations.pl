@@ -1,4 +1,4 @@
-###NO DEPENDENCIES
+###DEPENDENCIES: datetime.pl
 
 sub rewrite_file_from_array_ref {
     my ($file_l,$aref_l)=@_;
