@@ -29,13 +29,11 @@ Directory structure
 			# in the format "###YYYYMMDDHHMISS->YYYYMMDDHHMISS;+OLD_IPSET_TYPE->NEW_IPSET_TYPE;+OLD_IPSET_NAME->NEW_IPSET_NAME".
 	
 	delete_history/... (dir)
-	    permanent/... (dir)
-		DEL_DATETIME--ipset_template_name--ipset_name.txt (file)
-		    # First line - "datetime of creation->deletion datetime" + "ipset_type" + "ipset_name" in the format
-			# "###YYYYMMDDHHMISS->YYYYMMDDHHMISS;+IPSET_TYPE;+IPSET_NAME"
-	    temporary/... (dir)
-		DEL_DATETIME--ipset_template_name--ipset_name.txt (file)
-		    # First line - "datetime of creation->deletion datetime" + "ipset_type" + "ipset_name" in the format
-			# "###YYYYMMDDHHMISS->YYYYMMDDHHMISS;+IPSET_TYPE;+IPSET_NAME"
+	    permanent/DEL_DATETIME-ipset_template_name/... (dir)
+		actual--ipset_name.txt (file)
+		/change_history/ (dir)
+	    temporary/DEL_DATETIME-ipset_template_name/... (dir)
+		actual--ipset_name.txt (file)
+		/change_history/ (dir)
 ########################
 Do not make manual changes to files in this directory! Exception = "../inv-host/permanent/ipset_template_name/".
