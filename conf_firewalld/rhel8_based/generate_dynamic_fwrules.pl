@@ -13,6 +13,7 @@ $self_dir_g=~s/\/$//g;
 ###LOAD SUBROUTINES
 our @do_arr_g=(
     'file_operations.pl',
+    'datetime.pl',
     'generate_conf.pl',
     'generate_shell_for_fwzones.pl',
     'generate_shell_for_ipsets.pl',

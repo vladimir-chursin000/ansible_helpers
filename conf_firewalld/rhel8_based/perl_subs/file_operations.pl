@@ -101,8 +101,11 @@ sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_o
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my $dt_now_l=undef;
     
     my $return_str_l='OK';
+    
+    $dt_now_l=&get_dt_yyyymmddhhmmss();
     
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
 	#hkey0_l=inv-host
