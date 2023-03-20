@@ -117,6 +117,14 @@ sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_o
 	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}} ) {
 		#$hkey1_l=ipset_name_tmplt
 		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/change_history");
+
+		#permanent/ipset_template_name/... (dir)
+            	    # actual--ipset_name.txt (file)
+                	# First line - description like "###You CAN manually ADD entries to this file!".
+                	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
+            	    #/change_history/ (dir)
+		
+		##############
 	    }
 	}
 	
@@ -124,6 +132,14 @@ sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_o
 	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}} ) {
 		#$hkey1_l=ipset_name_tmplt
 		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/change_history");
+
+        	#temporary/ipset_template_name/.. (dir)
+            	    # actual--ipset_name.txt (file)
+                	# First line - description like "###Manually ADDING entries to this file is DENIED!".
+                	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
+            	    #/change_history/ (dir)
+		
+		##############
 	    }
 	}
     }
