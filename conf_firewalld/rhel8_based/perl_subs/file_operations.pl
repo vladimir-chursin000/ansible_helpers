@@ -65,8 +65,14 @@ sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_o
     #Directory structure
     #...ipset_actual_data/inv-host/... (dir)
     	    #permanent/ipset_template_name/... (dir)
+		# actual--ipset_name.txt (file)
+            	    # First line - description like "###You CAN manually ADD entries to this file!".
+            	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
         	#/change_history/ (dir)
 	    #temporary/ipset_template_name/.. (dir)
+		# actual--ipset_name.txt (file)
+            	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
+            	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
         	#/change_history/ (dir)
     	    #delete_history/... (dir)
         	#permanent/... (dir)
