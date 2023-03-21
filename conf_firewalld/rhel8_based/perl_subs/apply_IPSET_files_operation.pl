@@ -41,7 +41,7 @@ sub apply_IPSET_files_operation_main {
     
     ######
 
-    &system_ops_with_local_dyn_ipsets_files_dir($dyn_ipsets_files_dir_l);
+    &init_files_ops_with_local_dyn_ipsets_files_dir($dyn_ipsets_files_dir_l);
     #$dyn_ipsets_files_dir_l
     #$dyn_ipsets_files_dir_l/remove_queue
         # for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove
@@ -51,7 +51,7 @@ sub apply_IPSET_files_operation_main {
     
     ######
     
-    &system_ops_with_local_ipset_input_dir($ipset_input_dir_l);
+    &init_create_dirs_at_local_ipset_input_dir($ipset_input_dir_l);
     #$ipset_input_dir_l
     #
     #$ipset_input_dir_l/add
@@ -62,7 +62,7 @@ sub apply_IPSET_files_operation_main {
     
     ######
     
-    $exec_res_l=&system_ops_with_local_ipset_actual_data_dir($ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
+    $exec_res_l=&init_create_dirs_and_files_at_local_ipset_actual_data_dir($ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
     #$ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;

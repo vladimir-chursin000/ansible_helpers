@@ -18,7 +18,7 @@ sub rewrite_file_from_array_ref {
     return $return_str_l;
 }   
 
-sub system_ops_with_local_dyn_fwrules_files_dir {
+sub init_files_ops_with_local_dyn_fwrules_files_dir {
     my ($dyn_fwrules_files_dir_l)=@_;
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     
@@ -27,7 +27,7 @@ sub system_ops_with_local_dyn_fwrules_files_dir {
     system("rm -rf $dyn_fwrules_files_dir_l/*.conf");
 }
 
-sub system_ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
+sub init_files_ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
     my ($dyn_ipsets_files_dir_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
@@ -41,7 +41,7 @@ sub system_ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_op
     system("rm -rf $dyn_ipsets_files_dir_l/add_queue/*");
 }
 
-sub system_ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
+sub init_create_dirs_at_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
     my ($ipset_input_dir_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
@@ -57,7 +57,7 @@ sub system_ops_with_local_ipset_input_dir { # used at 'apply_IPSET_files_operati
     system("mkdir -p $ipset_input_dir_l/history");
 }
 
-sub system_ops_with_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
+sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
     my ($ipset_actual_data_dir_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
