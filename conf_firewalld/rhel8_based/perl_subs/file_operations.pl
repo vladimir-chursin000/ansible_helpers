@@ -128,9 +128,14 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
                 	# First line - description like "###You CAN manually ADD entries to this file!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
-		@init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+");
+		$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
+		$ipset_type_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_type'};
+		
+		@init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_l");
 		##############
 	    }
+	    
+	    ($hkey1_l,$hval1_l)=(undef,undef);
 	}
 	
 	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
@@ -143,11 +148,18 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
                 	# First line - description like "###Manually ADDING entries to this file is DENIED!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
-		@init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+");
+		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
+		$ipset_type_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_type'};
+		
+		@init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_l");
 		##############
 	    }
+
+	    ($hkey1_l,$hval1_l)=(undef,undef);
 	}
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     
     return $return_str_l;
 }
