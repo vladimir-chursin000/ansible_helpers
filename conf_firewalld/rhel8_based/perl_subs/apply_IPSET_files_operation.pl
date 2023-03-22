@@ -72,5 +72,12 @@ sub apply_IPSET_files_operation_main {
     return $return_str_l;
 }
 
+sub read_ipset_input {
+    
+}
+
+sub update_ipset_actual_data {
+    
+}
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
