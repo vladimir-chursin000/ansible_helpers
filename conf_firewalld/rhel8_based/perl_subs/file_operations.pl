@@ -103,6 +103,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $dt_now_l=undef;
     my ($ipset_name_l,$ipset_type_l)=(undef,undef);
+    my $init_file_l=undef;
     
     my $return_str_l='OK';
     my @init_lines_arr_l=();
@@ -130,8 +131,11 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
             	    #/change_history/ (dir)
 		$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_type'};
+		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/$ipset_type_l.txt";
 		
-		@init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_l");
+		if ( !-e($init_file_l) ) {
+		    @init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_l");
+		}
 		##############
 	    }
 	    
@@ -150,8 +154,11 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
             	    #/change_history/ (dir)
 		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_type'};
+		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/$ipset_type_l.txt";
 		
-		@init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_l");
+		if ( !-e($init_file_l) ) {
+		    @init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_l");
+		}
 		##############
 	    }
 
