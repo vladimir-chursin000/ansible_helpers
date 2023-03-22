@@ -102,8 +102,10 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $dt_now_l=undef;
+    my ($ipset_name_l,$ipset_type_l)=(undef,undef);
     
     my $return_str_l='OK';
+    my @init_lines_arr_l=();
     
     $dt_now_l=&get_dt_yyyymmddhhmmss();
     
@@ -126,7 +128,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
                 	# First line - description like "###You CAN manually ADD entries to this file!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
-		
+		@init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+");
 		##############
 	    }
 	}
@@ -141,7 +143,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
                 	# First line - description like "###Manually ADDING entries to this file is DENIED!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
-		
+		@init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+");
 		##############
 	    }
 	}
