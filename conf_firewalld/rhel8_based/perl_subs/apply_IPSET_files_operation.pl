@@ -72,6 +72,13 @@ sub apply_IPSET_files_operation_main {
     $exec_res_l=undef;
     
     ######
+
+    $exec_res_l=&read_ipset_input($ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,\%ipset_input_l);
+    #$ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+
+    ######
     
     return $return_str_l;
 }
@@ -103,7 +110,10 @@ sub read_ipset_input {
     	    # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
             # Datetime format - YYYYMMDDHHMISS.
             # Status = OK / error (incorrect ip-address, etc).
-    
+
+    my $return_str_l='OK';
+
+    return $return_str_l;
 }
 
 sub update_ipset_actual_data {
