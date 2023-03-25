@@ -35,7 +35,11 @@ sub apply_IPSET_files_operation_main {
             #{ipset_name_tmplt-1}=1;
             #etc
     
-    our ($exec_res_l)=(undef);
+    my ($exec_res_l)=(undef);
+    my %ipset_input_l=();
+	#key0=inv-host,key1=ipset_template_name,key2=ipset_name ->
+	    #key3=add -> ipset_record (according to #ipset_type)
+	    #key3=del -> ipset_record (according to #ipset_type)
     
     my $return_str_l='OK';
     
