@@ -77,6 +77,32 @@ sub apply_IPSET_files_operation_main {
 }
 
 sub read_ipset_input {
+    my ($ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,$res_href_l)=@_;
+    #$ipset_input_dir_l=$ipset_input_dir_g
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+    #$res_href_l=hash-ref for %ipset_input_l
+
+    #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
+    #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
+	# Add-file name format VER1 - "inventory_host--ipset_template_name.txt". For add entry to ipset at one inv-host.
+	# Add-file name format VER2 - "all--ipset_template_name.txt". For add entry to ipset at all inventory hosts.
+	# Add-file name format VER3 - "gr_some_group--ipset_template_name.txt". For add entry to ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
+    	    # One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
+
+    #"ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
+	# Delete-file name format VER1 - "inventory_host--ipset_template_name.txt". For remove entry from ipset at one inv-host.
+	# Delete-file name format VER2 - "all--ipset_template_name.txt". For remove entry from ipset at all inventory hosts.
+	# Delete-file name format VER3 - "gr_some_group--ipset_template_name.txt". For remove entry from ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
+    	    # One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
+
+    #"ipset_input/history" - dir for save add/del history.
+	# File name format - "DATE-history.log"
+    	    # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+            # Datetime format - YYYYMMDDHHMISS.
+            # Status = OK / error (incorrect ip-address, etc).
     
 }
 
