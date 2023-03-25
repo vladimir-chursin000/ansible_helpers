@@ -9,5 +9,6 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
 
 "ipset_input/history" - dir for save add/del history.
     # File name format - "DATE-history.log"
-	# Record format - "datetime;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+	# Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+	    # Datetime format - YYYYMMDDHHMISS.
 	    # Status = OK / error (incorrect ip-address, etc).

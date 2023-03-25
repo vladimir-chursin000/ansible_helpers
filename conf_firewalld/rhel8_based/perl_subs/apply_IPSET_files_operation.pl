@@ -37,9 +37,9 @@ sub apply_IPSET_files_operation_main {
     
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
-	#key0=inv-host,key1=ipset_template_name,key2=ipset_name ->
-	    #key3=add -> ipset_record (according to #ipset_type)
-	    #key3=del -> ipset_record (according to #ipset_type)
+	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+	    #key4=add -> ipset_record (according to #ipset_type)
+	    #key4=del -> ipset_record (according to #ipset_type)
     
     my $return_str_l='OK';
     
