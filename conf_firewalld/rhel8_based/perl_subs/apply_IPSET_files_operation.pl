@@ -79,6 +79,13 @@ sub apply_IPSET_files_operation_main {
     $exec_res_l=undef;
 
     ######
+
+    $exec_res_l=&update_ipset_actual_data($ipset_actual_data_dir_l,\%ipset_input_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
+    #$ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+
+    ######
     
     return $return_str_l;
 }
@@ -117,7 +124,53 @@ sub read_ipset_input {
 }
 
 sub update_ipset_actual_data {
+    my ($ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
+    #$ipset_input_href_l=hash-ref for %ipset_input_l
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
     
+    #Directory structure
+    #...ipset_actual_data/inv-host/... (dir)
+    	    #permanent/ipset_template_name/... (dir)
+        	#actual--ipset_name.txt (file)
+            	    # First line - description like "###You CAN manually ADD entries to this file!".
+            	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
+            	    # One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
+            	    # This file can be used to recreate the set if it was deleted (for some reason) on the side of the inventory host.
+            	    # You can manually add entries (according to ipset_type) to this file.
+        	#/change_history/ (dir)
+            	    #CHANGE_DATETIME--ipset_name.txt (file)
+                	# For move "actual--ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
+
+    	    #temporary/ipset_template_name/.. (dir)
+        	#actual--ipset_name.txt (file)
+            	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
+            	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
+            	    # One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates"), but the record format is "expire datetime;+record associated with ipset_type".
+            	    # Expire datetime has the format "YYYYMMDDHHMISS".
+            	    # Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
+            	    # This file is for informational purposes only and cannot be used to recreate temporary sets.
+        	#/change_history/ (dir)
+            	    #CHANGE_DATETIME--ipset_name.txt (file)
+                	# For move "actual--ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
+                	# First line - "datetime of creation->datetime of change" + "old_ipset_type->new_ipset_type" + "old_ipset_name->new_ipset_name"
+                    	    # in the format "###YYYYMMDDHHMISS->YYYYMMDDHHMISS;+OLD_IPSET_TYPE->NEW_IPSET_TYPE;+OLD_IPSET_NAME->NEW_IPSET_NAME".
+
+    	    #delete_history/... (dir)
+        	# If the ownership of "ipset template_name" is changed (via config "66_conf_ipsets_FIN"), then the ipset data and change history
+            	# are moved to this directory.
+        	#permanent/DEL_DATETIME-ipset_template_name/... (dir)
+            	    #actual--ipset_name.txt (file)
+            	    #/change_history/ (dir)
+        	#temporary/DEL_DATETIME-ipset_template_name/... (dir)
+            	    #actual--ipset_name.txt (file)
+            	    #/change_history/ (dir)
+
+    my $return_str_l='OK';
+
+    return $return_str_l;
 }
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
