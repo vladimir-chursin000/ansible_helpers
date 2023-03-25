@@ -7,6 +7,7 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
     # Delete-file name format - "inventory_host--ipset_template_name.txt".
 	# One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
 
-"ipset_input/errors" - dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).
-
 "ipset_input/history" - dir for save add/del history.
+    # File name format - "DATE-history.log"
+	# Record format - "datetime;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+	    # Status = OK / error (incorrect ip-address, etc).

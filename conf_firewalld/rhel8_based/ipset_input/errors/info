@@ -1,1 +1,0 @@
-"ipset_input/errors" -dir for accommodate erroneous input data that did not pass preprocessing (incorrect ip-address, etc).
