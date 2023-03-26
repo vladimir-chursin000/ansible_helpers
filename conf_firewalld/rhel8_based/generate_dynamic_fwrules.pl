@@ -84,6 +84,12 @@ our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_f
 our $remote_dir_for_absible_helper_g='$HOME/ansible_helpers/conf_firewalld'; # dir for creating/manipulate files at remote side
 our $scripts_for_remote_dir_g=$self_dir_g.'/playbooks/scripts_for_remote';
 our $dyn_fwrules_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files'; # dir for recreate shell-scripts for executing it at remote side (if need)
+
+#for IPSET_files_operation.pl (sub=apply_IPSET_files_operation_main)
+our $dyn_ipsets_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files/ipset_files'; # dir for recreate shell-scripts (for add/remove ipsets) for executing it at remote side (if need)
+our $ipset_input_dir_g=$self_dir_g.'/ipset_input';
+our $ipset_actual_data_dir_g=$self_dir_g.'/ipset_actual_data';
+our $remote_ipset_dir_for_absible_helper_g='$HOME/ansible_helpers/conf_firewalld/ipset_files'; # dir for creating/manipulate files (for add/remove ipsets) at remote side
 ############STATIC VARS
 
 ############VARS
