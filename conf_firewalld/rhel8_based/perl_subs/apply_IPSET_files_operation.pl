@@ -3,8 +3,8 @@
 sub apply_IPSET_files_operation_main {
     my ($dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l,$input_hash4proc_href_l)=@_;
     #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g
-	#...scripts_for_remote/fwrules_files/ipset_files/add_queue
-	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue
+	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
+	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
     #$ipset_input_dir_l=$ipset_input_dir_g
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
@@ -178,8 +178,8 @@ sub update_local_ipset_actual_data {
 sub form_local_dyn_ipsets_files_for_copy_to_remote {
     my ($dyn_ipsets_files_dir_l)=@_;
     #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g
-	#...scripts_for_remote/fwrules_files/ipset_files/add_queue
-	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue
+	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
+	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
     
 }
 #With best regards
