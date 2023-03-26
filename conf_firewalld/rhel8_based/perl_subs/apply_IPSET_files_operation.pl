@@ -73,14 +73,14 @@ sub apply_IPSET_files_operation_main {
     
     ######
 
-    $exec_res_l=&read_ipset_input($ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,\%ipset_input_l);
+    $exec_res_l=&read_local_ipset_input($ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,\%ipset_input_l);
     #$ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
 
     ######
 
-    $exec_res_l=&update_ipset_actual_data($ipset_actual_data_dir_l,\%ipset_input_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
+    $exec_res_l=&update_local_ipset_actual_data($ipset_actual_data_dir_l,\%ipset_input_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
     #$ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
@@ -90,7 +90,7 @@ sub apply_IPSET_files_operation_main {
     return $return_str_l;
 }
 
-sub read_ipset_input {
+sub read_local_ipset_input {
     my ($ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,$res_href_l)=@_;
     #$ipset_input_dir_l=$ipset_input_dir_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
@@ -123,7 +123,7 @@ sub read_ipset_input {
     return $return_str_l;
 }
 
-sub update_ipset_actual_data {
+sub update_local_ipset_actual_data {
     my ($ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$ipset_input_href_l=hash-ref for %ipset_input_l
@@ -171,6 +171,10 @@ sub update_ipset_actual_data {
     my $return_str_l='OK';
 
     return $return_str_l;
+}
+
+sub form_dyn_ipsets_files_for_remote {
+    
 }
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
