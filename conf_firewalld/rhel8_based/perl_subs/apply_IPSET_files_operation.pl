@@ -177,7 +177,8 @@ sub update_local_ipset_actual_data {
 }
 
 sub form_local_dyn_ipsets_files_for_copy_to_remote {
-    my ($dyn_ipsets_files_dir_l)=@_;
+    my ($remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l)=@_;
+    #$remote_ipset_dir_for_absible_helper_l=$remote_ipset_dir_for_absible_helper_g
     #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g -> #for copy to REMOTE_HOST:'$HOME/ansible_helpers/conf_firewalld/ipset_files'
 	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
 	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
