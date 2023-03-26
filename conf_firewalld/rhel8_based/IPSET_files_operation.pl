@@ -166,8 +166,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
         'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
     );
 
-    $exec_res_g=&apply_IPSET_files_operation_main($dyn_ipsets_files_dir_g,$ipset_input_dir_g,$ipset_actual_data_dir_g,\%input_hash4proc_g);
-    #$dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l
+    $exec_res_g=&apply_IPSET_files_operation_main($remote_ipset_dir_for_absible_helper_g,$dyn_ipsets_files_dir_g,$ipset_input_dir_g,$ipset_actual_data_dir_g,\%input_hash4proc_g);
+    #$remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";
