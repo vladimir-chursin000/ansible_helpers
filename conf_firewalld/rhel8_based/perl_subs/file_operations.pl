@@ -53,7 +53,6 @@ sub init_create_dirs_at_local_ipset_input_dir { # used at 'apply_IPSET_files_ope
 
     system("mkdir -p $ipset_input_dir_l/add");
     system("mkdir -p $ipset_input_dir_l/del");
-    system("mkdir -p $ipset_input_dir_l/errors");
     system("mkdir -p $ipset_input_dir_l/history");
 }
 
