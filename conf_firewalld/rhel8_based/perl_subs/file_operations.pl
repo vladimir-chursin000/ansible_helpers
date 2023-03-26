@@ -54,6 +54,7 @@ sub init_create_dirs_at_local_ipset_input_dir { # used at 'apply_IPSET_files_ope
     system("mkdir -p $ipset_input_dir_l/add");
     system("mkdir -p $ipset_input_dir_l/del");
     system("mkdir -p $ipset_input_dir_l/history");
+    system("mkdir -p $ipset_input_dir_l/history/incorrect_input_files");
 }
 
 sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'

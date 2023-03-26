@@ -1,5 +1,7 @@
 "ipset_input/history" - dir for save add/del history.
     # File name format - "DATE-history.log"
-        # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+        # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+VALUE;+status"
             # Datetime format - YYYYMMDDHHMISS.
+            # VALUE = ipset_type-record or incorrect file name (if file name no match with VER1/VER2/VER3).
             # Status = OK / error (incorrect ip-address, etc).
+    # incorrcet_input_files / (dir)
