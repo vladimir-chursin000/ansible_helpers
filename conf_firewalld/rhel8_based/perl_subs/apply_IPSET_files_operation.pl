@@ -125,6 +125,12 @@ sub read_local_ipset_input {
     	    # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
             # Datetime format - YYYYMMDDHHMISS.
             # Status = OK / error (incorrect ip-address, etc).
+	#/incorrect_input_files/... (dir)
+    	#    /add/... (dir)
+    	#    /del/... (dir)
+	#/correct_input_files/... (dir)
+    	#    /add/... (dir)
+    	#    /del/... (dir)
 
     my $return_str_l='OK';
 
