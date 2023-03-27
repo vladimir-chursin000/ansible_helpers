@@ -14,7 +14,7 @@ Directory structure
 		CHANGE_DATETIME--ipset_name.txt (file)
 		    # For move "actual--ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
 	
-	temporary/ipset_template_name/.. (dir)
+	temporary/ipset_template_name/... (dir)
 	    actual--ipset_name.txt (file)
 		# First line - description like "###Manually ADDING entries to this file is DENIED!".
 		# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
@@ -22,7 +22,7 @@ Directory structure
 		# Expire datetime has the format "YYYYMMDDHHMISS".
 		# Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
 		# This file is for informational purposes only and cannot be used to recreate temporary sets.
-	    /change_history/ (dir)
+	    /change_history/... (dir)
 		CHANGE_DATETIME--ipset_name.txt (file)
 		    # For move "actual--ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
 		    # First line - "datetime of creation->datetime of change" + "old_ipset_type->new_ipset_type" + "old_ipset_name->new_ipset_name"
