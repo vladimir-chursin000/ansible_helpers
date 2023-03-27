@@ -25,7 +25,10 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
 	    # Datetime format - YYYYMMDDHHMISS.
 	    # VALUE = ipset_type-record or incorrect file name (if file name no match with VER1/VER2/VER3).
 	    # Status = OK / error (incorrect ip-address, etc).
-    /incorrect_input_files/... (dir)
+    /incorrect_input_files/... (dir).
+	# Move here only if: 
+	    # 1) incorrect add/del-file format (no VER1/VER2/VER3).
+	    # 2) not configured "ipset_template_name" for all inventory-hosts (VER1/VER2/VER3).
 	/add/... (dir)
 	/del/... (dir)
     /correct_input_files/... (dir)
