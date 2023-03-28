@@ -8,6 +8,7 @@ use Cwd;
 use Data::Dumper;
 
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
+$self_dir_g=~s/\/$//g;
 
 ###LOAD SUBROUTINES
 our @do_arr_g=(
