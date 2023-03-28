@@ -138,8 +138,22 @@ sub read_local_ipset_input {
     	#    /del/... (dir)
 
     my ($ipset_input_add_dir_l,$ipset_input_del_dir_l)=($ipset_input_dir_l.'/add',$ipset_input_dir_l.'/del');
-    print "$ipset_input_add_dir_l,$ipset_input_del_dir_l\n";
+    my $dir_line_l=undef;
     my $return_str_l='OK';
+    
+    opendir(DIR,$ipset_input_add_dir_l);
+    while ( readdir(DIR) ) {
+	$dir_line_l=$_;
+	if ( $dir_line_l=~/^all\-\-(\S+)\.txt$/ ) { # all (VER2)
+	}
+	elsif ( $dir_line_l=~/^(gr_\S+)\-\-(\S+)\.txt$/ ) { # groups (VER3)
+	}
+	elsif ( $dir_line_l=~/^(\S+)\-\-(\S+)\.txt$/ ) { # inv-hosts (VER1)
+	}
+	else { # not match with VER1/VER2/VER3
+	}
+    }
+    closedir(DIR);
 
     return $return_str_l;
 }
