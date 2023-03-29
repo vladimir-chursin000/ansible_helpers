@@ -149,7 +149,7 @@ sub read_local_ipset_input {
     while ( readdir(DIR) ) {
 	$dir_line_l=$_;
 	if ( $dir_line_l=~/^(all)\-\-(\S+)\.txt$/ ) { # all (VER2)
-	    $input_file_name_l=$ipset_input_del_dir_l.'/'.$dir_line_l;
+	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	    
 	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
@@ -159,11 +159,11 @@ sub read_local_ipset_input {
 	    ($hkey0_l,$hval0_l)=(undef,undef);
 	}
 	elsif ( $dir_line_l=~/^(gr_\S+)\-\-(\S+)\.txt$/ ) { # groups (VER3)
-	    $input_file_name_l=$ipset_input_del_dir_l.'/'.$dir_line_l;
+	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	}
 	elsif ( $dir_line_l=~/^(\S+)\-\-(\S+)\.txt$/ ) { # inv-host (VER1)
-	    $input_file_name_l=$ipset_input_del_dir_l.'/'.$dir_line_l;
+	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	}
 	else { # not match with VER1/VER2/VER3
@@ -183,7 +183,7 @@ sub read_local_ipset_input {
     while ( readdir(DIR) ) {
 	$dir_line_l=$_;
 	if ( $dir_line_l=~/^(all)\-\-(\S+)\.txt$/ ) { # all (VER2)
-	    $input_file_name_l=$ipset_input_del_dir_l.'/'.$dir_line_l;
+	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 
 	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
@@ -193,11 +193,11 @@ sub read_local_ipset_input {
 	    ($hkey0_l,$hval0_l)=(undef,undef);
 	}
 	elsif ( $dir_line_l=~/^(gr_\S+)\-\-(\S+)\.txt$/ ) { # groups (VER3)
-	    $input_file_name_l=$ipset_input_del_dir_l.'/'.$dir_line_l;
+	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	}
 	elsif ( $dir_line_l=~/^(\S+)\-\-(\S+)\.txt$/ ) { # inv-host (VER1)
-	    $input_file_name_l=$ipset_input_del_dir_l.'/'.$dir_line_l;
+	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	}
 	else { # not match with VER1/VER2/VER3
