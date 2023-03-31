@@ -1,14 +1,14 @@
 The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
 "ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
-    # Add-file name format VER1 - "inventory_host--ipset_template_name.txt". For add entry to ipset at one inv-host.
-    # Add-file name format VER2 - "all--ipset_template_name.txt". For add entry to ipset at all inventory hosts.
-    # Add-file name format VER3 - "gr_some_group--ipset_template_name.txt". For add entry to ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
+    # Add-file name format VER1 - "inventory_host__ipset_template_name.txt". For add entry to ipset at one inv-host.
+    # Add-file name format VER2 - "all__ipset_template_name.txt". For add entry to ipset at all inventory hosts.
+    # Add-file name format VER3 - "gr_some_group__ipset_template_name.txt". For add entry to ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
 	# One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
 
 "ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
-    # Delete-file name format VER1 - "inventory_host--ipset_template_name.txt". For remove entry from ipset at one inv-host.
-    # Delete-file name format VER2 - "all--ipset_template_name.txt". For remove entry from ipset at all inventory hosts.
-    # Delete-file name format VER3 - "gr_some_group--ipset_template_name.txt". For remove entry from ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
+    # Delete-file name format VER1 - "inventory_host__ipset_template_name.txt". For remove entry from ipset at one inv-host.
+    # Delete-file name format VER2 - "all__ipset_template_name.txt". For remove entry from ipset at all inventory hosts.
+    # Delete-file name format VER3 - "gr_some_group__ipset_template_name.txt". For remove entry from ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
 	# One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
 
 ###For add/del-files
@@ -26,13 +26,13 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
 	    # VALUE = ipset_type-record or incorrect file name (if file name no match with VER1/VER2/VER3).
 	    # Status = OK / error (incorrect ip-address, etc).
     /incorrect_input_files/... (dir).
-	# Moved files name format - "DATETIME--orig_file_name.txt".
+	# Moved files name format - "DATETIME__orig_file_name.txt".
 	# Move here only if: 
 	    # 1) incorrect add/del-file format (no VER1/VER2/VER3).
 	    # 2) not configured "ipset_template_name" for all inventory-hosts (VER1/VER2/VER3).
 	/add/... (dir)
 	/del/... (dir)
     /correct_input_files/... (dir)
-	# Moved files name format - "DATETIME--orig_file_name.txt".
+	# Moved files name format - "DATETIME__orig_file_name.txt".
 	/add/... (dir)
 	/del/... (dir)

@@ -70,12 +70,12 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     #Directory structure
     #...ipset_actual_data/inv-host/... (dir)
     	    #permanent/ipset_template_name/... (dir)
-		# actual--ipset_name.txt (file)
+		# actual__ipset_name.txt (file)
             	    # First line - description like "###You CAN manually ADD entries to this file!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
         	#/change_history/ (dir)
 	    #temporary/ipset_template_name/.. (dir)
-		# actual--ipset_name.txt (file)
+		# actual__ipset_name.txt (file)
             	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
         	#/change_history/ (dir)
@@ -130,13 +130,13 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
 		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/change_history");
 
 		#permanent/ipset_template_name/... (dir)
-            	    # actual--ipset_name.txt (file)
+            	    # actual__ipset_name.txt (file)
                 	# First line - description like "###You CAN manually ADD entries to this file!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
 		$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_type'};
-		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/$ipset_name_l.txt";
+		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/actual__".$ipset_name_l.".txt";
 		
 		if ( !-e($init_file_l) ) {
 		    @init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_l");
@@ -161,13 +161,13 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
 		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/change_history");
 
         	#temporary/ipset_template_name/.. (dir)
-            	    # actual--ipset_name.txt (file)
+            	    # actual__ipset_name.txt (file)
                 	# First line - description like "###Manually ADDING entries to this file is DENIED!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
 		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_type'};
-		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/$ipset_name_l.txt";
+		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/actual__".$ipset_name_l.".txt";
 		
 		if ( !-e($init_file_l) ) {
 		    @init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_l");
