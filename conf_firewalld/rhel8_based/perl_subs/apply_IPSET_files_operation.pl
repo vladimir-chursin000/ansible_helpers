@@ -177,7 +177,7 @@ sub read_local_ipset_input {
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	}
-	else { # not match with VER1/VER2/VER3
+	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
 	    next;
 	}
 	###
@@ -221,7 +221,7 @@ sub read_local_ipset_input {
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	}
-	else { # not match with VER1/VER2/VER3
+	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
 	    next;
 	}
 	###
