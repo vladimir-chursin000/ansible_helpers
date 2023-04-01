@@ -169,6 +169,9 @@ sub read_local_ipset_input {
 		    print "$hkey0_l\n";
 		}
 	    }
+	    else { # move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
+		
+	    }
 	}
 	elsif ( $dir_line_l=~/^(\S+)\-\-\-(\S+)\.txt$/ ) { # inv-host (VER1)
 	    $input_file_name_l=$dir_line_l;
@@ -203,6 +206,16 @@ sub read_local_ipset_input {
 	elsif ( $dir_line_l=~/^(gr_\S+)\-\-\-(\S+)\.txt$/ ) { # groups (VER3)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
+
+	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) ) {
+		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
+		    #$hkey0_l=inv-host
+		    print "$hkey0_l\n";
+		}
+	    }
+	    else { # move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
+		
+	    }
 	}
 	elsif ( $dir_line_l=~/^(\S+)\-\-\-(\S+)\.txt$/ ) { # inv-host (VER1)
 	    $input_file_name_l=$dir_line_l;
