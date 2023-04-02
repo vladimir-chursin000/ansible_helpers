@@ -171,7 +171,7 @@ sub read_local_ipset_input {
 	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
 		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
 		    #$hkey0_l=inv-host
-		    print "$hkey0_l\n";
+		    push(@input_inv_host_arr_l,$hkey0_l);
 		}
 	    }
 	    else { # move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
@@ -220,7 +220,7 @@ sub read_local_ipset_input {
 	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
 		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
 		    #$hkey0_l=inv-host
-		    print "$hkey0_l\n";
+		    push(@input_inv_host_arr_l,$hkey0_l);
 		}
 	    }
 	    else { # move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
