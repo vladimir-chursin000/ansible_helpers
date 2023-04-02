@@ -153,17 +153,22 @@ sub read_local_ipset_input {
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	    
-	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-		#$hkey0_l=inv-host
-		push(@input_inv_host_arr_l,$hkey0_l);
+	    if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
+		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+		    #$hkey0_l=inv-host
+		    push(@input_inv_host_arr_l,$hkey0_l);
+		}
+		($hkey0_l,$hval0_l)=(undef,undef);
 	    }
-	    ($hkey0_l,$hval0_l)=(undef,undef);
+	    else { # move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
+		
+	    }
 	}
 	elsif ( $dir_line_l=~/^(gr_\S+)\-\-\-(\S+)\.txt$/ ) { # groups (VER3)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	    
-	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) ) {
+	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
 		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
 		    #$hkey0_l=inv-host
 		    print "$hkey0_l\n";
@@ -197,17 +202,22 @@ sub read_local_ipset_input {
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 
-	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-		#$hkey0_l=inv-host
-		push(@input_inv_host_arr_l,$hkey0_l);
-	    }    
-	    ($hkey0_l,$hval0_l)=(undef,undef);
+	    if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
+		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+		    #$hkey0_l=inv-host
+		    push(@input_inv_host_arr_l,$hkey0_l);
+		}
+		($hkey0_l,$hval0_l)=(undef,undef);
+	    }
+	    else { # move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
+		
+	    }
 	}
 	elsif ( $dir_line_l=~/^(gr_\S+)\-\-\-(\S+)\.txt$/ ) { # groups (VER3)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 
-	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) ) {
+	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
 		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
 		    #$hkey0_l=inv-host
 		    print "$hkey0_l\n";
