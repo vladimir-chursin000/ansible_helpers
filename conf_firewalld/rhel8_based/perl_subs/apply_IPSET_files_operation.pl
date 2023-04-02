@@ -151,7 +151,7 @@ sub read_local_ipset_input {
     while ( readdir(DIR) ) {
 	$dir_line_l=$_;
 	$is_err_at_filename_l=0;
-	if ( $dir_line_l=~/^(all)\-\-\-(\S+)\.txt$/ ) { # all (VER2)
+	if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	    
@@ -166,7 +166,7 @@ sub read_local_ipset_input {
 		$is_err_at_filename_l=1;
 	    }
 	}
-	elsif ( $dir_line_l=~/^(gr_\S+)\-\-\-(\S+)\.txt$/ ) { # groups (VER3)
+	elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	    
@@ -180,7 +180,7 @@ sub read_local_ipset_input {
 		$is_err_at_filename_l=1;
 	    }
 	}
-	elsif ( $dir_line_l=~/^(\S+)\-\-\-(\S+)\.txt$/ ) { # inv-host (VER1)
+	elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 	    
@@ -210,7 +210,7 @@ sub read_local_ipset_input {
     while ( readdir(DIR) ) {
 	$dir_line_l=$_;
 	$is_err_at_filename_l=0;
-	if ( $dir_line_l=~/^(all)\-\-\-(\S+)\.txt$/ ) { # all (VER2)
+	if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 
@@ -225,7 +225,7 @@ sub read_local_ipset_input {
 		$is_err_at_filename_l=1;	
 	    }
 	}
-	elsif ( $dir_line_l=~/^(gr_\S+)\-\-\-(\S+)\.txt$/ ) { # groups (VER3)
+	elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 
@@ -239,7 +239,7 @@ sub read_local_ipset_input {
 		$is_err_at_filename_l=1;
 	    }
 	}
-	elsif ( $dir_line_l=~/^(\S+)\-\-\-(\S+)\.txt$/ ) { # inv-host (VER1)
+	elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
 	    $input_file_name_l=$dir_line_l;
 	    $input_ipset_template_name_l=$2;
 
