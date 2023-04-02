@@ -192,13 +192,13 @@ sub read_local_ipset_input {
 	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
 	    $is_err_at_filename_l=1;
 	}
-	###
+	######
 	
 	if ( $is_err_at_filename_l!=1 ) { # no error at filename
 	    
 	}
 	
-	###
+	######
 	$dir_line_l=undef;
 	($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     }
@@ -251,12 +251,12 @@ sub read_local_ipset_input {
 	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
 	    $is_err_at_filename_l=1;
 	}
-	###
+	######
 	
 	if ( $is_err_at_filename_l!=1 ) { # no error at filename
 	    
 	}
-	###
+	######
 	
 	$dir_line_l=undef;
 	($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
