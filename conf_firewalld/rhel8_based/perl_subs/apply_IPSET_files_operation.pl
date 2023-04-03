@@ -188,6 +188,8 @@ sub read_local_ipset_input {
 		# inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
 		$is_inv_host_err_at_filename_l=1;
 	    }
+	    
+	    push(@input_inv_host_arr_l,$1);
 	}
 	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
 	    $is_inv_host_err_at_filename_l=1;
@@ -201,6 +203,7 @@ sub read_local_ipset_input {
 	######
 	$dir_line_l=undef;
 	($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
+	@input_inv_host_arr_l=();
     }
     closedir(DIR);
     ###
@@ -247,6 +250,8 @@ sub read_local_ipset_input {
 		# inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
 		$is_inv_host_err_at_filename_l=1;
 	    }
+	    
+	    push(@input_inv_host_arr_l,$1);
 	}
 	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
 	    $is_inv_host_err_at_filename_l=1;
@@ -260,6 +265,7 @@ sub read_local_ipset_input {
 	
 	$dir_line_l=undef;
 	($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
+	@input_inv_host_arr_l=();
     }
     closedir(DIR);
     ###
