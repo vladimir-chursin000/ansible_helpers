@@ -138,7 +138,6 @@ sub read_local_ipset_input {
     	#    /add/... (dir)
     	#    /del/... (dir)
 
-    my ($ipset_input_add_dir_l,$ipset_input_del_dir_l)=($ipset_input_dir_l.'/add',$ipset_input_dir_l.'/del');
     my %read_input_dirs_l=(
 	'add' => {
 	    'input_dir' => $ipset_input_dir_l.'/add',
