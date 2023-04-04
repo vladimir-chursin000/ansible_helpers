@@ -139,6 +139,20 @@ sub read_local_ipset_input {
     	#    /del/... (dir)
 
     my ($ipset_input_add_dir_l,$ipset_input_del_dir_l)=($ipset_input_dir_l.'/add',$ipset_input_dir_l.'/del');
+    my %read_input_dirs_l=(
+	'add' => {
+	    'input_dir' => $ipset_input_dir_l.'/add',
+	    'correct_input_dir' => $ipset_input_dir_l.'/history/correct_input_files/add',
+	    'incorrect_input_dir' => $ipset_input_dir_l.'/history/incorrect_input_files/add',
+	},
+	'del' => {
+	    'input_dir' => $ipset_input_dir_l.'/del',
+	    'correct_input_dir' => $ipset_input_dir_l.'/history/correct_input_files/del',
+	    'incorrect_input_dir' => $ipset_input_dir_l.'/history/incorrect_input_files/del',
+	},
+	'history' => $ipset_input_dir_l.'/history',
+    );
+    my @read_input_seq_l=('del','add');
     my $dir_line_l=undef;
     my @input_inv_host_arr_l=();
     
