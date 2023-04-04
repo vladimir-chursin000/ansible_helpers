@@ -141,9 +141,13 @@ sub read_local_ipset_input {
     my ($ipset_input_add_dir_l,$ipset_input_del_dir_l)=($ipset_input_dir_l.'/add',$ipset_input_dir_l.'/del');
     my $dir_line_l=undef;
     my @input_inv_host_arr_l=();
+    
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $ipset_tmplt_type_l=undef; # temporary/permanent
+    
     my $is_inv_host_err_at_filename_l=0;
+    
     my $return_str_l='OK';
     
     ###READ DEL
@@ -198,6 +202,9 @@ sub read_local_ipset_input {
 	
 	if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
 	    
+	    
+	    ######
+	    $ipset_tmplt_type_l=undef;
 	}
 	
 	######
@@ -260,6 +267,9 @@ sub read_local_ipset_input {
 	
 	if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
 	    
+	    
+	    ######
+	    $ipset_tmplt_type_l=undef;
 	}
 	######
 	
