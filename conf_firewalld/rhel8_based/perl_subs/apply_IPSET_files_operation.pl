@@ -158,142 +158,83 @@ sub read_local_ipset_input {
     
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my $arr_el0_l=undef;
     my $ipset_tmplt_type_l=undef; # temporary/permanent
     
     my $is_inv_host_err_at_filename_l=0;
     
     my $return_str_l='OK';
     
-    ###READ DEL
-    opendir(DIR,$ipset_input_del_dir_l);
-    while ( readdir(DIR) ) {
-	$dir_line_l=$_;
-	$is_inv_host_err_at_filename_l=0;
-	if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
-	    $input_file_name_l=$dir_line_l;
-	    $input_ipset_template_name_l=$2;
-	    
-	    if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
-		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-		    #$hkey0_l=inv-host
-		    push(@input_inv_host_arr_l,$hkey0_l);
-		}
-		($hkey0_l,$hval0_l)=(undef,undef);
-	    }
-	    else { # move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
-		$is_inv_host_err_at_filename_l=1;
-	    }
-	}
-	elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
-	    $input_file_name_l=$dir_line_l;
-	    $input_ipset_template_name_l=$2;
-	    
-	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
-		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
-		    #$hkey0_l=inv-host
-		    push(@input_inv_host_arr_l,$hkey0_l);
-		}
-	    }
-	    else { # move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
-		$is_inv_host_err_at_filename_l=1;
-	    }
-	}
-	elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
-	    $input_file_name_l=$dir_line_l;
-	    $input_ipset_template_name_l=$2;
-	    
-	    if ( !exists(${$inv_hosts_href_l}{$1}) ) {
-		# inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
-		$is_inv_host_err_at_filename_l=1;
-	    }
-	    
-	    push(@input_inv_host_arr_l,$1);
-	}
-	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del" and write to log ".../history/DATE-history.log"
-	    $is_inv_host_err_at_filename_l=1;
-	}
-	######
-	
-	if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
-	    
-	    
-	    ######
-	    $ipset_tmplt_type_l=undef;
-	}
-	
-	######
-	$dir_line_l=undef;
-	($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
-	@input_inv_host_arr_l=();
+    ###READ INPUT ADD/DEL
+    foreach $arr_el0_l ( @read_input_seq_l ) {
+    	#$arr_el0_l=del/add
+    	opendir(DIR,$read_input_dirs_l{$arr_el0_l}{'input_dir'});
+    	while ( readdir(DIR) ) {
+    	    $dir_line_l=$_;
+    	    $is_inv_host_err_at_filename_l=0;
+    	    if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
+    		$input_file_name_l=$dir_line_l;
+    		$input_ipset_template_name_l=$2;
+    		
+    		if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
+    		    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+    		        #$hkey0_l=inv-host
+    			push(@input_inv_host_arr_l,$hkey0_l);
+    		    }
+    		    ($hkey0_l,$hval0_l)=(undef,undef);
+    		}
+    		else { # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    		    $is_inv_host_err_at_filename_l=1;
+    		}
+    	    }
+    	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
+    		$input_file_name_l=$dir_line_l;
+    		$input_ipset_template_name_l=$2;
+    		
+    		if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
+    		    while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
+    			#$hkey0_l=inv-host
+    			push(@input_inv_host_arr_l,$hkey0_l);
+    		    }
+    		}
+    		else { # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    		    $is_inv_host_err_at_filename_l=1;
+    		}
+    	    }
+    	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
+    	    	$input_file_name_l=$dir_line_l;
+    	    	$input_ipset_template_name_l=$2;
+    		
+    	    	if ( !exists(${$inv_hosts_href_l}{$1}) ) {
+    	    	    # inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    	    	    $is_inv_host_err_at_filename_l=1;
+    	    	}
+    	    
+    		push(@input_inv_host_arr_l,$1);
+    	    }
+    	    else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    		$is_inv_host_err_at_filename_l=1;
+    	    }
+    	    ######
+    	    
+    	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
+    		
+    		
+    		######
+    		$ipset_tmplt_type_l=undef;
+    	    }
+    	    
+    	    ######
+    	    $dir_line_l=undef;
+    	    ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
+    	    @input_inv_host_arr_l=();
+    	}
+    	closedir(DIR);
     }
-    closedir(DIR);
+    
+    $arr_el0_l=undef;
     ###
-
-    ###READ ADD
-    opendir(DIR,$ipset_input_add_dir_l);
-    while ( readdir(DIR) ) {
-	$dir_line_l=$_;
-	$is_inv_host_err_at_filename_l=0;
-	if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
-	    $input_file_name_l=$dir_line_l;
-	    $input_ipset_template_name_l=$2;
-
-	    if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
-		while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-		    #$hkey0_l=inv-host
-		    push(@input_inv_host_arr_l,$hkey0_l);
-		}
-		($hkey0_l,$hval0_l)=(undef,undef);
-	    }
-	    else { # move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
-		$is_inv_host_err_at_filename_l=1;	
-	    }
-	}
-	elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
-	    $input_file_name_l=$dir_line_l;
-	    $input_ipset_template_name_l=$2;
-
-	    if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
-		while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
-		    #$hkey0_l=inv-host
-		    push(@input_inv_host_arr_l,$hkey0_l);
-		}
-	    }
-	    else { # move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
-		$is_inv_host_err_at_filename_l=1;
-	    }
-	}
-	elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
-	    $input_file_name_l=$dir_line_l;
-	    $input_ipset_template_name_l=$2;
-
-	    if ( !exists(${$inv_hosts_href_l}{$1}) ) {
-		# inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
-		$is_inv_host_err_at_filename_l=1;
-	    }
-	    
-	    push(@input_inv_host_arr_l,$1);
-	}
-	else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/add" and write to log ".../history/DATE-history.log"
-	    $is_inv_host_err_at_filename_l=1;
-	}
-	######
-	
-	if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
-	    
-	    
-	    ######
-	    $ipset_tmplt_type_l=undef;
-	}
-	######
-	
-	$dir_line_l=undef;
-	($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
-	@input_inv_host_arr_l=();
-    }
-    closedir(DIR);
-    ###
-
+    
     return $return_str_l;
 }
 
