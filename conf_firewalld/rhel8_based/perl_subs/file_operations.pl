@@ -192,5 +192,11 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     return $return_str_l;
 }
 
+sub get_last_access_time_in_epoch_sec_for_file {
+    my ($file_l)=@_;    
+    my @stat_l=stat($file_l);
+    return $stat_l[8];
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

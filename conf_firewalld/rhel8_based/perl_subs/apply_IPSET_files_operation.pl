@@ -41,8 +41,8 @@ sub apply_IPSET_files_operation_main {
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
 	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-	    #key4=add -> ipset_record (according to #ipset_type)
-	    #key4=del -> ipset_record (according to #ipset_type)
+            #key4=add -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
+            #key4=del -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
     
     my $return_str_l='OK';
     
@@ -105,9 +105,8 @@ sub read_local_ipset_input {
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
         #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-            #key4=add -> ipset_record (according to #ipset_type)
-            #key4=del -> ipset_record (according to #ipset_type)
-
+            #key4=add -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
+            #key4=del -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
 
     #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
     #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
@@ -162,6 +161,7 @@ sub read_local_ipset_input {
     
     my $ipset_tmplt_type_l=undef; # temporary/permanent
     my ($ipset_name_l,$ipset_type_l)=(undef,undef);
+    my $last_access_time_l=undef;
     
     my $is_inv_host_err_at_filename_l=0;
     
@@ -227,17 +227,21 @@ sub read_local_ipset_input {
     	    ######
     	    
     	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
+		$last_access_time_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
+		#$file_l
+		
     		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_tmplt_type_l='temporary'; }
 		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_tmplt_type_l='permanent'; }
 		$ipset_name_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
-    		######
+    		###### clear vars
     		$ipset_tmplt_type_l=undef;
 		($ipset_name_l,$ipset_type_l)=(undef,undef);
+		$last_access_time_l=undef;
     	    }
     	    
-    	    ######
+    	    ###### clear vars
     	    $dir_line_l=undef;
     	    ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     	    @input_inv_host_arr_l=();
