@@ -182,7 +182,9 @@ sub read_local_ipset_input {
     		    }
     		    ($hkey0_l,$hval0_l)=(undef,undef);
     		}
-    		else { # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    		else {
+		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		    $is_inv_host_err_at_filename_l=1;
     		}
     	    }
@@ -196,7 +198,9 @@ sub read_local_ipset_input {
     			push(@input_inv_host_arr_l,$hkey0_l);
     		    }
     		}
-    		else { # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    		else {
+		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		    $is_inv_host_err_at_filename_l=1;
     		}
     	    }
@@ -206,12 +210,15 @@ sub read_local_ipset_input {
     		
     	    	if ( !exists(${$inv_hosts_href_l}{$1}) ) {
     	    	    # inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     	    	    $is_inv_host_err_at_filename_l=1;
     	    	}
     	    
     		push(@input_inv_host_arr_l,$1);
     	    }
-    	    else { # not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    	    else {
+		# not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+		# ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		$is_inv_host_err_at_filename_l=1;
     	    }
     	    ######
