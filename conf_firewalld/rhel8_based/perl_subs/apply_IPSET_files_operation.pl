@@ -159,7 +159,9 @@ sub read_local_ipset_input {
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
+    
     my $ipset_tmplt_type_l=undef; # temporary/permanent
+    my ($ipset_name_l,$ipset_type_l)=(undef,undef);
     
     my $is_inv_host_err_at_filename_l=0;
     
@@ -225,15 +227,14 @@ sub read_local_ipset_input {
     	    ######
     	    
     	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
-    		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) {
-		    $ipset_tmplt_type_l='temporary';
-		}
-		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) {
-		    $ipset_tmplt_type_l='permanent';
-		}
+    		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_tmplt_type_l='temporary'; }
+		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_tmplt_type_l='permanent'; }
+		$ipset_name_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_name'};
+		$ipset_type_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
     		######
     		$ipset_tmplt_type_l=undef;
+		($ipset_name_l,$ipset_type_l)=(undef,undef);
     	    }
     	    
     	    ######
