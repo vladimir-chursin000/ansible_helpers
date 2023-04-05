@@ -100,6 +100,7 @@ sub read_local_ipset_input {
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
 	#$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
@@ -224,7 +225,12 @@ sub read_local_ipset_input {
     	    ######
     	    
     	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
-    		
+    		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) {
+		    $ipset_tmplt_type_l='temporary';
+		}
+		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) {
+		    $ipset_tmplt_type_l='permanent';
+		}
     		
     		######
     		$ipset_tmplt_type_l=undef;
