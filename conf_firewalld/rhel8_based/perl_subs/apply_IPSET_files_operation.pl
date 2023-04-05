@@ -41,8 +41,9 @@ sub apply_IPSET_files_operation_main {
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
 	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-            #key4=add -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
-            #key4=del -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
+	    #key4=last_access_time_in_sec_epoch
+        	#key5=add -> ipset_record (according to #ipset_type), value=1
+        	#key5=del -> ipset_record (according to #ipset_type), value=1
     
     my $return_str_l='OK';
     
@@ -105,8 +106,9 @@ sub read_local_ipset_input {
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
         #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-            #key4=add -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
-            #key4=del -> ipset_record (according to #ipset_type), value=last_access_time_in_sec_epoch
+	    #key4=last_access_time_in_sec_epoch
+        	#key5=add -> ipset_record (according to #ipset_type), value=1
+        	#key5=del -> ipset_record (according to #ipset_type), value=1
 
     #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
     #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
