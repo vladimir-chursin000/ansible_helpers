@@ -103,6 +103,10 @@ sub read_local_ipset_input {
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
 	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+	#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
         #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
@@ -237,6 +241,8 @@ sub read_local_ipset_input {
 		$ipset_name_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
+			
+	    
     		###### clear vars
     		$ipset_tmplt_type_l=undef;
 		($ipset_name_l,$ipset_type_l)=(undef,undef);
