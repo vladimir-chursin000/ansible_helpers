@@ -179,6 +179,7 @@ sub read_local_ipset_input {
     	opendir(DIR,$read_input_dirs_l{$arr_el0_l}{'input_dir'});
     	while ( readdir(DIR) ) {
     	    $dir_line_l=$_;
+	    if ( $dir_line_l=~/^\.|^info/ ) { next; }
     	    $is_inv_host_err_at_filename_l=0;
     	    if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
     		$input_file_name_l=$dir_line_l;
@@ -195,6 +196,9 @@ sub read_local_ipset_input {
 		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		    $is_inv_host_err_at_filename_l=1;
+		    
+		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
@@ -211,6 +215,9 @@ sub read_local_ipset_input {
 		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		    $is_inv_host_err_at_filename_l=1;
+
+		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
@@ -221,6 +228,9 @@ sub read_local_ipset_input {
     	    	    # inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     	    	    $is_inv_host_err_at_filename_l=1;
+
+		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
     	    	}
     	    
     		push(@input_inv_host_arr_l,$1);
@@ -229,6 +239,9 @@ sub read_local_ipset_input {
 		# not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		# ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		$is_inv_host_err_at_filename_l=1;
+
+		&move_file_with_add_to_filename_datetime($dir_line_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+		#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
     	    }
     	    ######
     	    

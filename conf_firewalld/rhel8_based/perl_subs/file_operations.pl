@@ -198,5 +198,12 @@ sub get_last_access_time_in_epoch_sec_for_file {
     return $stat_l[8];
 }
 
+sub move_file_with_add_to_filename_datetime {
+    my ($src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l)=@_;
+    my $dt_now_l=&get_dt_yyyymmddhhmmss();
+    my $src_file_path_l=$src_dir_l.'/'.$src_filename_l;
+    my $dst_file_path=$dst_dir_l.'/'.$dt_now_l.$dt_separator_l.$src_filename_l;
+    system("cp $src_file_path_l $dst_file_path");
+}
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
