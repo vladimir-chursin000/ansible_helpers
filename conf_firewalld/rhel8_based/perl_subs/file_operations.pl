@@ -203,7 +203,7 @@ sub move_file_with_add_to_filename_datetime {
     my $dt_now_l=&get_dt_yyyymmddhhmmss();
     my $src_file_path_l=$src_dir_l.'/'.$src_filename_l;
     my $dst_file_path=$dst_dir_l.'/'.$dt_now_l.$dt_separator_l.$src_filename_l;
-    system("cp $src_file_path_l $dst_file_path");
+    system("mv $src_file_path_l $dst_file_path");
 }
 
 #With best regards

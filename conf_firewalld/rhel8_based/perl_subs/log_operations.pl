@@ -3,7 +3,7 @@
 sub read_local_ipset_input_log_ops {
     my ($history_log_dir_l)=@_;
     # File name format - "DATE-history.log"
-    # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+    # Record format - "datetime;+temporary/permanent/unknown;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
     # Datetime format - YYYYMMDDHHMISS.
     # Status = OK / error (incorrect ip-address, etc).
     

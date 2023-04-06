@@ -129,7 +129,7 @@ sub read_local_ipset_input {
 
     #"ipset_input/history" - dir for save add/del history.
 	# File name format - "DATE-history.log"
-    	    # Record format - "datetime;+temporary/permanent;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
+    	    # Record format - "datetime;+temporary/permanent/unknown;+inventory-host;+ipset_template_name;+ipset_name;+add/del;+ipset_type-record;+status"
             # Datetime format - YYYYMMDDHHMISS.
             # Status = OK / error (incorrect ip-address, etc).
 	#/incorrect_input_files/... (dir)
