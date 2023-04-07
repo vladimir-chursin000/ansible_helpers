@@ -165,7 +165,7 @@ sub read_local_ipset_input {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
     
-    my $ipset_tmplt_type_l=undef; # temporary/permanent
+    my $ipset_type_by_time_l=undef; # temporary/permanent
     my ($ipset_name_l,$ipset_type_l)=(undef,undef);
     my $last_access_time_l=undef;
     
@@ -249,15 +249,15 @@ sub read_local_ipset_input {
 		$last_access_time_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
 		#$file_l
 		
-    		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_tmplt_type_l='temporary'; }
-		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_tmplt_type_l='permanent'; }
-		$ipset_name_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_name'};
-		$ipset_type_l=${$ipset_templates_href_l}{$ipset_tmplt_type_l}{$input_ipset_template_name_l}{'ipset_type'};
+    		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
+		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
+		$ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
+		$ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
 			
 	    
     		###### clear vars
-    		$ipset_tmplt_type_l=undef;
+    		$ipset_type_by_time_l=undef;
 		($ipset_name_l,$ipset_type_l)=(undef,undef);
 		$last_access_time_l=undef;
     	    }
