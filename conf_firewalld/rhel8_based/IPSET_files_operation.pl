@@ -12,6 +12,7 @@ $self_dir_g=~s/\/$//g;
 
 ###LOAD SUBROUTINES
 our @do_arr_g=(
+    'log_operations.pl',
     'file_operations.pl',
     'datetime.pl',
     'read_conf_other.pl',
