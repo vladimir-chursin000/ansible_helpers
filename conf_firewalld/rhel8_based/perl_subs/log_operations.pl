@@ -17,7 +17,9 @@ sub read_local_ipset_input_log_ops {
     my $dt_now_l=&get_dt_yyyymmddhhmmss();
     
     my $history_file_l=$history_log_dir_l.'/'.$date_l.'-history.log';
-    my $log_line_l="$dt_now_l;+$ipset_type_by_time_l;+$inv_host_l;+";
+    my $log_line_l="$dt_now_l;+$ipset_type_by_time_l;+$inv_host_l;+$ipset_template_name_l;+$ipset_name_l;+$op_l;+$ipset_type_l;+$ipset_rec_l;+$status_l";
+    
+    system("echo '$log_line_l' >> $history_file_l");
 }
 
 #With best regards
