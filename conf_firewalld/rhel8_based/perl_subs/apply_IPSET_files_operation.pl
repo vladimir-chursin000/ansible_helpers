@@ -206,6 +206,9 @@ sub read_local_ipset_input {
 		    
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no','no',$input_ipset_template_name_l,'no',$arr_el0_l,'no',$input_file_name_l,"inventory file is empty");
+		    #$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
@@ -225,6 +228,9 @@ sub read_local_ipset_input {
 
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no','no',$input_ipset_template_name_l,'no',$arr_el0_l,'no',$input_file_name_l,"group '$1' is not exists at 00_conf_divisions_for_inv_hosts");
+		    #$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
@@ -238,6 +244,9 @@ sub read_local_ipset_input {
 
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no',$1,$input_ipset_template_name_l,'no',$arr_el0_l,'no',$input_file_name_l,'inv-host not exists at inventory file');
+		    #$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
     	    	}
     	    
     		push(@input_inv_host_arr_l,$1);
