@@ -177,7 +177,9 @@ sub read_local_ipset_input {
     
     my $ipset_type_by_time_l=undef; # temporary/permanent
     my ($ipset_name_l,$ipset_type_l)=(undef,undef);
-    my $last_access_time_l=undef;
+    my $last_access_epoch_sec_l=undef;
+    
+    my %log_ops_input_l=();
     
     my $is_inv_host_err_at_filename_l=0;
     
@@ -191,6 +193,10 @@ sub read_local_ipset_input {
     	    $dir_line_l=$_;
 	    if ( $dir_line_l=~/^\.|^info/ ) { next; }
     	    $is_inv_host_err_at_filename_l=0;
+	    
+	    $last_access_epoch_sec_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$dir_line_l);
+	    #$file_l
+	    
     	    if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
     		$input_file_name_l=$dir_line_l;
     		$input_ipset_template_name_l=$2;
@@ -209,9 +215,24 @@ sub read_local_ipset_input {
 		    
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-
-		    #&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no','no',$input_ipset_template_name_l,'no',$arr_el0_l,'no',$input_file_name_l,"inventory file is empty");
-		    ##$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
+		    
+		    ######
+		    %log_ops_input_l=(
+        		'INPUT_OP_TYPE'=>$arr_el0_l,
+        		'INPUT_FILE_NAME'=>$input_file_name_l,
+        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+        		'INV_HOST'=>'no',
+        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+        		'IPSET_NAME'=>'no',
+        		'IPSET_TYPE_BY_TIME'=>'no',
+        		'IPSET_TYPE'=>'no',
+        		'RECORD'=>'no',
+        		'STATUS'=>'inventory file is empty',
+		    );
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		    #$history_log_dir_l,$input_params_href_l
+		    %log_ops_input_l=();
+		    ######
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
@@ -231,9 +252,24 @@ sub read_local_ipset_input {
 
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-
-		    #&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no','no',$input_ipset_template_name_l,'no',$arr_el0_l,'no',$input_file_name_l,"group '$1' is not exists at 00_conf_divisions_for_inv_hosts");
-		    ##$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
+		    
+		    ######
+		    %log_ops_input_l=(
+        		'INPUT_OP_TYPE'=>$arr_el0_l,
+        		'INPUT_FILE_NAME'=>$input_file_name_l,
+        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+        		'INV_HOST'=>'no',
+        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+        		'IPSET_NAME'=>'no',
+        		'IPSET_TYPE_BY_TIME'=>'no',
+        		'IPSET_TYPE'=>'no',
+        		'RECORD'=>'no',
+        		'STATUS'=>"group '$1' is not exists at '00_conf_divisions_for_inv_hosts'",
+		    );
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		    #$history_log_dir_l,$input_params_href_l
+		    %log_ops_input_l=();
+		    ######
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
@@ -248,8 +284,23 @@ sub read_local_ipset_input {
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
 
-		    #&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no',$1,$input_ipset_template_name_l,'no',$arr_el0_l,'no',$input_file_name_l,'inv-host not exists at inventory file');
-		    ##$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
+		    ######
+		    %log_ops_input_l=(
+        		'INPUT_OP_TYPE'=>$arr_el0_l,
+        		'INPUT_FILE_NAME'=>$input_file_name_l,
+        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+        		'INV_HOST'=>$1,
+        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+        		'IPSET_NAME'=>'no',
+        		'IPSET_TYPE_BY_TIME'=>'no',
+        		'IPSET_TYPE'=>'no',
+        		'RECORD'=>'no',
+        		'STATUS'=>"host '$1' is not exists at inventory_file",
+		    );
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		    #$history_log_dir_l,$input_params_href_l
+		    %log_ops_input_l=();
+		    ######
     	    	}
     	    
     		push(@input_inv_host_arr_l,$1);
@@ -262,15 +313,27 @@ sub read_local_ipset_input {
 		&move_file_with_add_to_filename_datetime($dir_line_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
 		
-		#&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},'no','no','no','no',$arr_el0_l,'no',$dir_line_l,'incorrect filename format');
-		##$history_log_dir_l,$ipset_type_by_time_l,$inv_host_l,$ipset_template_name_l,$ipset_name_l,$op_l,$ipset_type_l,$ipset_rec_l,$status_l
+		######
+		%log_ops_input_l=(
+        	    'INPUT_OP_TYPE'=>$arr_el0_l,
+        	    'INPUT_FILE_NAME'=>$dir_line_l,
+        	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+        	    'INV_HOST'=>'no',
+        	    'IPSET_TEMPLATE_NAME'=>'no',
+        	    'IPSET_NAME'=>'no',
+        	    'IPSET_TYPE_BY_TIME'=>'no',
+        	    'IPSET_TYPE'=>'no',
+        	    'RECORD'=>'no',
+        	    'STATUS'=>"input file is not match with VER1/VER2/VER3 templates",
+		);
+		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		#$history_log_dir_l,$input_params_href_l
+		%log_ops_input_l=();
+		######
     	    }
     	    ######
     	    
     	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error at filename
-		$last_access_time_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
-		#$file_l
-		
     		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
 		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
 		$ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
@@ -280,14 +343,15 @@ sub read_local_ipset_input {
 	    
     		###### clear vars
     		$ipset_type_by_time_l=undef;
-		($ipset_name_l,$ipset_type_l)=(undef,undef);
-		$last_access_time_l=undef;
+		($ipset_name_l,$ipset_type_l)=(undef,undef);	
     	    }
     	    
     	    ###### clear vars
     	    $dir_line_l=undef;
     	    ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     	    @input_inv_host_arr_l=();
+	    $last_access_epoch_sec_l=undef;
+	    %log_ops_input_l=();
     	}
     	closedir(DIR);
     }
