@@ -1,14 +1,17 @@
 "ipset_input/history" - dir for save add/del history.
     # File name format - "DATE-history.log"
-        # Record format - "datetime;+IPSET_TYPE_BY_TIME;+INV_HOST;+IPSET_TEMPLATE_NAME;+IPSET_NAME;+add/del;+IPSET_TYPE;+RECORD;+status"
-    	    # Datetime format - YYYYMMDDHHMISS.
-    	    # IPSET_TYPE_BY_TIME = temporary/permanent/no.
-    	    # INV_HOST = inventory-host/no.
-    	    # IPSET_TEMPLATE_NAME = ipset_template_name/no.
-    	    # IPSET_NAME = ipset_name/no.
-    	    # IPSET_TYPE = ipset_type/no.
-    	    # RECORD = ipset-record or incorrect file name (if file name not match with VER1/VER2/VER3).
-    	    # Status = OK / error (incorrect ip-address, etc).
+        # Record format - "WRITE_LOG_DATETIME;+INPUT_OP_TYPE;+INPUT_FILE_NAME;+INPUT_FILE_CREATE_DATETIME;+INV_HOST;+IPSET_TEMPLATE_NAME;+IPSET_NAME;+IPSET_TYPE_BY_TIME;+IPSET_TYPE;+RECORD;+STATUS"
+            # WRITE_LOG_DATETIME - YYYYMMDDHHMISS.
+            # INPUT_OP_TYPE - add/del.
+            # INPUT_FILE_NAME.
+            # INPUT_FILE_CREATE_DATETIME.
+            # INV_HOST = inventory-host/no.
+            # IPSET_TEMPLATE_NAME = ipset_template_name/no.
+            # IPSET_NAME = ipset_name/no.
+            # IPSET_TYPE_BY_TIME = temporary/permanent/no.
+            # IPSET_TYPE = ipset_type/no.
+            # RECORD = ipset-record.
+            # STATUS = OK / error (incorrect ip-address, etc).
     /incorrect_input_files/... (dir).
         # Moved files name format - "DATETIME__orig_file_name.txt".
         # Move here only if:
