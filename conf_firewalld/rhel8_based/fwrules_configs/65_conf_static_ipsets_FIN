@@ -1,0 +1,3 @@
+#[ipset1--TMPLT+some_inventory_host:BEGIN]
+#one row = one record accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[ipset1--TMPLT+some_inventory_host:END]
