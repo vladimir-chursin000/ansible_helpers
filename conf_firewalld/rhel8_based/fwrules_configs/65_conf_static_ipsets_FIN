@@ -1,3 +1,7 @@
+#######################################################
+#FOR ASSIGN STATIC VALUES of IPSETS to INVENTORY HOSTS#
+#######################################################
+
 #[some_inventory_host:ipset1--TMPLT:BEGIN]
 #one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
 #[some_inventory_host:ipset1--TMPLT:END]
