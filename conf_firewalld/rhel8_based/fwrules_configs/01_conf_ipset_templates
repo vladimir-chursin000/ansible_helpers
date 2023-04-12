@@ -2,11 +2,9 @@
 #FOR CONFIGURATION OF IPSETS for FIREWALLD#
 ###########################################
 
-# For use in configuration files "77_conf_zones_FIN" and "05_conf_zone_rich_rules_sets".
+# For use in configuration files: "05_conf_zone_rich_rules_sets", "65_conf_initial_ipsets_FIN", "66_conf_ipsets_FIN", "77_conf_zones_FIN".
 # It is possible to create several ipset conf (#ipset_name) with the same name but within different template_names to apply to different hosts.
 # Ipset conf template names must be unique.
-# Configuration templates where a specific list of inventory hosts (separated by ",") is specified within
-    # the "inv_host_list_for_apply" parameter take precedence (over "inv_host_list_for_apply=all").
 # The ipset template name must always contain a substring "--TMPLT" at the end.
 # Ipset conf template name examples: ipset1--TMPLT, ipset-ver1--TMPLT, ipset-special_ver2--TMPLT.
 # About version of ipset = ipset v7.1, protocol version: 7
@@ -193,3 +191,57 @@
 #[some_ipset_template_name--TMPLT:END]
 
 #################################INSERT YOUR CUSTOM IPSET TEMPLATES AFTER THIS LINE#################################
+[some_ipset_template_name111--TMPLT:BEGIN]
+ipset_name=some_ipset_name111
+ipset_description=empty
+ipset_short_description=empty
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[some_ipset_template_name111--TMPLT:END]
+
+[some_ipset_template_name11--TMPLT:BEGIN]
+ipset_name=some_ipset_name111
+ipset_description=empty
+ipset_short_description=empty
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[some_ipset_template_name11--TMPLT:END]
+
+[some_ipset_template_name112--TMPLT:BEGIN]
+ipset_name=some_ipset_name112
+ipset_description=empty
+ipset_short_description=empty
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[some_ipset_template_name112--TMPLT:END]
+
+[some_ipset_template_name222--TMPLT:BEGIN]
+ipset_name=some_ipset_name222
+ipset_description=empty
+ipset_short_description=empty
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[some_ipset_template_name222--TMPLT:END]
+
+[some_ipset_template_name223--TMPLT:BEGIN]
+ipset_name=some_ipset_name223
+ipset_description=empty
+ipset_short_description=empty
+ipset_create_option_timeout=10
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[some_ipset_template_name223--TMPLT:END]
