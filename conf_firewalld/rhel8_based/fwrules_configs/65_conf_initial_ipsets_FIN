@@ -4,8 +4,24 @@
 ########################################################
 
 ###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
+#[HOST_TARGET:IPSET_TMPLT:BEGIN]
+#HOST_TARGET. Possible values:
+    # 1) some_inventory_host - host from inventory file (conf_firewall_hosts).
+    # 2) gr_some_group - group of hosts from config "00_conf_divisions_for_inv_hosts".
+    # 3) all - all hosts from inventory file (conf_firewall_hosts).
+#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[HOST_TARGET:IPSET_TMPLT:END]
+
 #[some_inventory_host:ipset1--TMPLT:BEGIN]
 #one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
 #[some_inventory_host:ipset1--TMPLT:END]
+
+#[gr_some_group:ipset2--TMPLT:BEGIN]
+#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[gr_some_group:ipset2--TMPLT:END]
+
+#[all:ipset3--TMPLT:BEGIN]
+#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[all:ipset3--TMPLT:END]
 
 #################################INSERT YOUR CUSTOM INITIAL IPSETS AFTER THIS LINE#################################
