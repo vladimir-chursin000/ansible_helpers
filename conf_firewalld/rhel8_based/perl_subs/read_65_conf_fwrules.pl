@@ -40,6 +40,24 @@ sub read_65_conf_initial_ipsets_content_FIN {
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+
+    # check for temporary ipset templates (DENY)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=ipset_template_name
+	if ( !exists(${$ipset_templates_href_l}{$hkey0_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' configured at '65_conf_initial_ipsets_content_FIN' is not exists at '01_conf_ipset_templates'";
+	    last;
+	}
+	if ( ${$ipset_templates_href_l}{$hkey0_l}{'ipset_create_option_timeout'}>0 ) {
+	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' is not permanent";
+	    last;
+	}
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
     
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
