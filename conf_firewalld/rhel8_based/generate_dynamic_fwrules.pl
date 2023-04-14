@@ -393,9 +393,16 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
 
 ######
 our %h65_conf_initial_ipsets_content_FIN_hash_g=();
+# This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
 #[IPSET_TEMPLATE_NAME:BEGIN]
 #one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
 #[IPSET_TEMPLATE_NAME:END]
+###
+#$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
+    #{'record-0'}=1
+    #{'rerord-1'}=1
+    #etc
+    #{'seq'}=[val-0,val-1] (val=record)
 ######
 
 ######
