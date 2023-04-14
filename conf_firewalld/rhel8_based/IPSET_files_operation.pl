@@ -165,8 +165,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&read_65_conf_initial_ipsets_content_FIN($f65_conf_initial_ipsets_content_FIN_path_g,\%h65_conf_initial_ipsets_content_FIN_hash_g);
-    #$file_l,$res_href_l
+    $exec_res_g=&read_65_conf_initial_ipsets_content_FIN($f65_conf_initial_ipsets_content_FIN_path_g,\%h01_conf_ipset_templates_hash_g,\%h65_conf_initial_ipsets_content_FIN_hash_g);
+    #$file_l,$ipset_templates_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
         $exec_status_g='FAIL';
         print "$exec_res_g\n";

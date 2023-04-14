@@ -1,8 +1,9 @@
 ###DEPENDENCIES: read_conf_fwrules_common.pl
 
 sub read_65_conf_initial_ipsets_content_FIN {
-    my ($file_l,$res_href_l)=@_;
+    my ($file_l,$ipset_templates_href_l,$res_href_l)=@_;
     #file_l=$f65_conf_initial_ipsets_content_FIN_path_g
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #res_href_l=hash-ref for %h66_conf_ipsets_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
@@ -10,6 +11,16 @@ sub read_65_conf_initial_ipsets_content_FIN {
     #[IPSET_TEMPLATE_NAME:BEGIN]
     #one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
     #[IPSET_TEMPLATE_NAME:END]
+    ###
+    #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+    #{'ipset_name'}=value
+    #{'ipset_description'}=empty|value
+    #{'ipset_short_description'}=empty|value
+    #{'ipset_create_option_timeout'}=num
+    #{'ipset_create_option_hashsize'}=num
+    #{'ipset_create_option_maxelem'}=num
+    #{'ipset_create_option_family'}=inet|inet6
+    #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     ###
     #$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
 	#{'record-0'}=1
