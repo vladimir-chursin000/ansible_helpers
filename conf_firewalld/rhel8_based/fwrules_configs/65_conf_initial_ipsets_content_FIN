@@ -4,6 +4,7 @@
 ########################################################
 
 # This CFG is linked with: "01_conf_ipset_templates" and "66_conf_ipsets_FIN".
+# This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
 
 ###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
 #[IPSET_TEMPLATE_NAME:BEGIN]
