@@ -40,7 +40,7 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
 ############CFG file
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
-our $f65_conf_initial_ipsets_content_FIN=$self_dir_g.'/fwrules_configs/65_conf_initial_ipsets_content_FIN';
+our $f65_conf_initial_ipsets_content_FIN_path_g=$self_dir_g.'/fwrules_configs/65_conf_initial_ipsets_content_FIN';
 our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN';
 ############CFG file
 

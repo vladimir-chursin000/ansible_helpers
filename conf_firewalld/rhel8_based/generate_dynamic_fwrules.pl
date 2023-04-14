@@ -74,7 +74,7 @@ our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_con
 our $f03_conf_policy_templates_path_g=$self_dir_g.'/fwrules_configs/03_conf_policy_templates';
 our $f04_conf_zone_forward_ports_sets_path_g=$self_dir_g.'/fwrules_configs/04_conf_zone_forward_ports_sets';
 our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/fwrules_configs/05_conf_zone_rich_rules_sets';
-our $f65_conf_initial_ipsets_content_FIN=$self_dir_g.'/fwrules_configs/65_conf_initial_ipsets_content_FIN';
+our $f65_conf_initial_ipsets_content_FIN_path_g=$self_dir_g.'/fwrules_configs/65_conf_initial_ipsets_content_FIN';
 our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN';
 our $f77_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/77_conf_zones_FIN';
 our $f88_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/88_conf_policies_FIN';
@@ -389,6 +389,13 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
     #{'rule-1'}=1
     #etc
     #{'seq'}=[val-0,val-1] (val=rule)
+######
+
+######
+our %h65_conf_initial_ipsets_content_FIN_hash_g=();
+#[IPSET_TEMPLATE_NAME:BEGIN]
+#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[IPSET_TEMPLATE_NAME:END]
 ######
 
 ######
