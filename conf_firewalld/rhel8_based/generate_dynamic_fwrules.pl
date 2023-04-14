@@ -26,6 +26,7 @@ our @do_arr_g=(
     'read_03_conf_fwrules.pl',
     'read_04_conf_fwrules.pl',
     'read_05_conf_fwrules.pl',
+    'read_65_conf_fwrules.pl',
     'read_66_conf_fwrules.pl',
     'read_77_conf_fwrules.pl',
     'read_88_conf_fwrules.pl',
@@ -595,6 +596,18 @@ while ( 1 ) { # ONE RUN CYCLE begin
     }
     $exec_res_g=undef;
     #print Dumper(\%h05_conf_zone_rich_rules_sets_hash_g);
+    
+    ######
+
+    $exec_res_g=&read_65_conf_initial_ipsets_content_FIN($f65_conf_initial_ipsets_content_FIN_path_g,\%h65_conf_initial_ipsets_content_FIN_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+	$exec_status_g='FAIL';
+	print "$exec_res_g\n";
+	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h65_conf_initial_ipsets_content_FIN_hash_g);
     
     ######
     

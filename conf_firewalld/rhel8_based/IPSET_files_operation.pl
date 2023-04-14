@@ -18,6 +18,7 @@ our @do_arr_g=(
     'read_conf_other.pl',
     'read_00_conf_fwrules.pl',
     'read_01_conf_fwrules.pl',
+    'read_65_conf_fwrules.pl',
     'read_66_conf_fwrules.pl',
     'read_conf_fwrules_common.pl',
     'apply_IPSET_files_operation.pl'
@@ -161,6 +162,18 @@ while ( 1 ) { # ONE RUN CYCLE begin
     }
     $exec_res_g=undef;
     #print Dumper(\%h01_conf_ipset_templates_hash_g);
+    
+    ######
+    
+    $exec_res_g=&read_65_conf_initial_ipsets_content_FIN($f65_conf_initial_ipsets_content_FIN_path_g,\%h65_conf_initial_ipsets_content_FIN_hash_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h65_conf_initial_ipsets_content_FIN_hash_g);
 
     ######
 
