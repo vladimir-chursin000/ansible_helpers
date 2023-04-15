@@ -18,6 +18,13 @@ sub generate_shell_script_for_recreate_ipsets {
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 
+    my $h65_conf_initial_ipsets_content_FIN_href_l=${$input_hash4proc_href_l}{'h65_conf_initial_ipsets_content_FIN_href'};
+    #$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
+        #{'record-0'}=1
+        #{'rerord-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=record)
+
     my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
         #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->

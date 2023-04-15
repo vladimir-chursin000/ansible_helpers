@@ -685,6 +685,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'inventory_hosts_href'=>\%inventory_hosts_g,
     	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
     	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+	'h65_conf_initial_ipsets_content_FIN_href'=>\%h65_conf_initial_ipsets_content_FIN_hash_g,
 	'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
     );
 
