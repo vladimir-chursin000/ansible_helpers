@@ -136,7 +136,18 @@ sub generate_shell_script_for_recreate_ipsets {
             $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_family'};
             $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_hashsize'};
             $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_maxelem'}.";";
-
+	    
+	    # Generate initial content of permanent ipset
+	    if ( exists(${$h66_conf_ipsets_FIN_href_l}{$arr_el0_l}{'seq'}) ) {
+		#$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
+    		    #{'record-0'}=1
+    		    #{'rerord-1'}=1
+    		    #etc
+    		    #{'seq'}=[val-0,val-1] (val=record)
+		
+	    }
+	    ###
+	    
             push(@wr_arr_l,$wr_str_l);
 
             $wr_str_l=undef;
