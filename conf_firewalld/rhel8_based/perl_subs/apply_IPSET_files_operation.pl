@@ -30,7 +30,14 @@ sub apply_IPSET_files_operation_main {
 	#{'ipset_create_option_maxelem'}=num
 	#{'ipset_create_option_family'}=inet|inet6
 	#{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
-
+    
+    my $h65_conf_initial_ipsets_content_FIN_href_l=${$input_hash4proc_href_l}{'h65_conf_initial_ipsets_content_FIN_href'};
+    #$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
+        #{'record-0'}=1
+        #{'rerord-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=record)
+    
     my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
         #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
