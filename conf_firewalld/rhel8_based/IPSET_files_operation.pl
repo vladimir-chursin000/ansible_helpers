@@ -21,6 +21,7 @@ our @do_arr_g=(
     'read_65_conf_fwrules.pl',
     'read_66_conf_fwrules.pl',
     'read_conf_fwrules_common.pl',
+    'generate_shell_for_ipsets.pl',
     'apply_IPSET_files_operation.pl'
 );
 
