@@ -196,6 +196,14 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my $is_inv_host_err_at_filename_l=0;
+
+    my %res_tmp_lv0_l=();
+    #$res_href_l=hash-ref for %ipset_input_l
+	#my %ipset_input_l=(); ()
+        #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+	    #key4=last_access_time_in_sec_epoch
+        	#key5=add -> ipset_record (according to #ipset_type), value=1
+        	#key5=del -> ipset_record (according to #ipset_type), value=1
     
     my $return_str_l='OK';
     
@@ -353,7 +361,14 @@ sub read_local_ipset_input {
 		$ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 		$ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
-			
+		#my %res_tmp_lv0_l=();
+		    #$res_href_l=hash-ref for %ipset_input_l
+			#my %ipset_input_l=(); ()
+    			#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+			    #key4=last_access_time_in_sec_epoch
+        			#key5=add -> ipset_record (according to #ipset_type), value=1
+        			#key5=del -> ipset_record (according to #ipset_type), value=1
+		
 	    
     		###### clear vars
     		$ipset_type_by_time_l=undef;
