@@ -32,7 +32,8 @@ our @do_arr_g=(
     'read_88_conf_fwrules.pl',
     'read_conf_fwrules_common.pl',
     'read_conf_other.pl',
-    'value_check.pl'
+    'value_check.pl',
+    'apply_IPSET_files_operation.pl'
 );
 
 foreach my $do_g ( @do_arr_g ) {
