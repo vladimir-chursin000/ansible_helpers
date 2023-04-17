@@ -36,19 +36,26 @@ PARTIALLY READY!
 # 'IPSET_files_operation.pl' = SCRIPT for create subfolders and manipulate ipset-files for each inventory host.
 ##################
 SCRIPTS LOGIC DESCRIPTION
-'00_just_install_firewall.sh'
+'00_just_install_firewall.sh'->
+    1) main.sh
 
-'01_check_firewall_serv_is_started.sh'
+'01_check_firewall_serv_is_started.sh'->
+    1) main.sh
 
-'01_check_fwrules_without_apply.sh'
+'01_check_fwrules_without_apply.sh'->
+    1) main.sh
 
-'02_just_run_fwrules_backup.sh'
+'02_just_run_fwrules_backup.sh'->
+    1) main.sh
 
-'03_apply_immediately_fwrules.sh'
+'03_apply_immediately_fwrules.sh'->
+    1) main.sh
 
-'03_apply_temporary_fwrules.sh'
+'03_apply_temporary_fwrules.sh'->
+    1) main.sh
 
-'03_force_apply_fwrules.sh'
+'03_force_apply_fwrules.sh'->
+    1) main.sh
 
 ##################
 #With best regards
