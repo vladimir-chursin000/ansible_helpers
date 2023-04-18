@@ -52,16 +52,17 @@ SCRIPTS LOGIC DESCRIPTION
 	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 
 '02_just_run_fwrules_backup.sh'->
-    1) main.sh
+    1) main.sh ->
+	1) fwrules_backup_playbook.yml
 
 '03_apply_immediately_fwrules.sh'->
-    1) main.sh
+    1) main.sh ->
 
 '03_apply_temporary_fwrules.sh'->
-    1) main.sh
+    1) main.sh ->
 
 '03_force_apply_fwrules.sh'->
-    1) main.sh
+    1) main.sh ->
 
 ##################
 #With best regards
