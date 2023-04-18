@@ -37,13 +37,17 @@ PARTIALLY READY!
 ##################
 SCRIPTS LOGIC DESCRIPTION
 '00_just_install_firewall.sh'->
-    1) main.sh
+    1) main.sh ->
+	1) just_install_firewall_playbook.yml
 
 '01_check_firewall_serv_is_started.sh'->
-    1) main.sh
+    1) main.sh ->
+	1) check_firewall_serv_is_started_playbook.yml
 
 '01_check_fwrules_without_apply.sh'->
-    1) main.sh
+    1) main.sh ->
+	1) fwrules_backup_playbook.yml
+	2) generate_dynamic_fwrules.pl
 
 '02_just_run_fwrules_backup.sh'->
     1) main.sh
