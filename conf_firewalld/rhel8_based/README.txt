@@ -47,7 +47,9 @@ SCRIPTS LOGIC DESCRIPTION
 '01_check_fwrules_without_apply.sh'->
     1) main.sh ->
 	1) fwrules_backup_playbook.yml
-	2) generate_dynamic_fwrules.pl
+	2) generate_dynamic_fwrules.pl. ops ->
+	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
+	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 
 '02_just_run_fwrules_backup.sh'->
     1) main.sh
