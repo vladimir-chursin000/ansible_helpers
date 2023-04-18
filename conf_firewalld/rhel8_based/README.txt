@@ -49,7 +49,7 @@ SCRIPTS LOGIC DESCRIPTION
 	1) fwrules_backup_playbook.yml ->
 	    1) tasks/fwrules_backup_task_main.yml
 	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. ops ->
+	2) generate_dynamic_fwrules.pl. Important ops:
 	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
 	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 
