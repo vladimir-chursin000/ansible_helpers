@@ -61,6 +61,18 @@ SCRIPTS LOGIC DESCRIPTION
 
 '03_apply_immediately_fwrules.sh'->
     1) main.sh ->
+	1) fwrules_backup_playbook.yml ->
+	    1) tasks/fwrules_backup_task_main.yml
+	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+	2) generate_dynamic_fwrules.pl. Important ops:
+	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
+	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	3) fwrules_apply_immediately_playbook.yml ->
+	    1) tasks for check for 'apply_fwrules_is_run_now' and 'rollback_fwrules_changes_is_run_now' at remote side.
+	    2) tasks for kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need.
+	    3) tasks/fwrules_apply_fwconfig_task.yml (for apply firewalld.conf).
+	    4) tasks/fwrules_apply_droppd_conf_task.yml (for apply '/etc/rsyslog.d/firewalld-droppd.conf').
+	    5) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies).
 
 '03_apply_temporary_fwrules.sh'->
     1) main.sh ->

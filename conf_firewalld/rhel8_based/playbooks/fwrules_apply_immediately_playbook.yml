@@ -42,14 +42,6 @@
 
 ######################################################Apply firewalld.conf (end)
 
-######################################################Apply firewall rules (recreate ipsets/zones/policies) (begin)
-
-    - name: "run fwrules_apply_task"
-      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_task.yml"
-      when: apply_fwrules_is_run_now_exists.stat.exists==false
-
-######################################################Apply firewall rules (recreate ipsets/zones/policies) (end)
-
 ######################################################Apply '/etc/rsyslog.d/firewalld-droppd.conf' (begin)
 
     - name: "run fwrules_apply_droppd_conf_task"
@@ -57,3 +49,11 @@
       when: apply_fwrules_is_run_now_exists.stat.exists==false
 
 ######################################################Apply '/etc/rsyslog.d/firewalld-droppd.conf' (end)
+
+######################################################Apply firewall rules (recreate ipsets/zones/policies) (begin)
+
+    - name: "run fwrules_apply_task"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_task.yml"
+      when: apply_fwrules_is_run_now_exists.stat.exists==false
+
+######################################################Apply firewall rules (recreate ipsets/zones/policies) (end)
