@@ -8,6 +8,10 @@ if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets-res.txt";
 fi;
 
+#if [[ -s "$HOME/ansible_helpers/conf_firewalld/fill_ipsets.sh" ]]; then
+#    "$HOME/ansible_helpers/conf_firewalld/fill_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/fill_ipsets-res.txt";
+#fi;
+
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt";
 fi;

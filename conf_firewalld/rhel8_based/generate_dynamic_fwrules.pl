@@ -679,25 +679,24 @@ while ( 1 ) { # ONE RUN CYCLE begin
         last;
     }
     $exec_res_g=undef;
-
+    
     ######
-# For move to 'IPSET_files_operation.pl' and refactoring    
-#    %input_hash4proc_g=(
-#    	'inventory_hosts_href'=>\%inventory_hosts_g,
-#    	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
-#    	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
-#	'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
-#    );
-#
-#    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_files_dir_g,$remote_dir_for_absible_helper_g,\%input_hash4proc_g);
-#    #$dyn_fwrules_files_dir_l,$remote_dir_for_absible_helper_l,$input_hash4proc_href_l
-#    if ( $exec_res_g=~/^fail/ ) {
-#        $exec_status_g='FAIL';
-#        print "$exec_res_g\n";
-#        last;
-#    }
-#    $exec_res_g=undef;
-#
+    %input_hash4proc_g=(
+    	'inventory_hosts_href'=>\%inventory_hosts_g,
+    	'h00_conf_firewalld_href'=>\%h00_conf_firewalld_hash_g,
+    	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+    	'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
+    );
+    
+    $exec_res_g=&generate_shell_script_for_recreate_ipsets($dyn_fwrules_files_dir_g,$remote_dir_for_absible_helper_g,\%input_hash4proc_g);
+    #$dyn_fwrules_files_dir_l,$remote_dir_for_absible_helper_l,$input_hash4proc_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    
     ######
     
     %input_hash4proc_g=(
