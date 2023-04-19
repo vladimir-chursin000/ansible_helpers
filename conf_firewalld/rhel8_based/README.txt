@@ -85,7 +85,7 @@ SCRIPTS LOGIC DESCRIPTION
 	    3) tasks/fwrules_backup_collect_raw_network_data_task.yml
 	2) generate_dynamic_fwrules.pl. Important ops:
 	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	    2) generate new sh/conf-files (!!! with 'rollback_fwrules_changes.sh') at "playbooks/scripts_for_remote/fwrules_files".
 	3) fwrules_apply_temporary_playbook.yml ->
 	    1) tasks for check for 'apply_fwrules_is_run_now' and 'rollback_fwrules_changes_is_run_now' at remote side.
 	    If not exists 'apply_fwrules_is_run_now' and 'rollback_fwrules_changes_is_run_now' at remote side (!!!) ->
@@ -95,7 +95,9 @@ SCRIPTS LOGIC DESCRIPTION
 
 '03_force_apply_fwrules.sh' ->
     1) main.sh ->
-
+	1) fwrules_backup_playbook.yml ->
+	    1) tasks/fwrules_backup_task_main.yml
+	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
 ##################
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
