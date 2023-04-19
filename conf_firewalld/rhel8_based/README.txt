@@ -76,6 +76,10 @@ SCRIPTS LOGIC DESCRIPTION
 
 '03_apply_temporary_fwrules.sh'->
     1) main.sh ->
+	1) fwrules_backup_playbook_for_temp_apply.yml ->
+	    1) tasks/fwrules_backup_task_main.yml
+	    2) tasks/fwrules_local_backup_for_temp_apply_task.yml
+	    3) tasks/fwrules_backup_collect_raw_network_data_task.yml
 
 '03_force_apply_fwrules.sh'->
     1) main.sh ->
