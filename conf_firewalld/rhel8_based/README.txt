@@ -71,8 +71,11 @@ SCRIPTS LOGIC DESCRIPTION
 	    1) tasks for check for 'apply_fwrules_is_run_now' and 'rollback_fwrules_changes_is_run_now' at remote side.
 	    2) tasks for kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need.
 	    3) tasks/fwrules_apply_fwconfig_task.yml (for apply firewalld.conf).
+		If not exists 'apply_fwrules_is_run_now'.
 	    4) tasks/fwrules_apply_droppd_conf_task.yml (for apply '/etc/rsyslog.d/firewalld-droppd.conf').
+		If not exists 'apply_fwrules_is_run_now'.
 	    5) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies).
+		If not exists 'apply_fwrules_is_run_now'.
 
 '03_apply_temporary_fwrules.sh'->
     1) main.sh ->
