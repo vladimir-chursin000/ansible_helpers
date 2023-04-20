@@ -1,5 +1,5 @@
 # APPLY IPSET, ZONES, POLICIES
-######################################################STEP 1. Check for locally generated fwrules files exists (begin)
+######################################################STEP 1. Check for locally generated fwrules files is exist (begin)
 #fill vars: recreate_ipsets_sh_exists, recreate_fw_zones_sh_exists, 
 ##########  recreate_policies_sh_exists, rollback_fwrules_changes_sh_exists
 
@@ -33,7 +33,7 @@
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rollback_fwrules_changes.sh"
   register: rollback_fwrules_changes_sh_exists
 
-######################################################STEP 1. Check for locally generated fwrules files exists (end)
+######################################################STEP 1. Check for locally generated fwrules files is exist (end)
 
 ######################################################STEP 2. Create or remove some files at remote side (begin)
 

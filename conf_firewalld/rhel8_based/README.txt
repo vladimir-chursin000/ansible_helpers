@@ -92,9 +92,13 @@ SCRIPTS LOGIC DESCRIPTION
 		3) tasks/fwrules_apply_fwconfig_task.yml (for apply firewalld.conf).
 		4) tasks/fwrules_apply_droppd_conf_task.yml (for apply '/etc/rsyslog.d/firewalld-droppd.conf').
 		5) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies) ->
-		    1) Check for locally generated fwrules exists. Fill vars: recreate_ipsets_sh_exists, recreate_fw_zones_sh_exists,
-			recreate_policies_sh_exists, rollback_fwrules_changes_sh_exists).
-		    2) 
+		    1) Check for locally generated fwrules files is exist.
+			Fwrules files (at "scripts_for_remote/fwrules_files"): INV_HOSTNAME_recreate_ipsets.sh,
+			    INV_HOSTNAME_recreate_fw_zones.sh, INV_HOSTNAME_recreate_policies.sh,
+			    INV_HOSTNAME_rollback_fwrules_changes.sh
+		    2) Create_dir "~/ansible_helpers/conf_firewalld" (if not exists) and 
+			remove file '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh' 
+			at remote side before run 'apply_fwrules.sh'
 
 '03_force_apply_fwrules.sh' ->
     1) main.sh ->
