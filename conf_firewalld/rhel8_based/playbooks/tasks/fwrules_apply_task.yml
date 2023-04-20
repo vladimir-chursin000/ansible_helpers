@@ -35,7 +35,7 @@
 
 ######################################################STEP 1. Check for locally generated fwrules exists (end)
 
-######################################################STEP 2. Create or remove some files (begin)
+######################################################STEP 2. Create or remove some files at remote side (begin)
 
 - name: create_dir "~/ansible_helpers/conf_firewalld"
   ansible.builtin.file:
@@ -49,9 +49,9 @@
     path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh"
     state: absent
 
-######################################################STEP 2. Create or remove some files (end)
+######################################################STEP 2. Create or remove some files at remote side (end)
 
-######################################################STEP 3. Copy recreated fwrules-files and rollback-script if need (begin)
+######################################################STEP 3. Copy recreated fwrules-files and rollback-script to remote if need (begin)
 
 - name: copy_recreate_ipset_to_remote
   ansible.builtin.copy:
@@ -111,14 +111,14 @@
     group: root
     mode: '0770'
 
-######################################################STEP 3. Copy recreated fwrules-files and rollback-script if need (end)
+######################################################STEP 3. Copy recreated fwrules-files and rollback-script to remote if need (end)
 
-######################################################STEP 4. Run 'apply_fwrules.sh' as process (begin)
-######NO APPLY if one of the shell-scipts (recreate_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh, rollback_fwrules_changes.sh)
+######################################################STEP 4. Run 'apply_fwrules.sh' as process at remote side (begin)
+######APPLY if one of the shell-scipts (recreate_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh, rollback_fwrules_changes.sh)
 ###for conf firewalld is copied to remote.
 
 - name: "run 'apply_fwrules.sh' at remote"
   ansible.builtin.raw: "nohup sh -c '~/ansible_helpers/conf_firewalld/apply_fwrules.sh >/dev/null 2>&1' & sleep 1"
   when: copy_recreate_ipset_to_remote_res.changed==true or copy_recreate_fw_zones_to_remote_res.changed==true or copy_recreate_policies_to_remote_res.changed==true
 
-######################################################STEP 4. Run 'apply_fwrules.sh' as process (end)
+######################################################STEP 4. Run 'apply_fwrules.sh' as process at remote side (end)
