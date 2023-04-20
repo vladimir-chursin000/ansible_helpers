@@ -37,6 +37,11 @@ PARTIALLY READY!
 ##################
 SCRIPTS LOGIC DESCRIPTION
 '00_install_firewall_and_configure_fwrules.sh' ->
+    1) main.sh ->
+	1) fwrules_backup_playbook.yml ->
+	    1) tasks/fwrules_backup_task_main.yml
+	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+	2) full_install_firewall_and_configure_fwrules_playbook.yml ->
 
 '00_just_install_firewall.sh' ->
     1) main.sh ->
