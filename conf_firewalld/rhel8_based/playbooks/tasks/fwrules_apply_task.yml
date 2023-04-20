@@ -44,7 +44,7 @@
 
 ######
 
-- name: Remove file '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh' at remote side before run 'apply_fwrules.sh'
+- name: Remove file "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" at remote side before run "apply_fwrules.sh"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh"
     state: absent
