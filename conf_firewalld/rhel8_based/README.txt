@@ -100,11 +100,13 @@ SCRIPTS LOGIC DESCRIPTION
 			remove file "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" 
 			at remote side before run 'apply_fwrules.sh'
 		    3) Copy recreated fwrules-files and rollback-script to remote if need.
-			"fwrules_files/INV_HOSTNAME_recreate_ipsets.sh" -> "~/ansible_helpers/conf_firewalld/recreate_ipsets.sh".
-			"fwrules_files/INV_HOSTNAME_recreate_fw_zones.sh" -> "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh".
-			"fwrules_files/INV_HOSTNAME_recreate_policies.sh" -> "~/ansible_helpers/conf_firewalld/recreate_policies.sh".
-			"fwrules_files/INV_HOSTNAME_rollback_fwrules_changes.sh" -> "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh".
-		    4) 
+			"scripts_for_remote/fwrules_files/INV_HOSTNAME_recreate_ipsets.sh" -> "~/ansible_helpers/conf_firewalld/recreate_ipsets.sh".
+			"scripts_for_remote/fwrules_files/INV_HOSTNAME_recreate_fw_zones.sh" -> "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh".
+			"scripts_for_remote/fwrules_files/INV_HOSTNAME_recreate_policies.sh" -> "~/ansible_helpers/conf_firewalld/recreate_policies.sh".
+			"scripts_for_remote/fwrules_files/INV_HOSTNAME_rollback_fwrules_changes.sh" -> "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh".
+			"scripts_for_remote/apply_fwrules.sh" -> "~/ansible_helpers/conf_firewalld/apply_fwrules.sh".
+		    4) Run 'apply_fwrules.sh' as process at remote side if one of the files is updated: recreate_ipsets.sh,
+			recreate_fw_zones.sh, recreate_policies.sh
 
 '03_force_apply_fwrules.sh' ->
     1) main.sh ->

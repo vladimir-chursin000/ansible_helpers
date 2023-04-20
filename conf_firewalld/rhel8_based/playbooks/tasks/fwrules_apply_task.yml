@@ -117,7 +117,7 @@
 ######APPLY if one of the shell-scipts (recreate_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh, rollback_fwrules_changes.sh)
 ###for conf firewalld is copied to remote.
 
-- name: "run 'apply_fwrules.sh' at remote"
+- name: "run 'apply_fwrules.sh' as process at remote"
   ansible.builtin.raw: "nohup sh -c '~/ansible_helpers/conf_firewalld/apply_fwrules.sh >/dev/null 2>&1' & sleep 1"
   when: copy_recreate_ipset_to_remote_res.changed==true or copy_recreate_fw_zones_to_remote_res.changed==true or copy_recreate_policies_to_remote_res.changed==true
 
