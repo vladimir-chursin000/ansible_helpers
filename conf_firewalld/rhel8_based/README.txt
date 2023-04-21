@@ -123,7 +123,7 @@ SCRIPTS LOGIC DESCRIPTION
 	    If not exists 'apply_fwrules_is_run_now' and 'rollback_fwrules_changes_is_run_now' at remote side (!!!) ->
 		3) tasks/fwrules_apply_fwconfig_task.yml (for apply firewalld.conf).
 		4) tasks/fwrules_apply_droppd_conf_task.yml (for apply '/etc/rsyslog.d/firewalld-droppd.conf').
-		5) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies) ->
+		5) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies).
 
 '03_force_apply_fwrules.sh' ->
     1) main.sh ->
@@ -134,7 +134,10 @@ SCRIPTS LOGIC DESCRIPTION
 	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
 	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) fwrules_force_apply_playbook.yml ->
-
+	    1) Kill rollback/apply_fwrules processes if need and remove content of '~/ansible_helpers/conf_firewalld'.
+	    2) tasks/fwrules_apply_fwconfig_task.yml (for apply firewalld.conf).
+	    3) tasks/fwrules_apply_droppd_conf_task.yml (for apply '/etc/rsyslog.d/firewalld-droppd.conf').
+	    4) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies).
 ##################
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
