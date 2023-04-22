@@ -187,7 +187,7 @@ sub read_local_ipset_input {
     
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
-    my $arr_el0_l=undef;
+    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     
     my $ipset_type_by_time_l=undef; # temporary/permanent
     my ($ipset_name_l,$ipset_type_l)=(undef,undef);
@@ -211,7 +211,7 @@ sub read_local_ipset_input {
     foreach $arr_el0_l ( @read_input_seq_l ) {
     	#$arr_el0_l=del/add
     	opendir(DIR,$read_input_dirs_l{$arr_el0_l}{'input_dir'});
-    	while ( readdir(DIR) ) {
+    	while ( readdir(DIR) ) { # readdir(DIR) begin
     	    $dir_line_l=$_;
 	    if ( $dir_line_l=~/^\.|^info/ ) { next; }
     	    $is_inv_host_err_at_filename_l=0;
@@ -258,41 +258,41 @@ sub read_local_ipset_input {
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
-    		$input_file_name_l=$dir_line_l;
-    		$input_ipset_template_name_l=$2;
-    		
-    		if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
-    		    while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
-    			#$hkey0_l=inv-host
-    			push(@input_inv_host_arr_l,$hkey0_l);
-    		    }
-    		}
-    		else {
-		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
-		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    		    $is_inv_host_err_at_filename_l=1;
-
-		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
-		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-		    
-		    ######
-		    %log_ops_input_l=(
-        		'INPUT_OP_TYPE'=>$arr_el0_l,
-        		'INPUT_FILE_NAME'=>$input_file_name_l,
-        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        		'INV_HOST'=>'no',
-        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-        		'IPSET_NAME'=>'no',
-        		'IPSET_TYPE_BY_TIME'=>'no',
-        		'IPSET_TYPE'=>'no',
-        		'RECORD'=>'no',
-        		'STATUS'=>"group '$1' is not exists at '00_conf_divisions_for_inv_hosts'",
-		    );
-		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-		    #$history_log_dir_l,$input_params_href_l
-		    %log_ops_input_l=();
-		    ######
-    		}
+    	    	$input_file_name_l=$dir_line_l;
+    	    	$input_ipset_template_name_l=$2;
+    	    	
+    	    	if ( exists(${$divisions_for_inv_hosts_href_l}{$1}) && scalar(keys %{${$divisions_for_inv_hosts_href_l}{$1}})>0 ) {
+    	    	    while ( ($hkey0_l,$hval0_l)=each %{${$divisions_for_inv_hosts_href_l}{$1}} ) {
+    	    		#$hkey0_l=inv-host
+    	    		push(@input_inv_host_arr_l,$hkey0_l);
+    	    	    }
+    	    	}
+    	    	else {
+	    	    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+	    	    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
+    	    	    $is_inv_host_err_at_filename_l=1;
+	    
+	    	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+	    	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+	    	    
+	    	    ######
+	    	    %log_ops_input_l=(
+    	    		'INPUT_OP_TYPE'=>$arr_el0_l,
+    	    		'INPUT_FILE_NAME'=>$input_file_name_l,
+    	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		'INV_HOST'=>'no',
+    	    		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		'IPSET_NAME'=>'no',
+    	    		'IPSET_TYPE_BY_TIME'=>'no',
+    	    		'IPSET_TYPE'=>'no',
+    	    		'RECORD'=>'no',
+    	    		'STATUS'=>"group '$1' is not exists at '00_conf_divisions_for_inv_hosts'",
+	    	    );
+	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	    #$history_log_dir_l,$input_params_href_l
+	    	    %log_ops_input_l=();
+	    	    ######
+    	    	}
     	    }
     	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
     	    	$input_file_name_l=$dir_line_l;
@@ -368,7 +368,10 @@ sub read_local_ipset_input {
 			    #key4=last_access_time_in_sec_epoch
         			#key5=add -> ipset_record (according to #ipset_type), value=1
         			#key5=del -> ipset_record (according to #ipset_type), value=1
-		
+		foreach $arr_el1_l ( @input_inv_host_arr_l ) {
+		    #$arr_el1_l=inv-host
+		    #$res_tmp_lv0_l{$ipset_type_by_time_l}{}
+		}
 	    
     		###### clear vars
     		$ipset_type_by_time_l=undef;
@@ -381,7 +384,7 @@ sub read_local_ipset_input {
     	    @input_inv_host_arr_l=();
 	    $last_access_epoch_sec_l=undef;
 	    %log_ops_input_l=();
-    	}
+    	} # readdir(DIR) end
     	closedir(DIR);
     }
     
