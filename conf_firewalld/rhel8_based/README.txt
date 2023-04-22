@@ -135,6 +135,7 @@ SCRIPTS LOGIC DESCRIPTION
 	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) fwrules_force_apply_playbook.yml ->
 	    1) Kill rollback/apply_fwrules processes if need and remove content of '~/ansible_helpers/conf_firewalld'.
+		For run like first time.
 	    2) tasks/fwrules_apply_fwconfig_task.yml (for apply firewalld.conf).
 	    3) tasks/fwrules_apply_droppd_conf_task.yml (for apply '/etc/rsyslog.d/firewalld-droppd.conf').
 	    4) tasks/fwrules_apply_task.yml (for apply firewall rules: recreate ipsets/zones/policies).
