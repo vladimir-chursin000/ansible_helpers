@@ -208,7 +208,7 @@ sub read_local_ipset_input {
     my $return_str_l='OK';
     
     ###READ INPUT ADD/DEL
-    foreach $arr_el0_l ( @read_input_seq_l ) {
+    foreach $arr_el0_l ( @read_input_seq_l ) { # foreach @read_input_seq_l (begin)
     	#$arr_el0_l=del/add
     	opendir(DIR,$read_input_dirs_l{$arr_el0_l}{'input_dir'});
     	while ( readdir(DIR) ) { # readdir(DIR) begin
@@ -230,7 +230,7 @@ sub read_local_ipset_input {
     		    }
     		    ($hkey0_l,$hval0_l)=(undef,undef);
     		}
-    		else {
+    		else { # inventory file is empty
 		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     		    $is_inv_host_err_at_filename_l=1;
@@ -267,7 +267,7 @@ sub read_local_ipset_input {
     	    		push(@input_inv_host_arr_l,$hkey0_l);
     	    	    }
     	    	}
-    	    	else {
+    	    	else { # "group '$1' is not exists at '00_conf_divisions_for_inv_hosts'"
 	    	    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 	    	    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
     	    	    $is_inv_host_err_at_filename_l=1;
@@ -370,7 +370,7 @@ sub read_local_ipset_input {
         			#key5=del -> ipset_record (according to #ipset_type), value=1
 		foreach $arr_el1_l ( @input_inv_host_arr_l ) {
 		    #$arr_el1_l=inv-host
-		    #$res_tmp_lv0_l{$ipset_type_by_time_l}{}
+		    #$res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}
 		}
 	    
     		###### clear vars
@@ -386,7 +386,7 @@ sub read_local_ipset_input {
 	    %log_ops_input_l=();
     	} # readdir(DIR) end
     	closedir(DIR);
-    }
+    } # foreach @read_input_seq_l (end)
     
     $arr_el0_l=undef;
     ###
