@@ -471,7 +471,7 @@ sub form_local_dyn_ipsets_files_for_copy_to_remote {
 }
 
 sub check_input_ipset_template_name_via_66_conf {
-    my ($input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    my ($ipset_type_by_time_l,$inv_host_l,$input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l)=@_;
     
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
         #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
