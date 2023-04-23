@@ -196,6 +196,7 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my $is_inv_host_err_at_filename_l=0;
+    my $is_ipset_tmplt_err_at_filename_l=0;
 
     my %res_tmp_lv0_l=();
     #$res_href_l=hash-ref for %ipset_input_l
@@ -362,7 +363,7 @@ sub read_local_ipset_input {
     		
 		#my %res_tmp_lv0_l=();
 		    #$res_href_l=hash-ref for %ipset_input_l
-			#my %ipset_input_l=(); ()
+			#my %ipset_input_l=();
     			#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
 			    #key4=last_access_time_in_sec_epoch
         			#key5=add -> ipset_record (according to #ipset_type), value=1
