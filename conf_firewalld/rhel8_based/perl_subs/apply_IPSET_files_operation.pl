@@ -167,7 +167,8 @@ sub read_local_ipset_input {
 	    # Moved files name format - "DATETIME__orig_file_name.txt".
     	#    /add/... (dir)
     	#    /del/... (dir)
-
+    my $proc_name_l=(caller(0))[3];
+    
     my %read_input_dirs_l=(
 	'add' => {
 	    'input_dir' => $ipset_input_dir_l.'/add',
@@ -196,7 +197,6 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my $is_inv_host_err_at_filename_l=0;
-    my $is_ipset_tmplt_err_at_filename_l=0;
 
     my %res_tmp_lv0_l=();
     #$res_href_l=hash-ref for %ipset_input_l
@@ -444,7 +444,8 @@ sub update_local_ipset_actual_data {
         	#temporary/DEL_DATETIME-ipset_template_name/... (dir)
             	    #actual__ipset_name.txt (file)
             	    #/change_history/ (dir)
-
+    my $proc_name_l=(caller(0))[3];
+    
     my $return_str_l='OK';
 
     return $return_str_l;
@@ -456,7 +457,38 @@ sub form_local_dyn_ipsets_files_for_copy_to_remote {
     #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g -> #for copy to REMOTE_HOST:'$HOME/ansible_helpers/conf_firewalld/ipset_files'
 	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
 	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
+    my $proc_name_l=(caller(0))[3];
     
+    my $return_str_l='OK';
+    
+    return $return_str_l;
 }
+
+sub check_input_ipset_template_name {
+    my ($input_ipset_template_name_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+	#{'ipset_name'}=value
+
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
+
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
+    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
+    else {
+	
+    }
+    
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
