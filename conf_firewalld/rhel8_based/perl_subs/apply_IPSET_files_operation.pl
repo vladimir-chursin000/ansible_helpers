@@ -464,18 +464,12 @@ sub form_local_dyn_ipsets_files_for_copy_to_remote {
     return $return_str_l;
 }
 
-sub check_input_ipset_template_name {
-    my ($input_ipset_template_name_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+sub check_input_ipset_template_name_via_01_conf {
+    my ($input_ipset_template_name_l,$ipset_templates_href_l)=@_;
     
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
 	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
 	#{'ipset_name'}=value
-
-    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
-        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
-            #{ipset_name_tmplt-0}=1;
-            #{ipset_name_tmplt-1}=1;
-            #etc
 
     my $proc_name_l=(caller(0))[3];
     
@@ -486,6 +480,22 @@ sub check_input_ipset_template_name {
     else {
 	
     }
+    
+    return $return_str_l;
+}
+
+sub check_input_ipset_template_name_via_66_conf {
+    my ($input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
+
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
     
     return $return_str_l;
 }
