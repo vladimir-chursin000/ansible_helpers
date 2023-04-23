@@ -197,6 +197,7 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my $is_inv_host_err_at_filename_l=0;
+    my $no_err_at_filename_l=1;
 
     my %res_tmp_lv0_l=();
     #$res_href_l=hash-ref for %ipset_input_l
@@ -216,6 +217,7 @@ sub read_local_ipset_input {
     	    $dir_line_l=$_;
 	    if ( $dir_line_l=~/^\.|^info/ ) { next; }
     	    $is_inv_host_err_at_filename_l=0;
+	    $no_err_at_filename_l=1;
 	    
 	    $last_access_epoch_sec_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$dir_line_l);
 	    #$file_l
@@ -358,26 +360,30 @@ sub read_local_ipset_input {
     	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error for 'inv_host' at filename
     		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
 		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
-		$ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
-		$ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
+		else { $no_err_at_filename_l=0; }
+	
+		if ( $no_err_at_filename_l==1 ) {
+		    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
+		    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
-		#my %res_tmp_lv0_l=();
-		    #$res_href_l=hash-ref for %ipset_input_l
-			#my %ipset_input_l=();
-    			#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-			    #key4=last_access_time_in_sec_epoch
-        			#key5=add -> ipset_record (according to #ipset_type), value=1
-        			#key5=del -> ipset_record (according to #ipset_type), value=1
-		foreach $arr_el1_l ( @input_inv_host_arr_l ) {
-		    #$arr_el1_l=inv-host
-		    #$res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}
+		    #my %res_tmp_lv0_l=();
+			#$res_href_l=hash-ref for %ipset_input_l
+			    #my %ipset_input_l=();
+    			    #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+				#key4=last_access_time_in_sec_epoch
+        			    #key5=add -> ipset_record (according to #ipset_type), value=1
+        			    #key5=del -> ipset_record (according to #ipset_type), value=1
+		    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
+			#$arr_el1_l=inv-host
+			#$res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}
+		    }
+		    
+    		    ###### clear vars
+    		    $ipset_type_by_time_l=undef;
+		    ($ipset_name_l,$ipset_type_l)=(undef,undef);
 		}
-	    
-    		###### clear vars
-    		$ipset_type_by_time_l=undef;
-		($ipset_name_l,$ipset_type_l)=(undef,undef);	
     	    }
-    	    
+	    
     	    ###### clear vars
     	    $dir_line_l=undef;
     	    ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
@@ -460,26 +466,6 @@ sub form_local_dyn_ipsets_files_for_copy_to_remote {
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
-    
-    return $return_str_l;
-}
-
-sub check_input_ipset_template_name_via_01_conf {
-    my ($input_ipset_template_name_l,$ipset_templates_href_l)=@_;
-    
-    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
-	#{'ipset_name'}=value
-
-    my $proc_name_l=(caller(0))[3];
-    
-    my $return_str_l='OK';
-    
-    if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
-    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
-    else {
-	
-    }
     
     return $return_str_l;
 }
