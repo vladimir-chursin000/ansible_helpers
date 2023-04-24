@@ -360,7 +360,30 @@ sub read_local_ipset_input {
     	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error for 'inv_host' at filename
     		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
 		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
-		else { $no_err_at_filename_l=0; }
+		else {
+		    $no_err_at_filename_l=0;
+		    
+		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+		    
+		    ######
+		    %log_ops_input_l=(
+        		'INPUT_OP_TYPE'=>$arr_el0_l,
+        		'INPUT_FILE_NAME'=>$input_file_name_l,
+        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+        		'INV_HOST'=>$1,
+        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+        		'IPSET_NAME'=>'no',
+        		'IPSET_TYPE_BY_TIME'=>'no',
+        		'IPSET_TYPE'=>'no',
+        		'RECORD'=>'no',
+        		'STATUS'=>"ipset template is not exists at '01_conf_ipset_templates'",
+		    );
+		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		    #$history_log_dir_l,$input_params_href_l
+		    %log_ops_input_l=();
+		    ######
+		}
 	
 		if ( $no_err_at_filename_l==1 ) {
 		    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
