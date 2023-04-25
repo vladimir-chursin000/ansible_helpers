@@ -183,13 +183,15 @@ sub read_local_ipset_input {
 	'history' => $ipset_input_dir_l.'/history',
     );
     my @read_input_seq_l=('del','add');
-    my $dir_line_l=undef;
     my @input_inv_host_arr_l=();
+    
     my %input_file_content_hash_l=();
     
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($arr_el0_l,$arr_el1_l)=(undef,undef);
+    my $dir_line_l=undef;
+    my $file_line_l=undef;
     
     my $ipset_type_by_time_l=undef; # temporary/permanent
     my ($ipset_name_l,$ipset_type_l)=(undef,undef);
@@ -389,7 +391,16 @@ sub read_local_ipset_input {
 	    # no error for 'ipset template' at filename
 	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
-    	    	
+    	    
+	    open(INPUT_FILE,'<',$read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
+	    while ( <INPUT_FILE> ) {
+		$file_line_l=$_;
+		$file_line_l=~s/\n|\r//g;
+		
+		
+	    }
+	    close(INPUT_FILE);
+	    
 	    #my %res_tmp_lv0_l=();
 	    	#$res_href_l=hash-ref for %ipset_input_l
 	    	    #my %ipset_input_l=();
