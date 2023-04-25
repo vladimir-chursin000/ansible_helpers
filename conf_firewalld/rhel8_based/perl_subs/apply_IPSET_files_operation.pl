@@ -396,7 +396,8 @@ sub read_local_ipset_input {
 	    while ( <INPUT_FILE> ) {
 		$file_line_l=$_;
 		$file_line_l=~s/\n|\r//g;
-		
+		$file_line_l=~s/\s+/ /g;
+		$file_line_l=~s/ //g;
 		
 	    }
 	    close(INPUT_FILE);
