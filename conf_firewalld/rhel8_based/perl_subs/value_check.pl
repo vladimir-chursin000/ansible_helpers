@@ -30,5 +30,9 @@ sub check_port_for_apply_to_fw_conf {
     return $return_str_l;
 }
 
+sub check_ipset_input_by_type {
+    
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
