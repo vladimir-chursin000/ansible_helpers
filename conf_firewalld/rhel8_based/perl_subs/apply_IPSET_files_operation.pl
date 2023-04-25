@@ -196,9 +196,6 @@ sub read_local_ipset_input {
     
     my %log_ops_input_l=();
     
-    my $is_inv_host_err_at_filename_l=0;
-    my $is_ipset_tmplt_name_err_at_filename_l=0;
-
     my %res_tmp_lv0_l=();
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=(); ()
@@ -216,8 +213,6 @@ sub read_local_ipset_input {
     	while ( readdir(DIR) ) { # readdir(DIR) begin
     	    $dir_line_l=$_;
 	    if ( $dir_line_l=~/^\.|^info/ ) { next; }
-    	    $is_inv_host_err_at_filename_l=0;
-	    $is_ipset_tmplt_name_err_at_filename_l=0;
 	    
 	    $last_access_epoch_sec_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$dir_line_l);
 	    #$file_l
@@ -236,7 +231,6 @@ sub read_local_ipset_input {
     		else { # inventory file is empty
 		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    		    $is_inv_host_err_at_filename_l=1;
 		    
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
@@ -275,7 +269,6 @@ sub read_local_ipset_input {
     	    	else { # "group '$1' is not exists at '00_conf_divisions_for_inv_hosts'"
 	    	    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 	    	    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    	    	    $is_inv_host_err_at_filename_l=1;
 	    
 	    	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 	    	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
@@ -308,7 +301,6 @@ sub read_local_ipset_input {
     	    	if ( !exists(${$inv_hosts_href_l}{$1}) ) {
     	    	    # inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    	    	    $is_inv_host_err_at_filename_l=1;
 
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
@@ -339,7 +331,6 @@ sub read_local_ipset_input {
     	    else {
 		# not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
 		# ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    		$is_inv_host_err_at_filename_l=1;
 
 		&move_file_with_add_to_filename_datetime($dir_line_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
@@ -370,8 +361,6 @@ sub read_local_ipset_input {
     	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
 	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
 	    else {
-	    	$is_ipset_tmplt_name_err_at_filename_l=1;
-	    	    
 	    	&move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 	    	#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
 	    	    
