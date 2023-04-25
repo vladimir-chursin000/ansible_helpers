@@ -185,6 +185,7 @@ sub read_local_ipset_input {
     my @read_input_seq_l=('del','add');
     my $dir_line_l=undef;
     my @input_inv_host_arr_l=();
+    my %input_file_content_hash_l=();
     
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -408,6 +409,7 @@ sub read_local_ipset_input {
     	    @input_inv_host_arr_l=();
 	    $last_access_epoch_sec_l=undef;
 	    %log_ops_input_l=();
+	    %input_file_content_hash_l=();
     	} # readdir(DIR) end
     	closedir(DIR);
     } # foreach @read_input_seq_l (end)
