@@ -197,7 +197,7 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my $is_inv_host_err_at_filename_l=0;
-    my $no_err_at_filename_l=1;
+    my $is_ipset_tmplt_name_err_at_filename_l=0;
 
     my %res_tmp_lv0_l=();
     #$res_href_l=hash-ref for %ipset_input_l
@@ -217,7 +217,7 @@ sub read_local_ipset_input {
     	    $dir_line_l=$_;
 	    if ( $dir_line_l=~/^\.|^info/ ) { next; }
     	    $is_inv_host_err_at_filename_l=0;
-	    $no_err_at_filename_l=1;
+	    $is_ipset_tmplt_name_err_at_filename_l=0;
 	    
 	    $last_access_epoch_sec_l=&get_last_access_time_in_epoch_sec_for_file($read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$dir_line_l);
 	    #$file_l
@@ -361,7 +361,7 @@ sub read_local_ipset_input {
     		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
 		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
 		else {
-		    $no_err_at_filename_l=0;
+		    $is_ipset_tmplt_name_err_at_filename_l=1;
 		    
 		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
 		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
@@ -385,7 +385,7 @@ sub read_local_ipset_input {
 		    ######
 		}
 	
-		if ( $no_err_at_filename_l==1 ) {
+		if ( $is_ipset_tmplt_name_err_at_filename_l!=1 ) {
 		    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 		    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
     		
