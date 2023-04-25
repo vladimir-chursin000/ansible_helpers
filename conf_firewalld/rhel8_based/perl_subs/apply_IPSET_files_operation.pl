@@ -258,6 +258,8 @@ sub read_local_ipset_input {
 		    #$history_log_dir_l,$input_params_href_l
 		    %log_ops_input_l=();
 		    ######
+		    
+		    next; # if error for 'inv_host' at filename
     		}
     	    }
     	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
@@ -295,6 +297,8 @@ sub read_local_ipset_input {
 	    	    #$history_log_dir_l,$input_params_href_l
 	    	    %log_ops_input_l=();
 	    	    ######
+		    
+		    next; # if error for 'inv_host' at filename
     	    	}
     	    }
     	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
@@ -326,8 +330,11 @@ sub read_local_ipset_input {
 		    #$history_log_dir_l,$input_params_href_l
 		    %log_ops_input_l=();
 		    ######
+		    
+		    next; # if error for 'inv_host' at filename
     	    	}
-    		else { push(@input_inv_host_arr_l,$1); }
+		
+    		push(@input_inv_host_arr_l,$1);
     	    }
     	    else {
 		# not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
@@ -354,60 +361,60 @@ sub read_local_ipset_input {
 		#$history_log_dir_l,$input_params_href_l
 		%log_ops_input_l=();
 		######
+		
+		next; # if error for 'inv_host' at filename
     	    }
     	    ######
     	    
-    	    if ( $is_inv_host_err_at_filename_l!=1 ) { # no error for 'inv_host' at filename
-    		if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
-		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
-		else {
-		    $is_ipset_tmplt_name_err_at_filename_l=1;
-		    
-		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
-		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-		    
-		    ######
-		    %log_ops_input_l=(
-        		'INPUT_OP_TYPE'=>$arr_el0_l,
-        		'INPUT_FILE_NAME'=>$input_file_name_l,
-        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        		'INV_HOST'=>$1,
-        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-        		'IPSET_NAME'=>'no',
-        		'IPSET_TYPE_BY_TIME'=>'no',
-        		'IPSET_TYPE'=>'no',
-        		'RECORD'=>'no',
-        		'STATUS'=>"ipset template is not exists at '01_conf_ipset_templates'",
-		    );
-		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-		    #$history_log_dir_l,$input_params_href_l
-		    %log_ops_input_l=();
-		    ######
-		}
-	
-		if ( $is_ipset_tmplt_name_err_at_filename_l!=1 ) {
-		    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
-		    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
-    		
-		    #my %res_tmp_lv0_l=();
-			#$res_href_l=hash-ref for %ipset_input_l
-			    #my %ipset_input_l=();
-    			    #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-				#key4=last_access_time_in_sec_epoch
-        			    #key5=add -> ipset_record (according to #ipset_type), value=1
-        			    #key5=del -> ipset_record (according to #ipset_type), value=1
-		    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
-			#$arr_el1_l=inv-host
-			#$res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}
-		    }
-		    
-    		    ###### clear vars
-    		    $ipset_type_by_time_l=undef;
-		    ($ipset_name_l,$ipset_type_l)=(undef,undef);
-		}
-    	    }
+	    # if no error for 'inv_host' at filename
+    	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
+	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
+	    else {
+	    	$is_ipset_tmplt_name_err_at_filename_l=1;
+	    	    
+	    	&move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+	    	#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+	    	    
+	    	######
+	    	%log_ops_input_l=(
+    	    	    'INPUT_OP_TYPE'=>$arr_el0_l,
+    	    	    'INPUT_FILE_NAME'=>$input_file_name_l,
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INV_HOST'=>$1,
+    	    	    'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    	    'IPSET_NAME'=>'no',
+    	    	    'IPSET_TYPE_BY_TIME'=>'no',
+    	    	    'IPSET_TYPE'=>'no',
+    	    	    'RECORD'=>'no',
+    	    	    'STATUS'=>"ipset template is not exists at '01_conf_ipset_templates'",
+	    	);
+	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	#$history_log_dir_l,$input_params_href_l
+	    	%log_ops_input_l=();
+	    	######
+		
+		next; # if error for 'ipset template' at filename
+	    }
 	    
+	    # no error for 'ipset template' at filename
+	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
+	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
+    	    	
+	    #my %res_tmp_lv0_l=();
+	    	#$res_href_l=hash-ref for %ipset_input_l
+	    	    #my %ipset_input_l=();
+    	    	    #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+	    		#key4=last_access_time_in_sec_epoch
+    	    		    #key5=add -> ipset_record (according to #ipset_type), value=1
+    	    		    #key5=del -> ipset_record (according to #ipset_type), value=1
+	    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
+	    	#$arr_el1_l=inv-host
+	    	#$res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}
+	    }
+	    	    
     	    ###### clear vars
+    	    $ipset_type_by_time_l=undef;
+	    ($ipset_name_l,$ipset_type_l)=(undef,undef);
     	    $dir_line_l=undef;
     	    ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     	    @input_inv_host_arr_l=();
