@@ -404,8 +404,7 @@ sub read_local_ipset_input {
     	    ###### clear vars
     	    $ipset_type_by_time_l=undef;
 	    ($ipset_name_l,$ipset_type_l)=(undef,undef);
-    	    $dir_line_l=undef;
-    	    ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
+    	    ($dir_line_l,$input_file_name_l,$input_ipset_template_name_l)=(undef,undef,undef);
     	    @input_inv_host_arr_l=();
 	    $last_access_epoch_sec_l=undef;
 	    %log_ops_input_l=();
