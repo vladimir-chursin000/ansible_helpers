@@ -35,14 +35,27 @@ sub check_ipset_input_by_type {
     #$check_type_l: simple, complex
     
     my %ipset_types_simple_regex_l=(
-	'hash:ip'=>'',
-	'hash:ip,port'=>'',
-	'hash:ip,mark'=>'',
-	'hash:net'=>'',
-	'hash:net,port'=>'',
-	'hash:net,iface'=>'',
-	'hash:mac'=>'',
+	'simple' => {
+	    'hash:ip' => '^\S+$|^\S+\/\d{1,2}$',
+            # Examples:
+                # 192.168.10.67
+                # 192.168.11.0/24
+	    'hash:ip,port' => '',
+            # Examples:
+                # 192.168.12.12,udp:53
+                # 192.168.1.0/24,80-82
+                # 192.168.1.1,vrrp:0
+                # 192.168.1.1,80
+	    'hash:ip,mark' => '',
+	    'hash:net' => '',
+	    'hash:net,port' => '',
+	    'hash:net,iface' => '',
+	    'hash:mac' => '',
+	},
+	'complex' => { }
     );
+    
+    if ( $ipset_val_l!~/$ipset_types_simple_regex_l{$check_type_l}{$ipset_type_l}/ ) { return "fail"; }
     
     my $return_str_l='OK';
     
