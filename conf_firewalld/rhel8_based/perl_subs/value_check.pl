@@ -31,8 +31,22 @@ sub check_port_for_apply_to_fw_conf {
 }
 
 sub check_ipset_input_by_type {
+    my ($ipset_val_l,$ipset_type_l,$check_type_l)=@_;
+    #$check_type_l: simple, complex
     
+    my %ipset_types_simple_regex_l=(
+	'hash:ip'=>'',
+	'hash:ip,port'=>'',
+	'hash:ip,mark'=>'',
+	'hash:net'=>'',
+	'hash:net,port'=>'',
+	'hash:net,iface'=>'',
+	'hash:mac'=>'',
+    );
+    
+    my $return_str_l='OK';
+    
+    return $return_str_l;    
 }
-
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
