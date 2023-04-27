@@ -31,50 +31,45 @@ sub check_port_for_apply_to_fw_conf {
 }
 
 sub check_ipset_input_by_type {
-    my ($ipset_val_l,$ipset_type_l,$check_type_l)=@_;
-    #$check_type_l: simple, complex
+    my ($ipset_val_l,$ipset_type_l)=@_;
     
+    #FOR FUTURE USING (maybe)
     my %ipset_types_simple_regex_l=(
-	'simple' => {
-	    'hash:ip' => '^\S+$|^\S+\/\d{1,2}$',
-            # Examples:
-                # 192.168.10.67
-                # 192.168.11.0/24
-	    'hash:ip,port' => '',
-            # Examples:
-                # 192.168.12.12,udp:53
-                # 192.168.1.0/24,80-82
-                # 192.168.1.1,vrrp:0
-                # 192.168.1.1,80
-	    'hash:ip,mark' => '',
-            # Examples:
-                # 192.168.1.0/24,555
-                # 192.168.1.1,0x63
-                # 192.168.1.1,111236
-	    'hash:net' => '',
-            # Examples:
-                # 192.168.0.0/24
-                # 10.1.0.0/16
-                # 192.168.0/24
-	    'hash:net,port' => '',
-            # Examples:
-                # 192.168.0/24,25
-                # 10.1.0.0/16,80
-                # 192.168.0/24,25
-                # 192.168.1.0/24,tcp:8081
-	    'hash:net,iface' => '',
-            # Examples:
+	'hash:ip' => '',
+        # Examples:
+            # 192.168.10.67
+            # 192.168.11.0/24
+	'hash:ip,port' => '',
+        # Examples:
+            # 192.168.12.12,udp:53
+            # 192.168.1.0/24,80-82
+            # 192.168.1.1,vrrp:0
+            # 192.168.1.1,80
+	'hash:ip,mark' => '',
+        # Examples:
+            # 192.168.1.0/24,555
+            # 192.168.1.1,0x63
+            # 192.168.1.1,111236
+	'hash:net' => '',
+        # Examples:
+            # 192.168.0.0/24
+            # 10.1.0.0/16
+            # 192.168.0/24
+	'hash:net,port' => '',
+        # Examples:
+            # 192.168.0/24,25
+            # 10.1.0.0/16,80
+            # 192.168.0/24,25
+            # 192.168.1.0/24,tcp:8081
+	'hash:net,iface' => '',
+        # Examples:
+            # 192.168.0/24,eth0
+            # 10.1.0.0/16,eth1
                 # 192.168.0/24,eth0
-                # 10.1.0.0/16,eth1
-                # 192.168.0/24,eth0
-	    'hash:mac' => '',
-            # Examples:
-                # 01:02:03:04:05:06
-	},
-	'complex' => { }
+	'hash:mac' => '',
+        # Examples:
+            # 01:02:03:04:05:06
     );
-    
-    if ( $ipset_val_l!~/$ipset_types_simple_regex_l{$check_type_l}{$ipset_type_l}/ ) { return "fail"; }
     
     my $return_str_l='OK';
     
