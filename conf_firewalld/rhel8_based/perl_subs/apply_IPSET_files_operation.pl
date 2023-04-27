@@ -392,6 +392,7 @@ sub read_local_ipset_input {
 	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
     	    
+	    # read input file    
 	    open(INPUT_FILE,'<',$read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
 	    while ( <INPUT_FILE> ) {
 		$file_line_l=$_;
@@ -403,6 +404,7 @@ sub read_local_ipset_input {
 		}
 	    }
 	    close(INPUT_FILE);
+	    ###
 	    
 	    #my %res_tmp_lv0_l=();
 	    	#$res_href_l=hash-ref for %ipset_input_l
