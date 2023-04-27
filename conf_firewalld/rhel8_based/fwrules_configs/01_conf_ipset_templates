@@ -68,6 +68,7 @@
 	###
 	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
 	    # Allowed create-options (via this config): family, hashsize, maxelem, netmask, timeout.
+	    # If a subnet mask has already been used within a set (for example, "/24"), then other masks within this set are not allowed to be used.
 	    # Can be used as source in zones.
 	    # Examples:
 		# 192.168.10.67
@@ -75,6 +76,7 @@
 	
 	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
 	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # If a subnet mask has already been used within a set (for example, "/24"), then other masks within this set are not allowed to be used.
 	    # Can be used as source in zones.
 	    # Examples:
 		# 192.168.12.12,udp:53
@@ -86,6 +88,7 @@
 	    # Allowed create-options (via this config): family, markmask, hashsize, maxelem, timeout.
 	    # This values is then used to perform bitwise AND operation for every mark added. Markmask can be any value between 1 and 4294967295, by default all 32 bits are set.
 	    # The mark can be any value between 0 and 4294967295.
+	    # If a subnet mask has already been used within a set (for example, "/24"), then other masks within this set are not allowed to be used.
 	    # Can be used as source in zones.
 	    # Examples:
 		# 192.168.1.0/24,555
