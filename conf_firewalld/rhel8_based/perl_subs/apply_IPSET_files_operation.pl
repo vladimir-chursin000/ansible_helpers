@@ -398,7 +398,9 @@ sub read_local_ipset_input {
 		$file_line_l=~s/\n|\r//g;
 		$file_line_l=~s/\s+/ /g;
 		$file_line_l=~s/ //g;
-		
+		if ( $file_line_l!~/^\#/ ) {
+		    $input_file_content_hash_l{$file_line_l}=1;
+		}
 	    }
 	    close(INPUT_FILE);
 	    
