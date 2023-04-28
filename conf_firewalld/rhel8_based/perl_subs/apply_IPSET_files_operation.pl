@@ -240,15 +240,11 @@ sub read_local_ipset_input {
 		    
 		    ######
 		    %log_ops_input_l=(
-        		'INPUT_OP_TYPE'=>$arr_el0_l,
-        		'INPUT_FILE_NAME'=>$input_file_name_l,
+        		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
         		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        		'INV_HOST'=>'no',
-        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-        		'IPSET_NAME'=>'no',
-        		'IPSET_TYPE_BY_TIME'=>'no',
-        		'IPSET_TYPE'=>'no',
-        		'RECORD'=>'no',
+        		'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+        		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+        		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
         		'STATUS'=>'inventory file is empty',
 		    );
 		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -278,15 +274,11 @@ sub read_local_ipset_input {
 	    	    
 	    	    ######
 	    	    %log_ops_input_l=(
-    	    		'INPUT_OP_TYPE'=>$arr_el0_l,
-    	    		'INPUT_FILE_NAME'=>$input_file_name_l,
+    	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
     	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-    	    		'INV_HOST'=>'no',
-    	    		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-    	    		'IPSET_NAME'=>'no',
-    	    		'IPSET_TYPE_BY_TIME'=>'no',
-    	    		'IPSET_TYPE'=>'no',
-    	    		'RECORD'=>'no',
+    	    		'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+    	    		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
     	    		'STATUS'=>"group '$1' is not exists at '00_conf_divisions_for_inv_hosts'",
 	    	    );
 	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -310,15 +302,11 @@ sub read_local_ipset_input {
 
 		    ######
 		    %log_ops_input_l=(
-        		'INPUT_OP_TYPE'=>$arr_el0_l,
-        		'INPUT_FILE_NAME'=>$input_file_name_l,
+        		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
         		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        		'INV_HOST'=>$1,
-        		'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-        		'IPSET_NAME'=>'no',
-        		'IPSET_TYPE_BY_TIME'=>'no',
-        		'IPSET_TYPE'=>'no',
-        		'RECORD'=>'no',
+        		'INV_HOST'=>$1, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+        		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+			'IPSET_TYPE'=>'no', 'RECORD'=>'no',
         		'STATUS'=>"host '$1' is not exists at inventory_file",
 		    );
 		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -340,15 +328,11 @@ sub read_local_ipset_input {
 		
 		######
 		%log_ops_input_l=(
-        	    'INPUT_OP_TYPE'=>$arr_el0_l,
-        	    'INPUT_FILE_NAME'=>$dir_line_l,
+        	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$dir_line_l,
         	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        	    'INV_HOST'=>'no',
-        	    'IPSET_TEMPLATE_NAME'=>'no',
-        	    'IPSET_NAME'=>'no',
-        	    'IPSET_TYPE_BY_TIME'=>'no',
-        	    'IPSET_TYPE'=>'no',
-        	    'RECORD'=>'no',
+        	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>'no',
+		    'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+		    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
         	    'STATUS'=>"input file is not match with VER1/VER2/VER3 templates",
 		);
 		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -369,15 +353,11 @@ sub read_local_ipset_input {
 	    	    
 	    	######
 	    	%log_ops_input_l=(
-    	    	    'INPUT_OP_TYPE'=>$arr_el0_l,
-    	    	    'INPUT_FILE_NAME'=>$input_file_name_l,
-    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-    	    	    'INV_HOST'=>$1,
-    	    	    'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-    	    	    'IPSET_NAME'=>'no',
-    	    	    'IPSET_TYPE_BY_TIME'=>'no',
-    	    	    'IPSET_TYPE'=>'no',
-    	    	    'RECORD'=>'no',
+    	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INV_HOST'=>$1, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    	    'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+		    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
     	    	    'STATUS'=>"ipset template is not exists at '01_conf_ipset_templates'",
 	    	);
 	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -404,6 +384,10 @@ sub read_local_ipset_input {
 		}
 	    }
 	    close(INPUT_FILE);
+	    ###
+	    
+	    # check for empty %input_file_content_hash_l
+	    
 	    ###
 	    
 	    #my %res_tmp_lv0_l=();
