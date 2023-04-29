@@ -387,7 +387,23 @@ sub read_local_ipset_input {
 	    ###
 	    
 	    # check for empty %input_file_content_hash_l
-	    
+	    if ( scalar(keys %input_file_content_hash_l)<1 ) {
+	    	######
+	    	%log_ops_input_l=(
+    	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    	    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
+		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+    	    	    'STATUS'=>"no content",
+	    	);
+	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	#$history_log_dir_l,$input_params_href_l
+	    	%log_ops_input_l=();
+	    	######
+
+		next; # if no content
+	    }
 	    ###
 	    
 	    #my %res_tmp_lv0_l=();
