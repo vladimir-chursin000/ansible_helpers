@@ -48,9 +48,8 @@ sub apply_IPSET_files_operation_main {
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
 	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-	    #key4=last_access_time_in_sec_epoch
-        	#key5=add -> ipset_record (according to #ipset_type), value=1
-        	#key5=del -> ipset_record (according to #ipset_type), value=1
+        	#key4=add -> key5=ipset_record (according to #ipset_type), value=1
+        	#key4=del -> key5=ipset_record (according to #ipset_type), value=1
     
     my $return_str_l='OK';
     
@@ -124,9 +123,8 @@ sub read_local_ipset_input {
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
         #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-	    #key4=last_access_time_in_sec_epoch
-        	#key5=add -> ipset_record (according to #ipset_type), value=1
-        	#key5=del -> ipset_record (according to #ipset_type), value=1
+        	#key4=add -> key5=ipset_record (according to #ipset_type), value=1
+        	#key4=del -> key5=ipset_record (according to #ipset_type), value=1
 
     #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
     #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
@@ -200,13 +198,12 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my %res_tmp_lv0_l=();
-    #$res_href_l=hash-ref for %ipset_input_l
-	#my %ipset_input_l=(); ()
-        #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-	    #key4=last_access_time_in_sec_epoch
-        	#key5=add -> ipset_record (according to #ipset_type), value=1
-        	#key5=del -> ipset_record (according to #ipset_type), value=1
-    
+    #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+	#key4=ipset_record (according to #ipset_type)
+	    #key5=add, value=last_access_time_in_sec_epoch
+	    #key5=del, value=last_access_time_in_sec_epoch
+    my %res_tmp_lv1_l=();
+
     my $return_str_l='OK';
     
     ###READ INPUT ADD/DEL
@@ -395,7 +392,7 @@ sub read_local_ipset_input {
     	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
 		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
-    	    	    'STATUS'=>"no content",
+    	    	    'STATUS'=>'no content',
 	    	);
 	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	#$history_log_dir_l,$input_params_href_l
@@ -407,12 +404,11 @@ sub read_local_ipset_input {
 	    ###
 	    
 	    #my %res_tmp_lv0_l=();
-	    	#$res_href_l=hash-ref for %ipset_input_l
-	    	    #my %ipset_input_l=();
-    	    	    #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-	    		#key4=last_access_time_in_sec_epoch
-    	    		    #key5=add -> ipset_record (according to #ipset_type), value=1
-    	    		    #key5=del -> ipset_record (according to #ipset_type), value=1
+    	    	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
+		    #key4=ipset_record (according to #ipset_type)
+        		#key5=add, value=last_access_time_in_sec_epoch
+        		#key5=del, value=last_access_time_in_sec_epoch
+
 	    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
 	    	#$arr_el1_l=inv-host
 	    	#$res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}
