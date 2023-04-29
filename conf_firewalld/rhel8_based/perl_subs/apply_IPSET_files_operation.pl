@@ -433,7 +433,13 @@ sub read_local_ipset_input {
     	} # readdir(DIR) end
     	closedir(DIR);
     } # foreach @read_input_seq_l (end)
-    
+
+    # check %res_tmp_lv0_l and form res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	
+    }
+    ###
+        
     $arr_el0_l=undef;
     ###
     
