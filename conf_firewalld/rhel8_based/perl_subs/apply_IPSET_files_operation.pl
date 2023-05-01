@@ -438,6 +438,7 @@ sub read_local_ipset_input {
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record
+	#$hval0_l=hash-ref for "add/del=last_access_time_in_sec_epoch"
     }
     ###
 
