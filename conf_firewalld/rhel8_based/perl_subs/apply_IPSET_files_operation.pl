@@ -47,9 +47,11 @@ sub apply_IPSET_files_operation_main {
     
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
-	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-        	#key4=add -> key5=ipset_record (according to #ipset_type), value=1
-        	#key4=del -> key5=ipset_record (according to #ipset_type), value=1
+	#PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
+	    #key2=ipset_record (according to #ipset_type), value=1
+	#TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
+	    #key2=add,key3=ipset_record (according to #ipset_type), value=1
+	    #key2=del,key3=ipset_record (according to #ipset_type), value=1
     
     my $return_str_l='OK';
     
@@ -122,9 +124,11 @@ sub read_local_ipset_input {
             #etc
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
-        #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-        	#key4=add -> key5=ipset_record (according to #ipset_type), value=1
-        	#key4=del -> key5=ipset_record (according to #ipset_type), value=1
+    	    #PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
+                #key2=ipset_record (according to #ipset_type), value=1
+    	    #TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
+                #key2=add,key3=ipset_record (according to #ipset_type), value=1
+                #key2=del,key3=ipset_record (according to #ipset_type), value=1
 
     #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
     #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
@@ -201,7 +205,12 @@ sub read_local_ipset_input {
     #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
 	# key1=add, value=last_access_time_in_sec_epoch
         # key1=del, value=last_access_time_in_sec_epoch
-    my %res_tmp_lv1_l=();
+    my %res_tmp_lv1_l=(); # like %ipset_input_l
+        #PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
+            #key2=ipset_record (according to #ipset_type), value=1
+        #TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
+            #key2=add,key3=ipset_record (according to #ipset_type), value=1
+            #key2=del,key3=ipset_record (according to #ipset_type), value=1
 
     my $return_str_l='OK';
     
@@ -436,6 +445,12 @@ sub read_local_ipset_input {
     ###
 
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
+	#my %res_tmp_lv1_l=(); # like %ipset_input_l
+    	    #PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
+        	#key2=ipset_record (according to #ipset_type), value=1
+    	    #TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
+        	#key2=add,key3=ipset_record (according to #ipset_type), value=1
+        	#key2=del,key3=ipset_record (according to #ipset_type), value=1
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record
 	#$hval0_l=hash-ref for "add/del=last_access_time_in_sec_epoch"
