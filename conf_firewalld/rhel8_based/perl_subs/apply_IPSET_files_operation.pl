@@ -198,10 +198,9 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my %res_tmp_lv0_l=();
-    #key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-	#key4=ipset_record (according to #ipset_type)
-	    #key5=add, value=last_access_time_in_sec_epoch
-	    #key5=del, value=last_access_time_in_sec_epoch
+    #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
+	# key1=add, value=last_access_time_in_sec_epoch
+        # key1=del, value=last_access_time_in_sec_epoch
     my %res_tmp_lv1_l=();
 
     my $return_str_l='OK';
@@ -404,10 +403,9 @@ sub read_local_ipset_input {
 	    ###
 	    
 	    #my %res_tmp_lv0_l=();
-    	    	#key0=temporary/permanent,key1=inv-host,key2=ipset_template_name,key3=ipset_name ->
-		    #key4=ipset_record (according to #ipset_type)
-        		#key5=add, value=last_access_time_in_sec_epoch
-        		#key5=del, value=last_access_time_in_sec_epoch
+    	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
+        	    # key1=add, value=last_access_time_in_sec_epoch
+        	    # key1=del, value=last_access_time_in_sec_epoch
 
 	    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
 		#temporary/permanent=$ipset_type_by_time_l
@@ -418,7 +416,7 @@ sub read_local_ipset_input {
 		#last_access_time_in_sec_epoch=$last_access_epoch_sec_l
 		while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
 		    #$hkey0_l=ipset_record
-		    $res_tmp_lv0_l{$ipset_type_by_time_l}{$arr_el1_l}{$input_ipset_template_name_l}{$ipset_name_l}{$arr_el0_l}=$last_access_epoch_sec_l;
+		    $res_tmp_lv0_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=$last_access_epoch_sec_l;
 		}
 	    }
 	    	    
@@ -439,7 +437,7 @@ sub read_local_ipset_input {
 
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	
+	#$hkey0_l=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record
     }
     ###
 
