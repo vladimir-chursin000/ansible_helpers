@@ -186,6 +186,7 @@ sub read_local_ipset_input {
     );
     my @read_input_seq_l=('del','add');
     my @input_inv_host_arr_l=();
+    my @tmp_arr0_l=();
     
     my %input_file_content_hash_l=();
     
@@ -452,8 +453,13 @@ sub read_local_ipset_input {
         	#key2=add,key3=ipset_record (according to #ipset_type), value=1
         	#key2=del,key3=ipset_record (according to #ipset_type), value=1
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#$hkey0_l=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record
+	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
 	#$hval0_l=hash-ref for "add/del=last_access_time_in_sec_epoch"
+	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+	if ( $tmp_arr0_l[0]=~/^temporary$/ ) {
+	}
+	elsif ( $tmp_arr0_l[0]=~/^permanent$/ ) {
+	}
     }
     ###
 
