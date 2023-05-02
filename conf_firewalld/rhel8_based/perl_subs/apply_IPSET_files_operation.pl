@@ -48,8 +48,7 @@ sub apply_IPSET_files_operation_main {
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
         #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-            #key2=add,key3=ipset_record (according to #ipset_type), value=1
-            #key2=del,key3=ipset_record (according to #ipset_type), value=1
+            #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
     
     my $return_str_l='OK';
     
@@ -123,8 +122,7 @@ sub read_local_ipset_input {
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-                #key2=add,key3=ipset_record (according to #ipset_type), value=1
-                #key2=del,key3=ipset_record (according to #ipset_type), value=1
+                #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
 
     #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
     #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
@@ -200,12 +198,10 @@ sub read_local_ipset_input {
     
     my %res_tmp_lv0_l=();
     #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
-	# key1=add, value=last_access_time_in_sec_epoch
-        # key1=del, value=last_access_time_in_sec_epoch
+	# key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
     my %res_tmp_lv1_l=(); # like %ipset_input_l
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-                #key2=add,key3=ipset_record (according to #ipset_type), value=1
-                #key2=del,key3=ipset_record (according to #ipset_type), value=1
+                #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
 
     my $return_str_l='OK';
     
@@ -409,8 +405,7 @@ sub read_local_ipset_input {
 	    
 	    #my %res_tmp_lv0_l=();
     	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
-        	    # key1=add, value=last_access_time_in_sec_epoch
-        	    # key1=del, value=last_access_time_in_sec_epoch
+        	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
 
 	    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
 		#temporary/permanent=$ipset_type_by_time_l
@@ -426,7 +421,7 @@ sub read_local_ipset_input {
 		    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
 		    #$ipset_val_l,$ipset_type_l,$ipset_family_l
 		    
-		    $res_tmp_lv0_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=$last_access_epoch_sec_l;
+		    $res_tmp_lv0_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
 		}
 	    }
 	    	    
@@ -448,16 +443,20 @@ sub read_local_ipset_input {
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
 	#my %res_tmp_lv1_l=(); # like %ipset_input_l
     	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-        	#key2=add,key3=ipset_record (according to #ipset_type), value=1
-        	#key2=del,key3=ipset_record (according to #ipset_type), value=1
+        	#key2=add/del,key3=ipset_record (according to #ipset_type), value=1
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
-	#$hval0_l=hash-ref for "add/del=last_access_time_in_sec_epoch"
+	#$hval0_l=hash-ref for "add/del=[last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]"
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
 	
 	if ( exists(${$hval0_l}{'add'}) && exists(${$hval0_l}{'del'}) ) {
-	    if ( ${$hval0_l}{'add'} > ${$hval0_l}{'del'} ) { delete(${$hval0_l}{'del'}); }
-	    elsif ( ${$hval0_l}{'del'} > ${$hval0_l}{'add'} or ${$hval0_l}{'del'} == ${$hval0_l}{'add'} ) {
+	    if ( ${${$hval0_l}{'add'}}[0] > ${${$hval0_l}{'del'}}[0] ) {
+		delete(${$hval0_l}{'del'});
+	    }
+	    elsif ( ${${$hval0_l}{'del'}}[0] > ${${$hval0_l}{'add'}}[0] ) {
+		delete(${$hval0_l}{'add'});
+	    }
+	    elsif ( ${${$hval0_l}{'del'}}[0]==${${$hval0_l}{'add'}}[0] ) {
 		delete(${$hval0_l}{'add'});
 	    }
 	}
