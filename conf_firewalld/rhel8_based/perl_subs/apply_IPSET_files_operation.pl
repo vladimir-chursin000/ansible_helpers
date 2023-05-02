@@ -193,7 +193,7 @@ sub read_local_ipset_input {
     my $file_line_l=undef;
     
     my $ipset_type_by_time_l=undef; # temporary/permanent
-    my ($ipset_name_l,$ipset_type_l)=(undef,undef);
+    my ($ipset_name_l,$ipset_type_l,$ipset_create_option_family_l)=(undef,undef,undef);
     my $last_access_epoch_sec_l=undef;
     
     my %log_ops_input_l=();
@@ -371,6 +371,7 @@ sub read_local_ipset_input {
 	    # no error for 'ipset template' at filename
 	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
+	    $ipset_create_option_family_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_create_option_family'};
     	    
 	    # read input file    
 	    open(INPUT_FILE,'<',$read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
@@ -426,7 +427,7 @@ sub read_local_ipset_input {
 	    	    
     	    ###### clear vars
     	    $ipset_type_by_time_l=undef;
-	    ($ipset_name_l,$ipset_type_l)=(undef,undef);
+	    ($ipset_name_l,$ipset_type_l,$ipset_create_option_family_l)=(undef,undef,undef);
     	    ($dir_line_l,$input_file_name_l,$input_ipset_template_name_l)=(undef,undef,undef);
     	    @input_inv_host_arr_l=();
 	    $last_access_epoch_sec_l=undef;
