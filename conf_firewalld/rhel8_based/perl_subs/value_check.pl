@@ -30,45 +30,102 @@ sub check_port_for_apply_to_fw_conf {
     return $return_str_l;
 }
 
-sub check_ipset_input_by_type {
-    my ($ipset_val_l,$ipset_type_l)=@_;
+sub check_ipset_input {
+    my ($ipset_val_l,$ipset_type_l,$ipset_family_l)=@_;
     
     #FOR FUTURE USING (maybe)
-    my %ipset_types_simple_regex_l=(
-	'hash:ip' => '',
-        # Examples:
-            # 192.168.10.67
-            # 192.168.11.0/24
-	'hash:ip,port' => '',
-        # Examples:
-            # 192.168.12.12,udp:53
-            # 192.168.1.0/24,80-82
-            # 192.168.1.1,vrrp:0
-            # 192.168.1.1,80
-	'hash:ip,mark' => '',
-        # Examples:
-            # 192.168.1.0/24,555
-            # 192.168.1.1,0x63
-            # 192.168.1.1,111236
-	'hash:net' => '',
-        # Examples:
-            # 192.168.0.0/24
-            # 10.1.0.0/16
-            # 192.168.0/24
-	'hash:net,port' => '',
-        # Examples:
-            # 192.168.0/24,25
-            # 10.1.0.0/16,80
-            # 192.168.0/24,25
-            # 192.168.1.0/24,tcp:8081
-	'hash:net,iface' => '',
-        # Examples:
-            # 192.168.0/24,eth0
-            # 10.1.0.0/16,eth1
-                # 192.168.0/24,eth0
-	'hash:mac' => '',
-        # Examples:
-            # 01:02:03:04:05:06
+    my %ipset_types_regex_l=(
+	###
+	# can used for fwzones src
+	'hash:ip' => {
+	    'inet' => '',
+    	    # Examples:
+        	# 192.168.10.67
+        	# 192.168.11.0/24
+	    'inet6' => ''
+	},
+	'hash:ip,port' => {
+	    'inet' => '',
+    		# Examples:
+        	    # 192.168.12.12,udp:53
+        	    # 192.168.1.0/24,80-82
+        	    # 192.168.1.1,vrrp:0
+        	    # 192.168.1.1,80
+	    'inet6' => ''
+	},
+	'hash:ip,mark' => {
+	    'inet' => '',
+    		# Examples:
+        	    # 192.168.1.0/24,555
+        	    # 192.168.1.1,0x63
+        	    # 192.168.1.1,111236
+	    'inet6' => ''
+	},
+	'hash:net' => {
+	    'inet' => '',
+    		# Examples:
+        	    # 192.168.0.0/24
+        	    # 10.1.0.0/16
+        	    # 192.168.0/24
+	    'inet6' => ''
+	},
+	'hash:net,port' => {
+	    'inet' => '',
+    		# Examples:
+        	    # 192.168.0/24,25
+        	    # 10.1.0.0/16,80
+        	    # 192.168.0/24,25
+        	    # 192.168.1.0/24,tcp:8081
+	    'inet6' => ''
+	},
+	'hash:net,iface' => {
+	    'inet' => '',
+    		# Examples:
+        	    # 192.168.0/24,eth0
+        	    # 10.1.0.0/16,eth1
+            	    # 192.168.0/24,eth0
+	    'inet6' => ''
+	},
+	'hash:mac' => {
+	    'inet' => '',
+    		# Examples:
+        	    # 01:02:03:04:05:06
+	    'inet6' => ''
+	},
+	# can used for fwzones src
+	###
+	'hash:ip,port,ip' => {
+	    'inet' => '',
+        	# Examples:
+            	    # 192.168.1.1,80,10.0.0.1
+            	    # 192.168.1.1,udp:53,10.0.0.1
+	    'inet6' => '',
+	},
+	'hash:ip,port,net' => {
+	    'inet' => '',
+		# Examples:
+            	    # 192.168.1,tcp:8080,10.0.0/24
+            	    # 192.168.2,25,10.1.0.0/16
+            	    # 192.168.1,80.10.0.0/24
+	    'inet6' => '',
+	},
+	'hash:net,net' => {
+	    'inet' => '',
+        	# Examples:
+            	    # 192.168.0.0/24,10.0.1.0/24
+            	    # 10.1.0.0/16,10.255.0.0/24
+            	    # 192.168.0/24,192.168.54.0-192.168.54.255
+	    'inet6' => '',
+	},
+	'hash:net,port,net' => {
+	    'inet' => '',
+        	# Examples:
+            	    # 192.168.1.0/24,0,10.0.0/24
+            	    # 192.168.2.0/24,25,10.1.0.0/16
+            	    # 192.168.1.1,80,10.0.0.1
+            	    # 192.168.1.2,tcp:8081,10.0.0.2
+	    'inet6' => '',
+	},
     );
     
     my $return_str_l='OK';
