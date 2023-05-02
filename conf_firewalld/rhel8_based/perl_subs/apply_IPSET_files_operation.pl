@@ -47,11 +47,9 @@ sub apply_IPSET_files_operation_main {
     
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
-	#PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
-	    #key2=ipset_record (according to #ipset_type), value=1
-	#TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
-	    #key2=add,key3=ipset_record (according to #ipset_type), value=1
-	    #key2=del,key3=ipset_record (according to #ipset_type), value=1
+        #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
+            #key2=add,key3=ipset_record (according to #ipset_type), value=1
+            #key2=del,key3=ipset_record (according to #ipset_type), value=1
     
     my $return_str_l='OK';
     
@@ -124,9 +122,7 @@ sub read_local_ipset_input {
             #etc
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
-    	    #PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
-                #key2=ipset_record (according to #ipset_type), value=1
-    	    #TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
+            #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
                 #key2=add,key3=ipset_record (according to #ipset_type), value=1
                 #key2=del,key3=ipset_record (according to #ipset_type), value=1
 
@@ -207,11 +203,9 @@ sub read_local_ipset_input {
 	# key1=add, value=last_access_time_in_sec_epoch
         # key1=del, value=last_access_time_in_sec_epoch
     my %res_tmp_lv1_l=(); # like %ipset_input_l
-        #PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
-            #key2=ipset_record (according to #ipset_type), value=1
-        #TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
-            #key2=add,key3=ipset_record (according to #ipset_type), value=1
-            #key2=del,key3=ipset_record (according to #ipset_type), value=1
+            #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
+                #key2=add,key3=ipset_record (according to #ipset_type), value=1
+                #key2=del,key3=ipset_record (according to #ipset_type), value=1
 
     my $return_str_l='OK';
     
@@ -447,19 +441,13 @@ sub read_local_ipset_input {
 
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
 	#my %res_tmp_lv1_l=(); # like %ipset_input_l
-    	    #PERMANENT. key0=permanent,key1=inv-host;+ipset_template_name;+ipset_name;+recreate ->
-        	#key2=ipset_record (according to #ipset_type), value=1
-    	    #TEMPORARY. key0=temporary,key1=inv-host;+ipset_template_name;+ipset_name
+    	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
         	#key2=add,key3=ipset_record (according to #ipset_type), value=1
         	#key2=del,key3=ipset_record (according to #ipset_type), value=1
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
 	#$hval0_l=hash-ref for "add/del=last_access_time_in_sec_epoch"
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
-	if ( $tmp_arr0_l[0]=~/^temporary$/ ) {
-	}
-	elsif ( $tmp_arr0_l[0]=~/^permanent$/ ) {
-	}
     }
     ###
 
