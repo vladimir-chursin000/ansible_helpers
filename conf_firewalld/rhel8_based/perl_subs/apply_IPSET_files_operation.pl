@@ -448,6 +448,13 @@ sub read_local_ipset_input {
 	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
 	#$hval0_l=hash-ref for "add/del=last_access_time_in_sec_epoch"
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+	
+	if ( exists(${$hval0_l}{'add'}) && exists(${$hval0_l}{'del'}) ) {
+	    if ( ${$hval0_l}{'add'} > ${$hval0_l}{'del'} ) { delete(${$hval0_l}{'del'}); }
+	    elsif ( ${$hval0_l}{'del'} > ${$hval0_l}{'add'} or ${$hval0_l}{'del'} == ${$hval0_l}{'add'} ) {
+		delete(${$hval0_l}{'add'});
+	    }
+	}
     }
     ###
 
