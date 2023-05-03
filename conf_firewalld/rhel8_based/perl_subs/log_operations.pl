@@ -32,7 +32,7 @@ sub read_local_ipset_input_log_ops {
     my $in_fn_cr_dt_l=&conv_epoch_sec_to_yyyymmddhhmiss($in_fn_cr_epoch_l);
     #$for_conv_sec_l
     
-    if ( $status_l!~/^ok$/i ) { $status_l='error='.$status_l; }
+    if ( $status_l!~/^ok/i ) { $status_l='error='.$status_l; }
     
     my $history_file_l=$history_log_dir_l.'/'.$date_l.'-history.log';
     my $log_line_l="$dt_now_l;+$op_l;+$in_fn_l;+$in_fn_cr_dt_l;+$inv_host_l;+$ipset_tmplt_name_l;+$ipset_name_l;+$ipset_type_by_time_l;+$ipset_type_l;+$rec_l;+$status_l";
