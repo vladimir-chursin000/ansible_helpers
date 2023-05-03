@@ -385,6 +385,9 @@ sub read_local_ipset_input {
 	    
 	    # check for empty %input_file_content_hash_l
 	    if ( scalar(keys %input_file_content_hash_l)<1 ) {
+	    	&move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+	    	#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+
 	    	######
 	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
