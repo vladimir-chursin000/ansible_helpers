@@ -406,10 +406,10 @@ sub read_local_ipset_input {
 	    }
 	    ###
 	    
+	    # fill %res_tmp_lv0_l
 	    #my %res_tmp_lv0_l=();
     	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
         	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
-
 	    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
 		#temporary/permanent=$ipset_type_by_time_l
 	    	#inv-host=$arr_el1_l
@@ -427,6 +427,7 @@ sub read_local_ipset_input {
 		    $res_tmp_lv0_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
 		}
 	    }
+	    ###
 	    	    
     	    ###### clear vars
     	    $ipset_type_by_time_l=undef;
