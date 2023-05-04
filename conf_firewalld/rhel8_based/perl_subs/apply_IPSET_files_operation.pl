@@ -480,7 +480,7 @@ sub read_local_ipset_input {
     	    	    'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
     	    	    'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
 		    'IPSET_TYPE'=>${${$hval0_l}{'del'}}[2], 'RECORD'=>$tmp_arr0_l[4],
-    	    	    'STATUS'=>'OK',
+    	    	    'STATUS'=>"OK. Del operation is skipped because del:INPUT_FILE_CREATE_DATETIME < add:INPUT_FILE_CREATE_DATETIME",
 		);
 		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 		#$history_log_dir_l,$input_params_href_l
@@ -490,6 +490,20 @@ sub read_local_ipset_input {
 		delete(${$hval0_l}{'del'});
 	    }
 	    elsif ( ${${$hval0_l}{'del'}}[0] > ${${$hval0_l}{'add'}}[0] ) {
+		######
+		%log_ops_input_l=(
+    	    	    'INPUT_OP_TYPE'=>'add', 'INPUT_FILE_NAME'=>${${$hval0_l}{'del'}}[1],
+		    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'del'}}[0],
+    	    	    'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
+    	    	    'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
+		    'IPSET_TYPE'=>${${$hval0_l}{'del'}}[2], 'RECORD'=>$tmp_arr0_l[4],
+    	    	    'STATUS'=>"OK. Add operation is skipped because add:INPUT_FILE_CREATE_DATETIME < del:INPUT_FILE_CREATE_DATETIME",
+		);
+		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		#$history_log_dir_l,$input_params_href_l
+		%log_ops_input_l=();
+		######
+		
 		delete(${$hval0_l}{'add'});
 	    }
 	    elsif ( ${${$hval0_l}{'del'}}[0]==${${$hval0_l}{'add'}}[0] ) {
