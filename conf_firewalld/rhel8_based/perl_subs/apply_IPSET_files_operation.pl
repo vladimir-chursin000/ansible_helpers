@@ -464,15 +464,13 @@ sub read_local_ipset_input {
     ###
 
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
-	#my %res_tmp_lv1_l=(); # like %ipset_input_l
-    	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-        	#key2=add/del,key3=ipset_record (according to #ipset_type), value=1
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
     	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
     	#$hval0_l=hash-ref for "add/del=[last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]"
-    	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
-    	
+	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+    	    	
     	if ( exists(${$hval0_l}{'add'}) && exists(${$hval0_l}{'del'}) ) {
+
     	    if ( ${${$hval0_l}{'add'}}[0] > ${${$hval0_l}{'del'}}[0] ) {
     		######
     		%log_ops_input_l=(
@@ -542,6 +540,11 @@ sub read_local_ipset_input {
     	    #$history_log_dir_l,$input_params_href_l
     	    %log_ops_input_l=();
     	    ######
+	    
+	    #my %res_tmp_lv1_l=(); # like %ipset_input_l
+            #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
+                #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
+	    $res_tmp_lv1_l{$tmp_arr0_l[0]}{$tmp_arr0_l[1].';+'.$tmp_arr0_l[2].';+'.$tmp_arr0_l[3]}{$hkey1_l}{$tmp_arr0_l[4]}=1;
     	}
     }
     ###
