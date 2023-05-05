@@ -525,10 +525,24 @@ sub read_local_ipset_input {
     		delete(${$hval0_l}{'add'});
     	    }
     	}
-	
-	while ( ($hkey1,$hval1_l)=each %{$hval0_l} ) {
-	    
-	}
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+    	    #hkey1_l=add/del, hval1_l=arr-ref for [last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]
+    	    
+    	    ######
+    	    %log_ops_input_l=(
+    	    	'INPUT_OP_TYPE'=>$hkey1_l, 'INPUT_FILE_NAME'=>${$hval1_l}[1],
+    		'INPUT_FILE_CREATE_DATETIME_epoch'=>${$hval1_l}[0],
+    	    	'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
+    	    	'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
+    		'IPSET_TYPE'=>${$hval1_l}[2], 'RECORD'=>$tmp_arr0_l[4],
+    	    	'STATUS'=>'OK',
+    	    );
+    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    #$history_log_dir_l,$input_params_href_l
+    	    %log_ops_input_l=();
+    	    ######
+    	}
     }
     ###
 
