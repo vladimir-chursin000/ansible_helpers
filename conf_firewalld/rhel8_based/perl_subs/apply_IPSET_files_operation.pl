@@ -86,7 +86,8 @@ sub apply_IPSET_files_operation_main {
     #$ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    #print Dumper(\%ipset_input_l);
+    
     ######
 
     $exec_res_l=&update_local_ipset_actual_data($ipset_actual_data_dir_l,\%ipset_input_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l);
@@ -341,7 +342,7 @@ sub read_local_ipset_input {
     	    }
     	    ######
     	    
-	    # if no error for 'inv_host' at filename
+	    # if no error for 'inv_host' at filename / check ipset_temlate via 01_conf_ipset_templates
     	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='temporary'; }
 	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$input_ipset_template_name_l}) ) { $ipset_type_by_time_l='permanent'; }
 	    else {
@@ -364,8 +365,13 @@ sub read_local_ipset_input {
 		
 		next; # if error for 'ipset template' at filename
 	    }
+	    ###
 	    
-	    # no error for 'ipset template' at filename
+	    # no error for 'ipset template' at filename / check input ipset_template_name via 66_conf
+	    
+	    ###
+	    
+	    # no error for 'check input ipset_template_name via 66_conf'
 	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
 	    $ipset_create_option_family_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_create_option_family'};
@@ -562,6 +568,8 @@ sub update_local_ipset_actual_data {
     my ($ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$ipset_input_href_l=hash-ref for %ipset_input_l
+	#key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
+            #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$h65_conf_initial_ipsets_content_FIN_href_l=hash-ref for %h65_conf_initial_ipsets_content_FIN_hash_g
@@ -621,22 +629,6 @@ sub form_local_dyn_ipsets_files_for_copy_to_remote {
     #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g -> #for copy to REMOTE_HOST:'$HOME/ansible_helpers/conf_firewalld/ipset_files'
 	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
 	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
-    my $proc_name_l=(caller(0))[3];
-    
-    my $return_str_l='OK';
-    
-    return $return_str_l;
-}
-
-sub check_input_ipset_template_name_via_66_conf {
-    my ($ipset_type_by_time_l,$inv_host_l,$input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l)=@_;
-    
-    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
-        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
-            #{ipset_name_tmplt-0}=1;
-            #{ipset_name_tmplt-1}=1;
-            #etc
-
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
