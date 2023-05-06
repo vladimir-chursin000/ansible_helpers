@@ -367,11 +367,7 @@ sub read_local_ipset_input {
 	    }
 	    ###
 	    
-	    # no error for 'ipset template' at filename / check input ipset_template_name via 66_conf
-	    
-	    ###
-	    
-	    # no error for 'check input ipset_template_name via 66_conf'
+	    # no error for 'ipset template' at filename
 	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
 	    $ipset_create_option_family_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_create_option_family'};
@@ -424,6 +420,10 @@ sub read_local_ipset_input {
 		#$ipset_name_l
 		#del/add=$arr_el0_l
 		#last_access_time_in_sec_epoch=$last_access_epoch_sec_l
+		
+		#&check_input_ipset_template_name_via_66_conf();
+		#$ipset_type_by_time_l,$inv_host_l,$input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l
+		
 		while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
 		    #$hkey0_l=ipset_record
 		    
@@ -633,6 +633,22 @@ sub form_local_dyn_ipsets_files_for_copy_to_remote {
     
     my $return_str_l='OK';
     
+    return $return_str_l;
+}
+
+sub check_input_ipset_template_name_via_66_conf {
+    my ($ipset_type_by_time_l,$inv_host_l,$input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l)=@_;
+
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
+
+    my $proc_name_l=(caller(0))[3];
+
+    my $return_str_l='OK';
+
     return $return_str_l;
 }
 
