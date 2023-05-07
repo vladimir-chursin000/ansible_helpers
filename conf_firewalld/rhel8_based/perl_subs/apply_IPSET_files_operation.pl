@@ -448,6 +448,20 @@ sub read_local_ipset_input {
 		    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
 		    #$ipset_val_l,$ipset_type_l,$ipset_family_l
 		    
+		    ######
+	    	    %log_ops_input_l=(
+    	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+			'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
+			'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
+    	    		'STATUS'=>'OK',
+	    	    );
+	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	    #$history_log_dir_l,$input_params_href_l
+	    	    %log_ops_input_l=();
+	    	    ######
+
 		    $res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
 		}
 		###
