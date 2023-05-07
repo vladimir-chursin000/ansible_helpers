@@ -454,7 +454,7 @@ sub read_local_ipset_input {
 	    }
 	    ###
 	    
-	    # check if no added content to %res_tmp_lv0_l for list of inv-hosts '@input_inv_host_arr_l'
+	    # check if no added content to %res_tmp_lv0_slice_l for list of inv-hosts '@input_inv_host_arr_l'
 	    if ( scalar(keys %res_tmp_lv0_slice_l)<1 ) {
 	    	######
 	    	%log_ops_input_l=(
