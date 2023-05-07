@@ -399,7 +399,7 @@ sub read_local_ipset_input {
     	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
 		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
-    	    	    'STATUS'=>'no content',
+    	    	    'STATUS'=>'no content while read file',
 	    	);
 	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	#$history_log_dir_l,$input_params_href_l
@@ -410,7 +410,7 @@ sub read_local_ipset_input {
 	    }
 	    ###
 	    
-	    # fill %res_tmp_lv0_l
+	    # fill %res_tmp_lv0_slice_l
 	    #my %res_tmp_lv0_l=();
     	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
         	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
@@ -454,6 +454,19 @@ sub read_local_ipset_input {
 	    
 	    # check if no added content to %res_tmp_lv0_l for list of inv-hosts '@input_inv_host_arr_l'
 	    if ( scalar(keys %res_tmp_lv0_slice_l)<1 ) {
+	    	######
+	    	%log_ops_input_l=(
+    	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    	    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
+		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+    	    	    'STATUS'=>"no content after check ipset_template_name is in '66_conf_ipsets_FIN'",
+	    	);
+	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	#$history_log_dir_l,$input_params_href_l
+	    	%log_ops_input_l=();
+	    	######
 		
 		next;
 	    }
