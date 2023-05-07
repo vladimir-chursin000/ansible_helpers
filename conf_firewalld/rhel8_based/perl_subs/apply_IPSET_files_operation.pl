@@ -451,6 +451,10 @@ sub read_local_ipset_input {
 	    }
 	    ###
 	    
+	    # check if no added content to %res_tmp_lv0_l for list of inv-hosts '@input_inv_host_arr_l'
+	    
+	    ###
+	    
 	    # Move input file to correct-dir and write log (begin)
 	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'correct_input_dir'},'__');
 	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
