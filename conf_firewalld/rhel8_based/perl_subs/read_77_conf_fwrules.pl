@@ -141,7 +141,7 @@ sub read_77_conf_zones_FIN {
             foreach $arr_el0_l ( @arr0_l ) {
                 #$arr_el0_l=interface name
                 if ( !exists(${$inv_hosts_nd_href_l}{$inv_host_l}{$arr_el0_l}) ) {
-                    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$inv_host_l' (conf='$file_l') atconf='77_conf_zones_FIN'";
+                    $return_str_l="fail [$proc_name_l]. Interface='$arr_el0_l' is not exists at host='$inv_host_l' (conf='$file_l') at conf='77_conf_zones_FIN'";
                     last;
                 }
             

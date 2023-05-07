@@ -199,6 +199,7 @@ sub read_local_ipset_input {
     my %log_ops_input_l=();
     
     my %res_tmp_lv0_l=();
+    my %res_tmp_lv0_slice_l=();
     #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
 	# key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
     my %res_tmp_lv1_l=(); # like %ipset_input_l
@@ -446,13 +447,21 @@ sub read_local_ipset_input {
 		    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
 		    #$ipset_val_l,$ipset_type_l,$ipset_family_l
 		    
-		    $res_tmp_lv0_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
+		    $res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
 		}
 	    }
 	    ###
 	    
 	    # check if no added content to %res_tmp_lv0_l for list of inv-hosts '@input_inv_host_arr_l'
+	    if ( scalar(keys %res_tmp_lv0_slice_l)<1 ) {
+		
+		next;
+	    }
+	    ###
 	    
+	    # add %res_tmp_lv0_slice_l to %res_tmp_lv0_l and clear %res_tmp_lv0_slice_l
+	    %res_tmp_lv0_l=(%res_tmp_lv0_l,%res_tmp_lv0_slice_l);
+	    %res_tmp_lv0_slice_l=();
 	    ###
 	    
 	    # Move input file to correct-dir and write log (begin)
