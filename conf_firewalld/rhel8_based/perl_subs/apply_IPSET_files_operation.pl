@@ -421,7 +421,7 @@ sub read_local_ipset_input {
 		#del/add=$arr_el0_l
 		#last_access_time_in_sec_epoch=$last_access_epoch_sec_l
 		
-		#&check_input_ipset_template_name_via_66_conf();
+		&check_input_ipset_template_name_via_66_conf($ipset_type_by_time_l,$arr_el1_l,$input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l);
 		#$ipset_type_by_time_l,$inv_host_l,$input_ipset_template_name_l,$h66_conf_ipsets_FIN_href_l
 		
 		while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
