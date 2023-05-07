@@ -440,6 +440,7 @@ sub read_local_ipset_input {
 		    next;
 		}
 		
+		# write records to %res_tmp_lv0_slice_l
 		while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
 		    #$hkey0_l=ipset_record
 		    
@@ -449,6 +450,7 @@ sub read_local_ipset_input {
 		    
 		    $res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
 		}
+		###
 	    }
 	    ###
 	    
