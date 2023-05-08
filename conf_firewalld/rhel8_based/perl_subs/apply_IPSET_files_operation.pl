@@ -676,6 +676,7 @@ sub update_local_ipset_actual_data {
     my $proc_name_l=(caller(0))[3];
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     
     my @tmp_arr0_l=();
     
@@ -687,14 +688,50 @@ sub update_local_ipset_actual_data {
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) {
 	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+	
+	# ops for 'add'
+	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
+	    #$hkey1_l=ipset_record
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+
+	# ops for 'del'
+	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
+	    #$hkey1_l=ipset_record
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
     }
+
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
     # operations for temporary ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) {
 	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+	
+	# ops for 'add'
+	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
+	    #$hkey1_l=ipset_record
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+	
+	# ops for 'del'
+	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
+	    #$hkey1_l=ipset_record
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
     my $return_str_l='OK';
