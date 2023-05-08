@@ -675,6 +675,19 @@ sub update_local_ipset_actual_data {
             	    #/change_history/ (dir)
     my $proc_name_l=(caller(0))[3];
     
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    #$ipset_input_href_l=hash-ref for %ipset_input_l
+        #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
+            #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
+    while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) {
+	#hkey1_l=inv-host;+ipset_template_name;+ipset_name
+    }
+
+    while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) {
+	#hkey1_l=inv-host;+ipset_template_name;+ipset_name
+    }
+    
     my $return_str_l='OK';
 
     return $return_str_l;
