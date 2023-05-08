@@ -680,13 +680,18 @@ sub update_local_ipset_actual_data {
     #$ipset_input_href_l=hash-ref for %ipset_input_l
         #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
             #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
+    
+    # operations for permanent ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) {
 	#hkey1_l=inv-host;+ipset_template_name;+ipset_name
     }
+    ###
 
+    # operations for temporary ipsets
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) {
 	#hkey1_l=inv-host;+ipset_template_name;+ipset_name
     }
+    ###
     
     my $return_str_l='OK';
 
