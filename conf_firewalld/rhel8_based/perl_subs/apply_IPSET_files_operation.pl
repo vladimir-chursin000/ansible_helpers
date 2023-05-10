@@ -689,7 +689,7 @@ sub update_local_ipset_actual_data {
 	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
 	
-	# ops for 'add'
+	# ops for 'add' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
 	}
@@ -697,7 +697,7 @@ sub update_local_ipset_actual_data {
 	($hkey1_l,$hval1_l)=(undef,undef);
 	###
 
-	# ops for 'del'
+	# ops for 'del' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
 	    #$hkey1_l=ipset_record
 	}
@@ -714,7 +714,7 @@ sub update_local_ipset_actual_data {
 	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
 	
-	# ops for 'add'
+	# ops for 'add' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
 	}
@@ -722,7 +722,7 @@ sub update_local_ipset_actual_data {
 	($hkey1_l,$hval1_l)=(undef,undef);
 	###
 	
-	# ops for 'del'
+	# ops for 'del' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
 	    #$hkey1_l=ipset_record
 	}
