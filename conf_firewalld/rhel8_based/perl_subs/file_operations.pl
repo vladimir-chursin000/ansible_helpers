@@ -79,6 +79,8 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#/change_history/ (dir)
             	    #CHANGE_DATETIME__ipset_name.txt (file)
                 	# For move "actual__ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
+                	# First line - "datetime of creation;+datetime of change" + "old_ipset_type;+new_ipset_type" + "old_ipset_name;+new_ipset_name"
+                    	    # in the format "###YYYYMMDDHHMISS(CREATE_DATE);+YYYYMMDDHHMISS(CHANGE_DATE);+OLD_IPSET_TYPE;+NEW_IPSET_TYPE;+OLD_IPSET_NAME;+NEW_IPSET_NAME".
     
     	    #temporary/ipset_template_name/... (dir)
         	#actual__ipset_name.txt (file)
@@ -91,8 +93,8 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#/change_history/... (dir)
             	    #CHANGE_DATETIME__ipset_name.txt (file)
                 	# For move "actual__ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
-                	# First line - "datetime of creation->datetime of change" + "old_ipset_type->new_ipset_type" + "old_ipset_name->new_ipset_name"
-                    	    # in the format "###YYYYMMDDHHMISS->YYYYMMDDHHMISS;+OLD_IPSET_TYPE->NEW_IPSET_TYPE;+OLD_IPSET_NAME->NEW_IPSET_NAME".
+                	# First line - "datetime of creation;+datetime of change" + "old_ipset_type;+new_ipset_type" + "old_ipset_name;+new_ipset_name"
+                    	    # in the format "###YYYYMMDDHHMISS(CREATE_DATE);+YYYYMMDDHHMISS(CHANGE_DATE);+OLD_IPSET_TYPE;+NEW_IPSET_TYPE;+OLD_IPSET_NAME;+NEW_IPSET_NAME".
 	
     	    #delete_history/... (dir)
             	    # If the ownership of "ipset template_name" is changed (via config "66_conf_ipsets_FIN"), then the ipset data and change history
