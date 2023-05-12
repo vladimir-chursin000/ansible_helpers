@@ -686,7 +686,7 @@ sub update_local_ipset_actual_data {
     
     # ipset_actual_data write history operations (END)
     
-    # operations for permanent ipsets
+    # operations for permanent ipsets (BEGIN)
 	#$ipset_input_href_l=hash-ref for %ipset_input_l
     	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
         	#key2=add/del,key3=ipset_record (according to #ipset_type), value=1
@@ -712,9 +712,9 @@ sub update_local_ipset_actual_data {
     }
 
     ($hkey0_l,$hval0_l)=(undef,undef);
-    ###
+    # operations for permanent ipsets (END)
 
-    # operations for temporary ipsets
+    # operations for temporary ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) {
 	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
@@ -737,7 +737,7 @@ sub update_local_ipset_actual_data {
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
-    ###
+    # operations for temporary ipsets (END)
     
     my $return_str_l='OK';
 
