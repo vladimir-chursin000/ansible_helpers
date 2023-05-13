@@ -679,11 +679,17 @@ sub update_local_ipset_actual_data {
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my $dir_line_l=undef;
     
     my @tmp_arr0_l=();
     
     # ipset_actual_data write history operations (BEGIN)
     opendir(DIR,$ipset_actual_data_dir_l);
+    while ( readdir(DIR) ) { # readdir(DIR) begin
+	$dir_line_l=$_;
+        if ( $dir_line_l=~/^\.|^info/ ) { next; }
+
+    } # readdir(DIR) end
     closedir(DIR);
     # ipset_actual_data write history operations (END)
     
