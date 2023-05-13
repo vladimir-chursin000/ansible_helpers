@@ -636,6 +636,10 @@ sub update_local_ipset_actual_data {
     	    #etc
     	    #{'seq'}=[val-0,val-1] (val=record)
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+	#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
 
     #Directory structure
     #...ipset_actual_data/inv-host/... (dir)
@@ -694,7 +698,9 @@ sub update_local_ipset_actual_data {
 	    next;
 	}
 	
-	
+	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$dir_line_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$dir_line_l}) ) {
+	    next;
+	}
 	
     } # readdir(DIR) end
     
