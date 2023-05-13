@@ -630,12 +630,12 @@ sub update_local_ipset_actual_data {
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$h65_conf_initial_ipsets_content_FIN_href_l=hash-ref for %h65_conf_initial_ipsets_content_FIN_hash_g
-    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
 	#$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
     	    #{'record-0'}=1
     	    #{'rerord-1'}=1
     	    #etc
     	    #{'seq'}=[val-0,val-1] (val=record)
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
 
     #Directory structure
     #...ipset_actual_data/inv-host/... (dir)
@@ -688,7 +688,13 @@ sub update_local_ipset_actual_data {
     
     while ( readdir(DIR) ) { # readdir(DIR) begin
 	$dir_line_l=$_; # dir_line_l=dir with name = inv-host
-        if ( $dir_line_l=~/^\.|^info/ or !-d($ipset_actual_data_dir_l.'/'.$dir_line_l) ) { next; }
+        if ( $dir_line_l=~/^\.|^info/ && !-d($ipset_actual_data_dir_l.'/'.$dir_line_l) ) { next; }
+	
+	if ( !exists(${$inv_hosts_href_l}{$dir_line_l}) ) {
+	    next;
+	}
+	
+	
 	
     } # readdir(DIR) end
     
