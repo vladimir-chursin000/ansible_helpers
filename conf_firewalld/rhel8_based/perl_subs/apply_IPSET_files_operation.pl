@@ -685,11 +685,16 @@ sub update_local_ipset_actual_data {
     
     # ipset_actual_data write history operations (BEGIN)
     opendir(DIR,$ipset_actual_data_dir_l);
+    
     while ( readdir(DIR) ) { # readdir(DIR) begin
-	$dir_line_l=$_;
+	$dir_line_l=$_; # dir_line_l=dir with name = inv-host
         if ( $dir_line_l=~/^\.|^info/ ) { next; }
-
+	
+	if ( -d($ipset_actual_data_dir_l.'/'.$dir_line_l) ) {
+	    
+	}
     } # readdir(DIR) end
+    
     closedir(DIR);
     # ipset_actual_data write history operations (END)
     
