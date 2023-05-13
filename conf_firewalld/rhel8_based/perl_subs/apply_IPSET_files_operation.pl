@@ -704,6 +704,15 @@ sub update_local_ipset_actual_data {
 	    next;
 	}
 	
+	# read inv-host/permanent dir
+	###
+	
+	# read inv-host/temporary dir
+	###
+	
+	# clear vars
+	$dir_line_l=undef;
+	###
     } # readdir(DIR) end
     
     closedir(DIR);
