@@ -695,10 +695,12 @@ sub update_local_ipset_actual_data {
         if ( $dir_line_l=~/^\.|^info/ && !-d($ipset_actual_data_dir_l.'/'.$dir_line_l) ) { next; }
 	
 	if ( !exists(${$inv_hosts_href_l}{$dir_line_l}) ) {
+	    system("echo '$dir_line_l is not exists at inventory' > $ipset_actual_data_dir_l/$dir_line_l/info");
 	    next;
 	}
 	
 	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$dir_line_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$dir_line_l}) ) {
+	    system("echo '$dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_data_dir_l/$dir_line_l/info");
 	    next;
 	}
 	
