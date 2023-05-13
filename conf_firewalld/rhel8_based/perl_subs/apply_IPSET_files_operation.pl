@@ -683,7 +683,8 @@ sub update_local_ipset_actual_data {
     my @tmp_arr0_l=();
     
     # ipset_actual_data write history operations (BEGIN)
-    
+    opendir(DIR,$ipset_actual_data_dir_l);
+    closedir(DIR);
     # ipset_actual_data write history operations (END)
     
     # operations for permanent ipsets (BEGIN)
