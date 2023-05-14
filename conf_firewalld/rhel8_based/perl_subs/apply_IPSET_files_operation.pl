@@ -705,9 +705,17 @@ sub update_local_ipset_actual_data {
 	}
 	
 	# read inv-host/permanent dir
+	if ( -d($ipset_actual_data_dir_l.'/'.$dir_line_l.'/permanent') ) {
+	    opendir(DIR_P,$ipset_actual_data_dir_l.'/'.$dir_line_l.'/permanent');
+	    closedir(DIR_P);
+	}
 	###
 	
 	# read inv-host/temporary dir
+	if ( -d($ipset_actual_data_dir_l.'/'.$dir_line_l.'/temporary') ) {
+	    opendir(DIR_T,$ipset_actual_data_dir_l.'/'.$dir_line_l.'/temporary');
+	    closedir(DIR_T);
+	}
 	###
 	
 	# clear vars
