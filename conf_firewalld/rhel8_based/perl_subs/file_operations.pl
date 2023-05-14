@@ -97,7 +97,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
                     	    # in the format "###YYYYMMDDHHMISS(CREATE_DATE);+YYYYMMDDHHMISS(CHANGE_DATE);+OLD_IPSET_TYPE;+NEW_IPSET_TYPE;+OLD_IPSET_NAME;+NEW_IPSET_NAME".
 	
     	    #delete_history/... (dir)
-            	    # If the ownership of "ipset template_name" is changed (via config "66_conf_ipsets_FIN"), then the ipset data and change history
+		    # If "ipset template_name" is deleted from "01_conf_ipset_templates", then the ipset data and change history
             	    # are moved to this directory.
         	#permanent/DEL_DATETIME-ipset_template_name/... (dir)
             	    #actual__ipset_name.txt (file)
