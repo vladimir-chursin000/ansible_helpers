@@ -719,6 +719,7 @@ sub update_local_ipset_actual_data {
 		
 		if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {
 		    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
+		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/");
 		    next;
 		}
 		
@@ -751,6 +752,7 @@ sub update_local_ipset_actual_data {
 		
 	    	if ( !exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}) ) {
 	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
+		    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/");
 	    	    next;
 	    	}
 
