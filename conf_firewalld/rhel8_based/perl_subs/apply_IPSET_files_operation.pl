@@ -708,7 +708,7 @@ sub update_local_ipset_actual_data {
 	    next;
 	}
 	
-	# read inv-host/permanent dir
+	# read inv-host/permanent dir (BEGIN)
 	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent') ) {
 	    $ipset_actual_permanent_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent';
 	    opendir(DIR_P,$ipset_actual_permanent_dir_l);
@@ -738,9 +738,9 @@ sub update_local_ipset_actual_data {
 	    $ipset_actual_permanent_dir_l=undef;
 	    ###
 	}
-	###
+	# read inv-host/permanent dir (END)
 	
-	# read inv-host/temporary dir
+	# read inv-host/temporary dir (BEGIN)
 	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary') ) {
 	    $ipset_actual_temporary_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary';
 	    opendir(DIR_T,$ipset_actual_temporary_dir_l);
@@ -770,7 +770,7 @@ sub update_local_ipset_actual_data {
 	    $ipset_actual_temporary_dir_l=undef;
 	    ###
 	}
-	###
+	# read inv-host/temporary dir (END)
 	
 	# clear vars
 	$inv_host_dir_line_l=undef;
