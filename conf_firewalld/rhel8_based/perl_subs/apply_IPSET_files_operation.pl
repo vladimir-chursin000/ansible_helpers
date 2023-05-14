@@ -690,6 +690,8 @@ sub update_local_ipset_actual_data {
     
     my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
     
+    my ($ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef);
+    
     my @tmp_arr0_l=();
     
     # ipset_actual_data write history operations (BEGIN)
