@@ -685,6 +685,8 @@ sub update_local_ipset_actual_data {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($inv_host_dir_line_l,$ipset_tmplt_name_dir_line_l)=(undef,undef);
     
+    my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
+    
     my @tmp_arr0_l=();
     
     # ipset_actual_data write history operations (BEGIN)
@@ -706,10 +708,12 @@ sub update_local_ipset_actual_data {
 	
 	# read inv-host/permanent dir
 	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent') ) {
-	    opendir(DIR_P,$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent');
+	    $ipset_actual_permanent_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent';
+	    opendir(DIR_P,$ipset_actual_permanent_dir_l);
 	    
 	    while ( readdir(DIR_P) ) {
 		$ipset_tmplt_name_dir_line_l=$_;
+		if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ && !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
 		
 		# clear vars
 		$ipset_tmplt_name_dir_line_l=undef;
@@ -717,15 +721,21 @@ sub update_local_ipset_actual_data {
 	    }
 	    
 	    closedir(DIR_P);
+	    
+	    # clear vars
+	    $ipset_actual_permanent_dir_l=undef;
+	    ###
 	}
 	###
 	
 	# read inv-host/temporary dir
 	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary') ) {
-	    opendir(DIR_T,$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary');
+	    $ipset_actual_temporary_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary';
+	    opendir(DIR_T,$ipset_actual_temporary_dir_l);
 	    
 	    while ( readdir(DIR_T) ) {
 		$ipset_tmplt_name_dir_line_l=$_;
+		if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ && !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
 
 		# clear vars
 		$ipset_tmplt_name_dir_line_l=undef;
@@ -733,6 +743,10 @@ sub update_local_ipset_actual_data {
 	    }
 	    
 	    closedir(DIR_T);
+	    
+	    # clear vars
+	    $ipset_actual_temporary_dir_l=undef;
+	    ###
 	}
 	###
 	
