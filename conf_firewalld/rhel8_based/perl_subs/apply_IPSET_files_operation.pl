@@ -629,6 +629,8 @@ sub update_local_ipset_actual_data {
             #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+        #{'ipset_name'}=value
     #$h65_conf_initial_ipsets_content_FIN_href_l=hash-ref for %h65_conf_initial_ipsets_content_FIN_hash_g
 	#$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
     	    #{'record-0'}=1
@@ -694,7 +696,7 @@ sub update_local_ipset_actual_data {
     
     while ( readdir(DIR) ) { # readdir(DIR) begin
 	$inv_host_dir_line_l=$_;
-        if ( $inv_host_dir_line_l=~/^\.|^info/ && !-d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l) ) { next; }
+        if ( $inv_host_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l) ) { next; }
 	
 	if ( !exists(${$inv_hosts_href_l}{$inv_host_dir_line_l}) ) {
 	    system("echo '$inv_host_dir_line_l is not exists at inventory' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
@@ -713,7 +715,12 @@ sub update_local_ipset_actual_data {
 	    
 	    while ( readdir(DIR_P) ) {
 		$ipset_tmplt_name_dir_line_l=$_;
-		if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ && !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
+		if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
+		
+		if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {
+		    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
+		    next;
+		}
 		
 		# clear vars
 		$ipset_tmplt_name_dir_line_l=undef;
@@ -734,12 +741,17 @@ sub update_local_ipset_actual_data {
 	    opendir(DIR_T,$ipset_actual_temporary_dir_l);
 	    
 	    while ( readdir(DIR_T) ) {
-		$ipset_tmplt_name_dir_line_l=$_;
-		if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ && !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
-
-		# clear vars
-		$ipset_tmplt_name_dir_line_l=undef;
-		###
+	    	$ipset_tmplt_name_dir_line_l=$_;
+	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
+		
+	    	if ( !exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}) ) {
+	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
+	    	    next;
+	    	}
+	    
+	    	# clear vars
+	    	$ipset_tmplt_name_dir_line_l=undef;
+	    	###
 	    }
 	    
 	    closedir(DIR_T);
