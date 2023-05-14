@@ -722,6 +722,10 @@ sub update_local_ipset_actual_data {
 		    next;
 		}
 		
+		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
+		    next;
+		}
+		
 		# clear vars
 		$ipset_tmplt_name_dir_line_l=undef;
 		###
@@ -748,6 +752,10 @@ sub update_local_ipset_actual_data {
 	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
 	    	    next;
 	    	}
+
+		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
+		    next;
+		}
 	    
 	    	# clear vars
 	    	$ipset_tmplt_name_dir_line_l=undef;
