@@ -683,7 +683,7 @@ sub update_local_ipset_actual_data {
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
-    my $dir_line_l=undef;
+    my ($inv_host_dir_line_l,$ipset_tmplt_name_dir_line_l)=(undef,undef);
     
     my @tmp_arr0_l=();
     
@@ -691,35 +691,53 @@ sub update_local_ipset_actual_data {
     opendir(DIR,$ipset_actual_data_dir_l);
     
     while ( readdir(DIR) ) { # readdir(DIR) begin
-	$dir_line_l=$_; # dir_line_l=dir with name = inv-host
-        if ( $dir_line_l=~/^\.|^info/ && !-d($ipset_actual_data_dir_l.'/'.$dir_line_l) ) { next; }
+	$inv_host_dir_line_l=$_;
+        if ( $inv_host_dir_line_l=~/^\.|^info/ && !-d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l) ) { next; }
 	
-	if ( !exists(${$inv_hosts_href_l}{$dir_line_l}) ) {
-	    system("echo '$dir_line_l is not exists at inventory' > $ipset_actual_data_dir_l/$dir_line_l/info");
+	if ( !exists(${$inv_hosts_href_l}{$inv_host_dir_line_l}) ) {
+	    system("echo '$inv_host_dir_line_l is not exists at inventory' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
 	    next;
 	}
 	
-	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$dir_line_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$dir_line_l}) ) {
-	    system("echo '$dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_data_dir_l/$dir_line_l/info");
+	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}) ) {
+	    system("echo '$inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
 	    next;
 	}
 	
 	# read inv-host/permanent dir
-	if ( -d($ipset_actual_data_dir_l.'/'.$dir_line_l.'/permanent') ) {
-	    opendir(DIR_P,$ipset_actual_data_dir_l.'/'.$dir_line_l.'/permanent');
+	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent') ) {
+	    opendir(DIR_P,$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent');
+	    
+	    while ( readdir(DIR_P) ) {
+		$ipset_tmplt_name_dir_line_l=$_;
+		
+		# clear vars
+		$ipset_tmplt_name_dir_line_l=undef;
+		###
+	    }
+	    
 	    closedir(DIR_P);
 	}
 	###
 	
 	# read inv-host/temporary dir
-	if ( -d($ipset_actual_data_dir_l.'/'.$dir_line_l.'/temporary') ) {
-	    opendir(DIR_T,$ipset_actual_data_dir_l.'/'.$dir_line_l.'/temporary');
+	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary') ) {
+	    opendir(DIR_T,$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary');
+	    
+	    while ( readdir(DIR_T) ) {
+		$ipset_tmplt_name_dir_line_l=$_;
+
+		# clear vars
+		$ipset_tmplt_name_dir_line_l=undef;
+		###
+	    }
+	    
 	    closedir(DIR_T);
 	}
 	###
 	
 	# clear vars
-	$dir_line_l=undef;
+	$inv_host_dir_line_l=undef;
 	###
     } # readdir(DIR) end
     
