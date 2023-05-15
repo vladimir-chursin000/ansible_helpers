@@ -690,7 +690,7 @@ sub update_local_ipset_actual_data {
     
     my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
     
-    my ($ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef);
+    my ($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
     
     my @tmp_arr0_l=();
     
@@ -742,8 +742,9 @@ sub update_local_ipset_actual_data {
 		}
 		
 		# get ipset_name from 'actual__*'-file
-		$ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
-		$ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		$file_ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+		$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		$ipset_name_actual_l=$file_ipset_name_actual_l;
 		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
 		###
 		
@@ -789,8 +790,9 @@ sub update_local_ipset_actual_data {
 		}
 
 		# get ipset_name from 'actual__*'-file
-		$ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
-		$ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		$file_ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+		$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		$ipset_name_actual_l=$file_ipset_name_actual_l;
 		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
 		###
 	    
