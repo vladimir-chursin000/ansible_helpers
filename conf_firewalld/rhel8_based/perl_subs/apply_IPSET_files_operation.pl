@@ -726,9 +726,11 @@ sub update_local_ipset_actual_data {
 		    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
 		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/");
 		    
+		    # move to delete_history
 		    $tmp_var_l=get_dt_yyyymmddhhmmss();
 		    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
 		    $tmp_var_l=undef;
+		    ###
 		    
 		    next;
 		}
@@ -765,9 +767,11 @@ sub update_local_ipset_actual_data {
 	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
 		    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/");
 		    
+		    # move to delete_history
 		    $tmp_var_l=get_dt_yyyymmddhhmmss();
 		    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
 		    $tmp_var_l=undef;
+		    ###
 		    
 	    	    next;
 	    	}
