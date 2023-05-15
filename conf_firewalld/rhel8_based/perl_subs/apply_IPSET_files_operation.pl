@@ -741,6 +741,12 @@ sub update_local_ipset_actual_data {
 		    next;
 		}
 		
+		# get ipset_name from 'actual__*'-file
+		$ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+		$ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+		###
+		
 		# clear vars
 		$ipset_tmplt_name_dir_line_l=undef;
 		###
@@ -781,6 +787,12 @@ sub update_local_ipset_actual_data {
 		    
 		    next;
 		}
+
+		# get ipset_name from 'actual__*'-file
+		$ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+		$ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+		###
 	    
 	    	# clear vars
 	    	$ipset_tmplt_name_dir_line_l=undef;
