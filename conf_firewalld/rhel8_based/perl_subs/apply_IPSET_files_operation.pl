@@ -691,6 +691,7 @@ sub update_local_ipset_actual_data {
     my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
     
     my ($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
+    my ($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
     
     my @tmp_arr0_l=();
     
@@ -718,53 +719,60 @@ sub update_local_ipset_actual_data {
 	    $ipset_actual_permanent_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent';
 	    opendir(DIR_P,$ipset_actual_permanent_dir_l);
 	    
-	    while ( readdir(DIR_P) ) {
-		$ipset_tmplt_name_dir_line_l=$_;
-		if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
-		
-		if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {
-		    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
-		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/");
-		    
-		    # move to delete_history
-		    $tmp_var_l=get_dt_yyyymmddhhmmss();
-		    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
-		    $tmp_var_l=undef;
-		    ###
-		    
-		    next;
-		}
-		
-		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
-		    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
-		    
-		    next;
-		}
-		
-		# get ipset_name from 'actual__*'-file
-		$file_ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
-		$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-		$ipset_name_actual_l=$file_ipset_name_actual_l;
-		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
-		###
-		
-		# get ipset_type from 'actual__*'-file
-		$tmp_var_l=`sed -n '2p' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
-		$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-		($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
-		$tmp_var_l=undef;
-		###
-		
-		# check for ipset_name is conf for ipset_template_name
-		if ( $ipset_name_actual_l ne ${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'} ) {
-		    
-		}
-		###
-		
-		# clear vars
-		$ipset_tmplt_name_dir_line_l=undef;
-		###
-	    }
+	    while ( readdir(DIR_P) ) { # while readdir DIR_P (BEGIN)
+	    	$ipset_tmplt_name_dir_line_l=$_;
+	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
+	    	
+	    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {
+	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
+	    	    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/");
+	    	    
+	    	    # move to delete_history
+	    	    $tmp_var_l=get_dt_yyyymmddhhmmss();
+	    	    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
+	    	    $tmp_var_l=undef;
+	    	    ###
+	    	    
+	    	    next;
+	    	}
+	    	
+	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
+	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
+	    	    
+	    	    next;
+	    	}
+	    	
+	    	# get ipset_name from 'actual__*'-file
+	    	$file_ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+	    	$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	    	$ipset_name_actual_l=$file_ipset_name_actual_l;
+	    	$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+	    	###
+	    	
+	    	# get ipset_type from 'actual__*'-file
+	    	$tmp_var_l=`sed -n '2p' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
+	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	    	($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
+	    	$tmp_var_l=undef;
+	    	###
+	    
+	    	# get ipset_name and ipset_type from CFG
+	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'};
+	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
+	    	###
+	    	
+	    	# check for ipset_name is conf for ipset_template_name
+	    	if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) {
+	    	    
+	    	}
+	    	###
+	    	
+	    	# clear vars
+	    	$ipset_tmplt_name_dir_line_l=undef;
+	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
+	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
+	    	###
+	    } # while readdir DIR_P (END)
 	    
 	    closedir(DIR_P);
 	    
@@ -779,53 +787,60 @@ sub update_local_ipset_actual_data {
 	    $ipset_actual_temporary_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary';
 	    opendir(DIR_T,$ipset_actual_temporary_dir_l);
 	    
-	    while ( readdir(DIR_T) ) {
+	    while ( readdir(DIR_T) ) { # while readdir DIR_T (BEGIN)
 	    	$ipset_tmplt_name_dir_line_l=$_;
 	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
-		
+	    	
 	    	if ( !exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}) ) {
 	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
-		    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/");
-		    
-		    # move to delete_history
-		    $tmp_var_l=get_dt_yyyymmddhhmmss();
-		    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
-		    $tmp_var_l=undef;
-		    ###
-		    
+	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/");
+	    	    
+	    	    # move to delete_history
+	    	    $tmp_var_l=get_dt_yyyymmddhhmmss();
+	    	    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
+	    	    $tmp_var_l=undef;
+	    	    ###
+	    	    
 	    	    next;
 	    	}
-
-		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
-		    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
-		    
-		    next;
-		}
-
-		# get ipset_name from 'actual__*'-file
-		$file_ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
-		$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-		$ipset_name_actual_l=$file_ipset_name_actual_l;
-		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
-		###
-
-		# get ipset_type from 'actual__*'-file
-		$tmp_var_l=`sed -n '2p' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
-		$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-		($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
-		$tmp_var_l=undef;
-		###
-		
-		# check for ipset_name is conf for ipset_template_name
-		if ( $ipset_name_actual_l ne ${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'} ) {
-		    
-		}
-		###
-		
+	    
+	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
+	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
+	    	    
+	    	    next;
+	    	}
+	    
+	    	# get ipset_name from 'actual__*'-file
+	    	$file_ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+	    	$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	    	$ipset_name_actual_l=$file_ipset_name_actual_l;
+	    	$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+	    	###
+	    
+	    	# get ipset_type from 'actual__*'-file
+	    	$tmp_var_l=`sed -n '2p' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
+	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	    	($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
+	    	$tmp_var_l=undef;
+	    	###
+	    	
+	    	# get ipset_name and ipset_type from CFG
+	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'};
+	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
+	    	###
+	    	
+	    	# check for ipset_name is conf for ipset_template_name
+	    	if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) {
+	    	    
+	    	}
+	    	###
+	    	
 	    	# clear vars
 	    	$ipset_tmplt_name_dir_line_l=undef;
+	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
+	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
 	    	###
-	    }
+	    } # while readdir DIR_T (END)
 	    
 	    closedir(DIR_T);
 	    
