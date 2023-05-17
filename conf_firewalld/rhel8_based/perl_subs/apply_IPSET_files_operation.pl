@@ -748,6 +748,9 @@ sub update_local_ipset_actual_data {
 		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
 		###
 		
+		# get ipset_type from 'actual__*'-file
+		###
+		
 		# check for ipset_name is conf for ipset_template_name
 		if ( $ipset_name_actual_l ne ${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'} ) {
 		    
@@ -800,6 +803,9 @@ sub update_local_ipset_actual_data {
 		$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
 		$ipset_name_actual_l=$file_ipset_name_actual_l;
 		$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+		###
+
+		# get ipset_type from 'actual__*'-file
 		###
 		
 		# check for ipset_name is conf for ipset_template_name
