@@ -749,6 +749,10 @@ sub update_local_ipset_actual_data {
 		###
 		
 		# get ipset_type from 'actual__*'-file
+		$tmp_var_l=`sed -n '2p' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
+		$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
+		$tmp_var_l=undef;
 		###
 		
 		# check for ipset_name is conf for ipset_template_name
@@ -806,6 +810,10 @@ sub update_local_ipset_actual_data {
 		###
 
 		# get ipset_type from 'actual__*'-file
+		$tmp_var_l=`sed -n '2p' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
+		$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+		($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
+		$tmp_var_l=undef;
 		###
 		
 		# check for ipset_name is conf for ipset_template_name
