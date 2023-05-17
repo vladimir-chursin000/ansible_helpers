@@ -817,7 +817,7 @@ sub update_local_ipset_actual_data {
 		###
 		
 		# check for ipset_name is conf for ipset_template_name
-		if ( $ipset_name_actual_l ne ${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'} ) {
+		if ( $ipset_name_actual_l ne ${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'} ) {
 		    
 		}
 		###
