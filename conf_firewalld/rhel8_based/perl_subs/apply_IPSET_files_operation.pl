@@ -763,9 +763,10 @@ sub update_local_ipset_actual_data {
 	    	
 	    	# check for changed ipset_name and/or ipset_type
 	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
+		    # no need to copy ipset_content because different different ipset types incompatible with each other
 	    	    
 	    	}
-		else {
+		else { # need to copy content from old file to new
 		    
 		}
 	    	###
@@ -834,9 +835,10 @@ sub update_local_ipset_actual_data {
 	    	
 	    	# check for changed ipset_name and/or ipset_type
 	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
+		    # no need to copy ipset_content because different different ipset types incompatible with each other
 	    	    
 	    	}
-		else {
+		else { # need to copy content from old file to new
 		    
 		}
 	    	###
