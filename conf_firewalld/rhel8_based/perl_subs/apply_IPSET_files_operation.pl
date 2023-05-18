@@ -761,10 +761,13 @@ sub update_local_ipset_actual_data {
 	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
 	    	###
 	    	
-	    	# check for ipset_name is conf for ipset_template_name
-	    	if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) {
+	    	# check for changed ipset_name and/or ipset_type
+	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
 	    	    
 	    	}
+		else {
+		    
+		}
 	    	###
 	    	
 	    	# clear vars
@@ -829,10 +832,13 @@ sub update_local_ipset_actual_data {
 	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
 	    	###
 	    	
-	    	# check for ipset_name is conf for ipset_template_name
-	    	if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) {
+	    	# check for changed ipset_name and/or ipset_type
+	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
 	    	    
 	    	}
+		else {
+		    
+		}
 	    	###
 	    	
 	    	# clear vars
