@@ -691,7 +691,7 @@ sub update_local_ipset_actual_data {
     my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
     
     my ($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
-    my ($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
+    my ($file_ipset_name_cfg_l,$ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
     
     my @tmp_arr0_l=();
     
@@ -763,11 +763,23 @@ sub update_local_ipset_actual_data {
 	    	
 	    	# check for changed ipset_name and/or ipset_type
 	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
-		    # no need to copy ipset_content because different different ipset types incompatible with each other
+		    # no need to copy ipset_content because different ipset types incompatible with each other
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
 			# if need to fix ipset_name changing before move 'actual__*'-file to change_history
 			
 		    }
+		    
+		    # create new empty 'actual__*'-file
+		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+		    $tmp_var_l=&get_dt_yyyymmddhhmmss();
+		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$tmp_var_l;+$ipset_type_cfg_l");
+                    &rewrite_file_from_array_ref($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
+                    #$file_l,$aref_l
+
+		    $file_ipset_name_cfg_l=undef;
+		    $tmp_var_l=undef;
+                    @tmp_arr0_l=();
+		    ###
 	    	}
 		else { # need to copy content from old file to new
 		    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
@@ -845,6 +857,18 @@ sub update_local_ipset_actual_data {
 			# if need to fix ipset_name changing before move 'actual__*'-file to change_history
 			
 		    }
+		    
+		    # create new empty 'actual__*'-file
+		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+		    $tmp_var_l=&get_dt_yyyymmddhhmmss();
+		    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$tmp_var_l;+$ipset_type_cfg_l");
+                    &rewrite_file_from_array_ref($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
+                    #$file_l,$aref_l
+		    
+		    $file_ipset_name_cfg_l=undef;
+		    $tmp_var_l=undef;
+                    @tmp_arr0_l=();
+		    ###
 	    	}
 		else { # need to copy content from old file to new
 		    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
