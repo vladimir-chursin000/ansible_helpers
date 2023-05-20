@@ -767,6 +767,7 @@ sub update_local_ipset_actual_data {
 	    	# check for changed ipset_name and/or ipset_type
 	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
 		    # no need to copy ipset_content because different ipset types incompatible with each other
+		    
 		    $dt_now_l=&get_dt_yyyymmddhhmmss();
 		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
@@ -862,6 +863,7 @@ sub update_local_ipset_actual_data {
 	    	# check for changed ipset_name and/or ipset_type
 	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
 		    # no need to copy ipset_content because different different ipset types incompatible with each other
+		    
 		    $dt_now_l=&get_dt_yyyymmddhhmmss();
 		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
