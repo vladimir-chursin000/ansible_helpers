@@ -775,6 +775,9 @@ sub update_local_ipset_actual_data {
 			
 		    }
 		    
+		    # move 'actual__*'-file to change_history
+		    ###
+		    
 		    # create new empty 'actual__*'-file
 		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$tmp_var_l;+$ipset_type_cfg_l");
@@ -870,6 +873,9 @@ sub update_local_ipset_actual_data {
 			# if need to fix ipset_name changing before move 'actual__*'-file to change_history
 			
 		    }
+		    
+		    # move 'actual__*'-file to change_history
+                    ###
 		    
 		    # create new empty 'actual__*'-file
 		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
