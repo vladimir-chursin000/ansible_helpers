@@ -690,6 +690,7 @@ sub update_local_ipset_actual_data {
     
     my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
     
+    my $ipset_create_date_actual_l=undef; # for date from 'actual__*'-file
     my ($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
     my ($file_ipset_name_cfg_l,$ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
     
@@ -752,7 +753,7 @@ sub update_local_ipset_actual_data {
 	    	# get ipset_type from 'actual__*'-file
 	    	$tmp_var_l=`sed -n '2p' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
 	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	    	($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
+		($ipset_create_date_actual_l,$ipset_type_actual_l)=$tmp_var_l=~/^\#\#\#(\S+)\;\+(\S+)$/;
 	    	$tmp_var_l=undef;
 	    	###
 	    
@@ -790,6 +791,7 @@ sub update_local_ipset_actual_data {
 	    	
 	    	# clear vars
 	    	$ipset_tmplt_name_dir_line_l=undef;
+		$ipset_create_date_actual_l=undef;
 	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
 	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
 	    	###
@@ -841,7 +843,7 @@ sub update_local_ipset_actual_data {
 	    	# get ipset_type from 'actual__*'-file
 	    	$tmp_var_l=`sed -n '2p' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
 	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	    	($ipset_type_actual_l)=$tmp_var_l=~/\;\+(\S+)$/;
+	    	($ipset_create_date_actual_l,$ipset_type_actual_l)=$tmp_var_l=~/^\#\#\#(\S+)\;\+(\S+)$/;
 	    	$tmp_var_l=undef;
 	    	###
 	    	
@@ -879,6 +881,7 @@ sub update_local_ipset_actual_data {
 	    	
 	    	# clear vars
 	    	$ipset_tmplt_name_dir_line_l=undef;
+		$ipset_create_date_actual_l=undef;
 	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
 	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
 	    	###
