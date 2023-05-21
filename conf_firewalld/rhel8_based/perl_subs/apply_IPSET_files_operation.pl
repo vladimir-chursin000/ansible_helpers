@@ -783,6 +783,7 @@ sub update_local_ipset_actual_data {
 		    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    
 		    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+		    system("echo ' ' >> $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    system("sed -i '1i $change_hist_1line_l' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
@@ -897,6 +898,7 @@ sub update_local_ipset_actual_data {
 		    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    
 		    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+		    system("echo ' ' >> $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
