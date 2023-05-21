@@ -771,14 +771,14 @@ sub update_local_ipset_actual_data {
 		    $dt_now_l=&get_dt_yyyymmddhhmmss();
 		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    
-	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
-			# if need to fix ipset_name changing before move 'actual__*'-file to change_history
-			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_cfg_l");
-		    }
-		    
 		    # move 'actual__*'-file to change_history
 		    ###
-		    
+
+	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
+			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
+			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_cfg_l");
+		    }
+		    		    
 		    # create new empty 'actual__*'-file
 		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$tmp_var_l;+$ipset_type_cfg_l");
                     &rewrite_file_from_array_ref($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
@@ -870,13 +870,13 @@ sub update_local_ipset_actual_data {
 		    $dt_now_l=&get_dt_yyyymmddhhmmss();
 		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    
-	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
-			# if need to fix ipset_name changing before move 'actual__*'-file to change_history
-			system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_cfg_l");
-		    }
-		    
 		    # move 'actual__*'-file to change_history
                     ###
+		
+	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
+			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
+			system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_cfg_l");
+		    }
 		    
 		    # create new empty 'actual__*'-file
 		    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$tmp_var_l;+$ipset_type_cfg_l");
