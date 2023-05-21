@@ -951,9 +951,34 @@ sub update_local_ipset_actual_data {
 	    	}
 	    	else { # need to copy content from old file to new
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
-	    		$dt_now_l=&get_dt_yyyymmddhhmmss();
-	    		
-	    		$dt_now_l=undef;
+	    	    	$dt_now_l=&get_dt_yyyymmddhhmmss();
+	    	    	
+		    	# copy 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at copied file
+		    	$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
+		    	
+		    	system("cp $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    	
+		    	system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    	system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    	
+		    	$change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+		    	system("echo ' ' >> $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    	system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    	
+		    	system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+		    	
+		    	$file_ipset_name_ch_hist_l=undef;
+		    	$change_hist_1line_l=undef;
+		    	###
+		    	
+		    	# rename 'actual__*'-file
+		    	$file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+		    	system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_cfg_l");
+		    	
+		    	$file_ipset_name_cfg_l=undef;
+		    	###
+			
+	    	    	$dt_now_l=undef;
 	    	    }
 	    	}
 	    	# check for changed ipset_name and/or ipset_type (END)
