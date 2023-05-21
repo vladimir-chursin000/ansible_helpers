@@ -773,11 +773,14 @@ sub update_local_ipset_actual_data {
 		    
 		    # move 'actual__*'-file to change_history
 		    ###
-
+		
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
 			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
-			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_cfg_l");
+			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_cfg_l");
 		    }
+		    
+		    # modify name of file (from actual to change_history-format) and first lines at moved file
+                    ###
 		    		    
 		    # create new empty 'actual__*'-file
 		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$tmp_var_l;+$ipset_type_cfg_l");
@@ -875,8 +878,11 @@ sub update_local_ipset_actual_data {
 		
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
 			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
-			system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$ipset_name_cfg_l");
+			system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_cfg_l");
 		    }
+		    
+		    # modify name of file (from actual to change_history-format) and first lines at moved file
+                    ###
 		    
 		    # create new empty 'actual__*'-file
 		    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$tmp_var_l;+$ipset_type_cfg_l");
