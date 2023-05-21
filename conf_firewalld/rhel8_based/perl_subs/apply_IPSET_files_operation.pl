@@ -693,6 +693,8 @@ sub update_local_ipset_actual_data {
     my $ipset_create_date_actual_l=undef; # for date from 'actual__*'-file
     my ($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
     my ($file_ipset_name_cfg_l,$ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
+    my $file_ipset_name_ch_hist_l=undef;
+    my $change_hist_1line_l=undef;
     
     my @tmp_arr0_l=();
     
@@ -769,31 +771,40 @@ sub update_local_ipset_actual_data {
 		    # no need to copy ipset_content because different ipset types incompatible with each other
 		    
 		    $dt_now_l=&get_dt_yyyymmddhhmmss();
-		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    
-		    # move 'actual__*'-file to change_history
+		    # move 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at moved file
+		    $file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_actual_l.'.txt';
+		    
 		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    ###
+		    
+		    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    
+		    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+		    system("sed -i '1i $change_hist_1line_l' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
-			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
-			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_cfg_l");
+		    	# if need to fix ipset_name changing after move 'actual__*'-file to change_history
+			$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
 		    }
 		    
-		    # modify name of file (from actual to change_history-format) and first lines at moved file
+		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+		    
+		    $file_ipset_name_ch_hist_l=undef;
+		    $change_hist_1line_l=undef;
                     ###
-		    		    
+		    		    		    
 		    # create new empty 'actual__*'-file
-		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$tmp_var_l;+$ipset_type_cfg_l");
+		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_cfg_l");
                     &rewrite_file_from_array_ref($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
                     #$file_l,$aref_l
 		    
-		    $tmp_var_l=undef;
                     @tmp_arr0_l=();
+		    $file_ipset_name_cfg_l=undef;
 		    ###
 		    
 		    $dt_now_l=undef;
-		    $file_ipset_name_cfg_l=undef;
 	    	}
 		else { # need to copy content from old file to new
 		    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
@@ -872,31 +883,40 @@ sub update_local_ipset_actual_data {
 		    # no need to copy ipset_content because different different ipset types incompatible with each other
 		    
 		    $dt_now_l=&get_dt_yyyymmddhhmmss();
-		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    
-		    # move 'actual__*'-file to change_history
+		    # move 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at moved file
+		    $file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_actual_l.'.txt';
+		    
 		    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-                    ###
-		
+		    
+		    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    
+		    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+		    system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
-			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
-			system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_cfg_l");
+		    	# if need to fix ipset_name changing after move 'actual__*'-file to change_history
+			$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
 		    }
 		    
-		    # modify name of file (from actual to change_history-format) and first lines at moved file
-                    ###
+		    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+		    
+		    $file_ipset_name_ch_hist_l=undef;
+		    $change_hist_1line_l=undef;
+		    ###
 		    
 		    # create new empty 'actual__*'-file
-		    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$tmp_var_l;+$ipset_type_cfg_l");
+		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+		    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_cfg_l");
                     &rewrite_file_from_array_ref($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
                     #$file_l,$aref_l
 		    
-		    $tmp_var_l=undef;
                     @tmp_arr0_l=();
+		    $file_ipset_name_cfg_l=undef;
 		    ###
 		    
 		    $dt_now_l=undef;
-		    $file_ipset_name_cfg_l=undef;
 	    	}
 		else { # need to copy content from old file to new
 		    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
