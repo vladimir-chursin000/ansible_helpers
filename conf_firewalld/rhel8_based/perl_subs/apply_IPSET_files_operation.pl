@@ -772,8 +772,9 @@ sub update_local_ipset_actual_data {
 		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    
 		    # move 'actual__*'-file to change_history
+		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
 		    ###
-		
+		    
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
 			# if need to fix ipset_name changing after move 'actual__*'-file to change_history
 			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_cfg_l");
@@ -874,6 +875,7 @@ sub update_local_ipset_actual_data {
 		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
 		    
 		    # move 'actual__*'-file to change_history
+		    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
                     ###
 		
 	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
