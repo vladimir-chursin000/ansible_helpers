@@ -1056,6 +1056,7 @@ sub update_local_ipset_actual_data {
 	
 	# ops for 'del' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
+	    # delete entry with timeout = "ipset del some_temporary_ipset some_entry (for example, 11.1.2.3)"
 	    #$hkey1_l=ipset_record
 	}
 	
