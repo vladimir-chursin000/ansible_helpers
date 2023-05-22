@@ -700,6 +700,8 @@ sub update_local_ipset_actual_data {
     
     my $dt_now_l=undef;
     
+    my $ipset_actual_file_path_l=undef;
+    
     # ipset_actual_data write history operations (BEGIN)
     opendir(DIR,$ipset_actual_data_dir_l);
     
@@ -1014,6 +1016,8 @@ sub update_local_ipset_actual_data {
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) {
 	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+	
+	$ipset_actual_file_path_l=$ipset_actual_data_dir_l;
 	
 	# ops for 'add' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
