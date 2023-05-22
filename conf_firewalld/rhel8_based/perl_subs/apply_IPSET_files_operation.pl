@@ -1018,7 +1018,6 @@ sub update_local_ipset_actual_data {
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
 	
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
-	print "'$ipset_actual_file_path_l'\n";
 	
 	# ops for 'add' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
