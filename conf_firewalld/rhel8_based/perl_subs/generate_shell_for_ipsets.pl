@@ -68,6 +68,8 @@ sub generate_shell_script_for_recreate_ipsets {
                 last;
             }
             
+	    push(@{$temporary_ipset_names_l{$hkey0_l}},${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'});
+	    
             $wr_str_l="firewall-cmd --permanent";
             $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'};
             $wr_str_l.=" --type=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_type'};
