@@ -50,6 +50,8 @@ sub generate_shell_script_for_recreate_ipsets {
         #key=inv-host, value=array of strings
     my %permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
         #key=inv-host, value=array of permanent ipset names at current inv-host
+    my %temporary_ipset_names_l=(); # temporary ipset names (not tmplt names) at each inv-host
+        #key=inv-host, value=array of temporary ipset names at current inv-host
     my $return_str_l='OK';
     
     # fill array (for each host) with commands for recreate temporary ipsets
