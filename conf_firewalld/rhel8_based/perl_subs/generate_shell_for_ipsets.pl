@@ -171,7 +171,7 @@ sub generate_shell_script_for_recreate_ipsets {
             @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;','firewall-cmd --reload;',' ',@wr_arr_l);
             ###
     
-            # 2) form array of commands for get and save ipset entries (for permanent ipsets) and save it to the '$remote_dir_for_absible_helper_l'
+            # 2) form array of commands for get and save ipset entries and save it to the '$remote_dir_for_absible_helper_l'
                 #"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
                 ###
                 #%permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
@@ -187,6 +187,13 @@ sub generate_shell_script_for_recreate_ipsets {
                     $ipset_list_l=undef;
                 }
             }
+	    
+            if ( exists($temporary_ipset_names_l{$hkey0_l}) ) {
+		foreach $arr_el0_l ( @{$temporary_ipset_names_l{$hkey0_l}} ) {
+                    #arr_el0_l=temporary ipset name
+		    
+		}
+	    }
             ###
 
             # insert compiler path at the begin of the script
