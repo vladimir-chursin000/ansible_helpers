@@ -160,7 +160,7 @@ sub generate_shell_script_for_recreate_ipsets {
         if ( exists($wr_hash_l{$hkey0_l}) ) { # if exists content for 'recreate_ipsets.sh'
             @wr_arr_l=@{$wr_hash_l{$hkey0_l}};
     
-            # 1) form array of commands for remove ipset xml-s
+            # 1) form array of commands for remove ipset xml-s (for add lines before this lines)
                 #rm -rf  /etc/firewalld/ipsets/* +
                 #or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
             @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;','firewall-cmd --reload;',' ',@wr_arr_l);
