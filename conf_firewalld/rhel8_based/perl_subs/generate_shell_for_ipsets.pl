@@ -188,6 +188,10 @@ sub generate_shell_script_for_recreate_ipsets {
                 }
             }
 	    
+	    #"ipset list some_ipset_name"
+	    ###
+	    #my %temporary_ipset_names_l=(); # temporary ipset names (not tmplt names) at each inv-host
+    		#key=inv-host, value=array of temporary ipset names at current inv-host
             if ( exists($temporary_ipset_names_l{$hkey0_l}) ) {
 		foreach $arr_el0_l ( @{$temporary_ipset_names_l{$hkey0_l}} ) {
                     #arr_el0_l=temporary ipset name
