@@ -162,16 +162,17 @@ sub generate_shell_script_for_recreate_ipsets {
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_ipsets.sh';
         
         if ( exists($wr_hash_l{$hkey0_l}) ) { # if exists content for 'recreate_ipsets.sh'
-            @wr_arr_l=@{$wr_hash_l{$hkey0_l}}; # add lines with with commands for recreate temporary and permanent ipsets
+	    # 1) add lines with with commands for recreate temporary and permanent ipsets
+            @wr_arr_l=@{$wr_hash_l{$hkey0_l}}; 
     
-            # 1) form array of commands for remove ipset xml-s
+            # 2) form array of commands for remove ipset xml-s
 		#(add lines before 'commands for recreate temporary and permanent ipsets')
                 #rm -rf  /etc/firewalld/ipsets/* +
                 #or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
             @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;','firewall-cmd --reload;',' ',@wr_arr_l);
             ###
     
-            # 2) form array of commands for get and save ipset entries and save it to the '$remote_dir_for_absible_helper_l'
+            # 3) form array of commands for get and save ipset entries and save it to the '$remote_dir_for_absible_helper_l'
                 #"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
                 ###
                 #%permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
@@ -198,9 +199,9 @@ sub generate_shell_script_for_recreate_ipsets {
 		    
 		}
 	    }
-            ### (2-end)
+            ### (3-end)
         
-            # 3) form array of commands for add saved entries to ipsets (for add to end of the wr_array_l)
+            # 4) form array of commands for add saved entries to permanent ipsets (for add to end of the wr_array_l)
                 #"firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt"
             if ( exists($permanet_ipset_names_l{$hkey0_l}) ) { # for permanent ipsets
                 foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
@@ -213,17 +214,9 @@ sub generate_shell_script_for_recreate_ipsets {
                     $ipset_list_l=undef;
                 }
             }
+            ### (4-end)
 
-	    #"ipset add some_ipset_name 11.1.1.2 timeout 500" where "11.1.1.2 timeout 500" is from some_ipset_name.txt
-            if ( exists($temporary_ipset_names_l{$hkey0_l}) ) { # for temporary ipsets
-		foreach $arr_el0_l ( @{$temporary_ipset_names_l{$hkey0_l}} ) {
-                    #arr_el0_l=temporary ipset name
-		    
-		}
-	    }
-            ### (3-end)
-
-            # insert compiler path at the begin of the script
+            # 5) insert compiler path at the begin of the script
             @wr_arr_l=(
                 '#!/usr/bin/bash',
                 ' ',
@@ -232,9 +225,23 @@ sub generate_shell_script_for_recreate_ipsets {
                 ' ',
                 @wr_arr_l
             );
-            ###
-
+            ### (5-end)
+	    
+	    # 6) add reload
             @wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload;');
+	    ###
+	    
+	    # 7) form array of commands for add saved entries to temporary ipsets (for add to end of the wr_array_l)
+	    #"ipset add some_ipset_name 11.1.1.2 timeout 500" where "11.1.1.2 timeout 500" is from some_ipset_name.txt
+            if ( exists($temporary_ipset_names_l{$hkey0_l}) ) { # for temporary ipsets
+		@wr_arr_l=(@wr_arr_l,' ');
+		
+		foreach $arr_el0_l ( @{$temporary_ipset_names_l{$hkey0_l}} ) {
+                    #arr_el0_l=temporary ipset name
+		    
+		}
+	    }
+	    ### (7-end)
         }
         elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_ipsets_conf_action'}=~/^remove$/ ) {
             @wr_arr_l=(
