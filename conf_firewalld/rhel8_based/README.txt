@@ -1,4 +1,4 @@
-PARTIALLY READY!
+NOT READY! Some refactoring!
 ####
 # 1) UPDATE list (for install and configure firewall) of ip addresses = conf_firewall_hosts (inventory).
 
