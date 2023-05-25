@@ -190,6 +190,10 @@ sub generate_shell_script_for_recreate_ipsets {
             }
 	    
 	    #"ipset list some_ipset_name > some_ipset_name.txt"
+	    #readarray -t ARRAY < <(ipset list temporary_ipset | grep -i timeout | grep -v 'Header');
+		#echo -e "#!/usr/bin/bash\n" > temporary_ipset.sh; 
+		#for AE in "${ARRAY[@]}"; do echo "ipset add temporary_ipset $AE;" >> temporary_ipset.sh; done;
+		#echo -e "\nrm -f temporary_ipset.sh;" >> temporary_ipset.sh;
 	    ###
 	    #my %temporary_ipset_names_l=(); # temporary ipset names (not tmplt names) at each inv-host
     		#key=inv-host, value=array of temporary ipset names at current inv-host
