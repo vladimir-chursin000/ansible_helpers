@@ -25,7 +25,7 @@
   when: firewalld_conf_exists.stat.exists==true
 
 ######################################################
-
+#change to item with saving temporary ipsets and restore it after restart
 - name: enable_n_restart_firewalld_service
   ansible.builtin.systemd:
     name: "{{item}}"
