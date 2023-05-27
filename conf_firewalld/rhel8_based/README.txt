@@ -46,6 +46,8 @@ SCRIPTS LOGIC DESCRIPTION
 	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	2) full_install_firewall_and_configure_fwrules_playbook.yml ->
 	    1) just_install_firewall_playbook.yml
+		# (future) Save content of temporary ipsets before firewalld restart (if restart needed).
+		# (future) Restore content of temporary ipsets after firewalld restart (if restart needed).
 	    2) check_firewall_serv_is_started_playbook.yml
 	    3) fwrules_apply_immediately_playbook.yml ->
 		1) tasks for check for 'apply_fwrules_is_run_now' and 'rollback_fwrules_changes_is_run_now' at remote side.
