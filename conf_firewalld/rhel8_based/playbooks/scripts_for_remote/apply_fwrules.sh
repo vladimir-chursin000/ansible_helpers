@@ -18,10 +18,6 @@ if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" ]]; then
 fi;
 ###
 
-#if [[ -s "$HOME/ansible_helpers/conf_firewalld/fill_permanent_ipsets.sh" ]]; then
-#    "$HOME/ansible_helpers/conf_firewalld/fill_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/fill_ipsets-res.txt";
-#fi;
-
 # recreate firewalld zones (if need)
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt";
@@ -34,7 +30,15 @@ if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" ]]; then
 fi;
 ###
 
+# renew permanent ipsets content (if need)
+#if [[ -s "$HOME/ansible_helpers/conf_firewalld/renew_permanent_ipsets_content.sh" ]]; then
+#    "$HOME/ansible_helpers/conf_firewalld/renew_permanent_ipsets_content.sh" &> "$HOME/ansible_helpers/conf_firewalld/renew_permanent_ipsets_content-res.txt";
+#fi;
+
 # firewall-cmd --reload (if need)
+###
+
+# restore and/or renew temporary ipsets content (if need)
 ###
 
 # rollback all changes (if need)
