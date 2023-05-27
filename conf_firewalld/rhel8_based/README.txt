@@ -44,7 +44,7 @@ SCRIPTS LOGIC DESCRIPTION
 	2) generate_dynamic_fwrules.pl. Important ops:
 	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
 	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
-	2) full_install_firewall_and_configure_fwrules_playbook.yml ->
+	3) full_install_firewall_and_configure_fwrules_playbook.yml ->
 	    1) just_install_firewall_playbook.yml
 		# (future) Save content of temporary ipsets before firewalld restart (if restart needed).
 		# (future) Restore content of temporary ipsets after firewalld restart (if restart needed).
