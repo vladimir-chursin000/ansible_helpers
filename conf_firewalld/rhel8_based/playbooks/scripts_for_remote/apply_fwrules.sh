@@ -4,24 +4,41 @@
 
 touch ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
 
+# save content of temporary ipsets (if need)
+###
+
+# restart firewalld "systemctl restart firewalld" (if need)
+###
+
+# recreate permanent ipsets (if need)
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets-res.txt";
 fi;
+###
 
-#if [[ -s "$HOME/ansible_helpers/conf_firewalld/fill_ipsets.sh" ]]; then
+#if [[ -s "$HOME/ansible_helpers/conf_firewalld/fill_permanent_ipsets.sh" ]]; then
 #    "$HOME/ansible_helpers/conf_firewalld/fill_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/fill_ipsets-res.txt";
 #fi;
 
+# recreate firewalld zones (if need)
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt";
 fi;
+###
 
+# recreate firewalld policies (if need)
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_policies-res.txt";    
 fi;
+###
 
+# firewall-cmd --reload (if need)
+###
+
+# rollback all changes (if need)
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" ]]; then
     nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 fi;
+###
 
 rm -rf ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
