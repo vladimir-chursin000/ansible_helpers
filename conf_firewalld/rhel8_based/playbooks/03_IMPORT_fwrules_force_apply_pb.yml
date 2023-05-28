@@ -1,0 +1,3 @@
+---
+- import_playbook: fwrules_force_apply_pb.yml
+- import_playbook: FIN_RUN_apply_fwrules_pb.yml
