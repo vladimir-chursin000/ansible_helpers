@@ -1,0 +1,14 @@
+########################################################################
+#FOR CONFIGURATION OF FORWARD-PORTS-SETS for FIREWALL ZONES or POLICIES#
+########################################################################
+
+# Forward ports set name must be unique.
+# Add forward-port = "firewall-cmd --permanent --zone=some_zone_name/some_policy_name --add-forward-port='some-fw-port-string'" (for information only).
+
+###CUSTOM FORWARD PORTS SET EXAMPLE. Use this template to define forward ports sets. Don't forget to remove the comment characters (#).
+#[some_forward_ports_set_name:BEGIN]
+#port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
+#port=80:proto=tcp:toport=8080 (example)
+#[some_forward_ports_set_name:END]
+
+#################################INSERT YOUR FORWARD PORTS SETS AFTER THIS LINE#################################

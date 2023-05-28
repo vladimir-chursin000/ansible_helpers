@@ -1,0 +1,4 @@
+---
+- import_playbook: just_install_firewall_playbook.yml
+- import_playbook: check_firewall_serv_is_started_playbook.yml
+- import_playbook: fwrules_apply_immediately_playbook.yml

@@ -1,0 +1,14 @@
+#####################################################################
+#FOR CONFIGURATION OF RICH-RULES-SETS for FIREWALL ZONES or POLICIES#
+#####################################################################
+
+# Rich rules set name must be unique.
+# Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name/some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
+
+###CUSTOM RICH RULES SET EXAMPLE. Use this template to define rich rules sets. Don't forget to remove the comment characters (#).
+#[some_rich_rules_set_name:BEGIN]
+#rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80 (example)
+#rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
+#[some_rich_rules_set_name:END]
+
+#################################INSERT YOUR RICH RULES SETS AFTER THIS LINE#################################

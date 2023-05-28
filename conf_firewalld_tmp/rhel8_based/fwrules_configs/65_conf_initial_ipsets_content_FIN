@@ -1,0 +1,17 @@
+#FUNCTIONAL FOR THIS CFG IS NOT READY!!!
+########################################################
+#FOR ASSIGN INITIAL VALUES of IPSETS to INVENTORY HOSTS#
+########################################################
+
+# This CFG is linked with: "01_conf_ipset_templates" and "66_conf_ipsets_FIN".
+# This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
+
+###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
+#[IPSET_TEMPLATE_NAME:BEGIN]
+#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[IPSET_TEMPLATE_NAME:END]
+
+#[ipset1--TMPLT:BEGIN]
+#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[ipset1--TMPLT:END]
+#################################INSERT YOUR CUSTOM INITIAL IPSETS AFTER THIS LINE#################################
