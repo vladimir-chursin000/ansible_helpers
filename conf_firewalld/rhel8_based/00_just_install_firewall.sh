@@ -2,7 +2,7 @@
 
 SELF_DIR="$(dirname $(readlink -f $0))";
 INV_FILE="$SELF_DIR/conf_firewall_hosts";
-PLAYBOOK='just_install_firewall_playbook.yml';
+PLAYBOOK='just_install_firewall_pb.yml';
 LOG_DIR="$SELF_DIR/run_history";
 PLAYBOOK_BEFORE='no';
 GEN_DYN_FWRULES_RUN='no';
