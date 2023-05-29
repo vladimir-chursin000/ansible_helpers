@@ -17,6 +17,7 @@ touch ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
 ###
 
 # 4) Restart firewalld "systemctl restart firewalld" (if need)
+    # If changed: firewalld.conf
 ###
 
 # 5) Recreate permanent ipsets (if need)
@@ -45,19 +46,21 @@ fi;
 
 # 9) Renew (restore prev/modify) permanent ipsets content (if need).
 # 9.1) Restore prev. If just restore content after recreate permanent ipsets.
-    # Only for cases with no change ipset_name/ipset_type.
+    # Only for cases with changing ipset-list-params except "ipset_name" and/or "ipset_type".
 #if [[ -s "$HOME/ansible_helpers/conf_firewalld/restore_permanent_ipsets_content.sh" ]]; then
 #    "$HOME/ansible_helpers/conf_firewalld/restore_permanent_ipsets_content.sh" &> "$HOME/ansible_helpers/conf_firewalld/restore_permanent_ipsets_content-res.txt";
 #fi;
 # 9.2) Modify (add/del). If need to add new elements or delete some elements.
 ###
 
-# 10) Realod "firewall-cmd --reload" (if need)
+# 10) Reload "firewall-cmd --reload" (if need)
+    # If changed: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh,
+    # If executed: restore_permanent_ipsets_content.sh, modify_permanent_ipsets_content.sh
 ###
 
 # 11) Renew temporary ipsets content after recreate (if need)
 # 11.1) Restore prev. If just restore content after recreate temporary ipsets.
-    # Only for cases with no change ipset_name/ipset_type.
+    # Only for cases with changing ipset-list-params except "ipset_name" and/or "ipset_type".
 # 11.2) Modify (add/del). If need to add new elements or delete some elements.
 ###
 
