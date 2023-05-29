@@ -13,8 +13,14 @@ touch ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
 ###
 
 # recreate permanent ipsets (if need)
-if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" ]]; then
-    "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_ipsets-res.txt";
+if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh" ]]; then
+    "$HOME/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_permanent_ipsets-res.txt";
+fi;
+###
+
+# recreate temporary ipsets (if need)
+if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh" ]]; then
+    "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets-res.txt";
 fi;
 ###
 
