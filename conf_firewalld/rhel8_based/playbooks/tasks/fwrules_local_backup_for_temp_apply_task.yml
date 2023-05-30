@@ -1,5 +1,5 @@
 - name: remove_prev_fwrules_files_from-fwrules_backup_now (remote-fs)
-  ansible.builtin.shell: rm -rf ~/ansible_helpers/conf_firewalld/fwrules_backup_now/ && mkdir ~/ansible_helpers/conf_firewalld/fwrules_backup_now
+  ansible.builtin.shell: rm -rf ~/ansible_helpers/conf_firewalld/fwrules_backup_now/ && mkdir -p ~/ansible_helpers/conf_firewalld/fwrules_backup_now
 
 ######################################################
 
