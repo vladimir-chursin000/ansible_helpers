@@ -46,7 +46,9 @@ sub generate_shell_script_for_recreate_ipsets {
     my $ipset_list_l=undef;
     my @wr_arr_l=();
     my @tmp_arr_l=();
-    my %wr_hash_l=();
+    my %wr_hash_permanent_l=();
+        #key=inv-host, value=array of strings
+    my %wr_hash_temporary_l=();
         #key=inv-host, value=array of strings
     my %permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
         #key=inv-host, value=array of permanent ipset names at current inv-host
@@ -91,10 +93,10 @@ sub generate_shell_script_for_recreate_ipsets {
         
         if ( $#wr_arr_l!=-1 ) {
             push(@wr_arr_l,' ');
-            @{$wr_hash_l{$hkey0_l}}=@wr_arr_l;
+            @{$wr_hash_temporary_l{$hkey0_l}}=@wr_arr_l;
             @wr_arr_l=();
         }
-        else { @{$wr_hash_l{$hkey0_l}}=(); }
+        else { @{$wr_hash_temporary_l{$hkey0_l}}=(); }
 
         $arr_el0_l=undef;
 
@@ -141,10 +143,11 @@ sub generate_shell_script_for_recreate_ipsets {
 
         if ( $#wr_arr_l!=-1 ) {
             push(@wr_arr_l,' ');
-            @{$wr_hash_l{$hkey0_l}}=(@{$wr_hash_l{$hkey0_l}},@wr_arr_l);
+            #@{$wr_hash_permanent_l{$hkey0_l}}=(@{$wr_hash_permanent_l{$hkey0_l}},@wr_arr_l);
+	    @{$wr_hash_permanent_l{$hkey0_l}}=@wr_arr_l;
             @wr_arr_l=();
         }
-        else { @{$wr_hash_l{$hkey0_l}}=(); }
+        else { @{$wr_hash_permanent_l{$hkey0_l}}=(); }
 
         $arr_el0_l=undef;
 
@@ -161,9 +164,9 @@ sub generate_shell_script_for_recreate_ipsets {
         #hkey0_l=inv-host
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_ipsets.sh';
         
-        if ( exists($wr_hash_l{$hkey0_l}) ) { # if exists content for 'recreate_ipsets.sh'
+        if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_ipsets.sh'
 	    # 1) add lines with with commands for recreate temporary and permanent ipsets
-            @wr_arr_l=@{$wr_hash_l{$hkey0_l}}; 
+            @wr_arr_l=@{$wr_hash_permanent_l{$hkey0_l}}; 
     
             # 2) form array of commands for remove ipset xml-s
 		#(add lines before 'commands for recreate temporary and permanent ipsets')
