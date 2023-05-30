@@ -32,13 +32,18 @@ if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh" ]];
 fi;
 ###
 
-# 7) Recreate firewalld zones (if need)
+# 7) Remove fwzones files from "/etc/firewalld/zones/".
+    # Recreate firewalld zones.
+    # Restore std-fwzones files from "/usr/lib/firewalld/zones/".
+    # If need.
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt";
 fi;
 ###
 
-# 8) Recreate firewalld policies (if need)
+# 8) Remove policies files from "/etc/firewalld/policies/".
+    # Recreate firewalld policies.
+    # If need.
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_policies-res.txt";    
 fi;
