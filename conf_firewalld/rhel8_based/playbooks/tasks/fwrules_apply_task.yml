@@ -37,9 +37,16 @@
 
 ######################################################STEP 2. Create or remove some files at remote side (begin)
 
-- name: create_dir "~/ansible_helpers/conf_firewalld"
+- name: create_dir "~/ansible_helpers/conf_firewalld" if not exists
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld"
+    state: directory
+
+######
+
+- name: create_dir "ansible_helpers/conf_firewalld/apply_info" if not exists
+  ansible.builtin.file:
+    path: "~/ansible_helpers/conf_firewalld/appy_info"
     state: directory
 
 ######
