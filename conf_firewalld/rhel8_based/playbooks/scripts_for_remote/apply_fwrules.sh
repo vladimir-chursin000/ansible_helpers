@@ -70,4 +70,6 @@ if [[ -s "$HOME/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" ]]; 
 fi;
 ###
 
+rm -rf ~/ansible_helpers/conf_firewalld/apply_run_info/*;
+
 rm -rf ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
