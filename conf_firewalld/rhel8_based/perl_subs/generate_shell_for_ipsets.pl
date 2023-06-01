@@ -172,7 +172,7 @@ sub generate_shell_script_for_recreate_ipsets {
 		#(add lines before 'commands for recreate temporary and permanent ipsets')
                 #rm -rf  /etc/firewalld/ipsets/* +
                 #or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
-            @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;','firewall-cmd --reload;',' ',@wr_arr_l);
+            @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;',' ',@wr_arr_l);
             ###
     
             # 3) form array of commands for get and save ipset entries and save it to the '$remote_dir_for_absible_helper_l'
@@ -234,10 +234,6 @@ sub generate_shell_script_for_recreate_ipsets {
             );
             ### (5-end)
 	    
-	    # 6) add reload
-            @wr_arr_l=(@wr_arr_l,' ','firewall-cmd --reload;');
-	    ###
-	    
 	    #!!!# 7) form array of commands for add saved entries to temporary ipsets (for add to end of the wr_array_l)
 	    #!!!#"ipset add some_ipset_name 11.1.1.2 timeout 500" where "11.1.1.2 timeout 500" is from some_ipset_name.txt
             #!!!if ( exists($temporary_ipset_names_l{$hkey0_l}) ) { # for temporary ipsets
@@ -258,8 +254,7 @@ sub generate_shell_script_for_recreate_ipsets {
                 '###DO NOT CHANGE!',
                 ' ',
                 'rm -rf  /etc/firewalld/ipsets/*;',
-                ' ',
-                'firewall-cmd --reload;'
+                ' '
             );
         }
         else { # if not exists content for 'recreate_ipsets.sh'

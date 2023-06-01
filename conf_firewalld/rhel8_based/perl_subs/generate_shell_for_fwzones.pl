@@ -281,8 +281,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	}
 	
 	$arr_el0_l=undef;
-	
-	push(@{$wr_hash_l{$hkey0_l}{'std_recreate'}},'firewall-cmd --reload;');
 	###
 	
 	# commands for configure and correcting std fw-zones (begin)
@@ -592,8 +590,6 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    
 	    $wr_str_l=undef;
 	}
-	
-	push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},'firewall-cmd --reload;');
 	###
 	
 	# commands for configure custom fw-zones (begin)
@@ -899,13 +895,10 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    if ( exists($wr_hash_l{$hkey0_l}{'custom_remove'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{$wr_hash_l{$hkey0_l}{'custom_remove'}}); }
 	    if ( exists($wr_hash_l{$hkey0_l}{'standard'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{$wr_hash_l{$hkey0_l}{'standard'}}); }
 	    if ( exists($wr_hash_l{$hkey0_l}{'custom'}) ) { @wr_arr_l=(@wr_arr_l,@{$wr_hash_l{$hkey0_l}{'custom'}}); }
-	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	}
 	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_zones_conf_action'}=~/^restore_defaults$/ ) {
 	    @wr_arr_l=(@begin_script_arr_l);
 	    @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/zones/*;','cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones;',' ');
-	    
-	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	}
 	else { @wr_arr_l=(@begin_script_arr_l,'#NO NEED TO RECREATE FIREWALL ZONES'); }
 

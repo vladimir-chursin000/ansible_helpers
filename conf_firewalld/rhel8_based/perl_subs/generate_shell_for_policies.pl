@@ -256,7 +256,6 @@ sub generate_shell_script_for_recreate_policies {
 	# commands for remove policies
 	$wr_str_l="rm -rf /etc/firewalld/policies/*;";
         push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},$wr_str_l);
-	push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},'firewall-cmd --reload;');
 	
         $wr_str_l=undef;
 	###
@@ -528,13 +527,10 @@ sub generate_shell_script_for_recreate_policies {
 	    @wr_arr_l=(@begin_script_arr_l);
 	    if ( exists($wr_hash_l{$hkey0_l}{'policies_remove'}) ) { @wr_arr_l=(@wr_arr_l,@{$wr_hash_l{$hkey0_l}{'policies_remove'}}); }
 	    if ( exists($wr_hash_l{$hkey0_l}{'policies_recreate'}) ) { @wr_arr_l=(@wr_arr_l,' ',@{$wr_hash_l{$hkey0_l}{'policies_recreate'}}); }
-	    
-	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	}
 	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_policies_conf_action'}=~/^remove$/ ) {
 	    @wr_arr_l=(@begin_script_arr_l);
 	    @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/policies/*;',' ');
-	    @wr_arr_l=(@wr_arr_l,'firewall-cmd --reload;');
 	}
 	else { @wr_arr_l=(@begin_script_arr_l,'#NO NEED TO RECREATE POLICIES'); }
 	
