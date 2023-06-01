@@ -25,13 +25,7 @@
   when: firewalld_conf_exists.stat.exists==true
 
 ######################################################
-#change to item with saving temporary ipsets and restore it after restart
-- name: enable_n_restart_firewalld_service
-  ansible.builtin.systemd:
-    name: "{{item}}"
-    state: restarted
-    enabled: yes
-    masked: no
-  with_items:
-    - firewalld.service
+
+- name: create apply-run-info-file "fwconfig_changed"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/fwconfig_changed
   when: copy_firewalld_conf_to_remote_res.changed==true
