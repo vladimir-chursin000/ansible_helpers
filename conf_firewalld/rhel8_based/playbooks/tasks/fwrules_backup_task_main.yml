@@ -5,9 +5,9 @@
 
 ######################################################
 
-- name: create_dir "ansible_helpers/conf_firewalld/apply_info" if not exists
+- name: create_dir "ansible_helpers/conf_firewalld/apply_run_info" if not exists
   ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld/appy_info"
+    path: "~/ansible_helpers/conf_firewalld/appy_run_info"
     state: directory
 
 ######################################################
