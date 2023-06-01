@@ -16,34 +16,29 @@ touch ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
 # 3) Save content of temporary ipsets (if need). For renew/rollback.
 ###
 
-# 4) Restart firewalld "systemctl restart firewalld" (if need)
+# 4) Restart firewalld "systemctl restart firewalld" (if need).
     # If changed: firewalld.conf
 ###
 
-# 5) Recreate permanent ipsets (if need)
+# 5) Recreate permanent ipsets (if need).
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_permanent_ipsets-res.txt";
 fi;
 ###
 
-# 6) Recreate temporary ipsets (if need)
+# 6) Recreate temporary ipsets (if need).
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_temporary_ipsets-res.txt";
 fi;
 ###
 
-# 7) Remove fwzones files from "/etc/firewalld/zones/".
-    # Recreate firewalld zones.
-    # Restore std-fwzones files from "/usr/lib/firewalld/zones/".
-    # If need.
+# 7) Recreate firewalld zones (if need).
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_fw_zones-res.txt";
 fi;
 ###
 
-# 8) Remove policies files from "/etc/firewalld/policies/".
-    # Recreate firewalld policies.
-    # If need.
+# 8) Recreate firewalld policies (if need).
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" ]]; then
     "$HOME/ansible_helpers/conf_firewalld/recreate_policies.sh" &> "$HOME/ansible_helpers/conf_firewalld/recreate_policies-res.txt";    
 fi;
@@ -58,18 +53,18 @@ fi;
 # 9.2) Modify (add/del). If need to add new elements or delete some elements.
 ###
 
-# 10) Reload "firewall-cmd --reload" (if need)
+# 10) Reload "firewall-cmd --reload" (if need).
     # If changed: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh,
     # If executed: restore_permanent_ipsets_content.sh, modify_permanent_ipsets_content.sh
 ###
 
-# 11) Renew temporary ipsets content after recreate (if need)
+# 11) Renew temporary ipsets content after recreate (if need).
 # 11.1) Restore prev. If just restore content after recreate temporary ipsets.
     # Only for cases with changing ipset-list-params except "ipset_name" and/or "ipset_type".
 # 11.2) Modify (add/del). If need to add new elements or delete some elements.
 ###
 
-# 12) Rollback all changes (if need)
+# 12) Rollback all changes (if need).
 if [[ -s "$HOME/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" ]]; then
     nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 fi;
