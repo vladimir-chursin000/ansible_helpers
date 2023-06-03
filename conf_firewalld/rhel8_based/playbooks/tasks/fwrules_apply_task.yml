@@ -43,7 +43,7 @@
 
 ######################################################STEP 1. Check for locally generated fwrules files is exist (end)
 
-######################################################STEP 2. Create or remove some files at remote side (begin)
+######################################################STEP 2. Create dirs at remote side (begin)
 
 - name: create_dir "~/ansible_helpers/conf_firewalld" if not exists
   ansible.builtin.file:
@@ -56,13 +56,6 @@
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/appy_run_info"
     state: directory
-
-######
-
-- name: Remove file "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" at remote side before run "apply_fwrules.sh"
-  ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh"
-    state: absent
 
 ######################################################STEP 2. Create or remove some files at remote side (end)
 
@@ -152,5 +145,23 @@
 - name: create apply-run-info-file "recreate_temporary_ipsets_changed"
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_temporary_ipsets_changed
   when: copy_recreate_temporary_ipset_to_remote_res.changed==true
+
+######
+
+- name: create apply-run-info-file "recreate_fw_zones_changed"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_fw_zones_changed
+  when: copy_recreate_fw_zones_to_remote_res.changed==true
+
+######
+
+- name: create apply-run-info-file "recreate_policies_changed"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_policies_changed
+  when: copy_recreate_policies_to_remote_res.changed==true
+
+######
+
+- name: create apply-run-info-file "rollback_fwrules_need_run"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/rollback_fwrules_need_run
+  when: rollback_fwrules_changes_sh_exists.stat.exists==true
 
 ######################################################STEP 4. Create apply-run-info-files at remote side (end)
