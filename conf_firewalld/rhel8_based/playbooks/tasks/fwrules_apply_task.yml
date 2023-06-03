@@ -1,13 +1,21 @@
 # APPLY IPSET, ZONES, POLICIES
 ######################################################STEP 1. Check for locally generated fwrules files is exist (begin)
-#fill vars: recreate_ipsets_sh_exists, recreate_fw_zones_sh_exists, 
+#fill vars: recreate_permanent_ipsets_sh_exists, recreate_temporary_ipsets_sh_exists, recreate_fw_zones_sh_exists, 
 ##########  recreate_policies_sh_exists, rollback_fwrules_changes_sh_exists
 
-- name: "if exists 'INV-HOST_recreate_ipsets.sh' for apply"
+- name: "if exists 'INV-HOST_recreate_permanent_ipsets.sh' for apply"
   delegate_to: localhost
   stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_ipsets.sh"
-  register: recreate_ipsets_sh_exists
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_permanent_ipsets.sh"
+  register: recreate_permanent_ipsets_sh_exists
+
+######
+
+- name: "if exists 'INV-HOST_recreate_temporary_ipsets.sh' for apply"
+  delegate_to: localhost
+  stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_temporary_ipsets.sh"
+  register: recreate_temporary_ipsets_sh_exists
 
 ######
 
@@ -60,16 +68,29 @@
 
 ######################################################STEP 3. Copy recreated fwrules-files and rollback-script to remote if need (begin)
 
-- name: copy_recreate_ipset_to_remote
+- name: copy_recreate_permanent_ipset_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_ipsets.sh"
-    dest: "~/ansible_helpers/conf_firewalld/recreate_ipsets.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_permanent_ipsets.sh"
+    dest: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
     owner: root
     group: root
     mode: '0770'
     backup: yes
-  register: copy_recreate_ipset_to_remote_res
-  when: recreate_ipsets_sh_exists.stat.exists==true
+  register: copy_recreate_permanent_ipset_to_remote_res
+  when: recreate_permanent_ipsets_sh_exists.stat.exists==true
+
+######
+
+- name: copy_recreate_temporary_ipset_to_remote
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_temporary_ipsets.sh"
+    dest: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
+    owner: root
+    group: root
+    mode: '0770'
+    backup: yes
+  register: copy_recreate_temporary_ipset_to_remote_res
+  when: recreate_temporary_ipsets_sh_exists.stat.exists==true
 
 ######
 
