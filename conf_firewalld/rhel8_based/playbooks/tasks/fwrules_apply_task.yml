@@ -140,3 +140,13 @@
     mode: '0770'
 
 ######################################################STEP 3. Copy recreated fwrules-files and rollback-script to remote if need (end)
+
+######################################################STEP 4.
+
+- name: create apply-run-info-file "recreate_permanent_ipsets_changed"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_permanent_ipsets_changed
+  when: copy_recreate_permanent_ipset_to_remote_res.changed==true
+
+######
+
+######################################################STEP 4.
