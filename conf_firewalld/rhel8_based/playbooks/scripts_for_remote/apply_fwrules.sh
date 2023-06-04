@@ -10,6 +10,11 @@ APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
 
 ###VARS
 FWCONFIG_CHANGED_str='no';
+RECREATE_PERMANENT_IPSETS_CHANGED_str='no';
+RECREATE_TEMPORARY_IPSETS_CHANGED_str='no';
+RECREATE_FW_ZONES_CHANGED_str='no';
+RECREATE_POLICIES_CHANGED_str='no';
+ROLLBACK_FWRULES_NEED_RUN_str='no';
 ###VARS
 
 touch ~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now;
