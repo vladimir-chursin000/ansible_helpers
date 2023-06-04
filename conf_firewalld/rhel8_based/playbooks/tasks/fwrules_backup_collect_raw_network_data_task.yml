@@ -1,5 +1,5 @@
 - name: collect and save network data to user home dir
-  ansible.builtin.shell: ip -o addr > ~/ansible_helpers/conf_firewalld/ip_addr
+  ansible.builtin.shell: ip -o addr > ~/ansible_helpers/conf_firewalld/tmp/ip_addr
 
 ######################################################
 
@@ -14,7 +14,7 @@
 - name: fetch_raw_network_data
   ansible.builtin.fetch:
     flat: yes
-    src: "~/ansible_helpers/conf_firewalld/{{item}}"
+    src: "~/ansible_helpers/conf_firewalld/tmp/{{item}}"
     dest: "{{playbook_dir}}/fwrules_backup_from_remote/network_data/{{inventory_hostname}}_{{item}}"
   with_items:
     - "ip_addr"

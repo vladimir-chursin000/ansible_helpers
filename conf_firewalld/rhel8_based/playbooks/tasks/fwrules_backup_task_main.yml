@@ -12,30 +12,37 @@
 
 ######################################################
 
-- name: Remove file '~/ansible_helpers/conf_firewalld/etc_firewalld.zip' before archive '/etc/firewalld'
+- name: create_dir "ansible_helpers/conf_firewalld/tmp" if not exists
   ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld/etc_firewalld.zip"
+    path: "~/ansible_helpers/conf_firewalld/tmp"
+    state: directory
+
+######################################################
+
+- name: Remove file '~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip' before archive '/etc/firewalld'
+  ansible.builtin.file:
+    path: "~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip"
     state: absent
 
 ######################################################
 
-- name: Compress directory '/etc/firewalld' into '~/ansible_helpers/conf_firewalld/etc_firewalld.zip'
+- name: Compress directory '/etc/firewalld' into '~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip'
   archive:
     path: /etc/firewalld
-    dest: "~/ansible_helpers/conf_firewalld/etc_firewalld.zip"
+    dest: "~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip"
     format: zip
 
 ######################################################
 
 - name: collect and save output of 'firewall-cmd --list-all-zones'
-  ansible.builtin.shell: firewall-cmd --list-all-zones > ~/ansible_helpers/conf_firewalld/fw_list_all_zones.txt
+  ansible.builtin.shell: firewall-cmd --list-all-zones > ~/ansible_helpers/conf_firewalld/tmp/fw_list_all_zones.txt
 
 ######################################################
 
 - name: fetch fw-backup-files
   ansible.builtin.fetch:
     flat: yes
-    src: "~/ansible_helpers/conf_firewalld/{{item}}"
+    src: "~/ansible_helpers/conf_firewalld/tmp/{{item}}"
     dest: "{{playbook_dir}}/fwrules_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
   with_items:
     - "fw_list_all_zones.txt"
