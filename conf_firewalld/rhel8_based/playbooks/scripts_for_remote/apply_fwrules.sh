@@ -17,6 +17,32 @@ RECREATE_POLICIES_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
 ###VARS
 
+###APPLY_RUN_INFO read
+if [[ -s "$APPLY_RUN_INFO_DIR_str/fwconfig_changed" ]]; then
+    FWCONFIG_CHANGED_str='yes';
+fi;
+
+if [[ -s "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
+    RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
+fi;
+
+if [[ -s "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
+    RECREATE_TEMPORARY_IPSETS_CHANGED_str='yes';
+fi;
+
+if [[ -s "$APPLY_RUN_INFO_DIR_str/recreate_fw_zones_changed" ]]; then
+    RECREATE_FW_ZONES_CHANGED_str='yes';
+fi;
+
+if [[ -s "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
+    RECREATE_POLICIES_CHANGED_str='yes';
+fi;
+
+if [[ -s "$APPLY_RUN_INFO_DIR_str/rollback_fwrules_need_run" ]]; then
+    ROLLBACK_FWRULES_NEED_RUN_str='yes';
+fi;
+###APPLY_RUN_INFO read
+
 touch "$SELF_DIR_str/apply_fwrules_is_run_now";
 
 # 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need). For rollback.
