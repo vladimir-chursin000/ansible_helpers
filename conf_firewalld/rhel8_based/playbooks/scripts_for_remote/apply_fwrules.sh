@@ -61,25 +61,25 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###
 
 # 5) Recreate permanent ipsets (if need).
-#if [[ -s "$SELF_DIR_str/recreate_permanent_ipsets.sh" ]]; then
+#if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_permanent_ipsets.sh" &> "$SELF_DIR_str/recreate_permanent_ipsets-res.txt";
 #fi;
 ###
 
 # 6) Recreate temporary ipsets (if need).
-#if [[ -s "$SELF_DIR_str/recreate_temporary_ipsets.sh" ]]; then
+#if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_temporary_ipsets.sh" &> "$SELF_DIR_str/recreate_temporary_ipsets-res.txt";
 #fi;
 ###
 
 # 7) Recreate firewalld zones (if need).
-#if [[ -s "$SELF_DIR_str/recreate_fw_zones.sh" ]]; then
+#if [[ "$RECREATE_FW_ZONES_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_fw_zones.sh" &> "$SELF_DIR_str/recreate_fw_zones-res.txt";
 #fi;
 ###
 
 # 8) Recreate firewalld policies (if need).
-#if [[ -s "$SELF_DIR_str/recreate_policies.sh" ]]; then
+#if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_policies.sh" &> "$SELF_DIR_str/recreate_policies-res.txt";    
 #fi;
 ###
