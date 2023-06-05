@@ -16,6 +16,7 @@ RECREATE_TEMPORARY_IPSETS_CHANGED_str='no';
 RECREATE_FW_ZONES_CHANGED_str='no';
 RECREATE_POLICIES_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
+RELOAD_NEED_RUN_str='no';
 ###VARS
 
 ###APPLY_RUN_INFO read
@@ -25,18 +26,22 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
+    RELOAD_NEED_RUN_str='yes';
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
     RECREATE_TEMPORARY_IPSETS_CHANGED_str='yes';
+    RELOAD_NEED_RUN_str='yes';
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_fw_zones_changed" ]]; then
     RECREATE_FW_ZONES_CHANGED_str='yes';
+    RELOAD_NEED_RUN_str='yes';
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
     RECREATE_POLICIES_CHANGED_str='yes';
+    RELOAD_NEED_RUN_str='yes';
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/rollback_fwrules_need_run" ]]; then
@@ -58,6 +63,9 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 
 # 4) Restart firewalld "systemctl restart firewalld" (if need).
     # If changed: firewalld.conf
+#if [[ "$FWCONFIG_CHANGED_str" == "yes" ]]; then
+#    systemctl restart firewalld;
+#fi;
 ###
 
 # 5) Recreate permanent ipsets (if need).
@@ -96,6 +104,9 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 # 10) Reload "firewall-cmd --reload" (if need).
     # If changed: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh,
     # If executed: restore_permanent_ipsets_content.sh, modify_permanent_ipsets_content.sh
+#if [[ "$RELOAD_NEED_RUN_str" == "yes" ]]; then
+#    firewall-cmd --reload;
+#fi;
 ###
 
 # 11) Renew temporary ipsets content after recreate (if need).
@@ -105,7 +116,7 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###
 
 # 12) Rollback all changes (if need).
-#if [[ -s "$HOME/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh" ]]; then
+#if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 #    nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 #fi;
 ###
