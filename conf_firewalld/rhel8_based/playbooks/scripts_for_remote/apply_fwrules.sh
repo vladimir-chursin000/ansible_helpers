@@ -7,6 +7,7 @@ touch "$SELF_DIR_str/apply_fwrules_is_run_now";
 
 ###CFG
 APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
+BACKUP_FOR_ROLLBACK_DIR_str="$SELF_DIR_str/fwrules_backup_now";
 ###CFG
 
 ###VARS
@@ -52,7 +53,11 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###APPLY_RUN_INFO read
 
 # 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need). For rollback.
-    # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.    
+    # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.
+#if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
+#    mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
+#    cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
+#fi;
 ###
 
 # 2) Save content of permanent ipsets (if need). For renew.
