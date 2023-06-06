@@ -52,7 +52,8 @@ fi;
 rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###APPLY_RUN_INFO read
 
-# 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need). For rollback.
+# 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need).
+    # For rollback of permanent content/rules. Exception - content of a temporary ipsets.
     # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.
 #if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 #    mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
@@ -60,53 +61,50 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 #fi;
 ###
 
-# 2) Save content of permanent ipsets (if need). For renew.
+# 2) Save content of temporary ipsets (if need). For renew/rollback.
 ###
 
-# 3) Save content of temporary ipsets (if need). For renew/rollback.
-###
-
-# 4) Restart firewalld "systemctl restart firewalld" (if need).
+# 3) Restart firewalld "systemctl restart firewalld" (if need).
     # If changed: firewalld.conf
 #if [[ "$FWCONFIG_CHANGED_str" == "yes" ]]; then
 #    systemctl restart firewalld;
 #fi;
 ###
 
-# 5) Recreate permanent ipsets (if need).
+# 4) Recreate permanent ipsets (if need).
 #if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_permanent_ipsets.sh" &> "$SELF_DIR_str/recreate_permanent_ipsets-res.txt";
 #fi;
 ###
 
-# 6) Recreate temporary ipsets (if need).
+# 5) Recreate temporary ipsets (if need).
 #if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_temporary_ipsets.sh" &> "$SELF_DIR_str/recreate_temporary_ipsets-res.txt";
 #fi;
 ###
 
-# 7) Recreate firewalld zones (if need).
+# 6) Recreate firewalld zones (if need).
 #if [[ "$RECREATE_FW_ZONES_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_fw_zones.sh" &> "$SELF_DIR_str/recreate_fw_zones-res.txt";
 #fi;
 ###
 
-# 8) Recreate firewalld policies (if need).
+# 7) Recreate firewalld policies (if need).
 #if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/recreate_policies.sh" &> "$SELF_DIR_str/recreate_policies-res.txt";    
 #fi;
 ###
 
-# 9) Renew (restore prev/modify) permanent ipsets content (if need).
-# 9.1) Restore prev. If just restore content after recreate permanent ipsets.
+# 8) Renew (restore prev/modify) permanent ipsets content (if need).
+# 8.1) Restore prev. If just restore content after recreate permanent ipsets.
     # Only for cases with changing ipset-list-params except "ipset_name" and/or "ipset_type".
 #if [[ -s "$SELF_DIR_str/restore_permanent_ipsets_content.sh" ]]; then
 #    "$SELF_DIR_str/restore_permanent_ipsets_content.sh" &> "$SELF_DIR_str/restore_permanent_ipsets_content-res.txt";
 #fi;
-# 9.2) Modify (add/del). If need to add new elements or delete some elements.
+# 8.2) Modify (add/del). If need to add new elements or delete some elements.
 ###
 
-# 10) Reload "firewall-cmd --reload" (if need).
+# 9) Reload "firewall-cmd --reload" (if need).
     # If changed: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh,
     # If executed: restore_permanent_ipsets_content.sh, modify_permanent_ipsets_content.sh
 #if [[ "$RELOAD_NEED_RUN_str" == "yes" ]]; then
@@ -114,13 +112,13 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 #fi;
 ###
 
-# 11) Renew temporary ipsets content after recreate (if need).
-# 11.1) Restore prev. If just restore content after recreate temporary ipsets.
+# 10) Renew temporary ipsets content after recreate (if need).
+# 10.1) Restore prev. If just restore content after recreate temporary ipsets.
     # Only for cases with changing ipset-list-params except "ipset_name" and/or "ipset_type".
-# 11.2) Modify (add/del). If need to add new elements or delete some elements.
+# 10.2) Modify (add/del). If need to add new elements or delete some elements.
 ###
 
-# 12) Rollback all changes (if need).
+# 11) Rollback all changes (if need).
 #if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 #    nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 #fi;
