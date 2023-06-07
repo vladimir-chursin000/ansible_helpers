@@ -162,14 +162,14 @@ sub generate_shell_script_for_recreate_ipsets {
     # create script "recreate_permanent_ipsets" for copy to remote hosts (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         #hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_ipsets.sh';
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_permanent_ipsets.sh';
         
-        if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_ipsets.sh'
-	    # 1) add lines with with commands for recreate temporary and permanent ipsets
+        if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_permanent_ipsets.sh'
+	    # 1) add lines with with commands for recreate permanent ipsets
             @wr_arr_l=@{$wr_hash_permanent_l{$hkey0_l}}; 
     
             # 2) form array of commands for remove ipset xml-s
-		#(add lines before 'commands for recreate temporary and permanent ipsets')
+		#(add lines before 'commands for recreate permanent ipsets')
                 #rm -rf  /etc/firewalld/ipsets/* +
                 #or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
             @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;',' ',@wr_arr_l);
@@ -246,7 +246,7 @@ sub generate_shell_script_for_recreate_ipsets {
 	    #!!!}
 	    #!!!### (7-end)
         }
-        elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_ipsets_conf_action'}=~/^remove$/ ) {
+        elsif ( !exists($wr_hash_permanent_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_ipsets_conf_action'}=~/^remove$/ ) {
             @wr_arr_l=(
                 '#!/usr/bin/bash',
                 ' ',
@@ -257,7 +257,7 @@ sub generate_shell_script_for_recreate_ipsets {
                 ' '
             );
         }
-        else { # if not exists content for 'recreate_ipsets.sh'
+        else { # if not exists content for 'recreate_permanent_ipsets.sh'
             @wr_arr_l=(
                 '#!/usr/bin/bash',
                 ' ',
