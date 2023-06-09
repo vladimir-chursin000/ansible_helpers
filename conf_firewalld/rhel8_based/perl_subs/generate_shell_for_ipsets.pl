@@ -167,30 +167,23 @@ sub generate_shell_script_for_recreate_ipsets {
         if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_permanent_ipsets.sh'
 	    # 1) add lines with with commands for recreate permanent ipsets
             @wr_arr_l=@{$wr_hash_permanent_l{$hkey0_l}}; 
-    
-            # 2) form array of commands for remove ipset xml-s
-		#(add lines before 'commands for recreate permanent ipsets')
-                #rm -rf  /etc/firewalld/ipsets/* +
-                #or "firewall-cmd --permanent --delete-ipset=some_ipset_name"
-            @wr_arr_l=(' ','rm -rf  /etc/firewalld/ipsets/*;',' ',@wr_arr_l);
-            ###
-    
-            # 3) form array of commands for get and save ipset entries and save it to the '$remote_dir_for_absible_helper_l'
-                #"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
-                ###
-                #%permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
-                    #key=inv-host, value=array of permanent ipset names at current inv-host
-            if ( exists($permanet_ipset_names_l{$hkey0_l}) ) { # for permanent ipsets
-                foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
-                    #arr_el0_l=permanent ipset name
-                    $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
-                    $wr_str_l="if [ -s \"/etc/firewalld/ipsets/$arr_el0_l.xml\" ]; then firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $ipset_list_l; fi;";
-                    @wr_arr_l=($wr_str_l,@wr_arr_l);
-            
-                    $wr_str_l=undef;
-                    $ipset_list_l=undef;
-                }
-            }
+	
+            ## 3) form array of commands for get and save ipset entries and save it to the '$remote_dir_for_absible_helper_l'
+            #    #"firewall-cmd --permanent --ipset=some_ipset_name --get-entries"
+            #    ###
+            #    #%permanet_ipset_names_l=(); # permanent ipset names (not tmplt names) at each inv-host
+            #        #key=inv-host, value=array of permanent ipset names at current inv-host
+            #if ( exists($permanet_ipset_names_l{$hkey0_l}) ) { # for permanent ipsets
+            #    foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
+            #        #arr_el0_l=permanent ipset name
+            #        $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
+            #        $wr_str_l="if [ -s \"/etc/firewalld/ipsets/$arr_el0_l.xml\" ]; then firewall-cmd --permanent --ipset=$arr_el0_l --get-entries > $ipset_list_l; fi;";
+            #        @wr_arr_l=($wr_str_l,@wr_arr_l);
+            #
+            #        $wr_str_l=undef;
+            #        $ipset_list_l=undef;
+            #    }
+            #}
 	    
 	    #!!!#"ipset list some_ipset_name > some_ipset_name.txt"
 	    #!!!#readarray -t ARRAY < <(ipset list temporary_ipset | grep -i timeout | grep -v 'Header');
@@ -208,21 +201,21 @@ sub generate_shell_script_for_recreate_ipsets {
 	    #!!!}
             ### (3-end)
         
-            # 4) form array of commands for add saved entries to permanent ipsets (for add to end of the wr_array_l)
-                #"firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt"
-            if ( exists($permanet_ipset_names_l{$hkey0_l}) ) { # for permanent ipsets
-                foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
-                    #arr_el0_l=permanent ipset name
-                    $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
-                    $wr_str_l="if [ -s \"$ipset_list_l\" ]; then firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$ipset_list_l\"; rm -f $ipset_list_l; fi;";
-                    push(@wr_arr_l,$wr_str_l);
-    
-                    $wr_str_l=undef;
-                    $ipset_list_l=undef;
-                }
-            }
+            ## 4) form array of commands for add saved entries to permanent ipsets (for add to end of the wr_array_l)
+            #    #"firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt"
+            #if ( exists($permanet_ipset_names_l{$hkey0_l}) ) { # for permanent ipsets
+            #    foreach $arr_el0_l ( @{$permanet_ipset_names_l{$hkey0_l}} ) {
+            #        #arr_el0_l=permanent ipset name
+            #        $ipset_list_l="$remote_dir_for_absible_helper_l/$arr_el0_l".'-list.txt';
+            #        $wr_str_l="if [ -s \"$ipset_list_l\" ]; then firewall-cmd --permanent --ipset=$arr_el0_l --add-entries-from-file=\"$ipset_list_l\"; rm -f $ipset_list_l; fi;";
+            #        push(@wr_arr_l,$wr_str_l);
+	    #
+            #        $wr_str_l=undef;
+            #        $ipset_list_l=undef;
+            #    }
+            #}
             ### (4-end)
-
+	
             # 5) insert compiler path at the begin of the script
             @wr_arr_l=(
                 '#!/usr/bin/bash',
