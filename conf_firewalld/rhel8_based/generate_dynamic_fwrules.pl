@@ -670,6 +670,25 @@ while ( 1 ) { # ONE RUN CYCLE begin
     #print Dumper(\%h88_conf_policies_FIN_hash_g);
     
     ######
+    #
+    #%input_hash4proc_g=(
+    #    'inventory_hosts_href'=>\%inventory_hosts_g,
+    #    'divisions_for_inv_hosts_href'=>\%h00_conf_divisions_for_inv_hosts_hash_g,
+    #    'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+    #    'h65_conf_initial_ipsets_content_FIN_href'=>\%h65_conf_initial_ipsets_content_FIN_hash_g,
+    #    'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
+    #);
+
+    #$exec_res_g=&apply_IPSET_files_operation_main($remote_ipset_dir_for_absible_helper_g,$dyn_ipsets_files_dir_g,$ipset_input_dir_g,$ipset_actual_data_dir_g,\%input_hash4proc_g);
+    ##$remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l
+    #if ( $exec_res_g=~/^fail/ ) {
+    #    $exec_status_g='FAIL';
+    #    print "$exec_res_g\n";
+    #    last;
+    #}
+    #$exec_res_g=undef;
+    #
+    ######
     
     $exec_res_g=&generate_firewall_configs($dyn_fwrules_files_dir_g,\%h00_conf_firewalld_hash_g);
     #$conf_firewalld_href_l
@@ -753,25 +772,6 @@ while ( 1 ) { # ONE RUN CYCLE begin
     }
     $exec_res_g=undef;
     
-    ######
-    #
-    #%input_hash4proc_g=(
-    #    'inventory_hosts_href'=>\%inventory_hosts_g,
-    #    'divisions_for_inv_hosts_href'=>\%h00_conf_divisions_for_inv_hosts_hash_g,
-    #    'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
-    #    'h65_conf_initial_ipsets_content_FIN_href'=>\%h65_conf_initial_ipsets_content_FIN_hash_g,
-    #    'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
-    #);
-
-    #$exec_res_g=&apply_IPSET_files_operation_main($remote_ipset_dir_for_absible_helper_g,$dyn_ipsets_files_dir_g,$ipset_input_dir_g,$ipset_actual_data_dir_g,\%input_hash4proc_g);
-    ##$remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l
-    #if ( $exec_res_g=~/^fail/ ) {
-    #    $exec_status_g='FAIL';
-    #    print "$exec_res_g\n";
-    #    last;
-    #}
-    #$exec_res_g=undef;
-    #
     ######
     
     last;

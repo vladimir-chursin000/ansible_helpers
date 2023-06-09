@@ -272,12 +272,12 @@ sub generate_shell_script_for_recreate_ipsets {
     ($hkey0_l,$hval0_l)=(undef,undef);
     # create script "recreate_permanent_ipsets" for copy to remote hosts (END)
     
-    # create scripts for recreate temporary ipsets for copy to remote hosts (BEGIN)
+    # create script for recreate temporary ipsets (and ipset_names_list + content) for copy to remote hosts (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         #hkey0_l=inv-host
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_temporary_ipsets.sh';
     }
-    # create scripts for recreate temporary ipsets for copy to remote hosts (END)
+    # create script for recreate temporary ipsets (and ipset_names_list + content) for copy to remote hosts (END)
 
     return $return_str_l;
 }
