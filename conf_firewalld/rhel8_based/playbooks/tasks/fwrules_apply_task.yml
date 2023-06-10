@@ -78,6 +78,26 @@
 
 ######################################################STEP 4. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (begin)
 
+- name: Make copy of "recreate_permanent_ipset.sh" at remote if need
+  ansible.builtin.copy:
+    src: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
+    dest: "~/ansible_helpers/conf_firewalld/prev_recreate_permanent_ipsets.sh"
+    remote_src: yes
+    force: yes
+    mode: '0770'
+  when: recreate_permanent_ipsets_sh_exists_at_remote.stat.exists==true
+
+######
+
+- name: Make copy of "recreate_temporary_ipset.sh" at remote
+  ansible.builtin.copy:
+    src: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
+    dest: "~/ansible_helpers/conf_firewalld/prev_recreate_temporary_ipsets.sh"
+    remote_src: yes
+    force: yes
+    mode: '0770'
+  when: recreate_temporary_ipsets_sh_exists_at_remote.stat.exists==true
+
 ######################################################STEP 4. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (end)
 
 ######################################################STEP 5. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (begin)
@@ -86,8 +106,6 @@
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_permanent_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
-    owner: root
-    group: root
     mode: '0770'
     backup: yes
   register: copy_recreate_permanent_ipset_to_remote_res
@@ -99,8 +117,6 @@
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_temporary_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
-    owner: root
-    group: root
     mode: '0770'
     backup: yes
   register: copy_recreate_temporary_ipset_to_remote_res
@@ -112,8 +128,6 @@
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_fw_zones.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
-    owner: root
-    group: root
     mode: '0770'
     backup: yes
   register: copy_recreate_fw_zones_to_remote_res
@@ -149,8 +163,6 @@
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/apply_fwrules.sh"
     dest: "~/ansible_helpers/conf_firewalld/apply_fwrules.sh"
-    owner: root
-    group: root
     mode: '0770'
 
 ######################################################STEP 5. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (end)
@@ -183,6 +195,6 @@
 
 - name: create apply-run-info-file "rollback_fwrules_need_run" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/rollback_fwrules_need_run
-  when: rollback_fwrules_changes_sh_exists.stat.exists==true
+  when: rollback_fwrules_changes_sh_exists_at_local.stat.exists==true
 
 ######################################################STEP 6. Create apply-run-info-files at remote side (end)
