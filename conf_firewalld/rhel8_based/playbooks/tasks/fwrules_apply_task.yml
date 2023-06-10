@@ -1,7 +1,7 @@
 # APPLY IPSET, ZONES, POLICIES
 ######################################################STEP 1. Check for locally generated fwrules files is exist (begin)
-#fill vars: recreate_permanent_ipsets_sh_exists_at_local, recreate_temporary_ipsets_sh_exists_at_local, 
-##### recreate_fw_zones_sh_exists_at_local, recreate_policies_sh_exists_at_local, rollback_fwrules_changes_sh_exists_at_local
+# fill vars: recreate_permanent_ipsets_sh_exists_at_local, recreate_temporary_ipsets_sh_exists_at_local, 
+# recreate_fw_zones_sh_exists_at_local, recreate_policies_sh_exists_at_local, rollback_fwrules_changes_sh_exists_at_local
 
 - name: "if exists at localhost 'INV-HOST_recreate_permanent_ipsets.sh' for apply"
   delegate_to: localhost
@@ -44,7 +44,7 @@
 ######################################################STEP 1. Check for locally generated fwrules files is exist (end)
 
 ######################################################STEP 2. Check for remote files is exist (begin)
-#fill vars: recreate_permanent_ipsets_sh_exists_at_remote, recreate_temporary_ipsets_sh_exists_at_remote
+# fill vars: recreate_permanent_ipsets_sh_exists_at_remote, recreate_temporary_ipsets_sh_exists_at_remote
 
 - name: "if exists at remote 'recreate_permanent_ipsets.sh' for apply"
   ansible.builtin.stat:
@@ -153,31 +153,31 @@
 
 ######################################################STEP 5. Create apply-run-info-files at remote side (begin)
 
-- name: create apply-run-info-file "recreate_permanent_ipsets_changed"
+- name: create apply-run-info-file "recreate_permanent_ipsets_changed" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_permanent_ipsets_changed
   when: copy_recreate_permanent_ipset_to_remote_res.changed==true
 
 ######
 
-- name: create apply-run-info-file "recreate_temporary_ipsets_changed"
+- name: create apply-run-info-file "recreate_temporary_ipsets_changed" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_temporary_ipsets_changed
   when: copy_recreate_temporary_ipset_to_remote_res.changed==true
 
 ######
 
-- name: create apply-run-info-file "recreate_fw_zones_changed"
+- name: create apply-run-info-file "recreate_fw_zones_changed" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_fw_zones_changed
   when: copy_recreate_fw_zones_to_remote_res.changed==true
 
 ######
 
-- name: create apply-run-info-file "recreate_policies_changed"
+- name: create apply-run-info-file "recreate_policies_changed" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_policies_changed
   when: copy_recreate_policies_to_remote_res.changed==true
 
 ######
 
-- name: create apply-run-info-file "rollback_fwrules_need_run"
+- name: create apply-run-info-file "rollback_fwrules_need_run" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/rollback_fwrules_need_run
   when: rollback_fwrules_changes_sh_exists.stat.exists==true
 
