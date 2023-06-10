@@ -62,21 +62,25 @@
 
 ######################################################STEP 3. Create dirs at remote side (begin)
 
-- name: create_dir "~/ansible_helpers/conf_firewalld" if not exists
+- name: create_dir "~/ansible_helpers/conf_firewalld" at remote if not exists
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld"
     state: directory
 
 ######
 
-- name: create_dir "ansible_helpers/conf_firewalld/apply_run_info" if not exists
+- name: create_dir "ansible_helpers/conf_firewalld/apply_run_info" at remote if not exists
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/apply_run_info"
     state: directory
 
-######################################################STEP 3. Create or remove some files at remote side (end)
+######################################################STEP 3. Create dirs at remote side (end)
 
-######################################################STEP 4. Copy recreated fwrules-files and rollback-script to remote if need (begin)
+######################################################STEP 4. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (begin)
+
+######################################################STEP 4. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (end)
+
+######################################################STEP 5. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (begin)
 
 - name: copy_recreate_permanent_ipset_to_remote
   ansible.builtin.copy:
@@ -149,9 +153,9 @@
     group: root
     mode: '0770'
 
-######################################################STEP 4. Copy recreated fwrules-files and rollback-script to remote if need (end)
+######################################################STEP 5. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (end)
 
-######################################################STEP 5. Create apply-run-info-files at remote side (begin)
+######################################################STEP 6. Create apply-run-info-files at remote side (begin)
 
 - name: create apply-run-info-file "recreate_permanent_ipsets_changed" at remote
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_permanent_ipsets_changed
@@ -181,4 +185,4 @@
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/rollback_fwrules_need_run
   when: rollback_fwrules_changes_sh_exists.stat.exists==true
 
-######################################################STEP 5. Create apply-run-info-files at remote side (end)
+######################################################STEP 6. Create apply-run-info-files at remote side (end)
