@@ -3,47 +3,51 @@
 #fill vars: recreate_permanent_ipsets_sh_exists, recreate_temporary_ipsets_sh_exists, recreate_fw_zones_sh_exists, 
 ##########  recreate_policies_sh_exists, rollback_fwrules_changes_sh_exists
 
-- name: "if exists 'INV-HOST_recreate_permanent_ipsets.sh' for apply"
+- name: "if exists at localhost 'INV-HOST_recreate_permanent_ipsets.sh' for apply"
   delegate_to: localhost
   stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_permanent_ipsets.sh"
-  register: recreate_permanent_ipsets_sh_exists
+  register: recreate_permanent_ipsets_sh_exists_at_local
 
 ######
 
-- name: "if exists 'INV-HOST_recreate_temporary_ipsets.sh' for apply"
+- name: "if exists at localhost 'INV-HOST_recreate_temporary_ipsets.sh' for apply"
   delegate_to: localhost
   stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_temporary_ipsets.sh"
-  register: recreate_temporary_ipsets_sh_exists
+  register: recreate_temporary_ipsets_sh_exists_at_local
 
 ######
 
-- name: "if exists 'INV-HOST_recreate_fw_zones.sh' for apply"
+- name: "if exists at localhost 'INV-HOST_recreate_fw_zones.sh' for apply"
   delegate_to: localhost
   stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_fw_zones.sh"
-  register: recreate_fw_zones_sh_exists
+  register: recreate_fw_zones_sh_exists_at_local
 
 ######
 
-- name: "if exists 'INV-HOST_recreate_policies.sh' for apply"
+- name: "if exists at localhost 'INV-HOST_recreate_policies.sh' for apply"
   delegate_to: localhost
   stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_policies.sh"
-  register: recreate_policies_sh_exists
+  register: recreate_policies_sh_exists_at_local
 
 ######
 
-- name: "if exists 'INV-HOST_rollback_fwrules_changes.sh'"
+- name: "if exists at localhost 'INV-HOST_rollback_fwrules_changes.sh'"
   delegate_to: localhost
   stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rollback_fwrules_changes.sh"
-  register: rollback_fwrules_changes_sh_exists
+  register: rollback_fwrules_changes_sh_exists_at_local
 
 ######################################################STEP 1. Check for locally generated fwrules files is exist (end)
 
-######################################################STEP 2. Create dirs at remote side (begin)
+######################################################STEP 2. Check for remote files is exist (begin)
+
+######################################################STEP 2. Check for remote files is exist (end)
+
+######################################################STEP 3. Create dirs at remote side (begin)
 
 - name: create_dir "~/ansible_helpers/conf_firewalld" if not exists
   ansible.builtin.file:
@@ -57,9 +61,9 @@
     path: "~/ansible_helpers/conf_firewalld/apply_run_info"
     state: directory
 
-######################################################STEP 2. Create or remove some files at remote side (end)
+######################################################STEP 3. Create or remove some files at remote side (end)
 
-######################################################STEP 3. Copy recreated fwrules-files and rollback-script to remote if need (begin)
+######################################################STEP 4. Copy recreated fwrules-files and rollback-script to remote if need (begin)
 
 - name: copy_recreate_permanent_ipset_to_remote
   ansible.builtin.copy:
@@ -70,7 +74,7 @@
     mode: '0770'
     backup: yes
   register: copy_recreate_permanent_ipset_to_remote_res
-  when: recreate_permanent_ipsets_sh_exists.stat.exists==true
+  when: recreate_permanent_ipsets_sh_exists_at_local.stat.exists==true
 
 ######
 
@@ -83,7 +87,7 @@
     mode: '0770'
     backup: yes
   register: copy_recreate_temporary_ipset_to_remote_res
-  when: recreate_temporary_ipsets_sh_exists.stat.exists==true
+  when: recreate_temporary_ipsets_sh_exists_at_local.stat.exists==true
 
 ######
 
@@ -96,7 +100,7 @@
     mode: '0770'
     backup: yes
   register: copy_recreate_fw_zones_to_remote_res
-  when: recreate_fw_zones_sh_exists.stat.exists==true
+  when: recreate_fw_zones_sh_exists_at_local.stat.exists==true
 
 ######
 
@@ -109,7 +113,7 @@
     mode: '0770'
     backup: yes
   register: copy_recreate_policies_to_remote_res
-  when: recreate_policies_sh_exists.stat.exists==true
+  when: recreate_policies_sh_exists_at_local.stat.exists==true
 
 ######
 
@@ -120,7 +124,7 @@
     owner: root
     group: root
     mode: '0770'
-  when: rollback_fwrules_changes_sh_exists.stat.exists==true
+  when: rollback_fwrules_changes_sh_exists_at_local.stat.exists==true
 
 ######
 
@@ -132,9 +136,9 @@
     group: root
     mode: '0770'
 
-######################################################STEP 3. Copy recreated fwrules-files and rollback-script to remote if need (end)
+######################################################STEP 4. Copy recreated fwrules-files and rollback-script to remote if need (end)
 
-######################################################STEP 4. Create apply-run-info-files at remote side (begin)
+######################################################STEP 5. Create apply-run-info-files at remote side (begin)
 
 - name: create apply-run-info-file "recreate_permanent_ipsets_changed"
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_permanent_ipsets_changed
@@ -164,4 +168,4 @@
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/rollback_fwrules_need_run
   when: rollback_fwrules_changes_sh_exists.stat.exists==true
 
-######################################################STEP 4. Create apply-run-info-files at remote side (end)
+######################################################STEP 5. Create apply-run-info-files at remote side (end)
