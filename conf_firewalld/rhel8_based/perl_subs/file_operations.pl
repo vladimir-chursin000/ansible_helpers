@@ -23,22 +23,7 @@ sub init_files_ops_with_local_dyn_fwrules_files_dir {
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     
     system("mkdir -p $dyn_fwrules_files_dir_l");
-    system("rm -rf $dyn_fwrules_files_dir_l/*.sh");
-    system("rm -rf $dyn_fwrules_files_dir_l/*.conf");
-}
-
-sub init_files_ops_with_local_dyn_ipsets_files_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'
-    my ($dyn_ipsets_files_dir_l)=@_;
-    
-    my $proc_name_l=(caller(0))[3];
-    
-    system("mkdir -p $dyn_ipsets_files_dir_l");
-    system("mkdir -p $dyn_ipsets_files_dir_l/remove_queue");
-	# for copy content of dir '../remove_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/remove_queue'
-    system("mkdir -p $dyn_ipsets_files_dir_l/add_queue");
-	# for copy content of dir '../add_queue/inv-host' to remote host to dir '~/ansible_helpers/conf_firewalld/ipset_files/add_queue'
-    system("rm -rf $dyn_ipsets_files_dir_l/remove_queue/*");
-    system("rm -rf $dyn_ipsets_files_dir_l/add_queue/*");
+    system("rm -rf $dyn_fwrules_files_dir_l/*");
 }
 
 sub init_create_dirs_at_local_ipset_input_dir { # used at 'apply_IPSET_files_operation.pl -> apply_IPSET_files_operation_main'

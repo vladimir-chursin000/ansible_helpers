@@ -887,7 +887,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
 	#$hkey0_l=inv-host
 	    #subkeys: custom, standard, custom_remove, std_recreate
-	$wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_fw_zones.sh';
+	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+	$wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/recreate_fw_zones.sh';
 	
 	if ( exists($wr_hash_l{$hkey0_l}) ) {    
 	    @wr_arr_l=(@begin_script_arr_l);

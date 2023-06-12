@@ -162,7 +162,8 @@ sub generate_shell_script_for_recreate_ipsets {
     # create script "recreate_permanent_ipsets" (and ipset_names_list + content) for copy to remote hosts (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         #hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_permanent_ipsets.sh';
+	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/recreate_permanent_ipsets.sh';
         
         if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_permanent_ipsets.sh' (begin)
 	    # 1) add lines with with commands for recreate permanent ipsets
@@ -216,7 +217,8 @@ sub generate_shell_script_for_recreate_ipsets {
     # create script for recreate temporary ipsets (and ipset_names_list + content) for copy to remote hosts (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         #hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_recreate_temporary_ipsets.sh';
+	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/recreate_temporary_ipsets.sh';
 	
 	if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_temporary_ipsets.sh'
 	    # 1) add lines with with commands for recreate temporary ipsets

@@ -6,7 +6,7 @@
 - name: "if exists at localhost 'INV-HOST_recreate_permanent_ipsets.sh' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_permanent_ipsets.sh"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_permanent_ipsets.sh"
   register: recreate_permanent_ipsets_sh_exists_at_local
 
 ######
@@ -14,7 +14,7 @@
 - name: "if exists at localhost 'INV-HOST_recreate_temporary_ipsets.sh' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_temporary_ipsets.sh"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_temporary_ipsets.sh"
   register: recreate_temporary_ipsets_sh_exists_at_local
 
 ######
@@ -22,7 +22,7 @@
 - name: "if exists at localhost 'INV-HOST_recreate_fw_zones.sh' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_fw_zones.sh"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_fw_zones.sh"
   register: recreate_fw_zones_sh_exists_at_local
 
 ######
@@ -30,7 +30,7 @@
 - name: "if exists at localhost 'INV-HOST_recreate_policies.sh' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_policies.sh"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_policies.sh"
   register: recreate_policies_sh_exists_at_local
 
 ######
@@ -38,7 +38,7 @@
 - name: "if exists at localhost 'INV-HOST_rollback_fwrules_changes.sh'"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rollback_fwrules_changes.sh"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/rollback_fwrules_changes.sh"
   register: rollback_fwrules_changes_sh_exists_at_local
 
 ######################################################STEP 1. Check for locally generated fwrules files is exist (end)
@@ -104,7 +104,7 @@
 
 - name: copy_recreate_permanent_ipset_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_permanent_ipsets.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_permanent_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
     mode: '0770'
     backup: yes
@@ -115,7 +115,7 @@
 
 - name: copy_recreate_temporary_ipset_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_temporary_ipsets.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_temporary_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
     mode: '0770'
     backup: yes
@@ -126,7 +126,7 @@
 
 - name: copy_recreate_fw_zones_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_fw_zones.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_fw_zones.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
     mode: '0770'
     backup: yes
@@ -137,7 +137,7 @@
 
 - name: copy_recreate_policies_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_recreate_policies.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_policies.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
     owner: root
     group: root
@@ -150,7 +150,7 @@
 
 - name: copy_rollback_fwrules_changes_to_remote_if_need
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rollback_fwrules_changes.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/rollback_fwrules_changes.sh"
     dest: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh"
     owner: root
     group: root

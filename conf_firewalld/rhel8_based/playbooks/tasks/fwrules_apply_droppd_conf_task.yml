@@ -2,14 +2,14 @@
 - name: "if exists 'INV-HOST_rsyslog_firewalld-droppd.conf' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rsyslog_firewalld-droppd.conf"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/rsyslog_firewalld-droppd.conf"
   register: droppd_conf_exists
 
 ######################################################
 
 - name: copy_droppd_conf_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_rsyslog_firewalld-droppd.conf"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/rsyslog_firewalld-droppd.conf"
     dest: /etc/rsyslog.d/firewalld-droppd.conf
     owner: root
     group: root

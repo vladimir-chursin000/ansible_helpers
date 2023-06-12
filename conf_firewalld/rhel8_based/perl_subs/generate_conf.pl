@@ -99,7 +99,8 @@ sub generate_firewall_configs {
     # create fw-configs for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_firewalld.conf';
+	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/firewalld.conf';
         if ( exists(${$hval0_l}{'fw_config'}) ) { @wr_arr_l=@{${$hval0_l}{'fw_config'}}; }
 
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
@@ -116,7 +117,8 @@ sub generate_firewall_configs {
     # create 'firewalld-droppd' (for rsyslog) for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
-        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'_rsyslog_firewalld-droppd.conf';
+	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+        $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/rsyslog_firewalld-droppd.conf';
         if ( exists(${$hval0_l}{'firewalld-droppd'}) ) { @wr_arr_l=@{${$hval0_l}{'firewalld-droppd'}}; }
 
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);

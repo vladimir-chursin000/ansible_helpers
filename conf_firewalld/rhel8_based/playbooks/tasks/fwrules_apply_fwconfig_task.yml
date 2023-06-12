@@ -2,14 +2,14 @@
 - name: "if exists 'INV-HOST_firewall.conf' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
-    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_firewalld.conf"
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/firewalld.conf"
   register: firewalld_conf_exists
 
 ######################################################
 
 - name: copy_firewalld_conf_to_remote
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}_firewalld.conf"
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/firewalld.conf"
     dest: /etc/firewalld/firewalld.conf
     owner: root
     group: root
