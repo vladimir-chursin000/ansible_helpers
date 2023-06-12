@@ -61,7 +61,7 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 #fi;
 ###
 
-# 2) Save content of temporary ipsets (if need). For renew/rollback.
+# 2) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For re-add/rollback.
 ###
 
 # 3) Restart firewalld "systemctl restart firewalld" (if need).
@@ -96,8 +96,8 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###
 
 # 8) Re-add. If need to re-add ipsets elements from ansible-host as source.
-    # For rollback -> saved permanent ipsets from 'fwrules_backup_now'.
-#if [[ -s "$SELF_DIR_str/restore_permanent_ipsets_content.sh" ]]; then
+    # For rollback -> saved permanent ipsets content from 'fwrules_backup_now'.
+#if [[ -s "$SELF_DIR_str/re_add_permanent_ipsets_content.sh" ]]; then
 #    "$SELF_DIR_str/re_add_permanent_ipsets_content.sh" &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
 #fi;
 ###
@@ -110,10 +110,11 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 #fi;
 ###
 
-# 10) Renew (restore prev/re-add) temporary ipsets content after recreate (if need).
-# 10.1) Restore prev. If just restore content after recreate temporary ipsets.
-    # Only for cases with changing ipset-list-params except "ipset_name" and/or "ipset_type".
-# 10.2) Re-add. If need to re-add element from ansible host as source.
+# 10) Re-add. If need to re-add ipsets elements from ansible-host as source.
+    # For rollback -> saved temporary ipsets content from 'fwrules_backup_now'.
+#if [[ -s "$SELF_DIR_str/re_add_temporary_ipsets_content.sh" ]]; then
+#    "$SELF_DIR_str/re_add_temporary_ipsets_content.sh" &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
+#fi;
 ###
 
 # 11) Rollback all changes (if need).
