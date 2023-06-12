@@ -96,7 +96,6 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###
 
 # 8) Re-add. If need to re-add ipsets elements from ansible-host as source.
-    # For rollback -> saved permanent ipsets content from 'fwrules_backup_now'.
 #if [[ -s "$SELF_DIR_str/re_add_permanent_ipsets_content.sh" ]]; then
 #    "$SELF_DIR_str/re_add_permanent_ipsets_content.sh" &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
 #fi;
@@ -111,13 +110,14 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###
 
 # 10) Re-add. If need to re-add ipsets elements from ansible-host as source.
-    # For rollback -> saved temporary ipsets content from 'fwrules_backup_now'.
 #if [[ -s "$SELF_DIR_str/re_add_temporary_ipsets_content.sh" ]]; then
 #    "$SELF_DIR_str/re_add_temporary_ipsets_content.sh" &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
 #fi;
 ###
 
 # 11) Rollback all changes (if need).
+    # For rollback -> saved permanent ipsets content from 'fwrules_backup_now'.
+    # For rollback -> saved temporary ipsets content from 'fwrules_backup_now'.
 #if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 #    nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 #fi;
