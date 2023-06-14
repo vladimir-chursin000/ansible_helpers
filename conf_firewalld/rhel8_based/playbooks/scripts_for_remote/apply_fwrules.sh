@@ -61,7 +61,7 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 #fi;
 ###
 
-# 2) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For re-add/rollback.
+# 2) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
 ###
 
 # 3) Restart firewalld "systemctl restart firewalld" (if need).
@@ -116,8 +116,8 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 ###
 
 # 11) Rollback all changes (if need).
-    # For rollback -> saved permanent ipsets content from 'fwrules_backup_now'.
-    # For rollback -> saved temporary ipsets content from 'fwrules_backup_now'.
+    # For rollback -> saved permanent ipsets content from 'fwrules_backup_now' (at 1 step).
+    # For rollback -> saved temporary ipsets content from 'fwrules_backup_now' (at 2 step).
 #if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 #    nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 #fi;
