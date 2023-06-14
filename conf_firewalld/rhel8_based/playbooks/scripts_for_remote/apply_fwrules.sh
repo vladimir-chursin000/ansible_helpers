@@ -55,20 +55,21 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
 # 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need).
     # For rollback of permanent content/rules. Exception - content of a temporary ipsets.
     # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.
-#if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
-#    mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
-#    cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
+if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
+    mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
+    cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
 
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
+    mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_content";
     ###
-#fi;
+fi;
 ###
 
 # 2) Restart firewalld "systemctl restart firewalld" (if need).
     # If changed: firewalld.conf
-#if [[ "$FWCONFIG_CHANGED_str" == "yes" ]]; then
-#    systemctl restart firewalld;
-#fi;
+if [[ "$FWCONFIG_CHANGED_str" == "yes" ]]; then
+    systemctl restart firewalld;
+fi;
 ###
 
 # 3) Recreate permanent ipsets (if need).
