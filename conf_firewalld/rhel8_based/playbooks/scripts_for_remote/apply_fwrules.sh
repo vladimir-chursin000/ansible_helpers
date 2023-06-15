@@ -18,6 +18,11 @@ RECREATE_FW_ZONES_CHANGED_str='no';
 RECREATE_POLICIES_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
 RELOAD_NEED_RUN_str='no';
+#
+ARR_EL0_str='';
+declare -a TMP_arr;
+###VARS
+
 ###VARS
 
 ###APPLY_RUN_INFO read
@@ -62,6 +67,14 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
     mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_content";
+    
+    TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""));
+    for ARR_EL0_str in "${TMP_arr[@]}"
+    do
+	ARR_EL0_str=`echo ${ARR_EL0_str//\/etc\/firewalld\/ipsets\//}`;
+	ARR_EL0_str=`echo ${ARR_EL0_str//\.xml/}`;
+	echo "'$ARR_EL0_str'";
+    done;
     ###
 fi;
 ###
