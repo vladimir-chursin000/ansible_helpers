@@ -8,6 +8,7 @@ touch "$SELF_DIR_str/apply_fwrules_is_run_now";
 ###CFG
 APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
 BACKUP_FOR_ROLLBACK_DIR_str="$SELF_DIR_str/fwrules_backup_now";
+TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str="$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_content";
 ###CFG
 
 ###VARS
@@ -66,7 +67,7 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
 
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
-    mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_content";
+    mkdir -p "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str";
     
     TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""));
     for ARR_EL0_str in "${TMP_arr[@]}"
