@@ -64,6 +64,7 @@ rm -rf $APPLY_RUN_INFO_DIR_str/*;
     # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.
 if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
+    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*;
     cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
 
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
@@ -74,7 +75,7 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     do
 	ARR_EL0_str=`echo ${ARR_EL0_str//\/etc\/firewalld\/ipsets\//}`;
 	ARR_EL0_str=`echo ${ARR_EL0_str//\.xml/}`;
-	echo "'$ARR_EL0_str'";
+	echo $ARR_EL0_str >> "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
     done;
     ###
 fi;
