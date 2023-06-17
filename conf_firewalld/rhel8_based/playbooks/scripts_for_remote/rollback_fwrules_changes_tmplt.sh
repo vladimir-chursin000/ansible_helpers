@@ -24,12 +24,19 @@ do
     if [[ "$TIMEOUT_num" -le "0" ]]; then
 	###DO ROLLBACK of firewall rules changes
 	if [ -d "$BACKUP_FOR_ROLLBACK_DIR_str" ]; then
-	    rm -rf $SELF_DIR_str/recreate_ipsets.sh;
+	    rm -rf $SELF_DIR_str/recreate_permanent_ipsets.sh;
+	    rm -rf $SELF_DIR_str/recreate_temporary_ipsets.sh;
+	    
 	    rm -rf $SELF_DIR_str/recreate_fw_zones.sh;
 	    rm -rf $SELF_DIR_str/recreate_policies.sh;
+	    
 	    rm -rf /etc/firewalld/*;
+	    
 	    cp -r $BACKUP_FOR_ROLLBACK_DIR_str/* /etc/firewalld;
-	    firewall-cmd --reload;
+	    
+	    systemctl restart firewalld;
+	    
+	    
 	fi;
 	###DO ROLLBACK of firewall rules changes
 	
