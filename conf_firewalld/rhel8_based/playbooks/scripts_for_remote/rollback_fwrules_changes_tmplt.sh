@@ -25,10 +25,24 @@ do
 	###DO ROLLBACK of firewall rules changes
 	if [ -d "$BACKUP_FOR_ROLLBACK_DIR_str" ]; then
 	    rm -rf $SELF_DIR_str/recreate_permanent_ipsets.sh;
+	    if [[ -f "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" ]]; then
+		mv "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" "$SELF_DIR_str/recreate_permanent_ipsets.sh";
+	    fi;
+	    
 	    rm -rf $SELF_DIR_str/recreate_temporary_ipsets.sh;
+	    if [[ -f "$SELF_DIR_str/prev_recreate_temporary_ipsets.sh" ]]; then
+		mv "$SELF_DIR_str/prev_recreate_temporary_ipsets.sh" "$SELF_DIR_str/recreate_temporary_ipsets.sh";
+	    fi;
 	    
 	    rm -rf $SELF_DIR_str/recreate_fw_zones.sh;
+	    if [[ -f "$SELF_DIR_str/prev_recreate_fw_zones.sh" ]]; then
+		mv "$SELF_DIR_str/prev_recreate_fw_zones.sh" "$SELF_DIR_str/recreate_fw_zones.sh";
+	    fi;
+
 	    rm -rf $SELF_DIR_str/recreate_policies.sh;
+	    if [[ -f "$SELF_DIR_str/prev_recreate_policies.sh" ]]; then
+		mv "$SELF_DIR_str/prev_recreate_policies.sh" "$SELF_DIR_str/recreate_policies.sh";
+	    fi;
 	    
 	    rm -rf /etc/firewalld/*;
 	    
