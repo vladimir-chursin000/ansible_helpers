@@ -45,6 +45,7 @@
 
 ######################################################STEP 2. Check for remote files is exist (begin)
 # fill vars: recreate_permanent_ipsets_sh_exists_at_remote, recreate_temporary_ipsets_sh_exists_at_remote
+# recreate_fw_zones_sh_exists_at_remote, recreate_policies_sh_exists_at_remote
 
 - name: "if exists at remote 'recreate_permanent_ipsets.sh' for apply"
   ansible.builtin.stat:
@@ -57,6 +58,20 @@
   ansible.builtin.stat:
     path: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
   register: recreate_temporary_ipsets_sh_exists_at_remote
+
+######
+
+- name: "if exists at remote 'recreate_fw_zones.sh' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
+  register: recreate_fw_zones_sh_exists_at_remote
+
+######
+
+- name: "if exists at remote 'recreate_policies.sh' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
+  register: recreate_policies_sh_exists_at_remote
 
 ######################################################STEP 2. Check for remote files is exist (end)
 
@@ -76,7 +91,9 @@
 
 ######################################################STEP 3. Create dirs at remote side (end)
 
-######################################################STEP 4. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (begin)
+######################################################STEP 4. Make prev copies if need (begin)
+# Prev copies: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh
+# recreate_fw_zones.sh, recreate_policies.sh
 
 - name: Make copy of "recreate_permanent_ipset.sh" at remote if need
   ansible.builtin.copy:
@@ -98,6 +115,28 @@
     mode: '0770'
   when: recreate_temporary_ipsets_sh_exists_at_remote.stat.exists==true
 
+######
+
+- name: Make copy of "recreate_fw_zones.sh" at remote
+  ansible.builtin.copy:
+    src: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
+    dest: "~/ansible_helpers/conf_firewalld/prev_recreate_fw_zones.sh"
+    remote_src: yes
+    force: yes
+    mode: '0770'
+  when: recreate_fw_zones_sh_exists_at_remote.stat.exists==true
+
+######
+
+- name: Make copy of "recreate_policies.sh" at remote
+  ansible.builtin.copy:
+    src: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
+    dest: "~/ansible_helpers/conf_firewalld/prev_recreate_policies.sh"
+    remote_src: yes
+    force: yes
+    mode: '0770'
+  when: recreate_policies_sh_exists_at_remote.stat.exists==true
+
 ######################################################STEP 4. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (end)
 
 ######################################################STEP 5. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (begin)
@@ -107,7 +146,6 @@
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_permanent_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
     mode: '0770'
-    backup: yes
   register: copy_recreate_permanent_ipset_to_remote_res
   when: recreate_permanent_ipsets_sh_exists_at_local.stat.exists==true
 
@@ -118,7 +156,6 @@
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_temporary_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
     mode: '0770'
-    backup: yes
   register: copy_recreate_temporary_ipset_to_remote_res
   when: recreate_temporary_ipsets_sh_exists_at_local.stat.exists==true
 
@@ -129,7 +166,6 @@
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_fw_zones.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
     mode: '0770'
-    backup: yes
   register: copy_recreate_fw_zones_to_remote_res
   when: recreate_fw_zones_sh_exists_at_local.stat.exists==true
 
@@ -142,7 +178,6 @@
     owner: root
     group: root
     mode: '0770'
-    backup: yes
   register: copy_recreate_policies_to_remote_res
   when: recreate_policies_sh_exists_at_local.stat.exists==true
 

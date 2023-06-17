@@ -70,14 +70,16 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
     mkdir -p "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str";
     
-    TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""));
-    for ARR_EL0_str in "${TMP_arr[@]}"
-    do
-	ARR_EL0_str=`echo ${ARR_EL0_str//\/etc\/firewalld\/ipsets\//}`;
-	ARR_EL0_str=`echo ${ARR_EL0_str//\.xml/}`;
-	echo $ARR_EL0_str >> "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
-	ipset list $ARR_EL0_str | grep timeout | grep -v Header > "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$ARR_EL0_str.txt";
-    done;
+    if [ ! -z `ls /etc/firewalld/ipsets/*.xml` ]; then
+	TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\""));
+	for ARR_EL0_str in "${TMP_arr[@]}"
+	do
+	    ARR_EL0_str=`echo ${ARR_EL0_str//\/etc\/firewalld\/ipsets\//}`;
+	    ARR_EL0_str=`echo ${ARR_EL0_str//\.xml/}`;
+	    echo $ARR_EL0_str >> "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
+	    ipset list $ARR_EL0_str | grep timeout | grep -v Header > "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$ARR_EL0_str.txt";
+	done;
+    fi;
     ###
 fi;
 ###
