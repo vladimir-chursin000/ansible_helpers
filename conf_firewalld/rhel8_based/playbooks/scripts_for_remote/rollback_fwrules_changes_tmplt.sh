@@ -13,6 +13,7 @@ TIMEOUT_num=!_TIMEOUT_NUM_!;
 ###STATIC_VARS
 
 ###VARS
+LINE_str='';
 ###VARS
 
 while :
@@ -50,7 +51,14 @@ do
 	    
 	    systemctl restart firewalld;
 	    
-	    
+	    # restore temporary ipsets content
+	    if [[ -s "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt" ]]; then
+		while read -r LINE_str;
+		do
+		    echo "'$LINE_str'";
+		done < "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
+	    fi;
+	    ###
 	fi;
 	###DO ROLLBACK of firewall rules changes
 	
