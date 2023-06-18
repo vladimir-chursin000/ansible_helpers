@@ -71,14 +71,16 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     mkdir -p "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str";
     
     if [ ! -z `ls /etc/firewalld/ipsets/*.xml` ]; then # check for exists ipsets configs
+	# get list of temporary ipsets and their content
 	TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"")); # write to array all ipsets with timeout!=0
 	for ARR_EL0_str in "${TMP_arr[@]}"
 	do
-	    ARR_EL0_str=`echo ${ARR_EL0_str//\/etc\/firewalld\/ipsets\//}`; # remove path
-	    ARR_EL0_str=`echo ${ARR_EL0_str//\.xml/}`; # remove extension
+	    ARR_EL0_str=`echo ${ARR_EL0_str//\/etc\/firewalld\/ipsets\//}`; # remove path from var
+	    ARR_EL0_str=`echo ${ARR_EL0_str//\.xml/}`; # remove extension from var
 	    echo $ARR_EL0_str >> "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
 	    ipset list $ARR_EL0_str | grep timeout | grep -v Header > "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$ARR_EL0_str.txt";
 	done;
+	###
     fi;
     ###
 fi;
