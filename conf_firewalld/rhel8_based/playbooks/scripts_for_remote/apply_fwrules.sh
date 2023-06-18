@@ -21,6 +21,7 @@ ROLLBACK_FWRULES_NEED_RUN_str='no';
 RELOAD_NEED_RUN_str='no';
 #
 ARR_EL0_str='';
+EXE_RES_str='';
 declare -a TMP_arr;
 ###VARS
 
@@ -70,7 +71,9 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
     mkdir -p "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str";
     
-    if [ ! -z `ls /etc/firewalld/ipsets/*.xml` ]; then # check for exists ipsets configs
+    EXE_RES_str=`ls /etc/firewalld/ipsets/*.xml`;
+    
+    if [[ ! -z "$EXE_RES_str" ]]; then # check for exists ipsets configs
 	# get list of temporary ipsets and their content
 	TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"")); # write to array all ipsets with timeout!=0
 	for ARR_EL0_str in "${TMP_arr[@]}"
