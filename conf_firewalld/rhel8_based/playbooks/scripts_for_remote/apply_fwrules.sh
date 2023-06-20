@@ -57,7 +57,7 @@ if [[ -f "$APPLY_RUN_INFO_DIR_str/fwconfig_changed" ]]; then
     RELOAD_NEED_RUN_str='no';
 fi;
 
-rm -rf $APPLY_RUN_INFO_DIR_str/*;
+rm -rf $APPLY_RUN_INFO_DIR_str/*; # remove run-info after read
 ###APPLY_RUN_INFO read
 
 # 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need).
@@ -71,9 +71,9 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     # 1a) Save content of temporary ipsets (if need) to 'fwrules_backup_now'. For rollback.
     mkdir -p "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str";
     
-    EXE_RES_str=`ls /etc/firewalld/ipsets/*.xml`;
+    EXE_RES_str=`ls /etc/firewalld/ipsets/*.xml`; # get string with ipsets xml-s
     
-    if [[ ! -z "$EXE_RES_str" ]]; then # check for exists ipsets configs
+    if [[ ! -z "$EXE_RES_str" ]]; then # check for exists ipsets configs (if string is not empty)
 	# get list of temporary ipsets and their content
 	TMP_arr=($(grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"")); # write to array all ipsets with timeout!=0
 	for ARR_EL0_str in "${TMP_arr[@]}"
