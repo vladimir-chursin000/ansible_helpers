@@ -61,7 +61,7 @@ do
 		    while read -r LINE1_str; # LINE1_str = one line with ipset entry
 		    do
 			echo "$LINE1_str";
-		    done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str";
+		    done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt";
 		    ###
 		done < "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
 	    fi;
