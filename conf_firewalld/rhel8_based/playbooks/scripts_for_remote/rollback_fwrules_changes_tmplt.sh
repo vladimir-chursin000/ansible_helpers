@@ -60,7 +60,7 @@ do
 	    fi;
 	    ###
 	    
-	    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*;
+	    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*; # remove backup files
 	fi;
 	###DO ROLLBACK of firewall rules changes
 	
