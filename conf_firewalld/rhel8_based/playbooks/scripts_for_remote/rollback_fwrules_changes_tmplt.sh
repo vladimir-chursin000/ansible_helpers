@@ -6,6 +6,7 @@ SELF_DIR_str="$(dirname $(readlink -f $0))";
 
 ###CFG
 BACKUP_FOR_ROLLBACK_DIR_str="$SELF_DIR_str/fwrules_backup_now";
+TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str="$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_content";
 ###CFG
 
 ###STATIC_VARS
@@ -13,7 +14,8 @@ TIMEOUT_num=!_TIMEOUT_NUM_!;
 ###STATIC_VARS
 
 ###VARS
-LINE_str='';
+LINE0_str='';
+LINE1_str='';
 ###VARS
 
 while :
@@ -53,9 +55,14 @@ do
 	    
 	    # restore temporary ipsets content
 	    if [[ -s "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt" ]]; then
-		while read -r LINE_str;
+		while read -r LINE0_str;
 		do
-		    echo "'$LINE_str'";
+		    # read ipset content from file LINE0_str
+		    while read -r LINE1_str; # LINE1_str = one line with ipset entry
+		    do
+			echo "$LINE1_str";
+		    done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str";
+		    ###
 		done < "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
 	    fi;
 	    ###
