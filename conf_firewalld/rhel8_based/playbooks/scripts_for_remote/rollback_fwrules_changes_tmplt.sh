@@ -59,6 +59,8 @@ do
 		done < "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
 	    fi;
 	    ###
+	    
+	    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*;
 	fi;
 	###DO ROLLBACK of firewall rules changes
 	
