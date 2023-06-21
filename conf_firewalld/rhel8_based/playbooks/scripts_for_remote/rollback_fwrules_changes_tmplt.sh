@@ -58,10 +58,12 @@ do
 		while read -r LINE0_str;
 		do
 		    # read ipset content from file LINE0_str
-		    while read -r LINE1_str; # LINE1_str = one line with ipset entry
-		    do
-			echo "$LINE1_str";
-		    done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt";
+		    if [[ -s "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt" ]]; then
+			while read -r LINE1_str; # LINE1_str = one line with ipset entry
+			do
+			    echo "$LINE1_str";
+			done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt";
+		    fi;
 		    ###
 		done < "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt";
 	    fi;
