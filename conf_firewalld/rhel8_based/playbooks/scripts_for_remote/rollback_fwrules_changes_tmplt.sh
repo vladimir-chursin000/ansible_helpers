@@ -56,14 +56,14 @@ do
 	    
 	    # restore temporary ipsets content
 	    if [[ -s "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt" ]]; then
-		while read -r LINE0_str;
+		while read -r LINE0_str; # LINE0_str = ipset_name
 		do
 		    # read ipset content from file LINE0_str
 		    if [[ -s "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt" ]]; then
 			while read -r LINE1_str; # LINE1_str = one line with ipset entry
 			do
 			    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
-			    echo ${TMP_arr[2]};
+			    ipset add $LINE0_str ${TMP_arr[0]} timeout ${TMP_arr[2]};
 			done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt";
 		    fi;
 		    ###
