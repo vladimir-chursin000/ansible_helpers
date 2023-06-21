@@ -16,6 +16,7 @@ TIMEOUT_num=!_TIMEOUT_NUM_!;
 ###VARS
 LINE0_str='';
 LINE1_str='';
+declare -a TMP_arr;
 ###VARS
 
 while :
@@ -61,7 +62,8 @@ do
 		    if [[ -s "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt" ]]; then
 			while read -r LINE1_str; # LINE1_str = one line with ipset entry
 			do
-			    echo "$LINE1_str";
+			    TMP_arr=($LINE1_str);
+			    
 			done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt";
 		    fi;
 		    ###
