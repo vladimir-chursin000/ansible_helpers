@@ -63,7 +63,7 @@ do
 			while read -r LINE1_str; # LINE1_str = one line with ipset entry
 			do
 			    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
-			    ipset add $LINE0_str ${TMP_arr[0]} timeout ${TMP_arr[2]};
+			    ipset add $LINE0_str ${TMP_arr[0]} timeout ${TMP_arr[2]}; # restore ipset entry for ipset_name=LINE0_str
 			done < "$TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str/$LINE0_str.txt";
 		    fi;
 		    ###
