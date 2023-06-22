@@ -171,7 +171,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
 
         	#temporary/ipset_template_name/.. (dir)
             	    # actual__ipset_name.txt (file)
-                	# First line - description like "###Manually ADDING entries to this file is DENIED!".
+                	# First line - description like "###You CAN manually ADD entries to this file!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
 		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
@@ -179,7 +179,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
 		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/actual__".$ipset_name_l.".txt";
 		
 		if ( !-e($init_file_l) ) {
-		    @init_lines_arr_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_l");
+		    @init_lines_arr_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_l");
 
 		    &rewrite_file_from_array_ref($init_file_l,\@init_lines_arr_l);
 		    #$file_l,$aref_l
