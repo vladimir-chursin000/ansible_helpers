@@ -25,8 +25,6 @@ EXE_RES_str='';
 declare -a TMP_arr;
 ###VARS
 
-###VARS
-
 ###APPLY_RUN_INFO read
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
