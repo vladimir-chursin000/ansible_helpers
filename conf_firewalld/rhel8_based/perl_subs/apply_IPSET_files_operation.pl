@@ -1020,6 +1020,7 @@ sub update_local_ipset_actual_data {
 	# ops for 'add' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
+	    #One row="ipset_entry" at actual*-file
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
@@ -1047,6 +1048,7 @@ sub update_local_ipset_actual_data {
 	# ops for 'add' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
+	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
