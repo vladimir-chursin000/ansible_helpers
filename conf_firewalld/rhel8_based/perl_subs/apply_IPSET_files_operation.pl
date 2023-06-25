@@ -691,6 +691,9 @@ sub update_local_ipset_actual_data {
     my $dt_now_l=undef;
     
     my $ipset_actual_file_path_l=undef;
+    my %ipset_actual_file_data_hash_l=();
+    # key0=content, key1=entry
+    # or key0=info, value=[array of info strings]
     
     # ipset_actual_data write history operations (BEGIN)
     opendir(DIR,$ipset_actual_data_dir_l);
