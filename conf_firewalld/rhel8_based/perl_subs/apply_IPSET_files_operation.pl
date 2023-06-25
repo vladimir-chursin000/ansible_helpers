@@ -691,7 +691,7 @@ sub update_local_ipset_actual_data {
     my $dt_now_l=undef;
     
     my $ipset_actual_file_path_l=undef;
-    my %ipset_actual_file_data_hash_l=();
+    my %ipset_actual_file_data_hash_l=(); # for fill content for each inv-host+ipset-tmplt-name+ipset-name and rewrite actual*-file
     # key0=content, key1=entry
     # or key0=info, value=[array of info strings]
     
