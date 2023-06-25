@@ -720,7 +720,8 @@ sub update_local_ipset_actual_data {
 	    	$ipset_tmplt_name_dir_line_l=$_;
 	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
 	    	
-	    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {
+		# if existing dir (with name=permanent template name) is not configured at '01_conf_ipset_templates'
+	    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {	    
 		    # create info-file at $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l
 	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
 		    # move dir $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l to delete_history
@@ -734,12 +735,15 @@ sub update_local_ipset_actual_data {
 	    	    
 	    	    next;
 	    	}
+		###
 	    	
+		# if existing dir (with name=permanent template name) is not configured at '66_conf_ipsets_FIN' for inv-host ($inv_host_dir_line_l)
 	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
 	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
 	    	    
 	    	    next;
 	    	}
+		###
 	    	
 	    	# get ipset_name from 'actual__*'-file
 	    	$file_ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
@@ -860,6 +864,7 @@ sub update_local_ipset_actual_data {
 	    	$ipset_tmplt_name_dir_line_l=$_;
 	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
 	    	
+		# if existing dir (with name=temporary template name) is not configured at '01_conf_ipset_templates'
 	    	if ( !exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}) ) {
 	    	    # create info-file at $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l
 	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
@@ -874,12 +879,15 @@ sub update_local_ipset_actual_data {
 	    	    
 	    	    next;
 	    	}
-	    
+		###
+		
+		# if existing dir (with name=temporary template name) is not configured at '66_conf_ipsets_FIN' for inv-host ($inv_host_dir_line_l)
 	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
 	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
 	    	    
 	    	    next;
 	    	}
+		###
 	    
 	    	# get ipset_name from 'actual__*'-file
 	    	$file_ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
