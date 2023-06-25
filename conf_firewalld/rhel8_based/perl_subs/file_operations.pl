@@ -1,5 +1,34 @@
 ###DEPENDENCIES: datetime.pl
 
+sub read_actual_ipset_file_to_hash {
+    my ($file_l,$href_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    #href = key0=content, key1=entry
+    # or key0=info, value=[array of info strings]
+
+    my $line_l=undef;
+    my $return_str_l='OK';
+
+    open(FILE,'<',$file_l);
+    while ( <FILE> ) {
+	$line_l=$_;
+	
+	while ( $line_l=~/^ / ) { $line_l=~s/^ //g; }
+	while ( $line_l=~/ $/ ) { $line_l=~s/ $//g; }	
+	
+	if ( $line_l!~/^\#/ ) {
+	    ${$href_l}{'content'}{$line_l}=1;
+	}
+	else {
+	    push(@{${$href_l}{'info'}},$line_l);
+	}
+    }
+    close(FILE);
+    
+    return $return_str_l;
+}
+
 sub rewrite_file_from_array_ref {
     my ($file_l,$aref_l)=@_;
     my $proc_name_l=(caller(0))[3];
