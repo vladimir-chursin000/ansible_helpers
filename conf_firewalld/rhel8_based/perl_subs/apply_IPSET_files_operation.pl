@@ -1074,6 +1074,12 @@ sub update_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
 	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
+	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+		
+            }
+	    else {
+		
+	    }
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
@@ -1082,6 +1088,9 @@ sub update_local_ipset_actual_data {
 	# ops for 'del' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
 	    #$hkey1_l=ipset_record
+	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+		
+	    }
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
