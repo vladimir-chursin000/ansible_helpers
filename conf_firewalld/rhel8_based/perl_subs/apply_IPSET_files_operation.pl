@@ -1019,6 +1019,14 @@ sub update_local_ipset_actual_data {
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
 	
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
+
+	###
+	read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+	#$file_l,$href_l
+	# %ipset_actual_file_data_hash_l=();
+	# key0=content, key1=entry
+	# or key0=info, value=[array of info strings]
+	###
 	
 	# ops for 'add' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
@@ -1047,6 +1055,14 @@ sub update_local_ipset_actual_data {
 	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
 
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/temporary/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
+
+	###
+	read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+	#$file_l,$href_l
+	# %ipset_actual_file_data_hash_l=();
+	# key0=content, key1=entry
+	# or key0=info, value=[array of info strings]
+	###
 	
 	# ops for 'add' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
