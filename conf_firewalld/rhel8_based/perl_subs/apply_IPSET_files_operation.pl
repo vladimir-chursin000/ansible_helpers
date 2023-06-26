@@ -695,6 +695,9 @@ sub update_local_ipset_actual_data {
     # key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     # or key0=info, value=[array of info strings]
     
+    my $expire_date_actual_l=undef; # for $ipset_actual_file_data_hash_l{'content'}{ipset_entry}=expire_date_actual
+    my $expire_date_calculated_l=undef; # for expire_date (for temporary ipset) calculated by adding #ipset_create_option_timeout to current-date
+    
     # ipset_actual_data write history operations (BEGIN)
     opendir(DIR,$ipset_actual_data_dir_l);
     
@@ -1076,9 +1079,17 @@ sub update_local_ipset_actual_data {
 	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
 	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
 		
+		# clear vars
+		$expire_date_calculated_l=undef;
+		###
             }
 	    else {
+		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
 		
+		# clear vars
+		$expire_date_actual_l=undef;
+		$expire_date_calculated_l=undef;
+		###
 	    }
 	}
 	
@@ -1089,7 +1100,7 @@ sub update_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
 	    #$hkey1_l=ipset_record
 	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		
+		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
 	    }
 	}
 	
