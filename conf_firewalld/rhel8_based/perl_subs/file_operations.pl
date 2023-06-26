@@ -4,21 +4,26 @@ sub read_actual_ipset_file_to_hash {
     my ($file_l,$href_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
-    #href = key0=content, key1=entry
+    #href = key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     # or key0=info, value=[array of info strings]
 
     my $line_l=undef;
+    my @tmp_arr_l=();
     my $return_str_l='OK';
 
     open(FILE,'<',$file_l);
     while ( <FILE> ) {
 	$line_l=$_;
 	
-	while ( $line_l=~/^ / ) { $line_l=~s/^ //g; }
-	while ( $line_l=~/ $/ ) { $line_l=~s/ $//g; }	
+	$line_l=~s/\n|\r|\r\n|\n\r//g;
+	$line_l=~s/\s+//g;
 	
 	if ( $line_l!~/^\#/ ) {
-	    ${$href_l}{'content'}{$line_l}=1;
+	    if ( $line_l!~/\;\+/ ) { ${$href_l}{'content'}{$line_l}=0; }
+	    else {
+		@tmp_arr_l=split(/\;\+/,$line_l);
+		${$href_l}{'content'}{$tmp_arr_l[0]}=$tmp_arr_l[1];
+	    }
 	}
 	else {
 	    push(@{${$href_l}{'info'}},$line_l);

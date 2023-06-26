@@ -692,7 +692,7 @@ sub update_local_ipset_actual_data {
     
     my $ipset_actual_file_path_l=undef;
     my %ipset_actual_file_data_hash_l=(); # for fill content for each inv-host+ipset-tmplt-name+ipset-name and rewrite actual*-file
-    # key0=content, key1=entry
+    # key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     # or key0=info, value=[array of info strings]
     
     # ipset_actual_data write history operations (BEGIN)
@@ -1024,7 +1024,7 @@ sub update_local_ipset_actual_data {
 	read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
 	#$file_l,$href_l
 	# %ipset_actual_file_data_hash_l=();
-	# key0=content, key1=entry
+	# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
 	# or key0=info, value=[array of info strings]
 	###
 	
@@ -1032,6 +1032,9 @@ sub update_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
 	    #One row="ipset_entry" at actual*-file
+	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=1;
+	    }
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
@@ -1040,6 +1043,9 @@ sub update_local_ipset_actual_data {
 	# ops for 'del' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
 	    #$hkey1_l=ipset_record
+	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
+	    }
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
@@ -1060,7 +1066,7 @@ sub update_local_ipset_actual_data {
 	read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
 	#$file_l,$href_l
 	# %ipset_actual_file_data_hash_l=();
-	# key0=content, key1=entry
+	# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
 	# or key0=info, value=[array of info strings]
 	###
 	
