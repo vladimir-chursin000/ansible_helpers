@@ -1037,7 +1037,7 @@ sub update_local_ipset_actual_data {
 	    #$hkey1_l=ipset_record
 	    #One row="ipset_entry" at actual*-file
 	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=1;
+		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=0;
 	    }
 	}
 	
@@ -1079,12 +1079,13 @@ sub update_local_ipset_actual_data {
 	    #$hkey1_l=ipset_record
 	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
 	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+		$expire_epoch_sec_calculated_l=time()+${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
 		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
 		#$for_conv_sec_l
 		
+		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+		
 		# clear vars
-		$tmp_var_l=undef;
 		$expire_date_calculated_l=undef;
 		$expire_epoch_sec_calculated_l=undef;
 		###
@@ -1097,6 +1098,11 @@ sub update_local_ipset_actual_data {
 		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
 		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
 		#$for_conv_sec_l
+		
+		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) {
+		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+		}
+		else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
 		
 		# clear vars
 		$expire_date_actual_l=undef;
