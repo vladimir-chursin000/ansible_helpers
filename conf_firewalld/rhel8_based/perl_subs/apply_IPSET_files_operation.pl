@@ -697,6 +697,7 @@ sub update_local_ipset_actual_data {
     
     my $expire_date_actual_l=undef; # for $ipset_actual_file_data_hash_l{'content'}{ipset_entry}=expire_date_actual
     my $expire_date_calculated_l=undef; # for expire_date (for temporary ipset) calculated by adding #ipset_create_option_timeout to current-date
+    my ($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
     
     # ipset_actual_data write history operations (BEGIN)
     opendir(DIR,$ipset_actual_data_dir_l);
@@ -1066,7 +1067,7 @@ sub update_local_ipset_actual_data {
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/temporary/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
 
 	###
-	read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+	&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
 	#$file_l,$href_l
 	# %ipset_actual_file_data_hash_l=();
 	# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
@@ -1078,17 +1079,29 @@ sub update_local_ipset_actual_data {
 	    #$hkey1_l=ipset_record
 	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
 	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+		#$for_conv_sec_l
 		
 		# clear vars
+		$tmp_var_l=undef;
 		$expire_date_calculated_l=undef;
+		$expire_epoch_sec_calculated_l=undef;
 		###
             }
 	    else {
 		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+		$expire_epoch_sec_actual_l=&dtot_conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
+		#$for_conv_dt
+		
+		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+		#$for_conv_sec_l
 		
 		# clear vars
 		$expire_date_actual_l=undef;
 		$expire_date_calculated_l=undef;
+		($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
 		###
 	    }
 	}
