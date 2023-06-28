@@ -1051,8 +1051,14 @@ sub update_local_ipset_actual_data {
 		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
 	    }
 	}
-	
+		
 	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+	
+	# FIN write to one actual*-file
+	&rewrite_actual_ipset_file_from_hash($ipset_actual_file_path_l,0,\%ipset_actual_file_data_hash_l);
+	#$file_l,$file_type_l,$href_l)=@_;
+	#$file_type_l: 0-permanent ipset, 1-temporary_ipset
 	###
     }
 
@@ -1124,6 +1130,12 @@ sub update_local_ipset_actual_data {
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+
+	# FIN write to one actual*-file
+	&rewrite_actual_ipset_file_from_hash($ipset_actual_file_path_l,1,\%ipset_actual_file_data_hash_l);
+	#$file_l,$file_type_l,$href_l)=@_;
+	#$file_type_l: 0-permanent ipset, 1-temporary_ipset
 	###
     }
     

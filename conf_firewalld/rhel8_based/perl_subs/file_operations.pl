@@ -1,10 +1,55 @@
 ###DEPENDENCIES: datetime.pl
 sub rewrite_actual_ipset_file_from_hash {
-    my ($file_l,$href_l)=@_;
+    my ($file_l,$file_type_l,$href_l)=@_;
+    #$file_type_l: 0-permanent ipset, 1-temporary_ipset
+    
     my $proc_name_l=(caller(0))[3];
     
     #href = key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     # or key0=info, value=[array of info strings]
+    
+    my $arr_el0_l=undef;
+    my $expire_date_l=undef;
+    my @wr_arr_l=();
+    my @tmp_arr_l=();
+    
+    my $return_str_l='OK';
+    
+    if ( exists(${$href_l}{'info'}) ) { @wr_arr_l=@{${$href_l}{'info'}}; }
+    
+    if ( exists(${$href_l}{'content'}) ) {
+	if ( $file_type_l<1 ) { # for permanent ipset file
+	    @tmp_arr_l=sort(keys %{${$href_l}{'content'}});
+	    @wr_arr_l=(@wr_arr_l,@tmp_arr_l);
+	    
+	    # clear vars
+	    @tmp_arr_l=();
+	    ###
+	}
+	else { # for temporary ipset file
+	    @tmp_arr_l=sort(keys %{${$href_l}{'content'}});
+	    
+	    foreach $arr_el0_l ( @tmp_arr_l ) {
+		#$arr_el0_l=ipset entry
+		
+		$expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
+		push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
+	    }
+	    
+	    # clear vars
+	    $arr_el0_l=undef;
+	    $expire_date_l=undef;
+	    @tmp_arr_l=();
+	    ###
+	}
+    }
+    
+    &rewrite_file_from_array_ref($file_l,\@wr_arr_l);
+    #$file_l,$aref_l
+    
+    @wr_arr_l=();
+    
+    return $return_str_l;
 }
 
 sub read_actual_ipset_file_to_hash {
