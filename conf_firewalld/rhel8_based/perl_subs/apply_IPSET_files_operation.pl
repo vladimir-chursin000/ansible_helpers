@@ -1023,6 +1023,43 @@ sub update_local_ipset_actual_data {
     closedir(DIR);
     # ipset_actual_data write history operations (END)
     
+    # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l
+    	#For do not miss manually added data
+    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # for permanent (withput timeout) ipsets
+	#$hkey0_l=inv-host
+	
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=ipset_tmplt_name
+	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
+		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l};
+		
+		$ipset_name_cfg_l=undef;
+	    }
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+
+    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) { # for temporary (with timeout) ipsets
+	#$hkey0_l=inv-host
+	
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=ipset_tmplt_name
+	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$hkey1_l}) ) {
+		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l};
+		
+		$ipset_name_cfg_l=undef;
+	    }
+	}
+	
+	($hkey1_l,$hval1_l)=(undef,undef);
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
+    
     # operations for permanent ipsets (BEGIN)
 	#$ipset_input_href_l=hash-ref for %ipset_input_l
     	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
