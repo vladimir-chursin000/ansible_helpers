@@ -1032,8 +1032,12 @@ sub update_local_ipset_actual_data {
 	    #$hkey1_l=ipset_tmplt_name
 	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
 		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l};
+		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
 		
+		# clear vars
 		$ipset_name_cfg_l=undef;
+		$ipset_actual_file_path_l=undef;
+		###
 	    }
 	}
 	
@@ -1048,9 +1052,13 @@ sub update_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_tmplt_name
 	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$hkey1_l}) ) {
-		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l};
+		$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l};	
+		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
 		
+		# clear vars
 		$ipset_name_cfg_l=undef;
+		$ipset_actual_file_path_l=undef;
+		###
 	    }
 	}
 	
@@ -1087,7 +1095,7 @@ sub update_local_ipset_actual_data {
 	    }
 	}
 	
-	($hkey1_l,$hval1_l)=(undef,undef);
+	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
 
 	# ops for 'del' (permanent)
@@ -1098,12 +1106,17 @@ sub update_local_ipset_actual_data {
 	    }
 	}
 		
-	($hkey1_l,$hval1_l)=(undef,undef);
+	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
 	
 	$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
 	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
 	%ipset_actual_file_data_hash_l=();
+	
+	# clear vars
+	@tmp_arr0_l=();
+	$ipset_actual_file_path_l=undef;
+	###
     }
 
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -1162,7 +1175,7 @@ sub update_local_ipset_actual_data {
 	    }
 	}
 	
-	($hkey1_l,$hval1_l)=(undef,undef);
+	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
 	
 	# ops for 'del' (temporary)
@@ -1173,12 +1186,17 @@ sub update_local_ipset_actual_data {
 	    }
 	}
 	
-	($hkey1_l,$hval1_l)=(undef,undef);
+	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
 
 	$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
 	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
 	%ipset_actual_file_data_hash_l=();
+
+	# clear vars
+	@tmp_arr0_l=();
+	$ipset_actual_file_path_l=undef;
+	###
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
