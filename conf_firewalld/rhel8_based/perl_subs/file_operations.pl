@@ -60,9 +60,10 @@ sub read_actual_ipset_file_to_hash {
     # or key0=info, value=[array of info strings]
 
     my $line_l=undef;
+    my ($expire_epoch_sec_l,$now_epoch_sec_l)=(0,undef);
     my @tmp_arr_l=();
     my $return_str_l='OK';
-
+    
     open(FILE,'<',$file_l);
     while ( <FILE> ) {
 	$line_l=$_;
@@ -76,7 +77,17 @@ sub read_actual_ipset_file_to_hash {
 	    if ( $line_l!~/\;\+/ ) { ${$href_l}{'content'}{$line_l}=0; } # for permanent ipsets
 	    else { # for temporary ipsets
 		@tmp_arr_l=split(/\;\+/,$line_l);
-		${$href_l}{'content'}{$tmp_arr_l[0]}=$tmp_arr_l[1];
+		
+		#YYYYMMDDHHMISS
+		if ( $tmp_arr_l[1]=~/^\d{14}$/ ) { # if date format is correct
+		    if ( $now_epoch_sec_l<1 ) { $now_epoch_sec_l=time(); }
+		    $expire_epoch_sec_l=&dtot_conv_yyyymmddhhmiss_to_epoch_sec($tmp_arr_l[1]);
+		    #$for_conv_dt
+		
+		    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is expired
+			${$href_l}{'content'}{$tmp_arr_l[0]}=$tmp_arr_l[1];
+		    }
+		}
 	    }
 	}
 	else { # if line is comment from file begin
