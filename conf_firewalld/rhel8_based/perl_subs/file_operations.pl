@@ -70,16 +70,16 @@ sub read_actual_ipset_file_to_hash {
 	$line_l=~s/^\s+//g;
 	$line_l=~s/\n|\r|\r\n|\n\r//g;
 	
-	if ( $line_l!~/^\#/ ) {
+	if ( $line_l!~/^\#/ ) { # if line not comment
 	    $line_l=~s/\s+//g;
 
-	    if ( $line_l!~/\;\+/ ) { ${$href_l}{'content'}{$line_l}=0; }
-	    else {
+	    if ( $line_l!~/\;\+/ ) { ${$href_l}{'content'}{$line_l}=0; } # for permanent ipsets
+	    else { # for temporary ipsets
 		@tmp_arr_l=split(/\;\+/,$line_l);
 		${$href_l}{'content'}{$tmp_arr_l[0]}=$tmp_arr_l[1];
 	    }
 	}
-	else {
+	else { # if line is comment from file begin
 	    push(@{${$href_l}{'info'}},$line_l);
 	}
     }
