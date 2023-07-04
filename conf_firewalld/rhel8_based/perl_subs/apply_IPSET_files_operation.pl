@@ -1033,7 +1033,19 @@ sub update_local_ipset_actual_data {
 	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
 		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l};
 		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
-		
+	
+		###
+		read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+		#$file_l,$href_l
+		# %ipset_actual_file_data_hash_l=();
+		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
+		# or key0=info, value=[array of info strings]
+		###
+	
+		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
+		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+		%ipset_actual_file_data_hash_l=();
+
 		# clear vars
 		$ipset_name_cfg_l=undef;
 		$ipset_actual_file_path_l=undef;
@@ -1055,6 +1067,18 @@ sub update_local_ipset_actual_data {
 		$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l};	
 		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
 		
+		###
+		read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+		#$file_l,$href_l
+		# %ipset_actual_file_data_hash_l=();
+		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
+		# or key0=info, value=[array of info strings]
+		###
+
+		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
+		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+		%ipset_actual_file_data_hash_l=();
+
 		# clear vars
 		$ipset_name_cfg_l=undef;
 		$ipset_actual_file_path_l=undef;
@@ -1079,13 +1103,12 @@ sub update_local_ipset_actual_data {
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
 
 	###
-	read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
-	#$file_l,$href_l
-	# %ipset_actual_file_data_hash_l=();
-	# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
-	# or key0=info, value=[array of info strings]
+	# %ipset_actual_files_composition_hash_l
+	# key0=$ipset_actual_file_path_l
+    	    #key1A='ipset_file_type': 0-permanent, 1-temporary
+	    #key1B='subhash' (%ipset_actual_file_data_hash_l)
 	###
-	
+
 	# ops for 'add' (permanent)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
@@ -1109,10 +1132,6 @@ sub update_local_ipset_actual_data {
 	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
 	
-	$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
-	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-	%ipset_actual_file_data_hash_l=();
-	
 	# clear vars
 	@tmp_arr0_l=();
 	$ipset_actual_file_path_l=undef;
@@ -1130,13 +1149,12 @@ sub update_local_ipset_actual_data {
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/temporary/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
 
 	###
-	&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
-	#$file_l,$href_l
-	# %ipset_actual_file_data_hash_l=();
-	# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
-	# or key0=info, value=[array of info strings]
+	# %ipset_actual_files_composition_hash_l
+	# key0=$ipset_actual_file_path_l
+    	    #key1A='ipset_file_type': 0-permanent, 1-temporary
+	    #key1B='subhash' (%ipset_actual_file_data_hash_l)
 	###
-	
+
 	# ops for 'add' (temporary)
 	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
 	    #$hkey1_l=ipset_record
@@ -1188,10 +1206,6 @@ sub update_local_ipset_actual_data {
 	
 	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
-
-	$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
-	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-	%ipset_actual_file_data_hash_l=();
 
 	# clear vars
 	@tmp_arr0_l=();
