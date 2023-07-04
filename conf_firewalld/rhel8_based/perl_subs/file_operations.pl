@@ -67,10 +67,12 @@ sub read_actual_ipset_file_to_hash {
     while ( <FILE> ) {
 	$line_l=$_;
 	
+	$line_l=~s/^\s+//g;
 	$line_l=~s/\n|\r|\r\n|\n\r//g;
-	$line_l=~s/\s+//g;
 	
 	if ( $line_l!~/^\#/ ) {
+	    $line_l=~s/\s+//g;
+
 	    if ( $line_l!~/\;\+/ ) { ${$href_l}{'content'}{$line_l}=0; }
 	    else {
 		@tmp_arr_l=split(/\;\+/,$line_l);

@@ -1023,7 +1023,7 @@ sub update_local_ipset_actual_data {
     closedir(DIR);
     # ipset_actual_data write history operations (END)
     
-    # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l
+    # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (BEGIN)
     	#For do not miss manually added data
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # for permanent (withput timeout) ipsets
 	#$hkey0_l=inv-host
@@ -1031,7 +1031,7 @@ sub update_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_tmplt_name
 	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
-		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l};
+		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
 		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
 	
 		###
@@ -1042,9 +1042,15 @@ sub update_local_ipset_actual_data {
 		# or key0=info, value=[array of info strings]
 		###
 	
-		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
+		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
+		# %ipset_actual_files_composition_hash_l
+		# key0=$ipset_actual_file_path_l
+    		    #key1A='ipset_file_type': 0-permanent, 1-temporary
+		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
+		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
 		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
 		%ipset_actual_file_data_hash_l=();
+		###
 
 		# clear vars
 		$ipset_name_cfg_l=undef;
@@ -1064,7 +1070,7 @@ sub update_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_tmplt_name
 	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$hkey1_l}) ) {
-		$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l};	
+		$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
 		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
 		
 		###
@@ -1074,10 +1080,16 @@ sub update_local_ipset_actual_data {
 		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
 		# or key0=info, value=[array of info strings]
 		###
-
+		
+		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
+		# %ipset_actual_files_composition_hash_l
+		# key0=$ipset_actual_file_path_l
+    		    #key1A='ipset_file_type': 0-permanent, 1-temporary
+		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
 		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
 		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
 		%ipset_actual_file_data_hash_l=();
+		###
 
 		# clear vars
 		$ipset_name_cfg_l=undef;
@@ -1090,7 +1102,7 @@ sub update_local_ipset_actual_data {
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
-    ###
+    # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (END)
     
     # operations for permanent ipsets (BEGIN)
 	#$ipset_input_href_l=hash-ref for %ipset_input_l
@@ -1102,11 +1114,8 @@ sub update_local_ipset_actual_data {
 	
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
 
-	###
-	# %ipset_actual_files_composition_hash_l
-	# key0=$ipset_actual_file_path_l
-    	    #key1A='ipset_file_type': 0-permanent, 1-temporary
-	    #key1B='subhash' (%ipset_actual_file_data_hash_l)
+	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
+	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
 	###
 
 	# ops for 'add' (permanent)
@@ -1131,7 +1140,12 @@ sub update_local_ipset_actual_data {
 		
 	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
-	
+
+	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
+	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+	%ipset_actual_file_data_hash_l=();
+	###
+		
 	# clear vars
 	@tmp_arr0_l=();
 	$ipset_actual_file_path_l=undef;
@@ -1148,11 +1162,8 @@ sub update_local_ipset_actual_data {
 
 	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/temporary/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
 
-	###
-	# %ipset_actual_files_composition_hash_l
-	# key0=$ipset_actual_file_path_l
-    	    #key1A='ipset_file_type': 0-permanent, 1-temporary
-	    #key1B='subhash' (%ipset_actual_file_data_hash_l)
+	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
+	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
 	###
 
 	# ops for 'add' (temporary)
@@ -1205,6 +1216,11 @@ sub update_local_ipset_actual_data {
 	}
 	
 	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
+	###
+
+	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
+	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+	%ipset_actual_file_data_hash_l=();
 	###
 
 	# clear vars
