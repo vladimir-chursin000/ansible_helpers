@@ -236,7 +236,12 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
 	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}} ) {
 		#$hkey1_l=ipset_name_tmplt
 		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/change_history");
+		
 		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content");
+		
+		if ( !-e($ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/info') ) {
+		    system("echo 'DO NOT CHANGE ANY FILES AT THIS DIR' > $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content/info");
+		}
 
 		#permanent/ipset_template_name/... (dir)
             	    # actual__ipset_name.txt (file)
