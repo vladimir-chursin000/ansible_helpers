@@ -4,6 +4,10 @@
 ########################################################
 
 # This CFG is linked with: "01_conf_ipset_templates" and "66_conf_ipsets_FIN".
+    # This means that if for a certain host (or group of hosts) in the "66_conf_ipsets_FIN" config, for example, 
+    # set a ipset template with the name "ipset1--TMPLT" and add a block with the same ipset template name to this config, 
+    # then on the side of the target host ( or hosts) to a ipset with 
+    # a specific name (according to the "01_conf_ipset_templates" config) the values specified below will be added.
 # This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
 
 ###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
