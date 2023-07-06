@@ -9,7 +9,10 @@ sub read_65_conf_initial_ipsets_content_FIN {
 
     # This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
     #[IPSET_TEMPLATE_NAME:BEGIN]
-    #one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+    # one row = "all/group_name/list_of_hosts/host=ipset_entry0,ipset_entry1,ipset_entry2,ipset_entryN"
+	# If "all" -> the configuration will be applied to all inventory hosts.
+	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+	# ipset_entries -> accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
     #[IPSET_TEMPLATE_NAME:END]
     ###
     #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
@@ -22,8 +25,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
     #{'ipset_create_option_family'}=inet|inet6
     #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     ###
-    #$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
-	#{'record-0'}=1
+    #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
+	#{'record-0'}=1 (record=ipset_entry)
 	#{'rerord-1'}=1
 	#etc
 	#{'seq'}=[val-0,val-1] (val=record)
@@ -35,8 +38,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-        #key0=ipset_template_name,key1=ipset_entry, value=1
-    	#...+ key1=seq, value=[array of ipset_entry]
+        #key0=ipset_template_name,key1="all/group/list_of_hosts/host=ipset_entry_list", value=1
+    	#...+ key1=seq, value=[array of vals]
     
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
