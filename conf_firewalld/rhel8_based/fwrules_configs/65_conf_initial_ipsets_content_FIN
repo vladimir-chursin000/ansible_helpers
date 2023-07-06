@@ -8,16 +8,16 @@
 
 ###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
 #[IPSET_TEMPLATE_NAME:BEGIN]
-# one row = "all/group_name/list_of_hosts/host::ipset_entry0,ipset_entry1,ipset_entry2,ipset_entryN"
+# one row = "all/group_name/list_of_hosts/host=ipset_entry0,ipset_entry1,ipset_entry2,ipset_entryN"
     # If "all" -> the configuration will be applied to all inventory hosts.
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
     # ipset_entries -> accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
 #[IPSET_TEMPLATE_NAME:END]
 
 #[ipset1--TMPLT:BEGIN]
-#all::10.1.2.3,10.1.2.11
-#gr_some_example_group::10.10.2.3,10.10.2.11,10.5.122.77
-#192.168.144.10::10.1.20.3,10.1.20.11
-#192.168.144.12,192.168.100.14,192.110.144.16::10.15.25.5,10.16.27.10
+#all=10.1.2.3,10.1.2.11
+#gr_some_example_group=10.10.2.3,10.10.2.11,10.5.122.77
+#192.168.144.10=10.1.20.3,10.1.20.11
+#192.168.144.12,192.168.100.14,192.110.144.16=10.15.25.5,10.16.27.10
 #[ipset1--TMPLT:END]
 #################################INSERT YOUR CUSTOM INITIAL IPSETS AFTER THIS LINE#################################
