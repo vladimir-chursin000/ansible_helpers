@@ -41,6 +41,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
         #key0=ipset_template_name,key1="all/group/list_of_hosts/host=ipset_entry_list", value=1
     	#...+ key1=seq, value=[array of vals]
     
+    my %res_tmp_lv1_l=();
+    
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
@@ -63,11 +65,14 @@ sub read_65_conf_initial_ipsets_content_FIN {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
-    # fill result hash
-    %{$res_href_l}=%res_tmp_lv0_l;
+    # fill %res_tmp_lv1_l hash
     ###
     
-    %res_tmp_lv0_l=();
+    # fill result hash aka $h65_conf_initial_ipsets_content_FIN_hash_g
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+    
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
