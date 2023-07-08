@@ -65,7 +65,28 @@ sub read_65_conf_initial_ipsets_content_FIN {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
-    # fill %res_tmp_lv1_l hash
+    # read/search ipset_entries at %res_tmp_lv0_l for 'all' and write it to %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=ipset_template_name
+    }
+    ###
+    
+    # read/search ipset_entries at %res_tmp_lv0_l for 'groups' and write it to %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=ipset_template_name
+    }
+    ###
+
+    # read/search ipset_entries at %res_tmp_lv0_l for 'list_of_hosts' and write it to %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=ipset_template_name
+    }
+    ###
+
+    # read/search ipset_entries at %res_tmp_lv0_l for 'one-host' and write it to %res_tmp_lv1_l
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#$hkey0_l=ipset_template_name
+    }
     ###
     
     # fill result hash aka $h65_conf_initial_ipsets_content_FIN_hash_g
