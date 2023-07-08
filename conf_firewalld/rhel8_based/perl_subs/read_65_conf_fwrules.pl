@@ -38,6 +38,10 @@ sub read_65_conf_initial_ipsets_content_FIN {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
+    my @tmp_arr0_l=();
+    my @tmp_arr1_l=();
+    
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -70,26 +74,78 @@ sub read_65_conf_initial_ipsets_content_FIN {
     
     # read/search ipset_entries at %res_tmp_lv0_l for 'all' and write it to %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#$hkey0_l=ipset_template_name
+    	#$hkey0_l=ipset_template_name
+    	@tmp_arr0_l=@{${$hval0_l}{'seq'}};
+    	
+    	foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    #$arr_el0_l="all/group/list_of_hosts/host=ipset_entry_list"
+    	    
+    	}
+    	
+    	# clear vars
+    	$arr_el0_l=undef;
+    	@tmp_arr0_l=();
+    	###
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
     # read/search ipset_entries at %res_tmp_lv0_l for 'groups' and write it to %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#$hkey0_l=ipset_template_name
+    	#$hkey0_l=ipset_template_name
+    	@tmp_arr0_l=@{${$hval0_l}{'seq'}};
+    
+    	foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    #$arr_el0_l="all/group/list_of_hosts/host=ipset_entry_list"
+    	    
+    	}
+    
+    	# clear vars
+	$arr_el0_l=undef;
+    	@tmp_arr0_l=();
+    	###
     }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
-
+    
     # read/search ipset_entries at %res_tmp_lv0_l for 'list_of_hosts' and write it to %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#$hkey0_l=ipset_template_name
+    	#$hkey0_l=ipset_template_name
+    	@tmp_arr0_l=@{${$hval0_l}{'seq'}};
+    
+    	foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    #$arr_el0_l="all/group/list_of_hosts/host=ipset_entry_list"
+    	    
+    	}
+    
+    	# clear vars
+	$arr_el0_l=undef;
+    	@tmp_arr0_l=();
+    	###
     }
+
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
 
     # read/search ipset_entries at %res_tmp_lv0_l for 'one-host' and write it to %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#$hkey0_l=ipset_template_name
+	@tmp_arr_l=@{${$hval0_l}{'seq'}};
+
+	foreach $arr_el0_l ( @tmp_arr0_l ) {
+	    #$arr_el0_l="all/group/list_of_hosts/host=ipset_entry_list"
+	    
+	}
+
+	# clear vars
+	$arr_el0_l=undef;
+	@tmp_arr_l=();
+	###
     }
+
+    ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
     # fill result hash aka $h65_conf_initial_ipsets_content_FIN_hash_g
