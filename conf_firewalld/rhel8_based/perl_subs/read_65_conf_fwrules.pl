@@ -100,13 +100,13 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	###
     	    	    
     	    	# for 'group'
-    	    	if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+/ ) {
+    	    	if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+$/ ) {
     	    	    
     	    	}
     	    	###
     	    	    
     	    	# for 'list_of_hosts'
-    	    	if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ ) {
+    	    	if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ && $host_str_l!~/all|gr\_\S+/ ) {
     	    		
     	    	}
     	    	###
