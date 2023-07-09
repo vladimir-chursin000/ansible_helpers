@@ -95,7 +95,14 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	
     	    	# for 'all'		
     	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
-    	    	
+    	    	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
+            	    	#$hkey1_l=inv-host from inv-host-hash
+		    	#$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}
+	    	    }
+		    
+		    # clear vars
+		    ($hkey1_l,$hval1_l)=(undef,undef);
+		    ###
     	    	}
     	    	###
     	    	    
