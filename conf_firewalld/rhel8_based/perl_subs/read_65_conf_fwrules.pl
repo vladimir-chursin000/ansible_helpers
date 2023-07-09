@@ -40,13 +40,15 @@ sub read_65_conf_initial_ipsets_content_FIN {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     my ($host_str_l,$ipset_entry_str_l)=(undef,undef);
+    my $host_type_l=undef;
+    my @host_types_l=('all','group','list_of_hosts','single_host');
     my @tmp_arr0_l=();
     my @tmp_arr1_l=();
     
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-        #key0=ipset_template_name,key1="all/group/list_of_hosts/host=ipset_entry_list", value=1
+        #key0=ipset_template_name,key1="all/group/list_of_hosts/single_host=ipset_entry_list", value=1
     	#...+ key1=seq, value=[array of vals]
     
     my %res_tmp_lv1_l=();
@@ -74,38 +76,58 @@ sub read_65_conf_initial_ipsets_content_FIN {
     ###
     
     # read/search ipset_entries at %res_tmp_lv0_l and write it to %res_tmp_lv1_l
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # while %res_tmp_lv0_l (begin)
     	#$hkey0_l=ipset_template_name
     	@tmp_arr0_l=@{${$hval0_l}{'seq'}};
-    	
-	# for 'all'
-    	foreach $arr_el0_l ( @tmp_arr0_l ) {
-    	    #$arr_el0_l="all/group/list_of_hosts/host=ipset_entry_list"
-	    $arr_el0_l=~s/ \,/\,/g;
-    	    $arr_el0_l=~s/\, /\,/g;
-
-	    $arr_el0_l=~s/ \//\//g;
-    	    $arr_el0_l=~s/\/ /\//g;
-	
-    	    ($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
-	    
-	    if ( $host_str_l eq 'all' ) {
-		
-	    }
-    	    
-    	    # clear vars
-    	    ($host_str_l,$ipset_entry_str_l)=(undef,undef);
-    	    ###
-    	}
-	###
+    	    	
+    	foreach $host_type_l ( @host_types_l ) { # foreach -> @host_types_l (begin)
+    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    	#$arr_el0_l="all/group/list_of_hosts/single_host=ipset_entry_list"
+    	    	$arr_el0_l=~s/ \,/\,/g;
+    	    	$arr_el0_l=~s/\, /\,/g;
+    		
+    		$arr_el0_l=~s/ \//\//g;
+    		$arr_el0_l=~s/\/ /\//g;
+    		
+    		($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
+    		
+    		# for 'all'		
+    		if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
+    		
+    		}
+    		###
+    		    
+    		# for 'group'
+    		if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+/ ) {
+    		    
+    		}
+    		###
+    		    
+    		# for 'list_of_hosts'
+    		if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ ) {
+    			
+    		}
+    		###
+    		
+    		# for 'single_host'
+    		if ( $host_type_l eq 'single_host' && $host_str_l!~/\,|^gr\_\S+|^all$/ ) {
+    		    	
+    		}
+    		###
+    		
+    		# clear vars
+    		($host_str_l,$ipset_entry_str_l)=(undef,undef);
+    		###
+    	    }
+    	} # foreach -> @host_types_l (end)
     	
     	# clear vars
     	$arr_el0_l=undef;
     	@tmp_arr0_l=();
     	###
-    }
-    
-    ($hkey0_l,$hval0_l)=(undef,undef);
+    } # while %res_tmp_lv0_l (end)
+
+    ($hkey0_l,$hval0_l)=(undef,undef); # clear vars
     ###
     
     # fill result hash aka $h65_conf_initial_ipsets_content_FIN_hash_g
