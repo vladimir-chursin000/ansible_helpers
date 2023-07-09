@@ -81,6 +81,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	@tmp_arr0_l=@{${$hval0_l}{'seq'}};
     	    	
     	foreach $host_type_l ( @host_types_l ) { # foreach -> @host_types_l (begin)
+    	    #$host_type_l='all','group','list_of_hosts','single_host' (sequence)
+    	    
     	    foreach $arr_el0_l ( @tmp_arr0_l ) { # foreach -> @tmp_arr0_l (begin)
     	    	#$arr_el0_l="all/group/list_of_hosts/single_host=ipset_entry_list"
     	    	$arr_el0_l=~s/ \,/\,/g;
