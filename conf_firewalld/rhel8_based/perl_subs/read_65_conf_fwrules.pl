@@ -81,44 +81,44 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	@tmp_arr0_l=@{${$hval0_l}{'seq'}};
     	    	
     	foreach $host_type_l ( @host_types_l ) { # foreach -> @host_types_l (begin)
-    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    foreach $arr_el0_l ( @tmp_arr0_l ) { # foreach -> @tmp_arr0_l (begin)
     	    	#$arr_el0_l="all/group/list_of_hosts/single_host=ipset_entry_list"
     	    	$arr_el0_l=~s/ \,/\,/g;
     	    	$arr_el0_l=~s/\, /\,/g;
-    		
-    		$arr_el0_l=~s/ \//\//g;
-    		$arr_el0_l=~s/\/ /\//g;
-    		
-    		($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
-    		
-    		# for 'all'		
-    		if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
-    		
-    		}
-    		###
-    		    
-    		# for 'group'
-    		if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+/ ) {
-    		    
-    		}
-    		###
-    		    
-    		# for 'list_of_hosts'
-    		if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ ) {
-    			
-    		}
-    		###
-    		
-    		# for 'single_host'
-    		if ( $host_type_l eq 'single_host' && $host_str_l!~/\,|^gr\_\S+|^all$/ ) {
-    		    	
-    		}
-    		###
-    		
-    		# clear vars
-    		($host_str_l,$ipset_entry_str_l)=(undef,undef);
-    		###
-    	    }
+    	    	
+    	    	$arr_el0_l=~s/ \//\//g;
+    	    	$arr_el0_l=~s/\/ /\//g;
+    	    	
+    	    	($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
+    	    	
+    	    	# for 'all'		
+    	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
+    	    	
+    	    	}
+    	    	###
+    	    	    
+    	    	# for 'group'
+    	    	if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+/ ) {
+    	    	    
+    	    	}
+    	    	###
+    	    	    
+    	    	# for 'list_of_hosts'
+    	    	if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ ) {
+    	    		
+    	    	}
+    	    	###
+    	    	
+    	    	# for 'single_host'
+    	    	if ( $host_type_l eq 'single_host' && $host_str_l!~/\,|^gr\_\S+|^all$/ ) {
+    	    	    	
+    	    	}
+    	    	###
+    	    	
+    	    	# clear vars
+    	    	($host_str_l,$ipset_entry_str_l)=(undef,undef);
+    	    	###
+    	    } # foreach -> @tmp_arr0_l (end)
     	} # foreach -> @host_types_l (end)
     	
     	# clear vars
