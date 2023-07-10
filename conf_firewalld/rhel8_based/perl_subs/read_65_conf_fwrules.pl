@@ -116,6 +116,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
 				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}}, $arr_el1_l);
 			    }
 			}
+			
+			$arr_el1_l=undef; # clear vars
     	    	    }
     	    	    
     	    	    # clear vars
@@ -126,7 +128,9 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	    
     	    	# for 'group'
     	    	if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+$/ ) {
-    	    	    
+    	    	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$host_str_l}) ) {
+			last;
+		    }
     	    	}
     	    	###
     	    	    
