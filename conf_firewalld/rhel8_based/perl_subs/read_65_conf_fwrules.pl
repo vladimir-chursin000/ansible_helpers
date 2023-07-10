@@ -92,19 +92,23 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	$arr_el0_l=~s/\/ /\//g;
     	    	
     	    	($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
-		
-		@tmp_arr1_l=split(/\,/,$ipset_entry_str_l);
+    	    	
+    	    	@tmp_arr1_l=split(/\,/,$ipset_entry_str_l);
+		if ( $#tmp_arr1_l==-1 ) {
+		    $return_str_l="fail [$proc_name_l]. IPSET_ENTRIES_LIST for tmplt_name='$hkey0_l' and host='$host_str_l' is empty at '65_conf_initial_ipsets_content_FIN'";
+		    last;
+		}
     	    	
     	    	# for 'all'		
     	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
     	    	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
             	    	#$hkey1_l=inv-host from inv-host-hash
-		    	#$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}
-	    	    }
-		    
-		    # clear vars
-		    ($hkey1_l,$hval1_l)=(undef,undef);
-		    ###
+    	    	    	#$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}
+    	    	    }
+    	    	    
+    	    	    # clear vars
+    	    	    ($hkey1_l,$hval1_l)=(undef,undef);
+    	    	    ###
     	    	}
     	    	###
     	    	    
@@ -128,15 +132,26 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	
     	    	# clear vars
     	    	($host_str_l,$ipset_entry_str_l)=(undef,undef);
-		@tmp_arr1_l=();
+    	    	@tmp_arr1_l=();
     	    	###
+    	    	
+    	    	if ( $return_str_l!~/^OK$/ ) { last; }
     	    } # foreach -> @tmp_arr0_l (end)
+    	    
+    	    # clear vars
+    	    $arr_el0_l=undef;
+    	    ###
+    	    
+    	    if ( $return_str_l!~/^OK$/ ) { last; }    
     	} # foreach -> @host_types_l (end)
     	
     	# clear vars
+	$host_type_l=undef;
     	$arr_el0_l=undef;
     	@tmp_arr0_l=();
     	###
+    	
+    	if ( $return_str_l!~/^OK$/ ) { last; }
     } # while %res_tmp_lv0_l (end)
 
     ($hkey0_l,$hval0_l)=(undef,undef); # clear vars
