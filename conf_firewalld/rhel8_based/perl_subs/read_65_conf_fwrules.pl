@@ -92,10 +92,14 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	$arr_el0_l=~s/\/ /\//g;
     	    	
     	    	($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
+		if ( length($host_str_l)<1 ) {
+		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is empty at '65_conf_initial_ipsets_content_FIN'";
+		    last;
+		}
     	    	
     	    	@tmp_arr1_l=split(/\,/,$ipset_entry_str_l);
 		if ( $#tmp_arr1_l==-1 ) {
-		    $return_str_l="fail [$proc_name_l]. IPSET_ENTRIES_LIST for tmplt_name='$hkey0_l' and host='$host_str_l' is empty at '65_conf_initial_ipsets_content_FIN'";
+		    $return_str_l="fail [$proc_name_l]. IPSET_ENTRIES_LIST for ipset_tmplt_name='$hkey0_l' and host='$host_str_l' is empty at '65_conf_initial_ipsets_content_FIN'";
 		    last;
 		}
     	    	
