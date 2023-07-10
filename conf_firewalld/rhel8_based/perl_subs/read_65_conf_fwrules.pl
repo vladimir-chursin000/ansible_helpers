@@ -92,6 +92,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	$arr_el0_l=~s/\/ /\//g;
     	    	
     	    	($host_str_l,$ipset_entry_str_l)=split(/\=/,$arr_el0_l);
+		
+		@tmp_arr1_l=split(/\,/,$ipset_entry_str_l);
     	    	
     	    	# for 'all'		
     	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
@@ -126,6 +128,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	
     	    	# clear vars
     	    	($host_str_l,$ipset_entry_str_l)=(undef,undef);
+		@tmp_arr1_l=();
     	    	###
     	    } # foreach -> @tmp_arr0_l (end)
     	} # foreach -> @host_types_l (end)
@@ -137,6 +140,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
     } # while %res_tmp_lv0_l (end)
 
     ($hkey0_l,$hval0_l)=(undef,undef); # clear vars
+
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
     
     # fill result hash aka $h65_conf_initial_ipsets_content_FIN_hash_g
