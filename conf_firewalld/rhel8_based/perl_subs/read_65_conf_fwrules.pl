@@ -113,7 +113,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
 
 			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}) ) {
 				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}=1;
-				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}}, $arr_el1_l);
+				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$arr_el1_l);
 			    }
 			}
 			
@@ -131,6 +131,21 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$host_str_l}) ) {
 			$return_str_l="fail [$proc_name_l].Group='$host_str_l' is not configured at '00_conf_divisions_for_inv_hosts' (ipset_tmplt_name='$hkey0_l', linked config='65_conf_initial_ipsets_content_FIN')";
 			last;
+		    }
+		    
+		    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$host_str_l}} ) {
+			#$hkey1_l=inv-host
+			
+			foreach $arr_el1_l ( @tmp_arr1_l ) {
+			    #$arr_el1_l=ipset entry
+
+			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}) ) {
+				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}=1;
+				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$arr_el1_l);
+			    }
+			}
+			
+			$arr_el1_l=undef; # clear vars
 		    }
     	    	}
     	    	###
