@@ -129,6 +129,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	# for 'group'
     	    	if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+$/ ) {
     	    	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$host_str_l}) ) {
+			$return_str_l="fail [$proc_name_l].Group='$host_str_l' is not configured at '00_conf_divisions_for_inv_hosts' (ipset_tmplt_name='$hkey0_l', linked config='65_conf_initial_ipsets_content_FIN')";
 			last;
 		    }
     	    	}
