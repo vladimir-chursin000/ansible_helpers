@@ -425,31 +425,64 @@ sub read_config_FIN_level0 {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
 
-    # third (last) read %res_tmp_lv0_l (for inv-host='some inv-host' or inv-host='list of inv hosts')
+    # third read %res_tmp_lv0_l (for inv-host='list of inv hosts')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#%res_tmp_lv0_l
 	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
-	@arr0_l=split(/\,/,${$hval0_l}[0]);
-	foreach $arr_el0_l ( @arr0_l ) {
-	    #$arr_el0_l=inv-host
-	    
-	    # check if exists at inventory-file
-	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='$arr_el0_l' is not exists at inventory-file";
-		last;
+	if ( ${$hval0_l}[0]=~/\,/ ) {
+	    @arr0_l=split(/\,/,${$hval0_l}[0]);
+	    foreach $arr_el0_l ( @arr0_l ) {
+		#$arr_el0_l=inv-host
+		
+		# check if exists at inventory-file
+		if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+	    	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='$arr_el0_l' is not exists at inventory-file";
+		    last;
+		}
+		###
+		
+		$key_ind_l=$arr_el0_l;
+		if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+	    	    
+		$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+	    	
+		$key_ind_l=undef;
 	    }
-	    ###
-	    
-	    $key_ind_l=$hkey1_l;
-	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
-	    	
-	    $res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
-	    	
-	    $key_ind_l=undef;
-	}
 	
-	$arr_el0_l=undef;
-	@arr0_l=();
+	    $arr_el0_l=undef;
+	    @arr0_l=();
+	    
+	    delete($res_tmp_lv0_l{$hkey0_l});
+	        
+	    if ( $return_str_l!~/^OK$/ ) { last; }
+	}
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    ###
+
+    # third read %res_tmp_lv0_l (for inv-host='single hosts')
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#%res_tmp_lv0_l
+	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+	    
+	# check if exists at inventory-file
+	if ( !exists(${$inv_hosts_href_l}{${$hval0_l}[0]}) ) {
+	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='${$hval0_l}[0]' is not exists at inventory-file";
+	    last;
+	}
+	###
+		
+	$key_ind_l=${$hval0_l}[0];
+	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+	    	    
+	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+	    	
+	$key_ind_l=undef;
+	
+	delete($res_tmp_lv0_l{$hkey0_l});
 	
 	if ( $return_str_l!~/^OK$/ ) { last; }
     }

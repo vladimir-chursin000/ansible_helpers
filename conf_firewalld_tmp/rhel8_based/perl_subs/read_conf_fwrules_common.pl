@@ -440,7 +440,7 @@ sub read_config_FIN_level0 {
 	    }
 	    ###
 	    
-	    $key_ind_l=$hkey1_l;
+	    $key_ind_l=$arr_el0_l;
 	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
 	    	
 	    $res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];

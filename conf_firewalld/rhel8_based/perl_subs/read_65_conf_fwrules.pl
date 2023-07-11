@@ -105,12 +105,13 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    last;
 		}
     	    	
-    	    	# for 'all'		
+    	    	# for 'all' (can be only one string with host_str_l='all')	
     	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
     	    	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
             	    	#$hkey1_l=inv-host from inv-host-hash
     	    	    	
 			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
+			    #$hkey0_l=ipset_template_name
 			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
 				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
 				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
@@ -126,7 +127,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	}
     	    	###
     	    	    
-    	    	# for 'group'
+    	    	# for 'group' (can be only one string with host_str_l=some-specific-group)
     	    	if ( $host_type_l eq 'group' && $host_str_l=~/^gr\_\S+$/ ) {
     	    	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$host_str_l}) ) {
 			$return_str_l="fail [$proc_name_l].Group='$host_str_l' is not configured at '00_conf_divisions_for_inv_hosts' (ipset_tmplt_name='$hkey0_l', linked config='65_conf_initial_ipsets_content_FIN')";
@@ -136,7 +137,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$host_str_l}} ) {
 			#$hkey1_l=inv-host
 			
+			if ( exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}) ) {
+			    delete($res_tmp_lv1_l{$hkey1_l}{$hkey0_l});
+			}
+			
 			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
+			    #$hkey0_l=ipset_template_name
 			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
 				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
 				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
