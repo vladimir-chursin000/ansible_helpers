@@ -98,6 +98,16 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is empty at '65_conf_initial_ipsets_content_FIN'";
 		    last;
 		}
+		
+		if ( $host_str_l=~/^\S+\,all$|^\S+\,all\,\S+$|^all\,\S+$/ ) {
+		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is incorrect. It is deny to include 'all' into host-list";
+		    last;
+		}
+		
+		if ( $host_str_l=~/^gr\_\S+\,\S+$|^\S+\,gr\_\S+\,\S+$|^\S+\,gr\_\S+\$/ ) {
+		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is incorrect. It is deny to include groups (via ',') into host-list";
+		    last;
+		}
     	    	
     	    	@ipset_entry_list_arr_l=split(/\,/,$ipset_entry_str_l);
 		if ( $#ipset_entry_list_arr_l==-1 ) {
