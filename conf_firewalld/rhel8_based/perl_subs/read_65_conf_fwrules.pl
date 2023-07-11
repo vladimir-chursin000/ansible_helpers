@@ -53,7 +53,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
         #key0=ipset_template_name,key1="all/group/list_of_hosts/single_host=ipset_entry_list", value=1
     	#...+ key1=seq, value=[array of vals]
     
-    my %res_tmp_lv1_l=();
+    my %res_tmp_lv1_l=(); # structure = h65_conf_initial_ipsets_content_FIN_hash_g
     
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
