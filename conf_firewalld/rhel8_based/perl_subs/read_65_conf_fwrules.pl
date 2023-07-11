@@ -158,8 +158,27 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ && $host_str_l!~/all|gr\_\S+/ ) {
     	    	    @host_list_arr_l=split(/\,/,$host_str_l);
 		    
+		    foreach $host_list_el_l ( @host_list_arr_l ) {
+		    	if ( !exists(${$inv_hosts_href_l}{$host_list_el_l}) ) {
+		    	    $return_str_l="fail [$proc_name_l]. Inv-host='$host_list_el_l' is not exists at inventory-file";
+		    	    last;
+		    	}
+			
+		    	if ( exists($res_tmp_lv1_l{$host_list_el_l}{$hkey0_l}) ) {
+		    	    delete($res_tmp_lv1_l{$host_list_el_l}{$hkey0_l});
+		    	}
+
+			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
+			    #$hkey0_l=ipset_template_name
+			    if ( !exists($res_tmp_lv1_l{$host_list_el_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
+				$res_tmp_lv1_l{$host_list_el_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
+				push(@{$res_tmp_lv1_l{$host_list_el_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
+			    }
+			}
+		    }
 		    
 		    # clear vars
+		    $host_list_el_l=undef;
 		    @host_list_arr_l=();
 		    ###
     	    	}
@@ -167,7 +186,22 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	
     	    	# for 'single_host'
     	    	if ( $host_type_l eq 'single_host' && $host_str_l!~/\,|^gr\_\S+|^all$/ ) {
-    	    	    	
+    	    	    if ( !exists(${$inv_hosts_href_l}{$host_str_l}) ) {
+		    	$return_str_l="fail [$proc_name_l]. Inv-host='$host_str_l' is not exists at inventory-file";
+		    	last;
+		    }
+		    
+		    if ( exists($res_tmp_lv1_l{$host_str_l}{$hkey0_l}) ) {
+		    	delete($res_tmp_lv1_l{$host_str_l}{$hkey0_l});
+		    }
+
+		    foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
+			#$hkey0_l=ipset_template_name
+			if ( !exists($res_tmp_lv1_l{$host_str_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
+			    $res_tmp_lv1_l{$host_str_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
+			    push(@{$res_tmp_lv1_l{$host_str_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
+			}
+		    }
     	    	}
     	    	###
     	    	
