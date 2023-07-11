@@ -150,7 +150,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	    
     	    	# for 'list_of_hosts'
     	    	if ( $host_type_l eq 'list_of_hosts' && $host_str_l=~/\,/ && $host_str_l!~/all|gr\_\S+/ ) {
-    	    	    
+    	    	    @host_list_arr_l=split(/\,/,$host_str_l);
+		    
+		    
+		    # clear vars
+		    @host_list_arr_l=();
+		    ###
     	    	}
     	    	###
     	    	
