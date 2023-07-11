@@ -38,7 +38,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
-    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
+    my ($arr_el0_l)=(undef);
     my ($host_str_l,$ipset_entry_str_l)=(undef,undef);
     my ($host_list_el_l,$ipset_entry_list_el_l)=(undef,undef);
     my $host_type_l=undef;
@@ -46,7 +46,6 @@ sub read_65_conf_initial_ipsets_content_FIN {
     my @host_list_arr_l=();
     my @ipset_entry_list_arr_l=();
     my @tmp_arr0_l=();
-    my @tmp_arr1_l=();
     
     my $return_str_l='OK';
 
@@ -112,8 +111,6 @@ sub read_65_conf_initial_ipsets_content_FIN {
             	    	#$hkey1_l=inv-host from inv-host-hash
     	    	    	
 			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
-			    #$arr_el1_l=ipset entry
-
 			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
 				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
 				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
@@ -140,8 +137,6 @@ sub read_65_conf_initial_ipsets_content_FIN {
 			#$hkey1_l=inv-host
 			
 			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
-			    #$arr_el1_l=ipset entry
-
 			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
 				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
 				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
@@ -167,7 +162,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	
     	    	# clear vars
     	    	($host_str_l,$ipset_entry_str_l)=(undef,undef);
-    	    	@tmp_arr1_l=();
+    	    	@ipset_entry_list_arr_l=();
     	    	###
     	    	
     	    	if ( $return_str_l!~/^OK$/ ) { last; }
