@@ -40,8 +40,11 @@ sub read_65_conf_initial_ipsets_content_FIN {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     my ($host_str_l,$ipset_entry_str_l)=(undef,undef);
+    my ($host_list_el_l,$ipset_entry_list_el_l)=(undef,undef);
     my $host_type_l=undef;
     my @host_types_l=('all','group','list_of_hosts','single_host');
+    my @host_list_arr_l=();
+    my @ipset_entry_list_arr_l=();
     my @tmp_arr0_l=();
     my @tmp_arr1_l=();
     
@@ -97,8 +100,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    last;
 		}
     	    	
-    	    	@tmp_arr1_l=split(/\,/,$ipset_entry_str_l);
-		if ( $#tmp_arr1_l==-1 ) {
+    	    	@ipset_entry_list_arr_l=split(/\,/,$ipset_entry_str_l);
+		if ( $#ipset_entry_list_arr_l==-1 ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_ENTRIES_LIST for ipset_tmplt_name='$hkey0_l' and host='$host_str_l' is empty at '65_conf_initial_ipsets_content_FIN'";
 		    last;
 		}
@@ -108,16 +111,16 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
             	    	#$hkey1_l=inv-host from inv-host-hash
     	    	    	
-			foreach $arr_el1_l ( @tmp_arr1_l ) {
+			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
 			    #$arr_el1_l=ipset entry
 
-			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}) ) {
-				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}=1;
-				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$arr_el1_l);
+			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
+				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
+				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
 			    }
 			}
 			
-			$arr_el1_l=undef; # clear vars
+			$ipset_entry_list_el_l=undef; # clear vars
     	    	    }
     	    	    
     	    	    # clear vars
@@ -136,16 +139,16 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$host_str_l}} ) {
 			#$hkey1_l=inv-host
 			
-			foreach $arr_el1_l ( @tmp_arr1_l ) {
+			foreach $ipset_entry_list_el_l ( @ipset_entry_list_arr_l ) {
 			    #$arr_el1_l=ipset entry
 
-			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}) ) {
-				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$arr_el1_l}=1;
-				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$arr_el1_l);
+			    if ( !exists($res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}) ) {
+				$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{$ipset_entry_list_el_l}=1;
+				push(@{$res_tmp_lv1_l{$hkey1_l}{$hkey0_l}{'seq'}},$ipset_entry_list_el_l);
 			    }
 			}
 			
-			$arr_el1_l=undef; # clear vars
+			$ipset_entry_list_el_l=undef; # clear vars
 		    }
     	    	}
     	    	###
