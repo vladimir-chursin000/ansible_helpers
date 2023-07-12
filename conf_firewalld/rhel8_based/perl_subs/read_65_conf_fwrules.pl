@@ -153,6 +153,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
 			last;
 		    }
 		    
+		    if ( exists($host_types_uniq_check_l{$host_str_l}) ) {
+			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' you can use only one group with value='$host_str_l'";
+			last;
+		    }
+		    $host_types_uniq_check_l{$host_str_l}=1;
+
 		    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$host_str_l}} ) {
 			#$hkey0_l=ipset_template_name
 			#$hkey1_l=inv-host
