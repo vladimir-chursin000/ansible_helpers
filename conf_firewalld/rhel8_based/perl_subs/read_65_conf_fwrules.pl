@@ -102,12 +102,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		}
 		
 		if ( $host_str_l=~/^\S+\,all$|^\S+\,all\,\S+$|^all\,\S+$/ ) {
-		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is incorrect. It is deny to include 'all' into host-list";
+		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is incorrect. It is deny to include 'all' into host-list ('65_conf_initial_ipsets_content_FIN')";
 		    last;
 		}
 		
 		if ( $host_str_l=~/^gr\_\S+\,\S+$|^\S+\,gr\_\S+\,\S+$|^\S+\,gr\_\S+\$/ ) {
-		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is incorrect. It is deny to include groups (via ',') into host-list";
+		    $return_str_l="fail [$proc_name_l]. Host for cfg_string='$arr_el0_l' (ipset_tmplt_name='$hkey0_l') is incorrect. It is deny to include groups (via ',') into host-list ('65_conf_initial_ipsets_content_FIN')";
 		    last;
 		}
     	    	
@@ -121,7 +121,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
 		    
 		    if ( exists($host_types_uniq_check_l{'all'}) ) {
-			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' can be only one host_str with value='all'";
+			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' can be only one host_str with value='all' ('65_conf_initial_ipsets_content_FIN')";
 			last;
 		    }
 		    $host_types_uniq_check_l{'all'}=1;
@@ -154,7 +154,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    }
 		    
 		    if ( exists($host_types_uniq_check_l{$host_str_l}) ) {
-			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' you can use only one group with value='$host_str_l'";
+			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' you can use only one group with value='$host_str_l' ('65_conf_initial_ipsets_content_FIN')";
 			last;
 		    }
 		    $host_types_uniq_check_l{$host_str_l}=1;
@@ -186,13 +186,13 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    
 		    foreach $host_list_el_l ( @host_list_arr_l ) {
 			if ( exists($host_types_uniq_check_l{$host_list_el_l}) ) {
-			    $return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' detected duplicated entry='$host_list_el_l' at host_str='$host_str_l' (list_of_hosts)";
+			    $return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' detected duplicated entry='$host_list_el_l' at host_str='$host_str_l' (list_of_hosts) ('65_conf_initial_ipsets_content_FIN')";
 			    last;
 			}
 			$host_types_uniq_check_l{$host_list_el_l}=1;
 
 		    	if ( !exists(${$inv_hosts_href_l}{$host_list_el_l}) ) {
-		    	    $return_str_l="fail [$proc_name_l]. Inv-host='$host_list_el_l' is not exists at inventory-file";
+		    	    $return_str_l="fail [$proc_name_l]. Inv-host='$host_list_el_l' is not exists at inventory-file ('65_conf_initial_ipsets_content_FIN')";
 		    	    last;
 		    	}
 			
@@ -219,12 +219,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	if ( $host_type_l eq 'single_host' && $host_str_l!~/\,|^gr\_\S+|^all$/ ) {
 		    #$hkey0_l=ipset_template_name
     	    	    if ( !exists(${$inv_hosts_href_l}{$host_str_l}) ) {
-		    	$return_str_l="fail [$proc_name_l]. Inv-host='$host_str_l' is not exists at inventory-file";
+		    	$return_str_l="fail [$proc_name_l]. Inv-host='$host_str_l' is not exists at inventory-file ('65_conf_initial_ipsets_content_FIN')";
 		    	last;
 		    }
 		    
 		    if ( exists($host_types_uniq_check_l{$host_str_l}) ) {
-			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' detected duplicated entry='$host_list_el_l' at host_str='$host_str_l' (single_host)";
+			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' detected duplicated entry='$host_list_el_l' at host_str='$host_str_l' (single_host) ('65_conf_initial_ipsets_content_FIN')";
 			last;
 		    }
 		    $host_types_uniq_check_l{$host_str_l}=1;
