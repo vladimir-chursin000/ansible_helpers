@@ -55,6 +55,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
     
     my %res_tmp_lv1_l=(); # structure = h65_conf_initial_ipsets_content_FIN_hash_g
     
+    my %uniq_check_l=(); # for each ipset_templtate_name
+	#for cycle 'all' ($host_type_l='all'): key=all, value=1
+	#for cycle 'group' ($host_type_l='group'): key=group_name, value=1
+	#for cycle 'list_of_hosts' ($host_type_l='list_of_hosts'): key=inv-host, value=1
+	#for cycle 'single_host' ($host_type_l='single_host'): key=inv-host, value=1
+    
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
@@ -225,6 +231,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    
     	    # clear vars
     	    $arr_el0_l=undef;
+	    %uniq_check_l=();
     	    ###
     	    
     	    if ( $return_str_l!~/^OK$/ ) { last; }    
