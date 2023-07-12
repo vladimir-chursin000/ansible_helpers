@@ -68,12 +68,8 @@ sub read_65_conf_initial_ipsets_content_FIN {
     # check for temporary ipset templates (DENY)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
     	#$hkey0_l=ipset_template_name
-    	if ( !exists(${$ipset_templates_href_l}{$hkey0_l}) ) {
-    	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' configured at '65_conf_initial_ipsets_content_FIN' is not exists at '01_conf_ipset_templates'";
-    	    last;
-    	}
-    	if ( ${$ipset_templates_href_l}{$hkey0_l}{'ipset_create_option_timeout'}>0 ) {
-    	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' is not permanent";
+    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$hkey0_l}) ) {
+    	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' configured at '65_conf_initial_ipsets_content_FIN' is not permanent (at '01_conf_ipset_templates')";
     	    last;
     	}
     }
