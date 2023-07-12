@@ -185,6 +185,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	    @host_list_arr_l=split(/\,/,$host_str_l);
 		    
 		    foreach $host_list_el_l ( @host_list_arr_l ) {
+			if ( exists($host_types_uniq_check_l{$host_list_el_l}) ) {
+			    $return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' detected duplicated entry='$host_list_el_l' at host_str='$host_str_l' (list_of_hosts)";
+			    last;
+			}
+			$host_types_uniq_check_l{$host_list_el_l}=1;
+
 		    	if ( !exists(${$inv_hosts_href_l}{$host_list_el_l}) ) {
 		    	    $return_str_l="fail [$proc_name_l]. Inv-host='$host_list_el_l' is not exists at inventory-file";
 		    	    last;
