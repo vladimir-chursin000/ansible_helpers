@@ -246,7 +246,7 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 			    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
 			}
 			else { # duplicate list-value
-			    $return_str_l="fail [$proc_name_l]. Duplicated list-value ('$arr_el0_l') at file='$file_l' for tmlt='$hkey0_l'. Fix it!";
+			    $return_str_l="fail [$proc_name_l]. Duplicated list-value ('$arr_el0_l') at file='$file_l' for tmplt='$hkey0_l'. Fix it!";
 			    last;
 			}
 		    } # cycle 2

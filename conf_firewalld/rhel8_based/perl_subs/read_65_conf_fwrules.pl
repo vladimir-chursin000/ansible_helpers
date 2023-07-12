@@ -55,7 +55,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     
     my %res_tmp_lv1_l=(); # structure = h65_conf_initial_ipsets_content_FIN_hash_g
     
-    my %uniq_check_l=(); # for each ipset_templtate_name
+    my %host_types_uniq_check_l=(); # for each ipset_templtate_name
 	#for cycle 'all' ($host_type_l='all'): key=all, value=1
 	#for cycle 'group' ($host_type_l='group'): key=group_name, value=1
 	#for cycle 'list_of_hosts' ($host_type_l='list_of_hosts'): key=inv-host, value=1
@@ -123,6 +123,13 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    	
     	    	# for 'all' (can be only one string with host_str_l='all')	
     	    	if ( $host_type_l eq 'all' && $host_str_l eq 'all' ) {
+		    
+		    if ( exists($host_types_uniq_check_l{'all'}) ) {
+			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' can be only one host_str with value='all'";
+			last;
+		    }
+		    $host_types_uniq_check_l{'all'}=1;
+		    
     	    	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
 			#$hkey0_l=ipset_template_name
             	    	#$hkey1_l=inv-host from inv-host-hash
@@ -231,7 +238,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     	    
     	    # clear vars
     	    $arr_el0_l=undef;
-	    %uniq_check_l=();
+	    %host_types_uniq_check_l=();;
     	    ###
     	    
     	    if ( $return_str_l!~/^OK$/ ) { last; }    
