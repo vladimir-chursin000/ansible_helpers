@@ -32,8 +32,8 @@ sub apply_IPSET_files_operation_main {
 	#{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     
     my $h65_conf_initial_ipsets_content_FIN_href_l=${$input_hash4proc_href_l}{'h65_conf_initial_ipsets_content_FIN_href'};
-    #$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
-        #{'record-0'}=1
+    #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
+        #{'record-0'}=1 (record=ipset_entry)
         #{'rerord-1'}=1
         #etc
         #{'seq'}=[val-0,val-1] (val=record)
@@ -621,12 +621,11 @@ sub update_local_ipset_actual_data {
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
 	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
         #{'ipset_name'}=value
-    #$h65_conf_initial_ipsets_content_FIN_href_l=hash-ref for %h65_conf_initial_ipsets_content_FIN_hash_g
-	#$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
-    	    #{'record-0'}=1
-    	    #{'rerord-1'}=1
-    	    #etc
-    	    #{'seq'}=[val-0,val-1] (val=record)
+    #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
+        #{'record-0'}=1 (record=ipset_entry)
+        #{'rerord-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=record)
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
 	#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
             #{ipset_name_tmplt-0}=1;

@@ -7,7 +7,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-    #res_href_l=hash-ref for %h66_conf_ipsets_FIN_hash_g
+    #res_href_l=hash-ref for %h65_conf_initial_ipsets_content_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
 
     # This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").

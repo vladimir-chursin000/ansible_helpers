@@ -398,11 +398,14 @@ our %h05_conf_zone_rich_rules_sets_hash_g=();
 our %h65_conf_initial_ipsets_content_FIN_hash_g=();
 # This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
 #[IPSET_TEMPLATE_NAME:BEGIN]
-#one row = one record with ipset accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+# one row = "all/group_name/list_of_hosts/host=ipset_entry0,ipset_entry1,ipset_entry2,ipset_entryN"
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+    # ipset_entries -> accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
 #[IPSET_TEMPLATE_NAME:END]
 ###
-#$h65_conf_initial_ipsets_content_FIN_hash_g{ipset_template_name}->
-    #{'record-0'}=1
+#$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
+    #{'record-0'}=1 (record=ipset_entry)
     #{'rerord-1'}=1
     #etc
     #{'seq'}=[val-0,val-1] (val=record)
