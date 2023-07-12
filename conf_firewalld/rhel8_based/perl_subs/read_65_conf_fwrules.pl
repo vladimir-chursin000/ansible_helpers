@@ -223,6 +223,12 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    	last;
 		    }
 		    
+		    if ( exists($host_types_uniq_check_l{$host_str_l}) ) {
+			$return_str_l="fail [$proc_name_l]. For ipset_tmplt_name='$hkey0_l' detected duplicated entry='$host_list_el_l' at host_str='$host_str_l' (single_host)";
+			last;
+		    }
+		    $host_types_uniq_check_l{$host_str_l}=1;
+
 		    if ( exists($res_tmp_lv1_l{$host_str_l}{$hkey0_l}) ) {
 		    	delete($res_tmp_lv1_l{$host_str_l}{$hkey0_l});
 		    }
