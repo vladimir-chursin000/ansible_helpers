@@ -1024,7 +1024,7 @@ sub update_local_ipset_actual_data {
     
     # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (BEGIN)
     	#For do not miss manually added data
-    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # for permanent (withput timeout) ipsets
+    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # for permanent (without timeout) ipsets
 	#$hkey0_l=inv-host
 	
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
