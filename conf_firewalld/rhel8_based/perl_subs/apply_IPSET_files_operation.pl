@@ -1,11 +1,7 @@
 ###DEPENDENCIES: file_operations.pl
 
 sub apply_IPSET_files_operation_main {
-    my ($remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l,$ipset_input_dir_l,$ipset_actual_data_dir_l,$input_hash4proc_href_l)=@_;
-    #$remote_ipset_dir_for_absible_helper_l=$remote_ipset_dir_for_absible_helper_g
-    #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g -> #for copy to REMOTE_HOST:'$HOME/ansible_helpers/conf_firewalld/ipset_files'
-	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
-	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
+    my ($ipset_input_dir_l,$ipset_actual_data_dir_l,$input_hash4proc_href_l)=@_;
     #$ipset_input_dir_l=$ipset_input_dir_g
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
@@ -87,13 +83,6 @@ sub apply_IPSET_files_operation_main {
 
     ######
 
-    $exec_res_l=&form_local_dyn_ipsets_files_for_copy_to_remote($remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l);
-    #$remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l
-    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-    $exec_res_l=undef;
-    
-    ######
-        
     return $return_str_l;
 }
 
@@ -1250,19 +1239,6 @@ sub update_local_ipset_actual_data {
     
     my $return_str_l='OK';
 
-    return $return_str_l;
-}
-
-sub form_local_dyn_ipsets_files_for_copy_to_remote {
-    my ($remote_ipset_dir_for_absible_helper_l,$dyn_ipsets_files_dir_l)=@_;
-    #$remote_ipset_dir_for_absible_helper_l=$remote_ipset_dir_for_absible_helper_g
-    #$dyn_ipsets_files_dir_l=$dyn_ipsets_files_dir_g -> #for copy to REMOTE_HOST:'$HOME/ansible_helpers/conf_firewalld/ipset_files'
-	#...scripts_for_remote/fwrules_files/ipset_files/add_queue/inv-host
-	#...scripts_for_remote/fwrules_files/ipset_files/remove_queue/inv-host
-    my $proc_name_l=(caller(0))[3];
-    
-    my $return_str_l='OK';
-    
     return $return_str_l;
 }
 
