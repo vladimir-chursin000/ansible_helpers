@@ -600,6 +600,22 @@ sub read_local_ipset_input {
     return $return_str_l;
 }
 
+sub update_initial_content_for_local_ipset_actual_data {
+    my ($ipset_actual_data_dir_l,$h65_conf_initial_ipsets_content_FIN_href_l)=@_;
+    #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
+    #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
+        #{'record-0'}=1 (record=ipset_entry)
+        #{'rerord-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=record)
+    
+    my $proc_name_l=(caller(0))[3];
+
+    my $return_str_l='OK';
+    
+    return $return_str_l;
+}
+
 sub update_local_ipset_actual_data {
     my ($ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
@@ -679,6 +695,8 @@ sub update_local_ipset_actual_data {
     my $dt_now_l=undef;
     
     my $ipset_actual_file_path_l=undef;
+
+    my $return_str_l='OK';
     
     ###
     # for fill at one iteration, write data to %ipset_actual_files_composition_hash and clear
@@ -1237,8 +1255,6 @@ sub update_local_ipset_actual_data {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
-    my $return_str_l='OK';
-
     return $return_str_l;
 }
 
