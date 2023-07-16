@@ -632,18 +632,25 @@ sub update_initial_content_for_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_template_name
 	    
+	    $init_content_file_path_now_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now';
+	    $init_content_file_path_now_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/prev';
+	    
 	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
 	    
 	    foreach $arr_el0_l ( @tmp_arr0_l ) {
 		#$arr_el0_l=initial ipset entry
 	    }
+	    
+	    # clear vars
+	    ($init_content_file_path_now_l,$init_content_file_path_prev_l)=(undef,undef);
+	    ###
 	}
 	
-	($hkey1_l,$hval1_l)
+	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
 	###
     }
     
-    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey0_l,$hval0_l)=(undef,undef); # clear vars
     ###
 
     my $return_str_l='OK';
