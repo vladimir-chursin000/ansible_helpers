@@ -73,7 +73,14 @@ sub apply_IPSET_files_operation_main {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     #print Dumper(\%ipset_input_l);
-    
+
+    ######
+        
+    $exec_res_l=&update_initial_content_for_local_ipset_actual_data($ipset_actual_data_dir_l,$h65_conf_initial_ipsets_content_FIN_href_l);
+    #$ipset_actual_data_dir_l,$h65_conf_initial_ipsets_content_FIN_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+
     ######
 
     $exec_res_l=&update_local_ipset_actual_data($ipset_actual_data_dir_l,\%ipset_input_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l);
@@ -610,6 +617,33 @@ sub update_initial_content_for_local_ipset_actual_data {
         #{'seq'}=[val-0,val-1] (val=record)
     
     my $proc_name_l=(caller(0))[3];
+    
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    my $arr_el0_l=undef;
+    my @tmp_arr0_l=();
+    
+    # cycle with key=inv-host
+    while ( ($hkey0_l,$hval0_l)=each %{$h65_conf_initial_ipsets_content_FIN_href_l} ) {
+	#$hkey0_l=inv-host
+	
+	# cycle with key=ipset_template_name
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=ipset_template_name
+	    
+	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
+	    
+	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+		#$arr_el0_l=initial ipset entry
+	    }
+	}
+	
+	($hkey1_l,$hval1_l)
+	###
+    }
+    
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
 
     my $return_str_l='OK';
     
