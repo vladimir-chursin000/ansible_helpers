@@ -1117,7 +1117,15 @@ sub update_local_ipset_actual_data {
 		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
 		# or key0=info, value=[array of info strings]
 		###
-	
+		
+		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l
+		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
+		###
+
+		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l
+		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
+		###
+		
 		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
 		# %ipset_actual_files_composition_hash_l
 		# key0=$ipset_actual_file_path_l
