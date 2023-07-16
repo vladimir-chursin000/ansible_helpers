@@ -1120,10 +1120,12 @@ sub update_local_ipset_actual_data {
 		
 		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l
 		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
+		$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
 		###
 
 		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l
 		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
+		$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
 		###
 		
 		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
@@ -1139,6 +1141,7 @@ sub update_local_ipset_actual_data {
 		# clear vars
 		$ipset_name_cfg_l=undef;
 		$ipset_actual_file_path_l=undef;
+		($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef);
 		###
 	    }
 	}
