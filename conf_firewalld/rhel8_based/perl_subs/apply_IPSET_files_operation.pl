@@ -621,6 +621,7 @@ sub update_initial_content_for_local_ipset_actual_data {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $arr_el0_l=undef;
+    my ($init_content_file_path_now_l,$init_content_file_path_prev_l)=(undef,undef);
     my @tmp_arr0_l=();
     
     # cycle with key=inv-host
