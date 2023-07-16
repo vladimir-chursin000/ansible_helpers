@@ -647,6 +647,9 @@ sub update_initial_content_for_local_ipset_actual_data {
 	    
 	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
 	    
+	    &rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@tmp_arr0_l);
+	    #$file_l,$aref_l
+	    
 	    foreach $arr_el0_l ( @tmp_arr0_l ) {
 		#$arr_el0_l=initial ipset entry
 	    }
