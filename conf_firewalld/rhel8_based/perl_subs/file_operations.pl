@@ -99,6 +99,30 @@ sub read_actual_ipset_file_to_hash {
     return $return_str_l;
 }
 
+sub simple_read_lines_of_file_to_hash {
+    my ($file_l,$href_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $line_l=undef;
+    my $return_str_l='OK';
+    
+    open(FILE,'<',$file_l);
+    while ( <FILE> ) {
+	$line_l=$_;
+	
+	$line_l=~s/^\s+//g;
+	$line_l=~s/\n|\r|\r\n|\n\r//g;
+	
+	if ( $line_l!~/^\#/ ) { # if line not comment
+	    $line_l=~s/\s+//g;
+	    ${$href_l}{$line_l}=1;
+	}
+    }
+    close(FILE);
+    
+    return $return_str_l;
+}
+
 sub rewrite_file_from_array_ref {
     my ($file_l,$aref_l)=@_;
     my $proc_name_l=(caller(0))[3];

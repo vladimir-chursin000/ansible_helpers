@@ -623,6 +623,8 @@ sub update_initial_content_for_local_ipset_actual_data {
     my $arr_el0_l=undef;
     my ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
     my @tmp_arr0_l=();
+    my %prev4add_content_l=();
+	#key=ipset_entry, value=1
     
     # cycle with key=inv-host
     while ( ($hkey0_l,$hval0_l)=each %{$h65_conf_initial_ipsets_content_FIN_href_l} ) {
@@ -639,6 +641,9 @@ sub update_initial_content_for_local_ipset_actual_data {
 	    if ( -f($init_content_file_path_now4del_l) ) { unlink $init_content_file_path_now4del_l; }
 	    if ( -f($init_content_file_path_prev4add_l) ) { unlink $init_content_file_path_prev4add_l; }
 	    if ( -f($init_content_file_path_now4add_l) ) { rename($init_content_file_path_now4add_l,$init_content_file_path_prev4add_l); }
+	    
+	    &simple_read_lines_of_file_to_hash($init_content_file_path_prev4add_l,\%prev4add_content_l);
+	    #$file_l,$href_l
 	    
 	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
 	    
