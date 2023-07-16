@@ -636,6 +636,10 @@ sub update_initial_content_for_local_ipset_actual_data {
 	    $init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
 	    $init_content_file_path_prev4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/prev4add';
 	    
+	    if ( -f($init_content_file_path_now4del_l) ) { unlink $init_content_file_path_now4del_l; }
+	    if ( -f($init_content_file_path_prev4add_l) ) { unlink $init_content_file_path_prev4add_l; }
+	    if ( -f($init_content_file_path_now4add_l) ) { rename($init_content_file_path_now4add_l,$init_content_file_path_prev4add_l); }
+	    
 	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
 	    
 	    foreach $arr_el0_l ( @tmp_arr0_l ) {
