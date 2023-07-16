@@ -758,6 +758,8 @@ sub update_local_ipset_actual_data {
     my $file_ipset_name_ch_hist_l=undef;
     my $change_hist_1line_l=undef;
     
+    my ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef); # for correct actual-file-data from '65_conf_initial_ipsets_content_FIN' as source
+    
     my @tmp_arr0_l=();
     
     my $dt_now_l=undef;
