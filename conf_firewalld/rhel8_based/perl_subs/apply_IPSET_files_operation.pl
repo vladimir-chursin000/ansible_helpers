@@ -621,7 +621,7 @@ sub update_initial_content_for_local_ipset_actual_data {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $arr_el0_l=undef;
-    my ($init_content_file_path_now_l,$init_content_file_path_prev_l)=(undef,undef);
+    my ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
     my @tmp_arr0_l=();
     
     # cycle with key=inv-host
@@ -632,8 +632,9 @@ sub update_initial_content_for_local_ipset_actual_data {
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_template_name
 	    
-	    $init_content_file_path_now_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now';
-	    $init_content_file_path_now_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/prev';
+	    $init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
+	    $init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
+	    $init_content_file_path_prev4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/prev4add';
 	    
 	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
 	    
@@ -642,7 +643,7 @@ sub update_initial_content_for_local_ipset_actual_data {
 	    }
 	    
 	    # clear vars
-	    ($init_content_file_path_now_l,$init_content_file_path_prev_l)=(undef,undef);
+	    ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
 	    ###
 	}
 	
