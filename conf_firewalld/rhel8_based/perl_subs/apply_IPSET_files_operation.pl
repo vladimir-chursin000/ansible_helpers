@@ -620,6 +620,7 @@ sub update_initial_content_for_local_ipset_actual_data {
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($hkey2_l,$hval2_l)=(undef,undef);
     my $arr_el0_l=undef;
     my ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
     my @tmp_arr0_l=();
@@ -645,17 +646,28 @@ sub update_initial_content_for_local_ipset_actual_data {
 	    &simple_read_lines_of_file_to_hash($init_content_file_path_prev4add_l,\%prev4add_content_l);
 	    #$file_l,$href_l
 	    
-	    @tmp_arr0_l=@{${$hval1_l}{'seq'}};
-	    
-	    &rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@tmp_arr0_l);
-	    #$file_l,$aref_l
-	    
-	    foreach $arr_el0_l ( @tmp_arr0_l ) {
-		#$arr_el0_l=initial ipset entry
+	    # form content of $init_content_file_path_now4del_l (if need)
+	    while ( ($hkey2_l,$hval2_l)=each %prev4add_content_l ) {
+		#$hkey2_l=ipset-entry fromn prev4add
+		
+		if ( !exists(${$hval1_l}{$hkey2_l}) ) {
+		    push(@tmp_arr0_l,$hkey2_l); # form content of new $init_content_file_path_now4del_l
+		}
 	    }
 	    
+	    if ( $#tmp_arr0_l!=-1 ) {
+		&rewrite_file_from_array_ref($init_content_file_path_now4del_l,\@tmp_arr0_l);
+		#$file_l,$aref_l
+	    }
+	    ###
+	    
+	    &rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@{${$hval1_l}{'seq'}});
+	    #$file_l,$aref_l
+	    	    
 	    # clear vars
 	    ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
+	    @tmp_arr0_l=();
+	    %prev4add_content_l=();
 	    ###
 	}
 	
