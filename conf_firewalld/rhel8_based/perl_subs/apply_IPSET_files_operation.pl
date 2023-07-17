@@ -747,6 +747,7 @@ sub update_local_ipset_actual_data {
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($hkey2_l,$hval2_l)=(undef,undef);
     my ($inv_host_dir_line_l,$ipset_tmplt_name_dir_line_l)=(undef,undef);
     my $tmp_var_l=undef;
     
@@ -761,6 +762,8 @@ sub update_local_ipset_actual_data {
     my ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef); # for correct actual-file-data from '65_conf_initial_ipsets_content_FIN' as source
     
     my @tmp_arr0_l=();
+    
+    my %tmp_hash0_l=();
     
     my $dt_now_l=undef;
     
@@ -1118,15 +1121,37 @@ sub update_local_ipset_actual_data {
 		# or key0=info, value=[array of info strings]
 		###
 		
-		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l
+		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l (BEGIN)
 		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
 		$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
+		&simple_read_lines_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
+		#$file_l,$href_l
+		
+		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
+		    #$hkey2_l = ipset entry for add
+		}
+		
+		# clear vars
+		($hkey2_l,$hval2_l)=(undef,undef);
+		%tmp_hash0_l=();
 		###
+		# check for exists initial file 'now4add' (END)
 
-		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l
+		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l (BEGIN)
 		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
 		$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
+		&simple_read_lines_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
+		#$file_l,$href_l
+
+		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
+		    #$hkey2_l = ipset entry for del
+		}
+		
+		# clear vars
+		($hkey2_l,$hval2_l)=(undef,undef);		
+		%tmp_hash0_l=();
 		###
+		# check for exists initial file 'now4del' (END)
 		
 		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
 		# %ipset_actual_files_composition_hash_l
