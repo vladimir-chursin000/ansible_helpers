@@ -1,9 +1,10 @@
 ###DEPENDENCIES: file_operations.pl
 
 sub apply_IPSET_files_operation_main {
-    my ($ipset_input_dir_l,$ipset_actual_data_dir_l,$input_hash4proc_href_l)=@_;
+    my ($ipset_input_dir_l,$ipset_actual_data_dir_l,$scripts_for_remote_dir_l,$input_hash4proc_href_l)=@_;
     #$ipset_input_dir_l=$ipset_input_dir_g
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
+    #$scripts_for_remote_dir_l=$scripts_for_remote_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
     my $proc_name_l=(caller(0))[3];
