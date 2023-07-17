@@ -1,10 +1,10 @@
 ###DEPENDENCIES: file_operations.pl
 
 sub apply_IPSET_files_operation_main {
-    my ($ipset_input_dir_l,$ipset_actual_data_dir_l,$scripts_for_remote_dir_l,$input_hash4proc_href_l)=@_;
+    my ($ipset_input_dir_l,$ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$input_hash4proc_href_l)=@_;
     #$ipset_input_dir_l=$ipset_input_dir_g
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
-    #$scripts_for_remote_dir_l=$scripts_for_remote_dir_g
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     
     my $proc_name_l=(caller(0))[3];
@@ -91,8 +91,8 @@ sub apply_IPSET_files_operation_main {
 
     ######
 
-    $exec_res_l=&copy_actual_ipset_data_to_scripts_for_remote($ipset_actual_data_dir_l,$scripts_for_remote_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
-    #$ipset_actual_data_dir_l,$scripts_for_remote_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
+    $exec_res_l=&copy_actual_ipset_data_to_scripts_for_remote($ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
+    #$ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     
@@ -1379,9 +1379,9 @@ sub update_local_ipset_actual_data {
 }
 
 sub copy_actual_ipset_data_to_scripts_for_remote {
-    my ($ipset_actual_data_dir_l,$scripts_for_remote_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    my ($ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
-    #$scripts_for_remote_dir_l=$scripts_for_remote_dir_g
+    #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
         #{'ipset_name'}=value
