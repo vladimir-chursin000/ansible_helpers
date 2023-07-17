@@ -1395,6 +1395,8 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my $ipset_name_l=undef;
+    my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
     
     # operations for permanent ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
@@ -1402,6 +1404,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_tmplt_name
+	    
 	}
 	
 	#clear vars
