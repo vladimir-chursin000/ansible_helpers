@@ -1394,10 +1394,19 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my $proc_name_l=(caller(0))[3];
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     
     # operations for permanent ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
 	#$hkey0_l=inv-host
+	
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=ipset_tmplt_name
+	}
+	
+	#clear vars
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
     }
     
     # clear vars
@@ -1408,6 +1417,14 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     # operations for temporary ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
 	#$hkey0_l=inv-host
+
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=ipset_tmplt_name
+	}
+	
+	#clear vars
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
     }
     
     # clear vars
