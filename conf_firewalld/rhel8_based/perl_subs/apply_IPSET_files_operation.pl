@@ -1370,5 +1370,21 @@ sub update_local_ipset_actual_data {
     return $return_str_l;
 }
 
+sub copy_actual_ipset_data_to_scripts_for_remote {
+    my ($ipset_actual_data_dir_l,$h66_conf_ipsets_FIN_href_l)=@_;
+    #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
+    #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
+        #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+            #{ipset_name_tmplt-0}=1;
+            #{ipset_name_tmplt-1}=1;
+            #etc
+    
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
