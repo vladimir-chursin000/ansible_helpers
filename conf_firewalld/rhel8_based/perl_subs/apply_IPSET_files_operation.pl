@@ -650,7 +650,7 @@ sub update_initial_content_for_local_ipset_actual_data {
 	    if ( -f($init_content_file_path_prev4add_l) ) { unlink $init_content_file_path_prev4add_l; }
 	    if ( -f($init_content_file_path_now4add_l) ) { rename($init_content_file_path_now4add_l,$init_content_file_path_prev4add_l); }
 	    
-	    &simple_read_lines_of_file_to_hash($init_content_file_path_prev4add_l,\%prev4add_content_l);
+	    &read_lines_without_comments_of_file_to_hash($init_content_file_path_prev4add_l,\%prev4add_content_l);
 	    #$file_l,$href_l
 	    
 	    # form content of $init_content_file_path_now4del_l (if need)
@@ -1132,7 +1132,7 @@ sub update_local_ipset_actual_data {
 		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l (BEGIN)
 		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
 		$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
-		&simple_read_lines_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
+		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
 		#$file_l,$href_l
 		
 		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
@@ -1151,7 +1151,7 @@ sub update_local_ipset_actual_data {
 		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l (BEGIN)
 		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
 		$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
-		&simple_read_lines_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
+		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
 		#$file_l,$href_l
 
 		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
@@ -1403,6 +1403,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my $ipsets_list_file_path_l=undef;
     my @ipset_types_by_timeout_l=('permanent','temporary');
     my @list_of_ipsets_l=();
+    my @tmp_arr0_l=();
     
     # operations for permanent/temporary ipsets (BEGIN)
     foreach $arr_el0_l ( @ipset_types_by_timeout_l ) {
@@ -1421,13 +1422,19 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	    	$ipset_name_l=${$ipset_templates_href_l}{$arr_el0_l}{$hkey1_l}{'ipset_name'};
 	    	$src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
 	    	$dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
-		system("cp $src_ipset_file_path_l $dst_ipset_file_path_l");
+		&read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
+		#$file_l,$aref_l
 		
-		push(@list_of_ipsets_l,$ipset_name_l);
+		if ( $#tmp_arr0_l!=-1 ) { # write to dst if ipset entries exists at src-file
+		    &rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
+        	    #$file_l,$aref_l
+		    push(@list_of_ipsets_l,$ipset_name_l);
+		}
 		
 	    	# clear vars
 	    	$ipset_name_l=undef;
 	    	($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
+		@tmp_arr0_l=();
 	    	###
 	    }
 	    
