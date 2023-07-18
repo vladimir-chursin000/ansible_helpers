@@ -1382,6 +1382,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my ($ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
+	#...playbooks/scripts_for_remote/fwrules_files
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
         #{'ipset_name'}=value
@@ -1404,7 +1405,14 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=ipset_tmplt_name
+	    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
+	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
 	    
+	    
+	    # clear vars
+	    $ipset_name_l=undef;
+	    ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
+	    ###
 	}
 	
 	#clear vars
