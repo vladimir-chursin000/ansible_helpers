@@ -1400,7 +1400,9 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my $ipset_name_l=undef;
     my $dst_dir_l=undef;
     my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
+    my $ipsets_list_file_path_l=undef;
     my @ipset_types_by_timeout_l=('permanent','temporary');
+    my @list_of_ipsets_l=();
     
     # operations for permanent/temporary ipsets (BEGIN)
     foreach $arr_el0_l ( @ipset_types_by_timeout_l ) {
@@ -1412,6 +1414,8 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	    $dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets';
 	    system("mkdir -p $dst_dir_l");
 	    
+	    $ipsets_list_file_path_l=$dst_dir_l.'/LIST';
+	    
 	    while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    	#$hkey1_l=ipset_tmplt_name
 	    	$ipset_name_l=${$ipset_templates_href_l}{$arr_el0_l}{$hkey1_l}{'ipset_name'};
@@ -1419,15 +1423,23 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	    	$dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
 		system("cp $src_ipset_file_path_l $dst_ipset_file_path_l");
 		
+		push(@list_of_ipsets_l,$ipset_name_l);
+		
 	    	# clear vars
 	    	$ipset_name_l=undef;
 	    	($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
 	    	###
 	    }
-	
+	    
+	    @list_of_ipsets_l=sort(@list_of_ipsets_l);
+	    &rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
+	    #$file_l,$aref_l
+	    
 	    #clear vars
 	    ($hkey1_l,$hval1_l)=(undef,undef);
 	    $dst_dir_l=undef;
+	    $ipsets_list_file_path_l=undef;
+	    @list_of_ipsets_l=();
 	    ###
 	}
     
