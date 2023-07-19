@@ -12,21 +12,21 @@
 
 ######################################################
 
-- name: create_dir "ansible_helpers/conf_firewalld/tmp" if not exists
+- name: "Create_dir '~/ansible_helpers/conf_firewalld/tmp' at remote if not exists"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/tmp"
     state: directory
 
 ######################################################
 
-- name: Remove file '~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip' before archive '/etc/firewalld'
+- name: "Remove file '~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip' before archive '/etc/firewalld' at remote"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip"
     state: absent
 
 ######################################################
 
-- name: Compress directory '/etc/firewalld' into '~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip'
+- name: "Compress directory '/etc/firewalld' into '~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip' at remote"
   archive:
     path: /etc/firewalld
     dest: "~/ansible_helpers/conf_firewalld/tmp/etc_firewalld.zip"
@@ -34,12 +34,12 @@
 
 ######################################################
 
-- name: collect and save output of 'firewall-cmd --list-all-zones'
+- name: "Collect and save output of 'firewall-cmd --list-all-zones' at remote"
   ansible.builtin.shell: firewall-cmd --list-all-zones > ~/ansible_helpers/conf_firewalld/tmp/fw_list_all_zones.txt
 
 ######################################################
 
-- name: fetch fw-backup-files
+- name: "Fetch fw-backup-files from remote to local"
   ansible.builtin.fetch:
     flat: yes
     src: "~/ansible_helpers/conf_firewalld/tmp/{{item}}"
@@ -50,7 +50,7 @@
 
 ######################################################
 
-- name: Create directory for actual fwrules-files (now-dir)
+- name: "Create directory for actual fwrules-files (now-dir) at localhost"
   ansible.builtin.file:
     path: "{{playbook_dir}}/fwrules_backup_from_remote/now/{{inventory_hostname}}"
     state: directory
@@ -58,7 +58,7 @@
 
 ######################################################
 
-- name: Copy 'fw_list_all_zones.txt' from history-dir to now-dir
+- name: "Copy 'fw_list_all_zones.txt' from history-dir to now-dir at localhost"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/fwrules_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
     dest: "{{playbook_dir}}/fwrules_backup_from_remote/now/{{inventory_hostname}}/{{item}}"
