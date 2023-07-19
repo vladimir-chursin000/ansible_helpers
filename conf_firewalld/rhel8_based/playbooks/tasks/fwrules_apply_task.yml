@@ -185,7 +185,7 @@
 
 ######
 
-- name: copy_recreate_policies_to_remote
+- name: "copy 'recreate_policies.sh' to remote if need"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_policies.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
@@ -197,7 +197,7 @@
 
 ######
 
-- name: copy_rollback_fwrules_changes_to_remote_if_need
+- name: "copy 'rollback_fwrules_changes.sh' to remote if need"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/rollback_fwrules_changes.sh"
     dest: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh"
