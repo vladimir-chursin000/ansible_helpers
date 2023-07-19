@@ -109,7 +109,7 @@
 # Prev copies: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh
 # recreate_fw_zones.sh, recreate_policies.sh
 
-- name: Make copy of "recreate_permanent_ipset.sh" at remote if need
+- name: "Make copy of 'recreate_permanent_ipset.sh' at remote if need"
   ansible.builtin.copy:
     src: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/prev_recreate_permanent_ipsets.sh"
@@ -120,7 +120,7 @@
 
 ######
 
-- name: Make copy of "recreate_temporary_ipset.sh" at remote
+- name: "Make copy of 'recreate_temporary_ipset.sh' at remote"
   ansible.builtin.copy:
     src: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/prev_recreate_temporary_ipsets.sh"
@@ -131,7 +131,7 @@
 
 ######
 
-- name: Make copy of "recreate_fw_zones.sh" at remote
+- name: "Make copy of 'recreate_fw_zones.sh' at remote"
   ansible.builtin.copy:
     src: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
     dest: "~/ansible_helpers/conf_firewalld/prev_recreate_fw_zones.sh"
@@ -142,7 +142,7 @@
 
 ######
 
-- name: Make copy of "recreate_policies.sh" at remote
+- name: "Make copy of 'recreate_policies.sh' at remote"
   ansible.builtin.copy:
     src: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
     dest: "~/ansible_helpers/conf_firewalld/prev_recreate_policies.sh"
