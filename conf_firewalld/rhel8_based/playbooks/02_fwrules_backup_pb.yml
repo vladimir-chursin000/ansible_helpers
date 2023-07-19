@@ -1,10 +1,10 @@
 ---
 - hosts: rhel8_firewall_hosts
   tasks:
-    - name: "run fwrules_backup_task_main"
+    - name: "Run task 'fwrules_backup_task_main.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_backup_task_main.yml"
 
 ######################################################
 
-    - name: "run fwrules_backup_collect_raw_network_data_task"
+    - name: "Run task 'fwrules_backup_collect_raw_network_data_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_backup_collect_raw_network_data_task.yml"

@@ -1,7 +1,7 @@
 ---
 - hosts: rhel8_firewall_hosts
   tasks:
-    - name: enable_n_if_started_firewalld
+    - name: "Enable and start (if not started) services 'firewalld.service, rsyslog.service' at remote"
       ansible.builtin.systemd:
         name: "{{item}}"
         state: started
