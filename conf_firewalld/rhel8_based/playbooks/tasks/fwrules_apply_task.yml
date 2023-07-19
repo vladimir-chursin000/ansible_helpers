@@ -155,7 +155,7 @@
 
 ######################################################STEP 5. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (begin)
 
-- name: copy_recreate_permanent_ipset_to_remote
+- name: "copy 'recreate_permanent_ipsets.sh' to remote"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_permanent_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_permanent_ipsets.sh"
@@ -165,7 +165,7 @@
 
 ######
 
-- name: copy_recreate_temporary_ipset_to_remote
+- name: "copy 'recreate_temporary_ipsets.sh' to remote"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_temporary_ipsets.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_temporary_ipsets.sh"
@@ -175,7 +175,7 @@
 
 ######
 
-- name: copy_recreate_fw_zones_to_remote
+- name: "copy 'recreate_fw_zones.sh' to remote"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/recreate_fw_zones.sh"
     dest: "~/ansible_helpers/conf_firewalld/recreate_fw_zones.sh"
