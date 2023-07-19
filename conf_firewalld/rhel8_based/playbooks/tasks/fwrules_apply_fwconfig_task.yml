@@ -1,5 +1,5 @@
 # APPLY FIREWALL CONFIG
-- name: "if exists 'INV-HOST_firewall.conf' for apply"
+- name: "Check if exists at localhost 'INV-HOST_firewall.conf' for apply"
   delegate_to: localhost
   ansible.builtin.stat:
     path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/firewalld.conf"
@@ -7,7 +7,7 @@
 
 ######################################################
 
-- name: copy_firewalld_conf_to_remote
+- name: "Copy 'firewalld.conf' to remote"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/firewalld.conf"
     dest: /etc/firewalld/firewalld.conf
@@ -26,6 +26,6 @@
 
 ######################################################
 
-- name: create apply-run-info-file "fwconfig_changed"
+- name: "Create apply-run-info-file 'fwconfig_changed'"
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/fwconfig_changed
   when: copy_firewalld_conf_to_remote_res.changed==true

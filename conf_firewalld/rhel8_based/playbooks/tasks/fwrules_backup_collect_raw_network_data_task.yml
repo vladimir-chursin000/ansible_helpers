@@ -1,9 +1,9 @@
-- name: collect and save network data to user home dir
+- name: "Collect and save network data to user home dir at remote"
   ansible.builtin.shell: ip -o addr > ~/ansible_helpers/conf_firewalld/tmp/ip_addr
 
 ######################################################
 
-- name: Create directory for raw network data (network_data-dir)
+- name: "Create directory for raw network data (network_data-dir) at remote"
   ansible.builtin.file:
     path: "{{playbook_dir}}/fwrules_backup_from_remote/network_data"
     state: directory
@@ -11,7 +11,7 @@
 
 ######################################################
 
-- name: fetch_raw_network_data
+- name: "Fetch raw network data from remote to local"
   ansible.builtin.fetch:
     flat: yes
     src: "~/ansible_helpers/conf_firewalld/tmp/{{item}}"
