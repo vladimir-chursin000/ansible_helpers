@@ -3,14 +3,14 @@
   tasks:
 ######################################################Check for '*_is_run_now'(begin)
 
-    - name: "if exists 'apply_fwrules_is_run_now' at remote side"
+    - name: "Check if exists 'apply_fwrules_is_run_now' at remote"
       stat:
         path: "~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now"
       register: apply_fwrules_is_run_now_exists
 
 ######
 
-    - name: "if exists 'rollback_fwrules_changes_is_run_now' at remote side"
+    - name: "Check if exists 'rollback_fwrules_changes_is_run_now' at remote"
       stat:
         path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes_is_run_now"
       register: rollback_fwrules_changes_is_run_now_exists
@@ -19,7 +19,7 @@
 
 ######################################################Apply firewalld.conf (begin)
 
-    - name: "run fwrules_apply_fwconfig_task"
+    - name: "Run task 'fwrules_apply_fwconfig_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_fwconfig_task.yml"
       when: apply_fwrules_is_run_now_exists.stat.exists==false and rollback_fwrules_changes_is_run_now_exists.stat.exists==false
 
@@ -27,7 +27,7 @@
 
 ######################################################Apply '/etc/rsyslog.d/firewalld-droppd.conf' (begin)
 
-    - name: "run fwrules_apply_droppd_conf_task"
+    - name: "Run task 'fwrules_apply_droppd_conf_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_droppd_conf_task.yml"
       when: apply_fwrules_is_run_now_exists.stat.exists==false and rollback_fwrules_changes_is_run_now_exists.stat.exists==false
 
@@ -35,7 +35,7 @@
 
 ######################################################Apply firewall rules (recreate ipsets/zones/policies) (begin)
 
-    - name: "run fwrules_apply_task"
+    - name: "Run task 'fwrules_apply_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_task.yml"
       when: apply_fwrules_is_run_now_exists.stat.exists==false and rollback_fwrules_changes_is_run_now_exists.stat.exists==false
 
