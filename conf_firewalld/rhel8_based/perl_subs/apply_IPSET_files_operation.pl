@@ -1438,9 +1438,15 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	    	###
 	    }
 	    
-	    @list_of_ipsets_l=sort(@list_of_ipsets_l);
-	    &rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
-	    #$file_l,$aref_l
+	    if ( $#list_of_ipsets_l!=-1 ) {
+		@list_of_ipsets_l=sort(@list_of_ipsets_l);
+		&rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
+		#$file_l,$aref_l
+	    }
+	    else {
+		$ipsets_list_file_path_l=$dst_dir_l.'/NO_LIST';
+		system("touch $ipsets_list_file_path_l");
+	    }
 	    
 	    #clear vars
 	    ($hkey1_l,$hval1_l)=(undef,undef);
