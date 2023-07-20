@@ -107,11 +107,22 @@
 
 ######
 
+- name: "Create 'prev_permanent_ipsets' and move content of 'permanent_ipsets' to it at remote if need"
+  ansible.builtin.shell: cd ~/ansible_helpers/conf_firewalld && rm -rf prev_permanent_ipsets && mv permanent_ipsets prev_permanent_ipsets
+  when: permanent_ipsets_dir_exists_at_remote.stat.exists==true
+
+######
+
+- name: "Create 'prev_temporary_ipsets' and move content of 'temporary_ipsets' to it at remote if need"
+  ansible.builtin.shell: cd ~/ansible_helpers/conf_firewalld && rm -rf prev_temporary_ipsets && mv temporary_ipsets prev_temporary_ipsets
+  when: temporary_ipsets_dir_exists_at_remote.stat.exists==true
+
+######
+
 - name: "Create dir '~/ansible_helpers/conf_firewalld/permanent_ipsets' at remote if not exists"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/permanent_ipsets"
     state: directory
-  when: permanent_ipsets_dir_exists_at_remote.stat.exists==false
 
 ######
 
@@ -119,7 +130,6 @@
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/temporary_ipsets"
     state: directory
-  when: temporary_ipsets_dir_exists_at_remote.stat.exists==false
 
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (end)
 
