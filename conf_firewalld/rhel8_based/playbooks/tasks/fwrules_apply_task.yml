@@ -131,6 +131,20 @@
     path: "~/ansible_helpers/conf_firewalld/temporary_ipsets"
     state: directory
 
+######
+
+- name: "Copy 'permanent_ipsets' content to remote"
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/permanent_ipsets/"
+    dest: "~/ansible_helpers/conf_firewalld/permanent_ipsets/"
+
+######
+
+- name: "Copy 'temporary_ipsets' content to remote"
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/temporary_ipsets/"
+    dest: "~/ansible_helpers/conf_firewalld/temporary_ipsets/"
+
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (end)
 
 ######################################################STEP 5. Make prev copies if need (begin)
