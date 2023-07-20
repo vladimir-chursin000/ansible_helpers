@@ -93,10 +93,25 @@
 
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (begin)
 
+- name: "Check if exists at remote 'permanent_ipsets' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/permanent_ipsets"
+  register: permanent_ipsets_dir_exists_at_remote
+
+######
+
+- name: "Check if exists at remote 'temporary_ipsets' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/temporary_ipsets"
+  register: temporary_ipsets_dir_exists_at_remote
+
+######
+
 - name: "Create dir '~/ansible_helpers/conf_firewalld/permanent_ipsets' at remote if not exists"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/permanent_ipsets"
     state: directory
+  when: permanent_ipsets_dir_exists_at_remote.stat.exists==false
 
 ######
 
@@ -104,6 +119,7 @@
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/temporary_ipsets"
     state: directory
+  when: temporary_ipsets_dir_exists_at_remote.stat.exists==false
 
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (end)
 
