@@ -32,7 +32,7 @@ PREV_LIST_FILE_str="$PREV_CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 PREV_NO_LIST_FILE_str="$PREV_CONTENT_DIR_str/NO_LIST";
 
-if [[ -f "$NO_LIST_FILE_str" ]]; then
-    
+if [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
+    # nothing to do
 fi;
 ###MAIN
