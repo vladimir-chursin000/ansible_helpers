@@ -4,7 +4,7 @@
 
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 
-###VARS
+######VARS
 OPERATION_IPSET_TYPE_str=$1;
 #
 CONTENT_DIR_str='no';
@@ -16,10 +16,13 @@ PREV_LIST_FILE_str='no';
 NO_LIST_FILE_str='no';
 PREV_NO_LIST_FILE_str='no';
 #
+###
+MAIN_SCENARIO_str='no';
+# possible values: delete_all (delete all entries for all ipsets), re_add (delete all entries for all ipsets and add new entries), 
+    # compare (compare prev and now content. If differ -> add or/and ipsets entries)
+######VARS
 
-###VARS
-
-###MAIN
+######MAIN
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
@@ -35,13 +38,18 @@ NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 PREV_NO_LIST_FILE_str="$PREV_CONTENT_DIR_str/NO_LIST";
 
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
-    # Nothing to do
-    echo 'Nothing to do!' > $NO_LIST_FILE_str;
+    # Delete all entries for all ipsets
+    echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
+    MAIN_SCENARIO_str='delete_all';
 elif [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_LIST_FILE_str" ]]; then
-    # Delete existing entries
+    # Delete all entries for all ipsets
+    echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
+    MAIN_SCENARIO_str='delete_all';
 elif [[ -f "$LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
-    # No content before. Just fill ipsets
+    # Delete all entries for all ipsets and add new entries
+    MAIN_SCENARIO_str='re_add';
 elif [[ -f "$LIST_FILE_str" ]] && [[ -f "$PREV_LIST_FILE_str" ]]; then
-    # Compare prev and now content. If differ -> fill ipsets
+    # Compare prev and now content. If differ -> add or/and ipsets entries
+    MAIN_SCENARIO_str='compare';
 fi;
-###MAIN
+######MAIN
