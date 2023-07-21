@@ -15,6 +15,8 @@ PREV_LIST_FILE_str='no';
 #
 NO_LIST_FILE_str='no';
 PREV_NO_LIST_FILE_str='no';
+#
+
 ###VARS
 
 ###MAIN
@@ -33,6 +35,13 @@ NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 PREV_NO_LIST_FILE_str="$PREV_CONTENT_DIR_str/NO_LIST";
 
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
-    # nothing to do
+    # Nothing to do
+    echo 'Nothing to do!' > $NO_LIST_FILE_str;
+elif [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_LIST_FILE_str" ]]; then
+    # Delete existing entries
+elif [[ -f "$LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
+    # No content before. Just fill ipsets
+elif [[ -f "$LIST_FILE_str" ]] && [[ -f "$PREV_LIST_FILE_str" ]]; then
+    # Compare prev and now content. If differ -> fill ipsets
 fi;
 ###MAIN
