@@ -112,8 +112,8 @@ fi;
 ###
 
 # 6) Re-add. If need to re-add ipsets elements from ansible-host as source.
-#if [[ -s "$SELF_DIR_str/re_add_permanent_ipsets_content.sh" ]]; then
-#    "$SELF_DIR_str/re_add_permanent_ipsets_content.sh" &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
+#if [[ some-condition-for-run ]]; then
+#    "$SELF_DIR_str/re_add_ipsets_content.sh" permanent &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
 #fi;
 ###
 
@@ -133,8 +133,8 @@ fi;
 ###
 
 # 9) Re-add. If need to re-add ipsets elements from ansible-host as source.
-#if [[ -s "$SELF_DIR_str/re_add_temporary_ipsets_content.sh" ]]; then
-#    "$SELF_DIR_str/re_add_temporary_ipsets_content.sh" &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
+#if [[ some-condition-for-run ]]; then
+#    "$SELF_DIR_str/re_add_ipsets_content.sh" temporary &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
 #fi;
 ###
 
