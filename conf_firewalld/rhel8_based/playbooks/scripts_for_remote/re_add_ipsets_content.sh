@@ -5,5 +5,11 @@
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 
 ###VARS
-OPERATION_IPSET_TYPE=$1;
+OPERATION_IPSET_TYPE_str=$1;
 ###VARS
+
+if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
+    
+elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
+    
+fi;
