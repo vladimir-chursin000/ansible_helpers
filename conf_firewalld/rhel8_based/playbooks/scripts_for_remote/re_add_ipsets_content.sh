@@ -19,7 +19,6 @@ PREV_NO_LIST_FILE_str='no';
 ###
 MAIN_SCENARIO_str='no';
 # possible values: delete_all (delete all entries for all ipsets), re_add (delete all entries for all ipsets and add new entries), 
-    # compare (compare prev and now content. If differ -> add or/and ipsets entries)
 ######VARS
 
 ######MAIN
@@ -37,19 +36,12 @@ PREV_LIST_FILE_str="$PREV_CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 PREV_NO_LIST_FILE_str="$PREV_CONTENT_DIR_str/NO_LIST";
 
-if [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
+if [[ -f "$NO_LIST_FILE_str" ]]; then
     # Delete all entries for all ipsets
     echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
     MAIN_SCENARIO_str='delete_all';
-elif [[ -f "$NO_LIST_FILE_str" ]] && [[ -f "$PREV_LIST_FILE_str" ]]; then
-    # Delete all entries for all ipsets
-    echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
-    MAIN_SCENARIO_str='delete_all';
-elif [[ -f "$LIST_FILE_str" ]] && [[ -f "$PREV_NO_LIST_FILE_str" ]]; then
+elif [[ -f "$LIST_FILE_str" ]]; then
     # Delete all entries for all ipsets and add new entries
     MAIN_SCENARIO_str='re_add';
-elif [[ -f "$LIST_FILE_str" ]] && [[ -f "$PREV_LIST_FILE_str" ]]; then
-    # Compare prev and now content. If differ -> add or/and ipsets entries
-    MAIN_SCENARIO_str='compare';
 fi;
 ######MAIN
