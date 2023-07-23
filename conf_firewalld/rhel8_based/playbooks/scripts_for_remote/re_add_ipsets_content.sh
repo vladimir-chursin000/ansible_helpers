@@ -13,7 +13,7 @@ PREV_CONTENT_DIR_str='no';
 LIST_FILE_str='no';
 
 ###
-PREV_LIST_FILE_FROM_CFG_str='no'; # form with commands
+PREV_LIST_FILE_FROM_CFG_str='no'; # content of files from list is form with help of commands
 # "firewall-cmd --permanent --ipset=some_permanent_ipset --get-entries"
 # or "ipset list some_temporary_ipset"
 ###
@@ -47,11 +47,11 @@ NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all premanent ipsets
-    echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
+    echo 'Delete all permanent ipset entries if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets
-    echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
+    echo 'Delete all temporary ipset entries if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_temporary';
 elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all permanent ipsets and add new entries
