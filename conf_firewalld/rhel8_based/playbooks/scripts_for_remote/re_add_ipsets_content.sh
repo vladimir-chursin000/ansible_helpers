@@ -21,8 +21,8 @@ PREV_LIST_FILE_FROM_CFG_str='no';
     # and
     # grep -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$'
 # Content of files from list is form with help of commands
-# "firewall-cmd --permanent --ipset=some_permanent_ipset --get-entries"
-# or "ipset list temporary_ipset_changed_params | grep -i timeout | grep -v 'Header'".
+# "firewall-cmd --permanent --ipset=some_permanent_ipset --get-entries" (for permanent ipsets)
+# or "ipset list temporary_ipset_changed_params | grep -i timeout | grep -v 'Header'" (for temporary ipsets).
 ###
 #
 NO_LIST_FILE_str='no';
