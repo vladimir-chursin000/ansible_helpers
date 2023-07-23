@@ -17,6 +17,8 @@ RECREATE_PERMANENT_IPSETS_CHANGED_str='no';
 RECREATE_TEMPORARY_IPSETS_CHANGED_str='no';
 RECREATE_FW_ZONES_CHANGED_str='no';
 RECREATE_POLICIES_CHANGED_str='no';
+PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='no';
+TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
 RELOAD_NEED_RUN_str='no';
 #
@@ -44,6 +46,15 @@ fi;
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
     RECREATE_POLICIES_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
+fi;
+
+if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
+    PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='yes';
+    RELOAD_NEED_RUN_str='yes'; # if no changes for temporary (timeout>0) > need to restore temporary ipsets entries
+fi;
+
+if [[ -f "$APPLY_RUN_INFO_DIR_str/temporary_ipsets_flag_file_changed" ]]; then
+    TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/rollback_fwrules_need_run" ]]; then
@@ -112,7 +123,7 @@ fi;
 ###
 
 # 6) Re-add. If need to re-add ipsets elements from ansible-host as source.
-#if [[ some-condition-for-run ]]; then
+#if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/re_add_ipsets_content.sh" permanent &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
 #fi;
 ###
@@ -133,7 +144,7 @@ fi;
 ###
 
 # 9) Re-add. If need to re-add ipsets elements from ansible-host as source.
-#if [[ some-condition-for-run ]]; then
+#if [[ "$TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
 #    "$SELF_DIR_str/re_add_ipsets_content.sh" temporary &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
 #fi;
 ###
