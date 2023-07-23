@@ -15,7 +15,7 @@ LIST_FILE_str='no';
 ###
 PREV_LIST_FILE_FROM_CFG_str='no'; # content of files from list is form with help of commands
 # "firewall-cmd --permanent --ipset=some_permanent_ipset --get-entries"
-# or "ipset list some_temporary_ipset"
+# or "ipset list temporary_ipset_changed_params | grep -i timeout | grep -v 'Header'"
 ###
 #
 NO_LIST_FILE_str='no';
