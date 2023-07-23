@@ -2,6 +2,7 @@
 ######################################################STEP 1. Check for locally generated fwrules files is exist (begin)
 # fill vars: recreate_permanent_ipsets_sh_exists_at_local, recreate_temporary_ipsets_sh_exists_at_local, 
 # recreate_fw_zones_sh_exists_at_local, recreate_policies_sh_exists_at_local, rollback_fwrules_changes_sh_exists_at_local
+# permanent_ipsets_flag_file_exists_at_local, temporary_ipsets_flag_file_exists_at_local
 
 - name: "Check if exists at localhost 'INV-HOST/recreate_permanent_ipsets.sh' for apply"
   delegate_to: localhost
@@ -35,6 +36,22 @@
 
 ######
 
+- name: "Check if exists at localhost 'INV-HOST/permanent_ipsets_flag_file' for apply"
+  delegate_to: localhost
+  ansible.builtin.stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/permanent_ipsets_flag_file"
+  register: permanent_ipsets_flag_file_exists_at_local
+
+######
+
+- name: "Check if exists at localhost 'INV-HOST/temporary_ipsets_flag_file' for apply"
+  delegate_to: localhost
+  ansible.builtin.stat:
+    path: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/temporary_ipsets_flag_file"
+  register: temporary_ipsets_flag_file_exists_at_local
+
+######
+
 - name: "Check if exists at localhost 'INV-HOST/rollback_fwrules_changes.sh'"
   delegate_to: localhost
   ansible.builtin.stat:
@@ -46,6 +63,7 @@
 ######################################################STEP 2. Check for remote files is exist (begin)
 # fill vars: recreate_permanent_ipsets_sh_exists_at_remote, recreate_temporary_ipsets_sh_exists_at_remote
 # recreate_fw_zones_sh_exists_at_remote, recreate_policies_sh_exists_at_remote
+# permanent_ipsets_flag_file_exists_at_remote, temporary_ipsets_flag_file_exists_at_remote
 
 - name: "Check if exists at remote 'recreate_permanent_ipsets.sh' for apply"
   ansible.builtin.stat:
@@ -72,6 +90,20 @@
   ansible.builtin.stat:
     path: "~/ansible_helpers/conf_firewalld/recreate_policies.sh"
   register: recreate_policies_sh_exists_at_remote
+
+######
+
+- name: "Check if exists at remote 'permanent_ipsets_flag_file' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/permanent_ipsets_flag_file"
+  register: permanent_ipsets_flag_file_exists_at_remote
+
+######
+
+- name: "Check if exists at remote 'temporary_ipsets_flag_file' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/temporary_ipsets_flag_file"
+  register: temporary_ipsets_flag_file_exists_at_remote
 
 ######################################################STEP 2. Check for remote files is exist (end)
 
@@ -149,7 +181,7 @@
 
 ######################################################STEP 5. Make prev copies if need (begin)
 # Prev copies: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh
-# recreate_fw_zones.sh, recreate_policies.sh
+# recreate_fw_zones.sh, recreate_policies.sh, permanent_ipsets_flag_file, temporary_ipsets_flag_file
 
 - name: "Make copy of 'recreate_permanent_ipset.sh' at remote if need"
   ansible.builtin.copy:
