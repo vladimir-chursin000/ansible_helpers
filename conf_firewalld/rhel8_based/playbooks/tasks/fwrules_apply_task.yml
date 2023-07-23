@@ -225,9 +225,38 @@
     mode: '0770'
   when: recreate_policies_sh_exists_at_remote.stat.exists==true
 
+######
+
+- name: "Make copy of 'permanent_ipsets_flag_file' at remote"
+  ansible.builtin.copy:
+    src: "~/ansible_helpers/conf_firewalld/permanent_ipsets_flag_file"
+    dest: "~/ansible_helpers/conf_firewalld/prev_permanent_ipsets_flag_file"
+    remote_src: yes
+    force: yes
+    mode: '0660'
+  when: permanent_ipsets_flag_file_exists_at_remote.stat.exists==true
+
+######
+
+- name: "Make copy of 'temporary_ipsets_flag_file' at remote"
+  ansible.builtin.copy:
+    src: "~/ansible_helpers/conf_firewalld/temporary_ipsets_flag_file"
+    dest: "~/ansible_helpers/conf_firewalld/prev_temporary_ipsets_flag_file"
+    remote_src: yes
+    force: yes
+    mode: '0660'
+  when: temporary_ipsets_flag_file_exists_at_remote.stat.exists==true
+
 ######################################################STEP 5. Make copies of 'recreate_permanent_ipsets.sh' and 'recreate_temporary_ipsets.sh' if need (end)
 
 ######################################################STEP 6. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (begin)
+# Used 'when' vars: recreate_permanent_ipsets_sh_exists_at_local, ecreate_temporary_ipsets_sh_exists_at_local,
+# recreate_fw_zones_sh_exists_at_local, recreate_policies_sh_exists_at_local, permanent_ipsets_flag_file_exists_at_local,
+# temporary_ipsets_flag_file_exists_at_local, rollback_fwrules_changes_sh_exists_at_local
+###
+# Register vars: copy_recreate_permanent_ipset_to_remote_res, copy_recreate_temporary_ipset_to_remote_res,
+# copy_recreate_fw_zones_to_remote_res, copy_recreate_policies_to_remote_res, copy_permanent_ipsets_flag_file_to_remote_res
+# copy_temporary_ipsets_flag_file_to_remote_res
 
 - name: "Copy 'recreate_permanent_ipsets.sh' to remote"
   ansible.builtin.copy:
@@ -268,6 +297,30 @@
     mode: '0770'
   register: copy_recreate_policies_to_remote_res
   when: recreate_policies_sh_exists_at_local.stat.exists==true
+
+######
+
+- name: "Copy 'permanent_ipsets_flag_file' to remote if need"
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/permanent_ipsets_flag_file"
+    dest: "~/ansible_helpers/conf_firewalld/permanent_ipsets_flag_file"
+    owner: root
+    group: root
+    mode: '0660'
+  register: copy_permanent_ipsets_flag_file_to_remote_res
+  when: permanent_ipsets_flag_file_exists_at_local.stat.exists==true
+
+######
+
+- name: "Copy 'temporary_ipsets_flag_file' to remote if need"
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/temporary_ipsets_flag_file"
+    dest: "~/ansible_helpers/conf_firewalld/temporary_ipsets_flag_file"
+    owner: root
+    group: root
+    mode: '0660'
+  register: copy_temporary_ipsets_flag_file_to_remote_res
+  when: temporary_ipsets_flag_file_exists_at_local.stat.exists==true
 
 ######
 
