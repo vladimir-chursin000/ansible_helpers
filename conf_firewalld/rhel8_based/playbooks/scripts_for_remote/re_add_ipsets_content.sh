@@ -37,18 +37,18 @@ NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 PREV_NO_LIST_FILE_str="$PREV_CONTENT_DIR_str/NO_LIST";
 
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
-    # Delete all entries for all ipsets
+    # Delete all entries for all premanent ipsets
     echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
-    MAIN_SCENARIO_str='delete_all';
+    MAIN_SCENARIO_str='delete_all_permanent';
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
-    # Delete all entries for all ipsets
+    # Delete all entries for all temporary ipsets
     echo 'Delete all ipset entries if exists!' > $NO_LIST_FILE_str;
-    MAIN_SCENARIO_str='delete_all';
+    MAIN_SCENARIO_str='delete_all_temporary';
 elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
-    # Delete all entries for all ipsets and add new entries
-    MAIN_SCENARIO_str='re_add';
+    # Delete all entries for all permanent ipsets and add new entries
+    MAIN_SCENARIO_str='re_add_permanent';
 elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
-    # Delete all entries for all ipsets and add new entries
-    MAIN_SCENARIO_str='re_add';
+    # Delete all entries for all temporary ipsets and add new entries
+    MAIN_SCENARIO_str='re_add_temporary';
 fi;
 ######MAIN
