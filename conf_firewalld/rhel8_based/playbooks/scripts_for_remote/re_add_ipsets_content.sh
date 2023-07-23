@@ -5,22 +5,28 @@
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 
 ######VARS
-OPERATION_IPSET_TYPE_str=$1;
+OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary
 #
 CONTENT_DIR_str='no';
 PREV_CONTENT_DIR_str='no';
 #
 LIST_FILE_str='no';
-PREV_LIST_FILE_str='no';
+
+###
+PREV_LIST_FILE_FROM_CFG_str='no'; # form with commands
+# "firewall-cmd --permanent --ipset=some_permanent_ipset --get-entries"
+# or "ipset list some_temporary_ipset"
+###
 #
 NO_LIST_FILE_str='no';
-PREV_NO_LIST_FILE_str='no';
 #
+
 ###
 DELETE_IPSETS_CONTENT_NEED_str='no';
 # Possible values: delete_all_permanent (delete all entries for all permanent ipsets),
 # delete_all_temporary (delete all entries for all temporary ipsets),
 ###
+
 MAIN_SCENARIO_str='no';
 # possible values: re_add_permanent (delete all entries for all permanent ipsets and add new entries), 
 # re_add_temporary (delete all entries for all permanent ipsets and add new entries), 
@@ -37,10 +43,7 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 fi;
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
-PREV_LIST_FILE_str="$PREV_CONTENT_DIR_str/LIST";
-
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
-PREV_NO_LIST_FILE_str="$PREV_CONTENT_DIR_str/NO_LIST";
 
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all premanent ipsets
