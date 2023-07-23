@@ -1399,11 +1399,13 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my $arr_el0_l=undef;
     my $ipset_name_l=undef;
     my $dst_dir_l=undef;
+    my $apply_run_flag_file_path_l=undef; # file for track changes at ipsets via copy to remote status (for example, like 'recreate_fw_zones.sh')
     my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
     my $ipsets_list_file_path_l=undef;
     my @ipset_types_by_timeout_l=('permanent','temporary');
     my @list_of_ipsets_l=();
     my @tmp_arr0_l=();
+    my @apply_run_flag_file_content_l=();
     
     # operations for permanent/temporary ipsets (BEGIN)
     foreach $arr_el0_l ( @ipset_types_by_timeout_l ) {
@@ -1411,6 +1413,8 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	
 	while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{$arr_el0_l}} ) {
 	    #$hkey0_l=inv-host
+	    
+	    $apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets_flag_file';
 	    
 	    $dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets';
 	    system("mkdir -p $dst_dir_l");
@@ -1429,7 +1433,10 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 		    &rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
         	    #$file_l,$aref_l
 		    push(@list_of_ipsets_l,$ipset_name_l);
+		    ###
+		    @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
 		}
+		else { @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,'empty',' '); }
 		
 	    	# clear vars
 	    	$ipset_name_l=undef;
@@ -1448,11 +1455,17 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 		system("touch $ipsets_list_file_path_l");
 	    }
 	    
+	    if ( $#apply_run_flag_file_content_l!=-1 ) {
+		&rewrite_file_from_array_ref($apply_run_flag_file_path_l,\@apply_run_flag_file_content_l);
+                #$file_l,$aref_l
+	    }
+	    
 	    #clear vars
 	    ($hkey1_l,$hval1_l)=(undef,undef);
 	    $dst_dir_l=undef;
 	    $ipsets_list_file_path_l=undef;
 	    @list_of_ipsets_l=();
+	    @apply_run_flag_file_content_l=();
 	    ###
 	}
     

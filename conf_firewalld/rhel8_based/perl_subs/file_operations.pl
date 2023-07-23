@@ -155,10 +155,8 @@ sub rewrite_file_from_array_ref {
     my $return_str_l='OK';
     
     open(FILE,'>',$file_l);
-    while ( $arr_el0_l=splice(@{$aref_l},0,1) ) {
+    foreach $arr_el0_l ( @{$aref_l} ) {
     	print FILE $arr_el0_l."\n";
-    	
-    	$arr_el0_l=undef;
     }
     close(FILE);
     

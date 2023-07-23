@@ -250,18 +250,10 @@
 
 ######
 
-- name: "Copy 're_add_permanent_ipsets_content.sh' to remote"
+- name: "Copy 're_add_ipsets_content.sh' to remote"
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/re_add_permanent_ipsets_content.sh"
-    dest: "~/ansible_helpers/conf_firewalld/re_add_permanent_ipsets_content.sh"
-    mode: '0770'
-
-######
-
-- name: "Copy 're_add_temporary_ipsets_content.sh' to remote"
-  ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/re_add_temporary_ipsets_content.sh"
-    dest: "~/ansible_helpers/conf_firewalld/re_add_temporary_ipsets_content.sh"
+    src: "{{playbook_dir}}/scripts_for_remote/re_add_ipsets_content.sh"
+    dest: "~/ansible_helpers/conf_firewalld/re_add_ipsets_content.sh"
     mode: '0770'
 
 ######
