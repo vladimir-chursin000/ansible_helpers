@@ -352,6 +352,9 @@
 ######################################################STEP 6. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (end)
 
 ######################################################STEP 7. Create apply-run-info-files at remote side (begin)
+# Used 'when' vars: copy_recreate_permanent_ipset_to_remote_res, copy_recreate_temporary_ipset_to_remote_res,
+# copy_recreate_fw_zones_to_remote_res, copy_recreate_policies_to_remote_res, rollback_fwrules_changes_sh_exists_at_local,
+# copy_permanent_ipsets_flag_file_to_remote_res, copy_temporary_ipsets_flag_file_to_remote_res
 
 - name: "Create apply-run-info-file 'recreate_permanent_ipsets_changed' at remote"
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_permanent_ipsets_changed
@@ -374,6 +377,18 @@
 - name: "Create apply-run-info-file 'recreate_policies_changed' at remote"
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/recreate_policies_changed
   when: copy_recreate_policies_to_remote_res.changed==true
+
+######
+
+- name: "Create apply-run-info-file 'permanent_ipsets_flag_file_changed' at remote"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/permanent_ipsets_flag_file_changed
+  when: copy_permanent_ipsets_flag_file_to_remote_res.changed==true
+
+######
+
+- name: "Create apply-run-info-file 'temporary_ipsets_flag_file_changed' at remote"
+  ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/temporary_ipsets_flag_file_changed
+  when: copy_temporary_ipsets_flag_file_to_remote_res.changed==true
 
 ######
 
