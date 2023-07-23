@@ -13,9 +13,15 @@ PREV_CONTENT_DIR_str='no';
 LIST_FILE_str='no';
 
 ###
-PREV_LIST_FILE_FROM_CFG_str='no'; # content of files from list is form with help of commands
+PREV_LIST_FILE_FROM_CFG_str='no';
+# Get list of temporary ipsets (with timeout>0):
+    # grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g'
+# Get list of permanent ipsets (with timeout=0):
+    # grep -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g'
+    # grep -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g'
+# Content of files from list is form with help of commands
 # "firewall-cmd --permanent --ipset=some_permanent_ipset --get-entries"
-# or "ipset list temporary_ipset_changed_params | grep -i timeout | grep -v 'Header'"
+# or "ipset list temporary_ipset_changed_params | grep -i timeout | grep -v 'Header'".
 ###
 #
 NO_LIST_FILE_str='no';
