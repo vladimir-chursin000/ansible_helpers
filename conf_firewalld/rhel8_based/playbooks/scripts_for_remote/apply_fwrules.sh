@@ -50,7 +50,11 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
     PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='yes';
-    RELOAD_NEED_RUN_str='yes'; # if no changes for temporary (timeout>0) > need to restore temporary ipsets entries
+    RELOAD_NEED_RUN_str='yes';
+    
+    # if no changes for temporary (timeout>0) > need to restore temporary ipsets entries
+    TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
+    ###
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/temporary_ipsets_flag_file_changed" ]]; then
