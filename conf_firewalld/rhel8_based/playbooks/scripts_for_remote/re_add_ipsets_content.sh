@@ -70,6 +70,7 @@ elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" 
     MAIN_SCENARIO_str='re_add_temporary';
 fi;
 
+# DELETE ipsets content if need
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     
 fi;
@@ -77,4 +78,15 @@ fi;
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" ]]; then
     
 fi;
+###
+
+# RE_ADD ipsets content if need
+if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
+    
+fi;
+
+if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
+    
+fi;
+###
 ######MAIN
