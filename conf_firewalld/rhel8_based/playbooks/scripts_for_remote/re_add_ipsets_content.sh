@@ -44,13 +44,25 @@ MAIN_SCENARIO_str='no';
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
+    
+    # Get list of permanent ipsets (timeout=0)
+    PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
+    grep -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
+    grep -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
+    ###
 elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_temporary_ipsets";
+    
+    # Get list of temporary ipsets (timeout>0)
+    PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
+    grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > PREV_LIST_FILE_FROM_CFG_str;
+    ###
 fi;
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
+
 
 if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all premanent ipsets
