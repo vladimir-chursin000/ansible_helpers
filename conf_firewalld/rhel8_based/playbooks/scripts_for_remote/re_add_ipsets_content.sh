@@ -69,4 +69,12 @@ elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" 
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_temporary';
     MAIN_SCENARIO_str='re_add_temporary';
 fi;
+
+if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
+    
+fi;
+
+if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" ]]; then
+    
+fi;
 ######MAIN
