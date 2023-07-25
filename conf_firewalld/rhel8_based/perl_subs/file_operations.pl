@@ -81,7 +81,7 @@ sub read_actual_ipset_file_to_hash {
 		#YYYYMMDDHHMISS
 		if ( $tmp_arr_l[1]=~/^\d{14}$/ ) { # if date format is correct
 		    if ( $now_epoch_sec_l<1 ) { $now_epoch_sec_l=time(); }
-		    $expire_epoch_sec_l=&dtot_conv_yyyymmddhhmiss_to_epoch_sec($tmp_arr_l[1]);
+		    $expire_epoch_sec_l=&conv_yyyymmddhhmiss_to_epoch_sec($tmp_arr_l[1]);
 		    #$for_conv_dt
 		
 		    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is expired
@@ -161,7 +161,7 @@ sub rewrite_file_from_array_ref {
     close(FILE);
     
     return $return_str_l;
-}   
+}
 
 sub init_files_ops_with_local_dyn_fwrules_files_dir {
     my ($dyn_fwrules_files_dir_l)=@_;

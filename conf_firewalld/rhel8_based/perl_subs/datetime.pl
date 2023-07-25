@@ -20,7 +20,7 @@ sub conv_epoch_sec_to_yyyymmddhhmiss {
     return $ret_value_l;
 }
 
-sub dtot_conv_yyyymmddhhmiss_to_epoch_sec {
+sub conv_yyyymmddhhmiss_to_epoch_sec {
     my ($for_conv_dt)=@_;
     my ($yy_l,$mm_l,$dd_l,$hh_l,$mi_l,$ss_l)=$for_conv_dt=~/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/;
     $yy_l=$yy_l-1900; $mm_l=$mm_l-1;

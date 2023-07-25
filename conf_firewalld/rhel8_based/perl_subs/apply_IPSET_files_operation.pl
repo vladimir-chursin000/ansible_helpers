@@ -1310,7 +1310,7 @@ sub update_local_ipset_actual_data {
             }
 	    else {
 		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
-		$expire_epoch_sec_actual_l=&dtot_conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
+		$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
 		#$for_conv_dt
 		
 		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
@@ -1430,13 +1430,9 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 		#$file_l,$aref_l
 		
 		if ( $#tmp_arr0_l!=-1 ) { # write to dst if ipset entries exists at src-file
-		    if ( $arr_el0_l eq 'permanent' ) {
-			&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
-        		#$file_l,$aref_l
-		    }
-		    elsif ( $arr_el0_l eq 'temporary' ) {
-			
-		    }
+		    &rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
+        	    #$file_l,$aref_l
+		    
 		    push(@list_of_ipsets_l,$ipset_name_l);
 		    ###
 		    @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
