@@ -138,14 +138,17 @@ fi;
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	
+	firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
     done < $LIST_FILE_str;
 fi;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	
+	while read -r LINE1_str; # LINE1_str = one line with ipset entry
+	do
+	    
+	done < "$CONTENT_DIR_str/$LINE0_str";
     done < $LIST_FILE_str;
 fi;
 ###
