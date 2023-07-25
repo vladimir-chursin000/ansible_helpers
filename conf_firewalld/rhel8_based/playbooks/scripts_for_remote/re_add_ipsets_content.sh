@@ -7,8 +7,8 @@ SELF_DIR_str="$(dirname $(readlink -f $0))";
 ######VARS
 OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary
 #
-CONTENT_DIR_str='no';
-PREV_CONTENT_DIR_str='no';
+CONTENT_DIR_str='no'; # future content
+PREV_CONTENT_DIR_str='no'; # now content (will be prev. after run)
 #
 LIST_FILE_str='no';
 
@@ -34,10 +34,12 @@ DELETE_IPSETS_CONTENT_NEED_str='no';
 # delete_all_temporary (delete all entries for all temporary ipsets),
 ###
 
+###
 MAIN_SCENARIO_str='no';
 # possible values: re_add_permanent (delete all entries for all permanent ipsets and add new entries), 
 # re_add_temporary (delete all entries for all permanent ipsets and add new entries), 
 ###
+LINE0_str='';
 ######VARS
 
 ######MAIN
@@ -49,6 +51,13 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
     grep -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
     grep -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
+    ###
+    
+    # Get content of permanent ipsets
+    while read -r LINE0_str; # LINE0_str = ipset_name
+    do
+	firewall-cmd --permanent --ipset=$LINE0_str --get-entries > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
+    done < $PREV_LIST_FILE_FROM_CFG_str;
     ###
 elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
