@@ -46,6 +46,7 @@ MAIN_SCENARIO_str='no';
 LINE0_str='';
 LINE1_str='';
 IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='no'; # for ARGV[0]=temporary
+declare -a TMP_arr;
 ######VARS
 
 ###APPLY_RUN_INFO read
@@ -117,14 +118,18 @@ fi;
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	
+	sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
     done < $PREV_LIST_FILE_FROM_CFG_str;
 fi;
 
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	
+	while read -r LINE1_str; # LINE1_str = one line with ipset entry
+	do
+	    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
+	    ipset del $LINE0_str ${TMP_arr[0]};
+	done < "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
     done < $PREV_LIST_FILE_FROM_CFG_str;
 fi;
 ###
