@@ -147,7 +147,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     do
 	while read -r LINE1_str; # LINE1_str = one line with ipset entry
 	do
-	    TMP_arr=($LINE1_str); # 0=ip, 2=expire_epoch_sec (num)
+	    readarray -d ';+' -t TMP_arr <<< "$LINE1_str"; # 0=ip, 2=expire_dt_at_format_YYYYMMDDHHMISS (num)
 	done < "$CONTENT_DIR_str/$LINE0_str";
     done < $LIST_FILE_str;
 fi;
