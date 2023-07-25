@@ -4,6 +4,10 @@
 
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 
+######CFG
+APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
+######CFG
+
 ######VARS
 OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary
 #
@@ -63,36 +67,39 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_temporary_ipsets";
     
-    # Get list of temporary ipsets (timeout>0)
-    PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
-    grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > PREV_LIST_FILE_FROM_CFG_str;
-    ###
-
-    # Get content of temporary ipsets
-    while read -r LINE0_str; # LINE0_str = ipset_name
-    do
-	ipset list $LINE0_str | grep -i timeout | grep -v 'Header' > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
-    done < $PREV_LIST_FILE_FROM_CFG_str;
-    ###
+    # if exists 'permanent_ipsets_flag_file_changed' -> already executed 'reload' and info about current (in memory) temporary ipsets is no need
+    if [[ ! -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
+	# Get list of temporary ipsets (timeout>0)
+	PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
+	grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > PREV_LIST_FILE_FROM_CFG_str;
+	###
+	
+	# Get content of temporary ipsets
+	while read -r LINE0_str; # LINE0_str = ipset_name
+	do
+	    ipset list $LINE0_str | grep -i timeout | grep -v 'Header' > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
+	done < $PREV_LIST_FILE_FROM_CFG_str;
+	###
+    fi;
 fi;
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 
 
-if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
+if [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all premanent ipsets
     echo 'Delete all permanent ipset entries if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
-if [[ -f "$NO_LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
+elif [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets
     echo 'Delete all temporary ipset entries if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_temporary';
-elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
+elif [[ -f "$LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all permanent ipsets and add new entries
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
     MAIN_SCENARIO_str='re_add_permanent';
-elif [[ -f "$LIST_FILE_str" ]] && [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
+elif [[ -f "$LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets and add new entries
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_temporary';
     MAIN_SCENARIO_str='re_add_temporary';
@@ -103,7 +110,7 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     
 fi;
 
-if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" ]]; then
+if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && ! -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
     
 fi;
 ###

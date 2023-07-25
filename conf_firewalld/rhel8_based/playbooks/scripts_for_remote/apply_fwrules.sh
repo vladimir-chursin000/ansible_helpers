@@ -71,8 +71,6 @@ if [[ "$RELOAD_NEED_RUN_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; th
     TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
     ###
 fi;
-
-rm -rf $APPLY_RUN_INFO_DIR_str/*; # remove run-info after read
 ###APPLY_RUN_INFO read
 
 # 1) Save content of "/etc/firewalld" to "~/ansible_helpers/conf_firewalld/fwrules_backup_now" (if need).
@@ -164,3 +162,4 @@ fi;
 ###
 
 rm -rf "$SELF_DIR_str/apply_fwrules_is_run_now";
+rm -rf $APPLY_RUN_INFO_DIR_str/*; # remove run-info
