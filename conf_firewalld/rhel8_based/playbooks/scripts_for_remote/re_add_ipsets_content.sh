@@ -44,7 +44,14 @@ MAIN_SCENARIO_str='no';
 # re_add_temporary (delete all entries for all permanent ipsets and add new entries), 
 ###
 LINE0_str='';
+IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='no'; # for ARGV[0]=temporary
 ######VARS
+
+###APPLY_RUN_INFO read
+if [[ -f "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes" ]]; then
+    IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='yes';
+fi;
+###APPLY_RUN_INFO read
 
 ######MAIN
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
@@ -67,8 +74,8 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_temporary_ipsets";
     
-    # if exists 'permanent_ipsets_flag_file_changed' -> already executed 'reload' and info about current (in memory) temporary ipsets is no need
-    if [[ ! -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
+    # if IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str=yes -> already executed 'reload/restart' and info about current (in memory) temporary ipsets is no need
+    if [[ "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
 	# Get list of temporary ipsets (timeout>0)
 	PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
 	grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > PREV_LIST_FILE_FROM_CFG_str;
@@ -110,7 +117,7 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     
 fi;
 
-if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && ! -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
+if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
     
 fi;
 ###
