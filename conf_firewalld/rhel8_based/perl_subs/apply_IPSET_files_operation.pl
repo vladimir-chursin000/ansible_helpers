@@ -1430,8 +1430,13 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 		#$file_l,$aref_l
 		
 		if ( $#tmp_arr0_l!=-1 ) { # write to dst if ipset entries exists at src-file
-		    &rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
-        	    #$file_l,$aref_l
+		    if ( $arr_el0_l eq 'permanent' ) {
+			&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
+        		#$file_l,$aref_l
+		    }
+		    elsif ( $arr_el0_l eq 'temporary' ) {
+			
+		    }
 		    push(@list_of_ipsets_l,$ipset_name_l);
 		    ###
 		    @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
