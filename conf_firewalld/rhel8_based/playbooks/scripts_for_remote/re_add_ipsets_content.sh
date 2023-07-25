@@ -131,11 +131,17 @@ fi;
 
 # RE_ADD ipsets content if need
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
-    
+    while read -r LINE0_str; # LINE0_str = ipset_name
+    do
+	
+    done < $LIST_FILE_str;
 fi;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
-    
+    while read -r LINE0_str; # LINE0_str = ipset_name
+    do
+	
+    done < $LIST_FILE_str;
 fi;
 ###
 ######MAIN
