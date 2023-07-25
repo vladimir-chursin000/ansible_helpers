@@ -129,6 +129,10 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARE
 	do
 	    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
 	    ipset del $LINE0_str ${TMP_arr[0]};
+	    
+	    # clear vars
+	    TMP_arr=();
+	    ###
 	done < "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
     done < $PREV_LIST_FILE_FROM_CFG_str;
 fi;
@@ -148,6 +152,10 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
 	while read -r LINE1_str; # LINE1_str = one line with ipset entry
 	do
 	    readarray -d ';+' -t TMP_arr <<< "$LINE1_str"; # 0=ip, 2=expire_dt_at_format_YYYYMMDDHHMISS (num)
+	    
+	    # clear vars
+	    TMP_arr=();
+	    ###
 	done < "$CONTENT_DIR_str/$LINE0_str";
     done < $LIST_FILE_str;
 fi;
