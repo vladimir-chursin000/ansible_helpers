@@ -67,6 +67,13 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
     grep -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > PREV_LIST_FILE_FROM_CFG_str;
     ###
+
+    # Get content of temporary ipsets
+    while read -r LINE0_str; # LINE0_str = ipset_name
+    do
+	ipset list $LINE0_str | grep -i timeout | grep -v 'Header' > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
+    done < $PREV_LIST_FILE_FROM_CFG_str;
+    ###
 fi;
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
