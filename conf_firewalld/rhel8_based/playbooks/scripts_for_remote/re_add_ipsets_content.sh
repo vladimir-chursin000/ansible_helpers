@@ -44,6 +44,7 @@ MAIN_SCENARIO_str='no';
 # re_add_temporary (delete all entries for all permanent ipsets and add new entries), 
 ###
 LINE0_str='';
+LINE1_str='';
 IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='no'; # for ARGV[0]=temporary
 ######VARS
 
@@ -114,11 +115,17 @@ fi;
 
 # DELETE ipsets content if need
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
-    
+    while read -r LINE0_str; # LINE0_str = ipset_name
+    do
+	
+    done < $PREV_LIST_FILE_FROM_CFG_str;
 fi;
 
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
-    
+    while read -r LINE0_str; # LINE0_str = ipset_name
+    do
+	
+    done < $PREV_LIST_FILE_FROM_CFG_str;
 fi;
 ###
 
