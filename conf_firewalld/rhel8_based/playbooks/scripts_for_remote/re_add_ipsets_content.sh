@@ -47,6 +47,9 @@ LINE0_str='';
 LINE1_str='';
 IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='no'; # for ARGV[0]=temporary
 declare -a TMP_arr;
+
+EPOCH_TIME_NOW_str='';
+EPOCH_TIME_CFG_str='';
 ######VARS
 
 ###APPLY_RUN_INFO read
