@@ -161,6 +161,8 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
 	    EPOCH_TIME_NOW_num=`date '+%s'`;
 	    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 	    
+	    ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
+	    
 	    # clear vars
 	    TMP_arr=();
 	    EPOCH_TIME_NOW_num=0;
