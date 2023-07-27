@@ -40,30 +40,34 @@ SCRIPTS LOGIC DESCRIPTION
     1) main.sh ->
         1) 02_fwrules_backup_pb.yml
 	2) generate_dynamic_fwrules.pl
-	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml
+	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml ->
+	    1) 00_just_install_firewall_pb.yml
+	    2) check_firewall_serv_is_started_pb.yml
+	    3) fwrules_apply_immediately_pb.yml
+	    4) FIN_RUN_apply_fwrules_pb.yml
 
 '00_just_install_firewall.sh' ->
     1) main.sh ->
-	1) just_install_firewall_playbook.yml
+	1) 00_just_install_firewall_pb.yml
 
 '01_check_firewall_serv_is_started.sh' ->
     1) main.sh ->
-	1) check_firewall_serv_is_started_playbook.yml
+	1) 01_check_firewall_serv_is_started_pb.yml
 
 '01_check_fwrules_without_apply.sh' ->
     1) main.sh ->
-    1) fwrules_backup_playbook.yml ->
-        1) tasks/fwrules_backup_task_main.yml
-        2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-    2) generate_dynamic_fwrules.pl. Important ops:
-        1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-        2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	1) fwrules_backup_playbook.yml ->
+    	    1) tasks/fwrules_backup_task_main.yml
+    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+	2) generate_dynamic_fwrules.pl. Important ops:
+    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
+    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 
 '02_just_run_fwrules_backup.sh' ->
     1) main.sh ->
-    1) fwrules_backup_playbook.yml ->
-        1) tasks/fwrules_backup_task_main.yml
-        2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+	1) fwrules_backup_playbook.yml ->
+    	    1) tasks/fwrules_backup_task_main.yml
+    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
 
 '03_apply_immediately_fwrules.sh' ->
     1) main.sh ->
