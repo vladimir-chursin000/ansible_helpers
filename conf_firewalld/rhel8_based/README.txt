@@ -38,8 +38,12 @@ NOT READY! Some refactoring!
 SCRIPTS LOGIC DESCRIPTION
 '00_install_firewall_and_configure_fwrules.sh' ->
     1) main.sh ->
-        1) 02_fwrules_backup_pb.yml
-	2) generate_dynamic_fwrules.pl
+        1) 02_fwrules_backup_pb.yml ->
+    	    1) tasks/fwrules_backup_task_main.yml
+    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+	2) generate_dynamic_fwrules.pl. Important ops:
+    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
+    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml ->
 	    1) 00_just_install_firewall_pb.yml
 	    2) check_firewall_serv_is_started_pb.yml
@@ -56,7 +60,7 @@ SCRIPTS LOGIC DESCRIPTION
 
 '01_check_fwrules_without_apply.sh' ->
     1) main.sh ->
-	1) fwrules_backup_playbook.yml ->
+	1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
 	2) generate_dynamic_fwrules.pl. Important ops:
@@ -65,7 +69,7 @@ SCRIPTS LOGIC DESCRIPTION
 
 '02_just_run_fwrules_backup.sh' ->
     1) main.sh ->
-	1) fwrules_backup_playbook.yml ->
+	1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
 
