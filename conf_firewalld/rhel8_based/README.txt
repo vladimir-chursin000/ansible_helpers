@@ -75,7 +75,15 @@ SCRIPTS LOGIC DESCRIPTION
 
 '03_apply_immediately_fwrules.sh' ->
     1) main.sh ->
-
+	1) 02_fwrules_backup_pb.yml ->
+    	    1) tasks/fwrules_backup_task_main.yml
+    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+	2) generate_dynamic_fwrules.pl. Important ops:
+    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
+    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	3) 03_IMPORT_fwrules_apply_immediately_pb.yml ->
+	    1) fwrules_apply_immediately_pb.yml
+	    2) FIN_RUN_apply_fwrules_pb.yml
 
 '03_apply_temporary_fwrules.sh' ->
     1) main.sh ->
