@@ -47,8 +47,12 @@ SCRIPTS LOGIC DESCRIPTION
 	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml ->
 	    1) 00_just_install_firewall_pb.yml
 	    2) check_firewall_serv_is_started_pb.yml
-	    3) fwrules_apply_immediately_pb.yml
-	    4) FIN_RUN_apply_fwrules_pb.yml
+	    3) fwrules_apply_immediately_pb.yml ->
+		1) Kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need
+		2) tasks/fwrules_apply_fwconfig_task.yml
+		3) tasks/fwrules_apply_droppd_conf_task.yml
+		4) tasks/fwrules_apply_task.yml
+	    4) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '00_just_install_firewall.sh' ->
     1) main.sh ->
@@ -83,7 +87,7 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_apply_immediately_pb.yml ->
 	    1) fwrules_apply_immediately_pb.yml
-	    2) FIN_RUN_apply_fwrules_pb.yml
+	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_apply_temporary_fwrules.sh' ->
     1) main.sh ->
@@ -95,7 +99,7 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_apply_temporary_pb.yml ->
 	    1) fwrules_apply_temporary_pb.yml
-	    2) FIN_RUN_apply_fwrules_pb.yml
+	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_force_apply_fwrules.sh' ->
     1) main.sh ->
@@ -107,7 +111,7 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_force_apply_pb.yml ->
 	    1) fwrules_force_apply_pb.yml
-	    2) FIN_RUN_apply_fwrules_pb.yml
+	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
     
 ##################
 #With best regards
