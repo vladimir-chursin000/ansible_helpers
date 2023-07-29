@@ -124,6 +124,16 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_force_apply_pb.yml ->
 	    1) fwrules_force_apply_pb.yml
+		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
+		2) Kill rollback/apply_fwrules processes if need and remove content of '~/ansible_helpers/conf_firewalld'
+		    If apply_fwrules_is_run_now_exist=true -> kill apply_fwrules process
+		    if rollback_fwrules_changes_is_run_now_exists=true -> kill Kill rollback process
+		3) tasks/fwrules_apply_fwconfig_task.yml
+		    Run without conditions
+		4) tasks/fwrules_apply_task.yml
+		    Run without conditions
+		5) tasks/fwrules_apply_droppd_conf_task.yml
+		    Run without conditions
 	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
     
 ##################
