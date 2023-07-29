@@ -106,6 +106,12 @@ SCRIPTS LOGIC DESCRIPTION
 	3) 03_IMPORT_fwrules_apply_temporary_pb.yml ->
 	    1) fwrules_apply_temporary_pb.yml ->
 		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
+		2) tasks/fwrules_apply_fwconfig_task.yml
+		    If apply_fwrules_is_run_now_exist=false + rollback_fwrules_changes_is_run_now_exists=false
+		3) tasks/fwrules_apply_droppd_conf_task.yml
+		    If apply_fwrules_is_run_now_exist=false + rollback_fwrules_changes_is_run_now_exists=false
+		4) tasks/fwrules_apply_task.yml
+		    If apply_fwrules_is_run_now_exist=false + rollback_fwrules_changes_is_run_now_exists=false
 	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_force_apply_fwrules.sh' ->
