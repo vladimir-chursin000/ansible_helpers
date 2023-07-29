@@ -48,13 +48,14 @@ SCRIPTS LOGIC DESCRIPTION
 	    1) 00_just_install_firewall_pb.yml
 	    2) check_firewall_serv_is_started_pb.yml
 	    3) fwrules_apply_immediately_pb.yml ->
-		1) Kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need
+		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
+		2) Kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need
 		    If rollback_fwrules_changes_is_run_now_exists=true + apply_fwrules_is_run_now_exist=false
-		2) tasks/fwrules_apply_fwconfig_task.yml
+		3) tasks/fwrules_apply_fwconfig_task.yml
 		    If apply_fwrules_is_run_now_exists=false
-		3) tasks/fwrules_apply_droppd_conf_task.yml
+		4) tasks/fwrules_apply_droppd_conf_task.yml
 		    If apply_fwrules_is_run_now_exists=false
-		4) tasks/fwrules_apply_task.yml
+		5) tasks/fwrules_apply_task.yml
 		    If apply_fwrules_is_run_now_exists=false
 	    4) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
@@ -104,7 +105,7 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_apply_temporary_pb.yml ->
 	    1) fwrules_apply_temporary_pb.yml ->
-		1) 
+		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
 	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_force_apply_fwrules.sh' ->
