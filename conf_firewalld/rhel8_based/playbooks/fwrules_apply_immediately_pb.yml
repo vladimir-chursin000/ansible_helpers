@@ -6,14 +6,14 @@
     - name: "Check if exists 'apply_fwrules_is_run_now' at remote"
       stat:
         path: "~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now"
-      register: apply_fwrules_is_run_now_exists
+      register: apply_fwrules_is_run_at_remote_now_exists
 
 ######
 
     - name: "Check if exists 'rollback_fwrules_changes_is_run_now' at remote"
       stat:
         path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes_is_run_now"
-      register: rollback_fwrules_changes_is_run_now_exists
+      register: rollback_fwrules_changes_is_run_at_remote_now_exists
 
 ######################################################Check for '*_is_run_now'(end)
 
@@ -22,7 +22,7 @@
     - name: "Cancel rollback operation ('rollback_fwrules_changes.sh') at remote if need"
       ansible.builtin.command: "pkill -9 -f rollback_fwrules_changes"
       ignore_errors: yes
-      when: rollback_fwrules_changes_is_run_now_exists.stat.exists==true and apply_fwrules_is_run_now_exists.stat.exists==false
+      when: rollback_fwrules_changes_is_run_at_remote_now_exists.stat.exists==true and apply_fwrules_is_run_at_remote_now_exists.stat.exists==false
 
 ######
 
@@ -30,7 +30,7 @@
       ansible.builtin.file:
         path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes_is_run_now"
         state: absent
-      when: rollback_fwrules_changes_is_run_now_exists.stat.exists==true and apply_fwrules_is_run_now_exists.stat.exists==false
+      when: rollback_fwrules_changes_is_run_at_remote_now_exists.stat.exists==true and apply_fwrules_is_run_at_remote_now_exists.stat.exists==false
 
 ######################################################Kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need (end)
 
@@ -38,7 +38,7 @@
 
     - name: "Run task 'fwrules_apply_fwconfig_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_fwconfig_task.yml"
-      when: apply_fwrules_is_run_now_exists.stat.exists==false
+      when: apply_fwrules_is_run_at_remote_now_exists.stat.exists==false
 
 ######################################################Apply firewalld.conf (end)
 
@@ -46,7 +46,7 @@
 
     - name: "Run task 'fwrules_apply_droppd_conf_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_droppd_conf_task.yml"
-      when: apply_fwrules_is_run_now_exists.stat.exists==false
+      when: apply_fwrules_is_run_at_remote_now_exists.stat.exists==false
 
 ######################################################Apply '/etc/rsyslog.d/firewalld-droppd.conf' (end)
 
@@ -54,6 +54,6 @@
 
     - name: "Run task 'fwrules_apply_task.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_apply_task.yml"
-      when: apply_fwrules_is_run_now_exists.stat.exists==false
+      when: apply_fwrules_is_run_at_remote_now_exists.stat.exists==false
 
 ######################################################Apply firewall rules (recreate ipsets/zones/policies) (end)

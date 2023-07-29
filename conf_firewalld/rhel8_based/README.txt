@@ -48,15 +48,15 @@ SCRIPTS LOGIC DESCRIPTION
 	    1) 00_just_install_firewall_pb.yml
 	    2) check_firewall_serv_is_started_pb.yml
 	    3) fwrules_apply_immediately_pb.yml ->
-		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
+		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
 		2) Kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need
-		    If rollback_fwrules_changes_is_run_now_exists=true + apply_fwrules_is_run_now_exist=false
+		    If rollback_fwrules_changes_is_run_at_remote_now_exists=true + apply_fwrules_is_run_at_remote_now_exist=false
 		3) tasks/fwrules_apply_fwconfig_task.yml
-		    If apply_fwrules_is_run_now_exists=false
+		    If apply_fwrules_is_run_at_remote_now_exists=false
 		4) tasks/fwrules_apply_droppd_conf_task.yml
-		    If apply_fwrules_is_run_now_exists=false
+		    If apply_fwrules_is_run_at_remote_now_exists=false
 		5) tasks/fwrules_apply_task.yml
-		    If apply_fwrules_is_run_now_exists=false
+		    If apply_fwrules_is_run_at_remote_now_exists=false
 	    4) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '00_just_install_firewall.sh' ->
@@ -105,13 +105,13 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_apply_temporary_pb.yml ->
 	    1) fwrules_apply_temporary_pb.yml ->
-		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
+		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
 		2) tasks/fwrules_apply_fwconfig_task.yml
-		    If apply_fwrules_is_run_now_exist=false + rollback_fwrules_changes_is_run_now_exists=false
+		    If apply_fwrules_is_run_at_remote_now_exist=false + rollback_fwrules_changes_is_run_at_remote_now_exists=false
 		3) tasks/fwrules_apply_droppd_conf_task.yml
-		    If apply_fwrules_is_run_now_exist=false + rollback_fwrules_changes_is_run_now_exists=false
+		    If apply_fwrules_is_run_at_remote_now_exist=false + rollback_fwrules_changes_is_run_at_remote_now_exists=false
 		4) tasks/fwrules_apply_task.yml
-		    If apply_fwrules_is_run_now_exist=false + rollback_fwrules_changes_is_run_now_exists=false
+		    If apply_fwrules_is_run_at_remote_now_exist=false + rollback_fwrules_changes_is_run_at_remote_now_exists=false
 	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_force_apply_fwrules.sh' ->
@@ -124,10 +124,10 @@ SCRIPTS LOGIC DESCRIPTION
     	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
 	3) 03_IMPORT_fwrules_force_apply_pb.yml ->
 	    1) fwrules_force_apply_pb.yml
-		1) Fill vars: apply_fwrules_is_run_now_exist, rollback_fwrules_changes_is_run_now_exists
+		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
 		2) Kill rollback/apply_fwrules processes if need and remove content of '~/ansible_helpers/conf_firewalld'
-		    If apply_fwrules_is_run_now_exist=true -> kill apply_fwrules process
-		    if rollback_fwrules_changes_is_run_now_exists=true -> kill Kill rollback process
+		    If apply_fwrules_is_run_at_remote_now_exist=true -> kill apply_fwrules process
+		    if rollback_fwrules_changes_is_run_at_remote_now_exists=true -> kill Kill rollback process
 		3) tasks/fwrules_apply_fwconfig_task.yml
 		    Run without conditions
 		4) tasks/fwrules_apply_task.yml
