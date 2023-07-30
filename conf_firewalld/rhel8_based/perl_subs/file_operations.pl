@@ -33,7 +33,7 @@ sub rewrite_actual_ipset_file_from_hash {
 		#$arr_el0_l=ipset entry
 		
 		$expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
-		push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
+		push(@wr_arr_l,"$arr_el0_l;$expire_date_l");
 	    }
 	    
 	    # clear vars
