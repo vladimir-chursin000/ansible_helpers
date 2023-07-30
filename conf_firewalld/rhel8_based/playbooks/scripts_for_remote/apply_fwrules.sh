@@ -108,16 +108,23 @@ fi;
 
 # 2) Recreate permanent ipsets (if need).
 if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
-    #grep -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | xargs rm;
-    #grep -L "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs rm;
+    if [[ `grep -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
+	grep -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | xargs rm;
+    fi;
 
+    if [[ `grep -L "name=\"timeout\"" /etc/firewalld/ipsets/*` ]]; then
+	grep -L "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs rm;
+    fi;
+    
     "$SELF_DIR_str/recreate_permanent_ipsets.sh" &> "$SELF_DIR_str/recreate_permanent_ipsets-res.txt";
 fi;
 ###
 
 # 3) Recreate temporary ipsets (if need).
 if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
-    #grep -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
+    if [[ `grep -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""` ]]; then
+	grep -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
+    fi;
     
     "$SELF_DIR_str/recreate_temporary_ipsets.sh" &> "$SELF_DIR_str/recreate_temporary_ipsets-res.txt";
 fi;
