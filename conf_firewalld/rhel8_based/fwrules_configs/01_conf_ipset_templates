@@ -34,6 +34,7 @@
 ###ipset create options
 #ipset_create_option_timeout=0|some_timeout
     # Default = 0.
+    # Maximum possible value: 2147483 (seconds).
     # Original name of paramameter = timeout.
     # If equal to "0" then ipset elements are used without time limits.
     # If the value is greater than 0 (for example, 50) then any added element will be removed from the set after the specified time (in seconds), for example, after 50 seconds.
