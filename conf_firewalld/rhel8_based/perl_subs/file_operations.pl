@@ -61,6 +61,7 @@ sub read_actual_ipset_file_to_hash {
 
     my $line_l=undef;
     my ($expire_epoch_sec_l,$now_epoch_sec_l)=(0,undef);
+    my $tmp_expire_timeout_l=0;
     my @tmp_arr_l=();
     my $return_str_l='OK';
     
@@ -83,8 +84,16 @@ sub read_actual_ipset_file_to_hash {
 		    if ( $now_epoch_sec_l<1 ) { $now_epoch_sec_l=time(); }
 		    $expire_epoch_sec_l=&conv_yyyymmddhhmiss_to_epoch_sec($tmp_arr_l[1]);
 		    #$for_conv_dt
+		    
+		    $tmp_expire_timeout_l=$expire_epoch_sec_l-$now_epoch_sec_l;
+		    
+		    if ( $tmp_expire_timeout_l>2147483 ) {
+			$expire_epoch_sec_l=$now_epoch_sec_l+2147483;
+			$tmp_arr_l[1]=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_l);
+			#$for_conv_sec_l
+		    }
 		
-		    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is expired
+		    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is not expired
 			${$href_l}{'content'}{$tmp_arr_l[0]}=$tmp_arr_l[1];
 		    }
 		}
@@ -93,6 +102,10 @@ sub read_actual_ipset_file_to_hash {
 	else { # if line is comment from file begin
 	    push(@{${$href_l}{'info'}},$line_l);
 	}
+	
+	# clear vars
+	$line_l=undef;
+	###
     }
     close(FILE);
     
