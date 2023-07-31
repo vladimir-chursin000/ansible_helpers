@@ -56,7 +56,7 @@ sub read_01_conf_ipset_templates {
         if ( ${$hval0_l}{'ipset_create_option_timeout'}>0 ) {
 	    if ( ${$hval0_l}{'ipset_create_option_timeout'}<=2147483 ) { %{$res_tmp_lv1_l{'temporary'}{$hkey0_l}}=%{$hval0_l}; }
 	    else {
-		$return_str_l="fail [$proc_name_l]. Value of 'ipset_create_option_timeout' can not be > 2147483 seconds (ipset_tmplt_name='$hkey0_l')";
+		$return_str_l="fail [$proc_name_l]. Value of 'ipset_create_option_timeout' can not be > 2147483 seconds (cfg='01_conf_ipset_templates', ipset_tmplt_name='$hkey0_l')";
 		last;
 	    }
 	}
