@@ -163,7 +163,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     do
 	while read -r LINE1_str; # LINE1_str = one line with ipset entry
 	do
-	    readarray -d ';' -t TMP_arr <<< "$LINE1_str"; # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
+	    TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
 	    
 	    EPOCH_TIME_CFG_num=`date -d "$(echo ${TMP_arr[1]} | awk '{print substr($1,1,8), substr($1,9,2) ":" substr($1,11,2) ":" substr($1,13,2)}')" '+%s'`;
 	    EPOCH_TIME_NOW_num=`date '+%s'`;
