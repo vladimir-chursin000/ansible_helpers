@@ -53,12 +53,20 @@ sub read_01_conf_ipset_templates {
     # fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
         #$hkey0_l=tmplt_name, $hval0_l=href for hash slice with params and values
-        if ( ${$hval0_l}{'ipset_create_option_timeout'}>0 ) { %{$res_tmp_lv1_l{'temporary'}{$hkey0_l}}=%{$hval0_l}; }
+        if ( ${$hval0_l}{'ipset_create_option_timeout'}>0 ) {
+	    if ( ${$hval0_l}{'ipset_create_option_timeout'}<=2147483 ) { %{$res_tmp_lv1_l{'temporary'}{$hkey0_l}}=%{$hval0_l}; }
+	    else {
+		$return_str_l="fail [$proc_name_l]. Value of 'ipset_create_option_timeout' can not be > 2147483 seconds (ipset_tmplt_name='$hkey0_l')";
+		last;
+	    }
+	}
         else { %{$res_tmp_lv1_l{'permanent'}{$hkey0_l}}=%{$hval0_l}; }
     }
 
     ($hkey0_l,$hval0_l)=(undef,undef);
     %res_tmp_lv0_l=();
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
 
     # fill result hash
