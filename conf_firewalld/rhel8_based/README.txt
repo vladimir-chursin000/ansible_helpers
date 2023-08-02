@@ -37,22 +37,25 @@ NOT READY! Some refactoring!
 ##################
 SCRIPTS LOGIC DESCRIPTION
 '00_install_firewall_and_configure_fwrules.sh' ->
-    1) main.sh ->
-        1) 02_fwrules_backup_pb.yml ->
-    	    1) tasks/fwrules_backup_task_main.yml
-    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. Steps:
-	    1) Run procedure 'init_files_ops_with_local_dyn_fwrules_files_dir'
-		1) Recreate dir 'playbooks/scripts_for_remote/fwrules_files' if need
-    		2) Remove sh/conf-files from 'playbooks/scripts_for_remote/fwrules_files'
-	    2) Run procedure 'read_inventory_file'
-	    3) Run procedure 'read_network_data_for_checks'
-		(info) Read file '/playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'
-    	    *) generate new sh/conf-files at 'playbooks/scripts_for_remote/fwrules_files'
-	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml ->
-	    1) 00_just_install_firewall_pb.yml
-	    2) check_firewall_serv_is_started_pb.yml
-	    3) fwrules_apply_immediately_pb.yml ->
+    1) Run script 'main.sh' ->
+        1) Run playbook '02_fwrules_backup_pb.yml' ->
+    	    1) Run task 'tasks/fwrules_backup_task_main.yml'.
+    	    2) Run task 'tasks/fwrules_backup_collect_raw_network_data_task.yml'.
+	    3) Run script 'scripts_for_local/convert_raw_network_data_to_normal.pl'
+		(info) Converts raw network data from 'fwrules_backup_from_remote/network_data'
+		    to file 'inv_hosts_interfaces_info.txt' at the same dir.
+	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
+	    1) Run procedure 'init_files_ops_with_local_dyn_fwrules_files_dir'.
+		1) Recreate dir 'scripts_for_remote/fwrules_files' if need.
+    		2) Remove sh/conf-files from 'scripts_for_remote/fwrules_files'.
+	    2) Run procedure 'read_inventory_file'.
+	    3) Run procedure 'read_network_data_for_checks'.
+		(info) Read file 'fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'.
+    	    *) generate new sh/conf-files at 'scripts_for_remote/fwrules_files'
+	3) Run playbook '00_IMPORT_install_firewall_n_conf_fwrules_pb.yml' ->
+	    1) Run blaybook '00_just_install_firewall_pb.yml'.
+	    2) Run playbook 'check_firewall_serv_is_started_pb.yml'.
+	    3) Run playbook 'fwrules_apply_immediately_pb.yml' ->
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
 		2) Kill rollback process and remove 'rollback_fwrules_changes_is_run_now' if need
 		    (info) If rollback_fwrules_changes_is_run_at_remote_now_exists=true + apply_fwrules_is_run_at_remote_now_exist=false
@@ -62,49 +65,45 @@ SCRIPTS LOGIC DESCRIPTION
 		    (info) If apply_fwrules_is_run_at_remote_now_exists=false
 		5) tasks/fwrules_apply_task.yml
 		    (info) If apply_fwrules_is_run_at_remote_now_exists=false
-	    4) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
+	    4) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
 
 '00_just_install_firewall.sh' ->
-    1) main.sh ->
+    1) Run script 'main.sh' ->
 	1) 00_just_install_firewall_pb.yml
 
 '01_check_firewall_serv_is_started.sh' ->
-    1) main.sh ->
+    1) Run script 'main.sh' ->
 	1) 01_check_firewall_serv_is_started_pb.yml
 
 '01_check_fwrules_without_apply.sh' ->
-    1) main.sh ->
-	1) 02_fwrules_backup_pb.yml ->
-    	    1) tasks/fwrules_backup_task_main.yml
-    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+    1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    ***
 	2) generate_dynamic_fwrules.pl. Steps:
-	    *
+	    ***
 
 '02_just_run_fwrules_backup.sh' ->
-    1) main.sh ->
-	1) 02_fwrules_backup_pb.yml ->
-    	    1) tasks/fwrules_backup_task_main.yml
-    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+    1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    ***
 
 '03_apply_immediately_fwrules.sh' ->
-    1) main.sh ->
-	1) 02_fwrules_backup_pb.yml ->
-    	    1) tasks/fwrules_backup_task_main.yml
-    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+    1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    ***
 	2) generate_dynamic_fwrules.pl. Steps:
-	    *
+	    ***
 	3) 03_IMPORT_fwrules_apply_immediately_pb.yml ->
 	    1) fwrules_apply_immediately_pb.yml ->
 		***
 	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_apply_temporary_fwrules.sh' ->
-    1) main.sh ->
-	1) 02_fwrules_backup_pb.yml ->
-    	    1) tasks/fwrules_backup_task_main.yml
-    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+    1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    ***
 	2) generate_dynamic_fwrules.pl. Steps:
-	    *
+	    ***
 	3) 03_IMPORT_fwrules_apply_temporary_pb.yml ->
 	    1) fwrules_apply_temporary_pb.yml ->
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
@@ -117,12 +116,11 @@ SCRIPTS LOGIC DESCRIPTION
 	    2) FIN_RUN_apply_fwrules_pb.yml (run 'apply_fwrules.sh' as process at remote)
 
 '03_force_apply_fwrules.sh' ->
-    1) main.sh ->
-	1) 02_fwrules_backup_pb.yml ->
-    	    1) tasks/fwrules_backup_task_main.yml ->
-    	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
+    1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    ***
 	2) generate_dynamic_fwrules.pl. Steps:
-	    *
+	    ***
 	3) 03_IMPORT_fwrules_force_apply_pb.yml ->
 	    1) fwrules_force_apply_pb.yml
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
