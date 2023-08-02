@@ -78,32 +78,32 @@ SCRIPTS LOGIC DESCRIPTION
 '01_check_fwrules_without_apply.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '02_fwrules_backup_pb.yml' ->
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 
 '02_just_run_fwrules_backup.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '02_fwrules_backup_pb.yml' ->
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 
 '03_apply_immediately_fwrules.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '02_fwrules_backup_pb.yml' ->
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	3) Run playbook '03_IMPORT_fwrules_apply_immediately_pb.yml' ->
 	    1) Run playbook 'fwrules_apply_immediately_pb.yml' ->
-		***
+		*** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	    2) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
 
 '03_apply_temporary_fwrules.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '02_fwrules_backup_pb.yml' ->
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	3) Run playbook '03_IMPORT_fwrules_apply_temporary_pb.yml' ->
 	    1) Run playbook 'fwrules_apply_temporary_pb.yml' ->
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists.
@@ -118,9 +118,9 @@ SCRIPTS LOGIC DESCRIPTION
 '03_force_apply_fwrules.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '02_fwrules_backup_pb.yml' ->
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
-	    ***
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	3) Run playbook '03_IMPORT_fwrules_force_apply_pb.yml' ->
 	    1) Run playbook 'fwrules_force_apply_pb.yml'.
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists.
