@@ -26,7 +26,7 @@ echo "Start time: $NOW_DT" | tee -a $LOG_FILE;
 echo "#########" | tee -a $LOG_FILE;
 
 if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
-    if [[ "$PLAYBOOK_BEFORE" =~ "fwrules_backup" ]]; then
+    if [[ "$PLAYBOOK_BEFORE" =~ "02_fwrules_backup" ]]; then
 	rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/now/"; #remove prev downloaded backup of fwrules (content of '/etc/firewalld/zones' and output of 'firewall-cmd --list-all-zones') from now-dir
 	rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data/"; #remove prev downloaded data (output of 'ip link') from network_data
 	echo "Remove prev downloaded data from '$SELF_DIR/playbooks/fwrules_backup_from_remote/now' and '$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data'" | tee -a $LOG_FILE;
@@ -37,7 +37,7 @@ if [[ ! -z "$PLAYBOOK_BEFORE" ]] && [[ "$PLAYBOOK_BEFORE" != "no" ]]; then
     echo "Playbook_before: $SELF_DIR/playbooks/$PLAYBOOK_BEFORE" | tee -a $LOG_FILE;
     /usr/bin/ansible-playbook -i $INV_FILE -u root --private-key=~/.ssh/id_rsa "$SELF_DIR/playbooks/$PLAYBOOK_BEFORE" | tee -a $LOG_FILE;
     
-    if [[ "$PLAYBOOK_BEFORE" =~ "fwrules_backup" ]]; then
+    if [[ "$PLAYBOOK_BEFORE" =~ "02_fwrules_backup" ]]; then
 	/usr/bin/perl "$SELF_DIR/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data";
 	echo "Run script (after playbook '$PLAYBOOK_BEFORE'): $SELF_DIR/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE;
     fi;
@@ -63,7 +63,7 @@ if [[ ! -z "$GEN_DYN_FWRULES_RUN" ]] && [[ "$GEN_DYN_FWRULES_RUN" =~ "yes" ]]; t
     fi;
 fi;
 
-if [[ "$PLAYBOOK" =~ "fwrules_backup" ]]; then
+if [[ "$PLAYBOOK" =~ "02_fwrules_backup" ]]; then
     rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/now/"; #remove prev downloaded backup of fwrules (content of '/etc/firewalld/zones' and output of 'firewall-cmd --list-all-zones') from now-dir
     rm -rf "$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data/"; #remove prev downloaded data (output of 'ip link') from network_data
     echo "Remove prev downloaded data from '$SELF_DIR/playbooks/fwrules_backup_from_remote/now' and '$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data'" | tee -a $LOG_FILE;
@@ -75,7 +75,7 @@ if [[ ! -z "$PLAYBOOK" ]] && [[ "$PLAYBOOK" != "no" ]]; then
 fi;
 #main playbook
 
-if [[ "$PLAYBOOK" =~ "fwrules_backup" ]]; then
+if [[ "$PLAYBOOK" =~ "02_fwrules_backup" ]]; then
     #for get interface names (eth, br, bond, etc) = output of 'ip link'
     /usr/bin/perl "$SELF_DIR/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR/playbooks/fwrules_backup_from_remote/network_data";
     echo "Run script (after playbook '$PLAYBOOK'): $SELF_DIR/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE;

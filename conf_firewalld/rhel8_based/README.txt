@@ -45,8 +45,10 @@ SCRIPTS LOGIC DESCRIPTION
 	    1) Run procedure 'init_files_ops_with_local_dyn_fwrules_files_dir'
 		1) Recreate dir 'playbooks/scripts_for_remote/fwrules_files' if need
     		2) Remove sh/conf-files from 'playbooks/scripts_for_remote/fwrules_files'
-	    
-    	    *) generate new sh/conf-files at 'playbooks/scripts_for_remote/fwrules_files'.
+	    2) Run procedure 'read_inventory_file'
+	    3) Run procedure 'read_network_data_for_checks'
+		(info) Read file '/playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'
+    	    *) generate new sh/conf-files at 'playbooks/scripts_for_remote/fwrules_files'
 	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml ->
 	    1) 00_just_install_firewall_pb.yml
 	    2) check_firewall_serv_is_started_pb.yml
