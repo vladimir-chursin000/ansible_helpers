@@ -75,9 +75,8 @@ SCRIPTS LOGIC DESCRIPTION
 	1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. Important ops:
-    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	2) generate_dynamic_fwrules.pl. Steps:
+	    *
 
 '02_just_run_fwrules_backup.sh' ->
     1) main.sh ->
@@ -90,9 +89,8 @@ SCRIPTS LOGIC DESCRIPTION
 	1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. Important ops:
-    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	2) generate_dynamic_fwrules.pl. Steps:
+	    *
 	3) 03_IMPORT_fwrules_apply_immediately_pb.yml ->
 	    1) fwrules_apply_immediately_pb.yml ->
 		***
@@ -103,9 +101,8 @@ SCRIPTS LOGIC DESCRIPTION
 	1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. Important ops:
-    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	2) generate_dynamic_fwrules.pl. Steps:
+	    *
 	3) 03_IMPORT_fwrules_apply_temporary_pb.yml ->
 	    1) fwrules_apply_temporary_pb.yml ->
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
@@ -122,9 +119,8 @@ SCRIPTS LOGIC DESCRIPTION
 	1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml ->
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. Important ops:
-    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	2) generate_dynamic_fwrules.pl. Steps:
+	    *
 	3) 03_IMPORT_fwrules_force_apply_pb.yml ->
 	    1) fwrules_force_apply_pb.yml
 		1) Fill vars: apply_fwrules_is_run_at_remote_now_exist, rollback_fwrules_changes_is_run_at_remote_now_exists
