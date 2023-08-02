@@ -41,9 +41,12 @@ SCRIPTS LOGIC DESCRIPTION
         1) 02_fwrules_backup_pb.yml ->
     	    1) tasks/fwrules_backup_task_main.yml
     	    2) tasks/fwrules_backup_collect_raw_network_data_task.yml
-	2) generate_dynamic_fwrules.pl. Important ops:
-    	    1) remove sh/conf-files from "playbooks/scripts_for_remote/fwrules_files".
-    	    2) generate new sh/conf-files at "playbooks/scripts_for_remote/fwrules_files".
+	2) generate_dynamic_fwrules.pl. Steps:
+	    1) Run procedure 'init_files_ops_with_local_dyn_fwrules_files_dir'
+		1) Recreate dir 'playbooks/scripts_for_remote/fwrules_files' if need
+    		2) Remove sh/conf-files from 'playbooks/scripts_for_remote/fwrules_files'
+	    
+    	    *) generate new sh/conf-files at 'playbooks/scripts_for_remote/fwrules_files'.
 	3) 00_IMPORT_install_firewall_n_conf_fwrules_pb.yml ->
 	    1) 00_just_install_firewall_pb.yml
 	    2) check_firewall_serv_is_started_pb.yml
