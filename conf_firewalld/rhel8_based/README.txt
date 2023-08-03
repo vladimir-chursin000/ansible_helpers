@@ -55,7 +55,7 @@ SCRIPTS LOGIC DESCRIPTION
 	    4) Read configuration files from dir 'fwrules_configs' to several hashes.
 	    5) Run procedure 'apply_IPSET_files_operation_main'.
 		(info) Handles the contents of directories 'ipset_input' and 'ipset_actual_data'.
-    	    *) generate new sh/conf-files at 'scripts_for_remote/fwrules_files'
+    	    6) Generate new sh/conf-files (and other files) at 'scripts_for_remote/fwrules_files'.
 	3) Run playbook '00_IMPORT_install_firewall_n_conf_fwrules_pb.yml' ->
 	    1) Run blaybook '00_just_install_firewall_pb.yml'.
 	    2) Run playbook 'check_firewall_serv_is_started_pb.yml'.
