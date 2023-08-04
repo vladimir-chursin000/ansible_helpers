@@ -634,55 +634,53 @@ sub update_initial_content_for_local_ipset_actual_data {
     my %prev4add_content_l=();
 	#key=ipset_entry, value=1
     
-    # cycle with key=inv-host
-    while ( ($hkey0_l,$hval0_l)=each %{$h65_conf_initial_ipsets_content_FIN_href_l} ) {
-	#$hkey0_l=inv-host
-	
-	# cycle with key=ipset_template_name
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
-	    #$hkey1_l=ipset_template_name
-	    
-	    $init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
-	    $init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
-	    $init_content_file_path_prev4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/prev4add';
-	    
-	    if ( -f($init_content_file_path_now4del_l) ) { unlink $init_content_file_path_now4del_l; }
-	    if ( -f($init_content_file_path_prev4add_l) ) { unlink $init_content_file_path_prev4add_l; }
-	    if ( -f($init_content_file_path_now4add_l) ) { rename($init_content_file_path_now4add_l,$init_content_file_path_prev4add_l); }
-	    
-	    &read_lines_without_comments_of_file_to_hash($init_content_file_path_prev4add_l,\%prev4add_content_l);
-	    #$file_l,$href_l
-	    
-	    # form content of $init_content_file_path_now4del_l (if need)
-	    while ( ($hkey2_l,$hval2_l)=each %prev4add_content_l ) {
-		#$hkey2_l=ipset-entry fromn prev4add
-		
-		if ( !exists(${$hval1_l}{$hkey2_l}) ) {
-		    push(@tmp_arr0_l,$hkey2_l); # form content of new $init_content_file_path_now4del_l
-		}
-	    }
-	    
-	    if ( $#tmp_arr0_l!=-1 ) {
-		&rewrite_file_from_array_ref($init_content_file_path_now4del_l,\@tmp_arr0_l);
-		#$file_l,$aref_l
-	    }
-	    ###
-	    
-	    if ( $#{${$hval1_l}{'seq'}}!=-1 ) {
-		&rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@{${$hval1_l}{'seq'}});
-		#$file_l,$aref_l
-	    }
-	    	    
-	    # clear vars
-	    ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
-	    @tmp_arr0_l=();
-	    %prev4add_content_l=();
-	    ###
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-	###
-    }
+    while ( ($hkey0_l,$hval0_l)=each %{$h65_conf_initial_ipsets_content_FIN_href_l} ) { # cycle with key=inv-host (begin)
+    	#$hkey0_l=inv-host
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle with key=ipset_template_name (begin)
+    	    #$hkey1_l=ipset_template_name
+    	    
+    	    $init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
+    	    $init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
+    	    $init_content_file_path_prev4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/prev4add';
+    	    
+    	    if ( -f($init_content_file_path_now4del_l) ) { unlink $init_content_file_path_now4del_l; }
+    	    if ( -f($init_content_file_path_prev4add_l) ) { unlink $init_content_file_path_prev4add_l; }
+    	    if ( -f($init_content_file_path_now4add_l) ) { rename($init_content_file_path_now4add_l,$init_content_file_path_prev4add_l); }
+    	    
+    	    &read_lines_without_comments_of_file_to_hash($init_content_file_path_prev4add_l,\%prev4add_content_l);
+    	    #$file_l,$href_l
+    	    
+    	    # form content of $init_content_file_path_now4del_l (if need)
+    	    while ( ($hkey2_l,$hval2_l)=each %prev4add_content_l ) {
+    		#$hkey2_l=ipset-entry fromn prev4add
+    		
+    		if ( !exists(${$hval1_l}{$hkey2_l}) ) {
+    		    push(@tmp_arr0_l,$hkey2_l); # form content of new $init_content_file_path_now4del_l
+    		}
+    	    }
+    	    
+    	    if ( $#tmp_arr0_l!=-1 ) {
+    		&rewrite_file_from_array_ref($init_content_file_path_now4del_l,\@tmp_arr0_l);
+    		#$file_l,$aref_l
+    	    }
+    	    ###
+    	    
+    	    if ( $#{${$hval1_l}{'seq'}}!=-1 ) {
+    		&rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@{${$hval1_l}{'seq'}});
+    		#$file_l,$aref_l
+    	    }
+    	    	    
+    	    # clear vars
+    	    ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l,$init_content_file_path_prev4add_l)=(undef,undef,undef);
+    	    @tmp_arr0_l=();
+    	    %prev4add_content_l=();
+    	    ###
+    	} # cycle with key=ipset_template_name (end)
+    	
+    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
+    	###
+    } # cycle with key=inv-host (end)
     
     ($hkey0_l,$hval0_l)=(undef,undef); # clear vars
     ###
