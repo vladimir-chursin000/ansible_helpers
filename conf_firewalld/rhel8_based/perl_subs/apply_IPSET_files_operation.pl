@@ -1110,120 +1110,122 @@ sub update_local_ipset_actual_data {
     
     # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (BEGIN)
     	#For do not miss manually added data
-    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # for permanent (without timeout) ipsets
-	#$hkey0_l=inv-host
-	
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
-	    #$hkey1_l=ipset_tmplt_name
-	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
-		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
-		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
-	
-		###
-		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
-		#$file_l,$href_l
-		# %ipset_actual_file_data_hash_l=();
-		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
-		# or key0=info, value=[array of info strings]
-		###
-		
-		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l (BEGIN)
-		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
-		$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
-		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
-		#$file_l,$href_l
-		
-		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
-		    #$hkey2_l = ipset entry for add
-		    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
-			$ipset_actual_file_data_hash_l{'content'}{$hkey2_l}=0;
-		    }
-		}
-		
-		# clear vars
-		($hkey2_l,$hval2_l)=(undef,undef);
-		%tmp_hash0_l=();
-		###
-		# check for exists initial file 'now4add' (END)
-
-		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l (BEGIN)
-		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
-		$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
-		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
-		#$file_l,$href_l
-
-		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
-		    #$hkey2_l = ipset entry for del
-		    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
-			delete($ipset_actual_file_data_hash_l{'content'}{$hkey2_l});
-		    }
-		}
-		
-		# clear vars
-		($hkey2_l,$hval2_l)=(undef,undef);		
-		%tmp_hash0_l=();
-		###
-		# check for exists initial file 'now4del' (END)
-		
-		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
-		# %ipset_actual_files_composition_hash_l
-		# key0=$ipset_actual_file_path_l
+    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # while h66, permanent, hkey=inv-host (begin)
+    	# for permanent (without timeout) ipsets
+    	#$hkey0_l=inv-host
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # while h66, permanent, %{$hval0_l}, hkey=ipset_tmplt_name (begin)
+    	    #$hkey1_l=ipset_tmplt_name
+    	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
+    		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
+    		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
+    	
+    		###
+    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+    		#$file_l,$href_l
+    		# %ipset_actual_file_data_hash_l=();
+    		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
+    		# or key0=info, value=[array of info strings]
+    		###
+    		
+    		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l (BEGIN)
+    		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
+    		$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
+    		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
+    		#$file_l,$href_l
+    		
+    		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
+    		    #$hkey2_l = ipset entry for add
+    		    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
+    			$ipset_actual_file_data_hash_l{'content'}{$hkey2_l}=0;
+    		    }
+    		}
+    		
+    		# clear vars
+    		($hkey2_l,$hval2_l)=(undef,undef);
+    		%tmp_hash0_l=();
+    		###
+    		# check for exists initial file 'now4add' (END)
+    	
+    		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l (BEGIN)
+    		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
+    		$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
+    		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
+    		#$file_l,$href_l
+    	
+    		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
+    		    #$hkey2_l = ipset entry for del
+    		    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
+    			delete($ipset_actual_file_data_hash_l{'content'}{$hkey2_l});
+    		    }
+    		}
+    		
+    		# clear vars
+    		($hkey2_l,$hval2_l)=(undef,undef);		
+    		%tmp_hash0_l=();
+    		###
+    		# check for exists initial file 'now4del' (END)
+    		
+    		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
+    		# %ipset_actual_files_composition_hash_l
+    		# key0=$ipset_actual_file_path_l
     		    #key1A='ipset_file_type': 0-permanent, 1-temporary
-		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
-		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
-		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-		%ipset_actual_file_data_hash_l=();
-		###
-
-		# clear vars
-		$ipset_name_cfg_l=undef;
-		$ipset_actual_file_path_l=undef;
-		($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef);
-		###
-	    }
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef);
-    }
+    		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
+    		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
+    		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+    		%ipset_actual_file_data_hash_l=();
+    		###
+    	
+    		# clear vars
+    		$ipset_name_cfg_l=undef;
+    		$ipset_actual_file_path_l=undef;
+    		($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef);
+    		###
+    	    }
+    	} # while h66, permanent, %{$hval0_l}, hkey=ipset_tmplt_name (end)
+    	
+    	($hkey1_l,$hval1_l)=(undef,undef);
+    } # while h66, permanent, hkey=inv-host (end)
     
     ($hkey0_l,$hval0_l)=(undef,undef);
-
-    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) { # for temporary (with timeout) ipsets
-	#$hkey0_l=inv-host
-	
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
-	    #$hkey1_l=ipset_tmplt_name
-	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$hkey1_l}) ) {
-		$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
-		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
-		
-		###
-		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
-		#$file_l,$href_l
-		# %ipset_actual_file_data_hash_l=();
-		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
-		# or key0=info, value=[array of info strings]
-		###
-		
-		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
-		# %ipset_actual_files_composition_hash_l
-		# key0=$ipset_actual_file_path_l
+    
+    while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) { # while h66, temporary, hkey=inv-host (begin)
+    	# for temporary (with timeout) ipsets
+    	#$hkey0_l=inv-host
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # while h66, temporary, %{$hval0_l}, hkey=ipset_tmplt_name (begin)
+    	    #$hkey1_l=ipset_tmplt_name
+    	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$hkey1_l}) ) {
+    		$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
+    		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
+    		
+    		###
+    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
+    		#$file_l,$href_l
+    		# %ipset_actual_file_data_hash_l=();
+    		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
+    		# or key0=info, value=[array of info strings]
+    		###
+    		
+    		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
+    		# %ipset_actual_files_composition_hash_l
+    		# key0=$ipset_actual_file_path_l
     		    #key1A='ipset_file_type': 0-permanent, 1-temporary
-		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
-		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
-		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-		%ipset_actual_file_data_hash_l=();
-		###
-
-		# clear vars
-		$ipset_name_cfg_l=undef;
-		$ipset_actual_file_path_l=undef;
-		###
-	    }
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef);
-    }
+    		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
+    		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=1;
+    		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+    		%ipset_actual_file_data_hash_l=();
+    		###
+    	
+    		# clear vars
+    		$ipset_name_cfg_l=undef;
+    		$ipset_actual_file_path_l=undef;
+    		###
+    	    }
+    	} # while h66, temporary, %{$hval0_l}, hkey=ipset_tmplt_name (end)
+    	
+    	($hkey1_l,$hval1_l)=(undef,undef);
+    } # while h66, temporary, hkey=inv-host (end)
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (END)
