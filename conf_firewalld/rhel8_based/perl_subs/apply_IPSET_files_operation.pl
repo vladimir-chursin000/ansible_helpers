@@ -1282,78 +1282,78 @@ sub update_local_ipset_actual_data {
     # operations for permanent ipsets (END)
 
     # operations for temporary ipsets (BEGIN)
-    while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) {
-	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
-	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
-
-	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/temporary/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
-
-	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
-	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
-	###
-
-	# ops for 'add' (temporary)
-	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
-	    #$hkey1_l=ipset_record
-	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
-	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		$expire_epoch_sec_calculated_l=time()+${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
-		#$for_conv_sec_l
-		
-		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
-		
-		# clear vars
-		$expire_date_calculated_l=undef;
-		$expire_epoch_sec_calculated_l=undef;
-		###
+    while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) { # while ipset_input -> temporary (begin)
+    	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
+    	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+    
+    	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/temporary/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
+    
+    	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
+    	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
+    	###
+    
+    	# ops for 'add' (temporary)
+    	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) { # while ipset_input -> temporary -> add (begin)
+    	    #$hkey1_l=ipset_record
+    	    #One row="ipset_entry;+expire_date (format=YYYYMMDDHHMISS)" at actual*-file
+    	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+    		$expire_epoch_sec_calculated_l=time()+${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+    		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+    		#$for_conv_sec_l
+    		
+    		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+    		
+    		# clear vars
+    		$expire_date_calculated_l=undef;
+    		$expire_epoch_sec_calculated_l=undef;
+    		###
             }
-	    else {
-		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
-		$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
-		#$for_conv_dt
-		
-		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
-		#$for_conv_sec_l
-		
-		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) {
-		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
-		}
-		else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
-		
-		# clear vars
-		$expire_date_actual_l=undef;
-		$expire_date_calculated_l=undef;
-		($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
-		###
-	    }
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-	###
-	
-	# ops for 'del' (temporary)
-	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
-	    #$hkey1_l=ipset_record
-	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
-	    }
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-	###
-
-	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
-	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-	%ipset_actual_file_data_hash_l=();
-	###
-
-	# clear vars
-	@tmp_arr0_l=();
-	$ipset_actual_file_path_l=undef;
-	###
-    }
+    	    else {
+    		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+    		$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
+    		#$for_conv_dt
+    		
+    		$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+    		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+    		#$for_conv_sec_l
+    		
+    		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) {
+    		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+    		}
+    		else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
+    		
+    		# clear vars
+    		$expire_date_actual_l=undef;
+    		$expire_date_calculated_l=undef;
+    		($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
+    		###
+    	    }
+    	} # while ipset_input -> temporary -> add (end)
+    	
+    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
+    	###
+    	
+    	# ops for 'del' (temporary)
+    	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
+    	    #$hkey1_l=ipset_record
+    	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+    		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
+    	    }
+    	}
+    	
+    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
+    	###
+    
+    	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
+    	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+    	%ipset_actual_file_data_hash_l=();
+    	###
+    
+    	# clear vars
+    	@tmp_arr0_l=();
+    	$ipset_actual_file_path_l=undef;
+    	###
+    } # while ipset_input -> temporary (end)
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     # operations for temporary ipsets (END)
@@ -1408,72 +1408,72 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my @apply_run_flag_file_content_l=();
     
     # operations for permanent/temporary ipsets (BEGIN)
-    foreach $arr_el0_l ( @ipset_types_by_timeout_l ) {
-	#$arr_el0_l=permanent/temporary
-	
-	while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{$arr_el0_l}} ) { # cycle for h66, inv-hosts (begin)
-	    #$hkey0_l=inv-host
-	    
-	    $apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets_flag_file';
-	    
-	    $dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets';
-	    system("mkdir -p $dst_dir_l");
-	    
-	    $ipsets_list_file_path_l=$dst_dir_l.'/LIST';
-	    
-	    while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
-	    	#$hkey1_l=ipset_tmplt_name
-	    	$ipset_name_l=${$ipset_templates_href_l}{$arr_el0_l}{$hkey1_l}{'ipset_name'};
-	    	$src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
-	    	$dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
-	    	&read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
-	    	#$file_l,$aref_l
-	    	
-	    	if ( $#tmp_arr0_l!=-1 ) { # write to dst if ipset entries exists at src-file
-	    	    &rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
+    foreach $arr_el0_l ( @ipset_types_by_timeout_l ) { # foreach @ipset_types_by_timeout_l (begin)
+    	#$arr_el0_l=permanent/temporary
+    	
+    	while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{$arr_el0_l}} ) { # cycle for h66, inv-hosts (begin)
+    	    #$hkey0_l=inv-host
+    	    
+    	    $apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets_flag_file';
+    	    
+    	    $dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'_ipsets';
+    	    system("mkdir -p $dst_dir_l");
+    	    
+    	    $ipsets_list_file_path_l=$dst_dir_l.'/LIST';
+    	    
+    	    while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
+    	    	#$hkey1_l=ipset_tmplt_name
+    	    	$ipset_name_l=${$ipset_templates_href_l}{$arr_el0_l}{$hkey1_l}{'ipset_name'};
+    	    	$src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/'.$arr_el0_l.'/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
+    	    	$dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
+    	    	&read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
+    	    	#$file_l,$aref_l
+    	    	
+    	    	if ( $#tmp_arr0_l!=-1 ) { # write to dst if ipset entries exists at src-file
+    	    	    &rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
     	    	    #$file_l,$aref_l
-	    	    
-	    	    push(@list_of_ipsets_l,$ipset_name_l);
-	    	    ###
-	    	    @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
-	    	}
-	    	else { @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,'empty',' '); }
-	    	
-	    	# clear vars
-	    	$ipset_name_l=undef;
-	    	($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
-	    	@tmp_arr0_l=();
-	    	###
-	    } # cycle for h66, inv-hosts -> ipset_templates (end)
-	    
-	    if ( $#list_of_ipsets_l!=-1 ) {
-		@list_of_ipsets_l=sort(@list_of_ipsets_l);
-		&rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
-		#$file_l,$aref_l
-	    }
-	    else {
-		$ipsets_list_file_path_l=$dst_dir_l.'/NO_LIST';
-		system("touch $ipsets_list_file_path_l");
-	    }
-	    
-	    if ( $#apply_run_flag_file_content_l!=-1 ) {
-		&rewrite_file_from_array_ref($apply_run_flag_file_path_l,\@apply_run_flag_file_content_l);
+    	    	    
+    	    	    push(@list_of_ipsets_l,$ipset_name_l);
+    	    	    ###
+    	    	    @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
+    	    	}
+    	    	else { @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,'empty',' '); }
+    	    	
+    	    	# clear vars
+    	    	$ipset_name_l=undef;
+    	    	($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
+    	    	@tmp_arr0_l=();
+    	    	###
+    	    } # cycle for h66, inv-hosts -> ipset_templates (end)
+    	    
+    	    if ( $#list_of_ipsets_l!=-1 ) {
+    		@list_of_ipsets_l=sort(@list_of_ipsets_l);
+    		&rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
+    		#$file_l,$aref_l
+    	    }
+    	    else {
+    		$ipsets_list_file_path_l=$dst_dir_l.'/NO_LIST';
+    		system("touch $ipsets_list_file_path_l");
+    	    }
+    	    
+    	    if ( $#apply_run_flag_file_content_l!=-1 ) {
+    		&rewrite_file_from_array_ref($apply_run_flag_file_path_l,\@apply_run_flag_file_content_l);
                 #$file_l,$aref_l
-	    }
-	    
-	    #clear vars
-	    ($hkey1_l,$hval1_l)=(undef,undef);
-	    $dst_dir_l=undef;
-	    $ipsets_list_file_path_l=undef;
-	    @list_of_ipsets_l=();
-	    @apply_run_flag_file_content_l=();
-	    ###
-	} # cycle for h66, inv-hosts (end)
+    	    }
+    	    
+    	    #clear vars
+    	    ($hkey1_l,$hval1_l)=(undef,undef);
+    	    $dst_dir_l=undef;
+    	    $ipsets_list_file_path_l=undef;
+    	    @list_of_ipsets_l=();
+    	    @apply_run_flag_file_content_l=();
+    	    ###
+    	} # cycle for h66, inv-hosts (end)
     
-	# clear vars
-	($hkey0_l,$hval0_l)=(undef,undef);
-	###
-    }
+    	# clear vars
+    	($hkey0_l,$hval0_l)=(undef,undef);
+    	###
+    } # foreach @ipset_types_by_timeout_l (end)
     
     $arr_el0_l=undef; # clear vars
     # operations for permanent/temporary ipsets (END)
