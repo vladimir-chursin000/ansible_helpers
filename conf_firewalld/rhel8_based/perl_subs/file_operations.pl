@@ -283,84 +283,84 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     
     # create dirs and create init-files if need (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-	#hkey0_l=inv-host
-	
-	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent");
-	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary");
-	
-	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/delete_history/permanent");
-	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/delete_history/temporary");
-	
-	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}) ) {
-	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}} ) {
-		#$hkey1_l=ipset_name_tmplt
-		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/change_history");
-		
-		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content");
-		
-		if ( !-e($ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/info') ) {
-		    system("echo 'DO NOT CHANGE ANY FILES AT THIS DIR' > $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content/info");
-		}
-
-		#permanent/ipset_template_name/... (dir)
-            	    # actual__ipset_name.txt (file)
-                	# First line - description like "###You CAN manually ADD entries to this file!".
-                	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-            	    #/change_history/ (dir)
-		$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
-		$ipset_type_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_type'};
-		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/actual__".$ipset_name_l.".txt";
-		
-		if ( !-e($init_file_l) ) {
-		    @init_lines_arr_l=('###You CAN manually ADD entries to this file! One row="ipset_entry"',"###$dt_now_l;+$ipset_type_l");
-		    
-		    &rewrite_file_from_array_ref($init_file_l,\@init_lines_arr_l);
-		    #$file_l,$aref_l
-		    
-		    @init_lines_arr_l=();
-		}
-		
-		($ipset_name_l,$ipset_type_l)=(undef,undef);
-		$init_file_l=undef;
-		##############
-	    }
+    	#hkey0_l=inv-host
+    	
+    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent");
+    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary");
+    	
+    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/delete_history/permanent");
+    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/delete_history/temporary");
+    	
+    	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}) ) {
+    	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$hkey0_l}} ) { # while h66, permanent, inv-host (begin)
+    	    	#$hkey1_l=ipset_name_tmplt
+    	    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/change_history");
+    	    	
+    	    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content");
+    	    	
+    	    	if ( !-e($ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/info') ) {
+    	    	    system("echo 'DO NOT CHANGE ANY FILES AT THIS DIR' > $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content/info");
+    	    	}
 	    
-	    ($hkey1_l,$hval1_l)=(undef,undef);
-	}
-	
-	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
-	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}} ) {
-		#$hkey1_l=ipset_name_tmplt
-		system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/change_history");
-
-        	#temporary/ipset_template_name/.. (dir)
+    	    	#permanent/ipset_template_name/... (dir)
             	    # actual__ipset_name.txt (file)
                 	# First line - description like "###You CAN manually ADD entries to this file!".
                 	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
             	    #/change_history/ (dir)
-		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
-		$ipset_type_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_type'};
-		$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/actual__".$ipset_name_l.".txt";
-		
-		if ( !-e($init_file_l) ) {
-		    @init_lines_arr_l=(
-			'###You CAN manually ADD entries to this file! One row="ipset_entry;+expire_date" (date format=YYYYMMDDHHMISS). The difference from the current date must not be more than 24 days, 20 hours, 31 minutes and 23 seconds',
-			"###$dt_now_l;+$ipset_type_l"
-		    );
-
-		    &rewrite_file_from_array_ref($init_file_l,\@init_lines_arr_l);
-		    #$file_l,$aref_l
-		    
-		    @init_lines_arr_l=();
-		}
-
-		($ipset_name_l,$ipset_type_l)=(undef,undef);
-		$init_file_l=undef;
-		##############
-	    }
-
-	    ($hkey1_l,$hval1_l)=(undef,undef);
-	}
+    	    	$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
+    	    	$ipset_type_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_type'};
+    	    	$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/actual__".$ipset_name_l.".txt";
+    	    	
+    	    	if ( !-e($init_file_l) ) {
+    	    	    @init_lines_arr_l=('###You CAN manually ADD entries to this file! One row="ipset_entry"',"###$dt_now_l;+$ipset_type_l");
+    	    	    
+    	    	    &rewrite_file_from_array_ref($init_file_l,\@init_lines_arr_l);
+    	    	    #$file_l,$aref_l
+    	    	    
+    	    	    @init_lines_arr_l=();
+    	    	}
+    	    	
+    	    	($ipset_name_l,$ipset_type_l)=(undef,undef);
+    	    	$init_file_l=undef;
+    	    	##############
+    	    } # while h66, permanent, inv-host (end)
+    	    
+    	    ($hkey1_l,$hval1_l)=(undef,undef);
+    	}
+    	
+    	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
+    	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}} ) { # while h66, temporary, inv-host (begin)
+    	    	#$hkey1_l=ipset_name_tmplt
+    	    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/change_history");
+	    
+    	    	#temporary/ipset_template_name/.. (dir)
+            	    # actual__ipset_name.txt (file)
+                	# First line - description like "###You CAN manually ADD entries to this file!".
+                	# Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
+            	    #/change_history/ (dir)
+    	    	$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
+    	    	$ipset_type_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_type'};
+    	    	$init_file_l="$ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/actual__".$ipset_name_l.".txt";
+    	    	
+    	    	if ( !-e($init_file_l) ) {
+    	    	    @init_lines_arr_l=(
+    	    		'###You CAN manually ADD entries to this file! One row="ipset_entry;+expire_date" (date format=YYYYMMDDHHMISS). The difference from the current date must not be more than 24 days, 20 hours, 31 minutes and 23 seconds',
+    	    		"###$dt_now_l;+$ipset_type_l"
+    	    	    );
+	    
+    	    	    &rewrite_file_from_array_ref($init_file_l,\@init_lines_arr_l);
+    	    	    #$file_l,$aref_l
+    	    	    
+    	    	    @init_lines_arr_l=();
+    	    	}
+	    
+    	    	($ipset_name_l,$ipset_type_l)=(undef,undef);
+    	    	$init_file_l=undef;
+    	    	##############
+    	    } # while h66, temporary, inv-host (end)
+    
+    	    ($hkey1_l,$hval1_l)=(undef,undef);
+    	}
     }
     # create dirs and create init-files if need (END)
     
