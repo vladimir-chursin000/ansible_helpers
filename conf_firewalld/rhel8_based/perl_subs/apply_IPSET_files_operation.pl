@@ -407,59 +407,59 @@ sub read_local_ipset_input {
 	    # fill %res_tmp_lv0_slice_l
 	    #my %res_tmp_lv0_l=();
     	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
-        	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
-	    foreach $arr_el1_l ( @input_inv_host_arr_l ) {
-		#temporary/permanent=$ipset_type_by_time_l
+    	    	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
+	    foreach $arr_el1_l ( @input_inv_host_arr_l ) { # foreach @input_inv_host_arr_l (begin)
+	    	#temporary/permanent=$ipset_type_by_time_l
 	    	#inv-host=$arr_el1_l
-		#$input_ipset_template_name_l
-		#$ipset_name_l
-		#del/add=$arr_el0_l
-		#last_access_time_in_sec_epoch=$last_access_epoch_sec_l
-		
-		if ( !exists(${$h66_conf_ipsets_FIN_href_l}{$ipset_type_by_time_l}{$arr_el1_l}{$input_ipset_template_name_l}) ) {
+	    	#$input_ipset_template_name_l
+	    	#$ipset_name_l
+	    	#del/add=$arr_el0_l
+	    	#last_access_time_in_sec_epoch=$last_access_epoch_sec_l
+	    	
+	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{$ipset_type_by_time_l}{$arr_el1_l}{$input_ipset_template_name_l}) ) {
 	    	    ######
 	    	    %log_ops_input_l=(
     	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-			'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    		'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    		'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-			'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    		'STATUS'=>"ipset_template_name is not configured for inv-host at '66_conf_ipsets_FIN'",
 	    	    );
 	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	    #$history_log_dir_l,$input_params_href_l
 	    	    %log_ops_input_l=();
 	    	    ######
-		    
-		    next;
-		}
-		
-		# write records to %res_tmp_lv0_slice_l
-		while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
-		    #$hkey0_l=ipset_record
-		    
-		    #FOR USE IN FUTURE
-		    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
-		    #$ipset_val_l,$ipset_type_l,$ipset_family_l
-		    
-		    ######
+	    	    
+	    	    next;
+	    	}
+	    	
+	    	# write records to %res_tmp_lv0_slice_l
+	    	while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
+	    	    #$hkey0_l=ipset_record
+	    	    
+	    	    #FOR USE IN FUTURE
+	    	    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
+	    	    #$ipset_val_l,$ipset_type_l,$ipset_family_l
+	    	    
+	    	    ######
 	    	    %log_ops_input_l=(
     	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-			'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    		'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    		'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-			'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
+	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
     	    		'STATUS'=>'OK',
 	    	    );
 	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	    #$history_log_dir_l,$input_params_href_l
 	    	    %log_ops_input_l=();
 	    	    ######
-
-		    $res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$hkey0_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
-		}
-		###
-	    }
+	    	
+	    	    $res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$hkey0_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
+	    	}
+	    	###
+	    } # foreach @input_inv_host_arr_l (end)
 	    ###
 	    
 	    # check if no added content to %res_tmp_lv0_slice_l for list of inv-hosts '@input_inv_host_arr_l'
@@ -521,13 +521,13 @@ sub read_local_ipset_input {
     ###
 
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # while %res_tmp_lv0_l (begin)
     	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
     	#$hval0_l=hash-ref for "add/del=[last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]"
-	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+    	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
     	    	
     	if ( exists(${$hval0_l}{'add'}) && exists(${$hval0_l}{'del'}) ) {
-
+    
     	    if ( ${${$hval0_l}{'add'}}[0] > ${${$hval0_l}{'del'}}[0] ) {
     		######
     		%log_ops_input_l=(
@@ -581,7 +581,7 @@ sub read_local_ipset_input {
     	    }
     	}
     	
-    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # while %res_tmp_lv0_l -> %{$hval0_l} (begin)
     	    #hkey1_l=add/del, hval1_l=arr-ref for [last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]
     	    
     	    ######
@@ -597,13 +597,13 @@ sub read_local_ipset_input {
     	    #$history_log_dir_l,$input_params_href_l
     	    %log_ops_input_l=();
     	    ######
-	    
-	    #my %res_tmp_lv1_l=(); # like %ipset_input_l
+    	    
+    	    #my %res_tmp_lv1_l=(); # like %ipset_input_l
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
                 #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
-	    $res_tmp_lv1_l{$tmp_arr0_l[0]}{$tmp_arr0_l[1].';+'.$tmp_arr0_l[2].';+'.$tmp_arr0_l[3]}{$hkey1_l}{$tmp_arr0_l[4]}=1;
-    	}
-    }
+    	    $res_tmp_lv1_l{$tmp_arr0_l[0]}{$tmp_arr0_l[1].';+'.$tmp_arr0_l[2].';+'.$tmp_arr0_l[3]}{$hkey1_l}{$tmp_arr0_l[4]}=1;
+    	} # while %res_tmp_lv0_l -> %{$hval0_l} (end)
+    } # while %res_tmp_lv0_l (end)
     ###
 
     # fill result hash
