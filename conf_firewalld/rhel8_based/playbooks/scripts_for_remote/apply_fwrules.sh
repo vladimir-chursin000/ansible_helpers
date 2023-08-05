@@ -109,6 +109,8 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 	done;
 	###
     fi;
+    
+    EXE_RES_str='';
     ###
 fi;
 ###

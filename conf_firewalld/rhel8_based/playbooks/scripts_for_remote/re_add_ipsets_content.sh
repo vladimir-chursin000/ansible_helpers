@@ -99,7 +99,7 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	fi;
 
 	# Get list of temporary ipsets (timeout>0)
-	PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
+	PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG";
 	if [[ `grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""` ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > PREV_LIST_FILE_FROM_CFG_str;
 	fi;
@@ -174,14 +174,16 @@ fi;
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" && -s "$LIST_FILE_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
+	if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+	    firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
+	fi;
     done < $LIST_FILE_str;
 fi;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" && -s "$LIST_FILE_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	if [[ -s "$CONTENT_DIR_str/$LINE0_str" ]]; then # if file exists and not empty
+	if [[ -s "$CONTENT_DIR_str/$LINE0_str" && -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
 	    while read -r LINE1_str; # LINE1_str = one line with ipset entry
 	    do
 		TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
