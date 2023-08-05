@@ -4,6 +4,8 @@
 
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 EXEC_RESULT_DIR_str="$SELF_DIR_str/exec_result";
+NOW_YYYYMMDDHHMISS_AT_START_str=`date '+%Y%m%d%H%M%S'`;
+
 touch "$SELF_DIR_str/apply_fwrules_is_run_now";
 mkdir -p "$EXEC_RESULT_DIR_str";
 
@@ -26,6 +28,7 @@ RELOAD_NEED_RUN_str='no';
 #
 ARR_EL0_str='';
 EXE_RES_str='';
+NOW_YYYYMMDDHHMISS_str='';
 declare -a TMP_arr;
 ###VARS
 
