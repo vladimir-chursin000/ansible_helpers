@@ -6,6 +6,10 @@ SELF_DIR_str="$(dirname $(readlink -f $0))";
 EXEC_RESULT_DIR_str="$SELF_DIR_str/exec_results";
 NOW_YYYYMMDDHHMISS_AT_START_str=`date '+%Y%m%d%H%M%S'`;
 
+if [[ ! -d $EXEC_RESULT_DIR_str ]]; then
+    mkdir -p "$EXEC_RESULT_DIR_str";
+fi;
+
 ###CFG
 BACKUP_FOR_ROLLBACK_DIR_str="$SELF_DIR_str/fwrules_backup_now";
 TEMP_IPSET_CONT_BACKUP_FOR_ROLLBACK_DIR_str="$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_content";

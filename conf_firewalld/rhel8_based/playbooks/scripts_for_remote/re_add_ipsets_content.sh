@@ -65,24 +65,28 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
     
     if [[ ! -d $PREV_CONTENT_DIR_str ]]; then
-	mkdir -p $PREV_CONTENT_DIR_str;
+    	mkdir -p $PREV_CONTENT_DIR_str;
     fi;
     
     # Get list of permanent ipsets (timeout=0)
     PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
     if [[ `grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
-	grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
+    	grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
     fi;
     if [[ `grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/*` ]]; then
-	grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
+    	grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
     fi;
     ###
     
     # Get content of permanent ipsets
-    while read -r LINE0_str; # LINE0_str = ipset_name
-    do
-	firewall-cmd --permanent --ipset=$LINE0_str --get-entries > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
-    done < $PREV_LIST_FILE_FROM_CFG_str;
+    if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
+    	while read -r LINE0_str; # LINE0_str = ipset_name
+    	do
+    	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+    		firewall-cmd --permanent --ipset=$LINE0_str --get-entries > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
+    	    fi;
+    	done < $PREV_LIST_FILE_FROM_CFG_str;
+    fi;
     ###
 elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
@@ -102,10 +106,14 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	###
 	
 	# Get content of temporary ipsets
-	while read -r LINE0_str; # LINE0_str = ipset_name
-	do
-	    ipset list $LINE0_str | grep -i timeout | grep -v 'Header' > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
-	done < $PREV_LIST_FILE_FROM_CFG_str;
+	if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
+	    while read -r LINE0_str; # LINE0_str = ipset_name
+	    do
+	    	if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+	    	    ipset list $LINE0_str | grep -i timeout | grep -v 'Header' > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
+	    	fi;
+	    done < $PREV_LIST_FILE_FROM_CFG_str;
+	fi;
 	###
     fi;
 fi;
@@ -133,57 +141,65 @@ elif [[ -f "$LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; th
 fi;
 
 # DELETE ipsets content if need
-if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
+if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" && -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
+	if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+	    sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
+	fi;
     done < $PREV_LIST_FILE_FROM_CFG_str;
 fi;
 
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
-    while read -r LINE0_str; # LINE0_str = ipset_name
-    do
-	while read -r LINE1_str; # LINE1_str = one line with ipset entry
+    if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
+	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
-	    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
-	    ipset del $LINE0_str ${TMP_arr[0]};
-	    
-	    # clear vars
-	    TMP_arr=();
-	    ###
-	done < "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
-    done < $PREV_LIST_FILE_FROM_CFG_str;
+	    if [[ -s "$PREV_CONTENT_DIR_str/CFG_$LINE0_str" ]]; then
+		while read -r LINE1_str; # LINE1_str = one line with ipset entry
+		do
+		    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
+		    ipset del $LINE0_str ${TMP_arr[0]};
+		    
+		    # clear vars
+		    TMP_arr=();
+		    ###
+		done < "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
+	    fi;
+	done < $PREV_LIST_FILE_FROM_CFG_str;
+    fi;
 fi;
 ###
 
 # RE_ADD ipsets content if need
-if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
+if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" && -s "$LIST_FILE_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
 	firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
     done < $LIST_FILE_str;
 fi;
 
-if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
+if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" && -s "$LIST_FILE_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
-	while read -r LINE1_str; # LINE1_str = one line with ipset entry
-	do
-	    TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
-	    
-	    EPOCH_TIME_CFG_num=`date -d "$(echo ${TMP_arr[1]} | awk '{print substr($1,1,8), substr($1,9,2) ":" substr($1,11,2) ":" substr($1,13,2)}')" '+%s'`;
-	    EPOCH_TIME_NOW_num=`date '+%s'`;
-	    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
-	    
-	    ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
-	    
-	    # clear vars
-	    TMP_arr=();
-	    EPOCH_TIME_NOW_num=0;
-	    EPOCH_TIME_CFG_num=0;
-	    TIMEOUT_num=0;
-	    ###
-	done < "$CONTENT_DIR_str/$LINE0_str";
+	if [[ -s "$CONTENT_DIR_str/$LINE0_str" ]]; then # if file exists and not empty
+	    while read -r LINE1_str; # LINE1_str = one line with ipset entry
+	    do
+		TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
+		
+		EPOCH_TIME_CFG_num=`date -d "$(echo ${TMP_arr[1]} | awk '{print substr($1,1,8), substr($1,9,2) ":" substr($1,11,2) ":" substr($1,13,2)}')" '+%s'`;
+		EPOCH_TIME_NOW_num=`date '+%s'`;
+		TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
+		
+		ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
+		
+		# clear vars
+		TMP_arr=();
+		EPOCH_TIME_NOW_num=0;
+		EPOCH_TIME_CFG_num=0;
+		TIMEOUT_num=0;
+		###
+	    done < "$CONTENT_DIR_str/$LINE0_str";
+	fi;
     done < $LIST_FILE_str;
 fi;
 ###

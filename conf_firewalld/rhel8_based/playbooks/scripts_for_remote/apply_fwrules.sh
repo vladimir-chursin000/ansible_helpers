@@ -7,7 +7,9 @@ EXEC_RESULT_DIR_str="$SELF_DIR_str/exec_results";
 NOW_YYYYMMDDHHMISS_AT_START_str=`date '+%Y%m%d%H%M%S'`;
 
 touch "$SELF_DIR_str/apply_fwrules_is_run_now";
-mkdir -p "$EXEC_RESULT_DIR_str";
+if [[ ! -d $EXEC_RESULT_DIR_str ]]; then
+    mkdir -p "$EXEC_RESULT_DIR_str";
+fi;
 
 ###CFG
 APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
