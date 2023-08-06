@@ -42,45 +42,61 @@ if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
     
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED_str='yes', RELOAD_NEED_RUN_str='yes'" &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
     RECREATE_TEMPORARY_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_temporary_ipsets_changed'. Set RECREATE_TEMPORARY_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_fw_zones_changed" ]]; then
     RECREATE_FW_ZONES_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_fw_zones_changed'. Set RECREATE_FW_ZONES_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
     RECREATE_POLICIES_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_policies_changed'. Set RECREATE_POLICIES_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
     PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'permanent_ipsets_flag_file_changed'. Set PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/temporary_ipsets_flag_file_changed" ]]; then
     TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'temporary_ipsets_flag_file_changed'. Set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/rollback_fwrules_need_run" ]]; then
     ROLLBACK_FWRULES_NEED_RUN_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'rollback_fwrules_need_run'. Set ROLLBACK_FWRULES_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/fwconfig_changed" ]]; then
     FWCONFIG_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='no';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'fwconfig_changed'. Set FWCONFIG_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ "$RELOAD_NEED_RUN_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; then
     # if no changes for temporary (timeout>0), but reload/restart expected -> need to restore temporary ipsets entries after reload/restart
     TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+If RELOAD_NEED_RUN='yes' or FWCONFIG_CHANGED='yes' -> set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes'" &>> $EXEC_RESULT_FILE_str;
     ###
     
     # For script 're_add_ipsets_content.sh' with ARGV[0]='temporary'
