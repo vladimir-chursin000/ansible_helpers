@@ -155,12 +155,12 @@ if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
     fi;
     echo "$NOW_YYYYMMDDHHMISS_str;+FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
     
-    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
     echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
     "$SELF_DIR_str/recreate_permanent_ipsets.sh" &>> $EXEC_RESULT_FILE_str;
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
-    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -175,12 +175,12 @@ if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
     fi;
     echo "$NOW_YYYYMMDDHHMISS_str;+FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
 
-    echo ' ' &>> $EXEC_RESULT_FILE_str;
-    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;    
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
     "$SELF_DIR_str/recreate_temporary_ipsets.sh" &>> $EXEC_RESULT_FILE_str;
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
-    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -188,31 +188,36 @@ fi;
 if [[ "$RECREATE_FW_ZONES_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
     echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_fw_zones.sh' (if RECREATE_FW_ZONES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;    
     "$SELF_DIR_str/recreate_fw_zones.sh" &>> $EXEC_RESULT_FILE_str;
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_fw_zones.sh' (if RECREATE_FW_ZONES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
-    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
 # 5) Recreate firewalld policies (if need).
 if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
-    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_policies.sh' (if RECREATE_POLICIES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;    
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_policies.sh' (if RECREATE_POLICIES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
     "$SELF_DIR_str/recreate_policies.sh" &>> $EXEC_RESULT_FILE_str;
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_policies.sh' (if RECREATE_POLICIES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
-    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
 # 6) Re-add. If need to re-add ipsets elements from ansible-host as source.
 if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
-    "$SELF_DIR_str/re_add_ipsets_content.sh" permanent &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 're_add_ipsets_content.sh' with param='permanent' (if PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    "$SELF_DIR_str/re_add_ipsets_content.sh" permanent &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 're_add_ipsets_content.sh' with param='permanent' (if PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -221,7 +226,7 @@ fi;
     # If executed: re_add_permanent_ipsets_content.sh
 if [[ "$RELOAD_NEED_RUN_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
+    echo "$NOW_YYYYMMDDHHMISS_str;+Run 'firewall-cmd --reload' (if RELOAD_NEED_RUN='yes')" &>> $EXEC_RESULT_FILE_str;
     firewall-cmd --reload;
 fi;
 ###
@@ -230,7 +235,7 @@ fi;
     # If changed: firewalld.conf
 if [[ "$FWCONFIG_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
+    echo "$NOW_YYYYMMDDHHMISS_str;+Run 'systemctl restart firewalld' (if FWCONFIG_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
     systemctl restart firewalld;
 fi;
 ###
@@ -238,8 +243,12 @@ fi;
 # 9) Re-add. If need to re-add ipsets elements from ansible-host as source.
 if [[ "$TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
-    "$SELF_DIR_str/re_add_ipsets_content.sh" temporary &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 're_add_ipsets_content.sh' with param='temporary' (if TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    "$SELF_DIR_str/re_add_ipsets_content.sh" temporary &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 're_add_ipsets_content.sh' with param='temporary' (if TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -248,7 +257,7 @@ fi;
     # For rollback -> saved temporary ipsets content from 'fwrules_backup_now' (at 1a step).
 if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
+    echo "$NOW_YYYYMMDDHHMISS_str;+Run 'rollback_fwrules_changes.sh' as process (if ROLLBACK_FWRULES_NEED_RUN='yes')" &>> $EXEC_RESULT_FILE_str;
     nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 fi;
 ###
@@ -256,6 +265,4 @@ fi;
 # remove files
 rm -rf "$SELF_DIR_str/apply_fwrules_is_run_now";
 rm -rf $APPLY_RUN_INFO_DIR_str/*; # remove run-info
-
-NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 ###
