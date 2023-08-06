@@ -109,6 +109,8 @@ fi;
     # For rollback of permanent content/rules. Exception - content of a temporary ipsets.
     # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.
 if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
     rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*;
     cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
@@ -133,11 +135,15 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     
     EXE_RES_str='';
     ###
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Prepare files and ipsets content for rollback(if ROLLBACK_FWRULES_NEED_RUN='yes')" &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
 # 2) Recreate permanent ipsets (if need).
 if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
 	if [[ `grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
 	    grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | xargs rm;
@@ -154,6 +160,8 @@ fi;
 
 # 3) Recreate temporary ipsets (if need).
 if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     if [[ `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
 	if [[ `grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""` ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
@@ -166,18 +174,24 @@ fi;
 
 # 4) Recreate firewalld zones (if need).
 if [[ "$RECREATE_FW_ZONES_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     "$SELF_DIR_str/recreate_fw_zones.sh" &> "$SELF_DIR_str/recreate_fw_zones-res.txt";
 fi;
 ###
 
 # 5) Recreate firewalld policies (if need).
 if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     "$SELF_DIR_str/recreate_policies.sh" &> "$SELF_DIR_str/recreate_policies-res.txt";    
 fi;
 ###
 
 # 6) Re-add. If need to re-add ipsets elements from ansible-host as source.
 if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     "$SELF_DIR_str/re_add_ipsets_content.sh" permanent &> "$SELF_DIR_str/re_add_permanent_ipsets_content-res.txt";
 fi;
 ###
@@ -186,6 +200,8 @@ fi;
     # If changed: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh
     # If executed: re_add_permanent_ipsets_content.sh
 if [[ "$RELOAD_NEED_RUN_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     firewall-cmd --reload;
 fi;
 ###
@@ -193,12 +209,16 @@ fi;
 # 8) Restart firewalld "systemctl restart firewalld" (if need).
     # If changed: firewalld.conf
 if [[ "$FWCONFIG_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     systemctl restart firewalld;
 fi;
 ###
 
 # 9) Re-add. If need to re-add ipsets elements from ansible-host as source.
 if [[ "$TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     "$SELF_DIR_str/re_add_ipsets_content.sh" temporary &> "$SELF_DIR_str/re_add_temporary_ipsets_content-res.txt";
 fi;
 ###
@@ -207,9 +227,15 @@ fi;
     # For rollback -> saved permanent ipsets content from 'fwrules_backup_now' (at 1 step).
     # For rollback -> saved temporary ipsets content from 'fwrules_backup_now' (at 1a step).
 if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     nohup sh -c '~/ansible_helpers/conf_firewalld/rollback_fwrules_changes.sh >/dev/null 2>&1' & sleep 1;
 fi;
 ###
 
+# remove files
 rm -rf "$SELF_DIR_str/apply_fwrules_is_run_now";
 rm -rf $APPLY_RUN_INFO_DIR_str/*; # remove run-info
+
+NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+###
