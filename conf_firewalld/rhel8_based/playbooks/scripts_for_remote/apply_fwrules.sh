@@ -36,9 +36,13 @@ declare -a TMP_arr;
 ###VARS
 
 ###APPLY_RUN_INFO read
+NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
+    
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED_str='yes', RELOAD_NEED_RUN_str='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
