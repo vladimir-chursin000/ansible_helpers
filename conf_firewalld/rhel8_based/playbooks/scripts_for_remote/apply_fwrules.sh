@@ -95,13 +95,13 @@ fi;
 if [[ "$RELOAD_NEED_RUN_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; then
     # if no changes for temporary (timeout>0), but reload/restart expected -> need to restore temporary ipsets entries after reload/restart
     TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
-
-    echo "$NOW_YYYYMMDDHHMISS_str;+If RELOAD_NEED_RUN='yes' or FWCONFIG_CHANGED='yes' -> set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes'" &>> $EXEC_RESULT_FILE_str;
     ###
     
     # For script 're_add_ipsets_content.sh' with ARGV[0]='temporary'
     touch "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes";
     ###
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+If RELOAD_NEED_RUN='yes' or FWCONFIG_CHANGED='yes' -> set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes' and create apply-run-info-file 'reload_or_restart_yes' for script 're_add_ipsets_content.sh' (with 'temporary' argv param)" &>> $EXEC_RESULT_FILE_str;
 fi;
 ###APPLY_RUN_INFO read
 
