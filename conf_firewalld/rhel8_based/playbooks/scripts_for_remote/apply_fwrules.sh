@@ -136,7 +136,7 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     EXE_RES_str='';
     ###
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Prepare files and ipsets content for rollback(if ROLLBACK_FWRULES_NEED_RUN='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Prepare files and ipsets content for rollback (if ROLLBACK_FWRULES_NEED_RUN='yes')" &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -153,8 +153,14 @@ if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
 	    grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs rm;
 	fi;
     fi;
-
-    "$SELF_DIR_str/recreate_permanent_ipsets.sh" &> "$SELF_DIR_str/recreate_permanent_ipsets-res.txt";
+    echo "$NOW_YYYYMMDDHHMISS_str;+FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    
+    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    "$SELF_DIR_str/recreate_permanent_ipsets.sh" &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo ' ' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -167,8 +173,14 @@ if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
 	fi;
     fi;
-    
-    "$SELF_DIR_str/recreate_temporary_ipsets.sh" &> "$SELF_DIR_str/recreate_temporary_ipsets-res.txt";
+    echo "$NOW_YYYYMMDDHHMISS_str;+FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+
+    echo ' ' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;    
+    "$SELF_DIR_str/recreate_temporary_ipsets.sh" &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo ' ' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -176,7 +188,11 @@ fi;
 if [[ "$RECREATE_FW_ZONES_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
-    "$SELF_DIR_str/recreate_fw_zones.sh" &> "$SELF_DIR_str/recreate_fw_zones-res.txt";
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_fw_zones.sh' (if RECREATE_FW_ZONES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;    
+    "$SELF_DIR_str/recreate_fw_zones.sh" &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_fw_zones.sh' (if RECREATE_FW_ZONES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo ' ' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
@@ -184,7 +200,11 @@ fi;
 if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
-    "$SELF_DIR_str/recreate_policies.sh" &> "$SELF_DIR_str/recreate_policies-res.txt";    
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_policies.sh' (if RECREATE_POLICIES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;    
+    "$SELF_DIR_str/recreate_policies.sh" &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_policies.sh' (if RECREATE_POLICIES_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo ' ' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
