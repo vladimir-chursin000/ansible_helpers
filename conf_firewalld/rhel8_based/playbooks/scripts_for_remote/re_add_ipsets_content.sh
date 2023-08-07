@@ -45,6 +45,7 @@ MAIN_SCENARIO_str='no';
 ###
 LINE0_str='';
 LINE1_str='';
+NOW_YYYYMMDDHHMISS_str='';
 IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='no'; # for ARGV[0]=temporary
 declare -a TMP_arr;
 
@@ -56,7 +57,9 @@ TIMEOUT_num=0;
 ###APPLY_RUN_INFO read
 if [[ -f "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes" ]]; then
     IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='yes';
-    echo "re_add_ipsets_content.sh: find aplly-run-info-file 'reload_or_restart_yes'. Set IS_CLEARED_TEMP_IPSETS_BEFORE_RUN='yes'";
+    
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: find aplly-run-info-file 'reload_or_restart_yes'. Set IS_CLEARED_TEMP_IPSETS_BEFORE_RUN='yes'";
 fi;
 ###APPLY_RUN_INFO read
 
