@@ -59,12 +59,15 @@ if [[ -f "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes" ]]; then
     IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='yes';
     
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: find aplly-run-info-file 'reload_or_restart_yes'. Set IS_CLEARED_TEMP_IPSETS_BEFORE_RUN='yes'";
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: finded aplly-run-info-file 'reload_or_restart_yes'. Set IS_CLEARED_TEMP_IPSETS_BEFORE_RUN='yes'";
 fi;
 ###APPLY_RUN_INFO read
 
 ######MAIN
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: run with argv-param='permanent'";
+
     CONTENT_DIR_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
     
@@ -76,9 +79,11 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
     if [[ `grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
     	grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'timeout=0' to $PREV_LIST_FILE_FROM_CFG_str";
     fi;
     if [[ `grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/*` ]]; then
     	grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'no timeout param' to $PREV_LIST_FILE_FROM_CFG_str";
     fi;
     ###
     
