@@ -79,25 +79,32 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
     if [[ `grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
     	grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'timeout=0' to $PREV_LIST_FILE_FROM_CFG_str";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'timeout=0' to the file '$PREV_LIST_FILE_FROM_CFG_str'";
     fi;
     if [[ `grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/*` ]]; then
     	grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'no timeout param' to $PREV_LIST_FILE_FROM_CFG_str";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'no timeout param' to the file '$PREV_LIST_FILE_FROM_CFG_str'";
     fi;
     ###
     
     # Get content of permanent ipsets
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: start get content of ipsets from the file '$PREV_LIST_FILE_FROM_CFG_str'";
     	while read -r LINE0_str; # LINE0_str = ipset_name
     	do
     	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+		NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write entries from ipset-xml '$LINE0_str.xml' to '$PREV_CONTENT_DIR_str/CFG_$LINE0_str'";
+
     		firewall-cmd --permanent --ipset=$LINE0_str --get-entries > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
     	    fi;
     	done < $PREV_LIST_FILE_FROM_CFG_str;
     fi;
     ###
 elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: run with argv-param='temporary'";
+
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_temporary_ipsets";
     
