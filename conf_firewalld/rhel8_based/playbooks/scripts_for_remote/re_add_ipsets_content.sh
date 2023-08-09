@@ -94,7 +94,7 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     	do
     	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
 		NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write entries from ipset-xml '$LINE0_str.xml' to '$PREV_CONTENT_DIR_str/CFG_$LINE0_str'";
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write entries from permanent ipset-xml '$LINE0_str.xml' to '$PREV_CONTENT_DIR_str/CFG_$LINE0_str'";
 
     		firewall-cmd --permanent --ipset=$LINE0_str --get-entries > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
     	    fi;
@@ -128,6 +128,9 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	    while read -r LINE0_str; # LINE0_str = ipset_name
 	    do
 	    	if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+		    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+		    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write entries from temporary ipset-xml '$LINE0_str.xml' to '$PREV_CONTENT_DIR_str/CFG_$LINE0_str'";
+
 	    	    ipset list $LINE0_str | grep -i timeout | grep -v 'Header' > "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
 	    	fi;
 	    done < $PREV_LIST_FILE_FROM_CFG_str;
@@ -138,7 +141,6 @@ fi;
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
-
 
 if [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all premanent ipsets
