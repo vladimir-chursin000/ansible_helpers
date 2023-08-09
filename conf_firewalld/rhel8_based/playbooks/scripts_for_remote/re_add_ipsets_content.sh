@@ -79,11 +79,11 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG"
     if [[ `grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
     	grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'timeout=0' to the file '$PREV_LIST_FILE_FROM_CFG_str'";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write permanent ipsets names (with 'timeout=0') to the file '$PREV_LIST_FILE_FROM_CFG_str'";
     fi;
     if [[ `grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/*` ]]; then
     	grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' >> $PREV_LIST_FILE_FROM_CFG_str;
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'no timeout param' to the file '$PREV_LIST_FILE_FROM_CFG_str'";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write permanent ipsets names (with 'no timeout param') to the file '$PREV_LIST_FILE_FROM_CFG_str'";
     fi;
     ###
     
@@ -118,7 +118,7 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	PREV_LIST_FILE_FROM_CFG_str="$PREV_CONTENT_DIR_str/LIST_CFG";
 	if [[ `grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""` ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/*.xml | xargs grep -L "value=\"0\"" | sed -r 's/\.xml$|\/etc\/firewalld\/ipsets\///g' | grep -v '.old$' > $PREV_LIST_FILE_FROM_CFG_str;
-	    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write ipsets names with 'timeout param' to the file '$PREV_LIST_FILE_FROM_CFG_str'";
+	    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: write teporary ipsets names (with 'timeout param') to the file '$PREV_LIST_FILE_FROM_CFG_str'";
 	fi;
 	###
 	
