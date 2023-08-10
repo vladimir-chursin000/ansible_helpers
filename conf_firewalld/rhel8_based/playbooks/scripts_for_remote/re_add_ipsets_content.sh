@@ -173,6 +173,8 @@ fi;
 ###
 
 # DELETE ipsets content if need
+NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then
 	while read -r LINE0_str; # LINE0_str = ipset_name
@@ -205,6 +207,8 @@ fi;
 ###
 
 # RE_ADD ipsets content if need
+NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
 	while read -r LINE0_str; # LINE0_str = ipset_name
