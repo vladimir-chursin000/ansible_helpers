@@ -142,23 +142,35 @@ fi;
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 
+# MAIN SCENARIO CHOICE
+NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
 if [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all premanent ipsets
     echo 'Delete all permanent ipset entries if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
+    
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='permanent' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_permanent'";
 elif [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets
     echo 'Delete all temporary ipset entries if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_temporary';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='temporary' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_temporary'";
 elif [[ -f "$LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # Delete all entries for all permanent ipsets and add new entries
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
     MAIN_SCENARIO_str='re_add_permanent';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='permanent' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_permanent', MAIN_SCENARIO_str='re_add_permanent'";
 elif [[ -f "$LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets and add new entries
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_temporary';
     MAIN_SCENARIO_str='re_add_temporary';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='temporary' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_temporary', MAIN_SCENARIO_str='re_add_temporary'";
 fi;
+###
 
 # DELETE ipsets content if need
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
