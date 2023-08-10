@@ -184,9 +184,7 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
 	    fi;
 	done < $PREV_LIST_FILE_FROM_CFG_str;
     fi;
-fi;
-
-if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
+elif [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
@@ -218,9 +216,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 	    fi;
 	done < $LIST_FILE_str;
     fi;
-fi;
-
-if [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
+elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
