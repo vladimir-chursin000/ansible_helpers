@@ -145,6 +145,10 @@ if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
     if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
+	# For script 're_add_ipsets_content.sh' with ARGV[0]='permanent'
+	touch "$APPLY_RUN_INFO_DIR_str/is_force_removed_permanent_ipsets";
+	###
+
 	if [[ `grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/*` ]]; then
 	    grep -s -l "name=\"timeout\" value=\"0\"" /etc/firewalld/ipsets/* | xargs rm;
 	fi;
