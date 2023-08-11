@@ -187,22 +187,26 @@ NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Start scenario='delete_all_permanent'";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='delete_all_permanent'. Read ipset-names from file='$PREV_LIST_FILE_FROM_CFG_str'";
 	
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Delete entries from ipset='$LINE0_str'";
+
 		sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
 	    fi;
 	done < $PREV_LIST_FILE_FROM_CFG_str;
     fi;
 elif [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Start scenario='delete_all_temporary'";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='delete_all_temporary'. Read ipset-names from file='$PREV_LIST_FILE_FROM_CFG_str'";
 	
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "$PREV_CONTENT_DIR_str/CFG_$LINE0_str" ]]; then
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Delete entries from ipset='$LINE0_str'";
+
 		while read -r LINE1_str; # LINE1_str = one line with ipset entry
 		do
 		    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
@@ -223,22 +227,26 @@ NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Start scenario='re_add_permanent'";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names from file='$LIST_FILE_str'";
 	
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+
 		firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
 	    fi;
 	done < $LIST_FILE_str;
     fi;
 elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
-	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Start scenario='re_add_temporary'";
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='re_add_temporary'. Read ipset-names from file='$LIST_FILE_str'";
 	
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "$CONTENT_DIR_str/$LINE0_str" && -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+
 		while read -r LINE1_str; # LINE1_str = one line with ipset entry
 		do
 		    TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
