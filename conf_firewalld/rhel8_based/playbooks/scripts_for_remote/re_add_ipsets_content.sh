@@ -223,6 +223,8 @@ NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Start scenario='re_add_permanent'";
+	
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
@@ -232,6 +234,8 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     fi;
 elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Start scenario='re_add_temporary'";
+	
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "$CONTENT_DIR_str/$LINE0_str" && -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
