@@ -30,7 +30,10 @@ declare -a TMP_arr;
 touch "$SELF_DIR_str/rollback_fwrules_changes_is_run_now";
 
 while :
-do    
+do  
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Wait iteration number $TIMEOUT_num" &>> $EXEC_RESULT_FILE_str;
+      
     sleep 60;
 
     let "TIMEOUT_num-=1";
