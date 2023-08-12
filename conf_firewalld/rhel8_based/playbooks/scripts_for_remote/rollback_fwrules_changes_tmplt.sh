@@ -45,77 +45,76 @@ do
     	    echo "$NOW_YYYYMMDDHHMISS_str;+Start rollback" &>> $EXEC_RESULT_FILE_str;
     	    
     	    # rollback for script 'recreate_permanent_ipsets.sh'
-    	    if [[ -f "$SELF_DIR_str/recreate_permanent_ipsets.sh" ]]; then
-    		echo "$NOW_YYYYMMDDHHMISS_str;+Remove script 'recreate_permanent_ipsets.sh'" &>> $EXEC_RESULT_FILE_str;
-    		
-    		rm -rf $SELF_DIR_str/recreate_permanent_ipsets.sh;
-    	    fi;
+
     	    if [[ -f "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" ]]; then
-    		echo "$NOW_YYYYMMDDHHMISS_str;+Rename script 'prev_recreate_permanent_ipsets.sh' to 'recreate_permanent_ipsets.sh'" &>> $EXEC_RESULT_FILE_str;
+    		if [[ -f "$SELF_DIR_str/recreate_permanent_ipsets.sh" ]]; then
+    		    rm -rf $SELF_DIR_str/recreate_permanent_ipsets.sh;
+    		fi;
+    		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback script 'recreate_permanent_ipsets.sh'" &>> $EXEC_RESULT_FILE_str;
     		
     		mv "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" "$SELF_DIR_str/recreate_permanent_ipsets.sh";
     	    fi;
     	    ###
     	    
     	    # rollback for script 'recreate_temporary_ipsets.sh'
-    	    if [[ -f "$SELF_DIR_str/recreate_temporary_ipsets.sh" ]]; then
-    		rm -rf $SELF_DIR_str/recreate_temporary_ipsets.sh;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_recreate_temporary_ipsets.sh" ]]; then
-    		mv "$SELF_DIR_str/prev_recreate_temporary_ipsets.sh" "$SELF_DIR_str/recreate_temporary_ipsets.sh";
+    	    	if [[ -f "$SELF_DIR_str/recreate_temporary_ipsets.sh" ]]; then
+    	    	    rm -rf $SELF_DIR_str/recreate_temporary_ipsets.sh;
+    	    	fi;
+    	    	mv "$SELF_DIR_str/prev_recreate_temporary_ipsets.sh" "$SELF_DIR_str/recreate_temporary_ipsets.sh";
     	    fi;
     	    ###
     	    
     	    # rollback for script 'recreate_fw_zones.sh'
-    	    if [[ -f "$SELF_DIR_str/recreate_fw_zones.sh" ]]; then
-    		rm -rf $SELF_DIR_str/recreate_fw_zones.sh;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_recreate_fw_zones.sh" ]]; then
-    		mv "$SELF_DIR_str/prev_recreate_fw_zones.sh" "$SELF_DIR_str/recreate_fw_zones.sh";
+    	    	if [[ -f "$SELF_DIR_str/recreate_fw_zones.sh" ]]; then
+    	    	    rm -rf $SELF_DIR_str/recreate_fw_zones.sh;
+    	    	fi;
+    	    	mv "$SELF_DIR_str/prev_recreate_fw_zones.sh" "$SELF_DIR_str/recreate_fw_zones.sh";
     	    fi;
     	    ###
     	    
     	    # rollback for script 'recreate_policies.sh'
-    	    if [[ -f "$SELF_DIR_str/recreate_policies.sh" ]]; then
-    		rm -rf $SELF_DIR_str/recreate_policies.sh;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_recreate_policies.sh" ]]; then
+    		if [[ -f "$SELF_DIR_str/recreate_policies.sh" ]]; then
+    		    rm -rf $SELF_DIR_str/recreate_policies.sh;
+    		fi;
     		mv "$SELF_DIR_str/prev_recreate_policies.sh" "$SELF_DIR_str/recreate_policies.sh";
     	    fi;
     	    ###
     	    
     	    # rollback for file 'permanent_ipsets_flag_file'
-    	    if [[ -f "$SELF_DIR_str/permanent_ipsets_flag_file" ]]; then
-    		rm -rf $SELF_DIR_str/permanent_ipsets_flag_file;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_permanent_ipsets_flag_file" ]]; then
+    		if [[ -f "$SELF_DIR_str/permanent_ipsets_flag_file" ]]; then
+    		    rm -rf $SELF_DIR_str/permanent_ipsets_flag_file;
+    		fi;
     		mv "$SELF_DIR_str/prev_permanent_ipsets_flag_file"  "$SELF_DIR_str/permanent_ipsets_flag_file";
     	    fi;
     	    ###
     	    
     	    # rollback for file 'temporary_ipsets_flag_file'
-    	    if [[ -f "$SELF_DIR_str/temporary_ipsets_flag_file" ]]; then
-    		rm -rf $SELF_DIR_str/temporary_ipsets_flag_file;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_temporary_ipsets_flag_file" ]]; then
+    		if [[ -f "$SELF_DIR_str/temporary_ipsets_flag_file" ]]; then
+    		    rm -rf $SELF_DIR_str/temporary_ipsets_flag_file;
+    		fi;
     		mv "$SELF_DIR_str/prev_temporary_ipsets_flag_file"  "$SELF_DIR_str/temporary_ipsets_flag_file";
     	    fi;
     	    ###
     	    
     	    # rollback for dir 'permanent_ipsets'
-    	    if [[ -d "$SELF_DIR_str/permanent_ipsets" ]]; then
-    		rm -rf $SELF_DIR_str/permanent_ipsets;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_permanent_ipsets" ]]; then
+    		if [[ -d "$SELF_DIR_str/permanent_ipsets" ]]; then
+    		    rm -rf $SELF_DIR_str/permanent_ipsets;
+    		fi;
     		mv "$SELF_DIR_str/prev_permanent_ipsets"  "$SELF_DIR_str/permanent_ipsets";
     	    fi;
     	    ###
     	
     	    # rollback for dir 'temporary_ipsets'
-    	    if [[ -d "$SELF_DIR_str/temporary_ipsets" ]]; then
-    		rm -rf $SELF_DIR_str/temporary_ipsets;
-    	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_temporary_ipsets" ]]; then
+    		if [[ -d "$SELF_DIR_str/temporary_ipsets" ]]; then
+    		    rm -rf $SELF_DIR_str/temporary_ipsets;
+    		fi;
     		mv "$SELF_DIR_str/prev_temporary_ipsets"  "$SELF_DIR_str/temporary_ipsets";
     	    fi;
     	    ###
