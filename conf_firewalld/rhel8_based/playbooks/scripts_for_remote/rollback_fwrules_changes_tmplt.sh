@@ -144,6 +144,8 @@ do
     	    ###
     	    
     	    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*; # remove backup files
+    	else
+    	    echo "$NOW_YYYYMMDDHHMISS_str;+Rollback started, but not exists backup_dir_for_rollback='$BACKUP_FOR_ROLLBACK_DIR_str'" &>> $EXEC_RESULT_FILE_str;
     	fi;
     	###DO ROLLBACK of firewall rules changes
     	
