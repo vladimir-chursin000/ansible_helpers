@@ -132,10 +132,13 @@ do
     	    fi;
     	    ###
     	    
+	    echo "$NOW_YYYYMMDDHHMISS_str;+Remove content of dir '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
     	    rm -rf /etc/firewalld/*;
     	    
+	    echo "$NOW_YYYYMMDDHHMISS_str;+Copy content of BACKUP_FOR_ROLLBACK_DIR '$BACKUP_FOR_ROLLBACK_DIR_str' to '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
     	    cp -r $BACKUP_FOR_ROLLBACK_DIR_str/* /etc/firewalld;
     	    
+	    echo "$NOW_YYYYMMDDHHMISS_str;+Restart firewalld" &>> $EXEC_RESULT_FILE_str;
     	    systemctl restart firewalld;
     	    
     	    # restore temporary ipsets content
