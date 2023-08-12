@@ -132,10 +132,12 @@ do
     	    fi;
     	    ###
     	    
+	    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+	    
 	    echo "$NOW_YYYYMMDDHHMISS_str;+Remove content of dir '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
     	    rm -rf /etc/firewalld/*;
     	    
-	    echo "$NOW_YYYYMMDDHHMISS_str;+Copy content of BACKUP_FOR_ROLLBACK_DIR '$BACKUP_FOR_ROLLBACK_DIR_str' to '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
+	    echo "$NOW_YYYYMMDDHHMISS_str;+Copy content of BACKUP_FOR_ROLLBACK_DIR='$BACKUP_FOR_ROLLBACK_DIR_str' to '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
     	    cp -r $BACKUP_FOR_ROLLBACK_DIR_str/* /etc/firewalld;
     	    
 	    echo "$NOW_YYYYMMDDHHMISS_str;+Restart firewalld" &>> $EXEC_RESULT_FILE_str;
@@ -143,6 +145,9 @@ do
     	    
     	    # restore temporary ipsets content
     	    if [[ -s "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt" ]]; then
+		NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+		echo "$NOW_YYYYMMDDHHMISS_str;+Restore content of temporary ipsets" &>> $EXEC_RESULT_FILE_str;
+		
     		while read -r LINE0_str; # LINE0_str = ipset_name
     		do
     		    # read ipset content from file LINE0_str
@@ -158,6 +163,7 @@ do
     	    fi;
     	    ###
     	    
+	    echo "$NOW_YYYYMMDDHHMISS_str;+Remove content from BACKUP_FOR_ROLLBACK_DIR='$BACKUP_FOR_ROLLBACK_DIR_str'" &>> $EXEC_RESULT_FILE_str;
     	    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*; # remove backup files
     	else
     	    echo "$NOW_YYYYMMDDHHMISS_str;+Rollback started, but not exists backup_dir_for_rollback='$BACKUP_FOR_ROLLBACK_DIR_str'" &>> $EXEC_RESULT_FILE_str;
