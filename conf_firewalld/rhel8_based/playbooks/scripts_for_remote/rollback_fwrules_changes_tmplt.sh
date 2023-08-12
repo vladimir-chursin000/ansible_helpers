@@ -38,14 +38,21 @@ do
 
     let "TIMEOUT_num-=1";
     if [[ "$TIMEOUT_num" -le "0" ]]; then
+	NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+
     	###DO ROLLBACK of firewall rules changes
     	if [ -d "$BACKUP_FOR_ROLLBACK_DIR_str" ]; then
+    	    echo "$NOW_YYYYMMDDHHMISS_str;+Start rollback" &>> $EXEC_RESULT_FILE_str;
     	    
     	    # rollback for script 'recreate_permanent_ipsets.sh'
     	    if [[ -f "$SELF_DIR_str/recreate_permanent_ipsets.sh" ]]; then
+    		echo "$NOW_YYYYMMDDHHMISS_str;+Remove script 'recreate_permanent_ipsets.sh'" &>> $EXEC_RESULT_FILE_str;
+    		
     		rm -rf $SELF_DIR_str/recreate_permanent_ipsets.sh;
     	    fi;
     	    if [[ -f "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" ]]; then
+    		echo "$NOW_YYYYMMDDHHMISS_str;+Rename script 'prev_recreate_permanent_ipsets.sh' to 'recreate_permanent_ipsets.sh'" &>> $EXEC_RESULT_FILE_str;
+    		
     		mv "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" "$SELF_DIR_str/recreate_permanent_ipsets.sh";
     	    fi;
     	    ###
