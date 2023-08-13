@@ -1,10 +1,10 @@
 #!/usr/bin/bash
 
-SELF_DIR="$(dirname $(readlink -f $0))";
-INV_FILE="$SELF_DIR/conf_firewall_hosts";
-PLAYBOOK='03_IMPORT_fwrules_apply_temporary_pb.yml';
-LOG_DIR="$SELF_DIR/run_history";
-PLAYBOOK_BEFORE='02_fwrules_backup_pb.yml';
-GEN_DYN_FWRULES_RUN='yes_with_rollback';
+SELF_DIR_str="$(dirname $(readlink -f $0))";
+INV_FILE_str="$SELF_DIR_str/conf_firewall_hosts";
+PLAYBOOK_str='03_IMPORT_fwrules_apply_temporary_pb.yml';
+LOG_DIR_str="$SELF_DIR_str/run_history";
+PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml';
+GEN_DYN_FWRULES_RUN_str='yes_with_rollback';
 
-$SELF_DIR/main.sh "$INV_FILE" "$PLAYBOOK" "$LOG_DIR" "$PLAYBOOK_BEFORE" "$GEN_DYN_FWRULES_RUN";
+$SELF_DIR_str/main.sh "$INV_FILE_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
