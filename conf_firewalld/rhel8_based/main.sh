@@ -6,7 +6,7 @@ SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_FILE_str=$1;
 PLAYBOOK_str=$2;
 LOG_DIR_str=$3;
-PLAYBOOK_BEFORE_str=$4; #playbook for run before all
+PLAYBOOK_BEFORE_str=$4; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str=$5; #possible values: yes (run 'generate_dynamic_fwrules.pl' before  playbook), no
 ###ARGV
 
