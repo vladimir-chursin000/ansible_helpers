@@ -1,3 +1,7 @@
 ---
 - hosts: rhel8_firewall_hosts
   tasks:
+    - name: "Check if exists dir 'exec_results' at remote"
+      ansible.builtin.stat:
+        path: "~/ansible_helpers/conf_firewalld/exec_results"
+      register: exec_results_exists_at_remote
