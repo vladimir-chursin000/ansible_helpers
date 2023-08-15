@@ -25,13 +25,23 @@
 
 ######################################################STEP 1. Check for remote dirs/is_run_now-files is exists (end)
 
-    - name: "Get list of log files to var='log_files' from remote"
-      ansible.builtin.shell: ls ~/ansible_helpers/conf_firewalld/exec_results
-      register: log_files
+######################################################STEP 2. Get logs from remote (begin)
 
-    - name: "Fetch log files from remote dir='~/ansible_helpers/conf_firewalld/exec_results' to local"
-      ansible.builtin.fetch:
-        flat: yes
-        src: "~/ansible_helpers/conf_firewalld/exec_results/{{item}}"
-        dest: "{{inventory_dir}}/run_history/from_remote/{{inventory_hostname}}/{{item}}"
-      with_items: "{{log_files.stdout_lines}}"
+    - block:
+
+        - name: "Get list of log files to var='log_files' from remote if need"
+          ansible.builtin.shell: ls ~/ansible_helpers/conf_firewalld/exec_results
+          register: log_files
+
+######
+
+        - name: "Fetch log files from remote dir='~/ansible_helpers/conf_firewalld/exec_results' to local if need"
+          ansible.builtin.fetch:
+            flat: yes
+            src: "~/ansible_helpers/conf_firewalld/exec_results/{{item}}"
+            dest: "{{inventory_dir}}/run_history/from_remote/{{inventory_hostname}}/{{item}}"
+          with_items: "{{log_files.stdout_lines}}"
+
+      when: apply_fwrules_is_run_at_remote_now_exists.stat.exists==false and rollback_fwrules_changes_is_run_at_remote_now_exists.stat.exists==false and exec_results_exists_at_remote.stat.exists==true
+
+######################################################STEP 2. Get logs from remote (end)
