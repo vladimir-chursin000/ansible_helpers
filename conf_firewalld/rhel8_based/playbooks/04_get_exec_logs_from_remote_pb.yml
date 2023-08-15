@@ -24,3 +24,14 @@
       register: exec_results_exists_at_remote
 
 ######################################################STEP 1. Check for remote dirs/is_run_now-files is exists (end)
+
+    - name: "Get list of log files to var='log_files' from remote"
+      ansible.builtin.shell: ls ~/ansible_helpers/conf_firewalld/exec_results
+      register: log_files
+
+    - name: "Fetch log files from remote dir='~/ansible_helpers/conf_firewalld/exec_results' to local"
+      ansible.builtin.fetch:
+        flat: yes
+        src: "~/ansible_helpers/conf_firewalld/exec_results/{{item}}"
+        dest: "{{inventory_dir}}/run_history/from_remote/{{inventory_hostname}}/{{item}}"
+      with_items: "{{log_files.stdout_lines}}"
