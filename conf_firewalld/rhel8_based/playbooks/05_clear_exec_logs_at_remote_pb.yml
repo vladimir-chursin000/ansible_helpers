@@ -35,6 +35,10 @@
 
 ######
 
+        - name: "Remove log files from remote dir='~/ansible_helpers/conf_firewalld/exec_results' if need"
+          ansible.builtin.shell: "rm -rf ~/ansible_helpers/conf_firewalld/exec_results/{{item}}"
+          with_items: "{{log_files.stdout_lines}}"
+
       when: apply_fwrules_is_run_at_remote_now_exists.stat.exists==false and rollback_fwrules_changes_is_run_at_remote_now_exists.stat.exists==false and exec_results_exists_at_remote.stat.exists==true
 
 ######################################################STEP 2. Get logs from remote (end)
