@@ -32,8 +32,10 @@ NOT READY! Some refactoring!
 
 # '04_get_exec_logs_from_remote.sh' = download execution logs (apply_fwrules.sh and rollback_fwrules_changes.sh) from remote dir
 # '~/ansible_helpers/conf_firewalld/exec_results' to local dir '../run_history/from_remote'.
+# If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip downloading.
 
 # '05_clear_exec_logs_at_remote.sh' = remove logs at remote dir '~/ansible_helpers/conf_firewalld/exec_results'.
+# If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip removing.
 
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
