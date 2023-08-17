@@ -30,6 +30,10 @@ NOT READY! Some refactoring!
 
 # '03_force_apply_fwrules.sh' = force apply changes (without run installation of 'firewalld') without comparing generated and actual rules.
 
+# '04_get_exec_logs_from_remote.sh' = 
+
+# '05_clear_exec_logs_at_remote.sh' = 
+
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
 
@@ -138,7 +142,15 @@ SCRIPTS LOGIC DESCRIPTION
 		5) Run task 'tasks/fwrules_apply_droppd_conf_task.yml'.
 		    (info) Run without conditions.
 	    2) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
-    
+
+'04_get_exec_logs_from_remote.sh' ->
+    1) Run script 'main.sh' ->
+	1) Run playbook '04_get_exec_logs_from_remote_pb.yml'.
+
+'05_clear_exec_logs_at_remote.sh' ->
+    1) Run script 'main.sh' ->
+	1) Run playbook '05_clear_exec_logs_at_remote_pb.yml'.
+
 ##################
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
