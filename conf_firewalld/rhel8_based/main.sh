@@ -36,6 +36,7 @@ if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; th
     echo "#########" | tee -a $LOG_FILE_str;
     echo "Playbook_before: $SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
     /usr/bin/ansible-playbook -i $INV_FILE_str -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
+    # --limit "host" (or "group" from cfg '00_conf_divisions_for_inv_hosts') - for apply to one host (or several hosts)
     
     if [[ "$PLAYBOOK_BEFORE_str" =~ "02_fwrules_backup" ]]; then
 	/usr/bin/perl "$SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/playbooks/fwrules_backup_from_remote/network_data";
@@ -72,6 +73,7 @@ fi;
 #main playbook
 if [[ ! -z "$PLAYBOOK_str" ]] && [[ "$PLAYBOOK_str" != "no" ]]; then
     /usr/bin/ansible-playbook -i $INV_FILE_str -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
+    # --limit "host" (or "group" from cfg '00_conf_divisions_for_inv_hosts') - for apply to one host (or several hosts)
 fi;
 #main playbook
 
