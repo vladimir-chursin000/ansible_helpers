@@ -37,6 +37,9 @@ NOT READY! Some refactoring!
 # '05_clear_exec_logs_at_remote.sh' = remove logs at remote dir '~/ansible_helpers/conf_firewalld/exec_results'.
 # If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip removing.
 
+# '06_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
+# NOT READY YET!
+
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
 
