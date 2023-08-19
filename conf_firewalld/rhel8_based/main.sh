@@ -3,12 +3,17 @@
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 
 ###ARGV
-INV_FILE_str=$1;
+#INV_FILE_str=$1;
+INV_LIMIT_str=$1;
 PLAYBOOK_str=$2;
 LOG_DIR_str=$3;
 PLAYBOOK_BEFORE_str=$4; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str=$5; #possible values: yes (run 'generate_dynamic_fwrules.pl' before  playbook), no
 ###ARGV
+
+###CFG
+INV_FILE_str="$SELF_DIR_str/conf_firewall_hosts";
+###CFG
 
 ###VARS
 NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
@@ -46,11 +51,11 @@ fi;
 
 if [[ ! -z "$GEN_DYN_FWRULES_RUN_str" ]] && [[ "$GEN_DYN_FWRULES_RUN_str" =~ "yes" ]]; then
     if [[ "$GEN_DYN_FWRULES_RUN_str" == "yes" ]]; then
-	$SELF_DIR_str/generate_dynamic_fwrules.pl "$INV_FILE_str";
-	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"$INV_FILE_str\"" | tee -a $LOG_FILE_str;
+	$SELF_DIR_str/generate_dynamic_fwrules.pl "$INV_LIMIT_str";
+	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"$INV_LIMIT_str\"" | tee -a $LOG_FILE_str;
     elif [[ "$GEN_DYN_FWRULES_RUN_str" == "yes_with_rollback" ]]; then
-	$SELF_DIR_str/generate_dynamic_fwrules.pl "$INV_FILE_str" "with_rollback";
-	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"$INV_FILE_str\" \"with_rollback\"" | tee -a $LOG_FILE_str;
+	$SELF_DIR_str/generate_dynamic_fwrules.pl "$INV_LIMIT_str" "with_rollback";
+	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"$INV_LIMIT_str\" \"with_rollback\"" | tee -a $LOG_FILE_str;
     fi;
 
     if [[ ! -f "$SELF_DIR_str/GEN_DYN_FWRULES_STATUS" ]]; then

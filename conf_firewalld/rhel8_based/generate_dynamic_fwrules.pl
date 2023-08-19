@@ -44,11 +44,11 @@ foreach my $do_g ( @do_arr_g ) {
 ###LOAD SUBROUTINES
 
 ############ARGV
-our $inventory_conf_path_g='no';
+our $inventory_limit_var_g='no';
 our $with_rollback_g=0;
 
 if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
-    $inventory_conf_path_g=$ARGV[0];
+    $inventory_limit_var_g=$ARGV[0];
 }
 
 if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
@@ -57,6 +57,7 @@ if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
 ############ARGV
 
 ############CFG file
+#inventory_path
 #00_conf_divisions_for_inv_hosts
 #00_conf_firewalld
 #01_conf_ipset_templates
@@ -69,6 +70,7 @@ if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
 #77_conf_zones_FIN
 #88_conf_policies_FIN
 ###
+our $inventory_conf_path_g='no';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
