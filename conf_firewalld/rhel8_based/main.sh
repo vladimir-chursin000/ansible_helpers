@@ -3,7 +3,6 @@
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 
 ###ARGV
-#INV_FILE_str=$1;
 INV_LIMIT_str=$1;
 PLAYBOOK_str=$2;
 LOG_DIR_str=$3;
@@ -20,6 +19,12 @@ NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
 CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 ###VARS
+
+###CHECK ARGV-params
+if [[ "$INV_LIMIT_str" == "no" ]]; then
+    INV_LIMIT_str='';
+fi;
+###CHECK ARGV-params
 
 ###MAIN
 /usr/bin/mkdir -p "$LOG_DIR_str/from_remote";
@@ -40,7 +45,7 @@ if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; th
     echo " " | tee -a $LOG_FILE_str;
     echo "#########" | tee -a $LOG_FILE_str;
     echo "Playbook_before: $SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
-    /usr/bin/ansible-playbook -i $INV_FILE_str -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
+    /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
     # --limit "host" (or "group" from cfg '00_conf_divisions_for_inv_hosts') - for apply to one host (or several hosts)
     
     if [[ "$PLAYBOOK_BEFORE_str" =~ "02_fwrules_backup" ]]; then
@@ -77,7 +82,7 @@ fi;
 
 #main playbook
 if [[ ! -z "$PLAYBOOK_str" ]] && [[ "$PLAYBOOK_str" != "no" ]]; then
-    /usr/bin/ansible-playbook -i $INV_FILE_str -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
+    /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
     # --limit "host" (or "group" from cfg '00_conf_divisions_for_inv_hosts') - for apply to one host (or several hosts)
 fi;
 #main playbook
