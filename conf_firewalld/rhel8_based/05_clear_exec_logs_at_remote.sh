@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+# Do not change this variables
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
 PLAYBOOK_str='05_clear_exec_logs_at_remote_pb.yml';
