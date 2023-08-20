@@ -20,18 +20,6 @@ CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 ###VARS
 
-###CHECK ARGV-params
-if [[ "$INV_LIMIT_str" == "no" ]]; then
-    INV_LIMIT_str='';
-elif [[ "$INV_LIMIT_str" =~ "group:" ]]; then
-    echo $INV_LIMIT_str;
-    exit;
-else
-    echo $INV_LIMIT_str;
-    exit;
-fi;
-###CHECK ARGV-params
-
 ###MAIN
 /usr/bin/mkdir -p "$LOG_DIR_str/from_remote";
 
@@ -40,6 +28,17 @@ echo "Used inventory file: $INV_FILE_str" | tee -a $LOG_FILE_str;
 echo "Used playbook: $SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
 echo "Start time: $NOW_DT_str" | tee -a $LOG_FILE_str;
 echo "#########" | tee -a $LOG_FILE_str;
+
+if [[ "$INV_LIMIT_str" == "no" ]]; then
+    INV_LIMIT_str='';
+    echo "INV_LIMIT = not defined" | tee -a $LOG_FILE_str;
+elif [[ "$INV_LIMIT_str" =~ ^"group:" ]]; then
+    echo "group: $INV_LIMIT_str";
+    exit;
+else
+    echo $INV_LIMIT_str;
+    exit;
+fi;
 
 if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; then
     if [[ "$PLAYBOOK_BEFORE_str" =~ "02_fwrules_backup" ]]; then
