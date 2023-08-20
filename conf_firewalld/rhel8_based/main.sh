@@ -45,7 +45,10 @@ elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
     TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
     for TMP_VAR_str in "${TMP_arr[@]}"
     do
-	echo "$TMP_VAR_str";
+	if [[ `grep -Fx "$TMP_VAR_str" $INV_FILE_str | wc -l` != "1" ]]; then
+	    echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!";
+	    exit;
+	fi;
     done;
     
     TMP_VAR_str='';
@@ -56,7 +59,10 @@ else
     TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
     for TMP_VAR_str in "${TMP_arr[@]}"
     do
-	echo "$TMP_VAR_str";
+	if [[ `grep -Fx "$TMP_VAR_str" $INV_FILE_str | wc -l` != "1" ]]; then
+	    echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!";
+	    exit;
+	fi;
     done;
 
     TMP_VAR_str='';
