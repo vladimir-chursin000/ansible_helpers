@@ -23,6 +23,12 @@ LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 ###CHECK ARGV-params
 if [[ "$INV_LIMIT_str" == "no" ]]; then
     INV_LIMIT_str='';
+elif [[ "$INV_LIMIT_str" =~ "group:" ]]; then
+    echo $INV_LIMIT_str;
+    exit;
+else
+    echo $INV_LIMIT_str;
+    exit;
 fi;
 ###CHECK ARGV-params
 
