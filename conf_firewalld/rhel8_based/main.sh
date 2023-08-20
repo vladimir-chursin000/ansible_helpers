@@ -20,6 +20,7 @@ TMP_VAR_str='';
 NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
 CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
+declare -a TMP_arr;
 ###VARS
 
 ###MAIN
@@ -39,10 +40,27 @@ elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
     TMP_VAR_str=$(grep ^"gr_" $CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str | grep $INV_LIMIT_str | sed 's/\t//g' | sed 's/\s//g' | sed s/"$INV_LIMIT_str"//);
     INV_LIMIT_str=$TMP_VAR_str;
     echo "GROUP content='$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
+    TMP_VAR_str='';
+    
+    TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
+    for TMP_VAR_str in "${TMP_arr[@]}"
+    do
+	echo "$TMP_VAR_str";
+    done;
     
     TMP_VAR_str='';
+    TMP_arr=();
 else
     echo "INV_LIMIT = '$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
+    
+    TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
+    for TMP_VAR_str in "${TMP_arr[@]}"
+    do
+	echo "$TMP_VAR_str";
+    done;
+
+    TMP_VAR_str='';
+    TMP_arr=();
 fi;
 
 if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; then
