@@ -40,6 +40,14 @@ NOT READY! Some refactoring!
 # '06_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
 # NOT READY YET!
 
+# The scripts above can be run with a parameter (ARGV-0) that limits the application of changes to inventory hosts.
+# Possible ARGV-0 values: 1) single inventory host; 2) list of inventory hosts separated by ",";
+# 3) group name configured at cfg-file '00_conf_divisions_for_inv_hosts'.
+# Examples (on the example of the script '03_force_apply_fwrules.sh'):
+# 1) ./03_force_apply_fwrules.sh "192.168.168.1";
+# 2) ./03_force_apply_fwrules.sh "192.168.168.1,192.168.168.2";
+# 3) ./03_force_apply_fwrules.sh "gr_some_group1".
+
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
 
