@@ -36,9 +36,11 @@ if [[ "$INV_LIMIT_str" == "no" ]]; then
     echo "INV_LIMIT = not defined" | tee -a $LOG_FILE_str;
 elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
     echo "INV_LIMIT = '$INV_LIMIT_str' (group_name from cfg='00_conf_divisions_for_inv_hosts')" | tee -a $LOG_FILE_str;
-    INV_LIMIT_str=$(grep ^"gr_" $CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str | grep $INV_LIMIT_str);
+    TMP_VAR_str=$(grep ^"gr_" $CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str | grep $INV_LIMIT_str | sed 's/\t//g' | sed 's/\s//g' | sed s/"$INV_LIMIT_str"//);
+    INV_LIMIT_str=$TMP_VAR_str;
     echo "GROUP content='$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
-    exit;
+    
+    TMP_VAR_str='';
 else
     echo "INV_LIMIT = '$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
 fi;

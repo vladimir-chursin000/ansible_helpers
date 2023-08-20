@@ -65,7 +65,7 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
 #77_conf_zones_FIN
 #88_conf_policies_FIN
 ###
-our $inventory_conf_path_g='no';
+our $inventory_conf_path_g=$self_dir_g.'/conf_firewall_hosts';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
 our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
 our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
