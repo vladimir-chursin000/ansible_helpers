@@ -43,7 +43,6 @@ NOT READY! Some refactoring!
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
 
-# 'IPSET_files_operation.pl' = SCRIPT for create subfolders and manipulate ipset-files for each inventory host.
 ##################
 SCRIPTS LOGIC DESCRIPTION
 '00_install_firewall_and_configure_fwrules.sh' ->
@@ -156,6 +155,9 @@ SCRIPTS LOGIC DESCRIPTION
 '05_clear_exec_logs_at_remote.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '05_clear_exec_logs_at_remote_pb.yml'.
+
+'06_temporary_enable_panic_mode.sh' ->
+    1) Run script 'main.sh' ->
 
 ##################
 #With best regards
