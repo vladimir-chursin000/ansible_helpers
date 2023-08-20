@@ -33,7 +33,8 @@ if [[ "$INV_LIMIT_str" == "no" ]]; then
     INV_LIMIT_str='';
     echo "INV_LIMIT = not defined" | tee -a $LOG_FILE_str;
 elif [[ "$INV_LIMIT_str" =~ ^"group:" ]]; then
-    echo "group: $INV_LIMIT_str";
+    INV_LIMIT_str=$(echo $INV_LIMIT_str | sed s/^"group:"//);
+    echo "INV_LIMIT = '$INV_LIMIT_str' (group_name from cfg='00_conf_divisions_for_inv_hosts')";
     exit;
 else
     echo "INV_LIMIT = '$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
