@@ -56,11 +56,11 @@ fi;
 
 if [[ ! -z "$GEN_DYN_FWRULES_RUN_str" ]] && [[ "$GEN_DYN_FWRULES_RUN_str" =~ "yes" ]]; then
     if [[ "$GEN_DYN_FWRULES_RUN_str" == "yes" ]]; then
-	$SELF_DIR_str/generate_dynamic_fwrules.pl "$INV_LIMIT_str";
-	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"$INV_LIMIT_str\"" | tee -a $LOG_FILE_str;
+	$SELF_DIR_str/generate_dynamic_fwrules.pl;
+	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl" | tee -a $LOG_FILE_str;
     elif [[ "$GEN_DYN_FWRULES_RUN_str" == "yes_with_rollback" ]]; then
-	$SELF_DIR_str/generate_dynamic_fwrules.pl "$INV_LIMIT_str" "with_rollback";
-	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"$INV_LIMIT_str\" \"with_rollback\"" | tee -a $LOG_FILE_str;
+	$SELF_DIR_str/generate_dynamic_fwrules.pl "with_rollback";
+	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_fwrules.pl \"with_rollback\"" | tee -a $LOG_FILE_str;
     fi;
 
     if [[ ! -f "$SELF_DIR_str/GEN_DYN_FWRULES_STATUS" ]]; then

@@ -44,14 +44,9 @@ foreach my $do_g ( @do_arr_g ) {
 ###LOAD SUBROUTINES
 
 ############ARGV
-our $inventory_limit_var_g='no';
 our $with_rollback_g=0;
 
-if ( defined($ARGV[0]) && length($ARGV[0])>0 ) {
-    $inventory_limit_var_g=$ARGV[0];
-}
-
-if ( defined($ARGV[1]) && length($ARGV[1])>0 && $ARGV[1]=~/^with_rollback$/ ) {
+if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
     $with_rollback_g=1;
 }
 ############ARGV
