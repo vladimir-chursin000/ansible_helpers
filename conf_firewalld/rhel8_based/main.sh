@@ -36,8 +36,7 @@ elif [[ "$INV_LIMIT_str" =~ ^"group:" ]]; then
     echo "group: $INV_LIMIT_str";
     exit;
 else
-    echo $INV_LIMIT_str;
-    exit;
+    echo "INV_LIMIT = '$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
 fi;
 
 if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; then
