@@ -12,9 +12,11 @@ GEN_DYN_FWRULES_RUN_str=$5; #possible values: yes (run 'generate_dynamic_fwrules
 
 ###CFG
 INV_FILE_str="$SELF_DIR_str/conf_firewall_hosts";
+CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str="$SELF_DIR_str/fwrules_configs/00_conf_divisions_for_inv_hosts";
 ###CFG
 
 ###VARS
+TMP_VAR_str='';
 NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
 CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
