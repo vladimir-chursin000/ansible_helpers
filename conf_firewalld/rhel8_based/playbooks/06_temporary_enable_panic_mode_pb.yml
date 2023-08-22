@@ -1,5 +1,7 @@
 ---
 - hosts: rhel8_firewall_hosts
+  vars:
+     panic_timeout: "{{lookup('file','{{playbook_dir}}/tmp_vars/panic_timeout')}}"
   tasks:
 ######################################################STEP 1. Check for remote dirs/is_run_now-files is exists (begin)
 # fill vars: apply_fwrules_is_run_at_remote_now_exists, rollback_fwrules_changes_is_run_at_remote_now_exists
