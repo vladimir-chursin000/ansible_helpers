@@ -2,25 +2,18 @@
 - hosts: rhel8_firewall_hosts
   tasks:
 ######################################################STEP 1. Check for remote dirs/is_run_now-files is exists (begin)
-# fill vars: apply_fwrules_is_run_at_remote_now_exists, rollback_fwrules_changes_is_run_at_remote_now_exists,
-# exec_results_exists_at_remote
+# fill vars: apply_fwrules_is_run_at_remote_now_exists, rollback_fwrules_changes_is_run_at_remote_now_exists
+
     - name: "Check if exists 'apply_fwrules_is_run_now' at remote"
       stat:
         path: "~/ansible_helpers/conf_firewalld/apply_fwrules_is_run_now"
       register: apply_fwrules_is_run_at_remote_now_exists
 
 ######
- 
+
     - name: "Check if exists 'rollback_fwrules_changes_is_run_now' at remote"
       stat:
         path: "~/ansible_helpers/conf_firewalld/rollback_fwrules_changes_is_run_now"
       register: rollback_fwrules_changes_is_run_at_remote_now_exists
-
-######
-
-    - name: "Check if exists dir 'exec_results' at remote"
-      ansible.builtin.stat:
-        path: "~/ansible_helpers/conf_firewalld/exec_results"
-      register: exec_results_exists_at_remote
 
 ######################################################STEP 1. Check for remote dirs/is_run_now-files is exists (end)
