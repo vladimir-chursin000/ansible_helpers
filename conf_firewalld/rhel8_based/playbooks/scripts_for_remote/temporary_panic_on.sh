@@ -10,3 +10,21 @@ EXEC_RESULT_FILE_str="$EXEC_RESULT_DIR_str/$NOW_YYYYMMDDHHMISS_AT_START_str-temp
 if [[ ! -d $EXEC_RESULT_DIR_str ]]; then
     mkdir -p "$EXEC_RESULT_DIR_str";
 fi;
+
+###VARS
+TIMEOUT_num='';
+NOW_YYYYMMDDHHMISS_str='';
+###VARS
+
+while :
+do
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Wait iteration number $TIMEOUT_num" &>> $EXEC_RESULT_FILE_str;
+     
+    sleep 60;
+
+    let "TIMEOUT_num-=1";
+    if [[ "$TIMEOUT_num" -le "0" ]]; then
+        NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    fi;
+done;
