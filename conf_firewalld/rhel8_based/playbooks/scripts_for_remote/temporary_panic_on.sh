@@ -5,7 +5,7 @@
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 EXEC_RESULT_DIR_str="$SELF_DIR_str/exec_results";
 NOW_YYYYMMDDHHMISS_AT_START_str=`date '+%Y%m%d%H%M%S'`;
-EXEC_RESULT_FILE_str="$EXEC_RESULT_DIR_str/$NOW_YYYYMMDDHHMISS_AT_START_str-rollback_fwrules_changes.log";
+EXEC_RESULT_FILE_str="$EXEC_RESULT_DIR_str/$NOW_YYYYMMDDHHMISS_AT_START_str-temporary_panic_on.log";
 
 if [[ ! -d $EXEC_RESULT_DIR_str ]]; then
     mkdir -p "$EXEC_RESULT_DIR_str";
