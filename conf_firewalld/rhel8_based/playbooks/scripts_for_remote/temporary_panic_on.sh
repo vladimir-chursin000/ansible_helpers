@@ -12,7 +12,7 @@ if [[ ! -d $EXEC_RESULT_DIR_str ]]; then
 fi;
 
 ###VARS
-TIMEOUT_num='';
+TIMEOUT_num=$1;
 NOW_YYYYMMDDHHMISS_str='';
 ###VARS
 
@@ -31,5 +31,7 @@ do
     if [[ "$TIMEOUT_num" -le "0" ]]; then
         NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 	echo "$NOW_YYYYMMDDHHMISS_str;+Set panic off" &>> $EXEC_RESULT_FILE_str;
+	
+	exit;
     fi;
 done;

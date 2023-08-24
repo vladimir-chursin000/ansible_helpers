@@ -19,3 +19,17 @@
       register: rollback_fwrules_changes_is_run_at_remote_now_exists
 
 ######################################################STEP 1. Check for remote dirs/is_run_now-files is exists (end)
+
+######################################################STEP 2. Copy 'temporary_panic_on.sh' to remote and run as process if need (begin)
+
+    - name: "Copy 'temporary_panic_on.sh' to remote"
+      ansible.builtin.copy:
+        src: "{{playbook_dir}}/scripts_for_remote/temporary_panic_on.sh"
+        dest: "~/ansible_helpers/conf_firewalld/temporary_panic_on.sh"
+        mode: '0770'
+
+    - name: "Run 'temporary_panic_on.sh' as process at remote"
+      ansible.builtin.raw: "nohup sh -c '~/ansible_helpers/conf_firewalld/temporary_panic_on.sh {{panic_timeout}} >/dev/null 2>&1' & sleep 1"
+      when: apply_fwrules_is_run_at_remote_now_exists.stat.exists==false and rollback_fwrules_changes_is_run_at_remote_now_exists.stat.exists==false
+
+######################################################STEP 2. Copy 'temporary_panic_on.sh' to remote and run as process if need (end)

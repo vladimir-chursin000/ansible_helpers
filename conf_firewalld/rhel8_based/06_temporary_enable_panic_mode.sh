@@ -7,11 +7,14 @@ PLAYBOOK_str='06_temporary_enable_panic_mode_pb.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='no'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='no';
+TIMEOUT_str='1';
 
 if [[ "$1" != "" ]]; then
     INV_LIMIT_str=$1;
 fi;
 
 mkdir -p "$SELF_DIR_str/playbooks/tmp_vars";
+
+echo $TIMEOUT_str > "$SELF_DIR_str/playbooks/tmp_vars/panic_timeout";
 
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
