@@ -16,6 +16,8 @@ TIMEOUT_num=$1;
 NOW_YYYYMMDDHHMISS_str='';
 ###VARS
 
+sleep 2;
+
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 echo "$NOW_YYYYMMDDHHMISS_str;+Set panic on" &>> $EXEC_RESULT_FILE_str;
 firewall-cmd --panic-on;
