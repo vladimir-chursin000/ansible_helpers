@@ -28,6 +28,7 @@ declare -a TMP_arr;
 
 echo "User: $CUR_USER_str" | tee -a $LOG_FILE_str;
 echo "Used inventory file: $INV_FILE_str" | tee -a $LOG_FILE_str;
+echo "Used limit for inventory file: $INV_LIMIT_str" | tee -a $LOG_FILE_str;
 echo "Used playbook: $SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
 echo "Start time: $NOW_DT_str" | tee -a $LOG_FILE_str;
 echo "#########" | tee -a $LOG_FILE_str;
