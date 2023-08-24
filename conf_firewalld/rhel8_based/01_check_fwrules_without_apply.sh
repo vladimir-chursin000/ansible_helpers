@@ -8,8 +8,15 @@ LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='yes';
 
-if [[ "$1" != "" ]]; then
-    INV_LIMIT_str=$1;
-fi;
+###VARS
+TMP_VAR_str='';
+###VARS
+
+for TMP_VAR_str in "$@"
+do
+    if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
+        INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
+    fi;
+done;
 
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
