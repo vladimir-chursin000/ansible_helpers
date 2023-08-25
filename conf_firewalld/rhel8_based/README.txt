@@ -173,6 +173,7 @@ SCRIPTS LOGIC DESCRIPTION
 
 '06_temporary_enable_panic_mode.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook '06_temporary_enable_panic_mode_pb.yml'.
 
 ##################
 #With best regards
