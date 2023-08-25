@@ -13,6 +13,7 @@ TIMEOUT_str='1';
 TMP_VAR_str='';
 ###VARS
 
+###READ ARGV array
 for TMP_VAR_str in "$@"
 do
     if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
@@ -21,6 +22,7 @@ do
 	TIMEOUT_str=$(echo $TMP_VAR_str | sed s/^"timeout="//);
     fi;
 done;
+###READ ARGV array
 
 mkdir -p "$SELF_DIR_str/playbooks/tmp_vars";
 

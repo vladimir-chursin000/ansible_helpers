@@ -38,7 +38,6 @@ NOT READY! Some refactoring!
 # If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip removing.
 
 # '06_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
-# LIKE DONE, BUT MORE NEED TO THINK!
 
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";

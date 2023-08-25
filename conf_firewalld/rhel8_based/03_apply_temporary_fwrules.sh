@@ -12,11 +12,13 @@ GEN_DYN_FWRULES_RUN_str='yes_with_rollback';
 TMP_VAR_str='';
 ###VARS
 
+###READ ARGV array
 for TMP_VAR_str in "$@"
 do
     if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
         INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
     fi;
 done;
+###READ ARGV array
 
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
