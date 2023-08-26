@@ -1121,8 +1121,8 @@ sub update_local_ipset_actual_data {
     		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
     	
     		###
-    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
-    		#$file_l,$href_l
+    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,0,\%ipset_actual_file_data_hash_l);
+    		#$file_l,$file_type_l,$href_l
     		# %ipset_actual_file_data_hash_l=();
     		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     		# or key0=info, value=[array of info strings]
@@ -1200,8 +1200,8 @@ sub update_local_ipset_actual_data {
     		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
     		
     		###
-    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,\%ipset_actual_file_data_hash_l);
-    		#$file_l,$href_l
+    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,1,\%ipset_actual_file_data_hash_l);
+    		#$file_l,$file_type_l,$href_l
     		# %ipset_actual_file_data_hash_l=();
     		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     		# or key0=info, value=[array of info strings]

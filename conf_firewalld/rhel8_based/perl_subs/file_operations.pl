@@ -53,7 +53,9 @@ sub rewrite_actual_ipset_file_from_hash {
 }
 
 sub read_actual_ipset_file_to_hash {
-    my ($file_l,$href_l)=@_;
+    my ($file_l,$file_type_l,$href_l)=@_;
+    #$file_type_l: 0-permanent ipset, 1-temporary_ipset
+
     my $proc_name_l=(caller(0))[3];
     
     #href = key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
