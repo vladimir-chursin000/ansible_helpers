@@ -1398,7 +1398,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $arr_el0_l=undef;
     my $ipset_name_l=undef;
-    my $dst_dir_l=undef;
+    my ($dst_dir_l,$dst_dir_permanent_with_ext_timeout_l)=(undef,undef);
     my $apply_run_flag_file_path_l=undef; # file for track changes at ipsets via copy to remote status (for example, like 'recreate_fw_zones.sh')
     my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
     my $ipsets_list_file_path_l=undef;
