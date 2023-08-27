@@ -124,11 +124,23 @@
 ######################################################STEP 3. Create dirs 'conf_firewalld' and 'apply_run_info' at remote side (end)
 
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (begin)
+# fill vars: permanent_ipsets_dir_exists_at_remote, permanent_ipsets_with_ext_timeout_dir_exists_at_remote,
+# temporary_ipsets_dir_exists_at_remote
+###
+# Used 'when' vars: permanent_ipsets_dir_exists_at_remote, permanent_ipsets_with_ext_timeout_dir_exists_at_remote,
+# temporary_ipsets_dir_exists_at_remote
 
 - name: "Check if exists at remote 'permanent_ipsets' for apply"
   ansible.builtin.stat:
     path: "~/ansible_helpers/conf_firewalld/permanent_ipsets"
   register: permanent_ipsets_dir_exists_at_remote
+
+######
+
+- name: "Check if exists at remote 'permanent_ipsets_with_ext_timeout' for apply"
+  ansible.builtin.stat:
+    path: "~/ansible_helpers/conf_firewalld/permanent_ipsets_with_ext_timeout"
+  register: permanent_ipsets_with_ext_timeout_dir_exists_at_remote
 
 ######
 
@@ -145,6 +157,12 @@
 
 ######
 
+- name: "Create 'prev_permanent_ipsets_with_ext_timeout' and move content of 'permanent_ipsets_with_ext_timeout' to it at remote if need"
+  ansible.builtin.shell: cd ~/ansible_helpers/conf_firewalld && rm -rf prev_permanent_ipsets_with_ext_timeout && mv permanent_ipsets_with_ext_timeout prev_permanent_ipsets_with_ext_timeout
+  when: permanent_ipsets_with_ext_timeout_dir_exists_at_remote.stat.exists==true
+
+######
+
 - name: "Create 'prev_temporary_ipsets' and move content of 'temporary_ipsets' to it at remote if need"
   ansible.builtin.shell: cd ~/ansible_helpers/conf_firewalld && rm -rf prev_temporary_ipsets && mv temporary_ipsets prev_temporary_ipsets
   when: temporary_ipsets_dir_exists_at_remote.stat.exists==true
@@ -154,6 +172,13 @@
 - name: "Create dir '~/ansible_helpers/conf_firewalld/permanent_ipsets' at remote if not exists"
   ansible.builtin.file:
     path: "~/ansible_helpers/conf_firewalld/permanent_ipsets"
+    state: directory
+
+######
+
+- name: "Create dir '~/ansible_helpers/conf_firewalld/permanent_ipsets_with_ext_timeout' at remote if not exists"
+  ansible.builtin.file:
+    path: "~/ansible_helpers/conf_firewalld/permanent_ipsets_with_ext_timeout"
     state: directory
 
 ######
@@ -172,6 +197,13 @@
 
 ######
 
+- name: "Copy 'permanent_ipsets_with_ext_timeout' content to remote"
+  ansible.builtin.copy:
+    src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/permanent_ipsets_with_ext_timeout/"
+    dest: "~/ansible_helpers/conf_firewalld/permanent_ipsets_with_ext_timeout/"
+
+######
+
 - name: "Copy 'temporary_ipsets' content to remote"
   ansible.builtin.copy:
     src: "{{playbook_dir}}/scripts_for_remote/fwrules_files/{{inventory_hostname}}/temporary_ipsets/"
@@ -180,6 +212,10 @@
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (end)
 
 ######################################################STEP 5. Make prev copies if need (begin)
+# Used 'when' vars: recreate_permanent_ipsets_sh_exists_at_remote, recreate_temporary_ipsets_sh_exists_at_remote
+# recreate_fw_zones_sh_exists_at_remote, recreate_policies_sh_exists_at_remote,
+# permanent_ipsets_flag_file_exists_at_remote, temporary_ipsets_flag_file_exists_at_remote
+###
 # Prev copies: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh
 # recreate_fw_zones.sh, recreate_policies.sh, permanent_ipsets_flag_file, temporary_ipsets_flag_file
 
