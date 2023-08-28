@@ -1397,13 +1397,17 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $ipset_name_l=undef;
-    my ($dst_dir_l,$dst_dir_permanent_with_ext_timeout_l)=(undef,undef);
+    my $dst_dir_l=undef;
     my $apply_run_flag_file_path_l=undef; # file for track changes at ipsets via copy to remote status (for example, like 'recreate_fw_zones.sh')
     my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
     my $ipsets_list_file_path_l=undef;
     my @list_of_ipsets_l=();
     my @tmp_arr0_l=();
     my @apply_run_flag_file_content_l=();
+    
+    # vars only for permanent
+    my $dst_dir_permanent_with_ext_timeout_l=undef;
+    # vars only for permanent
     
     # operations for permanent ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # cycle for h66, inv-hosts (begin)
@@ -1412,7 +1416,10 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	$apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_flag_file';
     	    
     	$dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets';
+	$dst_dir_permanent_with_ext_timeout_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_with_ext_timeout';
+	
     	system("mkdir -p $dst_dir_l");
+	system("mkdir -p $dst_dir_permanent_with_ext_timeout_l");
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
     	    
