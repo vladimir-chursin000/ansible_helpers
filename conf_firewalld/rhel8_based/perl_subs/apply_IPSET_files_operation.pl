@@ -1407,7 +1407,8 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     
     # vars only for permanent
     my $dst_dir_pwet_l=undef; #pwet = permanent with external timeout
-    my $ipsets_pwet_list_file_path_l=undef;
+    my $ipsets_list_file_path_pwet_l=undef;
+    my $dst_ipset_file_path_pwet_l=undef;
     # vars only for permanent
     
     # operations for permanent ipsets (BEGIN)
@@ -1423,13 +1424,16 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	system("mkdir -p $dst_dir_pwet_l");
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
-	$ipsets_pwet_list_file_path_l=$dst_dir_pwet_l.'/LIST';
+	$ipsets_list_file_path_pwet_l=$dst_dir_pwet_l.'/LIST';
     	    
     	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
     	    #$hkey1_l=ipset_tmplt_name
     	    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
     	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
+	    
     	    $dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
+	    $dst_ipset_file_path_pwet_l=$dst_dir_pwet_l.'/'.$ipset_name_l;
+	    
     	    &read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
     	    #$file_l,$aref_l
     	    	
