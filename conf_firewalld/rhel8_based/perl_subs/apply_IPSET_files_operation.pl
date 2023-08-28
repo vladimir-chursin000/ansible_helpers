@@ -1407,18 +1407,22 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my @list_of_ipsets_l=();
     my @apply_run_flag_file_content_l=();
     
-    # vars only for permanent
+    # vars only for permanent with external timeout
     my $dst_dir_pwet_l=undef; #pwet = permanent with external timeout
+    my $apply_run_flag_file_path_pwet_l=undef; # file for track changes at ipsets (permanent with ext timeout) via copy to remote status (for example, like 'recreate_fw_zones.sh')
     my $ipsets_list_file_path_pwet_l=undef;
     my $dst_ipset_file_path_pwet_l=undef;
     my @actual_file_cont_pwet_l=();
-    # vars only for permanent
+    my @list_of_ipsets_pwet_l=();
+    my @apply_run_flag_file_content_pwet_l=();
+    # vars only for permanent with external timeout
     
     # operations for permanent ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) { # cycle for h66, inv-hosts (begin)
     	#$hkey0_l=inv-host
     	
     	$apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_flag_file';
+    	$apply_run_flag_file_path_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_flag_file_pwet';
     	    
     	$dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets';
 	$dst_dir_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_with_ext_timeout';
@@ -1456,12 +1460,21 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    	    
     	    	push(@list_of_ipsets_l,$ipset_name_l);
     	    	###
-    	    	@apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
+    	    	@apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@actual_file_cont_l,' ');
     	    }
     	    else { @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,'empty',' '); }
 	    ###
 	    
-	    # FOR permanent with external timeout
+	    # FOR permanent WITH external timeout
+	    if ( $#actual_file_cont_pwet_l!=-1 ) { # write to dst if ipset entries exists at src-file
+    	    	&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@actual_file_cont_pwet_l);
+    	    	#$file_l,$aref_l
+    	    	    
+    	    	push(@list_of_ipsets_pwet_l,$ipset_name_l);
+    	    	###
+    	    	@apply_run_flag_file_content_pwet_l=(@apply_run_flag_file_content_pwet_l,$ipset_name_l,@actual_file_cont_pwet_l,' ');
+    	    }
+    	    else { @apply_run_flag_file_content_pwet_l=(@apply_run_flag_file_content_pwet_l,$ipset_name_l,'empty',' '); }
 	    ###
     	    	
     	    # clear vars
@@ -1474,7 +1487,8 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	    @actual_file_cont_pwet_l=();
     	    ###
     	} # cycle for h66, inv-hosts -> ipset_templates (end)
-    	    
+    	
+	# FOR permanent WITHOUT external timeout
     	if ( $#list_of_ipsets_l!=-1 ) {
     	    @list_of_ipsets_l=sort(@list_of_ipsets_l);
     	    &rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
@@ -1489,6 +1503,24 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    &rewrite_file_from_array_ref($apply_run_flag_file_path_l,\@apply_run_flag_file_content_l);
             #$file_l,$aref_l
     	}
+	###
+	
+	# FOR permanent WITH external timeout
+    	if ( $#list_of_ipsets_pwet_l!=-1 ) {
+    	    @list_of_ipsets_pwet_l=sort(@list_of_ipsets_pwet_l);
+    	    &rewrite_file_from_array_ref($ipsets_list_file_path_pwet_l,\@list_of_ipsets_pwet_l);
+    	    #$file_l,$aref_l
+    	}
+    	else {
+    	    $ipsets_list_file_path_pwet_l=$dst_dir_pwet_l.'/NO_LIST';
+    	    system("touch $ipsets_list_file_path_pwet_l");
+    	}
+    	    
+    	if ( $#apply_run_flag_file_content_pwet_l!=-1 ) {
+    	    &rewrite_file_from_array_ref($apply_run_flag_file_path_pwet_l,\@apply_run_flag_file_content_pwet_l);
+            #$file_l,$aref_l
+    	}
+	###
     	    
     	#clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
@@ -1496,8 +1528,12 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	$dst_dir_pwet_l=undef;
     	$ipsets_list_file_path_l=undef;
 	$ipsets_list_file_path_pwet_l=undef;
+	$apply_run_flag_file_path_l=undef;
+	$apply_run_flag_file_path_pwet_l=undef;
     	@list_of_ipsets_l=();
+    	@list_of_ipsets_pwet_l=();
     	@apply_run_flag_file_content_l=();
+	@apply_run_flag_file_content_pwet_l=();
     	###
     } # cycle for h66, inv-hosts (end)
     
@@ -1513,6 +1549,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	$apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/temporary_ipsets_flag_file';
     	    
     	$dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/temporary_ipsets';
+    	
     	system("mkdir -p $dst_dir_l");
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
@@ -1561,6 +1598,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	($hkey1_l,$hval1_l)=(undef,undef);
     	$dst_dir_l=undef;
     	$ipsets_list_file_path_l=undef;
+	$apply_run_flag_file_path_l=undef;
     	@list_of_ipsets_l=();
     	@apply_run_flag_file_content_l=();
     	###
