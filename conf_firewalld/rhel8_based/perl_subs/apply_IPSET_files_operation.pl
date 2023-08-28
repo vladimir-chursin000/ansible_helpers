@@ -1406,7 +1406,8 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my @apply_run_flag_file_content_l=();
     
     # vars only for permanent
-    my $dst_dir_permanent_with_ext_timeout_l=undef;
+    my $dst_dir_pwet_l=undef; #pwet = permanent with external timeout
+    my $ipsets_pwet_list_file_path_l=undef;
     # vars only for permanent
     
     # operations for permanent ipsets (BEGIN)
@@ -1416,12 +1417,13 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	$apply_run_flag_file_path_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_flag_file';
     	    
     	$dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets';
-	$dst_dir_permanent_with_ext_timeout_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_with_ext_timeout';
+	$dst_dir_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_with_ext_timeout';
 	
     	system("mkdir -p $dst_dir_l");
-	system("mkdir -p $dst_dir_permanent_with_ext_timeout_l");
+	system("mkdir -p $dst_dir_pwet_l");
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
+	$ipsets_pwet_list_file_path_l=$dst_dir_pwet_l.'/LIST';
     	    
     	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
     	    #$hkey1_l=ipset_tmplt_name
