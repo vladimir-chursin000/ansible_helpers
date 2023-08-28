@@ -1450,6 +1450,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    # clear vars
     	    $ipset_name_l=undef;
     	    ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
+	    $dst_ipset_file_path_pwet_l=undef;
     	    @tmp_arr0_l=();
     	    ###
     	} # cycle for h66, inv-hosts -> ipset_templates (end)
@@ -1472,7 +1473,9 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	#clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
     	$dst_dir_l=undef;
+	$dst_dir_pwet_l=undef;
     	$ipsets_list_file_path_l=undef;
+	$ipsets_list_file_path_pwet_l=undef;
     	@list_of_ipsets_l=();
     	@apply_run_flag_file_content_l=();
     	###
