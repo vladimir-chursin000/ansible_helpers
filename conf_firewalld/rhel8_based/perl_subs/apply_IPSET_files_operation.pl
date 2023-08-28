@@ -1396,19 +1396,22 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my $arr_el0_l=undef;
     my $ipset_name_l=undef;
     my $dst_dir_l=undef;
     my $apply_run_flag_file_path_l=undef; # file for track changes at ipsets via copy to remote status (for example, like 'recreate_fw_zones.sh')
     my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
     my $ipsets_list_file_path_l=undef;
-    my @list_of_ipsets_l=();
     my @tmp_arr0_l=();
+    my @actual_file_cont_l=();
+    my @list_of_ipsets_l=();
     my @apply_run_flag_file_content_l=();
     
     # vars only for permanent
     my $dst_dir_pwet_l=undef; #pwet = permanent with external timeout
     my $ipsets_list_file_path_pwet_l=undef;
     my $dst_ipset_file_path_pwet_l=undef;
+    my @actual_file_cont_pwet_l=();
     # vars only for permanent
     
     # operations for permanent ipsets (BEGIN)
@@ -1432,13 +1435,23 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
 	    
     	    $dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
-	    $dst_ipset_file_path_pwet_l=$dst_dir_pwet_l.'/'.$ipset_name_l;
+	    $dst_ipset_file_path_pwet_l=$dst_dir_pwet_l.'/'.$ipset_name_l; # pwet
 	    
     	    &read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
     	    #$file_l,$aref_l
-    	    	
-    	    if ( $#tmp_arr0_l!=-1 ) { # write to dst if ipset entries exists at src-file
-    	    	&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@tmp_arr0_l);
+	    
+	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+	    	if ( $arr_el0_l=~/\;\+/ ) { # if record WITH external timeout
+	    	    push(@actual_file_cont_pwet_l,$arr_el0_l); # pwet
+	    	}
+	    	else { # if record WITHOUT external timeout
+	    	    push(@actual_file_cont_l,$arr_el0_l);
+	    	}
+	    }
+	    
+	    # FOR permanent WITHOUT external timeout
+	    if ( $#actual_file_cont_l!=-1 ) { # write to dst if ipset entries exists at src-file
+    	    	&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@actual_file_cont_l);
     	    	#$file_l,$aref_l
     	    	    
     	    	push(@list_of_ipsets_l,$ipset_name_l);
@@ -1446,12 +1459,19 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    	@apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@tmp_arr0_l,' ');
     	    }
     	    else { @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,'empty',' '); }
+	    ###
+	    
+	    # FOR permanent with external timeout
+	    ###
     	    	
     	    # clear vars
     	    $ipset_name_l=undef;
+	    $arr_el0_l=undef;
     	    ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
 	    $dst_ipset_file_path_pwet_l=undef;
     	    @tmp_arr0_l=();
+	    @actual_file_cont_l=();
+	    @actual_file_cont_pwet_l=();
     	    ###
     	} # cycle for h66, inv-hosts -> ipset_templates (end)
     	    
