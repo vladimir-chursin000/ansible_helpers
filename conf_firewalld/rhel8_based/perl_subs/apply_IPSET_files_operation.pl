@@ -1494,7 +1494,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    &rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
     	    #$file_l,$aref_l
     	}
-    	else {
+    	else { # if no permanent ipsets WITHOUT external timeout
     	    $ipsets_list_file_path_l=$dst_dir_l.'/NO_LIST';
     	    system("touch $ipsets_list_file_path_l");
     	}
@@ -1511,7 +1511,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    &rewrite_file_from_array_ref($ipsets_list_file_path_pwet_l,\@list_of_ipsets_pwet_l);
     	    #$file_l,$aref_l
     	}
-    	else {
+    	else { # if no permanent ipsets WITH external timeout
     	    $ipsets_list_file_path_pwet_l=$dst_dir_pwet_l.'/NO_LIST';
     	    system("touch $ipsets_list_file_path_pwet_l");
     	}
