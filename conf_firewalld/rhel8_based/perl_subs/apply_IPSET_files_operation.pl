@@ -1365,9 +1365,8 @@ sub update_local_ipset_actual_data {
 	#%{${$hval0_l}{'subhash'}}=hash with actual-file-content
 	
 	# FIN write to one actual*-file
-	&rewrite_actual_ipset_file_from_hash($hkey0_l,${$hval0_l}{'ipset_file_type'},\%{${$hval0_l}{'subhash'}});
+	&rewrite_actual_ipset_file_from_hash($hkey0_l,\%{${$hval0_l}{'subhash'}});
 	#$file_l,$file_type_l,$href_l)=@_;
-	#$file_type_l: 0-permanent ipset, 1-temporary_ipset
 	###
     }
 

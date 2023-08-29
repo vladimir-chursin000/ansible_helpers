@@ -1,7 +1,6 @@
 ###DEPENDENCIES: datetime.pl
 sub rewrite_actual_ipset_file_from_hash {
-    my ($file_l,$file_type_l,$href_l)=@_;
-    #$file_type_l: 0-permanent ipset, 1-temporary_ipset
+    my ($file_l,$href_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
     
@@ -18,30 +17,25 @@ sub rewrite_actual_ipset_file_from_hash {
     if ( exists(${$href_l}{'info'}) ) { @wr_arr_l=@{${$href_l}{'info'}}; }
     
     if ( exists(${$href_l}{'content'}) ) {
-	if ( $file_type_l<1 ) { # for permanent ipset file
-	    @tmp_arr_l=sort(keys %{${$href_l}{'content'}});
-	    @wr_arr_l=(@wr_arr_l,@tmp_arr_l);
+	@tmp_arr_l=sort(keys %{${$href_l}{'content'}});
+	
+	foreach $arr_el0_l ( @tmp_arr_l ) {
+	    #$arr_el0_l=ipset entry
 	    
-	    # clear vars
-	    @tmp_arr_l=();
-	    ###
-	}
-	else { # for temporary ipset file
-	    @tmp_arr_l=sort(keys %{${$href_l}{'content'}});
-	    
-	    foreach $arr_el0_l ( @tmp_arr_l ) {
-		#$arr_el0_l=ipset entry
-		
-		$expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
+	    $expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
+	    if ( $expire_date_l>0 ) { # for teporary ipsets and permanent ipsets WITH external timeout
 		push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
 	    }
-	    
-	    # clear vars
-	    $arr_el0_l=undef;
-	    $expire_date_l=undef;
-	    @tmp_arr_l=();
-	    ###
+	    else { # for permanent ipsets WITHOUT external timeout
+		push(@wr_arr_l,$arr_el0_l);
+	    }
 	}
+	
+	# clear vars
+	$arr_el0_l=undef;
+	$expire_date_l=undef;
+	@tmp_arr_l=();
+	###
     }
     
     &rewrite_file_from_array_ref($file_l,\@wr_arr_l);
