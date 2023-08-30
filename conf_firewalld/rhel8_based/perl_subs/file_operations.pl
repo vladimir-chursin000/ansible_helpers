@@ -233,7 +233,8 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-            	    # One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates"), but the record format is "expire datetime;+record associated with ipset_type".
+		    # One line - one record in format "ipset_entry;+expire_datetime".
+            	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
             	    # Expire datetime has the format "YYYYMMDDHHMISS".
             	    # Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
             	    # This file is for informational purposes only and cannot be used to recreate temporary sets.
