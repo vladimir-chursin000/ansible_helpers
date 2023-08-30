@@ -56,9 +56,10 @@ sub read_actual_ipset_file_to_hash {
     # or key0=info, value=[array of info strings]
 
     my $line_l=undef;
+    my $ipset_entry_l=undef;
     my ($expire_epoch_sec_l,$now_epoch_sec_l)=(0,undef);
+    my $expire_datetime_l=undef;
     my $tmp_expire_timeout_l=0;
-    my @tmp_arr_l=();
     my $return_str_l='OK';
     
     open(FILE,'<',$file_l);
@@ -71,28 +72,35 @@ sub read_actual_ipset_file_to_hash {
 	if ( $line_l!~/^\#/ ) { # if line not comment
 	    $line_l=~s/\s+//g;
 
-	    if ( $line_l!~/\;\+/ ) { ${$href_l}{'content'}{$line_l}=0; } # for permanent ipsets
-	    else { # for temporary ipsets
-		@tmp_arr_l=split(/\;\+/,$line_l);
+	    if ( $line_l=~/^(\S+)\;\+(\S+)$/ ) {
+		$ipset_entry_l=$1;
+		$expire_datetime_l=$2;
 		
-		#YYYYMMDDHHMISS
-		if ( $tmp_arr_l[1]=~/^\d{14}$/ ) { # if date format is correct
+		if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
 		    if ( $now_epoch_sec_l<1 ) { $now_epoch_sec_l=time(); }
-		    $expire_epoch_sec_l=&conv_yyyymmddhhmiss_to_epoch_sec($tmp_arr_l[1]);
-		    #$for_conv_dt
+		    
+		    $expire_epoch_sec_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_datetime_l);
+                    #$for_conv_dt
 		    
 		    $tmp_expire_timeout_l=$expire_epoch_sec_l-$now_epoch_sec_l;
 		    
-		    if ( $tmp_expire_timeout_l>2147483 ) {
-			$expire_epoch_sec_l=$now_epoch_sec_l+2147483;
-			$tmp_arr_l[1]=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_l);
-			#$for_conv_sec_l
-		    }
-		
+		    if ( $file_type_l==1 && $tmp_expire_timeout_l>2147483 ) {
+                       $expire_epoch_sec_l=$now_epoch_sec_l+2147483;
+			
+                       $expire_datetime_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_l);
+                       #$for_conv_sec_l
+                    }
+
 		    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is not expired
-			${$href_l}{'content'}{$tmp_arr_l[0]}=$tmp_arr_l[1];
-		    }
+                        ${$href_l}{'content'}{$ipset_entry_l}=$expire_datetime_l;
+                    }
 		}
+	    }
+	    else {
+		$ipset_entry_l=$line_l;
+		$expire_datetime_l=0;
+		
+		${$href_l}{'content'}{$ipset_entry_l}=$expire_datetime_l;
 	    }
 	}
 	else { # if line is comment from file begin
