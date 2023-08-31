@@ -178,6 +178,7 @@ sub read_local_ipset_input {
     my @tmp_arr0_l=();
     
     my %input_file_content_hash_l=();
+	# key=ipset_entry, value=expire_datetime
     
     my ($input_file_name_l,$input_ipset_template_name_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -375,7 +376,12 @@ sub read_local_ipset_input {
 		$file_line_l=~s/\s+/ /g;
 		$file_line_l=~s/ //g;
 		if ( $file_line_l!~/^\#/ ) {
-		    $input_file_content_hash_l{$file_line_l}=1;
+		    if ( $file_line_l=~/^(\S+\);\+(\S+)$/ ) { # if temporary ipset entry or permanent with external timeout
+			$input_file_content_hash_l{$1}=$2;
+		    }
+		    else { # if permanent ipset entry without external timeout
+			$input_file_content_hash_l{$file_line_l}=0;
+		    }
 		}
 	    }
 	    close(INPUT_FILE);
