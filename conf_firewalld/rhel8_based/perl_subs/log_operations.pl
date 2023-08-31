@@ -1,6 +1,6 @@
 ###DEPENDENCIES: datetime.pl
 
-sub read_local_ipset_input_log_ops {
+sub write_local_ipset_input_log_ops {
     my ($history_log_dir_l,$input_params_href_l)=@_;
     # File name format - "DATE-history.log"
         # Record format - "WRITE_LOG_DATETIME;+INPUT_OP_TYPE;+INPUT_FILE_NAME;+INPUT_FILE_CREATE_DATETIME;+INV_HOST;+IPSET_TEMPLATE_NAME;+IPSET_NAME;+IPSET_TYPE_BY_TIME;+IPSET_TYPE;+RECORD;+STATUS"

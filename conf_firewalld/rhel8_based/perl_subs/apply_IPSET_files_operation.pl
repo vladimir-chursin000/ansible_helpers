@@ -240,7 +240,7 @@ sub read_local_ipset_input {
         		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
         		'STATUS'=>'inventory file is empty',
 		    );
-		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 		    #$history_log_dir_l,$input_params_href_l
 		    %log_ops_input_l=();
 		    ######
@@ -274,7 +274,7 @@ sub read_local_ipset_input {
     	    		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
     	    		'STATUS'=>"group '$1' is not exists at '00_conf_divisions_for_inv_hosts'",
 	    	    );
-	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	    #$history_log_dir_l,$input_params_href_l
 	    	    %log_ops_input_l=();
 	    	    ######
@@ -302,7 +302,7 @@ sub read_local_ipset_input {
 			'IPSET_TYPE'=>'no', 'RECORD'=>'no',
         		'STATUS'=>"host '$1' is not exists at inventory_file",
 		    );
-		    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 		    #$history_log_dir_l,$input_params_href_l
 		    %log_ops_input_l=();
 		    ######
@@ -328,7 +328,7 @@ sub read_local_ipset_input {
 		    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
         	    'STATUS'=>"input file is not match with VER1/VER2/VER3 templates",
 		);
-		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 		#$history_log_dir_l,$input_params_href_l
 		%log_ops_input_l=();
 		######
@@ -353,7 +353,7 @@ sub read_local_ipset_input {
 		    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
     	    	    'STATUS'=>"ipset template is not exists at '01_conf_ipset_templates'",
 	    	);
-	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	#$history_log_dir_l,$input_params_href_l
 	    	%log_ops_input_l=();
 	    	######
@@ -395,7 +395,7 @@ sub read_local_ipset_input {
 		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	    'STATUS'=>'no content while read file',
 	    	);
-	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	#$history_log_dir_l,$input_params_href_l
 	    	%log_ops_input_l=();
 	    	######
@@ -426,7 +426,7 @@ sub read_local_ipset_input {
 	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    		'STATUS'=>"ipset_template_name is not configured for inv-host at '66_conf_ipsets_FIN'",
 	    	    );
-	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	    #$history_log_dir_l,$input_params_href_l
 	    	    %log_ops_input_l=();
 	    	    ######
@@ -451,7 +451,7 @@ sub read_local_ipset_input {
 	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
     	    		'STATUS'=>'OK',
 	    	    );
-	    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	    #$history_log_dir_l,$input_params_href_l
 	    	    %log_ops_input_l=();
 	    	    ######
@@ -473,7 +473,7 @@ sub read_local_ipset_input {
 		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	    'STATUS'=>"no content after check ipset_template_name is in '66_conf_ipsets_FIN'",
 	    	);
-	    	&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    	#$history_log_dir_l,$input_params_href_l
 	    	%log_ops_input_l=();
 	    	######
@@ -499,7 +499,7 @@ sub read_local_ipset_input {
 		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	'STATUS'=>'OK',
 	    );
-	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
 	    #$history_log_dir_l,$input_params_href_l
 	    %log_ops_input_l=();
 	    ######
@@ -539,7 +539,7 @@ sub read_local_ipset_input {
     		    'IPSET_TYPE'=>${${$hval0_l}{'del'}}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	    'STATUS'=>"OK. Del operation is skipped because del:INPUT_FILE_CREATE_DATETIME < add:INPUT_FILE_CREATE_DATETIME",
     		);
-    		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
     		#$history_log_dir_l,$input_params_href_l
     		%log_ops_input_l=();
     		######
@@ -556,7 +556,7 @@ sub read_local_ipset_input {
     		    'IPSET_TYPE'=>${${$hval0_l}{'add'}}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	    'STATUS'=>"OK. Add operation is skipped because add:INPUT_FILE_CREATE_DATETIME < del:INPUT_FILE_CREATE_DATETIME",
     		);
-    		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
     		#$history_log_dir_l,$input_params_href_l
     		%log_ops_input_l=();
     		######
@@ -573,7 +573,7 @@ sub read_local_ipset_input {
     		    'IPSET_TYPE'=>${${$hval0_l}{'add'}}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	    'STATUS'=>"OK. Add operation is skipped because add:INPUT_FILE_CREATE_DATETIME = del:INPUT_FILE_CREATE_DATETIME",
     		);
-    		&read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
     		#$history_log_dir_l,$input_params_href_l
     		%log_ops_input_l=();
     		######
@@ -594,7 +594,7 @@ sub read_local_ipset_input {
     		'IPSET_TYPE'=>${$hval1_l}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	'STATUS'=>'OK',
     	    );
-    	    &read_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
     	    #$history_log_dir_l,$input_params_href_l
     	    %log_ops_input_l=();
     	    ######
