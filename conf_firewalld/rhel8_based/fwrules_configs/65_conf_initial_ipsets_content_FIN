@@ -6,6 +6,9 @@
 # This CFG is linked with: "01_conf_ipset_templates" and "66_conf_ipsets_FIN".
 # This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
 
+# You can also add elements to sets via "ipset_actual_data" and "ipset_input".
+# Read files: ".../ipset_actual_data/info", ".../ipset_input/info".
+
 ###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
 #[IPSET_TEMPLATE_NAME:BEGIN]
 # one row = "all/group_name/list_of_hosts/host=ipset_entry0,ipset_entry1,ipset_entry2,ipset_entryN"
