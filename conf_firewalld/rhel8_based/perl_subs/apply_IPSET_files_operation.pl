@@ -1380,7 +1380,7 @@ sub update_local_ipset_actual_data {
     		$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
     		#$for_conv_sec_l
     		
-    		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) {
+    		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if ipset_entry is expired
     		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
     		}
     		else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
