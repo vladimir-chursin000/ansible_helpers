@@ -191,6 +191,8 @@ sub read_local_ipset_input {
     my ($ipset_name_l,$ipset_type_l,$ipset_create_option_family_l)=(undef,undef,undef);
     my $last_access_epoch_sec_l=undef;
     
+    my ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
+    
     my %log_ops_input_l=();
     
     my %res_tmp_lv0_l=();
@@ -363,12 +365,12 @@ sub read_local_ipset_input {
 	    }
 	    ###
 	    
-	    # no error for 'ipset template' at filename
+	    # no error for 'ipset template' at filename (after this line)
 	    $ipset_name_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_name'};
 	    $ipset_type_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_type'};
 	    $ipset_create_option_family_l=${$ipset_templates_href_l}{$ipset_type_by_time_l}{$input_ipset_template_name_l}{'ipset_create_option_family'};
     	    
-	    # read input file    
+	    # read input file (begin)
 	    open(INPUT_FILE,'<',$read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
 	    while ( <INPUT_FILE> ) {
 		$file_line_l=$_;
@@ -376,8 +378,11 @@ sub read_local_ipset_input {
 		$file_line_l=~s/\s+/ /g;
 		$file_line_l=~s/ //g;
 		if ( $file_line_l!~/^\#/ ) {
-		    if ( $file_line_l=~/^(\S+\);\+(\S+)$/ ) { # if temporary ipset entry or permanent with external timeout
-			$input_file_content_hash_l{$1}=$2;
+		    if ( $file_line_l=~/^(\S+)\;\+(\S+)$/ ) { # if temporary ipset entry or permanent with external timeout
+			($ipset_entry_l,$expire_datetime_l)=($1,$2);
+			if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
+			    $input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
+			}
 		    }
 		    else { # if permanent ipset entry without external timeout
 			$input_file_content_hash_l{$file_line_l}=0;
@@ -385,7 +390,12 @@ sub read_local_ipset_input {
 		}
 	    }
 	    close(INPUT_FILE);
+	    
+	    #clear vars
+	    $file_line_l=undef;
+	    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
 	    ###
+	    # read input file (end)
 	    
 	    # check for empty %input_file_content_hash_l
 	    if ( scalar(keys %input_file_content_hash_l)<1 ) {
