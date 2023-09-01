@@ -192,6 +192,7 @@ sub read_local_ipset_input {
     my $last_access_epoch_sec_l=undef;
     
     my ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
+    my $ipset_record_is_ok_l=0;
     
     my %log_ops_input_l=();
     
@@ -378,27 +379,13 @@ sub read_local_ipset_input {
 		$file_line_l=~s/\s+/ /g;
 		$file_line_l=~s/ //g;
 		if ( $file_line_l!~/^\#/ ) {
-		    if ( $file_line_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'add' ) { # add-operation. If temporary ipset entry or permanent with external timeout
-			($ipset_entry_l,$expire_datetime_l)=($1,$2);
-			if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
-			    $input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
-			}
-		    }
-		    elsif ( $file_line_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
-			$input_file_content_hash_l{$1}=0;
-		    }
-		    else {
-			# other cases: if permanent ipset entry without external timeout (add/del), 
-			# permanent with ext timeout, temporary ipsets (add with def timeout), temporary ipsets (del)
-			$input_file_content_hash_l{$file_line_l}=0;
-		    }
+		    $input_file_content_hash_l{$file_line_l}=0;
 		}
 	    }
 	    close(INPUT_FILE);
 	    
 	    #clear vars
 	    $file_line_l=undef;
-	    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
 	    ###
 	    # read input file (end)
 	    
@@ -455,31 +442,67 @@ sub read_local_ipset_input {
 	    	    next;
 	    	}
 	    	
-	    	# write records to %res_tmp_lv0_slice_l
+	    	# write records to %res_tmp_lv0_slice_l (begin)
 	    	while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
-	    	    #$hkey0_l=ipset_record
-	    	    
+	    	    #$hkey0_l=ipset_record, $hval0_l=expire_datetime
+		    
 	    	    #FOR USE IN FUTURE
 	    	    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
 	    	    #$ipset_val_l,$ipset_type_l,$ipset_family_l
 	    	    
-	    	    ######
-	    	    %log_ops_input_l=(
-    	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-    	    		'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-    	    		'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
-    	    		'STATUS'=>'OK',
-	    	    );
-	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    	    #$history_log_dir_l,$input_params_href_l
-	    	    %log_ops_input_l=();
-	    	    ######
+		    if ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'add' ) { # add-operation. If temporary ipset entry or permanent with external timeout
+		    	($ipset_entry_l,$expire_datetime_l)=($1,$2);
+			if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
+			    $input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
+			    $ipset_record_is_ok_l=1;
+			}
+			else {
+			    $ipset_record_is_ok_l=0;
+			    
+			}	
+		    }
+		    elsif ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
+			$ipset_entry_l=$1;
+			$expire_datetime_l=0;
+			$ipset_record_is_ok_l=1;
+		    }
+		    else {
+		    	# other cases: if permanent ipset entry without external timeout (add/del), 
+		    	# permanent with ext timeout, temporary ipsets (add with def timeout), temporary ipsets (del)
+			$ipset_entry_l=$hkey0_l;
+			$expire_datetime_l=0;
+			$ipset_record_is_ok_l=1;
+		    }
+		    
+		    if ( $ipset_record_is_ok_l==1 ) {
+	    		######
+	    		%log_ops_input_l=(
+    	    		    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+	    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		    'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
+	    		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
+    	    		    'STATUS'=>'OK',
+	    		);
+	    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    		#$history_log_dir_l,$input_params_href_l
+	    		%log_ops_input_l=();
+	    		######
 	    	
-	    	    $res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$hkey0_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
+	    		$res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$hkey0_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
+		    }
+		    
+		    # clear vars
+		    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
+		    $ipset_record_is_ok_l=0;
+		    ###
 	    	}
-	    	###
+		
+		# clear vars
+		($hkey0_l,$hval0_l)=(undef,undef);
+		###
+		
+	    	# write records to %res_tmp_lv0_slice_l (end)
 	    } # foreach @input_inv_host_arr_l (end)
 	    ###
 	    
