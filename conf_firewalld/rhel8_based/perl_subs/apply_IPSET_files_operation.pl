@@ -1421,7 +1421,7 @@ sub update_local_ipset_actual_data {
     ($hkey0_l,$hval0_l)=(undef,undef);
     # operations for temporary ipsets (END)
 
-    # FIN write to actual*-files
+    # FIN write to actual*-files (begin)
     while ( ($hkey0_l,$hval0_l)=each %ipset_actual_files_composition_hash_l ) {
 	#$hkey0_l=actual-file-path
 	#${$hval0_l}{'ipset_file_type'}=$file_type_l: 0-permanent ipset, 1-temporary_ipset
@@ -1432,10 +1432,12 @@ sub update_local_ipset_actual_data {
 	#$file_l,$href_l
 	###
     }
-
-    %ipset_actual_files_composition_hash_l=();    
+    
+    # clear vars
+    %ipset_actual_files_composition_hash_l=();
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
+    # FIN write to actual*-files (end)
     
     return $return_str_l;
 }
