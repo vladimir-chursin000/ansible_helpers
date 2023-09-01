@@ -378,13 +378,18 @@ sub read_local_ipset_input {
 		$file_line_l=~s/\s+/ /g;
 		$file_line_l=~s/ //g;
 		if ( $file_line_l!~/^\#/ ) {
-		    if ( $file_line_l=~/^(\S+)\;\+(\S+)$/ ) { # if temporary ipset entry or permanent with external timeout
+		    if ( $file_line_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'add' ) { # add-operation. If temporary ipset entry or permanent with external timeout
 			($ipset_entry_l,$expire_datetime_l)=($1,$2);
 			if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
 			    $input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
 			}
 		    }
-		    else { # if permanent ipset entry without external timeout
+		    elsif ( $file_line_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
+			$input_file_content_hash_l{$1}=0;
+		    }
+		    else {
+			# other cases: if permanent ipset entry without external timeout (add/del), 
+			# permanent with ext timeout, temporary ipsets (add with def timeout), temporary ipsets (del)
 			$input_file_content_hash_l{$file_line_l}=0;
 		    }
 		}
