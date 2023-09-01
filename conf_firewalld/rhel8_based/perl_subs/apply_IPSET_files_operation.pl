@@ -45,7 +45,7 @@ sub apply_IPSET_files_operation_main {
     my ($exec_res_l)=(undef);
     my %ipset_input_l=();
         #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-            #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
+            #key2=add/del,key3=ipset_entry (according to #ipset_type), value=$expire_datetime_l
     
     my $return_str_l='OK';
     
@@ -117,7 +117,7 @@ sub read_local_ipset_input {
     #$res_href_l=hash-ref for %ipset_input_l
 	#my %ipset_input_l=();
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-                #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
+                #key2=add/del,key3=ipset_entry (according to #ipset_type), value=$expire_datetime_l
 
     #The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
     #"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
@@ -162,16 +162,16 @@ sub read_local_ipset_input {
     
     my %read_input_dirs_l=(
 	'add' => {
-	    'input_dir' => $ipset_input_dir_l.'/add',
-	    'correct_input_dir' => $ipset_input_dir_l.'/history/correct_input_files/add',
-	    'incorrect_input_dir' => $ipset_input_dir_l.'/history/incorrect_input_files/add',
+	    'input_dir' => $ipset_input_dir_l.'/add', # for read
+	    'correct_input_dir' => $ipset_input_dir_l.'/history/correct_input_files/add', # for write
+	    'incorrect_input_dir' => $ipset_input_dir_l.'/history/incorrect_input_files/add', # for write
 	},
 	'del' => {
-	    'input_dir' => $ipset_input_dir_l.'/del',
-	    'correct_input_dir' => $ipset_input_dir_l.'/history/correct_input_files/del',
-	    'incorrect_input_dir' => $ipset_input_dir_l.'/history/incorrect_input_files/del',
+	    'input_dir' => $ipset_input_dir_l.'/del', # fo read
+	    'correct_input_dir' => $ipset_input_dir_l.'/history/correct_input_files/del', # for write
+	    'incorrect_input_dir' => $ipset_input_dir_l.'/history/incorrect_input_files/del', # for write
 	},
-	'history' => $ipset_input_dir_l.'/history',
+	'history' => $ipset_input_dir_l.'/history', # for write
     );
     my @read_input_seq_l=('del','add');
     my @input_inv_host_arr_l=();
@@ -198,11 +198,12 @@ sub read_local_ipset_input {
     
     my %res_tmp_lv0_l=();
     my %res_tmp_lv0_slice_l=();
-    #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
-	# key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
+    #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_entry (according to #ipset_type)
+	# key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l]
+    
     my %res_tmp_lv1_l=(); # like %ipset_input_l
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-                #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
+                #key2=add/del,key3=ipset_entry (according to #ipset_type), value=$expire_datetime_l
 
     my $return_str_l='OK';
     
@@ -414,8 +415,8 @@ sub read_local_ipset_input {
 	    
 	    # fill %res_tmp_lv0_slice_l
 	    #my %res_tmp_lv0_l=();
-    	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_record (according to #ipset_type)
-    	    	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l]
+    	    	#key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_entry (according to #ipset_type)
+    	    	    # key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l]
 	    foreach $arr_el1_l ( @input_inv_host_arr_l ) { # foreach @input_inv_host_arr_l (begin)
 	    	#temporary/permanent=$ipset_type_by_time_l
 	    	#inv-host=$arr_el1_l
@@ -459,6 +460,19 @@ sub read_local_ipset_input {
 			else {
 			    $ipset_record_is_ok_l=0;
 			    
+			    ######
+	    		    %log_ops_input_l=(
+    	    			'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+	    			'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    			'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    			'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
+	    			'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
+    	    			'STATUS'=>'Expire_datetime is not correct',
+	    		    );
+	    		    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    		    #$history_log_dir_l,$input_params_href_l
+	    		    %log_ops_input_l=();
+	    		    ######
 			}	
 		    }
 		    elsif ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
@@ -489,7 +503,7 @@ sub read_local_ipset_input {
 	    		%log_ops_input_l=();
 	    		######
 	    	
-	    		$res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$hkey0_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l];
+	    		$res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$ipset_entry_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l];
 		    }
 		    
 		    # clear vars
@@ -567,8 +581,8 @@ sub read_local_ipset_input {
 
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # while %res_tmp_lv0_l (begin)
-    	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_record-4
-    	#$hval0_l=hash-ref for "add/del=[last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]"
+    	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_entry-4
+    	#$hval0_l=hash-ref for "add/del=[last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3,$expire_datetime_l-4]"
     	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
     	    	
     	if ( exists(${$hval0_l}{'add'}) && exists(${$hval0_l}{'del'}) ) {
@@ -627,7 +641,7 @@ sub read_local_ipset_input {
     	}
     	
     	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # while %res_tmp_lv0_l -> %{$hval0_l} (begin)
-    	    #hkey1_l=add/del, hval1_l=arr-ref for [last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3]
+    	    #hkey1_l=add/del, hval1_l=arr-ref for [last_access_time_in_sec_epoch-0,$input_file_name_l-1,$ipset_type_l-2,$ipset_create_option_family_l-3,$expire_datetime_l-4]
     	    
     	    ######
     	    %log_ops_input_l=(
@@ -645,8 +659,8 @@ sub read_local_ipset_input {
     	    
     	    #my %res_tmp_lv1_l=(); # like %ipset_input_l
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-                #key2=add/del,key3=ipset_record (according to #ipset_type), value=1
-    	    $res_tmp_lv1_l{$tmp_arr0_l[0]}{$tmp_arr0_l[1].';+'.$tmp_arr0_l[2].';+'.$tmp_arr0_l[3]}{$hkey1_l}{$tmp_arr0_l[4]}=1;
+                #key2=add/del,key3=ipset_entry (according to #ipset_type), value=$expire_datetime_l (0 or datetime)
+    	    $res_tmp_lv1_l{$tmp_arr0_l[0]}{$tmp_arr0_l[1].';+'.$tmp_arr0_l[2].';+'.$tmp_arr0_l[3]}{$hkey1_l}{$tmp_arr0_l[4]}=${$hval1_l}[4];
     	} # while %res_tmp_lv0_l -> %{$hval0_l} (end)
     } # while %res_tmp_lv0_l (end)
     ###

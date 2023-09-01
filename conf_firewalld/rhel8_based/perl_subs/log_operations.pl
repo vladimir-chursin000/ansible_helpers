@@ -35,6 +35,9 @@ sub write_local_ipset_input_log_ops {
     if ( $status_l!~/^ok/i ) { $status_l='error='.$status_l; }
     
     my $history_file_l=$history_log_dir_l.'/'.$date_l.'-history.log';
+    
+    if ( $rec_l=~/\;\+/ ) { $rec_l=~s/\;\+/\;/g; }
+    
     my $log_line_l="$dt_now_l;+$op_l;+$in_fn_l;+$in_fn_cr_dt_l;+$inv_host_l;+$ipset_tmplt_name_l;+$ipset_name_l;+$ipset_type_by_time_l;+$ipset_type_l;+$rec_l;+$status_l";
     
     system("echo '$log_line_l' >> $history_file_l");
