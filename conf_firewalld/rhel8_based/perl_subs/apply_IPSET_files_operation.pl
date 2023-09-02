@@ -818,9 +818,9 @@ sub update_local_ipset_actual_data {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($hkey2_l,$hval2_l)=(undef,undef);
-    my ($inv_host_dir_line_l,$ipset_tmplt_name_dir_line_l)=(undef,undef);
     my $tmp_var_l=undef;
     
+    my ($inv_host_dir_line_l,$ipset_tmplt_name_dir_line_l)=(undef,undef);
     my ($ipset_actual_permanent_dir_l,$ipset_actual_temporary_dir_l)=(undef,undef);
     
     my $ipset_create_date_actual_l=undef; # for date from 'actual__*'-file
