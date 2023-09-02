@@ -1288,10 +1288,14 @@ sub update_local_ipset_actual_data {
     	    }
     	} # while h66, temporary, %{$hval0_l}, hkey=ipset_tmplt_name (end)
     	
+	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
+	###
     } # while h66, temporary, hkey=inv-host (end)
     
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (END)
     
     # operations for permanent ipsets (BEGIN)
