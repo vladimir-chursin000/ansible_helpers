@@ -832,11 +832,8 @@ sub update_local_ipset_actual_data {
     my ($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef); # for correct actual-file-data from '65_conf_initial_ipsets_content_FIN' as source
     
     my @tmp_arr0_l=();
-    
     my %tmp_hash0_l=();
-    
     my $dt_now_l=undef;
-    
     my $ipset_actual_file_path_l=undef;
 
     my $return_str_l='OK';
@@ -1251,7 +1248,9 @@ sub update_local_ipset_actual_data {
     	($hkey1_l,$hval1_l)=(undef,undef);
     } # while h66, permanent, hkey=inv-host (end)
     
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) { # while h66, temporary, hkey=inv-host (begin)
     	# for temporary (with timeout) ipsets
