@@ -1355,7 +1355,7 @@ sub update_local_ipset_actual_data {
     	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
     	###
     	
-    	# ops for 'add' (temporary)
+    	# ops for 'add' (temporary) (begin)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) { # while ipset_input -> temporary -> add (begin)
     	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime ('0 for def' or 'datetime')
     	    
@@ -1393,8 +1393,11 @@ sub update_local_ipset_actual_data {
     	    }
     	} # while ipset_input -> temporary -> add (end)
     	
-    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-    	###
+	# clear vars
+    	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+	
+    	# ops for 'add' (temporary) (end)
     	
     	# ops for 'del' (temporary)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
