@@ -1298,55 +1298,57 @@ sub update_local_ipset_actual_data {
 	#$ipset_input_href_l=hash-ref for %ipset_input_l
     	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
         	#key2=add/del,key3=ipset_entry (according to #ipset_type), value=expire_datetime (0 - no expire, datetime - yes expire)
-    while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) {
-	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
-	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
-	
-	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
-
-	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
-	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
-	###
-
-	# ops for 'add' (permanent)
-	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
-	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime (0 or datetime)
-	    if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
-		if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=0;
-		}
-	    }
-	    else { # if permanent WITH external timeout
-		
-	    }
-	}
-	
-	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-	###
-
-	# ops for 'del' (permanent)
-	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
-	    #$hkey1_l=ipset_record, $hval1_l=0
-	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
-	    }
-	}
-		
-	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-	###
-
-	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
-	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-	%ipset_actual_file_data_hash_l=();
-	###
-		
-	# clear vars
-	@tmp_arr0_l=();
-	$ipset_actual_file_path_l=undef;
-	###
-    }
-
+    while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) { # while ipset_input -> permanent (begin)
+    	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
+    	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
+    	
+    	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
+    
+    	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
+    	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
+    	###
+    
+    	# ops for 'add' (permanent)
+    	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
+    	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime (0 or datetime)
+    	    if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
+    		if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+    		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=0;
+    		}
+    	    }
+    	    else { # if permanent WITH external timeout
+    		
+    	    }
+    	}
+    	
+    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
+    	###
+    
+    	# ops for 'del' (permanent)
+    	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
+    	    #$hkey1_l=ipset_record, $hval1_l=0
+    	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+    		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
+    	    }
+    	}
+    		
+    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
+    	###
+    
+    	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
+    	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+    	%ipset_actual_file_data_hash_l=();
+    	###
+    		
+    	# clear vars
+    	@tmp_arr0_l=();
+    	$ipset_actual_file_path_l=undef;
+    	###
+    } # while ipset_input -> permanent (end)
+    
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     # operations for permanent ipsets (END)
 
     # operations for temporary ipsets (BEGIN)
@@ -1364,44 +1366,48 @@ sub update_local_ipset_actual_data {
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) { # while ipset_input -> temporary -> add (begin)
     	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime ('0 for def' or 'datetime')
     	    
-    	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-    	    	$expire_epoch_sec_calculated_l=time()+${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-    	    	$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
-    	    	#$for_conv_sec_l
-    	    	
-    	    	$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
-    	    	
-    	    	# clear vars
-    	    	$expire_date_calculated_l=undef;
-    	    	$expire_epoch_sec_calculated_l=undef;
-    	    	###
-            }
-    	    else {
-    	    	$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
-    	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
-    	    	#$for_conv_dt
-    	    	
-    	    	$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-    	    	$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
-    	    	#$for_conv_sec_l
-    	    	
-    	    	if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if ipset_entry is expired
+	    if ( $hval1_l<1 ) { # if temporary with DEF expire_datetime (configured at cfg '01_conf_ipset_templates')
+    	    	if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+    	    	    $expire_epoch_sec_calculated_l=time()+${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+    	    	    $expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+    	    	    #$for_conv_sec_l
+    	    	    
     	    	    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+    	    	    
+    	    	    # clear vars
+    	    	    $expire_date_calculated_l=undef;
+    	    	    $expire_epoch_sec_calculated_l=undef;
+    	    	    ###
     	    	}
-    	    	else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
+    	    	else {
+    	    	    $expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+    	    	    $expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
+    	    	    #$for_conv_dt
     	    	
-    	    	# clear vars
-    	    	$expire_date_actual_l=undef;
-    	    	$expire_date_calculated_l=undef;
-    	    	($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
-    	    	###
-    	    }
+    	    	    $expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+    	    	    $expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+    	    	    #$for_conv_sec_l
+    	    	    
+    	    	    if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if ipset_entry is expired
+    	    		$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+    	    	    }
+    	    	    else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
+    	    	    
+    	    	    # clear vars
+    	    	    $expire_date_actual_l=undef;
+    	    	    $expire_date_calculated_l=undef;
+    	    	    ($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
+    	    	    ###
+    	    	}
+	    }
+	    else { # if temporary with NOT DEF expire_datetime
+		
+	    }
     	} # while ipset_input -> temporary -> add (end)
     	
 	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
 	###
-	
     	# ops for 'add' (temporary) (end)
     	
     	# ops for 'del' (temporary)
@@ -1426,7 +1432,9 @@ sub update_local_ipset_actual_data {
     	###
     } # while ipset_input -> temporary (end)
     
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     # operations for temporary ipsets (END)
 
     # FIN write to actual*-files (begin)
