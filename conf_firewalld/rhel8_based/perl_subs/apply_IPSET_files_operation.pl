@@ -1308,7 +1308,7 @@ sub update_local_ipset_actual_data {
     	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
     	###
     
-    	# ops for 'add' (permanent)
+    	# ops for 'add' (permanent) (begin)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
     	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime (0 or datetime)
     	    if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
@@ -1321,8 +1321,10 @@ sub update_local_ipset_actual_data {
     	    }
     	}
     	
-    	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
-    	###
+	# clear vars
+    	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+    	# ops for 'add' (permanent) (end)
     
     	# ops for 'del' (permanent)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
