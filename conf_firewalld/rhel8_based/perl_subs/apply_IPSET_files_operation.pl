@@ -1319,6 +1319,27 @@ sub update_local_ipset_actual_data {
 	    elsif ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) && $hval1_l>1 ) {
 		# if entry already exists and have external timeout
 		
+		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+		
+    	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
+    	    	#$for_conv_dt
+		
+		$expire_date_calculated_l=$hval1_l;
+		    
+		$expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
+    	    	#$for_conv_dt
+		
+		# RENEW EXP TIME
+		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if calc exprire time (or from input time) > current time
+    	    	    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
+    	    	}
+    	    	else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
+		###
+		
+		#clear vars
+		($expire_date_actual_l,$expire_epoch_sec_actual_l)=(undef,undef);
+		($expire_date_calculated_l,$expire_epoch_sec_calculated_l)=(undef,undef);
+		###
 	    }
     	}
     	
@@ -1405,11 +1426,13 @@ sub update_local_ipset_actual_data {
 		    $expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
     	    	    #$for_conv_dt
 		}
-    	    	    
-    	    	if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if ipset_entry is expired
+    	    	
+		# RENEW EXP TIME    
+    	    	if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if calc exprire time (or from input time) > current time
     	    	    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
     	    	}
     	    	else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
+		###
     	    	    
     	    	# clear vars
     	    	$expire_date_actual_l=undef;
