@@ -1308,14 +1308,18 @@ sub update_local_ipset_actual_data {
     	# ops for 'add' (permanent) (begin)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
     	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime (0 or datetime)
-    	    if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
-    		if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
+    	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) { # if entry is not exists before
+		if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
     		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=0;
-    		}
+		}
+		else { # if permanent WITH external timeout
+		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$hval1_l;
+		}
     	    }
-    	    else { # if permanent WITH external timeout
-    		
-    	    }
+	    elsif ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) && $hval1_l>1 ) {
+		# if entry already exists and have external timeout
+		
+	    }
     	}
     	
 	# clear vars
