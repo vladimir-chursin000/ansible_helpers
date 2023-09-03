@@ -193,6 +193,7 @@ sub read_local_ipset_input {
     
     my ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
     my $ipset_record_is_ok_l=0;
+    my $log_status_l=undef;
     
     my %log_ops_input_l=();
     
@@ -458,76 +459,42 @@ sub read_local_ipset_input {
 				$input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
 				$ipset_record_is_ok_l=1;
 			    }
-			    else {
-				$ipset_record_is_ok_l=0;
-				
-				######
-	    			%log_ops_input_l=(
-    	    			    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-	    			    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-    	    			    'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-    	    			    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-	    			    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
-    	    			    'STATUS'=>'Expire_datetime is ALREADY EXPIRED',
-	    			);
-	    			&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    			#$history_log_dir_l,$input_params_href_l
-	    			%log_ops_input_l=();
-	    			######
-			    }
+			    else { $ipset_record_is_ok_l=0; $log_status_l='Expire_datetime is ALREADY EXPIRED'; }
 			}
-			else {
-			    $ipset_record_is_ok_l=0;
-			    
-			    ######
-	    		    %log_ops_input_l=(
-    	    			'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-	    			'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-    	    			'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-    	    			'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-	    			'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
-    	    			'STATUS'=>'Expire_datetime is not correct',
-	    		    );
-	    		    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    		    #$history_log_dir_l,$input_params_href_l
-	    		    %log_ops_input_l=();
-	    		    ######
-			}	
+			else { $ipset_record_is_ok_l=0; $log_status_l='Expire_datetime is not correct'; }	
 		    }
 		    elsif ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
-			$ipset_entry_l=$1;
-			$expire_datetime_l=0;
-			$ipset_record_is_ok_l=1;
+			$ipset_entry_l=$1; $expire_datetime_l=0; $ipset_record_is_ok_l=1;
 		    }
 		    else {
 		    	# other cases: if permanent ipset entry without external timeout (add/del), 
 		    	# permanent with ext timeout, temporary ipsets (add with def timeout), temporary ipsets (del)
-			$ipset_entry_l=$hkey0_l;
-			$expire_datetime_l=0;
-			$ipset_record_is_ok_l=1;
+			$ipset_entry_l=$hkey0_l; $expire_datetime_l=0; $ipset_record_is_ok_l=1;
 		    }
 		    
 		    if ( $ipset_record_is_ok_l==1 ) {
-	    		######
-	    		%log_ops_input_l=(
-    	    		    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-	    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-    	    		    'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-    	    		    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-	    		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
-    	    		    'STATUS'=>'OK',
-	    		);
-	    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    		#$history_log_dir_l,$input_params_href_l
-	    		%log_ops_input_l=();
-	    		######
-	    	
+			$log_status_l='OK';
 	    		$res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$ipset_entry_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l];
 		    }
+
+	    	    ######
+	    	    %log_ops_input_l=(
+    	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
+	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
+    	    		'STATUS'=>$log_status_l,
+	    	    );
+	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+	    	    #$history_log_dir_l,$input_params_href_l
+	    	    %log_ops_input_l=();
+	    	    ######
 		    
 		    # clear vars
 		    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
 		    $ipset_record_is_ok_l=0;
+		    $log_status_l=undef;
 		    ###
 	    	}
 		
@@ -1410,12 +1377,22 @@ sub update_local_ipset_actual_data {
     	    }
     	    else {
     	    	$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+		
     	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
     	    	#$for_conv_dt
     	    	
-    	    	$expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-    	    	$expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
-    	    	#$for_conv_sec_l
+		if ( $hval1_l<1 ) { # if temporary with DEF expire_datetime (configured at cfg '01_conf_ipset_templates')
+    	    	    $expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
+		    
+    	    	    $expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
+    	    	    #$for_conv_sec_l
+		}
+		else { # if temporary with NOT DEF expire_datetime
+		    $expire_date_calculated_l=$hval1_l;
+		    
+		    $expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
+    	    	    #$for_conv_dt
+		}
     	    	    
     	    	if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if ipset_entry is expired
     	    	    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
