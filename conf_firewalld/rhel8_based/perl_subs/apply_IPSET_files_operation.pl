@@ -1319,12 +1319,12 @@ sub update_local_ipset_actual_data {
 	    elsif ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) && $hval1_l>1 ) {
 		# if entry already exists and have external timeout
 		
-		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}; # from actual-file
 		
     	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
     	    	#$for_conv_dt
 		
-		$expire_date_calculated_l=$hval1_l;
+		$expire_date_calculated_l=$hval1_l; # from input-dir
 		    
 		$expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
     	    	#$for_conv_dt
@@ -1398,7 +1398,7 @@ sub update_local_ipset_actual_data {
     	    	    #$for_conv_sec_l
 		}
 		else { # if temporary with NOT DEF expire_datetime
-		    $expire_date_calculated_l=$hval1_l;
+		    $expire_date_calculated_l=$hval1_l; # rom input-dir
 		}
     	    	    
     	    	$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
@@ -1409,7 +1409,7 @@ sub update_local_ipset_actual_data {
     	    	###
     	    }
     	    else {
-    	    	$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l};
+    	    	$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}; # from actual-file
 		
     	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
     	    	#$for_conv_dt
@@ -1421,7 +1421,7 @@ sub update_local_ipset_actual_data {
     	    	    #$for_conv_sec_l
 		}
 		else { # if temporary with NOT DEF expire_datetime
-		    $expire_date_calculated_l=$hval1_l;
+		    $expire_date_calculated_l=$hval1_l; # from input-dir
 		    
 		    $expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
     	    	    #$for_conv_dt
