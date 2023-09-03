@@ -194,6 +194,7 @@ sub read_local_ipset_input {
     my ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
     my $ipset_record_is_ok_l=0;
     my $log_status_l=undef;
+    my $now_epoch_sec_l=time();
     
     my %log_ops_input_l=();
     
@@ -460,6 +461,13 @@ sub read_local_ipset_input {
 				$ipset_record_is_ok_l=1;
 			    }
 			    else { $ipset_record_is_ok_l=0; $log_status_l='Expire_datetime is ALREADY EXPIRED'; }
+			    
+			    if ( $ipset_type_by_time_l eq 'temporary' && &check_yyyymmddhhmiss_is_more_than_max_ipset_timeout($expire_datetime_l,$now_epoch_sec_l,2147483) ) {
+				#$dt_l,$now_epoch_sec_l,$timeout_limit_l
+				
+				$ipset_record_is_ok_l=0;
+				$log_status_l='Expire_datetime is more than max_timeout (2147483) for yemporary ipsets';
+			    }
 			}
 			else { $ipset_record_is_ok_l=0; $log_status_l='Expire_datetime is not correct'; }	
 		    }
