@@ -255,7 +255,19 @@ elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
 		    EPOCH_TIME_NOW_num=`date '+%s'`;
 		    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 		    
-		    ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
+		    if [[ "$TIMEOUT_num" -gt "0" ]]; then
+			if [[ "$TIMEOUT_num" -gt "2147483" ]]; then
+			    TIMEOUT_num='2147483';
+			    
+			    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+			    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' = DONE, but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
+			fi;
+			
+			ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
+		    else
+			NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+			echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+		    fi;
 		    
 		    # clear vars
 		    TMP_arr=();
