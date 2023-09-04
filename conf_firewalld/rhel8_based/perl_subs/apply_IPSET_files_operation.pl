@@ -1542,7 +1542,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	$apply_run_flag_file_path_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_flag_file_pwet';
     	    
     	$dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets';
-	$dst_dir_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_with_ext_timeout';
+	$dst_dir_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_pwet';
 	
     	system("mkdir -p $dst_dir_l");
 	system("mkdir -p $dst_dir_pwet_l");
