@@ -25,6 +25,7 @@ RECREATE_TEMPORARY_IPSETS_CHANGED_str='no';
 RECREATE_FW_ZONES_CHANGED_str='no';
 RECREATE_POLICIES_CHANGED_str='no';
 PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='no';
+PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='no'; # for permanent with external timeout
 TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
 RELOAD_NEED_RUN_str='no';
@@ -71,6 +72,14 @@ if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
     RELOAD_NEED_RUN_str='yes';
 
     echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'permanent_ipsets_flag_file_changed'. Set PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+fi;
+
+if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_pwet_changed" ]]; then
+    # for permanent with external timeout
+    PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='yes';
+    RELOAD_NEED_RUN_str='yes';
+
+    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'permanent_ipsets_flag_file_pwet_changed'. Set PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/temporary_ipsets_flag_file_changed" ]]; then
