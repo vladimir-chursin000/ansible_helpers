@@ -233,8 +233,13 @@ if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 
-if [[ "$PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str" == "yes" ]]; then
+if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "no" && "$PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
+    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 're_add_ipsets_content.sh' with param='pwet_only' (if PERMANENT_IPSETS_FLAG_FILE_CHANGED='no' and PERMANENT_IPSETS_FLAG_FILE_PWET='yes')" &>> $EXEC_RESULT_FILE_str;
+    "$SELF_DIR_str/re_add_ipsets_content.sh" pwet_only &>> $EXEC_RESULT_FILE_str;
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+End run 're_add_ipsets_content.sh' with param='pwet_only' (if PERMANENT_IPSETS_FLAG_FILE_CHANGED='no' and PERMANENT_IPSETS_FLAG_FILE_PWET='yes')" &>> $EXEC_RESULT_FILE_str;
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###

@@ -9,7 +9,7 @@ APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
 ######CFG
 
 ######VARS
-OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary
+OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary, pwet_only (pernamemt with external timeout)
 #
 CONTENT_DIR_str='no'; # future content
 PREV_CONTENT_DIR_str='no'; # now content (will be prev. after run)
@@ -56,7 +56,7 @@ TIMEOUT_num=0;
 ######VARS
 
 ###APPLY_RUN_INFO read
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes" ]]; then
     IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='yes';
