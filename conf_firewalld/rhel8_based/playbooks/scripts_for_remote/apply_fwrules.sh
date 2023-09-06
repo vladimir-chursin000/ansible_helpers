@@ -222,7 +222,7 @@ if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" ]]; then
 fi;
 ###
 
-# 6) Re-add. If need to re-add ipsets elements from ansible-host as source.
+# 6) Re-add. If need to re-add permanent ipsets elements from ansible-host as source.
 if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
@@ -230,6 +230,11 @@ if [[ "$PERMANENT_IPSETS_FLAG_FILE_CHANGED_str" == "yes" ]]; then
     "$SELF_DIR_str/re_add_ipsets_content.sh" permanent &>> $EXEC_RESULT_FILE_str;
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+End run 're_add_ipsets_content.sh' with param='permanent' (if PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    echo '#######################' &>> $EXEC_RESULT_FILE_str;
+fi;
+
+if [[ "$PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str" == "yes" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
