@@ -72,6 +72,8 @@ fi;
 ###APPLY_RUN_INFO read
 
 ######MAIN
+
+# GET PREV CONTENT of ipsets (begin)
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: run with argv-param='permanent'";
@@ -149,11 +151,12 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	###
     fi;
 fi;
+# GET PREV CONTENT of ipsets (end)
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
 
-# MAIN SCENARIO CHOICE
+# MAIN SCENARIO CHOICE (begin)
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
@@ -181,9 +184,9 @@ elif [[ -f "$LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; th
 
     echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='temporary' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_temporary', MAIN_SCENARIO_str='re_add_temporary'";
 fi;
-###
+# MAIN SCENARIO CHOICE (end)
 
-# DELETE ipsets content if need
+# DELETE ipsets content if need (begin)
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
@@ -221,9 +224,9 @@ elif [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEA
 	done < $PREV_LIST_FILE_FROM_CFG_str;
     fi;
 fi;
-###
+# DELETE ipsets content if need (end)
 
-# RE_ADD ipsets content if need
+# RE_ADD ipsets content if need (begin)
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
@@ -281,5 +284,5 @@ elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
 	done < $LIST_FILE_str;
     fi;
 fi;
-###
+# RE_ADD ipsets content if need (end)
 ######MAIN
