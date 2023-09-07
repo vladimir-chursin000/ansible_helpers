@@ -193,6 +193,7 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then
 	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='delete_all_permanent'. Read ipset-names from file='$PREV_LIST_FILE_FROM_CFG_str'";
 	
+	# delete all permanent entries via 'sed'
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
@@ -201,11 +202,13 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
 		sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
 	    fi;
 	done < $PREV_LIST_FILE_FROM_CFG_str;
+	###
     fi;
 elif [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
     if [[ -s "$PREV_LIST_FILE_FROM_CFG_str" ]]; then # if file exists and not empty
 	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='delete_all_temporary'. Read ipset-names from file='$PREV_LIST_FILE_FROM_CFG_str'";
 	
+	# delete all temorary entries via 'ipset'
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "$PREV_CONTENT_DIR_str/CFG_$LINE0_str" ]]; then
@@ -222,6 +225,7 @@ elif [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEA
 		done < "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
 	    fi;
 	done < $PREV_LIST_FILE_FROM_CFG_str;
+	###
     fi;
 fi;
 # DELETE ipsets content if need (end)
