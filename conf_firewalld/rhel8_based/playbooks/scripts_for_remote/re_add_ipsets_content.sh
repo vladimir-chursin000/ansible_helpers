@@ -79,7 +79,8 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
 
-    if [[ "$IS_FORCE_REMOVED_PERMANENT_IPSETS_str" == "no" ]]; then    
+    if [[ "$IS_FORCE_REMOVED_PERMANENT_IPSETS_str" == "no" ]]; then
+	# for cases: permanent ipsets is not recreated, no confugured permanent ipsets
     	if [[ ! -d $PREV_CONTENT_DIR_str ]]; then
     	    mkdir -p $PREV_CONTENT_DIR_str;
     	fi;
