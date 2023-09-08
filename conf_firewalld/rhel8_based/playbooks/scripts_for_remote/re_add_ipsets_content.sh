@@ -14,6 +14,9 @@ OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary, pwet_only 
 CONTENT_DIR_str='no'; # future content
 PREV_CONTENT_DIR_str='no'; # now content (will be prev. after run)
 #
+CONTENT_DIR_PWET_str='no'; # future content for permanent ipsets with external timeout
+PREV_CONTENT_DIR_PWET_str='no'; # now content (will be prev. after run) for permanent ipsets with external timeout
+#
 LIST_FILE_str='no';
 
 ###
