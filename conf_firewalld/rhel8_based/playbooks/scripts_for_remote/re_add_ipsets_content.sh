@@ -78,7 +78,7 @@ fi;
 
 ######MAIN
 
-# GET PREV CONTENT of ipsets and define content-dirs (begin)
+# GET PREV CONTENT of ipsets and define content-dirs + list-files (begin)
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
     echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: run with argv-param='permanent'";
@@ -86,11 +86,15 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     # for permanent ipsets without external timeout
     CONTENT_DIR_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
+    LIST_FILE_str="$CONTENT_DIR_str/LIST";
+    NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
     ###
     
     # for permanent ipsets with external timeout
     CONTENT_DIR_PWET_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_PWET_str="$SELF_DIR_str/prev_permanent_ipsets";
+    LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
+    NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
     ###
 
     if [[ "$IS_FORCE_REMOVED_PERMANENT_IPSETS_str" == "no" ]]; then
@@ -133,6 +137,9 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_temporary_ipsets";
     
+    LIST_FILE_str="$CONTENT_DIR_str/LIST";
+    NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
+    
     # if IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str=yes -> already executed 'reload/restart' and info about current (in memory) temporary ipsets is no need
     if [[ "$IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str" == "no" ]]; then
 	if [[ ! -d $PREV_CONTENT_DIR_str ]]; then
@@ -162,16 +169,18 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	fi;
 	###
     fi;
+elif [[ "$OPERATION_IPSET_TYPE_str" == "pwet_only" ]]; then
+    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: run with argv-param='pwet_only'";
+
+    # for permanent ipsets with external timeout
+    CONTENT_DIR_PWET_str="$SELF_DIR_str/permanent_ipsets";
+    PREV_CONTENT_DIR_PWET_str="$SELF_DIR_str/prev_permanent_ipsets";
+    LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
+    NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
+    ###
 fi;
-# GET PREV CONTENT of ipsets and define content-dirs (end)
-
-LIST_FILE_str="$CONTENT_DIR_str/LIST";
-NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
-
-# for permanent ipsets with external timeout
-LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
-NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
-###
+# GET PREV CONTENT of ipsets and define content-dirs + list-files (end)
 
 # MAIN SCENARIO CHOICE (begin)
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
