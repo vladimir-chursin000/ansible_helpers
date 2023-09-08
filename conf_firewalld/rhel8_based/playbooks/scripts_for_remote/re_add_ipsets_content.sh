@@ -186,11 +186,17 @@ fi;
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
-    # Delete all entries for all premanent ipsets
-    echo 'Delete all permanent ipset entries if exists!' > $NO_LIST_FILE_str;
+    # Delete all entries for all permanent ipsets (including pwet)
+    echo 'Delete all permanent ipset entries (including pwet) if exists!' > $NO_LIST_FILE_str;
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
     
     echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='permanent' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_permanent'";
+if [[ -f "$NO_LIST_FILE_PWET_str" && "$OPERATION_IPSET_TYPE_str" == "pwet_only" ]]; then
+    # Delete all entries for permanent ipsets with external timeout only
+    echo 'Delete all permanent ipset entries with external timeout!' > $NO_LIST_FILE_PWET_str;
+    DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent_pwet_only';
+    
+    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE (pwet_only). Exists NO_LIST_FILE_PWET='$NO_LIST_FILE_PWET_str' and OPERATION_IPSET_TYPE='pwet_only' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_permanent_pwet_only'";
 elif [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets
     echo 'Delete all temporary ipset entries if exists!' > $NO_LIST_FILE_str;
