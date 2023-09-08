@@ -18,6 +18,7 @@ CONTENT_DIR_PWET_str='no'; # future content for permanent ipsets with external t
 PREV_CONTENT_DIR_PWET_str='no'; # now content (will be prev. after run) for permanent ipsets with external timeout
 #
 LIST_FILE_str='no';
+LIST_FILE_PWET_str='no';
 
 ###
 PREV_LIST_FILE_FROM_CFG_str='no';
@@ -33,6 +34,7 @@ PREV_LIST_FILE_FROM_CFG_str='no';
 ###
 #
 NO_LIST_FILE_str='no';
+NO_LIST_FILE_PWET_str='no';
 #
 
 ###
@@ -165,6 +167,11 @@ fi;
 
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 NO_LIST_FILE_str="$CONTENT_DIR_str/NO_LIST";
+
+# for permanent ipsets with external timeout
+LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
+NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
+###
 
 # MAIN SCENARIO CHOICE (begin)
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
