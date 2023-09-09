@@ -268,7 +268,20 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     # for permanent WITH external timeout
     if [[ -s "$LIST_FILE_PWET_str" ]]; then
 	NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names with external timeout from file='$LIST_FILE_PWET_str'";
 	
+	while read -r LINE0_str; # LINE0_str = ipset_name
+	do
+	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+		echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Add ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str'";
+		
+		while read -r LINE1_str; # LINE1_str = one line with ipset entry
+		do
+		    TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
+		    
+		done < "$CONTENT_DIR_PWET_str/$LINE0_str";
+	    fi;
+	done < $LIST_FILE_str;
     fi;
     ###
 elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
