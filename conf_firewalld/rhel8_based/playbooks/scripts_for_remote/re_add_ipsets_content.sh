@@ -279,6 +279,10 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		do
 		    TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
 		    
+		    EPOCH_TIME_CFG_num=`date -d "$(echo ${TMP_arr[1]} | awk '{print substr($1,1,8), substr($1,9,2) ":" substr($1,11,2) ":" substr($1,13,2)}')" '+%s'`;
+		    EPOCH_TIME_NOW_num=`date '+%s'`;
+		    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
+		    
 		    # clear vars
 		    TMP_arr=();
 		    EPOCH_TIME_NOW_num=0;
