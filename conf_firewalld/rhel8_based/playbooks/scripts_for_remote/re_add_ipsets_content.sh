@@ -283,6 +283,13 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		    EPOCH_TIME_NOW_num=`date '+%s'`;
 		    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 		    
+		    if [[ "$TIMEOUT_num" -gt "0" ]]; then
+			
+		    else
+			NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+			echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+		    fi;
+
 		    # clear vars
 		    TMP_arr=();
 		    EPOCH_TIME_NOW_num=0;
