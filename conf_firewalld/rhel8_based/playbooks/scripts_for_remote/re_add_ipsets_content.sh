@@ -279,6 +279,12 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		do
 		    TMP_arr=($(echo "$LINE1_str" | sed 's/;+/\n/g')); # 0=ip, 1=expire_dt_at_format_YYYYMMDDHHMISS (num)
 		    
+		    # clear vars
+		    TMP_arr=();
+		    EPOCH_TIME_NOW_num=0;
+		    EPOCH_TIME_CFG_num=0;
+		    TIMEOUT_num=0;
+		    ###
 		done < "$CONTENT_DIR_PWET_str/$LINE0_str";
 	    fi;
 	done < $LIST_FILE_str;
