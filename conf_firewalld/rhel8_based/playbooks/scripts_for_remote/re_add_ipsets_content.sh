@@ -9,7 +9,7 @@ APPLY_RUN_INFO_DIR_str="$SELF_DIR_str/apply_run_info";
 ######CFG
 
 ######VARS
-OPERATION_IPSET_TYPE_str=$1; # possible values: permanent, temporary, pwet_only (pernamemt with external timeout)
+OPERATION_IPSET_TYPE_str=$1; # possible values: permanent (for "without ext timeout" or not), temporary
 #
 CONTENT_DIR_str='no'; # future content
 PREV_CONTENT_DIR_str='no'; # now content (will be prev. after run)
@@ -169,16 +169,6 @@ elif [[ "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
 	fi;
 	###
     fi;
-elif [[ "$OPERATION_IPSET_TYPE_str" == "pwet_only" ]]; then
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: run with argv-param='pwet_only'";
-
-    # for permanent ipsets with external timeout
-    CONTENT_DIR_PWET_str="$SELF_DIR_str/permanent_ipsets";
-    PREV_CONTENT_DIR_PWET_str="$SELF_DIR_str/prev_permanent_ipsets";
-    LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
-    NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
-    ###
 fi;
 # GET PREV CONTENT of ipsets and define content-dirs + list-files (end)
 
@@ -191,12 +181,6 @@ if [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; t
     DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent';
     
     echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE. Exists NO_LIST_FILE='$NO_LIST_FILE_str' and OPERATION_IPSET_TYPE='permanent' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_permanent'";
-if [[ -f "$NO_LIST_FILE_PWET_str" && "$OPERATION_IPSET_TYPE_str" == "pwet_only" ]]; then
-    # Delete all entries for permanent ipsets with external timeout only
-    echo 'Delete all permanent ipset entries with external timeout!' > $NO_LIST_FILE_PWET_str;
-    DELETE_IPSETS_CONTENT_NEED_str='delete_all_permanent_pwet_only';
-    
-    echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: MAIN SCENARIO CHOICE (pwet_only). Exists NO_LIST_FILE_PWET='$NO_LIST_FILE_PWET_str' and OPERATION_IPSET_TYPE='pwet_only' -> set DELETE_IPSETS_CONTENT_NEED='delete_all_permanent_pwet_only'";
 elif [[ -f "$NO_LIST_FILE_str" && "$OPERATION_IPSET_TYPE_str" == "temporary" ]]; then
     # Delete all entries for all temporary ipsets
     echo 'Delete all temporary ipset entries if exists!' > $NO_LIST_FILE_str;
@@ -266,6 +250,7 @@ fi;
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
+    # for permanent WITHOUT external timeout
     if [[ -s "$LIST_FILE_str" ]]; then
 	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names from file='$LIST_FILE_str'";
 	
@@ -278,6 +263,14 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 	    fi;
 	done < $LIST_FILE_str;
     fi;
+    ###
+    
+    # for permanent WITH external timeout
+    if [[ -s "$LIST_FILE_PWET_str" ]]; then
+	NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
+	
+    fi;
+    ###
 elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
     if [[ -s "$LIST_FILE_str" ]]; then
 	echo "$NOW_YYYYMMDDHHMISS_str;+re_add_ipsets_content.sh: Execute scenario='re_add_temporary'. Read ipset-names from file='$LIST_FILE_str'";
