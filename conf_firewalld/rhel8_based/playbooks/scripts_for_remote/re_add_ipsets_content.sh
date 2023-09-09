@@ -60,6 +60,15 @@ EPOCH_TIME_CFG_num=0;
 TIMEOUT_num=0;
 ######VARS
 
+######FUNCTIONS
+function echo_log_func() {
+    local local_log_str=$1;
+    local local_now_yyyymmddhhmiss_str=`date '+%Y%m%d%H%M%S'`;
+    
+    echo "$local_now_yyyymmddhhmiss_str;+$local_log_str";
+}
+######FUNCTIONS
+
 ###APPLY_RUN_INFO read
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
