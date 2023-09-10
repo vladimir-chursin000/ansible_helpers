@@ -36,6 +36,16 @@ NOW_YYYYMMDDHHMISS_str='';
 declare -a TMP_arr;
 ###VARS
 
+######FUNCTIONS
+function write_log_func() {
+    local local_log_str=$1;
+    local local_log_file_str=$2;
+    local local_now_yyyymmddhhmiss_str=`date '+%Y%m%d%H%M%S'`;
+
+    echo "$local_now_yyyymmddhhmiss_str;+$local_log_str" &>> $local_log_file_str;
+}
+######FUNCTIONS
+
 ###APPLY_RUN_INFO read
 NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
