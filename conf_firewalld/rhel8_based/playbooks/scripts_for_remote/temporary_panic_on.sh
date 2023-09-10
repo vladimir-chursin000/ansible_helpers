@@ -13,7 +13,6 @@ fi;
 
 ###VARS
 TIMEOUT_num=$1;
-NOW_YYYYMMDDHHMISS_str='';
 ###VARS
 
 ######FUNCTIONS
@@ -28,22 +27,19 @@ function write_log_func() {
 
 sleep 2;
 
-NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-echo "$NOW_YYYYMMDDHHMISS_str;+Set panic on" &>> $EXEC_RESULT_FILE_str;
+write_log_func "Set panic on" "$EXEC_RESULT_FILE_str";
 firewall-cmd --panic-on;
 
 while :
 do
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-    echo "$NOW_YYYYMMDDHHMISS_str;+Wait iteration number $TIMEOUT_num" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Wait iteration number $TIMEOUT_num" "$EXEC_RESULT_FILE_str";
      
     sleep 60;
 
     let "TIMEOUT_num-=1";
     
     if [[ "$TIMEOUT_num" -le "0" ]]; then
-        NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-	echo "$NOW_YYYYMMDDHHMISS_str;+Set panic off" &>> $EXEC_RESULT_FILE_str;
+	write_log_func "Set panic off" "$EXEC_RESULT_FILE_str";
 	firewall-cmd --panic-off;
 	
 	exit;
