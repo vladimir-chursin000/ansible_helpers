@@ -279,7 +279,8 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 		    
 		    if [[ "$TIMEOUT_num" -gt "0" ]]; then
-			
+			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is OK";
+			firewall-cmd --permanent --ipset="$LINE0_str" --add-entry="${TMP_arr[0]}";
 		    else
 			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
 		    fi;
