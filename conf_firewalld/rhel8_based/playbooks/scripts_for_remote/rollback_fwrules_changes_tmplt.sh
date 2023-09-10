@@ -23,7 +23,6 @@ TIMEOUT_num=!_TIMEOUT_NUM_!;
 ###VARS
 LINE0_str='';
 LINE1_str='';
-NOW_YYYYMMDDHHMISS_str='';
 declare -a TMP_arr;
 ###VARS
 
@@ -41,25 +40,23 @@ touch "$SELF_DIR_str/rollback_fwrules_changes_is_run_now";
 
 while :
 do  
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-    echo "$NOW_YYYYMMDDHHMISS_str;+Wait iteration number $TIMEOUT_num" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Wait iteration number $TIMEOUT_num" "$EXEC_RESULT_FILE_str";
       
     sleep 60;
 
     let "TIMEOUT_num-=1";
     if [[ "$TIMEOUT_num" -le "0" ]]; then
-	NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
 
     	###DO ROLLBACK of firewall rules changes
     	if [ -d "$BACKUP_FOR_ROLLBACK_DIR_str" ]; then
-    	    echo "$NOW_YYYYMMDDHHMISS_str;+Start rollback" &>> $EXEC_RESULT_FILE_str;
+    	    write_log_func "Start rollback" "$EXEC_RESULT_FILE_str";
     	    
     	    # rollback for script 'recreate_permanent_ipsets.sh'
     	    if [[ -f "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" ]]; then
     		if [[ -f "$SELF_DIR_str/recreate_permanent_ipsets.sh" ]]; then
     		    rm -rf $SELF_DIR_str/recreate_permanent_ipsets.sh;
     		fi;
-    		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback script 'recreate_permanent_ipsets.sh' to previous version" &>> $EXEC_RESULT_FILE_str;
+    		write_log_func "Rollback script 'recreate_permanent_ipsets.sh' to previous version" "$EXEC_RESULT_FILE_str";
     		
     		mv "$SELF_DIR_str/prev_recreate_permanent_ipsets.sh" "$SELF_DIR_str/recreate_permanent_ipsets.sh";
     	    fi;
@@ -70,7 +67,7 @@ do
     	    	if [[ -f "$SELF_DIR_str/recreate_temporary_ipsets.sh" ]]; then
     	    	    rm -rf $SELF_DIR_str/recreate_temporary_ipsets.sh;
     	    	fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback script 'recreate_temporary_ipsets.sh' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback script 'recreate_temporary_ipsets.sh' to previous version" "$EXEC_RESULT_FILE_str";
 		
     	    	mv "$SELF_DIR_str/prev_recreate_temporary_ipsets.sh" "$SELF_DIR_str/recreate_temporary_ipsets.sh";
     	    fi;
@@ -81,7 +78,7 @@ do
     	    	if [[ -f "$SELF_DIR_str/recreate_fw_zones.sh" ]]; then
     	    	    rm -rf $SELF_DIR_str/recreate_fw_zones.sh;
     	    	fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback script 'recreate_fw_zones.sh' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback script 'recreate_fw_zones.sh' to previous version" "$EXEC_RESULT_FILE_str";
 		
     	    	mv "$SELF_DIR_str/prev_recreate_fw_zones.sh" "$SELF_DIR_str/recreate_fw_zones.sh";
     	    fi;
@@ -92,7 +89,7 @@ do
     		if [[ -f "$SELF_DIR_str/recreate_policies.sh" ]]; then
     		    rm -rf $SELF_DIR_str/recreate_policies.sh;
     		fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback script 'recreate_policies.sh' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback script 'recreate_policies.sh' to previous version" "$EXEC_RESULT_FILE_str";
 		
     		mv "$SELF_DIR_str/prev_recreate_policies.sh" "$SELF_DIR_str/recreate_policies.sh";
     	    fi;
@@ -103,7 +100,7 @@ do
     		if [[ -f "$SELF_DIR_str/permanent_ipsets_flag_file" ]]; then
     		    rm -rf $SELF_DIR_str/permanent_ipsets_flag_file;
     		fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback file 'permanent_ipsets_flag_file' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback file 'permanent_ipsets_flag_file' to previous version" "$EXEC_RESULT_FILE_str";
 		
     		mv "$SELF_DIR_str/prev_permanent_ipsets_flag_file"  "$SELF_DIR_str/permanent_ipsets_flag_file";
     	    fi;
@@ -114,7 +111,7 @@ do
     		if [[ -f "$SELF_DIR_str/temporary_ipsets_flag_file" ]]; then
     		    rm -rf $SELF_DIR_str/temporary_ipsets_flag_file;
     		fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback file 'temporary_ipsets_flag_file' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback file 'temporary_ipsets_flag_file' to previous version" "$EXEC_RESULT_FILE_str";
 		
     		mv "$SELF_DIR_str/prev_temporary_ipsets_flag_file"  "$SELF_DIR_str/temporary_ipsets_flag_file";
     	    fi;
@@ -125,7 +122,7 @@ do
     		if [[ -d "$SELF_DIR_str/permanent_ipsets" ]]; then
     		    rm -rf $SELF_DIR_str/permanent_ipsets;
     		fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback content of dir 'permanent_ipsets' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback content of dir 'permanent_ipsets' to previous version" "$EXEC_RESULT_FILE_str";
 		
     		mv "$SELF_DIR_str/prev_permanent_ipsets"  "$SELF_DIR_str/permanent_ipsets";
     	    fi;
@@ -136,27 +133,24 @@ do
     		if [[ -d "$SELF_DIR_str/temporary_ipsets" ]]; then
     		    rm -rf $SELF_DIR_str/temporary_ipsets;
     		fi;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Rollback content of dir 'temporary_ipsets' to previous version" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Rollback content of dir 'temporary_ipsets' to previous version" "$EXEC_RESULT_FILE_str";
 		
     		mv "$SELF_DIR_str/prev_temporary_ipsets"  "$SELF_DIR_str/temporary_ipsets";
     	    fi;
     	    ###
     	    
-	    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-	    
-	    echo "$NOW_YYYYMMDDHHMISS_str;+Remove content of dir '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
+	    write_log_func "Remove content of dir '/etc/firewalld'" "$EXEC_RESULT_FILE_str";
     	    rm -rf /etc/firewalld/*;
     	    
-	    echo "$NOW_YYYYMMDDHHMISS_str;+Copy content of BACKUP_FOR_ROLLBACK_DIR='$BACKUP_FOR_ROLLBACK_DIR_str' to '/etc/firewalld'" &>> $EXEC_RESULT_FILE_str;
+	    write_log_func "Copy content of BACKUP_FOR_ROLLBACK_DIR='$BACKUP_FOR_ROLLBACK_DIR_str' to '/etc/firewalld'" "$EXEC_RESULT_FILE_str";
     	    cp -r $BACKUP_FOR_ROLLBACK_DIR_str/* /etc/firewalld;
     	    
-	    echo "$NOW_YYYYMMDDHHMISS_str;+Restart firewalld" &>> $EXEC_RESULT_FILE_str;
+	    write_log_func "Restart firewalld" "$EXEC_RESULT_FILE_str";
     	    systemctl restart firewalld;
     	    
     	    # restore temporary ipsets content
     	    if [[ -s "$BACKUP_FOR_ROLLBACK_DIR_str/temporary_ipsets_list.txt" ]]; then
-		NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-		echo "$NOW_YYYYMMDDHHMISS_str;+Restore content of temporary ipsets" &>> $EXEC_RESULT_FILE_str;
+		write_log_func "Restore content of temporary ipsets" "$EXEC_RESULT_FILE_str";
 		
     		while read -r LINE0_str; # LINE0_str = ipset_name
     		do
@@ -173,10 +167,10 @@ do
     	    fi;
     	    ###
     	    
-	    echo "$NOW_YYYYMMDDHHMISS_str;+Remove content from BACKUP_FOR_ROLLBACK_DIR='$BACKUP_FOR_ROLLBACK_DIR_str'" &>> $EXEC_RESULT_FILE_str;
+	    write_log_func "Remove content from BACKUP_FOR_ROLLBACK_DIR='$BACKUP_FOR_ROLLBACK_DIR_str'" "$EXEC_RESULT_FILE_str";
     	    rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*; # remove backup files
     	else
-    	    echo "$NOW_YYYYMMDDHHMISS_str;+Rollback started, but not exists backup_dir_for_rollback='$BACKUP_FOR_ROLLBACK_DIR_str'" &>> $EXEC_RESULT_FILE_str;
+    	    write_log_func "Rollback started, but not exists backup_dir_for_rollback='$BACKUP_FOR_ROLLBACK_DIR_str'" "$EXEC_RESULT_FILE_str";
     	fi;
     	###DO ROLLBACK of firewall rules changes
     	
