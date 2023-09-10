@@ -47,41 +47,39 @@ function write_log_func() {
 ######FUNCTIONS
 
 ###APPLY_RUN_INFO read
-NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
     
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
     RECREATE_TEMPORARY_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_temporary_ipsets_changed'. Set RECREATE_TEMPORARY_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'recreate_temporary_ipsets_changed'. Set RECREATE_TEMPORARY_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_fw_zones_changed" ]]; then
     RECREATE_FW_ZONES_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_fw_zones_changed'. Set RECREATE_FW_ZONES_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'recreate_fw_zones_changed'. Set RECREATE_FW_ZONES_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
     RECREATE_POLICIES_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'recreate_policies_changed'. Set RECREATE_POLICIES_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'recreate_policies_changed'. Set RECREATE_POLICIES_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
     PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'permanent_ipsets_flag_file_changed'. Set PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'permanent_ipsets_flag_file_changed'. Set PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_pwet_changed" ]]; then
@@ -89,26 +87,26 @@ if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_pwet_changed" ]]; t
     PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'permanent_ipsets_flag_file_pwet_changed'. Set PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'permanent_ipsets_flag_file_pwet_changed'. Set PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/temporary_ipsets_flag_file_changed" ]]; then
     TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'temporary_ipsets_flag_file_changed'. Set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'temporary_ipsets_flag_file_changed'. Set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/rollback_fwrules_need_run" ]]; then
     ROLLBACK_FWRULES_NEED_RUN_str='yes';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'rollback_fwrules_need_run'. Set ROLLBACK_FWRULES_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'rollback_fwrules_need_run'. Set ROLLBACK_FWRULES_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/fwconfig_changed" ]]; then
     FWCONFIG_CHANGED_str='yes';
     RELOAD_NEED_RUN_str='no';
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Exists apply-run-info-file 'fwconfig_changed'. Set FWCONFIG_CHANGED='yes', RELOAD_NEED_RUN='yes'" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Exists apply-run-info-file 'fwconfig_changed'. Set FWCONFIG_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
 if [[ "$RELOAD_NEED_RUN_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; then
@@ -120,7 +118,7 @@ if [[ "$RELOAD_NEED_RUN_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; th
     touch "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes";
     ###
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+If RELOAD_NEED_RUN='yes' or FWCONFIG_CHANGED='yes' -> set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes' and create apply-run-info-file 'reload_or_restart_yes' for script 're_add_ipsets_content.sh' (with 'temporary' argv param)" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "If RELOAD_NEED_RUN='yes' or FWCONFIG_CHANGED='yes' -> set TEMPORARY_IPSETS_FLAG_FILE_CHANGED='yes' and create apply-run-info-file 'reload_or_restart_yes' for script 're_add_ipsets_content.sh' (with 'temporary' argv param)" "$EXEC_RESULT_FILE_str";
 fi;
 ###APPLY_RUN_INFO read
 
@@ -128,8 +126,6 @@ fi;
     # For rollback of permanent content/rules. Exception - content of a temporary ipsets.
     # Create "~/ansible_helpers/conf_firewalld/fwrules_backup_now" if need.
 if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
     mkdir -p "$BACKUP_FOR_ROLLBACK_DIR_str";
     rm -rf $BACKUP_FOR_ROLLBACK_DIR_str/*;
     cp -r /etc/firewalld/* "$BACKUP_FOR_ROLLBACK_DIR_str";
@@ -155,14 +151,12 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
     EXE_RES_str='';
     ###
 
-    echo "$NOW_YYYYMMDDHHMISS_str;+Prepare files and ipsets content for rollback (if ROLLBACK_FWRULES_NEED_RUN='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Prepare files and ipsets content for rollback (if ROLLBACK_FWRULES_NEED_RUN='yes')" "$EXEC_RESULT_FILE_str";
 fi;
 ###
 
 # 2) Recreate permanent ipsets (if need).
 if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
     if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
 	# For script 're_add_ipsets_content.sh' with ARGV[0]='permanent'
 	touch "$APPLY_RUN_INFO_DIR_str/is_force_removed_permanent_ipsets";
@@ -176,33 +170,29 @@ if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
 	    grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs rm;
 	fi;
     fi;
-    echo "$NOW_YYYYMMDDHHMISS_str;+FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
     
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
-    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Begin run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
     "$SELF_DIR_str/recreate_permanent_ipsets.sh" &>> $EXEC_RESULT_FILE_str;
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-    echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "End run 'recreate_permanent_ipsets.sh' (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
 
 # 3) Recreate temporary ipsets (if need).
 if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-
     if [[ `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
 	if [[ `grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""` ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
 	fi;
     fi;
-    echo "$NOW_YYYYMMDDHHMISS_str;+FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
 
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
-    echo "$NOW_YYYYMMDDHHMISS_str;+Begin run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "Begin run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
     "$SELF_DIR_str/recreate_temporary_ipsets.sh" &>> $EXEC_RESULT_FILE_str;
-    NOW_YYYYMMDDHHMISS_str=`date '+%Y%m%d%H%M%S'`;
-    echo "$NOW_YYYYMMDDHHMISS_str;+End run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" &>> $EXEC_RESULT_FILE_str;
+    write_log_func "End run 'recreate_temporary_ipsets.sh' (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
     echo '#######################' &>> $EXEC_RESULT_FILE_str;
 fi;
 ###
