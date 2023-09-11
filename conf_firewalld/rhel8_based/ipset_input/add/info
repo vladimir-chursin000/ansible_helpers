@@ -3,4 +3,9 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
     # Add-file name format VER1 - "inventory_host__ipset_template_name.txt". For add entry to ipset at one inv-host.
     # Add-file name format VER2 - "all__ipset_template_name.txt". For add entry to ipset at all inventory hosts.
     # Add-file name format VER3 - "gr_some_group__ipset_template_name.txt". For add entry to ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
-        # One line - one record according to #ipset_type (conf-file "01_conf_ipset_templates").
+        # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
+        # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
+        # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
+        # For temporary ipsets (timeout > 0), the maximum difference between the current date and the expiration date
+            # should not exceed 24 days, 20 hours, 31 minutes and 23 seconds.
+
