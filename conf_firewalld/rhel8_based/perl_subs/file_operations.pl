@@ -220,9 +220,9 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###You CAN manually ADD entries to this file!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime".
+		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
-            	    # Expire datetime has the format "YYYYMMDDHHMISS".
+            	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
             	    # The expire_date mechanism is external. That is, WITHOUT using ipset timeouts on the remote side.
             	    # This file can be used to recreate the set if it was deleted (for some reason) on the side of the inventory host.
             	    # You can manually add entries (according to ipset_type) to this file.
@@ -236,9 +236,9 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record in format "ipset_entry;+expire_datetime".
+		    # One line - one record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
-            	    # Expire datetime has the format "YYYYMMDDHHMISS".
+            	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
 		    # The expire_date mechanism is internal. That is, WITH using ipset timeouts on the remote side.
             	    # Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
 		    # You can manually add entries (according to ipset_type) to this file.

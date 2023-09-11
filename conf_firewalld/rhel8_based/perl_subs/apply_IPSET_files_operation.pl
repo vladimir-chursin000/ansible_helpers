@@ -455,7 +455,7 @@ sub read_local_ipset_input {
 	    	    
 		    if ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'add' ) { # add-operation. If temporary ipset entry or permanent with external timeout
 		    	($ipset_entry_l,$expire_datetime_l)=($1,$2);
-			if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
+			if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format (UTC) is correct
 			    if ( &check_yyyymmddhhmiss_is_expire($expire_datetime_l) ) {
 				$input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
 				$ipset_record_is_ok_l=1;
@@ -770,9 +770,9 @@ sub update_local_ipset_actual_data {
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###You CAN manually ADD entries to this file!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime".
+		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
-            	    # Expire datetime has the format "YYYYMMDDHHMISS".
+            	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
             	    # The expire_date mechanism is external. That is, WITHOUT using ipset timeouts on the remote side.
             	    # This file can be used to recreate the set if it was deleted (for some reason) on the side of the inventory host.
             	    # You can manually add entries (according to ipset_type) to this file.
@@ -786,9 +786,9 @@ sub update_local_ipset_actual_data {
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record in format "ipset_entry;+expire_datetime".
+		    # One line - one record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
-            	    # Expire datetime has the format "YYYYMMDDHHMISS".
+            	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
 		    # The expire_date mechanism is internal. That is, WITH using ipset timeouts on the remote side.
             	    # Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
 		    # You can manually add entries (according to ipset_type) to this file.
@@ -1294,7 +1294,7 @@ sub update_local_ipset_actual_data {
     # operations for permanent ipsets (BEGIN)
 	#$ipset_input_href_l=hash-ref for %ipset_input_l
     	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
-        	#key2=add/del,key3=ipset_entry (according to #ipset_type), value=expire_datetime (0 - no expire, datetime - yes expire)
+        	#key2=add/del,key3=ipset_entry (according to #ipset_type), value=expire_datetime (0 - no expire, datetime_utc - yes expire)
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) { # while ipset_input -> permanent (begin)
     	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
     	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
