@@ -3,7 +3,7 @@
 # Do not change this variables
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
-PLAYBOOK_str='06_temporary_enable_panic_mode_pb.yml';
+PLAYBOOK_str='08_temporary_enable_panic_mode_pb.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='no'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='no';

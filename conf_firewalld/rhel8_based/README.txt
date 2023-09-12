@@ -30,14 +30,14 @@ NOT READY! Some refactoring!
 
 # '03_force_apply_fwrules.sh' = force apply changes (without run installation of 'firewalld') without comparing generated and actual rules.
 
-# '04_get_exec_logs_from_remote.sh' = download execution logs (apply_fwrules.sh and rollback_fwrules_changes.sh) from remote dir
+# '06_get_exec_logs_from_remote.sh' = download execution logs (apply_fwrules.sh and rollback_fwrules_changes.sh) from remote dir
 # '~/ansible_helpers/conf_firewalld/exec_results' to local dir '../run_history/from_remote'.
 # If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip downloading.
 
-# '05_clear_exec_logs_at_remote.sh' = remove logs at remote dir '~/ansible_helpers/conf_firewalld/exec_results'.
+# '07_clear_exec_logs_at_remote.sh' = remove logs at remote dir '~/ansible_helpers/conf_firewalld/exec_results'.
 # If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip removing.
 
-# '06_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
+# '08_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
 
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
@@ -163,17 +163,17 @@ SCRIPTS LOGIC DESCRIPTION
 		    (info) Run without conditions.
 	    2) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
 
-'04_get_exec_logs_from_remote.sh' ->
+'06_get_exec_logs_from_remote.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '04_get_exec_logs_from_remote_pb.yml'.
+	1) Run playbook '06_get_exec_logs_from_remote_pb.yml'.
 
-'05_clear_exec_logs_at_remote.sh' ->
+'07_clear_exec_logs_at_remote.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '05_clear_exec_logs_at_remote_pb.yml'.
+	1) Run playbook '07_clear_exec_logs_at_remote_pb.yml'.
 
-'06_temporary_enable_panic_mode.sh' ->
+'08_temporary_enable_panic_mode.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '06_temporary_enable_panic_mode_pb.yml'.
+	1) Run playbook '08_temporary_enable_panic_mode_pb.yml'.
 
 ##################
 #With best regards
