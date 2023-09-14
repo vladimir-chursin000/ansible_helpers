@@ -14,6 +14,9 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 TMP_VAR_str='';
 ###VARS
 
+###FUNCTIONS
+###FUNCTIONS
+
 ###READ ARGV array
 for TMP_VAR_str in "$@"
 do
