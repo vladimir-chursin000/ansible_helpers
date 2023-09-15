@@ -19,6 +19,8 @@ TMP_VAR_str='';
 for TMP_VAR_str in "$@"
 do
     if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
+        # possible arv values: host_name, "host_name1,host_name2,..." (host names from inventory = "conf_firewall_hosts"),
+            # group name from "00_conf_divisions_for_inv_hosts" (for example, gr_some_group).
 	INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
     elif [[ "$TMP_VAR_str" =~ ^"timeout=" ]]; then
 	TIMEOUT_str=$(echo $TMP_VAR_str | sed s/^"timeout="//);
