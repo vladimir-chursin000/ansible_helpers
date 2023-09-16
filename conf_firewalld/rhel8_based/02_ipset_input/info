@@ -1,8 +1,8 @@
 # If timeout (ipset_create_option_timeout at "01_conf_ipset_templates") = 0 --> ipset is permanent.
 # If timeout > 0 --> ipset is temporary.
 ###
-The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
-"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
+The directory ("02_ipset_input") is intended for preprocessing incoming data for ipset.
+"02_ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
     # Add-file name format VER1 - "inventory_host__ipset_template_name.txt". For add entry to ipset at one inv-host.
     # Add-file name format VER2 - "all__ipset_template_name.txt". For add entry to ipset at all inventory hosts.
     # Add-file name format VER3 - "gr_some_group__ipset_template_name.txt". For add entry to ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
@@ -12,7 +12,7 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
 	# For temporary ipsets (timeout > 0), the maximum difference between the current date and the expiration date
 	    # should not exceed 24 days, 20 hours, 31 minutes and 23 seconds.
 
-"ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
+"02_ipset_input/del" - dir for delete entries from some_ipset. Only for permanent sets (when #ipset_create_option_timeout=0).
     # Delete-file name format VER1 - "inventory_host__ipset_template_name.txt". For remove entry from ipset at one inv-host.
     # Delete-file name format VER2 - "all__ipset_template_name.txt". For remove entry from ipset at all inventory hosts.
     # Delete-file name format VER3 - "gr_some_group__ipset_template_name.txt". For remove entry from ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").
@@ -21,14 +21,14 @@ The directory ("ipset_input") is intended for preprocessing incoming data for ip
 	# "ipset del some_temporary_ipset some_entry (for example, 11.1.2.3)".
 
 ###For add/del-files
-# If the ipset_template does not exist, then the fact of this is recorded in the "ipset_input/history",
-# and the file is moved to the directory "ipset_input/history/incorrect_input_files".
+# If the ipset_template does not exist, then the fact of this is recorded in the "02_ipset_input/history",
+# and the file is moved to the directory "02_ipset_input/history/incorrect_input_files".
 #
 # If a ipset_template is not registered (via "66_conf_ipsets_FIN") for inventory_host, then the fact of this
-# will be recorded in the "ipset_input/history" and file will be moved to the "ipset_input/history/incorrect_input_files".
+# will be recorded in the "02_ipset_input/history" and file will be moved to the "02_ipset_input/history/incorrect_input_files".
 ###
 
-"ipset_input/history" - dir for save add/del history.
+"02_ipset_input/history" - dir for save add/del history.
     # File name format - "DATE-history.log"
         # Record format - "WRITE_LOG_DATETIME;+INPUT_OP_TYPE;+INPUT_FILE_NAME;+INPUT_FILE_CREATE_DATETIME;+INV_HOST;+IPSET_TEMPLATE_NAME;+IPSET_NAME;+IPSET_TYPE_BY_TIME;+IPSET_TYPE;+RECORD;+STATUS"
     	    # WRITE_LOG_DATETIME - format "YYYYMMDDHHMISS".

@@ -88,7 +88,7 @@ our $scripts_for_remote_dir_g=$self_dir_g.'/playbooks/scripts_for_remote';
 our $dyn_fwrules_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files'; # dir for recreate shell-scripts for executing it at remote side (if need)
 
 #for IPSET_files_operation.pl (sub=apply_IPSET_files_operation_main)
-our $ipset_input_dir_g=$self_dir_g.'/ipset_input';
+our $ipset_input_dir_g=$self_dir_g.'/02_ipset_input';
 our $ipset_actual_data_dir_g=$self_dir_g.'/ipset_actual_data';
 ############STATIC VARS
 

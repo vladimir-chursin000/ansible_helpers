@@ -1,5 +1,5 @@
-The directory ("ipset_input") is intended for preprocessing incoming data for ipset.
-"ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
+The directory ("02_ipset_input") is intended for preprocessing incoming data for ipset.
+"02_ipset_input/add" - dir for add entries to some_ipset (for permanent and temporary sets).
     # Add-file name format VER1 - "inventory_host__ipset_template_name.txt". For add entry to ipset at one inv-host.
     # Add-file name format VER2 - "all__ipset_template_name.txt". For add entry to ipset at all inventory hosts.
     # Add-file name format VER3 - "gr_some_group__ipset_template_name.txt". For add entry to ipset at hosts of the group (configured at "00_conf_divisions_for_inv_hosts").

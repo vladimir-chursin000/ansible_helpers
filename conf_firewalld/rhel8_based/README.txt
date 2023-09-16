@@ -78,7 +78,7 @@ SCRIPTS LOGIC DESCRIPTION
 		(info) Read file 'fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt' to hash '%inv_hosts_network_data_g'.
 	    4) Read configuration files from dir '01_fwrules_configs' to several hashes.
 	    5) Run procedure 'apply_IPSET_files_operation_main'.
-		(info) Handles the contents of directories 'ipset_input' and 'ipset_actual_data'.
+		(info) Handles the contents of directories '02_ipset_input' and 'ipset_actual_data'.
     	    6) Generate new sh/conf-files (and other files) at 'scripts_for_remote/fwrules_files'.
 	3) Run playbook '00_IMPORT_install_firewall_n_conf_fwrules_pb.yml' ->
 	    1) Run blaybook '00_just_install_firewall_pb.yml'.

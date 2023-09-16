@@ -1,4 +1,4 @@
-"ipset_input/history" - dir for save add/del history.
+"02_ipset_input/history" - dir for save add/del history.
     # File name format - "DATE-history.log"
         # Record format - "WRITE_LOG_DATETIME;+INPUT_OP_TYPE;+INPUT_FILE_NAME;+INPUT_FILE_CREATE_DATETIME;+INV_HOST;+IPSET_TEMPLATE_NAME;+IPSET_NAME;+IPSET_TYPE_BY_TIME;+IPSET_TYPE;+RECORD;+STATUS"
             # WRITE_LOG_DATETIME - format "YYYYMMDDHHMISS".
