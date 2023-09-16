@@ -2,7 +2,7 @@ Subfolders (pointing to a specific "inv-host" and "ipset_template_name" in the p
 in this directory (using the "IPSET_files_operation.pl" script).
 ########################
 Directory structure
-...ipset_actual_data/inv-host/... (dir)
+...03_ipset_actual_data/inv-host/... (dir)
 	permanent/ipset_template_name/... (dir)
     	    actual__ipset_name.txt (file)
 		# First line - description like "###You CAN manually ADD entries to this file!".
