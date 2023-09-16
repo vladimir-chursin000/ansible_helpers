@@ -2,7 +2,7 @@ NOT READY! Some refactoring!
 ####
 # 1) UPDATE list (for install and configure firewall) of ip addresses = conf_firewall_hosts (inventory).
 
-# 2) Fill conf files at dir 'fwrules_configs'.
+# 2) Fill conf files at dir '01_fwrules_configs'.
 
 # 3) Make sure that the pub-ssh-key is thrown to the hosts (conf_firewall_hosts).
 
@@ -26,7 +26,7 @@ NOT READY! Some refactoring!
 
 # '03_apply_temporary_fwrules.sh' = run for temporary apply changes (without run installation of 'firewalld') if generated firewall rules differs from actual rules.
 # Before apply changes starts script 'rollback_fwrules_changes.sh' on remote host for
-# rollback changes after N minutes (rollback_timeout configuration = 'fwrules_configs/config_temporary_apply_fwrules').
+# rollback changes after N minutes (param 'temporary_apply_fwrules_timeout' at conf '01_fwrules_configs/00_conf_firewalld').
 
 # '03_force_apply_fwrules.sh' = force apply changes (without run installation of 'firewalld') without comparing generated and actual rules.
 
@@ -76,7 +76,7 @@ SCRIPTS LOGIC DESCRIPTION
 		(info) REad file 'conf_firewall_hosts' to hash '%inventory_hosts_g'.
 	    3) Run procedure 'read_network_data_for_checks'.
 		(info) Read file 'fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt' to hash '%inv_hosts_network_data_g'.
-	    4) Read configuration files from dir 'fwrules_configs' to several hashes.
+	    4) Read configuration files from dir '01_fwrules_configs' to several hashes.
 	    5) Run procedure 'apply_IPSET_files_operation_main'.
 		(info) Handles the contents of directories 'ipset_input' and 'ipset_actual_data'.
     	    6) Generate new sh/conf-files (and other files) at 'scripts_for_remote/fwrules_files'.

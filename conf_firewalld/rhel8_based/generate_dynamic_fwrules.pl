@@ -66,18 +66,18 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
 #88_conf_policies_FIN
 ###
 our $inventory_conf_path_g=$self_dir_g.'/conf_firewall_hosts';
-our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/fwrules_configs/00_conf_divisions_for_inv_hosts';
-our $f00_conf_firewalld_path_g=$self_dir_g.'/fwrules_configs/00_conf_firewalld';
-our $f01_conf_ipset_templates_path_g=$self_dir_g.'/fwrules_configs/01_conf_ipset_templates';
-our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_configs/02_conf_custom_firewall_zones_templates';
-our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/fwrules_configs/02_conf_standard_firewall_zones_templates';
-our $f03_conf_policy_templates_path_g=$self_dir_g.'/fwrules_configs/03_conf_policy_templates';
-our $f04_conf_zone_forward_ports_sets_path_g=$self_dir_g.'/fwrules_configs/04_conf_zone_forward_ports_sets';
-our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/fwrules_configs/05_conf_zone_rich_rules_sets';
-our $f65_conf_initial_ipsets_content_FIN_path_g=$self_dir_g.'/fwrules_configs/65_conf_initial_ipsets_content_FIN';
-our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/fwrules_configs/66_conf_ipsets_FIN';
-our $f77_conf_zones_FIN_path_g=$self_dir_g.'/fwrules_configs/77_conf_zones_FIN';
-our $f88_conf_policies_FIN_path_g=$self_dir_g.'/fwrules_configs/88_conf_policies_FIN';
+our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/01_fwrules_configs/00_conf_divisions_for_inv_hosts';
+our $f00_conf_firewalld_path_g=$self_dir_g.'/01_fwrules_configs/00_conf_firewalld';
+our $f01_conf_ipset_templates_path_g=$self_dir_g.'/01_fwrules_configs/01_conf_ipset_templates';
+our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/01_fwrules_configs/02_conf_custom_firewall_zones_templates';
+our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/01_fwrules_configs/02_conf_standard_firewall_zones_templates';
+our $f03_conf_policy_templates_path_g=$self_dir_g.'/01_fwrules_configs/03_conf_policy_templates';
+our $f04_conf_zone_forward_ports_sets_path_g=$self_dir_g.'/01_fwrules_configs/04_conf_zone_forward_ports_sets';
+our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/01_fwrules_configs/05_conf_zone_rich_rules_sets';
+our $f65_conf_initial_ipsets_content_FIN_path_g=$self_dir_g.'/01_fwrules_configs/65_conf_initial_ipsets_content_FIN';
+our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/01_fwrules_configs/66_conf_ipsets_FIN';
+our $f77_conf_zones_FIN_path_g=$self_dir_g.'/01_fwrules_configs/77_conf_zones_FIN';
+our $f88_conf_policies_FIN_path_g=$self_dir_g.'/01_fwrules_configs/88_conf_policies_FIN';
 ###
 our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth) downloaded from remote hosts with help of playbook 'fwrules_backup_playbook.yml' before run this script
 ############CFG file
