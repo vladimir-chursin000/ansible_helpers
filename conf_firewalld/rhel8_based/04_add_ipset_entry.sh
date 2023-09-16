@@ -14,8 +14,9 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 TMP_VAR_str='';
 ###VARS
 
-###FUNCTIONS
-###FUNCTIONS
+###IMPORT FUNCTIONS
+source "$SELF_DIR_str/bash_subs/common_operations.sh";
+###IMPORT FUNCTIONS
 
 ###READ ARGV array
 for TMP_VAR_str in "$@"
