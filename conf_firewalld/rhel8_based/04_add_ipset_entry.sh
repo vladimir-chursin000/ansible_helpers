@@ -12,6 +12,7 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 
 ###VARS
 TMP_VAR_str='';
+IPSET_LIST_str='';
 ###VARS
 
 ###IMPORT FUNCTIONS
@@ -26,6 +27,8 @@ do
 	    # group name from "00_conf_divisions_for_inv_hosts" (for example, gr_some_group).
 	# special value = "all" (only for '04_add_ipset_entry.sh' and '05_del_ipset_entry.sh').
         INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
+    elif [[ "$TMP_VAR_str" =~ ^"ipset_list=" ]]; then
+	IPSET_LIST_str=$(echo $TMP_VAR_str | sed s/^"ipset_list="//);
     fi;
 done;
 ###READ ARGV array
