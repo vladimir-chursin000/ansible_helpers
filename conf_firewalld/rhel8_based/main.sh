@@ -33,9 +33,9 @@ echo "Used playbook: $SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_s
 echo "Start time: $NOW_DT_str" | tee -a $LOG_FILE_str;
 echo "#########" | tee -a $LOG_FILE_str;
 
-if [[ "$INV_LIMIT_str" == "no" ]]; then
+if [[ "$INV_LIMIT_str" == "no" || "$INV_LIMIT_str" == "all" ]]; then
     INV_LIMIT_str='';
-    echo "INV_LIMIT = not defined" | tee -a $LOG_FILE_str;
+    echo "INV_LIMIT = not defined or 'all'" | tee -a $LOG_FILE_str;
 elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
     echo "INV_LIMIT = '$INV_LIMIT_str' (group_name from cfg='00_conf_divisions_for_inv_hosts')" | tee -a $LOG_FILE_str;
     TMP_VAR_str=$(grep ^"gr_" $CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str | grep $INV_LIMIT_str | sed 's/\t//g' | sed 's/\s//g' | sed s/"$INV_LIMIT_str"//);
