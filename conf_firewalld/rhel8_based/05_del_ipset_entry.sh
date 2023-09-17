@@ -24,6 +24,7 @@ do
     if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
         # possible argv values: host_name, "host_name1,host_name2,..." (host names from inventory = "conf_firewall_hosts"),
             # group name from "00_conf_divisions_for_inv_hosts" (for example, gr_some_group).
+	# special value = "all" (only for '04_add_ipset_entry.sh' and '05_del_ipset_entry.sh').
         INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
     fi;
 done;
