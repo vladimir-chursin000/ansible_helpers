@@ -29,9 +29,6 @@ do
 done;
 ###READ ARGV array
 
-###READ USER MANUAL INPUT (if the basic parameters are not filled in)
-###READ USER MANUAL INPUT
-
 ###CORRECT DEFAULT INPUT VARS (if need)
 ###CORRECT DEFAULT INPUT VARS
 
