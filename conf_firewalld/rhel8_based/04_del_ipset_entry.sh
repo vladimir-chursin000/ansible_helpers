@@ -6,7 +6,7 @@ SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
 PLAYBOOK_str='03_IMPORT_fwrules_apply_immediately_pb.yml'; # def
 LOG_DIR_str="$SELF_DIR_str/run_history";
-PLAYBOOK_BEFORE_str='no'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
+PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='yes'; # def
 ###DEFAULT INPUT VARS
 
@@ -41,6 +41,10 @@ done;
 ###READ ARGV array
 
 ###CORRECT DEFAULT INPUT VARS (if need)
+if [[ "$NEED_ROLLBACK_str" == "yes" ]]; then
+    PLAYBOOK_str='03_IMPORT_fwrules_apply_temporary_pb.yml';
+    GEN_DYN_FWRULES_RUN_str='yes_with_rollback';
+fi;
 ###CORRECT DEFAULT INPUT VARS
 
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
