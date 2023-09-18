@@ -47,4 +47,7 @@ if [[ "$NEED_ROLLBACK_str" == "yes" ]]; then
 fi;
 ###CORRECT DEFAULT INPUT VARS
 
+###CREATE INPUT FILE for ADD (at '02_ipset_input')
+###CREATE INPUT FILE for ADD
+
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
