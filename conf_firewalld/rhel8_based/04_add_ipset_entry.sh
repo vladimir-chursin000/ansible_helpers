@@ -14,6 +14,7 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 TMP_VAR_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
+NEED_ROLLBACK_str='no';
 ###VARS
 
 ###IMPORT FUNCTIONS
@@ -32,6 +33,9 @@ do
 	IPSET_TMPLT_NAME_str=$(echo $TMP_VAR_str | sed s/^"ipset_tmplt_name="//);
     elif [[ "$TMP_VAR_str" =~ ^"ipset_list=" ]]; then
 	IPSET_LIST_str=$(echo $TMP_VAR_str | sed s/^"ipset_list="//);
+    elif [[ "$TMP_VAR_str" =~ ^"rollback=" ]]; then
+	# possible values: no, yes
+	NEED_ROLLBACK_str=$(echo $TMP_VAR_str | sed s/^"rollback="//);
     fi;
 done;
 ###READ ARGV array
