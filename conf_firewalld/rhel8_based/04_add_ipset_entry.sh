@@ -3,7 +3,7 @@
 ###DEFAULT INPUT VARS (for main.sh)
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
-INV_LIMIT_str='no';
+INV_LIMIT_str='all'; # only for '04_add_ipset_entry.sh' or '04_del_ipset_entry.sh'
 PLAYBOOK_str='03_IMPORT_fwrules_apply_immediately_pb.yml'; # def
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
