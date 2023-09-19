@@ -10,12 +10,15 @@ PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml'; #for run before script 'generate
 GEN_DYN_FWRULES_RUN_str='yes'; # def
 ###DEFAULT INPUT VARS
 
+###STATIC VARS
+OPERATION_str='add';
+###STATIC VARS
+
 ###VARS
 TMP_VAR_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
 NEED_ROLLBACK_str='no';
-OPERATION_str='add';
 
 declare -a INV_LIMIT_arr;
 ###VARS

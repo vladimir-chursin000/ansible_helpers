@@ -10,12 +10,15 @@ PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml'; #for run before script 'generate
 GEN_DYN_FWRULES_RUN_str='yes'; # def
 ###DEFAULT INPUT VARS
 
+###STATIC VARS
+OPERATION_str='del';
+###STATIC VARS
+
 ###VARS
 TMP_VAR_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
 NEED_ROLLBACK_str='no';
-OPERATION_str='del';
 
 declare -a INV_LIMIT_arr;
 ###VARS
@@ -30,7 +33,7 @@ do
     if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
         # possible argv values: host_name, "host_name1,host_name2,..." (host names from inventory = "conf_firewall_hosts"),
             # group name from "00_conf_divisions_for_inv_hosts" (for example, gr_some_group).
-	# special value = "all" (only for '04_add_ipset_entry.sh' and '05_del_ipset_entry.sh').
+	# special value = "all" (only for '04_add_ipset_entry.sh' and '04_del_ipset_entry.sh').
         INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
     elif [[ "$TMP_VAR_str" =~ ^"ipset_tmplt_name=" ]]; then
         IPSET_TMPLT_NAME_str=$(echo $TMP_VAR_str | sed s/^"ipset_tmplt_name="//);
