@@ -21,6 +21,10 @@ IPSET_LIST_str='no';
 NEED_ROLLBACK_str='no';
 
 declare -a INV_LIMIT_arr;
+
+NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
+CUR_USER_str=`id -u -n`;
+LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 ###VARS
 
 ###IMPORT FUNCTIONS
@@ -54,10 +58,21 @@ fi;
 ###CORRECT DEFAULT INPUT VARS
 
 ###CHECK INPUT VARS
+if [[ "$INV_LIMIT_str" =~ "all" && "$INV_LIMIT_str" != "all" ]]; then
+    # if INV_LIMIT contains 'all', but not eq 'all' -> exit!
+    echo "INV_LIMIT not eq 'all'. Exit!";
+    exit;
+elif [[ "$INV_LIMIT_str" =~ "gr_" && "$INV_LIMIT_str" =~ "," ]]; then
+    # if INV_LIMIT contains 'gr_', but also contains ',' -> exit!
+    echo "INV_LIMIT contains 'gr_', but also contains ','. Exit!";
+    exit;
+fi;
 ###CHECK INPUT VARS
 
 ###CREATE INPUT FILE for ADD (at dir '02_ipset_input')
 INV_LIMIT_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
 ###CREATE INPUT FILE for ADD
+
+exit; # for test
 
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
