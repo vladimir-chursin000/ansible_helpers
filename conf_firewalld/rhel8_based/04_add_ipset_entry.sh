@@ -50,6 +50,9 @@ if [[ "$NEED_ROLLBACK_str" == "yes" ]]; then
 fi;
 ###CORRECT DEFAULT INPUT VARS
 
+###CHECK INPUT VARS
+###CHECK INPUT VARS
+
 ###CREATE INPUT FILE for ADD (at dir '02_ipset_input')
 INV_LIMIT_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
 ###CREATE INPUT FILE for ADD
