@@ -15,6 +15,7 @@ TMP_VAR_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
 NEED_ROLLBACK_str='no';
+OPERATION_str='del';
 
 declare -a INV_LIMIT_arr;
 ###VARS
