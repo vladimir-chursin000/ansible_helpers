@@ -15,6 +15,8 @@ TMP_VAR_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
 NEED_ROLLBACK_str='no';
+
+declare -a INV_LIMIT_arr;
 ###VARS
 
 ###IMPORT FUNCTIONS
@@ -48,6 +50,7 @@ fi;
 ###CORRECT DEFAULT INPUT VARS
 
 ###CREATE INPUT FILE for ADD (at dir '02_ipset_input')
+INV_LIMIT_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
 ###CREATE INPUT FILE for ADD
 
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";
