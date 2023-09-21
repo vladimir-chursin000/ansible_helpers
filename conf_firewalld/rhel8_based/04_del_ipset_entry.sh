@@ -58,6 +58,20 @@ fi;
 ###CORRECT DEFAULT INPUT VARS
 
 ###CHECK INPUT VARS
+#check INV_LIMIT_str
+if [[ "$INV_LIMIT_str" =~ "all" && "$INV_LIMIT_str" != "all" ]]; then
+    # if INV_LIMIT contains 'all', but not eq 'all' -> exit!
+    echo "INV_LIMIT not eq 'all'. Exit!";
+    exit;
+elif [[ "$INV_LIMIT_str" =~ "gr_" && "$INV_LIMIT_str" =~ "," ]]; then
+    # if INV_LIMIT contains 'gr_', but also contains ',' -> exit!
+    echo "INV_LIMIT contains 'gr_', but also contains ','. Exit!";
+    exit;
+fi;
+#
+
+# check IPSET_TMPLT_NAME_str
+#
 ###CHECK INPUT VARS
 
 ###CREATE INPUT FILE for DEL (at dir '02_ipset_input')
