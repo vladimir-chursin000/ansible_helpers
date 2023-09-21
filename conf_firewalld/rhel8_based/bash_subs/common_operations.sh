@@ -1,5 +1,6 @@
 function check_inv_limit_func() {
     local local_inv_limit_str=$1;
+    
     local local_result_str='ok';
     
     if [[ "$local_inv_limit_str" =~ "all" && "$local_inv_limit_str" != "all" ]]; then
@@ -12,6 +13,18 @@ function check_inv_limit_func() {
     
     echo $local_result_str;
 }
+
+function check_ipset_tmplt_name_func() {
+    local local_ipset_tmplt_name_str=$1;
+    local local_conf_ipset_templates_fpath_str=$2;
+    
+    local local_exec_res_str='';
+        
+    local local_result_str='ok';
+    
+    echo $local_result_str;
+}
+
 
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
