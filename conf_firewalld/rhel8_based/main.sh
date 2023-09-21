@@ -47,7 +47,7 @@ elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
     for TMP_VAR_str in "${TMP_arr[@]}"
     do
 	if [[ `grep -Fx "$TMP_VAR_str" $INV_FILE_str | wc -l` != "1" ]]; then
-	    echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!";
+	    echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!" | tee -a $LOG_FILE_str;
 	    exit;
 	fi;
     done;
@@ -61,7 +61,7 @@ else
     for TMP_VAR_str in "${TMP_arr[@]}"
     do
 	if [[ `grep -Fx "$TMP_VAR_str" $INV_FILE_str | wc -l` != "1" ]]; then
-	    echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!";
+	    echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!" | tee -a $LOG_FILE_str;
 	    exit;
 	fi;
     done;
