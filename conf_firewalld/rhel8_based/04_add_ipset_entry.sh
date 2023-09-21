@@ -16,6 +16,7 @@ OPERATION_str='add';
 
 ###VARS
 TMP_VAR_str='';
+EXEC_RES_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
 NEED_ROLLBACK_str='no';
@@ -26,6 +27,10 @@ NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
 CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 ###VARS
+
+###CREATE LOG_DIR
+/usr/bin/mkdir -p "$LOG_DIR_str";
+###CREATE LOG_DIR
 
 ###IMPORT FUNCTIONS
 source "$SELF_DIR_str/bash_subs/common_operations.sh";
@@ -58,14 +63,9 @@ fi;
 ###CORRECT DEFAULT INPUT VARS
 
 ###CHECK INPUT VARS
-#check INV_LIMIT_str
-if [[ "$INV_LIMIT_str" =~ "all" && "$INV_LIMIT_str" != "all" ]]; then
-    # if INV_LIMIT contains 'all', but not eq 'all' -> exit!
-    echo "INV_LIMIT not eq 'all'. Exit!";
-    exit;
-elif [[ "$INV_LIMIT_str" =~ "gr_" && "$INV_LIMIT_str" =~ "," ]]; then
-    # if INV_LIMIT contains 'gr_', but also contains ',' -> exit!
-    echo "INV_LIMIT contains 'gr_', but also contains ','. Exit!";
+EXEC_RES_str=$(check_inv_limit_func "$INV_LIMIT_str");
+if [[ "$EXEC_RES_str" != 'ok' ]]; then
+    echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
     exit;
 fi;
 #
