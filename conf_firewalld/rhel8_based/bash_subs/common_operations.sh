@@ -19,8 +19,13 @@ function check_ipset_tmplt_name_func() {
     local local_conf_ipset_templates_fpath_str=$2;
     
     local local_exec_res_str='';
-        
     local local_result_str='ok';
+    
+    local_exec_res_str=$(grep "\[$local_ipset_tmplt_name_str:BEGIN\]" $local_conf_ipset_templates_fpath_str | grep -v "#" | wc -l);
+    
+    if [[ "$local_exec_res_str" -ne "1" ]]; then
+	local_result_str="fail. TMPLT_NAME='$local_ipset_tmplt_name_str' not configured at '$local_conf_ipset_templates_fpath_str'";
+    fi;
     
     echo $local_result_str;
 }

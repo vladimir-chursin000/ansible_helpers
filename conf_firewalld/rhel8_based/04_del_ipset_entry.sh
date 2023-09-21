@@ -12,6 +12,7 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 
 ###STATIC VARS
 OPERATION_str='del';
+CONF_IPSETS_TEMPLATES_PATH_str="$SELF_DIR_str/01_fwrules_configs/01_conf_ipset_templates";
 ###STATIC VARS
 
 ###VARS
@@ -72,6 +73,11 @@ fi;
 #
 
 # check IPSET_TMPLT_NAME_str
+EXEC_RES_str=$(check_ipset_tmplt_name_func "$IPSET_TMPLT_NAME_str" "$CONF_IPSETS_TEMPLATES_PATH_str");
+if [[ "$EXEC_RES_str" != 'ok' ]]; then
+    echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
+    exit;
+fi;
 #
 ###CHECK INPUT VARS
 
