@@ -79,6 +79,9 @@ if [[ "$EXEC_RES_str" != 'ok' ]]; then
     exit;
 fi;
 #
+
+# check IPSET_TMPLT_NAME_str + INV_LIMIT_arr is configured at '66_conf_ipsets_FIN'
+#
 ###CHECK INPUT VARS
 
 ###CREATE INPUT FILE for DEL (at dir '02_ipset_input')
