@@ -32,6 +32,13 @@ function check_ipset_tmplt_name_func() {
 
 function is_ipset_tmplt_configured_at_66_func() {
     local local_inv_limit_str=$1;
+    local local_ipset_tmplt_name_str=$2;
+    local local_conf_ipset_66_fpath_str=$3;
+
+    local local_exec_res_str='';
+    local local_result_str='ok';
+
+    echo $local_result_str;
 }
 
 #With best regards
