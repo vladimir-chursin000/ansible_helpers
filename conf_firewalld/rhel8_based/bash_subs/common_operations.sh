@@ -30,6 +30,9 @@ function check_ipset_tmplt_name_func() {
     echo $local_result_str;
 }
 
+function is_ipset_tmplt_configured_at_66_func() {
+    local local_inv_limit_str=$1;
+}
 
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

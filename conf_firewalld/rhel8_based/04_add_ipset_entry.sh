@@ -13,6 +13,7 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 ###STATIC VARS
 OPERATION_str='add';
 CONF_IPSETS_TEMPLATES_PATH_str="$SELF_DIR_str/01_fwrules_configs/01_conf_ipset_templates";
+CONF_IPSETS_FIN_PATH_str="$SELF_DIR_str/01_fwrules_configs/66_conf_ipsets_FIN";
 ###STATIC VARS
 
 ###VARS
@@ -80,6 +81,11 @@ fi;
 #
 
 # check IPSET_TMPLT_NAME_str + INV_LIMIT_arr is configured at '66_conf_ipsets_FIN'
+EXEC_RES_str=$(is_ipset_tmplt_configured_at_66_func "$INV_LIMIT_str" "$IPSET_TMPLT_NAME_str" "$CONF_IPSETS_FIN_PATH_str");
+if [[ "$EXEC_RES_str" != 'ok' ]]; then
+    echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
+    exit;
+fi;
 #
 ###CHECK INPUT VARS
 
