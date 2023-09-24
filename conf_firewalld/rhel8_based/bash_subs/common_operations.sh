@@ -26,6 +26,14 @@ function check_inv_limit_func() {
     fi;
     #
     
+    # check inv-limit if 'inv-limit-type=group' or 'inv-limit-type=group'
+    if [[ "$local_inv_limit_type_str" == "group" ]]; then
+	echo 'test-tmp';
+    elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
+	echo 'test-tmp';
+    fi;
+    #
+
     echo $local_result_str;
 }
 
