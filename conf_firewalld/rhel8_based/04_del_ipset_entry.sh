@@ -67,8 +67,8 @@ fi;
 ###CORRECT DEFAULT INPUT VARS
 
 ###CHECK INPUT VARS
-#check INV_LIMIT_str
-EXEC_RES_str=$(check_inv_limit_func "$INV_LIMIT_str");
+# check INV_LIMIT_str
+EXEC_RES_str=$(check_inv_limit_func "$INV_LIMIT_str" "$INV_FILE_PATH_str" "$CONF_DIVISIONS_PATH_str");
 if [[ "$EXEC_RES_str" != 'ok' ]]; then
     echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
     exit;

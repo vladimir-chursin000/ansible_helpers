@@ -3,8 +3,10 @@ function check_inv_limit_func() {
     local local_inv_file_path_str=$2;
     local local_conf_divisions_fpath_str=$3;
     
+    local local_inv_limit_type_str='all';
     local local_result_str='ok';
     
+    # check for 'all' and 'gr_'
     if [[ "$local_inv_limit_str" =~ "all" && "$local_inv_limit_str" != "all" ]]; then
 	# if INV_LIMIT contains 'all', but not eq 'all' -> exit!
 	local_result_str="fail. INV_LIMIT not eq 'all'. Exit!";
@@ -12,6 +14,17 @@ function check_inv_limit_func() {
 	# if INV_LIMIT contains 'gr_', but also contains ',' -> exit!
 	local_result_str="fail. INV_LIMIT contains 'gr_', but also contains ','. Exit!";
     fi;
+    #
+    
+    # detect 'local_inv_limit_type_str'
+    if [[ "$local_inv_limit_str" =~ ^"gr_" && "$local_inv_limit_str" != "all" ]]; then
+	# if limit = some group from 'local_conf_divisions_fpath_str'
+	local_inv_limit_type_str='group';
+    elif [[ ! "$local_inv_limit_str" =~ ^"gr_" && "$local_inv_limit_str" != "all" ]]; then
+	# if limit = list of hosts or single host
+	local_inv_limit_type_str='host_list';
+    fi;
+    #
     
     echo $local_result_str;
 }
