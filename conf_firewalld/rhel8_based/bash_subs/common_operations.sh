@@ -28,8 +28,10 @@ function check_inv_limit_func() {
     
     # check inv-limit if 'inv-limit-type=group' or 'inv-limit-type=group'
     if [[ "$local_inv_limit_type_str" == "group" ]]; then
+	# check for "is exists group at 'local_conf_divisions_fpath_str'"
 	echo 'test-tmp';
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
+	# check for "is exists hosts at 'local_inv_file_path_str'"
 	echo 'test-tmp';
     fi;
     #
