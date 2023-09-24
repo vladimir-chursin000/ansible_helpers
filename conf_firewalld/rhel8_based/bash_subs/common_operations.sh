@@ -30,9 +30,9 @@ function check_inv_limit_func() {
     # check inv-limit if 'inv-limit-type=group' or 'inv-limit-type=group'
     if [[ "$local_inv_limit_type_str" == "group" ]]; then
 	# check for "is exists group at 'local_conf_divisions_fpath_str'"
-	local_exec_res_str=$(grep "$local_inv_limit_str" $local_conf_divisions_fpath_str | grep -v "^#" | wc -l);
+	local_exec_res_str=$(grep "$local_inv_limit_str" "$local_conf_divisions_fpath_str" | grep -v "^#" | wc -l);
 	if [[ "$local_exec_res_str" -ne "1" ]]; then
-    	    local_result_str="fail. GROUP='$local_inv_limit_str' not configured at '$local_conf_divisions_fpath_str'";
+    	    local_result_str="fail. GROUP='$local_inv_limit_str' is not configured at '$local_conf_divisions_fpath_str'";
 	fi;
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
 	# check for "is exists hosts at 'local_inv_file_path_str'"
@@ -50,7 +50,7 @@ function check_ipset_tmplt_name_func() {
     local local_exec_res_str='';
     local local_result_str='ok';
     
-    local_exec_res_str=$(grep "\[$local_ipset_tmplt_name_str:BEGIN\]" $local_conf_ipset_templates_fpath_str | grep -v "^#" | wc -l);
+    local_exec_res_str=$(grep "\[$local_ipset_tmplt_name_str:BEGIN\]" "$local_conf_ipset_templates_fpath_str" | grep -v "^#" | wc -l);
     if [[ "$local_exec_res_str" -ne "1" ]]; then
 	local_result_str="fail. TMPLT_NAME='$local_ipset_tmplt_name_str' not configured at '$local_conf_ipset_templates_fpath_str'";
     fi;
