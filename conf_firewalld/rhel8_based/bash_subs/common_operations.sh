@@ -73,9 +73,20 @@ function is_ipset_tmplt_configured_at_66_func() {
     local local_inv_limit_str=$1;
     local local_ipset_tmplt_name_str=$2;
     local local_conf_ipset_66_fpath_str=$3;
-
+    
+    local local_inv_limit_type_str='all';
     local local_exec_res_str='';
     local local_result_str='ok';
+
+    # detect 'local_inv_limit_type_str'
+    if [[ "$local_inv_limit_str" =~ ^"gr_" && "$local_inv_limit_str" != "all" ]]; then
+	# if limit = some group from 'local_conf_divisions_fpath_str'
+	local_inv_limit_type_str='group';
+    elif [[ ! "$local_inv_limit_str" =~ ^"gr_" && "$local_inv_limit_str" != "all" ]]; then
+	# if limit = list of hosts or single host
+	local_inv_limit_type_str='host_list';
+    fi;
+    #
 
     echo $local_result_str;
 }
