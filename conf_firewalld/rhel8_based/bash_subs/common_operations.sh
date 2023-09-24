@@ -6,6 +6,7 @@ function check_inv_limit_func() {
     local local_inv_limit_type_str='all';
     local local_exec_res_str='';
     local local_inv_limit_arr=();
+    local local_arr_el0_str='';
     local local_result_str='ok';
     
     # check for 'all' and 'gr_'
@@ -38,6 +39,15 @@ function check_inv_limit_func() {
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
 	# check for "is exists hosts at 'local_inv_file_path_str'"
 	local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
+
+	for local_arr_el0_str in "${local_inv_limit_arr[@]}"
+	do
+	    local_exec_res_str=$(grep "$local_arr_el0_str" "$local_inv_file_path_str" | grep -v "^#" | wc -l);
+	    if [[ "$local_exec_res_str" -ne "1" ]]; then
+    		local_result_str="fail. Host='$local_arr_el0_str' is not exists at inventory '$local_inv_file_path_str'";
+		break;
+	    fi;
+	done;
     fi;
     #
 
