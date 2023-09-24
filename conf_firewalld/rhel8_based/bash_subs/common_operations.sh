@@ -5,6 +5,7 @@ function check_inv_limit_func() {
     
     local local_inv_limit_type_str='all';
     local local_exec_res_str='';
+    local local_inv_limit_arr=();
     local local_result_str='ok';
     
     # check for 'all' and 'gr_'
@@ -36,7 +37,7 @@ function check_inv_limit_func() {
 	fi;
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
 	# check for "is exists hosts at 'local_inv_file_path_str'"
-	echo 'test-tmp';
+	local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
     fi;
     #
 
