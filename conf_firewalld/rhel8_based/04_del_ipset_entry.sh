@@ -12,6 +12,7 @@ GEN_DYN_FWRULES_RUN_str='yes'; # def
 
 ###STATIC VARS
 OPERATION_str='del';
+INV_FILE_PATH_str="$SELF_DIR_str/conf_firewall_hosts";
 CONF_IPSETS_TEMPLATES_PATH_str="$SELF_DIR_str/01_fwrules_configs/01_conf_ipset_templates";
 CONF_IPSETS_FIN_PATH_str="$SELF_DIR_str/01_fwrules_configs/66_conf_ipsets_FIN";
 ###STATIC VARS
