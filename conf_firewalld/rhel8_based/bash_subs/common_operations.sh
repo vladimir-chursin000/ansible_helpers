@@ -88,6 +88,19 @@ function is_ipset_tmplt_configured_at_66_func() {
     fi;
     #
 
+    # check inv-limit is conf at 'local_conf_ipset_66_fpath_str'
+    if [[ "$local_inv_limit_type_str" == "group" ]]; then
+	# check for "is configured group at 'local_conf_ipset_66_fpath_str' for tmplt"
+	echo 'tst-tmp';
+    elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
+	# check for "is configured hosts at 'local_conf_ipset_66_fpath_str' for tmplt"
+	echo 'tst-tmp';
+    elif [[ "$local_inv_limit_type_str" == "all" ]]; then
+	# check for "is configured 'all' at 'local_conf_ipset_66_fpath_str' for tmplt"
+	echo 'tst-tmp';
+    fi;
+    #
+
     echo $local_result_str;
 }
 
