@@ -1,5 +1,7 @@
 function check_inv_limit_func() {
     local local_inv_limit_str=$1;
+    local local_inv_file_path_str=$2;
+    local local_conf_divisions_fpath_str=$3;
     
     local local_result_str='ok';
     
