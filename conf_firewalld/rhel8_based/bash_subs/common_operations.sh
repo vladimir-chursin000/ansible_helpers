@@ -76,6 +76,7 @@ function is_ipset_tmplt_configured_at_66_func() {
     
     local local_inv_limit_type_str='all';
     local local_exec_res_str='';
+    local local_inv_limit_arr=();
     local local_result_str='ok';
 
     # detect 'local_inv_limit_type_str'
@@ -91,19 +92,16 @@ function is_ipset_tmplt_configured_at_66_func() {
     # check inv-limit is conf at 'local_conf_ipset_66_fpath_str'
     if [[ "$local_inv_limit_type_str" == "group" ]]; then
 	# check for "is configured group at 'local_conf_ipset_66_fpath_str' for tmplt"
-	local_exec_res_str='';
+	local_exec_res_str=$(grep "$local_inv_limit_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
 	if [[ "$local_exec_res_str" -ne "1" ]]; then
 	    local_result_str="fail.";
 	fi;
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
 	# check for "is configured single hosts at 'local_conf_ipset_66_fpath_str' for tmplt"
-	local_exec_res_str='';
-	if [[ "$local_exec_res_str" -ne "1" ]]; then
-	    local_result_str="fail.";
-	fi;
+	local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
     elif [[ "$local_inv_limit_type_str" == "all" ]]; then
 	# check for "is configured 'all' at 'local_conf_ipset_66_fpath_str' for tmplt"
-	local_exec_res_str='';
+	local_exec_res_str=$(grep "all" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
 	if [[ "$local_exec_res_str" -ne "1" ]]; then
 	    local_result_str="fail.";
 	fi;
