@@ -82,7 +82,7 @@ function is_ipset_tmplt_configured_at_66_func() {
 	# '1' - inv-host+tmplt configured for inv-host at '66'
 	# '2' - inv-host+tmplt configured for group at '66'
 	# '3' - inv-host+tmplt configured for all at '66'
-    local local_tmplt_for_all_str='';
+    local local_is_tmplt_for_all_str='';
     local local_result_str='ok';
 
     # detect 'local_inv_limit_type_str'
@@ -108,26 +108,32 @@ function is_ipset_tmplt_configured_at_66_func() {
 	#
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
 	# check for "is configured single hosts at 'local_conf_ipset_66_fpath_str' for tmplt"
-	local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
-
-	for local_arr_el0_str in "${local_inv_limit_arr[@]}"; # local_arr_el0_str = inv-host
-        do
-	    local_exec_res_str=$(grep "$local_arr_el0_str" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
-	    if [[ "$local_exec_res_str" == "1" ]]; then
-		local local_host_list_case_str='1';
-		continue;
-	    fi;
+	
+	local_is_tmplt_for_all_str=$(grep "all" "$local_conf_ipset_66_fpath_str" | grep -v "^#" | wc -l);
+	
+	if [[ "$local_is_tmplt_for_all_str" -ge "1" ]]; then
+	    # if tmplt_name configured for all -> no need to check each inv-host
+	    local_host_list_case_str='3';
+	else
+	    local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
 	    
-	    #local_tmplt_for_all_str=$(grep "all" "$local_conf_ipset_66_fpath_str");
+    	    for local_arr_el0_str in "${local_inv_limit_arr[@]}"; # local_arr_el0_str = inv-host
+    	    do
+	    	local_exec_res_str=$(grep "$local_arr_el0_str" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
+	    	if [[ "$local_exec_res_str" == "1" ]]; then
+	    	    local local_host_list_case_str='1';
+	    	    continue;
+	    	fi;
+	    	
+	    	# clear vars
+	    	local_exec_res_str='';
+	    	###
+    	    done;
 	    
 	    # clear vars
-	    local_exec_res_str='';
-	    ###
-        done;
-
-	# clear vars
-	local_inv_limit_arr=();
-	#
+	    local_inv_limit_arr=();
+	    #
+	fi;
     elif [[ "$local_inv_limit_type_str" == "all" ]]; then
 	# check for "is configured 'all' at 'local_conf_ipset_66_fpath_str' for tmplt"
 	local_exec_res_str=$(grep "all" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
