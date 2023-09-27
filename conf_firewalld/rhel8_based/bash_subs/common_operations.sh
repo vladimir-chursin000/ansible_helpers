@@ -115,7 +115,7 @@ function is_ipset_tmplt_configured_at_66_func() {
 	    local_exec_res_str=$(grep "$local_arr_el0_str" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
 	    if [[ "$local_exec_res_str" == "1" ]]; then
 		local local_host_list_case_str='1';
-		break;
+		continue;
 	    fi;
 	    
 	    #local_tmplt_for_all_str=$(grep "all" "$local_conf_ipset_66_fpath_str");
