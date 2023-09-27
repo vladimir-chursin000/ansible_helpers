@@ -84,6 +84,7 @@ function is_ipset_tmplt_configured_at_66_func() {
 	# '2' - inv-host+tmplt configured for group at '66'
 	# '3' - inv-host+tmplt configured for all at '66'
     local local_is_tmplt_for_all_str='';
+    local local_get_inv_host_group_str='';
     local local_result_str='ok';
 
     # detect 'local_inv_limit_type_str'
@@ -126,6 +127,7 @@ function is_ipset_tmplt_configured_at_66_func() {
 	    	    continue;
 	    	fi;
 	    	
+		#local_get_inv_host_group_str=$();		
 		
 	    	# clear vars
 	    	local_exec_res_str='';
