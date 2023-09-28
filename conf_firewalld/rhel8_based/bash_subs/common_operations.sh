@@ -34,7 +34,7 @@ function check_inv_limit_func() {
 	# check for "is exists group at 'local_conf_divisions_fpath_str'"
 	local_exec_res_str=$(grep "$local_inv_limit_str" "$local_conf_divisions_fpath_str" | grep -v "^#" | wc -l);
 	if [[ "$local_exec_res_str" -lt "1" ]]; then
-    	    local_result_str="fail. GROUP='$local_inv_limit_str' is not configured at '$local_conf_divisions_fpath_str'";
+    	    local_result_str="fail. GROUP='$local_inv_limit_str' is not configured at '00_conf_divisions_for_inv_hosts'";
 	fi;
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
 	# check for "is exists hosts at 'local_inv_file_path_str'"
@@ -44,7 +44,7 @@ function check_inv_limit_func() {
 	do
 	    local_exec_res_str=$(grep "$local_arr_el0_str" "$local_inv_file_path_str" | grep -v "^#" | wc -l);
 	    if [[ "$local_exec_res_str" -lt "1" ]]; then
-    		local_result_str="fail. Host='$local_arr_el0_str' is not exists at inventory '$local_inv_file_path_str'";
+    		local_result_str="fail. Host='$local_arr_el0_str' is not exists at inventory 'conf_firewall_hosts'";
 		break;
 	    fi;
 	done;
@@ -63,7 +63,7 @@ function check_ipset_tmplt_name_func() {
     
     local_exec_res_str=$(grep "\[$local_ipset_tmplt_name_str:BEGIN\]" "$local_conf_ipset_templates_fpath_str" | grep -v "^#" | wc -l);
     if [[ "$local_exec_res_str" -lt "1" ]]; then
-	local_result_str="fail. TMPLT_NAME='$local_ipset_tmplt_name_str' not configured at '$local_conf_ipset_templates_fpath_str'";
+	local_result_str="fail. TMPLT_NAME='$local_ipset_tmplt_name_str' not configured at '01_conf_ipset_templates'";
     fi;
     
     echo $local_result_str;
@@ -109,35 +109,60 @@ function is_ipset_tmplt_configured_at_66_func() {
 	local_exec_res_str='';
 	#
     elif [[ "$local_inv_limit_type_str" == "host_list" ]]; then
-	# check for "is configured single hosts at 'local_conf_ipset_66_fpath_str' for tmplt"
-	
-	local_is_tmplt_for_all_str=$(grep "all" "$local_conf_ipset_66_fpath_str" | grep -v "^#" | wc -l);
-	
-	if [[ "$local_is_tmplt_for_all_str" -ge "1" ]]; then
-	    # if tmplt_name configured for all -> no need to check each inv-host
-	    local_host_list_case_str='3';
-	else
-	    local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
-	    
+    	# check for "is configured single hosts at 'local_conf_ipset_66_fpath_str' for tmplt"
+    	local_host_list_case_str='0';
+    	
+    	local_is_tmplt_for_all_str=$(grep "^all" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
+    	
+    	if [[ "$local_is_tmplt_for_all_str" -ge "1" ]]; then
+    	    # if tmplt_name configured for all -> no need to check each inv-host
+    	    local_host_list_case_str='3';
+    	else
+    	    local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
+    	    
     	    for local_arr_el0_str in "${local_inv_limit_arr[@]}"; # local_arr_el0_str = inv-host
     	    do
-	    	local_exec_res_str=$(grep "$local_arr_el0_str" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
-	    	if [[ "$local_exec_res_str" == "1" ]]; then
-	    	    local local_host_list_case_str='1';
-	    	    continue;
-	    	fi;
-	    	
-		#local_get_inv_host_group_str=$();		
-		
-	    	# clear vars
-	    	local_exec_res_str='';
-	    	###
+    		local_host_list_case_str='0';
+    		
+    	    	local_exec_res_str=$(grep "$local_arr_el0_str" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
+    	    	if [[ "$local_exec_res_str" == "1" ]]; then
+    	    	    local_host_list_case_str='1';
+    	    	    continue;
+    	    	fi;
+    		
+    		# clear vars
+    	    	local_exec_res_str='';
+    		#
+    	    	
+    		local_get_inv_host_group_str=$(grep "$local_arr_el0_str" "$local_conf_divisions_fpath_str" | grep -v "^#" | awk '{print $1;}');
+    		
+    		if [[ "$local_get_inv_host_group_str" != "" ]]; then
+    		    local_exec_res_str=$(grep "$local_get_inv_host_group_str" "$local_conf_ipset_66_fpath_str" | grep -v "^#" | wc -l);
+    		    if [[ "$local_exec_res_str" == "1" ]]; then
+    		    	local_host_list_case_str='2';
+            	    	continue;
+    		    fi;
+    
+    		    # clear vars
+    	    	    local_exec_res_str='';
+    		    #
+    		fi;
+    		
+    		if [[ "$local_host_list_case_str" == "0" ]]; then
+    		    local_result_str="fail. INV-HOST='$local_arr_el0_str' is not configured at '66_conf_ipsets_FIN' directly / via 'all' or group (at '00_conf_divisions_for_inv_hosts')";
+    		    break;
+    		fi;
+    		
+    	    	# clear vars
+    	    	local_exec_res_str='';
+    		local_get_inv_host_group_str='';
+    	    	#
     	    done;
-	    
-	    # clear vars
-	    local_inv_limit_arr=();
-	    #
-	fi;
+    	    
+    	    # clear vars
+    	    local_inv_limit_arr=();
+    	    #
+    	fi;
     elif [[ "$local_inv_limit_type_str" == "all" ]]; then
 	# check for "is configured 'all' at 'local_conf_ipset_66_fpath_str' for tmplt"
 	local_exec_res_str=$(grep "all" "$local_conf_ipset_66_fpath_str" | grep "$local_ipset_tmplt_name_str" | grep -v "^#" | wc -l);
