@@ -73,6 +73,7 @@ if [[ "$EXEC_RES_str" != 'ok' ]]; then
     echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
     exit;
 fi;
+EXEC_RES_str=''; # clear
 #
 
 # check IPSET_TMPLT_NAME_str
@@ -81,6 +82,7 @@ if [[ "$EXEC_RES_str" != 'ok' ]]; then
     echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
     exit;
 fi;
+EXEC_RES_str=''; # clear
 #
 
 # check IPSET_TMPLT_NAME_str + INV_LIMIT_arr is configured at '66_conf_ipsets_FIN'
@@ -89,6 +91,7 @@ if [[ "$EXEC_RES_str" != 'ok' ]]; then
     echo "$EXEC_RES_str" | tee -a $LOG_FILE_str;
     exit;
 fi;
+EXEC_RES_str=''; # clear
 #
 ###CHECK INPUT VARS
 
