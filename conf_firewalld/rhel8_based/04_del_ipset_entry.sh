@@ -24,6 +24,7 @@ TMP_VAR_str='';
 EXEC_RES_str='';
 IPSET_TMPLT_NAME_str='no';
 IPSET_LIST_str='no';
+IPSETS_EXPIRE_DT_str='no';
 NEED_ROLLBACK_str='no';
 
 declare -a INV_LIMIT_arr;
@@ -97,7 +98,8 @@ EXEC_RES_str=''; # clear
 ###CHECK INPUT VARS
 
 ###CREATE INPUT FILE for DEL (at dir '02_ipset_input')
-INV_LIMIT_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
+#INV_LIMIT_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
+create_input_file_func "$OPERATION_str" "$IPSET_INPUT_DIR_str" "$INV_LIMIT_str" "$IPSET_TMPLT_NAME_str" "$IPSET_LIST_str" "$IPSETS_EXPIRE_DT_str";
 ###CREATE INPUT FILE for DEL
 
 exit; # for test
