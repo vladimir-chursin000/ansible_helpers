@@ -181,7 +181,10 @@ function is_ipset_tmplt_configured_at_66_func() {
 
 function create_input_file_func() {
     local operation_str=$1;
-    local local_ipset_tmplt_name_str=$2;
+    local local_inv_limit_str=$2;
+    local local_ipset_tmplt_name_str=$3;
+
+    local local_inv_limit_arr=();
 
     local local_result_str='ok';
 
