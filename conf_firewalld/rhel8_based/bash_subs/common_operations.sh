@@ -179,5 +179,14 @@ function is_ipset_tmplt_configured_at_66_func() {
     echo $local_result_str;
 }
 
+function create_input_file_func() {
+    local operation_str=$1;
+    local local_ipset_tmplt_name_str=$2;
+
+    local local_result_str='ok';
+
+    echo $local_result_str;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
