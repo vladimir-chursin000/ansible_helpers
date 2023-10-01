@@ -195,6 +195,8 @@ function create_input_file_func() {
     local local_ipset_list_str=$5;
     local local_ipsets_expire_dt_str=$6;
 
+    local local_arr_el0_str='';
+    local local_arr_el1_str='';
     local local_inv_limit_arr=();
     local local_ipset_list_arr=();
 
