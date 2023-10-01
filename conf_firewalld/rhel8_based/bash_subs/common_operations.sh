@@ -196,6 +196,10 @@ function create_input_file_func() {
     local local_ipsets_expire_dt_str=$6;
 
     local local_inv_limit_arr=();
+    local local_ipset_list_arr=();
+
+    local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
+    local_ipset_list_arr=($(echo "$local_ipset_list_str" | sed 's/,/\n/g'));
 }
 
 #With best regards
