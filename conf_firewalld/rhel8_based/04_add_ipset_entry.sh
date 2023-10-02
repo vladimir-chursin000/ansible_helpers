@@ -71,6 +71,13 @@ fi;
 ###CORRECT DEFAULT INPUT VARS
 
 ###CHECK INPUT VARS
+# check IPSET_LIST_str
+if [[ "$IPSET_LIST_str" == "no" ]]; then
+    echo "IPSET_LIST is not defined. Exit!";
+    exit;
+fi;
+#
+
 # check INV_LIMIT_str
 EXEC_RES_str=$(check_inv_limit_func "$INV_LIMIT_str" "$INV_FILE_PATH_str" "$CONF_DIVISIONS_PATH_str");
 if [[ "$EXEC_RES_str" != 'ok' ]]; then
