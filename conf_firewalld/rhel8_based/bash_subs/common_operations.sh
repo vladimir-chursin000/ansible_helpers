@@ -194,24 +194,39 @@ function create_input_file_func() {
     local local_ipset_tmplt_name_str=$4;
     local local_ipset_list_str=$5;
     local local_ipsets_expire_dt_str=$6;
-
+    
     local local_arr_el0_str='';
     local local_arr_el1_str='';
     local local_inv_limit_arr=();
     local local_ipset_list_arr=();
     local local_wr_file_str='';
-
+    
     local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
     local_ipset_list_arr=($(echo "$local_ipset_list_str" | sed 's/,/\n/g'));
     
     for local_arr_el0_str in "${local_inv_limit_arr[@]}"; # local_arr_el0_str = inv-host
     do
-	local_wr_file_str="$local_ipset_input_dir_str/$local_operation_str/$local_arr_el0_str";
-	for local_arr_el1_str in "${local_ipset_list_arr[@]}"; # local_arr_el1_str = ipset_entry
-	do
-	    echo 'tst-tmp';
-	done;	
+    	local_wr_file_str="${local_ipset_input_dir_str}/${local_operation_str}/${local_arr_el0_str}__${local_ipset_tmplt_name_str}.txt";
+    	if [[ "$local_ipsets_expire_dt_str" == "no" ]]; then
+    	    for local_arr_el1_str in "${local_ipset_list_arr[@]}"; # local_arr_el1_str = ipset_entry
+    	    do
+    		echo "$local_arr_el1_str" >> "$local_wr_file_str";
+    	    done;
+    
+    	    local_arr_el1_str=''; # clear var
+    	else
+    	    for local_arr_el1_str in "${local_ipset_list_arr[@]}"; # local_arr_el1_str = ipset_entry
+    	    do
+    		echo "$local_arr_el1_str;+$local_ipsets_expire_dt_str" >> "$local_wr_file_str";
+    	    done;
+    	    
+    	    local_arr_el1_str=''; # clear var
+    	fi;
+    	
+    	local_wr_file_str=''; # clear var
     done;
+    
+    local_arr_el0_str=''; # clear var
 }
 
 #With best regards
