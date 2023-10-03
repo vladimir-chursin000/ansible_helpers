@@ -37,7 +37,7 @@ sub check_yyyymmddhhmiss_is_expire {
     
     my $ret_value_l=0;
     
-    if ( $epoch_sec_l<time() ) { $ret_value_l=1; }
+    if ( $epoch_sec_l < time() ) { $ret_value_l=1; }
     
     return $ret_value_l;
 }
@@ -51,7 +51,7 @@ sub check_yyyymmddhhmiss_is_more_than_max_ipset_timeout {
     my $timeout_limit_calc_l=$epoch_sec_l-$now_epoch_sec_l;
     my $ret_value_l=0;
     
-    if ( $timeout_limit_calc_l>$timeout_limit_l ) { $ret_value_l=1; }
+    if ( $timeout_limit_calc_l > $timeout_limit_l ) { $ret_value_l=1; }
     
     return $ret_value_l;
 }
