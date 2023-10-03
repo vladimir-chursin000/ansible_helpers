@@ -119,6 +119,4 @@ EXEC_RES_str=''; # clear
 create_input_file_func "$OPERATION_str" "$IPSET_INPUT_DIR_str" "$INV_LIMIT_str" "$IPSET_TMPLT_NAME_str" "$IPSET_LIST_str" "$IPSETS_EXPIRE_DT_str";
 ###CREATE INPUT FILE for ADD
 
-exit; # for test
-
 $SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FWRULES_RUN_str";

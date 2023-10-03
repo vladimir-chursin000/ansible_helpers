@@ -184,6 +184,11 @@ function check_expire_dt_func() {
     
     local local_result_str='ok';
     
+    if [[ "$local_dt" != "no" && ! "$local_dt" =~ ^[0-9]{4}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}[0-9]{2}$ ]]; then
+	#YYYYMMDDHHMISS
+	local_result_str="fail. Expire datetime = '$local_dt' is not match with pattern 'YYYYMMDDHHMISS'";
+    fi;
+    
     echo $local_result_str;
 }
 
