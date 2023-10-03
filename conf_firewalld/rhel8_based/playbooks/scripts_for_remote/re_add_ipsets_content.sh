@@ -293,7 +293,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		    ###
 		done < "$CONTENT_DIR_PWET_str/$LINE0_str";
 	    fi;
-	done < $LIST_FILE_str;
+	done < $LIST_FILE_PWET_str;
     fi;
     ###
 elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
