@@ -163,6 +163,12 @@ SCRIPTS LOGIC DESCRIPTION
 		    (info) Run without conditions.
 	    2) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
 
+'04_add_ipset_entry.sh' ->
+    1) Run script 'main.sh' ->
+
+'04_del_ipset_entry.sh' ->
+    1) Run script 'main.sh' ->
+
 '05_get_exec_logs_from_remote.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '06_get_exec_logs_from_remote_pb.yml'.
@@ -174,6 +180,9 @@ SCRIPTS LOGIC DESCRIPTION
 '06_temporary_enable_panic_mode.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '08_temporary_enable_panic_mode_pb.yml'.
+
+'07_enable_crontab_ops_at_remote.sh' ->
+    1) Run script 'main.sh' ->
 
 ##################
 #With best regards
