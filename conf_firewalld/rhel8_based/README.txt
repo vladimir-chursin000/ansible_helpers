@@ -37,7 +37,7 @@ NOT READY! Some refactoring!
 # '05_remove_exec_logs_at_remote.sh' = remove logs at remote dir '~/ansible_helpers/conf_firewalld/exec_results'.
 # If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip removing.
 
-# '06_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
+# '07_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
 
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
@@ -51,9 +51,9 @@ NOT READY! Some refactoring!
 # This parameter limits the duration of the 'panic' mode (in minutes).
 # The default value (one minute) of the parameter can be edited in the script.
 # Examples:
-# 1) ./06_temporary_enable_panic_mode.sh "timeout=3";
-# 2) ./06_temporary_enable_panic_mode.sh "limit=192.168.168.1" "timeout=3";
-# 3) ./06_temporary_enable_panic_mode.sh "timeout=3" "limit=192.168.168.1";
+# 1) ./07_temporary_enable_panic_mode.sh "timeout=3";
+# 2) ./07_temporary_enable_panic_mode.sh "limit=192.168.168.1" "timeout=3";
+# 3) ./07_temporary_enable_panic_mode.sh "timeout=3" "limit=192.168.168.1";
 
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
@@ -177,15 +177,15 @@ SCRIPTS LOGIC DESCRIPTION
     1) Run script 'main.sh' ->
 	1) Run playbook '07_clear_exec_logs_at_remote_pb.yml'.
 
-'06_temporary_enable_panic_mode.sh' ->
+'06_activate_crontab_ops_at_remote.sh' ->
+    1) Run script 'main.sh' ->
+
+'06_deactivate_crontab_ops_at_remote.sh' ->
+    1) Run script 'main.sh' ->
+
+'07_temporary_enable_panic_mode.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '08_temporary_enable_panic_mode_pb.yml'.
-
-'07_activate_crontab_ops_at_remote.sh' ->
-    1) Run script 'main.sh' ->
-
-'07_deactivate_crontab_ops_at_remote.sh' ->
-    1) Run script 'main.sh' ->
 
 ##################
 #With best regards
