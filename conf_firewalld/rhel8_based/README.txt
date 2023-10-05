@@ -181,7 +181,10 @@ SCRIPTS LOGIC DESCRIPTION
     1) Run script 'main.sh' ->
 	1) Run playbook '08_temporary_enable_panic_mode_pb.yml'.
 
-'07_enable_crontab_ops_at_remote.sh' ->
+'07_activate_crontab_ops_at_remote.sh' ->
+    1) Run script 'main.sh' ->
+
+'07_deactivate_crontab_ops_at_remote.sh' ->
     1) Run script 'main.sh' ->
 
 ##################
