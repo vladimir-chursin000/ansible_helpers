@@ -169,15 +169,17 @@ SCRIPTS LOGIC DESCRIPTION
 	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
 	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
 	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
-	3) Run playbook '03_IMPORT_fwrules_apply_immediately_pb.yml' ->
+	3a) Run playbook '03_IMPORT_fwrules_apply_immediately_pb.yml' (default. If no input ARGV-param "rollback") ->
+	    1) Run playbook 'fwrules_apply_immediately_pb.yml' ->
+                *** See description for '00_install_firewall_and_configure_fwrules.sh'.
+            2) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
+	3b) Run playbook '03_IMPORT_fwrules_apply_temporary_pb.yml' (if input ARGV-param "rollback=yes").
+	    1) Run playbook 'fwrules_apply_temporary_pb.yml' ->
+                *** See description for '03_apply_temporary_fwrules.sh'.
+            2) Run playbook 'FIN_RUN_apply_fwrules_pb.yml' (run 'apply_fwrules.sh' as process at remote).
 
 '04_del_ipset_entry.sh' ->
-    1) Run script 'main.sh' ->
-	1) Run playbook '02_fwrules_backup_pb.yml' ->
-	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
-	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
-	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
-	3) Run playbook '03_IMPORT_fwrules_apply_immediately_pb.yml' ->
+    *** See description for '04_add_ipset_entry.sh'.
 
 '05_get_exec_logs_from_remote.sh' ->
     1) Run script 'main.sh' ->
