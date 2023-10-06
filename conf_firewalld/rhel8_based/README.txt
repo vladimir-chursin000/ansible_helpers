@@ -165,9 +165,19 @@ SCRIPTS LOGIC DESCRIPTION
 
 '04_add_ipset_entry.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
+	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
+	3) Run playbook '03_IMPORT_fwrules_apply_immediately_pb.yml' ->
 
 '04_del_ipset_entry.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook '02_fwrules_backup_pb.yml' ->
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
+	2) Run script 'generate_dynamic_fwrules.pl'. Steps:
+	    *** See description for '00_install_firewall_and_configure_fwrules.sh'.
+	3) Run playbook '03_IMPORT_fwrules_apply_immediately_pb.yml' ->
 
 '05_get_exec_logs_from_remote.sh' ->
     1) Run script 'main.sh' ->
@@ -175,17 +185,19 @@ SCRIPTS LOGIC DESCRIPTION
 
 '05_remove_exec_logs_at_remote.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '07_clear_exec_logs_at_remote_pb.yml'.
+	1) Run playbook '07_remove_exec_logs_at_remote_pb.yml'.
 
 '06_activate_crontab_ops_at_remote.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook '06_activate_crontab_ops_at_remote_pb.yml'.
 
 '06_deactivate_crontab_ops_at_remote.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook '06_deactivate_crontab_ops_at_remote_pb.yml'.
 
 '07_temporary_enable_panic_mode.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '08_temporary_enable_panic_mode_pb.yml'.
+	1) Run playbook '07_temporary_enable_panic_mode_pb.yml'.
 
 ##################
 #With best regards
