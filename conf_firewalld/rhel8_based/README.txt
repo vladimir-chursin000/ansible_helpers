@@ -55,7 +55,7 @@ NOT READY! Some refactoring!
 # 2) ./03_force_apply_fwrules.sh "limit=192.168.168.1,192.168.168.2";
 # 3) ./03_force_apply_fwrules.sh "limit=gr_some_group1".
 
-# Also for the script '06_temporary_enable_panic_mode.sh' the parameter 'timeout' is available.
+# Also for the script '07_temporary_enable_panic_mode.sh' the parameter 'timeout' is available.
 # This parameter limits the duration of the 'panic' mode (in minutes).
 # The default value (one minute) of the parameter can be edited in the script.
 # Examples:
