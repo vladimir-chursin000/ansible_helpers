@@ -44,7 +44,8 @@ NOT READY! Some refactoring!
 # '06_activate_crontab_ops_at_remote.sh' = add scripts for remote execution (from dir '../playbooks/scripts_for_remote/for_cron')
 # to crontab at remote side.
 # For cron scripts:
-# 1) 'check_external_timeouts_for_permanent_ipsets.sh'.
+# 1) 'check_external_timeouts_for_permanent_ipsets.sh'. Checks external obsolescence dates for elements of permanent ipsets.
+# If an element with an outdated date is found, such an element will be deleted from the ipset.
 # 2) 'restore_tmp_ipsets_content_after_reboot.sh'.
 
 # '06_deactivate_crontab_ops_at_remote.sh' = remove scripts for remote execution from crontab at remote side.
