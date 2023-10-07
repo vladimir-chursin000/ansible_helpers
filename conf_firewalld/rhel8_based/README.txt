@@ -41,9 +41,10 @@ NOT READY! Some refactoring!
 # '05_remove_exec_logs_at_remote.sh' = remove logs at remote dir '~/ansible_helpers/conf_firewalld/exec_results'.
 # If 'apply_fwrules.sh' or 'rollback_fwrules_changes.sh' is run at remote -> skip removing.
 
-# '06_activate_crontab_ops_at_remote.sh' =
+# '06_activate_crontab_ops_at_remote.sh' = add scripts for remote execution (from dir '../playbooks/scripts_for_remote/for_cron')
+# to crontab at remote side.
 
-# '06_deactivate_crontab_ops_at_remote.sh' =
+# '06_deactivate_crontab_ops_at_remote.sh' = remove scripts for remote execution from crontab at remote side.
 
 # '07_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
 
