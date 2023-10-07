@@ -30,9 +30,9 @@ NOT READY! Some refactoring!
 
 # '03_force_apply_fwrules.sh' = force apply changes (without run installation of 'firewalld') without comparing generated and actual rules.
 
-# '04_add_ipset_entry.sh' =
+# '04_add_ipset_entry.sh' = adding IP-addresses and/or subnets to a specific ipset on remote hosts.
 
-# '04_del_ipset_entry.sh' =
+# '04_del_ipset_entry.sh' = deleting IP-addresses and/or subnets from a specific ipset on remote hosts.
 
 # '05_get_exec_logs_from_remote.sh' = download execution logs (apply_fwrules.sh and rollback_fwrules_changes.sh) from remote dir
 # '~/ansible_helpers/conf_firewalld/exec_results' to local dir '../run_history/from_remote'.
