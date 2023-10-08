@@ -32,8 +32,8 @@ NOT READY! Some refactoring!
 
 # '04_add_ipset_entry.sh' = adding IP-addresses and/or subnets to a specific ipset on remote hosts.
 # Possible input ARGV-parameters:
-# 1) ipset_list (required parameter).
-# 2) ipset_tmplt_name (required parameter).
+# 1) ipset_list (required parameter). List of IP-addresses and/or subnets separated by ",".
+# 2) ipset_tmplt_name (required parameter). Name of the ipset template configured in files '01_conf_ipset_templates' and '66_conf_ipsets_FIN'.
 # 3) limit (optional parameter).
 # 4) expire_dt (optional parameter).
 # 5) rollback (optional parameter).
