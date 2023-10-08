@@ -4,18 +4,20 @@
 
 # 3) Make sure that the pub-ssh-key is thrown to the hosts (chrony_client_hosts).
 
-# 4) Run 'install_chrony_client.sh'.
+# 4) Run '00_install_chrony_client.sh'.
 ##################
 
-# 'install_chrony_client.sh' = full install and apply conf-file to remote hosts.
+# '00_install_chrony_client.sh' = full install and apply conf-file to remote hosts.
 
-# 'check_chrony_serv_is_started.sh' = check for chrony-daemon is started (and start if not).
+# '00_uninstall_chrony_client.sh' = uninstall chrony-packages and stop chrony-service.
 
-# 'check_chrony_serv_conf_is_changed.sh' = check for changes at conf-file and restart service if changes available.
+# '00_update_chrony_client.sh' = update chrony-packages.
 
-# 'uninstall_chrony_client.sh' = uninstall chrony-packages and stop chrony-service.
+# '01_check_chrony_serv_conf_is_changed.sh' = check for changes at conf-file and restart service if changes available.
 
-# 'update_chrony_client.sh' = update chrony-packages.
+# '01_check_chrony_serv_is_started.sh' = check for chrony-daemon is started (and start if not).
+
+
 
 
 #With best regards
