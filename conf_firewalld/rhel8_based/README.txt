@@ -40,6 +40,10 @@ NOT READY! Some refactoring!
 # minutes the changes to the ipset (corresponding to the ipset_tmplt_name) will be rolled back.
 # ###
 # Examples:
+# 1) ./04_add_ipset_entry.sh "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT";
+# 2) ./04_add_ipset_entry.sh "limit=192.168.8.7" "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT";
+# 3) ./04_add_ipset_entry.sh "limit=gr_some_group1" "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT" "expire_dt=20241010150010";
+# 4) ./04_add_ipset_entry.sh "limit=192.168.8.7,10.1.2.3" "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT" "expire_dt=20241010150010" "rollback=yes".
 
 # '04_del_ipset_entry.sh' = deleting IP-addresses and/or subnets from a specific ipset on remote hosts.
 # *** See possible input params and examples for '04_add_ipset_entry.sh'.
