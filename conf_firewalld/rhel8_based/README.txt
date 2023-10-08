@@ -32,11 +32,11 @@ NOT READY! Some refactoring!
 
 # '04_add_ipset_entry.sh' = adding IP-addresses and/or subnets to a specific ipset on remote hosts.
 # Possible input ARGV-parameters:
-# 1) ipset_list.
-# 2) ipset_tmplt_name.
-# 3) limit.
-# 4) expire_dt.
-# 5) rollback. 
+# 1) ipset_list. Required parameter.
+# 2) ipset_tmplt_name. Required parameter.
+# 3) limit. Optional parameter.
+# 4) expire_dt. Optional parameter.
+# 5) rollback. Optional parameter.
 
 # '04_del_ipset_entry.sh' = deleting IP-addresses and/or subnets from a specific ipset on remote hosts.
 # *** See possible input params and examples for '04_add_ipset_entry.sh'.
