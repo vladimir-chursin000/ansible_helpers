@@ -1,6 +1,5 @@
 [rhel8_nfs_server_hosts]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
 
-
 [rhel8_nfs_server_hosts:vars]
 ansible_python_interpreter=/usr/bin/python3
