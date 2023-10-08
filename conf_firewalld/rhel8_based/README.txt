@@ -34,9 +34,12 @@ NOT READY! Some refactoring!
 # Possible input ARGV-parameters:
 # 1) ipset_list (required parameter). List of IP-addresses and/or subnets separated by ",".
 # 2) ipset_tmplt_name (required parameter). Name of the ipset template configured in files '01_conf_ipset_templates' and '66_conf_ipsets_FIN'.
-# 3) limit (optional parameter).
-# 4) expire_dt (optional parameter).
-# 5) rollback (optional parameter).
+# 3) limit (optional parameter). Limits the application of changes to inventory hosts.
+# 4) expire_dt (optional parameter). Sets the expiration date (format "YYYYMMDDHHMISS") for ipset entries listed at paramater 'ipset_list'.
+# 5) rollback (optional parameter). If "yes", then after N (param 'temporary_apply_fwrules_timeout' from conf '00_conf_firewalld')
+# minutes the changes to the ipset (corresponding to the ipset_tmplt_name) will be rolled back.
+# ###
+# Examples:
 
 # '04_del_ipset_entry.sh' = deleting IP-addresses and/or subnets from a specific ipset on remote hosts.
 # *** See possible input params and examples for '04_add_ipset_entry.sh'.
