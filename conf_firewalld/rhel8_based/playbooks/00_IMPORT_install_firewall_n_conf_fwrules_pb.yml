@@ -1,5 +1,5 @@
 ---
 - import_playbook: 00_just_install_firewall_pb.yml
-- import_playbook: check_firewall_serv_is_started_pb.yml
+- import_playbook: 01_check_firewall_serv_is_started_pb.yml
 - import_playbook: fwrules_apply_immediately_pb.yml
 - import_playbook: FIN_RUN_apply_fwrules_pb.yml
