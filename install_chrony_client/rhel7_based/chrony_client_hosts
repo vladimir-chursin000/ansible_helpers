@@ -1,6 +1,5 @@
 [rhel7_chrony_client_hosts]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
 
-
 [rhel7_chrony_client_hosts:vars]
 ansible_python_interpreter=/usr/bin/python3

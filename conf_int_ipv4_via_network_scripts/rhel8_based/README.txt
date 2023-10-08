@@ -8,7 +8,7 @@
 
 # 5) Make sure that the pub-ssh-key is thrown to the hosts (conf_network_scripts_hosts).
 
-# 6) Run 'install_network_scripts_and_configure_network.sh' (or 'apply_immediately_ifcfg.sh').
+# 6) Run '00_install_network_scripts_and_configure_network.sh' (or '03_apply_immediately_ifcfg.sh').
 ##################
 
 # '00_install_network_scripts_and_configure_network.sh' = install network-scripts and configure network after.
