@@ -8,10 +8,22 @@ EXEC_RESULT_DIR_str="$SELF_DIR_str/../exec_results";
 ###INIT DIRS and FILES
 
 ######CFG
-CONTENT_DIR_str="$SELF_DIR_str/temporary_ipsets";
+CONTENT_DIR_str="$SELF_DIR_str/../temporary_ipsets";
 LIST_FILE_str="$CONTENT_DIR_str/LIST";
 ######CFG
 
+######VARS
+LINE0_str='';
+LINE1_str='';
+
+declare -a TMP_arr;
+
+EPOCH_TIME_NOW_num=0;
+EPOCH_TIME_CFG_num=0;
+TIMEOUT_num=0;
+######VARS
+
+######MAIN
 if [[ -s "$LIST_FILE_str" ]]; then
     #echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_temporary'. Read ipset-names from file='$LIST_FILE_str'";
     
@@ -50,3 +62,4 @@ if [[ -s "$LIST_FILE_str" ]]; then
         fi;
     done < $LIST_FILE_str;
 fi;
+######MAIN
