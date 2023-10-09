@@ -5,6 +5,8 @@
 ######INIT DIRS and FILES
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 EXEC_RESULT_DIR_str="$SELF_DIR_str/../exec_results";
+NOW_YYYYMMDDHHMISS_AT_START_str=`date '+%Y%m%d%H%M%S'`;
+EXEC_RESULT_FILE_str="$EXEC_RESULT_DIR_str/$NOW_YYYYMMDDHHMISS_AT_START_str-restore_tmp_ipsets_cont.log";
 ###INIT DIRS and FILES
 
 ######CFG
