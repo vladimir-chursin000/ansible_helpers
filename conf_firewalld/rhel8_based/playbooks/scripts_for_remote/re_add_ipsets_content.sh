@@ -70,7 +70,7 @@ function echo_log_func() {
 }
 ######FUNCTIONS
 
-###APPLY_RUN_INFO read
+######APPLY_RUN_INFO read
 if [[ -f "$APPLY_RUN_INFO_DIR_str/reload_or_restart_yes" ]]; then
     IS_CLEARED_TEMP_IPSETS_BEFORE_RUN_str='yes';
     
@@ -82,7 +82,7 @@ if [[ -f "$APPLY_RUN_INFO_DIR_str/is_force_removed_permanent_ipsets" ]]; then
 
     echo_log_func "re_add_ipsets_content.sh: finded aplly-run-info-file 'is_force_removed_permanent_ipsets'. Set IS_FORCE_REMOVED_PERMANENT_IPSETS='yes' -> NO(!) NEED TO GET content of permanent ipsets";
 fi;
-###APPLY_RUN_INFO read
+######APPLY_RUN_INFO read
 
 ######MAIN
 

@@ -38,6 +38,7 @@ function write_log_func() {
 }
 ######FUNCTIONS
 
+######MAIN
 touch "$SELF_DIR_str/rollback_fwrules_changes_is_run_now";
 
 while :
@@ -180,3 +181,4 @@ do
     	exit;
     fi;
 done;
+######MAIN
