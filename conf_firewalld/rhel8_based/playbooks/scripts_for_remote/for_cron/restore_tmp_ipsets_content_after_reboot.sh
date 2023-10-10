@@ -25,14 +25,22 @@ EPOCH_TIME_CFG_num=0;
 TIMEOUT_num=0;
 ######VARS
 
+######FUNCTIONS
+function write_log_func() {
+    local local_log_str=$1;
+    local local_log_file_str=$2;
+    local local_now_yyyymmddhhmiss_str=`date '+%Y%m%d%H%M%S'`;
+
+    echo "$local_now_yyyymmddhhmiss_str;+$local_log_str" &>> $local_log_file_str;
+}
+######FUNCTIONS
+
 ######MAIN
 if [[ -s "$LIST_FILE_str" ]]; then
-    #echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_temporary'. Read ipset-names from file='$LIST_FILE_str'";
-    
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
         if [[ -s "$CONTENT_DIR_str/$LINE0_str" && -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-            #echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+            echo_log_func "Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
 	    
             while read -r LINE1_str; # LINE1_str = one line with ipset entry
             do
@@ -46,12 +54,12 @@ if [[ -s "$LIST_FILE_str" ]]; then
                     if [[ "$TIMEOUT_num" -gt "2147483" ]]; then
                         TIMEOUT_num='2147483';
 			
-                        #echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' = DONE, but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
+                        echo_log_func "Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' = DONE, but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
                     fi;
 		    
                     ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
                 else
-                    #echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+                    echo_log_func "Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
                 fi;
 		
                 # clear vars
