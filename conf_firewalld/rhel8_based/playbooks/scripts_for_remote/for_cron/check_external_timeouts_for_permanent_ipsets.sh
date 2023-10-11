@@ -14,6 +14,17 @@ CONTENT_DIR_PWET_str="$SELF_DIR_str/../permanent_ipsets";
 LIST_FILE_PWET_str="$CONTENT_DIR_str/LIST";
 ######CFG
 
+######VARS
+LINE0_str='';
+LINE1_str='';
+
+declare -a TMP_arr;
+
+EPOCH_TIME_NOW_num=0;
+EPOCH_TIME_CFG_num=0;
+TIMEOUT_num=0;
+######VARS
+
 ######MAIN
 if [[ -s "$LIST_FILE_PWET_str" ]]; then
     #echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names with external timeout from file='$LIST_FILE_PWET_str'";
