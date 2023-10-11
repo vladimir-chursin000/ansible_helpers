@@ -9,6 +9,11 @@ NOW_YYYYMMDDHHMISS_AT_START_str=`date '+%Y%m%d%H%M%S'`;
 EXEC_RESULT_FILE_str="$EXEC_RESULT_DIR_str/$NOW_YYYYMMDDHHMISS_AT_START_str-check_ext_timeouts.log";
 ######INIT DIRS and FILES
 
+######CFG
+CONTENT_DIR_PWET_str="$SELF_DIR_str/../permanent_ipsets";
+LIST_FILE_PWET_str="$CONTENT_DIR_str/LIST";
+######CFG
+
 ######MAIN
 if [[ -s "$LIST_FILE_PWET_str" ]]; then
     #echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names with external timeout from file='$LIST_FILE_PWET_str'";
