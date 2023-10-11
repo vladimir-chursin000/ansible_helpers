@@ -15,7 +15,7 @@ LIST_FILE_PWET_str="$CONTENT_DIR_str/LIST";
 ######CFG
 
 ######VARS
-RESTORE_TMP_IPSETS_CONT_NEED_str='no';
+NEED_RELOAD_N_RESTORE_TMP_IPSETS_CONT_str='no';
 
 LINE0_str='';
 LINE1_str='';
@@ -72,7 +72,9 @@ if [[ -s "$LIST_FILE_PWET_str" ]]; then
     done < $LIST_FILE_PWET_str;
 fi;
 
-if [[ "$RESTORE_TMP_IPSETS_CONT_NEED_str" == "yes" ]]; then
+if [[ "$NEED_RELOAD_N_RESTORE_TMP_IPSETS_CONT_str" == "yes" ]]; then
+    firewall-cmd --reload;
+    
     "$SELF_DIR_str/restore_tmp_ipsets_content_after_reboot.sh";
 fi;
 ######MAIN
