@@ -25,6 +25,16 @@ EPOCH_TIME_CFG_num=0;
 TIMEOUT_num=0;
 ######VARS
 
+######FUNCTIONS
+function write_log_func() {
+    local local_log_str=$1;
+    local local_log_file_str=$2;
+    local local_now_yyyymmddhhmiss_str=`date '+%Y%m%d%H%M%S'`;
+
+    echo "$local_now_yyyymmddhhmiss_str;+$local_log_str" &>> $local_log_file_str;
+}
+######FUNCTIONS
+
 ######MAIN
 if [[ -s "$LIST_FILE_PWET_str" ]]; then
     #echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names with external timeout from file='$LIST_FILE_PWET_str'";
