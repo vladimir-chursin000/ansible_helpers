@@ -58,6 +58,8 @@ if [[ -s "$LIST_FILE_PWET_str" ]]; then
                     echo_log_func "Ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' is EXPIRED. Removing it from ipset";
 		    
                     firewall-cmd --permanent --ipset="$LINE0_str" --remove-entry="${TMP_arr[0]}";
+		    
+		    NEED_RELOAD_N_RESTORE_TMP_IPSETS_CONT_str='yes';
                 fi;
 
                 # clear vars
