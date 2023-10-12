@@ -44,7 +44,7 @@ if [[ -s "$LIST_FILE_PWET_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
         if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-            #echo_log_func "re_add_ipsets_content.sh: Add ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str'";
+            echo_log_func "Check ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str'";
 	    
             while read -r LINE1_str; # LINE1_str = one line with ipset entry
             do
@@ -54,11 +54,10 @@ if [[ -s "$LIST_FILE_PWET_str" ]]; then
                 EPOCH_TIME_NOW_num=`date '+%s'`;
                 TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 		
-                if [[ "$TIMEOUT_num" -gt "0" ]]; then
-                    #echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is OK";
-                    #firewall-cmd --permanent --ipset="$LINE0_str" --add-entry="${TMP_arr[0]}";
-                else
-                    #echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+                if [[ "$TIMEOUT_num" -lt "1" ]]; then
+                    echo_log_func "Ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' is EXPIRED. Removing it from ipset";
+		    
+                    firewall-cmd --permanent --ipset="$LINE0_str" --remove-entry="${TMP_arr[0]}";
                 fi;
 
                 # clear vars
