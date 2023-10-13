@@ -407,7 +407,9 @@
     mode: '0770'
   when: rollback_fwrules_changes_sh_exists_at_local.stat.exists==true
 
-######
+######################################################STEP 6. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (end)
+
+######################################################STEP 7. Copy (local->remote) static files to remote (begin)
 
 - name: "Copy 're_add_ipsets_content.sh' to remote"
   ansible.builtin.copy:
@@ -423,9 +425,9 @@
     dest: "~/ansible_helpers/conf_firewalld/apply_fwrules.sh"
     mode: '0770'
 
-######################################################STEP 6. Copy (local->remote) recreated fwrules-files and rollback-script to remote if need (end)
+######################################################STEP 7. Copy (local->remote) static files to remote (end)
 
-######################################################STEP 7. Create apply-run-info-files at remote side (begin)
+######################################################STEP 8. Create apply-run-info-files at remote side (begin)
 # Used 'when' vars: copy_recreate_permanent_ipset_to_remote_res, copy_recreate_temporary_ipset_to_remote_res,
 # copy_recreate_fw_zones_to_remote_res, copy_recreate_policies_to_remote_res, rollback_fwrules_changes_sh_exists_at_local,
 # copy_permanent_ipsets_flag_file_to_remote_res, copy_permanent_ipsets_flag_file_pwet_to_remote_res,
@@ -477,4 +479,4 @@
   ansible.builtin.shell: touch ~/ansible_helpers/conf_firewalld/apply_run_info/rollback_fwrules_need_run
   when: rollback_fwrules_changes_sh_exists_at_local.stat.exists==true
 
-######################################################STEP 7. Create apply-run-info-files at remote side (end)
+######################################################STEP 8. Create apply-run-info-files at remote side (end)
