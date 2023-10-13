@@ -125,7 +125,7 @@
 
 ######################################################STEP 3. Create special dirs at remote side (begin)
 
-- name: "Create dir '~/ansible_helpers/conf_firewalld' at remote if not exists"
+- name: "Create special dirs (step 3) at remote if not exists"
   ansible.builtin.file:
     path: "{{item}}"
     state: directory
