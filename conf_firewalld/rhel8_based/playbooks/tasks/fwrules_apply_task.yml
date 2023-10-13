@@ -419,6 +419,8 @@
   with_items:
     - {src: "{{playbook_dir}}/scripts_for_remote/re_add_ipsets_content.sh", dest: "~/ansible_helpers/conf_firewalld/re_add_ipsets_content.sh"}
     - {src: "{{playbook_dir}}/scripts_for_remote/apply_fwrules.sh", dest: "~/ansible_helpers/conf_firewalld/apply_fwrules.sh"}
+    - {src: "{{playbook_dir}}/scripts_for_remote/for_cron/check_external_timeouts_for_permanent_ipsets.sh", dest: "~/ansible_helpers/conf_firewalld/for_cron/check_external_timeouts_for_permanent_ipsets.sh"}
+    - {src: "{{playbook_dir}}/scripts_for_remote/for_cron/restore_tmp_ipsets_content_after_reboot.sh", dest: "~/ansible_helpers/conf_firewalld/for_cron/restore_tmp_ipsets_content_after_reboot.sh"}
 
 ######################################################STEP 7. Copy (local->remote) static files to remote (end)
 
