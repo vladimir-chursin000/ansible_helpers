@@ -411,19 +411,14 @@
 
 ######################################################STEP 7. Copy (local->remote) static files to remote (begin)
 
-- name: "Copy 're_add_ipsets_content.sh' to remote"
+- name: "Copy static files to remote"
   ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/re_add_ipsets_content.sh"
-    dest: "~/ansible_helpers/conf_firewalld/re_add_ipsets_content.sh"
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
     mode: '0770'
-
-######
-
-- name: "Copy 'apply_fwrules.sh' to remote"
-  ansible.builtin.copy:
-    src: "{{playbook_dir}}/scripts_for_remote/apply_fwrules.sh"
-    dest: "~/ansible_helpers/conf_firewalld/apply_fwrules.sh"
-    mode: '0770'
+  with_items:
+    - {src: "{{playbook_dir}}/scripts_for_remote/re_add_ipsets_content.sh", dest: "~/ansible_helpers/conf_firewalld/re_add_ipsets_content.sh"}
+    - {src: "{{playbook_dir}}/scripts_for_remote/apply_fwrules.sh", dest: "~/ansible_helpers/conf_firewalld/apply_fwrules.sh"}
 
 ######################################################STEP 7. Copy (local->remote) static files to remote (end)
 
