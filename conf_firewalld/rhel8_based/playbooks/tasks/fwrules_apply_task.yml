@@ -123,21 +123,18 @@
 
 ######################################################STEP 2. Check for remote files is exist (end)
 
-######################################################STEP 3. Create dirs 'conf_firewalld' and 'apply_run_info' at remote side (begin)
+######################################################STEP 3. Create special dirs at remote side (begin)
 
 - name: "Create dir '~/ansible_helpers/conf_firewalld' at remote if not exists"
   ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld"
+    path: "{{item}}"
     state: directory
+  with_items:
+    - "~/ansible_helpers/conf_firewalld"
+    - "~/ansible_helpers/conf_firewalld/apply_run_info"
+    - "~/ansible_helpers/conf_firewalld/for_cron"
 
-######
-
-- name: "Create dir '~/ansible_helpers/conf_firewalld/apply_run_info' at remote if not exists"
-  ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld/apply_run_info"
-    state: directory
-
-######################################################STEP 3. Create dirs 'conf_firewalld' and 'apply_run_info' at remote side (end)
+######################################################STEP 3. Create special dirs at remote side (end)
 
 ######################################################STEP 4. Operations with dirs for ipsets content at remote side (begin)
 # fill vars: permanent_ipsets_dir_exists_at_remote, permanent_ipsets_pwet_dir_exists_at_remote,
