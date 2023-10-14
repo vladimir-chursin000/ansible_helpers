@@ -2,10 +2,16 @@
 - hosts: rhel8_firewall_hosts
   tasks:
 
-  - name: "Activate crontab for '@reboot ~/ansible_helpers/conf_firewalld/for_cron/restore_tmp_ipsets_content_after_reboot.sh'"
+  - name: "Activate crontab for 'restore_tmp_ipsets_content_after_reboot.sh'"
     ansible.builtin.cron:
-      name: "Activate cron for restore_tmp_ipsets_content_after_reboot.sh"
+      name: "Activate cron for 'restore_tmp_ipsets_content_after_reboot.sh' (ansible_helpers/conf_firewalld). Do not touch this line and line after"
       special_time: reboot
       job: "~/ansible_helpers/conf_firewalld/for_cron/restore_tmp_ipsets_content_after_reboot.sh"
 
 ######
+
+  - name: "Activate crontab for 'check_external_timeouts_for_permanent_ipsets.sh'"
+    ansible.builtin.cron:
+      name: "Activate cron for 'check_external_timeouts_for_permanent_ipsets.sh' (ansible_helpers/conf_firewalld). Do not touch this line and line after"
+      minute: "*/1"
+      job: "~/ansible_helpers/conf_firewalld/for_cron/check_external_timeouts_for_permanent_ipsets.sh"

@@ -1,3 +1,14 @@
 ---
 - hosts: rhel8_firewall_hosts
   tasks:
+  - name: "Deactivate crontab for 'restore_tmp_ipsets_content_after_reboot.sh'"
+    ansible.builtin.cron:
+      name: "Activate cron for 'restore_tmp_ipsets_content_after_reboot.sh' (ansible_helpers/conf_firewalld). Do not touch this line and line after"
+      state: absent
+
+######
+
+  - name: "Deactivate crontab for 'check_external_timeouts_for_permanent_ipsets.sh'"
+    ansible.builtin.cron:
+      name: "Activate cron for 'check_external_timeouts_for_permanent_ipsets.sh' (ansible_helpers/conf_firewalld). Do not touch this line and line after"
+      state: absent
