@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-###DEFAULT INPUT VARS (for main.sh)
+######DEFAULT INPUT VARS (for main.sh)
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='all'; # only for '04_add_ipset_entry.sh' or '04_del_ipset_entry.sh'
@@ -8,18 +8,18 @@ PLAYBOOK_str='03_IMPORT_fwrules_apply_immediately_pb.yml'; # def
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='02_fwrules_backup_pb.yml'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='yes'; # def
-###DEFAULT INPUT VARS
+######DEFAULT INPUT VARS
 
-###STATIC VARS
+######STATIC VARS
 OPERATION_str='add';
 IPSET_INPUT_DIR_str="$SELF_DIR_str/02_ipset_input";
 INV_FILE_PATH_str="$SELF_DIR_str/conf_firewall_hosts";
 CONF_DIVISIONS_PATH_str="$SELF_DIR_str/01_fwrules_configs/00_conf_divisions_for_inv_hosts";
 CONF_IPSETS_TEMPLATES_PATH_str="$SELF_DIR_str/01_fwrules_configs/01_conf_ipset_templates";
 CONF_IPSETS_FIN_PATH_str="$SELF_DIR_str/01_fwrules_configs/66_conf_ipsets_FIN";
-###STATIC VARS
+######STATIC VARS
 
-###VARS
+######VARS
 TMP_VAR_str='';
 EXEC_RES_str='';
 IPSET_TMPLT_NAME_str='no';
@@ -32,7 +32,7 @@ declare -a INV_LIMIT_arr;
 NOW_DT_str=`date '+%Y%m%d%H%M%S'`;
 CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
-###VARS
+######VARS
 
 ###CREATE LOG_DIR
 /usr/bin/mkdir -p "$LOG_DIR_str";
