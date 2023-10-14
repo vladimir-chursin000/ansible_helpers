@@ -36,6 +36,8 @@ function write_log_func() {
 ######FUNCTIONS
 
 ######MAIN
+echo_log_func "Start script!";
+
 if [[ -s "$LIST_FILE_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
@@ -72,4 +74,6 @@ if [[ -s "$LIST_FILE_str" ]]; then
         fi;
     done < $LIST_FILE_str;
 fi;
+
+echo_log_func "Stop script!";
 ######MAIN

@@ -1,3 +1,11 @@
 ---
 - hosts: rhel8_firewall_hosts
   tasks:
+
+  - name: "Activate crontab for '@reboot ~/ansible_helpers/conf_firewalld/for_cron/restore_tmp_ipsets_content_after_reboot.sh'"
+    ansible.builtin.cron:
+      name: "Activate cron for restore_tmp_ipsets_content_after_reboot.sh"
+      special_time: reboot
+      job: "~/ansible_helpers/conf_firewalld/for_cron/restore_tmp_ipsets_content_after_reboot.sh"
+
+######
