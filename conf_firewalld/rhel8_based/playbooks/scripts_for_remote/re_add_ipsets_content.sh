@@ -98,8 +98,8 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     ###
     
     # for permanent ipsets with external timeout
-    CONTENT_DIR_PWET_str="$SELF_DIR_str/permanent_ipsets";
-    PREV_CONTENT_DIR_PWET_str="$SELF_DIR_str/prev_permanent_ipsets";
+    CONTENT_DIR_PWET_str="$SELF_DIR_str/permanent_ipsets_pwet";
+    PREV_CONTENT_DIR_PWET_str="$SELF_DIR_str/prev_permanent_ipsets_pwet";
     LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
     NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
     ###
