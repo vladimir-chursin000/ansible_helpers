@@ -39,12 +39,12 @@ function write_log_func() {
 
 ######MAIN
 if [[ -s "$LIST_FILE_PWET_str" ]]; then
-    write_log_func "Read ipset-names with external timeout from file='$LIST_FILE_PWET_str'";
+    write_log_func "Read ipset-names with external timeout from file='$LIST_FILE_PWET_str'" "$EXEC_RESULT_FILE_str";
     
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
         if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-            write_log_func "Check ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str'";
+            write_log_func "Check ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str'" "$EXEC_RESULT_FILE_str";
 	    
             while read -r LINE1_str; # LINE1_str = one line with ipset entry
             do
@@ -55,7 +55,7 @@ if [[ -s "$LIST_FILE_PWET_str" ]]; then
                 TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 		
                 if [[ "$TIMEOUT_num" -lt "1" ]]; then
-                    write_log_func "Ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' is EXPIRED. Removing it from ipset";
+                    write_log_func "Ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' is EXPIRED. Removing it from ipset" "$EXEC_RESULT_FILE_str";
 		    
                     firewall-cmd --permanent --ipset="$LINE0_str" --remove-entry="${TMP_arr[0]}";
 		    
