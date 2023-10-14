@@ -36,13 +36,13 @@ function write_log_func() {
 ######FUNCTIONS
 
 ######MAIN
-echo_log_func "Start script!";
+write_log_func "Start script!";
 
 if [[ -s "$LIST_FILE_str" ]]; then
     while read -r LINE0_str; # LINE0_str = ipset_name
     do
         if [[ -s "$CONTENT_DIR_str/$LINE0_str" && -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-            echo_log_func "Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+            write_log_func "Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
 	    
             while read -r LINE1_str; # LINE1_str = one line with ipset entry
             do
@@ -56,12 +56,12 @@ if [[ -s "$LIST_FILE_str" ]]; then
                     if [[ "$TIMEOUT_num" -gt "2147483" ]]; then
                         TIMEOUT_num='2147483';
 			
-                        echo_log_func "Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' = DONE, but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
+                        write_log_func "Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' = DONE, but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
                     fi;
 		    
                     ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
                 else
-                    echo_log_func "Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+                    write_log_func "Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
                 fi;
 		
                 # clear vars
@@ -75,5 +75,5 @@ if [[ -s "$LIST_FILE_str" ]]; then
     done < $LIST_FILE_str;
 fi;
 
-echo_log_func "Stop script!";
+write_log_func "Stop script!";
 ######MAIN
