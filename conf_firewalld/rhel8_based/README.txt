@@ -1,4 +1,4 @@
-NOT READY! Some refactoring!
+NOT READY! Testing!
 ####
 # 1) UPDATE list (for install and configure firewall) of ip addresses = conf_firewall_hosts (inventory).
 
