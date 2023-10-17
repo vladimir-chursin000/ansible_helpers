@@ -40,6 +40,7 @@ fi;
 
 write_log_func "Set panic on" "$EXEC_RESULT_FILE_str";
 firewall-cmd --panic-on;
+conntrack -F;
 
 while :
 do
