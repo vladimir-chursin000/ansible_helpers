@@ -31,8 +31,16 @@ function write_log_func() {
 ######MAIN
 sleep 2;
 
+write_log_func "Stop sshd" "$EXEC_RESULT_FILE_str";
+systemctl stop sshd;
+
+write_log_func "Kill all ssh sessions" "$EXEC_RESULT_FILE_str";
+kill -9 $(ps -aux | grep ssh | awk '{print $2}');
+
 write_log_func "Set panic on" "$EXEC_RESULT_FILE_str";
 firewall-cmd --panic-on;
+
+write_log_func "Flush conntrack table" "$EXEC_RESULT_FILE_str";
 conntrack -F;
 
 while :
@@ -46,6 +54,9 @@ do
     if [[ "$TIMEOUT_num" -le "0" ]]; then
 	write_log_func "Set panic off" "$EXEC_RESULT_FILE_str";
 	firewall-cmd --panic-off;
+	
+	write_log_func "Start sshd" "$EXEC_RESULT_FILE_str";
+	systemctl start sshd;
 	
 	exit;
     fi;

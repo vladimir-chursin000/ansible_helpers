@@ -65,6 +65,7 @@ NOT READY! Testing!
 # '06_deactivate_crontab_ops_at_remote.sh' = remove scripts for remote execution from crontab at remote side.
 
 # '07_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
+# Also kill all ssh sessions and flush conntrack table.
 
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
