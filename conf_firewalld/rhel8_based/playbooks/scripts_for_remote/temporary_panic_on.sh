@@ -15,6 +15,7 @@ fi;
 
 ######VARS
 TIMEOUT_num=$1;
+IS_CONNTRACK_TCP_LOOSE_ENABLED_str='';
 ######VARS
 
 ######FUNCTIONS
@@ -30,6 +31,13 @@ function write_log_func() {
 ######MAIN
 sleep 2;
 
+# DISABLE watching for ACK-packets if need
+IS_CONNTRACK_TCP_LOOSE_ENABLED_str=$(sysctl -a | sed 's/ //g' | grep net.netfilter.nf_conntrack_tcp_loose=1 | wc -l);
+if [[ "$IS_CONNTRACK_TCP_LOOSE_ENABLED_str" == "1" ]]; then
+    sysctl -w net.netfilter.nf_conntrack_tcp_loose=0;
+fi;
+###
+
 write_log_func "Set panic on" "$EXEC_RESULT_FILE_str";
 firewall-cmd --panic-on;
 
@@ -44,6 +52,12 @@ do
     if [[ "$TIMEOUT_num" -le "0" ]]; then
 	write_log_func "Set panic off" "$EXEC_RESULT_FILE_str";
 	firewall-cmd --panic-off;
+	
+	# ENABLE watching for ACK-packets if need
+	if [[ "$IS_CONNTRACK_TCP_LOOSE_ENABLED_str" == "1" ]]; then
+	    sysctl -w net.netfilter.nf_conntrack_tcp_loose=1;
+	fi;
+	###
 	
 	exit;
     fi;
