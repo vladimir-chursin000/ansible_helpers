@@ -14,9 +14,9 @@ Partially READY helpers (can be used):
 1. conf_firewalld_tmp (version before major refactoring)
 
 NOT READY helpers:
-1. conf_firewalld (refactoring in progress)
+1. conf_firewalld (testing in progress)
 2. conf_linux_core
 3. install_fileserv
 4. install_openssh
 
-DATE: 2023-10-14 16:42
+DATE: 2023-10-19 21:25
