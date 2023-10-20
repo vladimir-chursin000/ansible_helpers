@@ -412,7 +412,8 @@ sub read_main_config {
     		}
     	    }
     	    
-    	    if ( $conf_type_l=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
+    	    if ( $conf_type_l=~/^just_interface$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
+		# prev = $conf_type_l=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/
     		if ( ($#int_list_arr_l==$#hwaddr_list_arr_l && $#int_list_arr_l!=0) or $#int_list_arr_l!=$#hwaddr_list_arr_l ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file";
 		    last;
