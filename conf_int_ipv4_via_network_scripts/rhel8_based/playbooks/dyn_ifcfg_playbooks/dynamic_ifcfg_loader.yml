@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_network_scripts_hosts
+- hosts: rhel8_network_scripts_conf_dedic_app
   tasks:
 
     - name: "check_for_ifcfg_dynamic_task_for_change"
