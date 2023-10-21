@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_nfs_client_hosts
+- hosts: rhel8_nfs_client_conf_dedic_app
   tasks:
     - name: uninstall_nfs_packages
       ansible.builtin.dnf:

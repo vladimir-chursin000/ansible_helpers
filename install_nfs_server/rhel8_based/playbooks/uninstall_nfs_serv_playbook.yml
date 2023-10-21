@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_nfs_server_hosts
+- hosts: rhel8_nfs_server_conf_dedic_app
   tasks:
 ###NFS (systemd)
     - name: disable_n_stop_nfs_services
