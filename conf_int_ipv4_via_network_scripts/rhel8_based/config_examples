@@ -34,7 +34,9 @@
 #INV_HOST    #CONF_ID	#CONF_TYPE	 #INT_LIST	#HWADDR_LIST				#VLAN_ID    #BOND_NAME   #BRIDGE_NAME  #IPv4_ADDR_OPTS			 #BOND_OPTS  #DEFROUTE
 ###
 ###NO-VLAN Examples, static IP
+# Be carefull with configuring interfaces with default route. Typically, such interfaces are configured for access via ssh.
 192.168.1.2  novlstat1	just_interface	 eth0		00:01:02:03:04:01			no	    no		  no	       10.2.1.2,10.1.1.1,255.255.255.0	 no          yes
+#
 192.168.1.2  novlstat2	virt_bridge	 no		no					no	    no		  virbr0       10.2.2.1,nogw,255.255.255.0	 no	     no
 192.168.1.2  novlstat3	just_bridge	 eth1		00:01:02:03:04:03			no	    no		  br0	       10.2.3.2,10.1.3.1,255.255.255.0	 no	     no
 192.168.1.2  novlstat3a	just_bridge	 eth1,eth111	00:01:02:03:04:03,00:02:03:04:05:10	no	    no		  br000	       10.2.8.2,10.1.8.1,255.255.255.0	 no	     no
