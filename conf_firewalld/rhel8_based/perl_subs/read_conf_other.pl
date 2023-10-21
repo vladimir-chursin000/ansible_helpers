@@ -18,8 +18,8 @@ sub read_inventory_file {
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-            if ( $line_l=~/^\[rhel8_firewall_hosts\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
-            elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[rhel8_firewall_hosts\:vars\]/ ) {
+            if ( $line_l=~/^\[rhel8_firewall_conf_dedic_app\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
+            elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[rhel8_firewall_conf_dedic_app\:vars\]/ ) {
                 $start_read_hosts_flag_l=0;
                 last;
             }

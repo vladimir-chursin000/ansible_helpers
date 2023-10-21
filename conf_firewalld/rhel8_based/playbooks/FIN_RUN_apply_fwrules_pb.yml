@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_firewall_hosts
+- hosts: rhel8_firewall_conf_dedic_app
   tasks:
 ######APPLY if one of the shell-scripts (recreate_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh, rollback_fwrules_changes.sh)
 ###for conf firewalld is copied to remote or firewalld.conf is changed

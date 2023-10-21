@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_firewall_hosts
+- hosts: rhel8_firewall_conf_dedic_app
   tasks:
     - name: "Install 'firewall, procps-ng, rsyslog, conntrack-tools' at remote"
       ansible.builtin.dnf:

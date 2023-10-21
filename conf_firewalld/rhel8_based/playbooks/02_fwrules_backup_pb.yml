@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_firewall_hosts
+- hosts: rhel8_firewall_conf_dedic_app
   tasks:
     - name: "Run task 'fwrules_backup_task_main.yml'"
       ansible.builtin.include_tasks: "{{playbook_dir}}/tasks/fwrules_backup_task_main.yml"

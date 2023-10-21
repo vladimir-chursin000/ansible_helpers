@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_firewall_hosts
+- hosts: rhel8_firewall_conf_dedic_app
   tasks:
   - name: "Deactivate crontab for 'restore_tmp_ipsets_content_after_reboot.sh'"
     ansible.builtin.cron:
