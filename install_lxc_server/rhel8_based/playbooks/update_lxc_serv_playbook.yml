@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_lxc_server_hosts
+- hosts: rhel8_lxc_server_conf_dedic_app
   tasks:
     - name: update_lxc_packages
       ansible.builtin.dnf:

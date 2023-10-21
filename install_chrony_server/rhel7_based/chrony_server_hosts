@@ -1,5 +1,5 @@
-[rhel7_chrony_server_hosts]
+[rhel7_chrony_server_conf_dedic_app]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
 
-[rhel7_chrony_server_hosts:vars]
+[rhel7_chrony_server_conf_dedic_app:vars]
 ansible_python_interpreter=/usr/bin/python3

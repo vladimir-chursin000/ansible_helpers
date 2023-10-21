@@ -1,5 +1,5 @@
 ---
-- hosts: rhel7_chrony_server_hosts
+- hosts: rhel7_chrony_server_conf_dedic_app
   tasks:
     - name: install_chrony_packages
       ansible.builtin.yum:

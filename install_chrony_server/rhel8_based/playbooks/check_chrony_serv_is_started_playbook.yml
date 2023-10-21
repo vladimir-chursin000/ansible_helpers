@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_chrony_server_hosts
+- hosts: rhel8_chrony_server_conf_dedic_app
   tasks:
     - name: enable_n_if_started_chronyd_services
       ansible.builtin.systemd:
