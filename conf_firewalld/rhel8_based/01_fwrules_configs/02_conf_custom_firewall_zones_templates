@@ -80,13 +80,13 @@
 #zone_name=some_zone--custom
 #zone_description=empty
 #zone_short_description=empty
-#zone_target=DROP
+#zone_target=ACCEPT
 #zone_allowed_services=http,https
 #zone_allowed_ports=12345/udp
 #zone_allowed_protocols=empty
 #zone_forward=no
 #zone_masquerade_general=no
-#zone_allowed_source_ports=8080/tcp
+#zone_allowed_source_ports=empty
 #zone_icmp_block_inversion=no
 #zone_icmp_block=empty
 #[some_zone--TMPLT:END]
