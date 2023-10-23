@@ -4,4 +4,4 @@
 
 ######INSERT YOUR CUSTOM INVENTORY GROUPS (vars, children, etc) AFTER THIS LINE
 [example_inventory]
-192.168.168.10 # example host
+# 192.168.168.10 # example host
