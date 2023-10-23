@@ -1,0 +1,7 @@
+# Vars description (for define at json-file)
+#	example_task1_vars_map:
+#		local_example_file_path
+###
+- name: "Example task 1"
+  ansible.builtin.debug:
+    msg: "Test message. Local example_file_path: {{inventory_dir}}/03_inventory_files/example_file1.txt"

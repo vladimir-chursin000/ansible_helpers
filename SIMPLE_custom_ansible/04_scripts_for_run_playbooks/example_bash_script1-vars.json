@@ -1,0 +1,5 @@
+{
+    "example_task1_vars_map": {
+	"local_example_file_path": "{{inventory_dir}}/03_inventory_files/example_file1.txt",
+    },
+}
