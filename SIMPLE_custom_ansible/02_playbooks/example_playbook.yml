@@ -1,0 +1,5 @@
+---
+- hosts: example_inventory
+  tasks:
+    - name: "Run 'example_task'"
+      ansible.builtin.include_tasks: "{{inventory_dir}}/01_tasks/example_task.yml"
