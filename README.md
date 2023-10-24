@@ -18,5 +18,6 @@ NOT READY helpers:
 2. conf_linux_core
 3. install_fileserv
 4. install_openssh
+5. SIMPLE_custom_ansible
 
-DATE: 2023-10-19 21:25
+DATE: 2023-10-25 00:04
