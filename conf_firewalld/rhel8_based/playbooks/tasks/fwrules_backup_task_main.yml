@@ -1,21 +1,10 @@
-- name: "Create_dir '~/ansible_helpers/conf_firewalld' at remote if not exists"
+- name: "Create application dirs at remote if not exists"
   ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld"
+    path: "{{item}}"
     state: directory
-
-######################################################
-
-- name: "Create_dir '~/ansible_helpers/conf_firewalld/apply_run_info' at remote if not exists"
-  ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld/apply_run_info"
-    state: directory
-
-######################################################
-
-- name: "Create_dir '~/ansible_helpers/conf_firewalld/tmp' at remote if not exists"
-  ansible.builtin.file:
-    path: "~/ansible_helpers/conf_firewalld/tmp"
-    state: directory
+  with_items: 
+    - "~/ansible_helpers/conf_firewalld/apply_run_info"
+    - "~/ansible_helpers/conf_firewalld/tmp"
 
 ######################################################
 
