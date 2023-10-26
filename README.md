@@ -14,10 +14,10 @@ Partially READY helpers (can be used):
 1. conf_firewalld_tmp (version before major refactoring)
 
 NOT READY helpers:
-1. conf_firewalld (testing in progress)
+1. conf_firewalld (testing in progress + some fixes)
 2. conf_linux_core
 3. install_fileserv
 4. install_openssh
 5. SIMPLE_custom_ansible
 
-DATE: 2023-10-25 00:04
+DATE: 2023-10-27 01:14
