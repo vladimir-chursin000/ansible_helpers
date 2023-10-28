@@ -78,7 +78,7 @@ sub read_02_conf_custom_firewall_zones_templates {
     my %res_tmp_lv1_l=();
 
     my %cfg_params_and_regex_l=(
-        'zone_name'=>'^\S+\-\-custom$',
+        'zone_name'=>'^\S{1,9}\-\-custom$',
         'zone_description'=>'^empty$|^.{1,100}',
         'zone_short_description'=>'^empty$|^.{1,20}',
         'zone_target'=>'^ACCEPT$|^REJECT$|^DROP$|^default$',
