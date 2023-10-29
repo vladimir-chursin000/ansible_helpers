@@ -76,10 +76,10 @@ sub generate_shell_script_for_recreate_ipsets {
             $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'};
             $wr_str_l.=" --type=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_type'};
             if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
-                $wr_str_l.=" --set-description=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'};
+                $wr_str_l.=" --set-description='".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}."'";
             }
             if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
-                $wr_str_l.=" --set-short=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_short_description'};
+                $wr_str_l.=" --set-short='".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_short_description'}."'";
             }
             $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_timeout'};
             $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_family'};
@@ -126,10 +126,10 @@ sub generate_shell_script_for_recreate_ipsets {
             $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'};
             $wr_str_l.=" --type=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_type'};
             if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
-                $wr_str_l.=" --set-description=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'};
+                $wr_str_l.=" --set-description='".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}."'";
             }
             if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
-                $wr_str_l.=" --set-short=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_short_description'};
+                $wr_str_l.=" --set-short='".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_short_description'}."'";
             }
             $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_timeout'};
             $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_family'};
