@@ -36,7 +36,7 @@ sub read_01_conf_ipset_templates {
     my %res_tmp_lv1_l=();
 
     my %cfg_params_and_regex_l=(
-        'ipset_name'=>'^\S+$',
+        'ipset_name'=>'^\S{1,15}$',
         'ipset_description'=>'^empty$|^.{1,100}',
         'ipset_short_description'=>'^empty$|^.{1,20}',
         'ipset_create_option_timeout'=>'^\d+$',

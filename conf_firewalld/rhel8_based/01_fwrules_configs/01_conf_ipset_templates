@@ -17,6 +17,7 @@
 #ipset_name=some_ipset_name
     # Ipset with this name will be created/recreated on the target hosts.    
     # All ipsets not configured within this config will be removed on remote hosts.
+    # Maximum length - 15 characters.
     # Create ipset-list with default options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information only).
 
 #ipset_description=empty|some_description
