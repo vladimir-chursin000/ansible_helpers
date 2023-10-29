@@ -78,7 +78,7 @@ sub generate_shell_script_for_recreate_ipsets {
             if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
                 $wr_str_l.=" --set-description='".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}."'";
             }
-            if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
+            if ( ${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_short_description'}!~/^empty$/ ) {
                 $wr_str_l.=" --set-short='".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_short_description'}."'";
             }
             $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_timeout'};
@@ -128,7 +128,7 @@ sub generate_shell_script_for_recreate_ipsets {
             if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
                 $wr_str_l.=" --set-description='".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}."'";
             }
-            if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_description'}!~/^empty$/ ) {
+            if ( ${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_short_description'}!~/^empty$/ ) {
                 $wr_str_l.=" --set-short='".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_short_description'}."'";
             }
             $wr_str_l.=" --option=timeout=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_timeout'};
