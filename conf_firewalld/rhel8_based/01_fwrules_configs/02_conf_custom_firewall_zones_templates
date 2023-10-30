@@ -81,7 +81,7 @@
 #zone_name=some_zone--custom
 #zone_description=empty
 #zone_short_description=empty
-#zone_target=ACCEPT
+#zone_target=REJECT
 #zone_allowed_services=http,https
 #zone_allowed_ports=12345/udp
 #zone_allowed_protocols=empty

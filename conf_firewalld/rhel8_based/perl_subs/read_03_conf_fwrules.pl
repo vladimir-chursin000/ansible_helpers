@@ -76,7 +76,7 @@ sub read_03_conf_policy_templates {
     my %res_tmp_lv1_l=();
 
     my %cfg_params_and_regex_l=(
-        'policy_name'=>'^\S+$',
+        'policy_name'=>'^\S{1,17}$',
         'policy_description'=>'^empty$|^.{1,100}',
         'policy_short_description'=>'^empty$|^.{1,20}',
         'policy_target'=>'^ACCEPT$|^REJECT$|^DROP$|^CONTINUE$',

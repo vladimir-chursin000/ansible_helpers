@@ -15,6 +15,7 @@
 #policy_name=some_policy_name
     # A policy with this name will be created/recreated on the target hosts.
     # All policies are not configured in this config will be deleted on remote hosts.
+    # Maximum length - 17 characters.
     # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name" (for information only).
 
 #policy_description=empty|some description
