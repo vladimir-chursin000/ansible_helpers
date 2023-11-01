@@ -27,5 +27,5 @@
 ######################################################
 
 - name: "Create apply-run-info-file 'fwconfig_changed'"
-  ansible.builtin.shell: mkdir -p "~/ansible_helpers/conf_firewalld/apply_run_info" && touch "~/ansible_helpers/conf_firewalld/apply_run_info/fwconfig_changed"
+  ansible.builtin.raw: mkdir -p ~/ansible_helpers/conf_firewalld/apply_run_info && touch ~/ansible_helpers/conf_firewalld/apply_run_info/fwconfig_changed
   when: copy_firewalld_conf_to_remote_res.changed==true
