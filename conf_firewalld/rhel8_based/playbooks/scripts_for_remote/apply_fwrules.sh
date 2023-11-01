@@ -159,6 +159,8 @@ fi;
 # 2) Recreate permanent ipsets (if need).
 if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
     if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
+	# for cases: 1) permanent ipsets is recreated; 2) yes configured permanent ipsets.
+	
 	# For script 're_add_ipsets_content.sh' with ARGV[0]='permanent'
 	touch "$APPLY_RUN_INFO_DIR_str/is_force_removed_permanent_ipsets";
 	###
@@ -184,6 +186,8 @@ fi;
 # 3) Recreate temporary ipsets (if need).
 if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" ]]; then
     if [[ `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
+	# for cases: 1) temporary ipsets is recreated; 2) yes configured temporary ipsets.
+	
 	if [[ `grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\""` ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
 	fi;

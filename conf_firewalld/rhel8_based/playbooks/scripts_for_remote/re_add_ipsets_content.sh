@@ -105,7 +105,7 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     ###
 
     if [[ "$IS_FORCE_REMOVED_PERMANENT_IPSETS_str" == "no" ]]; then
-	# for cases: permanent ipsets is not recreated, no confugured permanent ipsets
+	# for cases: 1) permanent ipsets is not recreated; 2) no configured permanent ipsets.
     	if [[ ! -d $PREV_CONTENT_DIR_str ]]; then
     	    mkdir -p $PREV_CONTENT_DIR_str;
     	fi;
