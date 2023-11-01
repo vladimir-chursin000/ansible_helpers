@@ -254,7 +254,8 @@ sub generate_shell_script_for_recreate_policies {
     	    #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
 	
 	# commands for remove policies
-	$wr_str_l="rm -rf /etc/firewalld/policies/*;";
+	# $wr_str_l="rm -rf /etc/firewalld/policies/*;";
+	$wr_str_l="#REMOVE_POLICIES"; # NEW 20231102
         push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},$wr_str_l);
 	
         $wr_str_l=undef;
@@ -531,7 +532,8 @@ sub generate_shell_script_for_recreate_policies {
 	}
 	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_policies_conf_action'}=~/^remove$/ ) {
 	    @wr_arr_l=(@begin_script_arr_l);
-	    @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/policies/*;',' ');
+	    # @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/policies/*;',' ');
+	    @wr_arr_l=(@wr_arr_l,'#REMOVE_POLICIES',' '); # NEW 20231102
 	}
 	else { @wr_arr_l=(@begin_script_arr_l,'#NO NEED TO RECREATE POLICIES'); }
 	

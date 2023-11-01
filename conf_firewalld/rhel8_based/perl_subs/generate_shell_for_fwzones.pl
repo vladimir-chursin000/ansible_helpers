@@ -577,15 +577,20 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	    #key0=inv-host, key1=wr_type (standard, custom, etc), value=array of strings
 	
 	# commands for remove custom fw-zones
-	$wr_str_l="rm -rf /etc/firewalld/zones/*--custom.xml;";
+	# $wr_str_l="rm -rf /etc/firewalld/zones/*--custom.xml;";
+	$wr_str_l='#REMOVE_CUSTOM_ZONES'; # NEW 20231102
         push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
         
         $wr_str_l=undef;
 	
 	$unconf_custom_fw_zones_act_l=${$conf_firewalld_href_l}{$hkey0_l}{'unconfigured_custom_firewall_zones_action'};
 	if ( $unconf_custom_fw_zones_act_l eq 'remove' ) {
+	    # If "remove" -> all custom firewall zones not configured at conf files
+        	# "02_conf_custom_firewall_zones_templates" and "77_conf_zones_FIN" will be deleted.
+	    ###
 	    # 'block','dmz','drop','external','internal','public','trusted','work','home'
-	    $wr_str_l='find /etc/firewalld/zones -type f | grep -v "\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$" | xargs rm -f;';
+	    # $wr_str_l='find /etc/firewalld/zones -type f | grep -v "\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$" | xargs rm -f;';
+	    $wr_str_l='#REMOVE_UNCONFIGURED_CUSTOM_ZONES'; # NEW 20231102
 	    push(@{$wr_hash_l{$hkey0_l}{'custom_remove'}},$wr_str_l);
 	    
 	    $wr_str_l=undef;
@@ -899,7 +904,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	}
 	elsif ( !exists($wr_hash_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_zones_conf_action'}=~/^restore_defaults$/ ) {
 	    @wr_arr_l=(@begin_script_arr_l);
-	    @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/zones/*;','cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones;',' ');
+	    # @wr_arr_l=(@wr_arr_l,'rm -rf /etc/firewalld/zones/*;','cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones;',' ');
+	    @wr_arr_l=(@wr_arr_l,'#RESTORE_DEFAULT_ZONES',' '); # NEW 20231102
 	}
 	else { @wr_arr_l=(@begin_script_arr_l,'#NO NEED TO RECREATE FIREWALL ZONES'); }
 

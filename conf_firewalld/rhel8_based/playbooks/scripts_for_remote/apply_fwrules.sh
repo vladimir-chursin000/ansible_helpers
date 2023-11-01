@@ -156,6 +156,14 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 fi;
 ###
 
+# 1.1) REMOVE operations (special tags at scripts) for:
+    # recreate_permanent_ipsets.sh (#FORCE_REMOVE_PERMANENT_IPSETS),
+    # recreate_temporary_ipsets.sh (#FORCE_REMOVE_TEMPORARY_IPSETS),
+    # recreate_fw_zones.sh (#REMOVE_CUSTOM_ZONES, #REMOVE_UNCONFIGURED_CUSTOM_ZONES, #RESTORE_DEFAULT_ZONES),
+    # recreate_policies.sh (#REMOVE_POLICIES)
+    
+###
+
 # 2) Recreate permanent ipsets (if need).
 if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" ]]; then
     if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
