@@ -255,7 +255,7 @@ sub generate_shell_script_for_recreate_policies {
 	
 	# commands for remove policies
 	# $wr_str_l="rm -rf /etc/firewalld/policies/*;";
-	$wr_str_l="#REMOVE_POLICIES"; # NEW 20231102
+	$wr_str_l='#REMOVE_POLICIES'; # NEW 20231102
         push(@{$wr_hash_l{$hkey0_l}{'policies_remove'}},$wr_str_l);
 	
         $wr_str_l=undef;

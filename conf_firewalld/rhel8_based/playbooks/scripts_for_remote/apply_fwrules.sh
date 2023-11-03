@@ -207,27 +207,28 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
     
     # FOR 'recreate_fw_zones.sh' (begin)
     if [[ `grep '#REMOVE_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
-	echo 'tst'; # tmp
+	rm -rf /etc/firewalld/zones/*--custom.xml;
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
 
     if [[ `grep '#REMOVE_UNCONFIGURED_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
-	echo 'tst'; # tmp
+	find /etc/firewalld/zones -type f | grep -v "\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$" | xargs rm -f;
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
 
     if [[ `grep '#RESTORE_DEFAULT_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
-	echo 'tst'; # tmp
+	rm -rf /etc/firewalld/zones/*;
+	cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones;
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
     # FOR 'recreate_fw_zones.sh' (end)
     
     # FOR 'recreate_policies.sh' (begin)
-    if [[ `grep '#REMOVE_CUSTOM_ZONES' "$SELF_DIR_str/recreate_policies.sh"` ]]; then
-	echo 'tst'; # tmp
+    if [[ `grep '#REMOVE_POLICIES' "$SELF_DIR_str/recreate_policies.sh"` ]]; then
+	rm -rf /etc/firewalld/policies/*;
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
