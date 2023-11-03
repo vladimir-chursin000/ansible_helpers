@@ -31,7 +31,7 @@ PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='no'; # for permanent with external 
 TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
 #
-SPEC_TAGS_OPS_ACTIVE_str='no'; # if "yes" -> need to run step 1.1
+SPEC_TAGS_CHECK_NEED_str='no'; # if "yes" -> need to check for spec tags at step 1.1
 RELOAD_NEED_RUN_BEFORE_str='no'; # for "--reload" before apply "--permanent" changes (and after, for example, "#FORCE_REMOVE_PERMANENT_IPSETS" at step 1.1)
 RELOAD_NEED_RUN_AFTER_str='no'; # for "--reload" after apply "--permanent" changes
 #
@@ -54,6 +54,7 @@ function write_log_func() {
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_AFTER_str='yes';
+    SPEC_TAGS_CHECK_NEED_str='yes';
     
     write_log_func "Exists apply-run-info-file 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
@@ -61,6 +62,7 @@ fi;
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
     RECREATE_TEMPORARY_IPSETS_CHANGED_str='yes';
     RELOAD_NEED_RUN_AFTER_str='yes';
+    SPEC_TAGS_CHECK_NEED_str='yes';
 
     write_log_func "Exists apply-run-info-file 'recreate_temporary_ipsets_changed'. Set RECREATE_TEMPORARY_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
@@ -68,6 +70,7 @@ fi;
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_fw_zones_changed" ]]; then
     RECREATE_FW_ZONES_CHANGED_str='yes';
     RELOAD_NEED_RUN_AFTER_str='yes';
+    SPEC_TAGS_CHECK_NEED_str='yes';
 
     write_log_func "Exists apply-run-info-file 'recreate_fw_zones_changed'. Set RECREATE_FW_ZONES_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
@@ -75,6 +78,7 @@ fi;
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
     RECREATE_POLICIES_CHANGED_str='yes';
     RELOAD_NEED_RUN_AFTER_str='yes';
+    SPEC_TAGS_CHECK_NEED_str='yes';
 
     write_log_func "Exists apply-run-info-file 'recreate_policies_changed'. Set RECREATE_POLICIES_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
