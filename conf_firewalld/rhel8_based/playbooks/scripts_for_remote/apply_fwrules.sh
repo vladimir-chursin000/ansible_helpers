@@ -166,9 +166,10 @@ fi;
 # 1.1) Special tags operations at scripts:
     # recreate_permanent_ipsets.sh (#FORCE_REMOVE_PERMANENT_IPSETS),
     # recreate_temporary_ipsets.sh (#FORCE_REMOVE_TEMPORARY_IPSETS),
-    # recreate_fw_zones.sh (#REMOVE_CUSTOM_ZONES, #REMOVE_UNCONFIGURED_CUSTOM_ZONES, #RESTORE_DEFAULT_ZONES),
+    # recreate_fw_zones.sh (#REMOVE_CUSTOM_ZONES, #REMOVE_UNCONFIGURED_CUSTOM_ZONES (not '--custom.xml'), #RESTORE_DEFAULT_ZONES),
     # recreate_policies.sh (#REMOVE_POLICIES)
 if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
+    # FOR 'recreate_permanent_ipsets.sh' (begin)
     if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
 	# for cases: 1) permanent ipsets is recreated; 2) yes configured permanent ipsets.
 	
@@ -188,7 +189,9 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
-
+    # FOR 'recreate_permanent_ipsets.sh' (end)
+    
+    # FOR 'recreate_temporary_ipsets.sh' (begin)
     if [[ `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
 	# for cases: 1) temporary ipsets is recreated; 2) yes configured temporary ipsets.
 	
@@ -200,6 +203,35 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
+    # FOR 'recreate_temporary_ipsets.sh' (end)
+    
+    # FOR 'recreate_fw_zones.sh' (begin)
+    if [[ `grep '#REMOVE_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
+	echo 'tst'; # tmp
+	
+	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    fi;
+
+    if [[ `grep '#REMOVE_UNCONFIGURED_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
+	echo 'tst'; # tmp
+	
+	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    fi;
+
+    if [[ `grep '#RESTORE_DEFAULT_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
+	echo 'tst'; # tmp
+	
+	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    fi;
+    # FOR 'recreate_fw_zones.sh' (end)
+    
+    # FOR 'recreate_policies.sh' (begin)
+    if [[ `grep '#REMOVE_CUSTOM_ZONES' "$SELF_DIR_str/recreate_policies.sh"` ]]; then
+	echo 'tst'; # tmp
+	
+	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    fi;
+    # FOR 'recreate_policies.sh' (end)
     
     if [[ "$RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str" == "yes" ]]; then
 	write_log_func "Run 'firewall-cmd --reload' (if RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes')" "$EXEC_RESULT_FILE_str";
