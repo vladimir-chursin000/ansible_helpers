@@ -30,6 +30,8 @@ PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='no';
 PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='no'; # for permanent with external timeout
 TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
+#
+SPEC_TAGS_OPS_ACTIVE_str='no'; # if "yes" -> need to run step 1.1
 RELOAD_NEED_RUN_BEFORE_str='no'; # for "--reload" before apply "--permanent" changes (and after, for example, "#FORCE_REMOVE_PERMANENT_IPSETS" at step 1.1)
 RELOAD_NEED_RUN_AFTER_str='no'; # for "--reload" after apply "--permanent" changes
 #
@@ -157,7 +159,7 @@ if [[ "$ROLLBACK_FWRULES_NEED_RUN_str" == "yes" ]]; then
 fi;
 ###
 
-# 1.1) REMOVE operations (special tags at scripts) for:
+# 1.1) Special tags operations at scripts:
     # recreate_permanent_ipsets.sh (#FORCE_REMOVE_PERMANENT_IPSETS),
     # recreate_temporary_ipsets.sh (#FORCE_REMOVE_TEMPORARY_IPSETS),
     # recreate_fw_zones.sh (#REMOVE_CUSTOM_ZONES, #REMOVE_UNCONFIGURED_CUSTOM_ZONES, #RESTORE_DEFAULT_ZONES),
