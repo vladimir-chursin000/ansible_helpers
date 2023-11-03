@@ -184,7 +184,7 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
 	    grep -s -L "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs rm;
 	fi;
 	
-	write_log_func "FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
+	write_log_func "FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes')" "$EXEC_RESULT_FILE_str";
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
@@ -196,7 +196,7 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
 	    grep -s -l "name=\"timeout\"" /etc/firewalld/ipsets/* | xargs grep -L "value=\"0\"" | xargs rm;
 	fi;
 	
-	write_log_func "FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
+	write_log_func "FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes')" "$EXEC_RESULT_FILE_str";
 	
 	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
