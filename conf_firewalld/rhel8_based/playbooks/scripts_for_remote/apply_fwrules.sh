@@ -30,10 +30,10 @@ PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='no';
 PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='no'; # for permanent with external timeout
 TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='no';
 ROLLBACK_FWRULES_NEED_RUN_str='no';
+RELOAD_NEED_RUN_AT_THE_END_str='no'; # for "--reload" after apply "--permanent" changes
 #
 SPEC_TAGS_CHECK_NEED_str='no'; # if "yes" -> need to check for spec tags at step 1.1
-RELOAD_NEED_RUN_BEFORE_str='no'; # for "--reload" before apply "--permanent" changes (and after, for example, "#FORCE_REMOVE_PERMANENT_IPSETS" at step 1.1)
-RELOAD_NEED_RUN_AFTER_str='no'; # for "--reload" after apply "--permanent" changes
+RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='no'; # for "--reload" before apply "--permanent" changes (and after, for example, "#FORCE_REMOVE_PERMANENT_IPSETS" at step 1.1)
 #
 ARR_EL0_str='';
 EXE_RES_str='';
@@ -53,7 +53,7 @@ function write_log_func() {
 ######APPLY_RUN_INFO read
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_permanent_ipsets_changed" ]]; then
     RECREATE_PERMANENT_IPSETS_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='yes';
+    RELOAD_NEED_RUN_AT_THE_END_str='yes';
     SPEC_TAGS_CHECK_NEED_str='yes';
     
     write_log_func "Exists apply-run-info-file 'recreate_permanent_ipsets_changed'. Set RECREATE_PERMANENT_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
@@ -61,7 +61,7 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_temporary_ipsets_changed" ]]; then
     RECREATE_TEMPORARY_IPSETS_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='yes';
+    RELOAD_NEED_RUN_AT_THE_END_str='yes';
     SPEC_TAGS_CHECK_NEED_str='yes';
 
     write_log_func "Exists apply-run-info-file 'recreate_temporary_ipsets_changed'. Set RECREATE_TEMPORARY_IPSETS_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
@@ -69,7 +69,7 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_fw_zones_changed" ]]; then
     RECREATE_FW_ZONES_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='yes';
+    RELOAD_NEED_RUN_AT_THE_END_str='yes';
     SPEC_TAGS_CHECK_NEED_str='yes';
 
     write_log_func "Exists apply-run-info-file 'recreate_fw_zones_changed'. Set RECREATE_FW_ZONES_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
@@ -77,7 +77,7 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/recreate_policies_changed" ]]; then
     RECREATE_POLICIES_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='yes';
+    RELOAD_NEED_RUN_AT_THE_END_str='yes';
     SPEC_TAGS_CHECK_NEED_str='yes';
 
     write_log_func "Exists apply-run-info-file 'recreate_policies_changed'. Set RECREATE_POLICIES_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
@@ -85,7 +85,7 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_changed" ]]; then
     PERMANENT_IPSETS_FLAG_FILE_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='yes';
+    RELOAD_NEED_RUN_AT_THE_END_str='yes';
 
     write_log_func "Exists apply-run-info-file 'permanent_ipsets_flag_file_changed'. Set PERMANENT_IPSETS_FLAG_FILE_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
@@ -93,7 +93,7 @@ fi;
 if [[ -f "$APPLY_RUN_INFO_DIR_str/permanent_ipsets_flag_file_pwet_changed" ]]; then
     # for permanent with external timeout
     PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='yes';
+    RELOAD_NEED_RUN_AT_THE_END_str='yes';
 
     write_log_func "Exists apply-run-info-file 'permanent_ipsets_flag_file_pwet_changed'. Set PERMANENT_IPSETS_FLAG_FILE_PWET_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
@@ -112,12 +112,12 @@ fi;
 
 if [[ -f "$APPLY_RUN_INFO_DIR_str/fwconfig_changed" ]]; then
     FWCONFIG_CHANGED_str='yes';
-    RELOAD_NEED_RUN_AFTER_str='no';
+    RELOAD_NEED_RUN_AT_THE_END_str='no';
 
     write_log_func "Exists apply-run-info-file 'fwconfig_changed'. Set FWCONFIG_CHANGED='yes', RELOAD_NEED_RUN='yes'" "$EXEC_RESULT_FILE_str";
 fi;
 
-if [[ "$RELOAD_NEED_RUN_AFTER_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; then
+if [[ "$RELOAD_NEED_RUN_AT_THE_END_str" == "yes" || "$FWCONFIG_CHANGED_str" == "yes" ]]; then
     # if no changes for temporary (timeout>0), but reload/restart expected -> need to restore temporary ipsets entries after reload/restart
     TEMPORARY_IPSETS_FLAG_FILE_CHANGED_str='yes';
     ###
@@ -185,6 +185,8 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
 	fi;
 	
 	write_log_func "FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
+	
+	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
     fi;
 
     if [[ `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
@@ -195,6 +197,13 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
 	fi;
 	
 	write_log_func "FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes')" "$EXEC_RESULT_FILE_str";
+	
+	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    fi;
+    
+    if [[ "$RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str" == "yes" ]]; then
+	write_log_func "Run 'firewall-cmd --reload' (if RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes')" "$EXEC_RESULT_FILE_str";
+	firewall-cmd --reload;
     fi;
 fi;
 ###
@@ -254,7 +263,7 @@ fi;
 # 7) Reload "firewall-cmd --reload" (if need).
     # If changed: recreate_permanent_ipsets.sh, recreate_temporary_ipsets.sh, recreate_fw_zones.sh, recreate_policies.sh
     # If executed: re_add_permanent_ipsets_content.sh
-if [[ "$RELOAD_NEED_RUN_AFTER_str" == "yes" ]]; then
+if [[ "$RELOAD_NEED_RUN_AT_THE_END_str" == "yes" ]]; then
     write_log_func "Run 'firewall-cmd --reload' (if RELOAD_NEED_RUN='yes')" "$EXEC_RESULT_FILE_str";
     firewall-cmd --reload;
 fi;
