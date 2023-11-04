@@ -877,6 +877,7 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
     my $proc_name_l=(caller(0))[3];
     
     my $line_l=undef;
+    my $is_wireless_interface_l=0; # if == 1 (is wireless interface) -> ignore (no add to res_href_l)
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
     
@@ -894,9 +895,18 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
 	opendir(DIR_NOW,$ifcfg_backup_from_remote_dir_l.'/'.$hkey0_l);
 	while ( readdir DIR_NOW ) {
 	    $line_l=$_;
-	    if ( $line_l!~/^\.|^ifcfg\-lo$/ ) {
+	    if ( $line_l=~/^\./ ) { next; }
+	    
+	    $is_wireless_interface_l=`grep -i 'TYPE=Wireless' "$ifcfg_backup_from_remote_dir_l/$hkey0_l/$line_l" | wc -l`;
+	    
+	    if ( $line_l!~/^\.|^ifcfg\-lo$/ && $is_wireless_interface_l!=1 ) {
 		${$res_href_l}{$hkey0_l}{'now'}{$line_l}=1;
 	    }
+	    
+	    # clear vars
+	    $line_l=undef;
+	    $is_wireless_interface_l=0;
+	    ###
 	}
 	closedir(DIR_NOW);
 	
@@ -957,8 +967,9 @@ sub modify_inv_hosts_hash1 {
 		    ${$res_href_l}{$hkey0_l}{'for_del'}{$hkey1_l}=1; # just shutdown and delete ifcfg-file
 		    
 		    if ( $exec_res_l!=1 ) {
-			${$res_href_l}{$hkey0_l}{'for_del_ip_link'}{$tmp_var_l}=1; # if included (means not interface-ifcfg) -> 'ip link delete'
+		    	${$res_href_l}{$hkey0_l}{'for_del_ip_link'}{$tmp_var_l}=1; # if included (means not interface-ifcfg) -> 'ip link delete'
 		    }
+		    
 		    ($tmp_var_l,$exec_res_l)=(undef,undef);
 		}
 	    }
