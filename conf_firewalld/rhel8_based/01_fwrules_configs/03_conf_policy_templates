@@ -76,7 +76,9 @@
 
 ###POLICY EXAMPLE. Use this template to create policies. Don't forget to remove the comment characters (#).
 #[some_policy--TMPLT:BEGIN]
+#Maximum length for "policy_name" = 17 characters
 #policy_name=some_policy_name
+###
 #policy_description=empty
 #policy_short_description=empty
 #policy_target=CONTINUE

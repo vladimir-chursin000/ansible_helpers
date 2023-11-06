@@ -78,7 +78,9 @@
 
 ###CUSTOM ZONE EXAMPLE. Use this template to create custom firewall zones. Don't forget to remove the comment characters (#).
 #[some_zone--TMPLT:BEGIN]
+#Maximum length for "zone_name" = 17 characters (including the "--custom" substring)
 #zone_name=some_zone--custom
+###
 #zone_description=empty
 #zone_short_description=empty
 #zone_target=REJECT

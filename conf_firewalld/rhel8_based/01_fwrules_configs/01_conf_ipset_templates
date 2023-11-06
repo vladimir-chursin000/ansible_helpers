@@ -185,7 +185,9 @@
 
 ###CUSTOM IPSET CFG EXAMPLE. Use this template to create custom ipset. Don't forget to remove the comment characters (#).
 #[some_ipset_template_name--TMPLT:BEGIN]
+#Maximum length for "ipset_name" = 15 characters
 #ipset_name=some_ipset_name
+###
 #ipset_description=empty
 #ipset_short_description=empty
 #ipset_create_option_timeout=0
