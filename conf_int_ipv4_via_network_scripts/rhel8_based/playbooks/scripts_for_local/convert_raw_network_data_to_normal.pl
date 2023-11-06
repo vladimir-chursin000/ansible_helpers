@@ -45,7 +45,7 @@ foreach $arr_el0_g ( @ip_link_files_g ) {
 	    while ($line_g=~/\t/) { $line_g=~s/\t/ /g; }
 	    $line_g=~s/\s+/ /g;
 	    $line_g=~s/^ //g;
-	    if ( $line_g=~/^\d: (\S+)\: \<.* link\/ether (\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}) brd/ ) {
+	    if ( $line_g=~/^\d+\: (\S+)\: \<.* link\/ether (\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}) brd/ ) {
 		$hwaddr_g=lc($2);
 		if ( !exists($ip_link_uniq_hwaddr_g{$hwaddr_g}) ) {
 		    print F "$inv_host_g	$1		$hwaddr_g\n";
