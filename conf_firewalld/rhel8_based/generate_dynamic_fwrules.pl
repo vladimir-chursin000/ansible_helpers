@@ -90,6 +90,7 @@ our $dyn_fwrules_files_dir_g=$scripts_for_remote_dir_g.'/fwrules_files'; # dir f
 #for IPSET_files_operation.pl (sub=apply_IPSET_files_operation_main)
 our $ipset_input_dir_g=$self_dir_g.'/02_ipset_input';
 our $ipset_actual_data_dir_g=$self_dir_g.'/03_ipset_actual_data';
+###
 ############STATIC VARS
 
 ############VARS

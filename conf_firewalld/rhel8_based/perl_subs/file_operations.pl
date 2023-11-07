@@ -17,25 +17,25 @@ sub rewrite_actual_ipset_file_from_hash {
     if ( exists(${$href_l}{'info'}) ) { @wr_arr_l=@{${$href_l}{'info'}}; }
     
     if ( exists(${$href_l}{'content'}) ) {
-	@tmp_arr_l=sort(keys %{${$href_l}{'content'}});
-	
-	foreach $arr_el0_l ( @tmp_arr_l ) {
-	    #$arr_el0_l=ipset entry
-	    
-	    $expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
-	    if ( $expire_date_l>0 ) { # for teporary ipsets and permanent ipsets WITH external timeout
-		push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
-	    }
-	    else { # for permanent ipsets WITHOUT external timeout
-		push(@wr_arr_l,$arr_el0_l);
-	    }
-	}
-	
-	# clear vars
-	$arr_el0_l=undef;
-	$expire_date_l=undef;
-	@tmp_arr_l=();
-	###
+    	@tmp_arr_l=sort(keys %{${$href_l}{'content'}});
+    	
+    	foreach $arr_el0_l ( @tmp_arr_l ) {
+    	    #$arr_el0_l=ipset entry
+    	    
+    	    $expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
+    	    if ( $expire_date_l>0 ) { # for teporary ipsets and permanent ipsets WITH external timeout
+    		push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
+    	    }
+    	    else { # for permanent ipsets WITHOUT external timeout
+    		push(@wr_arr_l,$arr_el0_l);
+    	    }
+    	}
+    	
+    	# clear vars
+    	$arr_el0_l=undef;
+    	$expire_date_l=undef;
+    	@tmp_arr_l=();
+    	###
     }
     
     &rewrite_file_from_array_ref($file_l,\@wr_arr_l);
@@ -64,54 +64,66 @@ sub read_actual_ipset_file_to_hash {
     
     open(FILE,'<',$file_l);
     while ( <FILE> ) {
-	$line_l=$_;
-	
-	$line_l=~s/^\s+//g;
-	$line_l=~s/\n|\r|\r\n|\n\r//g;
-	
-	if ( $line_l!~/^\#/ ) { # if line not comment
-	    $line_l=~s/\s+//g;
-
-	    if ( $line_l=~/^(\S+)\;\+(\S+)$/ ) {
-		$ipset_entry_l=$1;
-		$expire_datetime_l=$2;
-		
-		if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
-		    if ( $now_epoch_sec_l<1 ) { $now_epoch_sec_l=time(); }
-		    
-		    $expire_epoch_sec_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_datetime_l);
+    	$line_l=$_;
+    	
+    	$line_l=~s/^\s+//g;
+    	$line_l=~s/\n|\r|\r\n|\n\r//g;
+    	
+    	if ( $line_l!~/^\#/ ) { # if line not comment
+    	    $line_l=~s/\s+//g;
+    	    
+    	    if ( $line_l=~/^(\S+)\;\+(\S+)$/ ) { # if entry with timeout
+    	    	$ipset_entry_l=$1;
+    	    	$expire_datetime_l=$2;
+    	    	
+    	    	if ( $expire_datetime_l=~/^\d{14}$/ ) { # if date format is correct
+    	    	    if ( $now_epoch_sec_l<1 ) { $now_epoch_sec_l=time(); }
+    	    	    
+    	    	    $expire_epoch_sec_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_datetime_l);
                     #$for_conv_dt
-		    
-		    $tmp_expire_timeout_l=$expire_epoch_sec_l-$now_epoch_sec_l;
-		    
-		    if ( $file_type_l==1 && $tmp_expire_timeout_l>2147483 ) {
+    	    	    
+    	    	    $tmp_expire_timeout_l=$expire_epoch_sec_l-$now_epoch_sec_l;
+    	    	    
+    	    	    if ( $file_type_l==1 && $tmp_expire_timeout_l>2147483 ) { # if temporary ipset entry and expire timeout > max_value
                        $expire_epoch_sec_l=$now_epoch_sec_l+2147483;
-			
+    	    		
                        $expire_datetime_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_l);
                        #$for_conv_sec_l
                     }
-
-		    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is not expired
+    	    	
+    	    	    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is not expired
                         ${$href_l}{'content'}{$ipset_entry_l}=$expire_datetime_l;
                     }
-		}
-	    }
-	    else {
-		$ipset_entry_l=$line_l;
-		$expire_datetime_l=0;
-		
-		${$href_l}{'content'}{$ipset_entry_l}=$expire_datetime_l;
-	    }
-	}
-	else { # if line is comment from file begin
-	    push(@{${$href_l}{'info'}},$line_l);
-	}
-	
-	# clear vars
-	$line_l=undef;
-	###
+    	    	    
+    	    	    # clear vars
+    	    	    ($expire_epoch_sec_l,$tmp_expire_timeout_l)=(undef,undef);
+    	    	    ###
+    	    	}
+    	    }
+    	    else { # if line = entry WITHOUT timeout
+    	    	$ipset_entry_l=$line_l;
+    	    	$expire_datetime_l=0;
+    	    	
+    	    	${$href_l}{'content'}{$ipset_entry_l}=$expire_datetime_l;
+    	    }
+    	    
+    	    # clear vars
+    	    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
+    	    ###
+    	}
+    	else { # if line is comment from file begin
+    	    push(@{${$href_l}{'info'}},$line_l);
+    	}
+    	
+    	# clear vars
+    	$line_l=undef;
+    	###
     }
     close(FILE);
+    
+    # clear vars
+    $now_epoch_sec_l=undef;
+    ###
     
     return $return_str_l;
 }
@@ -134,6 +146,10 @@ sub read_lines_without_comments_of_file_to_hash {
 	    $line_l=~s/\s+//g;
 	    ${$href_l}{$line_l}=1;
 	}
+	
+	# clear vars
+	$line_l=undef;
+	###
     }
     close(FILE);
     
@@ -158,6 +174,10 @@ sub read_lines_without_comments_of_file_to_array {
 	    $line_l=~s/\s+//g;
 	    push(@{$aref_l},$line_l);
 	}
+	
+	# clear vars
+	$line_l=undef;
+	###
     }
     close(FILE);
     
@@ -176,6 +196,10 @@ sub rewrite_file_from_array_ref {
     	print FILE $arr_el0_l."\n";
     }
     close(FILE);
+    
+    # clear vars
+    $arr_el0_l=undef;
+    ###
     
     return $return_str_l;
 }
@@ -197,7 +221,7 @@ sub init_create_dirs_at_local_ipset_input_dir { # used at 'apply_IPSET_files_ope
     #del
     #errors
     #history
-
+    
     system("mkdir -p $ipset_input_dir_l/add");
     system("mkdir -p $ipset_input_dir_l/del");
     system("mkdir -p $ipset_input_dir_l/history");
@@ -220,7 +244,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###You CAN manually ADD entries to this file!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
+    		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
             	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
             	    # The expire_date mechanism is external. That is, WITHOUT using ipset timeouts on the remote side.
@@ -236,20 +260,20 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record in format "ipset_entry;+expire_datetime_utc".
+    		    # One line - one record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
             	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
-		    # The expire_date mechanism is internal. That is, WITH using ipset timeouts on the remote side.
+    		    # The expire_date mechanism is internal. That is, WITH using ipset timeouts on the remote side.
             	    # Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
-		    # You can manually add entries (according to ipset_type) to this file.
+    		    # You can manually add entries (according to ipset_type) to this file.
         	#/change_history/... (dir)
             	    #CHANGE_DATETIME__ipset_name.txt (file)
                 	# For move "actual__ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
                 	# First line - "datetime of creation;+datetime of change" + "old_ipset_type;+new_ipset_type" + "old_ipset_name;+new_ipset_name"
                     	    # in the format "###YYYYMMDDHHMISS(CREATE_DATE);+YYYYMMDDHHMISS(CHANGE_DATE);+OLD_IPSET_TYPE;+NEW_IPSET_TYPE;+OLD_IPSET_NAME;+NEW_IPSET_NAME".
-	
+    	
     	    #delete_history/... (dir)
-		    # If "ipset template_name" is deleted from "01_conf_ipset_templates", then the ipset data and change history
+    		    # If "ipset template_name" is deleted from "01_conf_ipset_templates", then the ipset data and change history
             	    # are moved to this directory.
         	#permanent/DEL_DATETIME-ipset_template_name/... (dir)
             	    #actual__ipset_name.txt (file)
@@ -259,7 +283,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
             	    #/change_history/ (dir)
     
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
-	#Key=inventory_host, value=1
+    	#Key=inventory_host, value=1
     
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
@@ -271,8 +295,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
         #{'ipset_create_option_maxelem'}=num
         #{'ipset_create_option_family'}=inet|inet6
         #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
-
-
+    
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
         #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
             #{ipset_name_tmplt-0}=1;
@@ -333,8 +356,10 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     	    	$init_file_l=undef;
     	    	##############
     	    } # while h66, permanent, inv-host (end)
-    	    
+    	    	
+	    # clear vars
     	    ($hkey1_l,$hval1_l)=(undef,undef);
+	    ###
     	}
     	
     	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
@@ -373,7 +398,9 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     }
     # create dirs and create init-files if need (END)
     
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     
     return $return_str_l;
 }
