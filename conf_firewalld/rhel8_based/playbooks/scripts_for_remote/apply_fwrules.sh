@@ -170,7 +170,7 @@ fi;
     # recreate_policies.sh (#REMOVE_POLICIES)
 if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
     # FOR 'recreate_permanent_ipsets.sh' (begin)
-    if [[ `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
+    if [[ "$RECREATE_PERMANENT_IPSETS_CHANGED_str" == "yes" && `grep '#FORCE_REMOVE_PERMANENT_IPSETS' "$SELF_DIR_str/recreate_permanent_ipsets.sh"` ]]; then
 	# for cases: 1) permanent ipsets is recreated; 2) yes configured permanent ipsets.
 	
 	write_log_func "FORCE_REMOVE_PERMANENT_IPSETS (if RECREATE_PERMANENT_IPSETS_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
@@ -192,7 +192,7 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
     # FOR 'recreate_permanent_ipsets.sh' (end)
     
     # FOR 'recreate_temporary_ipsets.sh' (begin)
-    if [[ `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
+    if [[ "$RECREATE_TEMPORARY_IPSETS_CHANGED_str" == "yes" && `grep '#FORCE_REMOVE_TEMPORARY_IPSETS' "$SELF_DIR_str/recreate_temporary_ipsets.sh"` ]]; then
 	# for cases: 1) temporary ipsets is recreated; 2) yes configured temporary ipsets.
 	
 	write_log_func "FORCE_REMOVE_TEMPORARY_IPSETS (if RECREATE_TEMPORARY_IPSETS_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
@@ -206,34 +206,36 @@ if [[ "$SPEC_TAGS_CHECK_NEED_str" == "yes" ]]; then
     # FOR 'recreate_temporary_ipsets.sh' (end)
     
     # FOR 'recreate_fw_zones.sh' (begin)
-    if [[ `grep '#REMOVE_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
-	write_log_func "REMOVE_CUSTOM_ZONES (if RECREATE_FW_ZONES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
-	
-	rm -rf /etc/firewalld/zones/*--custom.xml &>> $EXEC_RESULT_FILE_str;
-
-	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
-    fi;
-
-    if [[ `grep '#REMOVE_UNCONFIGURED_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
-	write_log_func "REMOVE_UNCONFIGURED_CUSTOM_ZONES (if RECREATE_FW_ZONES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
-	
-	find /etc/firewalld/zones -type f | grep -v "\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$" | xargs rm -f &>> $EXEC_RESULT_FILE_str;
-	
-	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
-    fi;
-
-    if [[ `grep '#RESTORE_DEFAULT_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
-	write_log_func "RESTORE_DEFAULT_ZONES (if RECREATE_FW_ZONES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
-	
-	rm -rf /etc/firewalld/zones/* &>> $EXEC_RESULT_FILE_str;
-	cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones &>> $EXEC_RESULT_FILE_str;
-	
-	RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    if [[ "$RECREATE_FW_ZONES_CHANGED_str" == "yes" ]]; then
+    	if [[ `grep '#REMOVE_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
+    	    write_log_func "REMOVE_CUSTOM_ZONES (if RECREATE_FW_ZONES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
+    	    
+    	    rm -rf /etc/firewalld/zones/*--custom.xml &>> $EXEC_RESULT_FILE_str;
+    	    
+    	    RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    	fi;
+    	
+    	if [[ `grep '#REMOVE_UNCONFIGURED_CUSTOM_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
+    	    write_log_func "REMOVE_UNCONFIGURED_CUSTOM_ZONES (if RECREATE_FW_ZONES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
+    	    
+    	    find /etc/firewalld/zones -type f | grep -v "\/block.xml$\|\/dmz.xml$\|\/drop.xml$\|\/external.xml$\|\/internal.xml$\|\/public.xml$\|\/trusted.xml$\|\/work.xml$\|\/home.xml$\|--custom.xml$" | xargs rm -f &>> $EXEC_RESULT_FILE_str;
+    	    
+    	    RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    	fi;
+    	
+    	if [[ `grep '#RESTORE_DEFAULT_ZONES' "$SELF_DIR_str/recreate_fw_zones.sh"` ]]; then
+    	    write_log_func "RESTORE_DEFAULT_ZONES (if RECREATE_FW_ZONES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
+    	        
+    	    rm -rf /etc/firewalld/zones/* &>> $EXEC_RESULT_FILE_str;
+    	    cp -r /usr/lib/firewalld/zones/* /etc/firewalld/zones &>> $EXEC_RESULT_FILE_str;
+    	    
+    	    RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes';
+    	fi;
     fi;
     # FOR 'recreate_fw_zones.sh' (end)
     
     # FOR 'recreate_policies.sh' (begin)
-    if [[ `grep '#REMOVE_POLICIES' "$SELF_DIR_str/recreate_policies.sh"` ]]; then
+    if [[ "$RECREATE_POLICIES_CHANGED_str" == "yes" && `grep '#REMOVE_POLICIES' "$SELF_DIR_str/recreate_policies.sh"` ]]; then
 	write_log_func "REMOVE_POLICIES (if RECREATE_POLICIES_CHANGED='yes'). Set RELOAD_NEED_RUN_AFTER_SPEC_TAGS_CHECK_str='yes'" "$EXEC_RESULT_FILE_str";
 
 	rm -rf /etc/firewalld/policies/* &>> $EXEC_RESULT_FILE_str;
