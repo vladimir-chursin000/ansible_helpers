@@ -166,7 +166,7 @@ sub read_88_conf_policies_FIN {
         ###
 
         # FORWARD_PORTS_SET ops [3]
-        if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'forward_ports_set'}='empty'; }
+        if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
         else {
             #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
                 #$h04_conf_zone_forward_ports_sets_hash_g{set_name}-> ...
@@ -179,7 +179,7 @@ sub read_88_conf_policies_FIN {
         ###
     
         # RICH_RULES_SET ops [4]
-        if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{'rich_rules_set'}='empty'; }
+        if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
         else {
             #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
                 #$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
