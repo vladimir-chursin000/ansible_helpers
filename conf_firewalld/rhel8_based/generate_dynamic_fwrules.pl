@@ -59,8 +59,8 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
 #02_conf_custom_firewall_zones_templates
 #02_conf_standard_firewall_zones_templates
 #03_conf_policy_templates
-#04_conf_zone_forward_ports_sets
-#05_conf_zone_rich_rules_sets
+#04_conf_forward_ports_sets
+#05_conf_rich_rules_sets
 #66_conf_ipsets_FIN
 #77_conf_zones_FIN
 #88_conf_policies_FIN
@@ -72,8 +72,8 @@ our $f01_conf_ipset_templates_path_g=$self_dir_g.'/01_fwrules_configs/01_conf_ip
 our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/01_fwrules_configs/02_conf_custom_firewall_zones_templates';
 our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/01_fwrules_configs/02_conf_standard_firewall_zones_templates';
 our $f03_conf_policy_templates_path_g=$self_dir_g.'/01_fwrules_configs/03_conf_policy_templates';
-our $f04_conf_zone_forward_ports_sets_path_g=$self_dir_g.'/01_fwrules_configs/04_conf_zone_forward_ports_sets';
-our $f05_conf_zone_rich_rules_sets_path_g=$self_dir_g.'/01_fwrules_configs/05_conf_zone_rich_rules_sets';
+our $f04_conf_forward_ports_sets_path_g=$self_dir_g.'/01_fwrules_configs/04_conf_forward_ports_sets';
+our $f05_conf_rich_rules_sets_path_g=$self_dir_g.'/01_fwrules_configs/05_conf_rich_rules_sets';
 our $f65_conf_initial_ipsets_content_FIN_path_g=$self_dir_g.'/01_fwrules_configs/65_conf_initial_ipsets_content_FIN';
 our $f66_conf_ipsets_FIN_path_g=$self_dir_g.'/01_fwrules_configs/66_conf_ipsets_FIN';
 our $f77_conf_zones_FIN_path_g=$self_dir_g.'/01_fwrules_configs/77_conf_zones_FIN';
@@ -363,13 +363,13 @@ our %h03_conf_policy_templates_hash_g=();
 ######
 
 ######
-our %h04_conf_zone_forward_ports_sets_hash_g=();
+our %h04_conf_forward_ports_sets_hash_g=();
 #[some_forward_ports_set_name:BEGIN]
 #port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
 #port=80:proto=tcp:toport=8080 (example)
 #[some_forward_ports_set_name:END]
 ###
-#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+#$h04_conf_forward_ports_sets_hash_g{set_name}->
     #{'rule-0'}=1
     #{'rule-1'}=1
     #etc
@@ -377,13 +377,13 @@ our %h04_conf_zone_forward_ports_sets_hash_g=();
 ######
 
 ######
-our %h05_conf_zone_rich_rules_sets_hash_g=();
+our %h05_conf_rich_rules_sets_hash_g=();
 #[some_rich_rules_set_name:BEGIN]
 #rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80 (example)
 #rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
 #[some_rich_rules_set_name:END]
 ###
-#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+#$h05_conf_rich_rules_sets_hash_g{set_name}->
     #{'rule-0'}=1
     #{'rule-1'}=1
     #etc
@@ -448,8 +448,8 @@ our %h77_conf_zones_FIN_hash_g=();
 	#{'ipset_tmplt-1'}=1
 	#etc
     #{'seq'}=[val-0,val-1] (val=ipset_tmplt)
-#{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
-#{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+#{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
+#{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
 ######
 
 ######
@@ -461,8 +461,8 @@ our %h88_conf_policies_FIN_hash_g=();
 #$h88_conf_policies_FIN_hash_g{inventory_host}{policy_name_tmplt}->
 #{'ingress-firewall_zone_name_tmplt'}=value
 #{'egress-firewall_zone_name_tmplt'}=value
-#{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
-#{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+#{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
+#{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
 ######
 
 our ($exec_res_g,$exec_status_g)=(undef,'OK');
@@ -576,7 +576,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
     
-    $exec_res_g=&read_04_conf_zone_forward_ports_sets($f04_conf_zone_forward_ports_sets_path_g,\%h04_conf_zone_forward_ports_sets_hash_g);
+    $exec_res_g=&read_04_conf_forward_ports_sets($f04_conf_forward_ports_sets_path_g,\%h04_conf_forward_ports_sets_hash_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
@@ -584,11 +584,11 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
-    #print Dumper(\%h04_conf_zone_forward_ports_sets_hash_g);
+    #print Dumper(\%h04_conf_forward_ports_sets_hash_g);
     
     ######
     
-    $exec_res_g=&read_05_conf_zone_rich_rules_sets($f05_conf_zone_rich_rules_sets_path_g,\%h05_conf_zone_rich_rules_sets_hash_g);
+    $exec_res_g=&read_05_conf_rich_rules_sets($f05_conf_rich_rules_sets_path_g,\%h05_conf_rich_rules_sets_hash_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
@@ -596,7 +596,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	last;
     }
     $exec_res_g=undef;
-    #print Dumper(\%h05_conf_zone_rich_rules_sets_hash_g);
+    #print Dumper(\%h05_conf_rich_rules_sets_hash_g);
     
     ######
 
@@ -631,8 +631,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
-	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
-	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+	'h04_conf_forward_ports_sets_href'=>\%h04_conf_forward_ports_sets_hash_g,
+	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
 	'h66_conf_ipsets_FIN_href'=>\%h66_conf_ipsets_FIN_hash_g,
     );
     $exec_res_g=&read_77_conf_zones_FIN($f77_conf_zones_FIN_path_g,\%input_hash4proc_g,\%h77_conf_zones_FIN_hash_g);
@@ -654,8 +654,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
 	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,
-	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
-	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+	'h04_conf_forward_ports_sets_href'=>\%h04_conf_forward_ports_sets_hash_g,
+	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
 	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
     $exec_res_g=&read_88_conf_policies_FIN($f88_conf_policies_FIN_path_g,\%input_hash4proc_g,\%h88_conf_policies_FIN_hash_g);
@@ -724,8 +724,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
     	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
     	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
-    	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
-    	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+    	'h04_conf_forward_ports_sets_href'=>\%h04_conf_forward_ports_sets_hash_g,
+    	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
     	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
     $exec_res_g=&generate_shell_script_for_recreate_firewall_zones($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
@@ -747,8 +747,8 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
     	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,
-    	'h04_conf_zone_forward_ports_sets_href'=>\%h04_conf_zone_forward_ports_sets_hash_g,
-    	'h05_conf_zone_rich_rules_sets_href'=>\%h05_conf_zone_rich_rules_sets_hash_g,
+    	'h04_conf_forward_ports_sets_href'=>\%h04_conf_forward_ports_sets_hash_g,
+    	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
     	'h88_conf_policies_FIN_href'=>\%h88_conf_policies_FIN_hash_g,
     );
     $exec_res_g=&generate_shell_script_for_recreate_policies($dyn_fwrules_files_dir_g,\%input_hash4proc_g);

@@ -1,9 +1,9 @@
 ###DEPENDENCIES: read_conf_fwrules_common.pl
 
-sub read_05_conf_zone_rich_rules_sets {
+sub read_05_conf_rich_rules_sets {
     my ($file_l,$res_href_l)=@_;
-    #file_l=$f05_conf_zone_rich_rules_sets_path_g
-    #res_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
+    #file_l=$f05_conf_rich_rules_sets_path_g
+    #res_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
     my $proc_name_l=(caller(0))[3];
 
     #[some_rich_rules_set_name:BEGIN]
@@ -11,7 +11,7 @@ sub read_05_conf_zone_rich_rules_sets {
     #rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
     #[some_rich_rules_set_name:END]
     ###
-    #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    #$h05_conf_rich_rules_sets_hash_g{set_name}->
         #{'rule-0'}=1
         #{'rule-1'}=1
         #etc

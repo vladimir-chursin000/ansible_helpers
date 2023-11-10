@@ -28,13 +28,13 @@ sub read_77_conf_zones_FIN {
     my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
 
-    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
-    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
-        #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_forward_ports_sets_href'};
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
+        #$h04_conf_forward_ports_sets_hash_g{set_name}->
 
-    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
-    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
-        #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_rich_rules_sets_href'};
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
+        #$h05_conf_rich_rules_sets_hash_g{set_name}->
 
     my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
@@ -72,8 +72,8 @@ sub read_77_conf_zones_FIN {
             #{'ipset_tmplt-1'}=1
             #etc
         #{'seq'}=[val-0,val-1] (val=ipset_tmplt)
-    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
-    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
     ###
 
     my ($exec_res_l,$inv_host_l)=(undef,undef);
@@ -253,10 +253,10 @@ sub read_77_conf_zones_FIN {
         # FORWARD_PORTS_SET ops [4] (begin)
         if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
         else {
-            #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
-                #$h04_conf_zone_forward_ports_sets_hash_g{set_name}-> ...
+            #$fw_ports_set_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
+                #$h04_conf_forward_ports_sets_hash_g{set_name}-> ...
             if ( !exists(${$fw_ports_set_href_l}{${$hval0_l}[4]}) ) {
-                $return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_zone_forward_ports_sets' (conf='77_conf_zones_FIN')";
+                $return_str_l="fail [$proc_name_l]. FORWARD_PORTS_SET='${$hval0_l}[4]' (conf='$file_l) is not exists at '04_conf_forward_ports_sets' (conf='77_conf_zones_FIN')";
                 last;
             }
             else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
@@ -266,10 +266,10 @@ sub read_77_conf_zones_FIN {
         # RICH_RULES_SET ops [5] (begin)
         if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
         else {
-            #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
-                #$h05_conf_zone_rich_rules_sets_hash_g{set_name}-> ...
+            #$rich_rules_set_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
+                #$h05_conf_rich_rules_sets_hash_g{set_name}-> ...
             if ( !exists(${$rich_rules_set_href_l}{${$hval0_l}[5]}) ) {
-                $return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_zone_rich_rules_sets' (conf='77_conf_zones_FIN')";
+                $return_str_l="fail [$proc_name_l]. RICH_RULES_SET='${$hval0_l}[5]' (conf='$file_l) is not exists at '05_conf_rich_rules_sets' (conf='77_conf_zones_FIN')";
                 last;
             }
             else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }

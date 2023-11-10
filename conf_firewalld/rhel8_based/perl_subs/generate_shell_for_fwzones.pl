@@ -22,13 +22,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
     
-    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_zone_forward_ports_sets_href'};
-    #$fw_ports_set_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
-    	#$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_forward_ports_sets_href'};
+    #$fw_ports_set_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
+    	#$h04_conf_forward_ports_sets_hash_g{set_name}->
     
-    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_zone_rich_rules_sets_href'};
-    #$rich_rules_set_href_l=hash-ref for %h05_conf_zone_rich_rules_sets_hash_g
-    	#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_zone_rich_rules_sets_href'};
+    #$rich_rules_set_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
+    	#$h05_conf_rich_rules_sets_hash_g{set_name}->
     
     my $h77_conf_zones_FIN_href_l=${$input_hash4proc_href_l}{'h77_conf_zones_FIN_href'};
     #$h77_conf_zones_FIN_href_l=hash-ref for %h77_conf_zones_FIN_hash_g
@@ -151,13 +151,13 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	    #etc
 	#{'seq'}=[val-0,val-1] (val=icmptype)
     ######
-    #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    #$h04_conf_forward_ports_sets_hash_g{set_name}->
         #{'rule-0'}=1
         #{'rule-1'}=1
         #etc
         #{'seq'}=[val-0,val-1] (val=rule)
     ######
-    #$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+    #$h05_conf_rich_rules_sets_hash_g{set_name}->
         #{'rule-0'}=1
         #{'rule-1'}=1
         #etc
@@ -185,8 +185,8 @@ sub generate_shell_script_for_recreate_firewall_zones {
     	    #{'ipset_tmplt-1'}=1
     	    #etc
 	#{'seq'}=[val-0,val-1] (val=ipset_tmplt)
-    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_zone_forward_ports_sets')
-    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_zone_rich_rules_sets')
+    #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
+    #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
     ######
 
     my $exec_res_l=undef;
@@ -509,7 +509,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    
 	    # forward_ports_set
 		#$fw_ports_set_href_l
-	        #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+	        #$h04_conf_forward_ports_sets_hash_g{set_name}->
     		    #{'rule-0'}=1
     		    #{'rule-1'}=1
     		    #etc
@@ -533,7 +533,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	    # rich_rules_set
 		#$rich_rules_set_href_l
-		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+		#$h05_conf_rich_rules_sets_hash_g{set_name}->
     		    #{'rule-0'}=1
     		    #{'rule-1'}=1
     		    #etc
@@ -825,7 +825,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	    
 	    # forward_ports_set
 		#$fw_ports_set_href_l
-	        #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+	        #$h04_conf_forward_ports_sets_hash_g{set_name}->
     		    #{'rule-0'}=1
     		    #{'rule-1'}=1
     		    #etc
@@ -849,7 +849,7 @@ sub generate_shell_script_for_recreate_firewall_zones {
 	
 	    # rich_rules_set
 		#$rich_rules_set_href_l
-		#$h05_conf_zone_rich_rules_sets_hash_g{set_name}->
+		#$h05_conf_rich_rules_sets_hash_g{set_name}->
     		    #{'rule-0'}=1
     		    #{'rule-1'}=1
     		    #etc

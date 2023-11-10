@@ -2,7 +2,7 @@
 #FOR CONFIGURATION OF IPSETS for FIREWALLD#
 ###########################################
 
-# For use in configuration files: "05_conf_zone_rich_rules_sets", "65_conf_initial_ipsets_FIN", "66_conf_ipsets_FIN", "77_conf_zones_FIN".
+# For use in configuration files: "05_conf_rich_rules_sets", "65_conf_initial_ipsets_FIN", "66_conf_ipsets_FIN", "77_conf_zones_FIN".
 # It is possible to create several ipset conf (#ipset_name) with the same name but within different template_names to apply to different hosts.
 # Ipset conf template names must be unique.
 # The ipset template name must always contain a substring "--TMPLT" at the end.

@@ -1,9 +1,9 @@
 ###DEPENDENCIES: read_conf_fwrules_common.pl, value_check.pl
 
-sub read_04_conf_zone_forward_ports_sets {
+sub read_04_conf_forward_ports_sets {
     my ($file_l,$res_href_l)=@_;
-    #file_l=$f04_conf_zone_forward_ports_sets_path_g
-    #res_href_l=hash-ref for %h04_conf_zone_forward_ports_sets_hash_g
+    #file_l=$f04_conf_forward_ports_sets_path_g
+    #res_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
     my $proc_name_l=(caller(0))[3];
 
     #[some_forward_ports_set_name:BEGIN]
@@ -11,7 +11,7 @@ sub read_04_conf_zone_forward_ports_sets {
     #port=80:proto=tcp:toport=8080 (example)
     #[some_forward_ports_set_name:END]
     ###
-    #$h04_conf_zone_forward_ports_sets_hash_g{set_name}->
+    #$h04_conf_forward_ports_sets_hash_g{set_name}->
         #{'rule-0'}=1
         #{'rule-1'}=1
         #etc
