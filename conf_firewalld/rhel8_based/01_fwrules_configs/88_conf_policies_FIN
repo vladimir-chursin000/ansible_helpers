@@ -36,5 +36,7 @@
     # Add rich-rule = "firewall-cmd --permanent --zone=some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
 ###
 #INVENTORY_HOST		#POLICY_NAME_TMPLT		#INGRESS-FIREWALL_ZONE_NAME_TMPLT	#EGRESS-FIREWALL_ZONE_NAME_TMPLT	#FORWARD_PORTS_SET      #RICH_RULES_SET
-#all			policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set1		rich_rules_set1 (example)
-#10.3.2.2		policy_zoneone2zonetwo--TMPLT	zoneone--TMPLT				zonetwo--TMPLT				fw_ports_set2		rich_rules_set2 (example)
+#all			policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set1		rich_rules_set1 (example, prio = 0)
+#gr_some_example_group	policy_public2home--TMPLT	public--TMPLT                           home--TMPLT				empty			empty (example, prio = 1)
+#10.3.2.2,10.3.2.1	policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set2		rich_rules_set2 (example, prio = 2)
+#10.3.2.2		policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set2		rich_rules_set2 (example, prio => 2)
