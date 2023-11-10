@@ -10,5 +10,7 @@
     # IPSET_TEMPLATES must be equal to the corresponding ipset template configured in the file "01_conf_ipset_templates".
 ###
 #INVENTORY_HOST		#IPSET_NAME_TMPLT_LIST
-#all			ipset1--TMPLT,ipset4all_public--TMPLT (example)
-#10.3.2.2		ipset4public--TMPLT (example)
+#all			ipset1--TMPLT,ipset4all_public--TMPLT (example, prio for ipset1--TMPLT = 0)
+#gr_some_example_group  ipset1--TMPLT (example, prio = 1)
+#10.3.2.2,10.2.2.1	ipset1--TMPLT (example, prio = 2)
+#10.3.2.2		ipset1--TMPLT (example, prio => 2)
