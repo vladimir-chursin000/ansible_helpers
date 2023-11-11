@@ -18,6 +18,9 @@
 
 #[some_rich_rules_set_name:BEGIN]
 #INVENTORY_HOST		#RICH_RULE
-#all			"some rich rule"
+#all			"some rich rule N1" (example, prio = 0)
+#gr_some_example_group	"some rich rule N1" (example, prio = 1)
+#10.1.2.2,10.1.2.4	"some rich rule N1" (example, prio = 2)
+#10.1.2.2		"some rich rule N1" (example, prio => 2)
 #[some_rich_rules_set_name:END]
 #################################INSERT YOUR RICH RULES SETS AFTER THIS LINE#################################
