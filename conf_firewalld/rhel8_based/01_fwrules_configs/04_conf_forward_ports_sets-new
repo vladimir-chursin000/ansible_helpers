@@ -3,6 +3,8 @@
 #FOR CONFIGURATION OF FORWARD-PORTS-SETS for FIREWALL ZONES or POLICIES#
 ########################################################################
 
+# For IPv6 forward ports, please use the rich language ('05_conf_rich_rules_sets').
+
 # Forward ports set name must be unique.
 # Add forward-port = "firewall-cmd --permanent --zone=some_zone_name/some_policy_name --add-forward-port='some-fw-port-string'" (for information only).
 
@@ -10,6 +12,13 @@
     # If "all" -> the configuration will be applied to all inventory hosts.
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
 ###
+# fw_port - port for forward to #fw_toport. The port can either be a single port number or a port range (for example, 80-180).
+###
+# fw_proto - the protocol can either be tcp, udp, sctp or dccp.
+###
+# fw_toport - port for receiving traffic from the port #fw_port. The port can either be a single port number or a port range (for example, 80-180).
+###
+# fw_toaddr - if 'empty' -> used '127.0.0.1'.
 
 ###CUSTOM FORWARD PORTS SET EXAMPLE. Use this template to define forward ports sets. Don't forget to remove the comment characters (#).
 #[some_forward_ports_set_name:BEGIN]
