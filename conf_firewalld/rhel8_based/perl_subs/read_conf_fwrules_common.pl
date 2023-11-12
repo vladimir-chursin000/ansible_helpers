@@ -151,6 +151,9 @@ sub read_param_only_templates_from_config {
 	$line_l=~s/ \./\./g;
 	$line_l=~s/\. /\./g;
 
+	$line_l=~s/ \,/\,/g;
+	$line_l=~s/\, /\,/g;
+
 	$line_l=~s/ \:/\:/g;
 	$line_l=~s/\: /\:/g;
 

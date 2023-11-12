@@ -158,8 +158,6 @@ sub read_04_conf_forward_ports_sets_v2 {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'all' (begin)
 	    #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
-	    $hkey1_l=~s/ \,/\,/g;
-	    $hkey1_l=~s/\, /\,/g;
 	    
 	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
 	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
