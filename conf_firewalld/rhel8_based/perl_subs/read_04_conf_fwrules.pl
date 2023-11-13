@@ -156,6 +156,22 @@ sub read_04_conf_forward_ports_sets_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=set_tmplt_name, hval0_l=hash ref where key=string with rule params
         
+	# block for checks of strings with rule params (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
+	    
+	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
+	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
+	    
+	    # clear vars
+	    @rule_params_l=();
+	    ###
+        }
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
+	# block for checks of strings with rule params (end)
+	
 	# block for 'all' (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=string with rule params

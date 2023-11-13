@@ -132,5 +132,12 @@ sub check_ipset_input {
     
     return $return_str_l;    
 }
+
+sub check_inv_host_by_type {
+    my ($inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l)=@_;
+    #inv_host_l = all/group_name/list_of_hosts/single_host
+    
+    
+}
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
