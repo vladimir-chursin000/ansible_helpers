@@ -138,6 +138,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     my ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,'localhost');
     my ($port_str4check0_l,$port_str4check1_l)=(undef,undef);
     my @rule_params_l=();
+    my @tmp_arr0_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -155,7 +156,8 @@ sub read_04_conf_forward_ports_sets_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=set_tmplt_name, hval0_l=hash ref where key=string with rule params
         
-        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'all' (begin)
+	# block for 'all' (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
 	    
@@ -170,9 +172,13 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    # clear vars
 	    @rule_params_l=();
 	    ###
-        } # cycle for 'all' (end)
+        }
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
+	# block for 'all' (end)
 
-        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'groups' (begin)
+	# block for 'groups' (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
 	    
@@ -187,9 +193,13 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    # clear vars
 	    @rule_params_l=();
 	    ###
-        } # cycle for 'groups' (end)
+        }
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
+	# block for 'groups' (end)
 
-        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'host_list' (begin)
+	# block for 'host_list' (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
 	    
@@ -197,16 +207,25 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
 	    
 	    if ( $rule_params_l[0]=~/^\S+\,\S+/ ) {
+		@tmp_arr0_l=split(/\,/,$rule_params_l[0]); # array of hosts
 		
 		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		
+		# clear vars
+		@tmp_arr0_l=();
+		###
 	    }
 	    
 	    # clear vars
 	    @rule_params_l=();
 	    ###
-        } # cycle for 'host_list' (end)
+        }
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
+	# block for 'host_list' (end)
 
-        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'single_host' (begin)
+	# block for 'single_host' (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
 	    
@@ -221,7 +240,8 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    # clear vars
 	    @rule_params_l=();
 	    ###
-        } # cycle for 'single_host' (end)
+        }
+	# block for 'single_host' (end)
 	
 	# clear vars
         $exec_res_l=undef;
