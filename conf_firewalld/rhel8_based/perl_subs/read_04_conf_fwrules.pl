@@ -162,12 +162,66 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
 	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
 	    
-	    
+	    if ( $rule_params_l[0]=~/^all$/ ) {
+		
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    }
 	    
 	    # clear vars
 	    @rule_params_l=();
 	    ###
         } # cycle for 'all' (end)
+
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'groups' (begin)
+	    #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
+	    
+	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
+	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
+	    
+	    if ( $rule_params_l[0]=~/^(gr_\S+)$/ ) {
+		
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    }
+	    
+	    # clear vars
+	    @rule_params_l=();
+	    ###
+        } # cycle for 'groups' (end)
+
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'host_list' (begin)
+	    #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
+	    
+	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
+	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
+	    
+	    if ( $rule_params_l[0]=~/^\S+\,\S+/ ) {
+		
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    }
+	    
+	    # clear vars
+	    @rule_params_l=();
+	    ###
+        } # cycle for 'host_list' (end)
+
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for 'single_host' (begin)
+	    #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
+	    
+	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
+	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
+	    
+	    if ( $rule_params_l[0]=~/^\S+\$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {
+		
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    }
+	    
+	    # clear vars
+	    @rule_params_l=();
+	    ###
+        } # cycle for 'single_host' (end)
 	
 	# clear vars
         $exec_res_l=undef;

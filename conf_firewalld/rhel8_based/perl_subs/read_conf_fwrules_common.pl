@@ -143,7 +143,7 @@ sub read_param_only_templates_from_config {
     while ( <CONF_TMPLT> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        while ( $line_l=~/\t/ ) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
 	$line_l=~s/ $//g;
