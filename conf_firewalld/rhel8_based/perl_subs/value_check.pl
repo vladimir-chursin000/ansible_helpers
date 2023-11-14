@@ -139,10 +139,13 @@ sub check_inv_host_by_type {
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
-    
-    my @tmp_arr0_l=();
-    
+        
     my $proc_name_l=(caller(0))[3];
+
+    my $arr_el0_l=undef;
+    my @tmp_arr0_l=();
+
+    my $return_str_l='OK';
     
     if ( $inv_host_l=~/^all$/i && $inv_host_l=~/A|L/ ) {
 	
@@ -163,12 +166,17 @@ sub check_inv_host_by_type {
     if ( $inv_host_l!~/^all$|^gr_\S+$/ ) {
 	@tmp_arr0_l=split(/\,/,$inv_host_l);
 	
+	foreach $arr_el0_l ( @tmp_arr0_l ) {
+	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+		
+	    }
+	}
+	
 	# clear vars
+	$arr_el0_l=undef;
 	@tmp_arr0_l=();
 	###
     }
-    
-    my $return_str_l='OK';
     
     return $return_str_l;
 }
