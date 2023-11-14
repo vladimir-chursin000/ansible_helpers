@@ -139,7 +139,7 @@ sub check_inv_host_by_type {
     
     my $proc_name_l=(caller(0))[3];
     
-    if ( $inv_host_l=~/^ALL$|^All$|^ALl$|^aLL$|^alL$|^aLl$/ ) {
+    if ( $inv_host_l=~/all/i && $inv_host_l=~/A|L/ ) {
 	
     }
     
