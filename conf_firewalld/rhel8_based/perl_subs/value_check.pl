@@ -154,6 +154,12 @@ sub check_inv_host_by_type {
 	
     }
     
+    if ( $inv_host_l=~/^gr_\S+$/ && !exists(${$divisions_for_inv_hosts_href_l}{$inv_host_l}) ) {
+	
+    }
+    
+    
+    
     my $return_str_l='OK';
     
     return $return_str_l;
