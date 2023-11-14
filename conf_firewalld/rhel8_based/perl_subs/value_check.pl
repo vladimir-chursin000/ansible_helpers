@@ -136,6 +136,9 @@ sub check_ipset_input {
 sub check_inv_host_by_type {
     my ($inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l)=@_;
     #inv_host_l = all/group_name/list_of_hosts/single_host
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+        #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     
     my $proc_name_l=(caller(0))[3];
     
