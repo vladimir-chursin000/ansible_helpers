@@ -203,5 +203,19 @@ sub simple_port_check {
     
     return $return_str_l;
 }
+
+sub check_forward_port_protocol {
+    my ($proto_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    #tcp, udp, sctp or dccp
+    
+    if ( $proto_l!~/^tcp$|^udp$|^sctp$|^dccp$/ ) {
+	$return_str_l="fail [$proc_name_l]. Proto='$proto_l' is incorrect. Proto mus be 'tcp/udp/sctp/dccp'";
+	return $return_str_l;
+    }
+    
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

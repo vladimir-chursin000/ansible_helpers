@@ -186,6 +186,16 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    ###
 
 	    ###
+	    $exec_res_l=&check_forward_port_protocol($rule_params_l[2]);
+	    #$proto_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
+	    $exec_res_l=undef;
+	    ###
+
+	    ###
 	    $exec_res_l=&simple_port_check($rule_params_l[3],'fw_toport');
 	    #$port_l,$port_name_l
 	    if ( $exec_res_l=~/^fail/ ) {
