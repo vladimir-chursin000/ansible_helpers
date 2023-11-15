@@ -148,19 +148,23 @@ sub check_inv_host_by_type {
     my $return_str_l='OK';
     
     if ( $inv_host_l=~/^all$/i && $inv_host_l=~/A|L/ ) {
-	
+	$return_str_l="fail [$proc_name_l]. Incorrect inv-host='$inv_host_l'. It must be 'all'";
+	return $return_str_l;
     }
     
-    if ( $inv_gost_l=~/^all\,|\,all\,|\,all$/ ) {
-	
+    if ( $inv_host_l=~/^all\,|\,all\,|\,all$/ ) {
+	$return_str_l="fail [$proc_name_l]. Incorrect inv-host='$inv_host_l'. It must be witout ','";
+	return $return_str_l;
     }
 
     if ( $inv_host_l=~/gr_\S+/ && $inv_host_l=~/\,/ ) {
-	
+	$return_str_l="fail [$proc_name_l]. Incorrect inv-host/group='$inv_host_l'. It must be witout ','";
+	return $return_str_l;
     }
     
     if ( $inv_host_l=~/^gr_\S+$/ && !exists(${$divisions_for_inv_hosts_href_l}{$inv_host_l}) ) {
-	
+	$return_str_l="fail [$proc_name_l]. Incorrect inv-host/group='$inv_host_l'. Group is not exists at '00_conf_divisions_for_inv_hosts'";
+	return $return_str_l;
     }
     
     if ( $inv_host_l!~/^all$|^gr_\S+$/ ) {
@@ -168,7 +172,8 @@ sub check_inv_host_by_type {
 	
 	foreach $arr_el0_l ( @tmp_arr0_l ) {
 	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-		
+		$return_str_l="fail [$proc_name_l]. Incorrect inv-host/inv-host-list='$inv_host_l'. '$arr_el0_l' is not exists at inventory";
+		return $return_str_l;
 	    }
 	}
 	
