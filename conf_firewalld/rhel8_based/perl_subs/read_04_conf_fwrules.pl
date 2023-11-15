@@ -135,6 +135,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($hkey2_l,$hval2_l)=(undef,undef);
     my ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,'localhost');
     my ($port_str4check0_l,$port_str4check1_l)=(undef,undef);
     my @rule_params_l=();
@@ -164,12 +165,35 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
 	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
 	    
+	    ###
 	    $exec_res_l=&check_inv_host_by_type($rule_params_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
 	    #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l
 	    if ( $exec_res_l=~/^fail/ ) {
 		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 		last;
 	    }
+	    $exec_res_l=undef;
+	    ###
+	    
+	    ###
+	    $exec_res_l=&simple_port_check($rule_params_l[1],'fw_port');
+	    #$port_l,$port_name_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
+	    $exec_res_l=undef;
+	    ###
+
+	    ###
+	    $exec_res_l=&simple_port_check($rule_params_l[3],'fw_toport');
+	    #$port_l,$port_name_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
+	    $exec_res_l=undef;
+	    ###
 
 	    # clear vars
 	    $exec_res_l=undef;

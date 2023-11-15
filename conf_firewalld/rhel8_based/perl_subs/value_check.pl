@@ -185,5 +185,23 @@ sub check_inv_host_by_type {
     
     return $return_str_l;
 }
+
+sub simple_port_check {
+    my ($port_l,$port_name_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( $port_l!~/^\d+$/ ) {
+	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port must be a num";
+	return $return_str_l;
+    }
+    
+    if ( $port_l<1 or $port_l>65535 ) {
+	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port number must be >= 1 and <= 65535";
+    }
+    
+    return $return_str_l;
+}
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
