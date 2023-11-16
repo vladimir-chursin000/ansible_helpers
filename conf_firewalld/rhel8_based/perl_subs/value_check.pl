@@ -222,6 +222,8 @@ sub check_forward_port_protocol {
     my $proc_name_l=(caller(0))[3];
     #tcp, udp, sctp or dccp
     
+    my $return_str_l='OK';
+    
     if ( $proto_l!~/^tcp$|^udp$|^sctp$|^dccp$/ ) {
 	$return_str_l="fail [$proc_name_l]. Proto='$proto_l' is incorrect. Proto mus be 'tcp/udp/sctp/dccp'";
 	return $return_str_l;
@@ -230,5 +232,13 @@ sub check_forward_port_protocol {
     return $return_str_l;
 }
 
+sub simple_check_ipv4_addr {
+    my ($ip_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+
+    my $return_str_l='OK';
+
+    return $return_str_l;
+}
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
