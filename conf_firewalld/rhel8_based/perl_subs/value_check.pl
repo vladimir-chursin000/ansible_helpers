@@ -190,15 +190,28 @@ sub simple_port_check {
     my ($port_l,$port_name_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
+    my $one_port_l=undef;
+    my @ports_l=();
+        
     my $return_str_l='OK';
     
-    if ( $port_l!~/^\d+$/ ) {
-	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port must be a num";
+    if ( $port_l!~/^\d+$|^\d+\-\d+$/ ) {
+	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port must be a num (or range of ports, for example, 80-180)";
 	return $return_str_l;
     }
     
-    if ( $port_l<1 or $port_l>65535 ) {
-	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port number must be >= 1 and <= 65535";
+    @ports_l=split(/\-/,$port_l);
+    
+    foreach $one_port_l ( @ports_l ) {
+	if ( $one_port_l<1 or $one_port_l>65535 ) {
+	    $return_str_l="fail [$proc_name_l]. Port='$one_port_l' ('$port_name_l') is incorrect. Port number must be >= 1 and <= 65535";
+	    return $return_str_l;
+	}
+    }
+    
+    if ( $#ports_l==1 && $ports_l[0]>=$ports_l[1] ) {
+	$return_str_l="fail [$proc_name_l]. Port range='$port_l' is incorrect. The first number should not be greater than the second";
+	return $return_str_l;
     }
     
     return $return_str_l;
