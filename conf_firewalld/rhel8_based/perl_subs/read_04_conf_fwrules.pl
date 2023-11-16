@@ -148,6 +148,7 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    #{'string with rule params-2'}
 	    #etc
 	    #{'seq'}=['string with rule params-1', 'string with rule params-2', etc]
+    my %res_tmp_lv1_l=(); # like '$h04_conf_forward_ports_sets_hash_g'
 
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -157,6 +158,8 @@ sub read_04_conf_forward_ports_sets_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=set_tmplt_name, hval0_l=hash ref where key=string with rule params
         
+	delete($res_tmp_lv0_l{$hkey0_l}{'seq'});
+	
 	# block for checks of strings with rule params (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #hkey1_l=string with rule params
