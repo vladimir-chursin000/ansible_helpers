@@ -225,18 +225,23 @@ sub check_forward_port_protocol {
     my $return_str_l='OK';
     
     if ( $proto_l!~/^tcp$|^udp$|^sctp$|^dccp$/ ) {
-	$return_str_l="fail [$proc_name_l]. Proto='$proto_l' is incorrect. Proto mus be 'tcp/udp/sctp/dccp'";
+	$return_str_l="fail [$proc_name_l]. Proto='$proto_l' is incorrect. Proto must be 'tcp/udp/sctp/dccp'";
 	return $return_str_l;
     }
     
     return $return_str_l;
 }
 
-sub simple_check_ipv4_addr {
+sub check_ipv4_addr_for_port_forwarding {
     my ($ip_l)=@_;
     my $proc_name_l=(caller(0))[3];
 
     my $return_str_l='OK';
+    
+    if ( $ip_l!~/^empty$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+	$return_str_l="fail [$proc_name_l]. IP-addr v4='$ip_l' is incorrect. IP-addr (for port forwarding) must be 'empty' or in ipv4 format";
+	return $return_str_l;
+    }
 
     return $return_str_l;
 }

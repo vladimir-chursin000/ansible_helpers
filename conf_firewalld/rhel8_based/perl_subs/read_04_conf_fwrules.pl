@@ -205,6 +205,16 @@ sub read_04_conf_forward_ports_sets_v2 {
 	    $exec_res_l=undef;
 	    ###
 
+	    ###
+	    $exec_res_l=&check_ipv4_addr_for_port_forwarding($rule_params_l[4]);
+	    #$port_l,$port_name_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
+	    $exec_res_l=undef;
+	    ###
+
 	    # clear vars
 	    $exec_res_l=undef;
 	    @rule_params_l=();
