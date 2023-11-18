@@ -22,7 +22,7 @@
 
 ###CUSTOM FORWARD PORTS SET EXAMPLE. Use this template to define forward ports sets. Don't forget to remove the comment characters (#).
 #[some_forward_ports_set_name:BEGIN]
-#INVENTORY_HOST		#fw_port	#fw_proto	#fw_toport	#fw_toaddr
+##INVENTORY_HOST		#fw_port	#fw_proto	#fw_toport	#fw_toaddr
 #all			80		tcp		8080		192.168.1.60 (example, prio = 0)
 #gr_some_example_group	80		tcp		8080		192.168.1.60 (example, prio = 1)
 #10.1.2.2,10.1.2.4	80		tcp		8080		192.168.1.60 (example, prio = 2)
