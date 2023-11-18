@@ -119,7 +119,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     my $proc_name_l=(caller(0))[3];
     
     #[some_forward_ports_set_name:BEGIN]
-    #INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
+    ##INVENTORY_HOST         #fw_port        #fw_proto       #fw_toport      #fw_toaddr
     #all                    80              tcp             8080            192.168.1.60 (example, prio = 0)
     #gr_some_example_group  80              tcp             8080            192.168.1.60 (example, prio = 1)
     #10.1.2.2,10.1.2.4      80              tcp             8080            192.168.1.60 (example, prio = 2)
@@ -391,10 +391,11 @@ sub read_04_conf_forward_ports_sets_v2 {
     # check rules and save res to '%res_tmp_lv0_l' (end)
     
     # fill result hash
-    %{$res_href_l}=%res_tmp_lv0_l;
+    %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
     %res_tmp_lv0_l=();
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
