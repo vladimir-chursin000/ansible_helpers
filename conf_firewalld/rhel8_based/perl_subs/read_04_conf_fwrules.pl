@@ -137,8 +137,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($hkey2_l,$hval2_l)=(undef,undef);
-    my ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,'localhost');
-    my ($port_str4check0_l,$port_str4check1_l)=(undef,undef);
+    my $rule_str_l=undef;
     my @rule_params_l=();
     my @tmp_arr0_l=();
     my $return_str_l='OK';
@@ -237,7 +236,12 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
     	    
     	    if ( $rule_params_l[0]=~/^\S+\$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {
-    	    	
+		if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
+		else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
+		
+    	    	$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_str_l}=1;
+		push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_str_l);
+		
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
     	    }
     	    
@@ -340,7 +344,6 @@ sub read_04_conf_forward_ports_sets_v2 {
     	# clear vars
         $exec_res_l=undef;
         ($hkey1_l,$hval1_l)=(undef,undef);
-        ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,undef);
     	@rule_params_l=();
     	###
     	
@@ -351,7 +354,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     $exec_res_l=undef;
     ($hkey0_l,$hval0_l)=(undef,undef);
     ($hkey1_l,$hval1_l)=(undef,undef);
-    ($from_port_l,$to_port_l,$proto_l,$to_addr_l)=(undef,undef,undef,undef);
+    ($hkey2_l,$hval2_l)=(undef,undef);
     @rule_params_l=();
     ###
     
