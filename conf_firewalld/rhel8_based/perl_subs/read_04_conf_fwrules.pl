@@ -236,12 +236,12 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
     	    
     	    if ( $rule_params_l[0]=~/^\S+\$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {
-		if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
-		else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
-		
+	    	if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
+	    	else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
+	    	
     	    	$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_str_l}=1;
-		push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_str_l);
-		
+	    	push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_str_l);
+	    	
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
     	    }
     	    
@@ -262,9 +262,12 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    if ( $rule_params_l[0]=~/^\S+\,\S+/ ) {
     	    	@tmp_arr0_l=split(/\,/,$rule_params_l[0]); # array of hosts
     	    	
+	    	if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
+    	    	else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
+	    	
     	    	foreach $arr_el0_l ( @tmp_arr0_l ) {
-    	    	    #$arr_el0_l=inv-host from host_list
-    	    	    
+    	    	    #$arr_el0_l=inv-host from host_list    
+	    
     	    	}
     	    	
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
@@ -292,6 +295,9 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
     	    
     	    if ( $rule_params_l[0]=~/^(gr_\S+)$/ ) {
+	    	if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
+    	    	else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
+	    
     	    	while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$rule_params_l[0]}} ) {
     	    	    #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
     	    	    
@@ -300,7 +306,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    	# clear vars
     	    	($hkey2_l,$hval2_l)=(undef,undef);
     	    	###
-		
+	    	
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
     	    }
     	    
@@ -321,11 +327,14 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
     	    
     	    if ( $rule_params_l[0]=~/^all$/ ) {
+	    	if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
+    	    	else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
+	    
     	    	while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
     	    	    #$hkey2_l=inv-host from inventory
     	    	    
     	    	}
-		
+	    	
     	    	# clear vars
     	    	($hkey2_l,$hval2_l)=(undef,undef);
     	    	###
