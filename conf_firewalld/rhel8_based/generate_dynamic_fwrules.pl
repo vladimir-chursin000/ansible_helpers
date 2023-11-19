@@ -59,8 +59,8 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
 #02_conf_custom_firewall_zones_templates
 #02_conf_standard_firewall_zones_templates
 #03_conf_policy_templates
-#04_conf_forward_ports_sets
-#05_conf_rich_rules_sets
+#04_conf_forward_ports_sets - don't forget change descr comment at all after update (!)
+#05_conf_rich_rules_sets - don't forget change descr comment at all after update (!)
 #66_conf_ipsets_FIN
 #77_conf_zones_FIN
 #88_conf_policies_FIN
@@ -736,6 +736,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
     	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
+    #new
+    #$exec_res_g=&generate_shell_script_for_recreate_firewall_zones_v2($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
+    #$dyn_fwrules_files_dir_l,$input_hash4proc_href_l
+
     $exec_res_g=&generate_shell_script_for_recreate_firewall_zones($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
     #$dyn_fwrules_files_dir_l,$input_hash4proc_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -759,6 +763,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
     	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
     	'h88_conf_policies_FIN_href'=>\%h88_conf_policies_FIN_hash_g,
     );
+    #new
+    #$exec_res_g=&generate_shell_script_for_recreate_policies_v2($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
+    #$dyn_fwrules_files_dir_l,$input_hash4proc_href_l
+
     $exec_res_g=&generate_shell_script_for_recreate_policies($dyn_fwrules_files_dir_g,\%input_hash4proc_g);
     #$dyn_fwrules_files_dir_l,$input_hash4proc_href_l
     if ( $exec_res_g=~/^fail/ ) {
