@@ -144,14 +144,14 @@ sub read_05_conf_rich_rules_sets_v2 {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
-
+	    
 	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
 	    # 0=INVENTORY_HOST, 1=RICH_RULE
-
+	
             if ( $rule_params_l[0]=~/^\S+\$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {        
                 $res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}=1;
                 push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_params_l[0]);
-
+	    
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
             
@@ -162,6 +162,37 @@ sub read_05_conf_rich_rules_sets_v2 {
 	# block for 'single_host' (prio >= 2/high) (end)
 	
 	# block for 'host_list' (prio = 2) (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+	    
+	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+	    # 0=INVENTORY_HOST, 1=RICH_RULE
+	    
+            if ( $rule_params_l[0]=~/^\S+\,\S+/ ) {
+                @tmp_arr0_l=split(/\,/,$rule_params_l[0]); # array of hosts
+	    
+                foreach $arr_el0_l ( @tmp_arr0_l ) {
+                    #$arr_el0_l=inv-host from host_list
+	    
+                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}) ) {
+                        $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$rule_params_l[1]}=1;
+                        push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
+                    }
+                }
+                
+                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    
+                # clear vars
+                $arr_el0_l=undef;
+                @tmp_arr0_l=();
+                ###
+            }
+	    
+            # clear vars
+            @rule_params_l=();
+            ###
+        }
 	# block for 'host_list' (prio = 2) (end)
 	
 	# block for 'groups' (prio = 1) (begin)
