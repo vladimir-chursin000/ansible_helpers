@@ -227,6 +227,34 @@ sub read_05_conf_rich_rules_sets_v2 {
 	# block for 'groups' (prio = 1) (end)
 	
 	# block for 'all' (prio = 0/min) (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+	    
+	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+	    # 0=INVENTORY_HOST, 1=RICH_RULE
+	    
+            if ( $rule_params_l[0]=~/^all$/ ) {
+                while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
+                    #$hkey2_l=inv-host from inventory
+		
+                    if ( !exists($res_tmp_lv1_l{$hkey2_l}) ) {
+                        $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}=1;
+                        push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
+                    }
+                }
+                
+                # clear vars
+                ($hkey2_l,$hval2_l)=(undef,undef);
+                ###
+		
+                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+            }
+	    
+            # clear vars
+            @rule_params_l=();
+            ###
+        }
 	# block for 'all' (prio = 0/min) (end)
 	
 	# clear vars
