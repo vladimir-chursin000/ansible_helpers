@@ -577,7 +577,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     ######
     
     #new
-    #$exec_res_g=read_04_conf_forward_ports_sets_v2($f04_conf_forward_ports_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h04_conf_forward_ports_sets_hash_g);
+    #$exec_res_g=&read_04_conf_forward_ports_sets_v2($f04_conf_forward_ports_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h04_conf_forward_ports_sets_hash_g);
     ##$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
 
     $exec_res_g=&read_04_conf_forward_ports_sets($f04_conf_forward_ports_sets_path_g,\%h04_conf_forward_ports_sets_hash_g);
@@ -591,6 +591,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
     #print Dumper(\%h04_conf_forward_ports_sets_hash_g);
     
     ######
+
+    #new
+    #$exec_res_g=&read_05_conf_rich_rules_sets_v2($f05_conf_rich_rules_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h05_conf_rich_rules_sets_hash_g);
+    ##$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
     
     $exec_res_g=&read_05_conf_rich_rules_sets($f05_conf_rich_rules_sets_path_g,\%h05_conf_rich_rules_sets_hash_g);
     #$file_l,$res_href_l
