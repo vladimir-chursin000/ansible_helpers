@@ -154,7 +154,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # check rules and save res to '%res_tmp_lv0_l' (begin)
+    # check rules and save res to '%res_tmp_lv1_l' (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=set_tmplt_name, hval0_l=hash ref where key=string with rule params
         
@@ -388,7 +388,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     ###
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    # check rules and save res to '%res_tmp_lv0_l' (end)
+    # check rules and save res to '%res_tmp_lv1_l' (end)
     
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;

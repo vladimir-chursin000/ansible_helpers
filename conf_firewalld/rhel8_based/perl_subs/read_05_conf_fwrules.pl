@@ -96,23 +96,24 @@ sub read_05_conf_rich_rules_sets_v2 {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     
-    # check rules with regex (for future functional)
-    #while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
-    #   #hkey0_l=tmplt_name, hval0_l=hash ref where key=rule
-    #   ###
-    #   while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle 1
-    #       #hkey1_l=rule
-    #       #rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80 (example)
-    #       #rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
-    #       if ( $hkey1_l!~/^seq$/ ) {
-    #       }
-    #   } # cycle 1
-    #   
-    #   if ( $return_str_l!~/^OK$/ ) { last; }
-    #} # cycle 0
-    #
-    #if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
+    # check rules and save res to '%res_tmp_lv1_l' (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
+        #hkey0_l=tmplt_name, hval0_l=hash ref where key=rule
+    	
+	delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
+	
+	# block for checks of strings with rule params (begin)   
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+	    
+        }
+       
+        if ( $return_str_l!~/^OK$/ ) { last; }
+	# block for checks of strings with rule params (end)
+    } # cycle 0
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    # check rules and save res to '%res_tmp_lv1_l' (end)
 
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
