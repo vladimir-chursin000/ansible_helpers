@@ -83,7 +83,6 @@ sub read_05_conf_rich_rules_sets_v2 {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($hkey2_l,$hval2_l)=(undef,undef);
-    my $rule_str_l=undef;
     my @rule_params_l=();
     my $return_str_l='OK';
 
@@ -137,6 +136,24 @@ sub read_05_conf_rich_rules_sets_v2 {
 	# block for checks of strings with rule params (end)
 	
 	# block for 'single_host' (prio >= 2/high) (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+
+	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+	    # 0=INVENTORY_HOST, 1=RICH_RULE
+
+            if ( $rule_params_l[0]=~/^\S+\$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {        
+                $res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}=1;
+                push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_params_l[0]);
+
+                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+            }
+            
+            # clear vars
+            @rule_params_l=();
+            ###
+	}
 	# block for 'single_host' (prio >= 2/high) (end)
 	
 	# block for 'host_list' (prio = 2) (begin)
