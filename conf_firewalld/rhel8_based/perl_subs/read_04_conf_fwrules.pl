@@ -168,6 +168,11 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
     	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
     	    
+	    if ( $#rule_params_l!=4 ) {
+		$return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should contain 5 parameters";
+		last;
+	    }
+	    
     	    ###
     	    $exec_res_l=&check_inv_host_by_type($rule_params_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
     	    #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l
