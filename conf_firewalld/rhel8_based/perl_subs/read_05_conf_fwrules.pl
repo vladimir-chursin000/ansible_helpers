@@ -82,6 +82,7 @@ sub read_05_conf_rich_rules_sets_v2 {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my @rule_params_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -105,7 +106,10 @@ sub read_05_conf_rich_rules_sets_v2 {
 	# block for checks of strings with rule params (begin)   
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
+	    #string with rule params = #INVENTORY_HOST	#RICH_RULE
 	    
+	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+            # 0=INVENTORY_HOST, 1=RICH_RULE
         }
        
         if ( $return_str_l!~/^OK$/ ) { last; }
