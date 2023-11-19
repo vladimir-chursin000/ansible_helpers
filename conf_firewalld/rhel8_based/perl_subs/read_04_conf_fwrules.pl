@@ -291,8 +291,6 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    @rule_params_l=();
     	    ###
         }
-    	
-    	if ( $return_str_l!~/^OK$/ ) { last; }
     	# block for 'host_list' (end)
 	
     	# block for 'groups' (prio = 1) (begin)
@@ -328,8 +326,6 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    @rule_params_l=();
     	    ###
         }
-    	
-    	if ( $return_str_l!~/^OK$/ ) { last; }
     	# block for 'groups' (end)
 	
     	# block for 'all' (prio = 0/min) (begin)
@@ -365,8 +361,6 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    @rule_params_l=();
     	    ###
         }
-    	
-    	if ( $return_str_l!~/^OK$/ ) { last; }
     	# block for 'all' (end)
     	
     	# clear vars
@@ -374,8 +368,6 @@ sub read_04_conf_forward_ports_sets_v2 {
         ($hkey1_l,$hval1_l)=(undef,undef);
     	@rule_params_l=();
     	###
-    	
-        if ( $return_str_l!~/^OK$/ ) { last; }
     } # cycle 0
     
     # clear vars

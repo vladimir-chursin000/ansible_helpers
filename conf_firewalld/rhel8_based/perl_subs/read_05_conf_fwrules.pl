@@ -122,11 +122,47 @@ sub read_05_conf_rich_rules_sets_v2 {
             }
             $exec_res_l=undef;
             ###
+	    
+	    ###
+	    # CHECK 'RICH_RULE' (maybe, future functionality)
+	    ###
+	    
+	    # clear vars
+            $exec_res_l=undef;
+            @rule_params_l=();
+            ###
         }
        
         if ( $return_str_l!~/^OK$/ ) { last; }
 	# block for checks of strings with rule params (end)
+	
+	# block for 'single_host' (prio >= 2/high) (begin)
+	# block for 'single_host' (prio >= 2/high) (end)
+	
+	# block for 'host_list' (prio = 2) (begin)
+	# block for 'host_list' (prio = 2) (end)
+	
+	# block for 'groups' (prio = 1) (begin)
+	# block for 'groups' (prio = 1) (end)
+	
+	# block for 'all' (prio = 0/min) (begin)
+	# block for 'all' (prio = 0/min) (end)
+	
+	# clear vars
+        $exec_res_l=undef;
+        ($hkey1_l,$hval1_l)=(undef,undef);
+        @rule_params_l=();
+        ###
     } # cycle 0
+    
+    # clear vars
+    $exec_res_l=undef;
+    $rule_str_l=undef;
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    ($hkey2_l,$hval2_l)=(undef,undef);
+    @rule_params_l=();
+    ###
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     # check rules and save res to '%res_tmp_lv1_l' (end)
