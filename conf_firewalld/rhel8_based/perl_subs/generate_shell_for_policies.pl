@@ -27,11 +27,11 @@ sub generate_shell_script_for_recreate_policies_v2 {
         
     my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_forward_ports_sets_href'};
     #$fw_ports_set_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
-    	#$h04_conf_forward_ports_sets_hash_g{set_name}->
+    	#$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
     
     my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_rich_rules_sets_href'};
     #$rich_rules_set_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
-    	#$h05_conf_rich_rules_sets_hash_g{set_name}->
+    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
     
     my $h88_conf_policies_FIN_href_l=${$input_hash4proc_href_l}{'h88_conf_policies_FIN_href'};
     #$h88_conf_policies_FIN_href_l=hash-ref for %h88_conf_policies_FIN_hash_g

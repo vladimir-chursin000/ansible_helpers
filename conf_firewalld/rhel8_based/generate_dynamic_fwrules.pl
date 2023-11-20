@@ -365,12 +365,15 @@ our %h03_conf_policy_templates_hash_g=();
 ######
 our %h04_conf_forward_ports_sets_hash_g=();
 #[some_forward_ports_set_name:BEGIN]
-#port=80:proto=tcp:toport=8080:toaddr=192.168.1.60 (example)
-#port=80:proto=tcp:toport=8080 (example)
+##INVENTORY_HOST                #fw_port        #fw_proto       #fw_toport      #fw_toaddr
+#all                    80              tcp             8080            192.168.1.60 (example, prio = 0)
+#gr_some_example_group  80              tcp             8080            192.168.1.60 (example, prio = 1)
+#10.1.2.2,10.1.2.4      80              tcp             8080            192.168.1.60 (example, prio = 2)
+#10.1.2.2               80              tcp             8080            192.168.1.60 (example, prio => 2)
 #[some_forward_ports_set_name:END]
 ###
-#$h04_conf_forward_ports_sets_hash_g{set_name}->
-    #{'rule-0'}=1
+#$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
+    #{'rule-0'}=1 #rule like 'port=80:proto=tcp:toport=8080:toaddr=192.168.1.60'
     #{'rule-1'}=1
     #etc
     #{'seq'}=[val-0,val-1] (val=rule)
@@ -379,11 +382,14 @@ our %h04_conf_forward_ports_sets_hash_g=();
 ######
 our %h05_conf_rich_rules_sets_hash_g=();
 #[some_rich_rules_set_name:BEGIN]
-#rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80 (example)
-#rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade (example)
+##INVENTORY_HOST                #RICH_RULE
+#all                    "some_rich_rule_N1-content" (example, prio = 0)
+#gr_some_example_group  "some_rich_rule_N1-content" (example, prio = 1)
+#10.1.2.2,10.1.2.4      "some_rich_rule_N1-content" (example, prio = 2)
+#10.1.2.2               "some_rich_rule_N1-content" (example, prio => 2)
 #[some_rich_rules_set_name:END]
 ###
-#$h05_conf_rich_rules_sets_hash_g{set_name}->
+#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
     #{'rule-0'}=1
     #{'rule-1'}=1
     #etc
