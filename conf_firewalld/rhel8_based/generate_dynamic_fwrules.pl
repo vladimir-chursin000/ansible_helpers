@@ -670,6 +670,10 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'h05_conf_rich_rules_sets_href'=>\%h05_conf_rich_rules_sets_hash_g,
 	'h77_conf_zones_FIN_href'=>\%h77_conf_zones_FIN_hash_g,
     );
+    #new
+    #$exec_res_g=&read_88_conf_policies_FIN_v2($f88_conf_policies_FIN_path_g,\%input_hash4proc_g,\%h88_conf_policies_FIN_hash_g);
+    #$file_l,$input_hash4proc_href_l,$res_href_l
+
     $exec_res_g=&read_88_conf_policies_FIN($f88_conf_policies_FIN_path_g,\%input_hash4proc_g,\%h88_conf_policies_FIN_hash_g);
     #$file_l,$input_hash4proc_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
