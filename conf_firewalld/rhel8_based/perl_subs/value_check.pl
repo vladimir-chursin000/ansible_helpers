@@ -141,46 +141,46 @@ sub check_inv_host_by_type {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
         
     my $proc_name_l=(caller(0))[3];
-
+    
     my $arr_el0_l=undef;
     my @tmp_arr0_l=();
-
+    
     my $return_str_l='OK';
     
     if ( $inv_host_l=~/^all$/i && $inv_host_l=~/A|L/ ) {
-	$return_str_l="fail [$proc_name_l]. Incorrect inv-host='$inv_host_l'. It must be 'all'";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Incorrect inv-host='$inv_host_l'. It must be 'all'";
+    	return $return_str_l;
     }
     
     if ( $inv_host_l=~/^all\,|\,all\,|\,all$/ ) {
-	$return_str_l="fail [$proc_name_l]. Incorrect inv-host='$inv_host_l'. It must be witout ','";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Incorrect inv-host='$inv_host_l'. It must be witout ','";
+    	return $return_str_l;
     }
-
+    
     if ( $inv_host_l=~/gr_\S+/ && $inv_host_l=~/\,/ ) {
-	$return_str_l="fail [$proc_name_l]. Incorrect inv-host/group='$inv_host_l'. It must be witout ','";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Incorrect inv-host/group='$inv_host_l'. It must be witout ','";
+    	return $return_str_l;
     }
     
     if ( $inv_host_l=~/^gr_\S+$/ && !exists(${$divisions_for_inv_hosts_href_l}{$inv_host_l}) ) {
-	$return_str_l="fail [$proc_name_l]. Incorrect inv-host/group='$inv_host_l'. Group is not exists at '00_conf_divisions_for_inv_hosts'";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Incorrect inv-host/group='$inv_host_l'. Group is not exists at '00_conf_divisions_for_inv_hosts'";
+    	return $return_str_l;
     }
     
     if ( $inv_host_l!~/^all$|^gr_\S+$/ ) {
-	@tmp_arr0_l=split(/\,/,$inv_host_l);
-	
-	foreach $arr_el0_l ( @tmp_arr0_l ) {
-	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Incorrect inv-host/inv-host-list='$inv_host_l'. '$arr_el0_l' is not exists at inventory";
-		return $return_str_l;
-	    }
-	}
-	
-	# clear vars
-	$arr_el0_l=undef;
-	@tmp_arr0_l=();
-	###
+    	@tmp_arr0_l=split(/\,/,$inv_host_l);
+    	
+    	foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+    		$return_str_l="fail [$proc_name_l]. Incorrect inv-host/inv-host-list='$inv_host_l'. '$arr_el0_l' is not exists at inventory";
+    		return $return_str_l;
+    	    }
+    	}
+    	
+    	# clear vars
+    	$arr_el0_l=undef;
+    	@tmp_arr0_l=();
+    	###
     }
     
     return $return_str_l;
@@ -196,22 +196,22 @@ sub simple_port_check {
     my $return_str_l='OK';
     
     if ( $port_l!~/^\d+$|^\d+\-\d+$/ ) {
-	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port must be a num (or range of ports, for example, 80-180)";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port must be a num (or range of ports, for example, 80-180)";
+    	return $return_str_l;
     }
     
     @ports_l=split(/\-/,$port_l);
     
     foreach $one_port_l ( @ports_l ) {
-	if ( $one_port_l<1 or $one_port_l>65535 ) {
-	    $return_str_l="fail [$proc_name_l]. Port='$one_port_l' ('$port_name_l') is incorrect. Port number must be >= 1 and <= 65535";
-	    return $return_str_l;
-	}
+    	if ( $one_port_l<1 or $one_port_l>65535 ) {
+    	    $return_str_l="fail [$proc_name_l]. Port='$one_port_l' ('$port_name_l') is incorrect. Port number must be >= 1 and <= 65535";
+    	    return $return_str_l;
+    	}
     }
     
     if ( $#ports_l==1 && $ports_l[0]>=$ports_l[1] ) {
-	$return_str_l="fail [$proc_name_l]. Port range='$port_l' is incorrect. The first number should not be greater than the second";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Port range='$port_l' is incorrect. The first number should not be greater than the second";
+    	return $return_str_l;
     }
     
     return $return_str_l;
@@ -225,8 +225,8 @@ sub check_forward_port_protocol {
     my $return_str_l='OK';
     
     if ( $proto_l!~/^tcp$|^udp$|^sctp$|^dccp$/ ) {
-	$return_str_l="fail [$proc_name_l]. Proto='$proto_l' is incorrect. Proto must be 'tcp/udp/sctp/dccp'";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. Proto='$proto_l' is incorrect. Proto must be 'tcp/udp/sctp/dccp'";
+    	return $return_str_l;
     }
     
     return $return_str_l;
@@ -235,15 +235,16 @@ sub check_forward_port_protocol {
 sub check_ipv4_addr_for_port_forwarding {
     my ($ip_l)=@_;
     my $proc_name_l=(caller(0))[3];
-
+    
     my $return_str_l='OK';
     
     if ( $ip_l!~/^empty$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-	$return_str_l="fail [$proc_name_l]. IP-addr v4='$ip_l' is incorrect. IP-addr (for port forwarding) must be 'empty' or in ipv4 format";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. IP-addr v4='$ip_l' is incorrect. IP-addr (for port forwarding) must be 'empty' or in ipv4 format";
+    	return $return_str_l;
     }
-
+    
     return $return_str_l;
 }
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
