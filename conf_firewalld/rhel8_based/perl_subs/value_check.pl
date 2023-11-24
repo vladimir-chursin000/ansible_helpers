@@ -195,7 +195,7 @@ sub simple_port_check {
         
     my $return_str_l='OK';
     
-    if ( $port_l!~/^\d+$|^\d+\-\d+$/ ) {
+    if ( $port_l!~/^\d+$|^\d+\-\d+$/ ) { # if not 'num' or 'num-num'
     	$return_str_l="fail [$proc_name_l]. Port='$port_l' ('$port_name_l') is incorrect. Port must be a num (or range of ports, for example, 80-180)";
     	return $return_str_l;
     }
@@ -238,7 +238,7 @@ sub check_ipv4_addr_for_port_forwarding {
     
     my $return_str_l='OK';
     
-    if ( $ip_l!~/^empty$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    if ( $ip_l!~/^empty$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) { # if not 'empty' or 'ipv4'
     	$return_str_l="fail [$proc_name_l]. IP-addr v4='$ip_l' is incorrect. IP-addr (for port forwarding) must be 'empty' or in ipv4 format";
     	return $return_str_l;
     }
