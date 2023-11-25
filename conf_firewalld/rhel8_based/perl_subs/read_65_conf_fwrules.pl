@@ -111,7 +111,7 @@ sub read_65_conf_initial_ipsets_content_FIN {
 		    last;
 		}
     	    	
-    	    	@ipset_entry_list_arr_l=split(/\,/,$ipset_entry_str_l);
+    	    	@ipset_entry_list_arr_l=split(/\;/,$ipset_entry_str_l);
 		if ( $#ipset_entry_list_arr_l==-1 ) {
 		    $return_str_l="fail [$proc_name_l]. IPSET_ENTRIES_LIST for ipset_tmplt_name='$hkey0_l' and host='$host_str_l' is empty at '65_conf_initial_ipsets_content_FIN'";
 		    last;
