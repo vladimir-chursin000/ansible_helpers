@@ -32,7 +32,7 @@ NOT READY! Testing!
 
 # '04_add_ipset_entry.sh' = adding IP-addresses and/or subnets to a specific ipset on remote hosts.
 # Possible input ARGV-parameters:
-# 1) ipset_list (required parameter). List of IP-addresses and/or subnets separated by ",".
+# 1) ipset_list (required parameter). List of IP-addresses and/or subnets separated by ";".
 # 2) ipset_tmplt_name (required parameter). Name of the ipset template configured in files '01_conf_ipset_templates' and '66_conf_ipsets_FIN'.
 # 3) limit (optional parameter). Limits the application of changes to inventory hosts.
 # 4) expire_dt (optional parameter). Sets the expiration date (format "YYYYMMDDHHMISS") for ipset entries listed at paramater 'ipset_list'.
@@ -40,10 +40,10 @@ NOT READY! Testing!
 # minutes the changes to the ipset (corresponding to the ipset_tmplt_name) will be rolled back.
 # ###
 # Examples:
-# 1) ./04_add_ipset_entry.sh "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT";
-# 2) ./04_add_ipset_entry.sh "limit=192.168.8.7" "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT";
-# 3) ./04_add_ipset_entry.sh "limit=gr_some_group1" "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT" "expire_dt=20241010150010";
-# 4) ./04_add_ipset_entry.sh "limit=192.168.8.7,10.1.2.3" "ipset_list=10.11.12.13,192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT" "expire_dt=20241010150010" "rollback=yes".
+# 1) ./04_add_ipset_entry.sh "ipset_list=10.11.12.13;192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT";
+# 2) ./04_add_ipset_entry.sh "limit=192.168.8.7" "ipset_list=10.11.12.13;192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT";
+# 3) ./04_add_ipset_entry.sh "limit=gr_some_group1" "ipset_list=10.11.12.13;192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT" "expire_dt=20241010150010";
+# 4) ./04_add_ipset_entry.sh "limit=192.168.8.7,10.1.2.3" "ipset_list=10.11.12.13;192.168.9.0/24" "ipset_tmplt_name=some_tmplt--TMPLT" "expire_dt=20241010150010" "rollback=yes".
 
 # '04_del_ipset_entry.sh' = deleting IP-addresses and/or subnets from a specific ipset on remote hosts.
 # *** See possible input params and examples for '04_add_ipset_entry.sh'.

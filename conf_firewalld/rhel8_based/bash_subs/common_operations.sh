@@ -207,7 +207,7 @@ function create_input_file_func() {
     local local_wr_file_str='';
     
     local_inv_limit_arr=($(echo "$local_inv_limit_str" | sed 's/,/\n/g'));
-    local_ipset_list_arr=($(echo "$local_ipset_list_str" | sed 's/,/\n/g'));
+    local_ipset_list_arr=($(echo "$local_ipset_list_str" | sed 's/;/\n/g'));
     
     for local_arr_el0_str in "${local_inv_limit_arr[@]}"; # local_arr_el0_str = inv-host
     do
