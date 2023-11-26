@@ -13,10 +13,11 @@ Not currently in use.
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
 #[ALLOWED_PORTS_SET_NAME:END]
 
-#[port_set1--TMPLT:BEGIN]
+#[port_set1:BEGIN]
 #all=1122/tcp,1133/udp
 #gr_some_example_group=1122/tcp,1133/tcp,1133/udp
 #192.168.144.12,192.168.100.14,192.110.144.16=11221/tcp,11331/udp
 #192.168.144.12=11222-11333/tcp
-#[port_set1--TMPLT:END]
+#[port_set1:END]
+
 #################################INSERT YOUR allowed_ports/allowed_source_ports SETS AFTER THIS LINE#################################

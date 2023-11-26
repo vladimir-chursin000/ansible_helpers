@@ -22,4 +22,5 @@
 #10.1.2.2,10.1.2.4	"some_rich_rule_N1-content" (example, prio = 2)
 #10.1.2.2		"some_rich_rule_N1-content" (example, prio => 2)
 #[some_rich_rules_set_name:END]
+
 #################################INSERT YOUR RICH RULES SETS AFTER THIS LINE#################################
