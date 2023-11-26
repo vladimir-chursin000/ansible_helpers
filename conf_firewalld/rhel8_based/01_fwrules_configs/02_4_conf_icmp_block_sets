@@ -5,3 +5,21 @@ Not currently in use.
 
 # This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates"
 # and "03_conf_policy_templates".
+
+###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed icmp_blocks sets. Don't forget to remove the comment characters(#).
+#[ALLOWED_ICMP_BLOCKS_SET_NAME:BEGIN]
+# one row = "all/group_name/list_of_hosts/host=address-unreachable,bad-header,beyond-scope,etc"
+    # Get full list of icmp-types = "firewall-cmd --get-icmptypes".
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts sep
+arated by "," or individual hosts (2).
+#[ALLOWED_ICMP_BLOCKS_SET_NAME:END]
+
+#[icmp_blocks_set1:BEGIN]
+#all=address-unreachable,bad-header
+#gr_some_example_group=address-unreachable,bad-header,beyond-scope
+#192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
+#192.168.144.12=address-unreachable
+#[icmp_blocks_set1:END]
+
+#################################INSERT YOUR allowed_protocols SETS AFTER THIS LINE#################################
