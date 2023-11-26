@@ -5,3 +5,18 @@ Not currently in use.
 
 # This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates" 
 # and "03_conf_policy_templates".
+
+###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed_services sets. Don't forget to remove the comment characters (#).
+#[ALLOWED_SERVICES_SET_NAME:BEGIN]
+# one row = "all/group_name/list_of_hosts/host=http,https,etc"
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+#[ALLOWED_SERVICES_SET_NAME:END]
+
+#[serv_set1--TMPLT:BEGIN]
+#all=http,https
+#gr_some_example_group=http,https,ssh
+#192.168.144.12,192.168.100.14,192.110.144.16=http,https,ssh,dns
+#192.168.144.12=samba
+#[serv_set1--TMPLT:END]
+#################################INSERT YOUR allowed_services SETS AFTER THIS LINE#################################
