@@ -8,7 +8,9 @@ Not currently in use.
 
 ###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed icmp_blocks sets. Don't forget to remove the comment characters(#).
 #[ALLOWED_ICMP_BLOCKS_SET_NAME:BEGIN]
-# one row = "all/group_name/list_of_hosts/host=address-unreachable,bad-header,beyond-scope,etc"
+# one row = "[INVERSION]:all/group_name/list_of_hosts/host=address-unreachable,bad-header,beyond-scope,etc"
+    # If "INVERSION=YES" (icmp_block_inversion=yes) -> black list of icmp-types.
+    # If "INVERSION=NO" (icmp_block_inversion=no) -> white list of icmp-types.
     # Get full list of icmp-types = "firewall-cmd --get-icmptypes".
     # If "all" -> the configuration will be applied to all inventory hosts.
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts sep
@@ -16,10 +18,10 @@ arated by "," or individual hosts (2).
 #[ALLOWED_ICMP_BLOCKS_SET_NAME:END]
 
 #[icmp_blocks_set1:BEGIN]
-#all=address-unreachable,bad-header
-#gr_some_example_group=address-unreachable,bad-header,beyond-scope
-#192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
-#192.168.144.12=address-unreachable
+#NO:all=address-unreachable,bad-header
+#NO:gr_some_example_group=address-unreachable,bad-header,beyond-scope
+#NO:192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
+#YES:192.168.144.12=address-unreachable
 #[icmp_blocks_set1:END]
 
-#################################INSERT YOUR allowed_protocols SETS AFTER THIS LINE#################################
+#################################INSERT YOUR allowed icmp_blocks SETS AFTER THIS LINE#################################
