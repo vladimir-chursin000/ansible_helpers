@@ -5,3 +5,18 @@ Not currently in use.
 
 # This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates"
 # and "03_conf_policy_templates".
+
+###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed_ports/allowed_source_ports sets. Don't forget to remove the comment characters (#).
+#[ALLOWED_PORTS_SET_NAME:BEGIN]
+# one row = "all/group_name/list_of_hosts/host=http,https,etc"
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+#[ALLOWED_PORTS_SET_NAME:END]
+
+#[port_set1--TMPLT:BEGIN]
+#all=1122/tcp,1133/udp
+#gr_some_example_group=1122/tcp,1133/tcp,1133/udp
+#192.168.144.12,192.168.100.14,192.110.144.16=11221/tcp,11331/udp
+#192.168.144.12=11222-11333/tcp
+#[port_set1--TMPLT:END]
+#################################INSERT YOUR allowed_ports/allowed_source_ports SETS AFTER THIS LINE#################################
