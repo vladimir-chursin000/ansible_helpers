@@ -25,6 +25,7 @@
 
 #zone_allowed_services=empty|http,https (for example)
     # Opens the standard port(s) of a specific service. For incoming connections.
+    # A list of possible default services can be found in the directory "/usr/lib/firewalld/services".
     # Allow service = "firewall-cmd --permanent --zone=some_std_zone_name --add-service=http" (for information only).
 
 #zone_allowed_ports=empty|1234/tcp,1234/udp,60000-61000/udp (for example)
