@@ -56,6 +56,10 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
 #00_conf_divisions_for_inv_hosts
 #00_conf_firewalld
 #01_conf_ipset_templates
+#02_1_conf_allowed_services_sets
+#02_2_conf_allowed_ports_sets
+#02_3_conf_allowed_protocols_sets
+#02_4_conf_icmp_block_sets
 #02_conf_custom_firewall_zones_templates
 #02_conf_standard_firewall_zones_templates
 #03_conf_policy_templates
