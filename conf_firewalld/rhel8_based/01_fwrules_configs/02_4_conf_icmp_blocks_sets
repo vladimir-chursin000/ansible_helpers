@@ -1,6 +1,6 @@
 Not currently in use.
 #######################################################################
-#FOR CONFIGURATION OF icmp_block (sets) for FIREWALL ZONES or POLICIES#
+#FOR CONFIGURATION OF icmp_blocks (sets) for FIREWALL ZONES or POLICIES#
 #######################################################################
 
 # This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates"

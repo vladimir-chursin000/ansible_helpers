@@ -59,7 +59,7 @@ if ( defined($ARGV[0]) && length($ARGV[0])>0 && $ARGV[0]=~/^with_rollback$/ ) {
 #02_1_conf_allowed_services_sets
 #02_2_conf_allowed_ports_sets
 #02_3_conf_allowed_protocols_sets
-#02_4_conf_icmp_block_sets
+#02_4_conf_icmp_blocks_sets
 #02_conf_custom_firewall_zones_templates
 #02_conf_standard_firewall_zones_templates
 #03_conf_policy_templates
@@ -76,7 +76,7 @@ our $f01_conf_ipset_templates_path_g=$self_dir_g.'/01_fwrules_configs/01_conf_ip
 our $f02_1_conf_allowed_services_sets_path_g=$self_dir_g.'/01_fwrules_configs/02_1_conf_allowed_services_sets';
 our $f02_2_conf_allowed_ports_sets_path_g=$self_dir_g.'/01_fwrules_configs/02_2_conf_allowed_ports_sets';
 our $f02_3_conf_allowed_protocols_sets_path_g=$self_dir_g.'/01_fwrules_configs/02_3_conf_allowed_protocols_sets';
-our $f02_4_conf_icmp_block_sets_path_g=$self_dir_g.'/01_fwrules_configs/02_4_conf_icmp_block_sets';
+our $f02_4_conf_icmp_blocks_sets_path_g=$self_dir_g.'/01_fwrules_configs/02_4_conf_icmp_blocks_sets';
 our $f02_conf_custom_firewall_zones_templates_path_g=$self_dir_g.'/01_fwrules_configs/02_conf_custom_firewall_zones_templates';
 our $f02_conf_standard_firewall_zones_templates_path_g=$self_dir_g.'/01_fwrules_configs/02_conf_standard_firewall_zones_templates';
 our $f03_conf_policy_templates_path_g=$self_dir_g.'/01_fwrules_configs/03_conf_policy_templates';
@@ -188,6 +188,22 @@ our %h01_conf_ipset_templates_hash_g=();
 #{'ipset_create_option_maxelem'}=num
 #{'ipset_create_option_family'}=inet|inet6
 #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+######
+
+######
+our %h02_1_conf_allowed_services_sets_hash_g=();
+######
+
+######
+our %h02_2_conf_allowed_ports_sets_hash_g=();
+######
+
+######
+our %h02_3_conf_allowed_protocols_sets_hash_g=();
+######
+
+######
+our %h02_4_conf_icmp_blocks_sets_hash_g=();
 ######
 
 ######
