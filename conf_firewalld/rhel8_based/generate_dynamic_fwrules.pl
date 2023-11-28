@@ -192,18 +192,42 @@ our %h01_conf_ipset_templates_hash_g=();
 
 ######
 our %h02_1_conf_allowed_services_sets_hash_g=();
+#[serv_set1:BEGIN]
+#all=http,https
+#gr_some_example_group=http,https,ssh
+#192.168.144.12,192.168.100.14,192.110.144.16=http,https,ssh,dns
+#192.168.144.12=samba
+#[serv_set1:END]
 ######
 
 ######
 our %h02_2_conf_allowed_ports_sets_hash_g=();
+#[ports_set1:BEGIN]
+#all=1122/tcp,1133/udp
+#gr_some_example_group=1122/tcp,1133/tcp,1133/udp
+#192.168.144.12,192.168.100.14,192.110.144.16=11221/tcp,11331/udp
+#192.168.144.12=11222-11333/tcp
+#[ports_set1:END]
 ######
 
 ######
 our %h02_3_conf_allowed_protocols_sets_hash_g=();
+#[protols_set1:BEGIN]
+#all=tcp,udp
+#gr_some_example_group=tcp,udp,gre
+#192.168.144.12,192.168.100.14,192.110.144.16=tcp,udp,gre,dccp
+#192.168.144.12=tcp
+#[protocols_set1:END]
 ######
 
 ######
 our %h02_4_conf_icmp_blocks_sets_hash_g=();
+#[icmp_blocks_set1:BEGIN]
+#NO:all=address-unreachable,bad-header
+#NO:gr_some_example_group=address-unreachable,bad-header,beyond-scope
+#NO:192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
+#YES:192.168.144.12=address-unreachable
+#[icmp_blocks_set1:END]
 ######
 
 ######
