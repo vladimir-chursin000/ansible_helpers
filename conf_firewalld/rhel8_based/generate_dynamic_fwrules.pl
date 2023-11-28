@@ -198,6 +198,12 @@ our %h02_1_conf_allowed_services_sets_hash_g=();
 #192.168.144.12,192.168.100.14,192.110.144.16=http,https,ssh,dns
 #192.168.144.12=samba
 #[serv_set1:END]
+###
+#$h02_1_conf_allowed_services_sets_hash_g{inv-host}{set_name}->
+    #{'serv-0'}=1
+    #{'serv-1'}=1
+    #etc
+    #{'seq'}=[val-0,val-1] (val=serv)
 ######
 
 ######
@@ -208,6 +214,12 @@ our %h02_2_conf_allowed_ports_sets_hash_g=();
 #192.168.144.12,192.168.100.14,192.110.144.16=11221/tcp,11331/udp
 #192.168.144.12=11222-11333/tcp
 #[ports_set1:END]
+###
+#$h02_2_conf_allowed_ports_sets_hash_g{inv-host}{set_name}->
+    #{'port-0'}=1
+    #{'port-1'}=1
+    #etc
+    #{'seq'}=[val-0,val-1] (val=port)
 ######
 
 ######
@@ -218,6 +230,12 @@ our %h02_3_conf_allowed_protocols_sets_hash_g=();
 #192.168.144.12,192.168.100.14,192.110.144.16=tcp,udp,gre,dccp
 #192.168.144.12=tcp
 #[protocols_set1:END]
+###
+#$h02_3_conf_allowed_protocols_sets_hash_g{inv-host}{set_name}->
+    #{'proto-0'}=1
+    #{'proto-1'}=1
+    #etc
+    #{'seq'}=[val-0,val-1] (val=proto)
 ######
 
 ######
@@ -228,6 +246,12 @@ our %h02_4_conf_icmp_blocks_sets_hash_g=();
 #NO:192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
 #YES:192.168.144.12=address-unreachable
 #[icmp_blocks_set1:END]
+###
+#$h02_4_conf_icmp_blocks_sets_hash_g{inv-host}{set_name}->
+    #{'icmp_block-0'}=1
+    #{'icmp_block-1'}=1
+    #etc
+    #{'seq'}=[val-0,val-1] (val=icmp_block)
 ######
 
 ######
