@@ -9,6 +9,9 @@ sub read_02_1_conf_allowed_services_sets {
     #res_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
     my $proc_name_l=(caller(0))[3];
 
+    my $return_str_l='OK';
+
+    return $return_str_l;
 }
 
 #With best regards

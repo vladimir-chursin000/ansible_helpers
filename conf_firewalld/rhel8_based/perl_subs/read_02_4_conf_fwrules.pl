@@ -9,6 +9,9 @@ sub read_02_4_conf_icmp_blocks_sets {
     #res_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
     my $proc_name_l=(caller(0))[3];
 
+    my $return_str_l='OK';
+
+    return $return_str_l;
 }
 
 #With best regards

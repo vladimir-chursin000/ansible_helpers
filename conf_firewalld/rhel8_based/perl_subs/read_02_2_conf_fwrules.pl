@@ -9,6 +9,9 @@ sub read_02_2_conf_allowed_ports_sets {
     #res_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
     my $proc_name_l=(caller(0))[3];
 
+    my $return_str_l='OK';
+
+    return $return_str_l;
 }
 
 #With best regards
