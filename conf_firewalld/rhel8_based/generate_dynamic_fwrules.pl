@@ -23,6 +23,10 @@ our @do_arr_g=(
     'generate_shell_for_rollback.pl',
     'read_00_conf_fwrules.pl',
     'read_01_conf_fwrules.pl',
+    'read_02_1_conf_fwrules.pl',
+    'read_02_2_conf_fwrules.pl',
+    'read_02_3_conf_fwrules.pl',
+    'read_02_4_conf_fwrules.pl',
     'read_02_conf_fwrules.pl',
     'read_03_conf_fwrules.pl',
     'read_04_conf_fwrules.pl',
@@ -615,6 +619,54 @@ while ( 1 ) { # ONE RUN CYCLE begin
     }
     $exec_res_g=undef;
     #print Dumper(\%h01_conf_ipset_templates_hash_g);
+    
+    ######
+    
+    $exec_res_g=&read_02_1_conf_allowed_services_sets($f02_1_conf_allowed_services_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_1_conf_allowed_services_sets_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h02_1_conf_allowed_services_sets_hash_g);
+    
+    ######
+    
+    $exec_res_g=&read_02_2_conf_allowed_ports_sets($f02_2_conf_allowed_ports_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_2_conf_allowed_ports_sets_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h02_2_conf_allowed_ports_sets_hash_g);
+    
+    ######
+    
+    $exec_res_g=&read_02_3_conf_allowed_protocols_sets($f02_3_conf_allowed_protocols_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_3_conf_allowed_protocols_sets_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h02_3_conf_allowed_protocols_sets_hash_g);    
+    
+    ######
+    
+    $exec_res_g=&read_02_4_conf_icmp_blocks_sets($f02_4_conf_icmp_blocks_sets_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_4_conf_icmp_blocks_sets_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h02_4_conf_icmp_blocks_sets_hash_g);
     
     ######
     
