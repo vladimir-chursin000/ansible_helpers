@@ -8,6 +8,18 @@ sub read_02_1_conf_allowed_services_sets {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #res_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
     my $proc_name_l=(caller(0))[3];
+    #[serv_set1:BEGIN]
+    #all=http,https
+    #gr_some_example_group=http,https,ssh
+    #192.168.144.12,192.168.100.14,192.110.144.16=http,https,ssh,dns
+    #192.168.144.12=samba
+    #[serv_set1:END]
+    ###
+    #$h02_1_conf_allowed_services_sets_hash_g{inv-host}{set_name}->
+    	#{'serv-0'}=1
+    	#{'serv-1'}=1
+    	#etc
+    	#{'seq'}=[val-0,val-1] (val=serv)
     
     my $exec_res_l=undef;
     my $return_str_l='OK';

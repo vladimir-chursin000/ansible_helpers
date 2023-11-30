@@ -8,6 +8,18 @@ sub read_02_3_conf_allowed_protocols_sets {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #res_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
     my $proc_name_l=(caller(0))[3];
+    #[protocols_set1:BEGIN]
+    #all=tcp,udp
+    #gr_some_example_group=tcp,udp,gre
+    #192.168.144.12,192.168.100.14,192.110.144.16=tcp,udp,gre,dccp
+    #192.168.144.12=tcp
+    #[protocols_set1:END]
+    ###
+    #$h02_3_conf_allowed_protocols_sets_hash_g{inv-host}{set_name}->
+    	#{'proto-0'}=1
+    	#{'proto-1'}=1
+    	#etc
+    	#{'seq'}=[val-0,val-1] (val=proto)
     
     my $exec_res_l=undef;
     my $return_str_l='OK';

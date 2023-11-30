@@ -8,6 +8,18 @@ sub read_02_4_conf_icmp_blocks_sets {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #res_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
     my $proc_name_l=(caller(0))[3];
+    #[icmp_blocks_set1:BEGIN]
+    #NO:all=address-unreachable,bad-header
+    #NO:gr_some_example_group=address-unreachable,bad-header,beyond-scope
+    #NO:192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
+    #YES:192.168.144.12=address-unreachable
+    #[icmp_blocks_set1:END]
+    ###
+    #$h02_4_conf_icmp_blocks_sets_hash_g{inv-host}{set_name}->
+    	#{'icmp_block-0'}=1
+    	#{'icmp_block-1'}=1
+    	#etc
+    	#{'seq'}=[val-0,val-1] (val=icmp_block)
     
     my $exec_res_l=undef;
     my $return_str_l='OK';

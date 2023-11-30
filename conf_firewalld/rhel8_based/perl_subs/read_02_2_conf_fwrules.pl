@@ -8,6 +8,18 @@ sub read_02_2_conf_allowed_ports_sets {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #res_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
     my $proc_name_l=(caller(0))[3];
+    #[ports_set1:BEGIN]
+    #all=1122/tcp,1133/udp
+    #gr_some_example_group=1122/tcp,1133/tcp,1133/udp
+    #192.168.144.12,192.168.100.14,192.110.144.16=11221/tcp,11331/udp
+    #192.168.144.12=11222-11333/tcp
+    #[ports_set1:END]
+    ###
+    #$h02_2_conf_allowed_ports_sets_hash_g{inv-host}{set_name}->
+    	#{'port-0'}=1
+    	#{'port-1'}=1
+    	#etc
+    	#{'seq'}=[val-0,val-1] (val=port)
     
     my $exec_res_l=undef;
     my $return_str_l='OK';
