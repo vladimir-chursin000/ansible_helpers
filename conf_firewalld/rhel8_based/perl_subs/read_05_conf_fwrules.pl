@@ -44,7 +44,7 @@ sub read_05_conf_rich_rules_sets_v2 {
     
     # check rules and save res to '%res_tmp_lv1_l' (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
-        #hkey0_l=tmplt_name, hval0_l=hash ref where key=rule
+        #hkey0_l=tmplt_name, hval0_l=hash ref where key=string with rule params
     	
 	delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
 	

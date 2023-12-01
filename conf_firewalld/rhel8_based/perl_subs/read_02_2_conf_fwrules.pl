@@ -22,6 +22,8 @@ sub read_02_2_conf_allowed_ports_sets {
     	#{'seq'}=[val-0,val-1] (val=port)
     
     my $exec_res_l=undef;
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -35,6 +37,23 @@ sub read_02_2_conf_allowed_ports_sets {
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    
+    # check rules and save res to '%res_tmp_lv1_l' (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
+        #hkey0_l=tmplt_name, hval0_l=hash ref where key=string with rule params
+    
+        delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
+    
+    } # cycle 0
+    
+    # clear vars
+    $exec_res_l=undef;
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    ###
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    # check rules and save res to '%res_tmp_lv1_l' (end)
     
     return $return_str_l;
 }
