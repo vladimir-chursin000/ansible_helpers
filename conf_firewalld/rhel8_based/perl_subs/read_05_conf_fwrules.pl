@@ -48,19 +48,19 @@ sub read_05_conf_rich_rules_sets_v2 {
     	
 	delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
 	
-	# block for checks of strings with rule params (begin)   
+	# block for checks of strings with rule params (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
 	    #string with rule params = #INVENTORY_HOST	#RICH_RULE
 	    
 	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
             # 0=INVENTORY_HOST, 1=RICH_RULE
-
+	
 	    if ( $#rule_params_l!=1 ) {
                 $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should contain 2 parameters";
                 last;
             }
-
+	
             ###
             $exec_res_l=&check_inv_host_by_type($rule_params_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
             #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l

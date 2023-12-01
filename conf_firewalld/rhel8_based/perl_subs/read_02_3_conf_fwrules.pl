@@ -41,9 +41,18 @@ sub read_02_3_conf_allowed_protocols_sets {
     # check rules and save res to '%res_tmp_lv1_l' (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=tmplt_name, hval0_l=hash ref where key=string with rule params
-    
+	
         delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
-    
+	
+        # block for checks of strings with rule params (begin)   
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+	
+        }
+	
+        if ( $return_str_l!~/^OK$/ ) { last; }
+        # block for checks of strings with rule params (end)
+	
     } # cycle 0
     
     # clear vars
