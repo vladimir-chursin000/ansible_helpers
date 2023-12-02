@@ -95,6 +95,25 @@ sub read_02_3_conf_allowed_protocols_sets {
         }
         # block for 'single_host' (end)
 	
+        # block for 'host_list' (prio = 2) (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+            #string with rule params="host=param1,param2,etc"
+	
+            @tmp_arr0_l=split(/\=/,$hkey1_l);
+            # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+	
+            if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
+	
+                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+            }
+	
+            # clear vars
+            @tmp_arr0_l=();
+            ###
+        }
+        # block for 'host_list' (end)
+	
     } # cycle 0
     
     # clear vars
