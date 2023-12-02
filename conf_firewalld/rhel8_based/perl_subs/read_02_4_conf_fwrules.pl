@@ -57,6 +57,16 @@ sub read_02_4_conf_icmp_blocks_sets {
                 last;
             }
 	    
+            ###
+            $exec_res_l=&check_inv_host_by_type($tmp_arr0_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
+            #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l
+            if ( $exec_res_l=~/^fail/ ) {
+                $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+                last;
+            }
+            $exec_res_l=undef;
+            ###
+	    
             # clear vars
             @tmp_arr0_l=();
             ###
