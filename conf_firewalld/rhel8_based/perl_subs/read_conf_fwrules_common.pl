@@ -7,6 +7,13 @@ sub read_param_value_templates_from_config {
     #res_href_l=hash-ref for result-hash
     my $proc_name_l=(caller(0))[3];
 
+    # Used at:
+    #read_00_conf_fwrules.pl
+    #read_01_conf_fwrules.pl
+    #read_02_conf_fwrules.pl
+    #read_03_conf_fwrules.pl
+    ###
+
     my ($line_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
@@ -122,6 +129,16 @@ sub read_param_only_templates_from_config {
     #res_href_l=hash-ref for result-hash
     my $proc_name_l=(caller(0))[3];
 
+    # Used at:
+    #read_02_1_conf_fwrules.pl
+    #read_02_2_conf_fwrules.pl
+    #read_02_3_conf_fwrules.pl
+    #read_02_4_conf_fwrules.pl
+    #read_04_conf_fwrules.pl
+    #read_05_conf_fwrules.pl
+    #read_65_conf_fwrules.pl
+    ###
+
     my ($line_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
@@ -159,6 +176,9 @@ sub read_param_only_templates_from_config {
 
 	$line_l=~s/ \=/\=/g;
 	$line_l=~s/\= /\=/g;
+
+        $line_l=~s/ \//\//g;
+        $line_l=~s/\/ /\//g;
 
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+)\:BEGIN\]$/ ) { # if cfg block begin

@@ -49,6 +49,12 @@ sub read_02_1_conf_allowed_services_sets {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
     	    
+	    @tmp_arr0_l=split(/\=/,$hkey1_l);
+	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+	    
+	    # clear vars
+	    @tmp_arr0_l=();
+	    ###
     	}
         
         if ( $return_str_l!~/^OK$/ ) { last; }

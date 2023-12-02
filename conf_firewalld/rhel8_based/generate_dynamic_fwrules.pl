@@ -228,7 +228,7 @@ our %h02_2_conf_allowed_ports_sets_hash_g=();
 
 ######
 our %h02_3_conf_allowed_protocols_sets_hash_g=();
-#[protols_set1:BEGIN]
+#[protocols_set1:BEGIN]
 #all=tcp,udp
 #gr_some_example_group=tcp,udp,gre
 #192.168.144.12,192.168.100.14,192.110.144.16=tcp,udp,gre,dccp
