@@ -147,7 +147,7 @@ sub read_05_conf_rich_rules_sets_v2 {
 	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
 	    # 0=INVENTORY_HOST, 1=RICH_RULE
 	    
-            if ( $rule_params_l[0]=~/^(gr_\S+)$/ ) {
+            if ( $rule_params_l[0]=~/^gr_\S+$/ ) {
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$rule_params_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
 		

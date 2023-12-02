@@ -197,7 +197,7 @@ sub read_04_conf_forward_ports_sets_v2 {
     	    (@rule_params_l)=$hkey1_l=~/(\S+)/g;
     	    # 0=INVENTORY_HOST, 1=fw_port, 2=fw_proto, 3=fw_toport, 4=fw_toaddr
     	    
-    	    if ( $rule_params_l[0]=~/^(gr_\S+)$/ ) {
+    	    if ( $rule_params_l[0]=~/^gr_\S+$/ ) {
 	    	if ( $rule_params_l[0] eq 'empty' ) { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]"; }
     	    	else { $rule_str_l="port=$rule_params_l[1]:proto=$rule_params_l[2]:toport=$rule_params_l[3]:toaddr=$rule_params_l[4]"; }
 	    

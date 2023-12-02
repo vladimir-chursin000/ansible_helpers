@@ -114,6 +114,25 @@ sub read_02_4_conf_icmp_blocks_sets {
         }
         # block for 'host_list' (end)
 	
+        # block for 'groups' (prio = 1) (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+            #string with rule params="host=param1,param2,etc"
+	
+            @tmp_arr0_l=split(/\=/,$hkey1_l);
+            # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+	
+            if ( $tmp_arr0_l[0]=~/^gr_\S+$/ ) {
+	
+                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+            }
+	
+            # clear vars
+            @tmp_arr0_l=();
+            ###
+        }
+        # block for 'groups' (end)
+	
     } # cycle 0
     
     # clear vars
