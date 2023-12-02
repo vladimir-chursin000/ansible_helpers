@@ -52,6 +52,11 @@ sub read_02_4_conf_icmp_blocks_sets {
 	    @tmp_arr0_l=split(/\=/,$hkey1_l);
 	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
+            if ( $#tmp_arr0_l!=1 ) {
+                $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host=params'";
+                last;
+            }
+	    
             # clear vars
             @tmp_arr0_l=();
             ###
