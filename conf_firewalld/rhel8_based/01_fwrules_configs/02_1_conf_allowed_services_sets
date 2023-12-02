@@ -8,7 +8,7 @@ Not currently in use.
 
 ###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed_services sets. Don't forget to remove the comment characters (#).
 #[ALLOWED_SERVICES_SET_NAME:BEGIN]
-# one row = "all/group_name/list_of_hosts/host=http,https,etc"
+# one row = "all/group_name/list_of_hosts/single_host=http,https,etc"
     # A list of possible default services can be found in the directory "/usr/lib/firewalld/services".
     # If "all" -> the configuration will be applied to all inventory hosts.
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
@@ -16,6 +16,9 @@ Not currently in use.
 
 #[serv_set1:BEGIN]
 #all=http,https
+#all=dns,dns-over-tls
+    # (remove this line at working cfg) Result for 'all'=http,https,dns,dns-over-tls.
+    # (remove this line at working cfg) Correctly also for 'group_name/list_of_hosts/single_host').
 #gr_some_example_group=http,https,ssh
 #192.168.144.12,192.168.100.14,192.110.144.16=http,https,ssh,dns
 #192.168.144.12=samba
