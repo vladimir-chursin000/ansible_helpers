@@ -24,6 +24,7 @@ sub read_02_1_conf_allowed_services_sets {
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my @tmp_arr0_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -59,6 +60,7 @@ sub read_02_1_conf_allowed_services_sets {
     $exec_res_l=undef;
     ($hkey0_l,$hval0_l)=(undef,undef);
     ($hkey1_l,$hval1_l)=(undef,undef);
+    @tmp_arr0_l=();
     ###
             
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
