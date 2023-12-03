@@ -87,6 +87,14 @@ sub read_02_2_conf_allowed_ports_sets {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
             if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
+		@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+		
+                foreach $arr_el0_l ( @params_arr_l ) {
+                    if ( !exists($res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}) ) {
+                        $res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}=1;
+                        push(@{$res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{'seq'}},$arr_el0_l);
+                    }
+                }
 		
 		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
