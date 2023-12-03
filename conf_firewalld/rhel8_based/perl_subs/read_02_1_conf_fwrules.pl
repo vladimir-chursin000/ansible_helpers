@@ -22,9 +22,12 @@ sub read_02_1_conf_allowed_services_sets {
     	#{'seq'}=[val-0,val-1] (val=serv)
     
     my $exec_res_l=undef;
+    my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @tmp_arr0_l=();
+    my @params_arr_l=();
+    my @seq_tmp_arr_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -41,7 +44,7 @@ sub read_02_1_conf_allowed_services_sets {
 
     # check rules and save res to '%res_tmp_lv1_l' (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
-        #hkey0_l=tmplt_name, hval0_l=hash ref where key=string with rule params
+        #hkey0_l=set_name, hval0_l=hash ref where key=string with rule params
 	
         delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
 	
@@ -85,6 +88,14 @@ sub read_02_1_conf_allowed_services_sets {
 	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	
             if ( $tmp_arr0_l[0]=~/^\S+\$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
+		@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+		
+		foreach $arr_el0_l ( @params_arr_l ) {
+		    if ( !exists($res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}) ) {
+			$res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}=1;
+			push(@{$res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{'seq'}},$arr_el0_l);			
+		    }
+		}
 		
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }

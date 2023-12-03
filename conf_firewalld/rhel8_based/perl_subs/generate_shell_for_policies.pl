@@ -322,7 +322,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # services
 	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) ) {
 		# Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http"
-		@policy_allowed_services_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}};
+		@policy_allowed_services_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}});
 		foreach $arr_el1_l ( @policy_allowed_services_arr_l ) {
 		    #$arr_el1_l=service name for add
 		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-service=$arr_el1_l;";
@@ -339,7 +339,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # ports
 	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}) ) {
 		# Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp"
-		@policy_allowed_ports_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}};
+		@policy_allowed_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}});
 		foreach $arr_el1_l ( @policy_allowed_ports_arr_l ) {
 		    #$arr_el1_l=port for allow
 		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-port=$arr_el1_l;";
@@ -356,7 +356,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # protocols
 	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}) ) {
 		# Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre"
-		@policy_allowed_protocols_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}};
+		@policy_allowed_protocols_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}});
 		foreach $arr_el1_l ( @policy_allowed_protocols_arr_l ) {
 		    #$arr_el1_l=proto for allow
 		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-protocol=$arr_el1_l;";
@@ -384,7 +384,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # source ports
 	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}) ) {
 		# Allow source port="firewall-cmd --permanent --policy=some_policy_name --add-source-port=8080/tcp"
-		@policy_allowed_source_ports_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}};
+		@policy_allowed_source_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}});
 		foreach $arr_el1_l ( @policy_allowed_source_ports_arr_l ) {
 		    #$arr_el1_l=port for allow
 		    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-source-port=$arr_el1_l;";
@@ -401,7 +401,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # icmp block
 	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}) ) {
 		# Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type"
-		@policy_icmp_block_arr_l=@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}};
+		@policy_icmp_block_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}});
                 foreach $arr_el1_l ( @policy_icmp_block_arr_l ) {
                     #$arr_el1_l=icmp-block
                     $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-icmp-block=$arr_el1_l;";
@@ -465,7 +465,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # Add forward-port = "firewall-cmd --permanent --policy=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
 	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
 	    if ( $forward_ports_set_l ne 'empty' ) {
-		@forward_ports_arr_l=@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}};
+		@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
 		foreach $arr_el1_l ( @forward_ports_arr_l ) {
                     #$arr_el1_l=forward-port rule
                     $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-forward-port='$arr_el1_l';";
@@ -489,7 +489,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
 	    # Add rich-rule = "firewall-cmd --permanent --policy=some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
 	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
 	    if ( $rich_rules_set_l ne 'empty' ) {
-		@rich_rules_arr_l=@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}};
+		@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
 		foreach $arr_el1_l ( @rich_rules_arr_l ) {
                     #$arr_el1_l=rich-rule
                     $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-rich-rule='$arr_el1_l';";
