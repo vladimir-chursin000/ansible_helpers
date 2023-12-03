@@ -22,9 +22,11 @@ sub read_02_3_conf_allowed_protocols_sets {
     	#{'seq'}=[val-0,val-1] (val=proto)
     
     my $exec_res_l=undef;
+    my $arr_el0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @tmp_arr0_l=();
+    my @params_arr_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();

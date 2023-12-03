@@ -27,7 +27,6 @@ sub read_02_1_conf_allowed_services_sets {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @tmp_arr0_l=();
     my @params_arr_l=();
-    my @seq_tmp_arr_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
