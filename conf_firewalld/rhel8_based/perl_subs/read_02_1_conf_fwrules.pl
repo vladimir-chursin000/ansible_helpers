@@ -86,7 +86,7 @@ sub read_02_1_conf_allowed_services_sets {
 	    @tmp_arr0_l=split(/\=/,$hkey1_l);
 	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	
-            if ( $tmp_arr0_l[0]=~/^\S+\$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
+            if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
 		@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
 		
 		foreach $arr_el0_l ( @params_arr_l ) {
@@ -96,7 +96,7 @@ sub read_02_1_conf_allowed_services_sets {
 		    }
 		}
 		
-                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
             
             # clear vars
@@ -114,8 +114,8 @@ sub read_02_1_conf_allowed_services_sets {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
-	    
-                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
 	    
             # clear vars
@@ -134,7 +134,7 @@ sub read_02_1_conf_allowed_services_sets {
 	
             if ( $tmp_arr0_l[0]=~/^gr_\S+$/ ) {
 		
-                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
             
             # clear vars
@@ -153,7 +153,7 @@ sub read_02_1_conf_allowed_services_sets {
 	
             if ( $tmp_arr0_l[0]=~/^all$/ ) {
 		
-                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
             
             # clear vars
