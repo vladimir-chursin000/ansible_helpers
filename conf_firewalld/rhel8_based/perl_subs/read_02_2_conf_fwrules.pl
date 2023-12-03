@@ -27,6 +27,7 @@ sub read_02_2_conf_allowed_ports_sets {
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @tmp_arr0_l=();
     my @params_arr_l=();
+    my @ports_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -55,6 +56,8 @@ sub read_02_2_conf_allowed_ports_sets {
 	    @tmp_arr0_l=split(/\=/,$hkey1_l);
 	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
+	    @ports_l=split(/\,/,$tmp_arr0_l[1]);
+	    
             if ( $#tmp_arr0_l!=1 ) {
                 $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host=params'";
                 last;
@@ -69,6 +72,20 @@ sub read_02_2_conf_allowed_ports_sets {
             }
             $exec_res_l=undef;
             ###
+	    
+	    ###
+	    foreach $arr_el0_l ( @ports_l ) {
+		$exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
+        	#$port_str_l
+        	if ( $exec_res_l=~/^fail/ ) {
+            	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+            	    last;
+        	}
+		$exec_res_l=undef;
+	    }
+	    
+	    if ( $return_str_l!~/^OK$/ ) { last; }
+	    ###
 	    
             # clear vars
             @tmp_arr0_l=();
