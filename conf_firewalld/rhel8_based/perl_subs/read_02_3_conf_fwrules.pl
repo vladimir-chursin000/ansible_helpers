@@ -98,6 +98,10 @@ sub read_02_3_conf_allowed_protocols_sets {
                 }
 		
 		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		
+                # clear vars
+                @params_arr_l=();
+                ###
             }
             
             # clear vars
@@ -110,15 +114,22 @@ sub read_02_3_conf_allowed_protocols_sets {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
             #string with rule params="host=param1,param2,etc"
-	
+	    
             @tmp_arr0_l=split(/\=/,$hkey1_l);
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-	
+	    
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
-		
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+                @host_list_l=split(/\,/,$tmp_arr0_l[0]);
+                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+	    	
+	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    	
+                # clear vars
+	    	@host_list_l=();
+                @params_arr_l=();
+                ###
             }
-	
+	    
             # clear vars
             @tmp_arr0_l=();
             ###

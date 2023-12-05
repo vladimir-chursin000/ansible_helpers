@@ -57,7 +57,7 @@ sub read_02_2_conf_allowed_ports_sets {
 	    @tmp_arr0_l=split(/\=/,$hkey1_l);
 	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
-	    @ports_l=split(/\,/,$tmp_arr0_l[1]);
+	    @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
 	    
             if ( $#tmp_arr0_l!=1 ) {
                 $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host=params'";
@@ -75,7 +75,9 @@ sub read_02_2_conf_allowed_ports_sets {
             ###
 	    
 	    ###
-	    foreach $arr_el0_l ( @ports_l ) {
+	    foreach $arr_el0_l ( @params_arr_l ) {
+		#$arr_el0_l=port
+		
 		$exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
         	#$port_str_l
         	if ( $exec_res_l=~/^fail/ ) {
@@ -90,6 +92,7 @@ sub read_02_2_conf_allowed_ports_sets {
 	    
             # clear vars
             @tmp_arr0_l=();
+	    @params_arr_l=();
             ###
         }
 	
@@ -115,6 +118,10 @@ sub read_02_2_conf_allowed_ports_sets {
                 }
 		
 		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+		
+                # clear vars
+                @params_arr_l=();
+                ###
             }
             
             # clear vars
@@ -132,8 +139,15 @@ sub read_02_2_conf_allowed_ports_sets {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
-		
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+                @host_list_l=split(/\,/,$tmp_arr0_l[0]);
+                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+	    	
+	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+	    
+                # clear vars
+                @host_list_l=();
+                @params_arr_l=();
+                ###
             }
             
             # clear vars
