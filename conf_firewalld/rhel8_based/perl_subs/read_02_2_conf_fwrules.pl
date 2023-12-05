@@ -26,6 +26,7 @@ sub read_02_2_conf_allowed_ports_sets {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @tmp_arr0_l=();
+    my @host_list_l=();
     my @params_arr_l=();
     my @ports_l=();
     my $return_str_l='OK';
