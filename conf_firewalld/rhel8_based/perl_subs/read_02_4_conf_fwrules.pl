@@ -22,7 +22,7 @@ sub read_02_4_conf_icmp_blocks_sets {
     	#{'seq'}=[val-0,val-1] (val=icmp_block)
     
     my $exec_res_l=undef;
-    my $arr_el0_l=undef;
+    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @tmp_arr0_l=();
@@ -121,10 +121,24 @@ sub read_02_4_conf_icmp_blocks_sets {
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
                 @host_list_l=split(/\,/,$tmp_arr0_l[0]);
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+		
+                foreach $arr_el0_l ( @host_list_l ) {
+                    #$arr_el0_l=inv-host
+                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}) ) {
+                        foreach $arr_el1_l ( @params_arr_l ) {
+                            if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}) ) {
+                                #$res_tmp_lv1_l{inv-host}{set_name}
+                                $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}=1;
+                                push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$arr_el1_l);
+                            }
+                        }
+                    }
+                }
 	    	
 	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 	    	
                 # clear vars
+	    	($arr_el0_l,$arr_el1_l)=(undef,undef);
                 @host_list_l=();
                 @params_arr_l=();
                 ###
