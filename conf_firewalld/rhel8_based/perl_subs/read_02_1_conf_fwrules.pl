@@ -249,6 +249,13 @@ sub read_02_1_conf_allowed_services_sets {
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     # check rules and save res to '%res_tmp_lv1_l' (end)
     
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+    
+    %res_tmp_lv0_l=();
+    %res_tmp_lv1_l=();
+    
     return $return_str_l;
 }
 
