@@ -200,8 +200,29 @@ sub read_02_3_conf_allowed_protocols_sets {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	
             if ( $tmp_arr0_l[0]=~/^all$/ ) {
+                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+	    
+                while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
+                    #$hkey2_l=inv-host from '%inventory_hosts_g'
+	    
+                    if ( !exists($res_tmp_lv1_l{$hkey2_l}) ) {
+                        foreach $arr_el0_l ( @params_arr_l ) {
+                            if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
+                                #$res_tmp_lv1_l{inv-host}{set_name}
+                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el1_l}=1;
+                                push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
+                            }
+                        }
+                    }
+                }
+	    	
+	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 		
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+                # clear vars
+                $arr_el1_l=undef;
+                ($hkey2_l,$hval2_l)=(undef,undef);
+                @params_arr_l=();
+                ###
             }
 	
             # clear vars
@@ -221,6 +242,7 @@ sub read_02_3_conf_allowed_protocols_sets {
     $exec_res_l=undef;
     ($hkey0_l,$hval0_l)=(undef,undef);
     ($hkey1_l,$hval1_l)=(undef,undef);
+    ($hkey2_l,$hval2_l)=(undef,undef);
     @tmp_arr0_l=();
     ###
     
