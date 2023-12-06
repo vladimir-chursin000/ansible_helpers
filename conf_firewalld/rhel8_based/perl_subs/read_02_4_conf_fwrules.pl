@@ -25,6 +25,7 @@ sub read_02_4_conf_icmp_blocks_sets {
     my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($hkey2_l,$hval2_l)=(undef,undef);
     my @tmp_arr0_l=();
     my @host_list_l=();
     my @params_arr_l=();
