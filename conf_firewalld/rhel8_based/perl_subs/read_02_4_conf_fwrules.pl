@@ -101,6 +101,7 @@ sub read_02_4_conf_icmp_blocks_sets {
 	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 	    	
                 # clear vars
+		$arr_el0_l=undef;
                 @params_arr_l=();
                 ###
             }
@@ -179,7 +180,7 @@ sub read_02_4_conf_icmp_blocks_sets {
 	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 		
                 # clear vars
-                $arr_el1_l=undef;
+                $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
                 @params_arr_l=();
                 ###
@@ -219,7 +220,7 @@ sub read_02_4_conf_icmp_blocks_sets {
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 		
                 # clear vars
-                $arr_el1_l=undef;
+                $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
                 @params_arr_l=();
                 ###

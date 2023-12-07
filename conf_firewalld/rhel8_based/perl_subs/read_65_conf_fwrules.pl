@@ -301,7 +301,12 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
 	#{'seq'}=[val-0,val-1] (val=record)
     ######
     my $exec_res_l=undef;
-
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
+    my ($hkey2_l,$hval2_l)=(undef,undef);
+    my @tmp_arr0_l=();
+    my @host_list_l=();
+    my @params_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -317,7 +322,21 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
 
     # check rules and save res to '%res_tmp_lv1_l' (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
+        #hkey0_l=set_name, hval0_l=hash ref where key=string with rule params
+
+        delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
+    } # cycle 0
+
+    # clear vars
+    $exec_res_l=undef;
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    ($hkey2_l,$hval2_l)=(undef,undef);
+    @tmp_arr0_l=();
+    ###
     
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     # check rules and save res to '%res_tmp_lv1_l' (end)
 
     # fill result hash
