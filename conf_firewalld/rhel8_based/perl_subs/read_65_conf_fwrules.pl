@@ -300,6 +300,34 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
 	#etc
 	#{'seq'}=[val-0,val-1] (val=record)
     ######
+    my $exec_res_l=undef;
+
+    my $return_str_l='OK';
+
+    my %res_tmp_lv0_l=();
+        #key=set_tmplt_name, value=
+            #{'string with rule params-1'}
+            #{'string with rule params-2'}
+            #etc
+            #{'seq'}=['string with rule params-1', 'string with rule params-2', etc]
+    my %res_tmp_lv1_l=(); # like 'h65_conf_initial_ipsets_content_FIN_hash_g'
+
+    $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
+    #$file_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+
+    # check rules and save res to '%res_tmp_lv1_l' (begin)
+    
+    # check rules and save res to '%res_tmp_lv1_l' (end)
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+
+    %res_tmp_lv0_l=();
+    %res_tmp_lv1_l=();
+
+    return $return_str_l;
 }
 
 #With best regards
