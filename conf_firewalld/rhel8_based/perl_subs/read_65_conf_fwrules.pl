@@ -326,8 +326,45 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
         #hkey0_l=set_name, hval0_l=hash ref where key=string with rule params
     	
         delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
+
+    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$hkey0_l}) ) {
+    	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' configured at '65_conf_initial_ipsets_content_FIN' is not permanent (at '01_conf_ipset_templates')";
+    	    last;
+    	}
     	
     	# block for checks of strings with rule params (begin)
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+    	    #hkey1_l=string with rule params
+            #string with rule params="host=param1,param2,etc"
+                
+            @tmp_arr0_l=split(/\=/,$hkey1_l);
+            # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+	    
+            if ( $#tmp_arr0_l!=1 ) {
+		$return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host=params'";
+                last;
+            }
+            
+            ###
+            $exec_res_l=&check_inv_host_by_type($tmp_arr0_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
+            #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l
+            if ( $exec_res_l=~/^fail/ ) {
+                $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+                last;
+            }
+            $exec_res_l=undef;
+            ###
+	    
+	    ###
+	    # checks for ipset element (may be in future)
+	    ###
+	    
+    	    # clear vars
+    	    @tmp_arr0_l=();
+            ###
+        }
+        
+	if ( $return_str_l!~/^OK$/ ) { last; }
     	# block for checks of strings with rule params (end)
     	
     	# block for 'single_host' (prio >= 2/high) (begin)
