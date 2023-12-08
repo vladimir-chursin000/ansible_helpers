@@ -285,20 +285,20 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #res_href_l=hash-ref for %h65_conf_initial_ipsets_content_FIN_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     # This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
     #[IPSET_TEMPLATE_NAME:BEGIN]
     # one row = "all/group_name/list_of_hosts/host=ipset_entry0,ipset_entry1,ipset_entry2,ipset_entryN"
-	# If "all" -> the configuration will be applied to all inventory hosts.
-	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
-	# ipset_entries -> accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+    	# If "all" -> the configuration will be applied to all inventory hosts.
+    	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+    	# ipset_entries -> accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
     #[IPSET_TEMPLATE_NAME:END]
     ###
     #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
-	#{'record-0'}=1 (record=ipset_entry)
-	#{'rerord-1'}=1
-	#etc
-	#{'seq'}=[val-0,val-1] (val=record)
+    	#{'record-0'}=1 (record=ipset_entry)
+    	#{'rerord-1'}=1
+    	#etc
+    	#{'seq'}=[val-0,val-1] (val=record)
     ######
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -308,7 +308,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
     my @host_list_l=();
     my @params_arr_l=();
     my $return_str_l='OK';
-
+    
     my %res_tmp_lv0_l=();
         #key=set_tmplt_name, value=
             #{'string with rule params-1'}
@@ -316,16 +316,37 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
             #etc
             #{'seq'}=['string with rule params-1', 'string with rule params-2', etc]
     my %res_tmp_lv1_l=(); # like 'h65_conf_initial_ipsets_content_FIN_hash_g'
-
+    
     $exec_res_l=&read_param_only_templates_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
+    
     # check rules and save res to '%res_tmp_lv1_l' (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=set_name, hval0_l=hash ref where key=string with rule params
-
+    	
         delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
+    	
+    	# block for checks of strings with rule params (begin)
+    	# block for checks of strings with rule params (end)
+    	
+    	# block for 'single_host' (prio >= 2/high) (begin)
+    	# block for 'single_host' (prio >= 2/high) (end)
+    	
+    	# block for 'host_list' (prio = 2) (begin)
+    	# block for 'host_list' (prio = 2) (end)
+    	
+    	# block for 'groups' (prio = 1) (begin)
+    	# block for 'groups' (prio = 1) (end)
+    	
+    	# block for 'all' (prio = 0/min) (begin)
+    	# block for 'all' (prio = 0/min) (end)	
+    	
+        # clear vars
+        $exec_res_l=undef;
+        ($hkey1_l,$hval1_l)=(undef,undef);
+        @tmp_arr0_l=();
+        ###
     } # cycle 0
 
     # clear vars
