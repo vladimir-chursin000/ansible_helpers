@@ -18,6 +18,9 @@
 
 #[ipset1--TMPLT:BEGIN]
 #all=10.1.2.3;10.1.2.11
+#all=10.10.3.10;10.10.4.10
+    # (remove this line at working cfg) Result for 'all'=10.1.2.3;10.1.2.11,10.10.3.10;10.10.4.10.
+    # (remove this line at working cfg) Correctly also for 'group_name/list_of_hosts/single_host').
 #gr_some_example_group=10.10.2.3;10.10.2.11;10.5.122.77
 #192.168.144.12,192.168.100.14,192.110.144.16=10.15.25.5;10.16.27.10
 #192.168.144.12=10.1.20.3;10.1.20.11
