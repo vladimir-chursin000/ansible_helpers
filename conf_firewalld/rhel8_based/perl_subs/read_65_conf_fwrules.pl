@@ -368,6 +368,35 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
     	# block for checks of strings with rule params (end)
     	
     	# block for 'single_host' (prio >= 2/high) (begin)
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+            #hkey1_l=string with rule params
+            #string with rule params="host=param1,param2,etc"
+	    
+            @tmp_arr0_l=split(/\=/,$hkey1_l);
+            # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+	    
+            if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
+                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+                
+                foreach $arr_el0_l ( @params_arr_l ) {
+                    if ( !exists($res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}) ) {
+                        $res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}=1;
+                        push(@{$res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{'seq'}},$arr_el0_l);
+                    }
+                }
+                
+                delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+                
+                #clear vars
+                $arr_el0_l=undef;
+                @params_arr_l=();
+                ###
+            }
+	    
+            # clear vars
+            @tmp_arr0_l=();
+            ###
+        }
     	# block for 'single_host' (prio >= 2/high) (end)
     	
     	# block for 'host_list' (prio = 2) (begin)
