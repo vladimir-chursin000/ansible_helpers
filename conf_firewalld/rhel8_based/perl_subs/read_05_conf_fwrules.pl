@@ -121,7 +121,7 @@ sub read_05_conf_rich_rules_sets_v2 {
                 foreach $arr_el0_l ( @tmp_arr0_l ) {
                     #$arr_el0_l=inv-host from host_list
 	    
-                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}) ) {
 			if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$rule_params_l[1]}) ) {
                     	    $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$rule_params_l[1]}=1;
                     	    push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
@@ -155,7 +155,7 @@ sub read_05_conf_rich_rules_sets_v2 {
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$rule_params_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
 		
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
 			if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}) ) {
                     	    $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}=1;
                     	    push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
@@ -188,7 +188,7 @@ sub read_05_conf_rich_rules_sets_v2 {
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from inventory
 		
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
 			if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}) ) {
                     	    $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}=1;
                     	    push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);

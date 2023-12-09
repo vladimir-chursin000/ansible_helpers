@@ -126,7 +126,7 @@ sub read_02_4_conf_icmp_blocks_sets {
 		
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
-                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}) ) {
                         foreach $arr_el1_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
@@ -166,7 +166,7 @@ sub read_02_4_conf_icmp_blocks_sets {
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$tmp_arr0_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
 		    
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
@@ -206,7 +206,7 @@ sub read_02_4_conf_icmp_blocks_sets {
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
 		    
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
