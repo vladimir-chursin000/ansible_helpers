@@ -376,7 +376,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
             if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
-                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+                @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
                 
                 foreach $arr_el0_l ( @params_arr_l ) {
                     if ( !exists($res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}) ) {
@@ -409,7 +409,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
 	    
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
                 @host_list_l=split(/\,/,$tmp_arr0_l[0]);
-                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+                @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
 		
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
@@ -448,7 +448,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
             if ( $tmp_arr0_l[0]=~/^gr_\S+$/ ) {
-                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+                @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
 		
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$tmp_arr0_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
@@ -457,7 +457,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el1_l}=1;
+                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
                                 push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                             }
                         }
@@ -488,7 +488,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
 	    
             if ( $tmp_arr0_l[0]=~/^all$/ ) {
-                @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+                @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
 		
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
@@ -497,7 +497,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el1_l}=1;
+                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
                                 push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                             }
                         }

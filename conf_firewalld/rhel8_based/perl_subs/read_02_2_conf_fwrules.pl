@@ -189,7 +189,7 @@ sub read_02_2_conf_allowed_ports_sets {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el1_l}=1;
+                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
                                 push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                             }
                         }
@@ -229,7 +229,7 @@ sub read_02_2_conf_allowed_ports_sets {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el1_l}=1;
+                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
                                 push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                             }
                         }
