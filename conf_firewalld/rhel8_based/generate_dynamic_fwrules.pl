@@ -730,7 +730,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     
     ######
 
-    $exec_res_g=&read_65_conf_initial_ipsets_content_FIN($f65_conf_initial_ipsets_content_FIN_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h01_conf_ipset_templates_hash_g,\%h65_conf_initial_ipsets_content_FIN_hash_g);
+    $exec_res_g=&read_65_conf_initial_ipsets_content_FIN_v2($f65_conf_initial_ipsets_content_FIN_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h01_conf_ipset_templates_hash_g,\%h65_conf_initial_ipsets_content_FIN_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
 	$exec_status_g='FAIL';
