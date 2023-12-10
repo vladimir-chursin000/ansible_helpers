@@ -251,40 +251,42 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 	    #hkey1_l=param_name, hval1_l=param_value
 	    
 	    if ( $hkey1_l=~/$param_list_regex_for_postproc_l/ ) { #if regex list params
-		if ( $hval1_l!~/^empty$/ ) { # if regex list params and value is not empty
-		    @split_arr0_l=split(/\,/,$hval1_l);
+	    	if ( $hval1_l!~/^empty$|^set\:\S+$/ ) { # if regex list params and value is not empty
+		    #!~/^set\:\S+/ = for exclude sets of allowed ports/services/icmp_blocks
 		    
-		    foreach $arr_el0_l ( @split_arr0_l ) { # cycle 2
-			#$arr_el0_l=port/port_type or port_begin-port_end/port_type
-			
-			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
-			    $arr_el0_l=~s/\/ /\//g;
-			    $arr_el0_l=~s/ \//\//g;
-			    
-			    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
-			    #$port_str_l
-			    if ( $exec_res_l=~/^fail/ ) { # exit from cycle 2 if error
-			    	$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-			    	last;
-			    }
-			}
-			
-			if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) {
-			    push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l);
-			    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
-			}
-			else { # duplicate list-value
-			    $return_str_l="fail [$proc_name_l]. Duplicated list-value ('$arr_el0_l') at file='$file_l' for tmplt='$hkey0_l'. Fix it!";
-			    last;
-			}
-		    } # cycle 2
-		    
-		    $arr_el0_l=undef;
-		    @split_arr0_l=();
-		    
-		    if ( $return_str_l!~/^OK$/ ) { last; } # exit from cycle 1 if at cycle 2 catched error
-		}
-		else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'empty'}=1; } # regex params and value = empty
+	    	    @split_arr0_l=split(/\,/,$hval1_l);
+	    	    
+	    	    foreach $arr_el0_l ( @split_arr0_l ) { # cycle 2
+	    	    	#$arr_el0_l=port/port_type or port_begin-port_end/port_type
+	    	    	
+	    		if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
+	    	    	    $arr_el0_l=~s/\/ /\//g;
+	    	    	    $arr_el0_l=~s/ \//\//g;
+	    	    	    
+	    	    	    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
+	    	    	    #$port_str_l
+	    	    	    if ( $exec_res_l=~/^fail/ ) { # exit from cycle 2 if error
+	    	    	    	$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    	    	    	last;
+	    	    	    }
+	    	    	}
+	    	    	
+	    	    	if ( !exists(${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}) ) {
+	    	    	    push(@{${$res_href_l}{$hkey0_l}{$hkey1_l}{'seq'}},$arr_el0_l);
+	    	    	    ${$res_href_l}{$hkey0_l}{$hkey1_l}{'list'}{$arr_el0_l}=1;
+	    	    	}
+	    	    	else { # duplicate list-value
+	    	    	    $return_str_l="fail [$proc_name_l]. Duplicated list-value ('$arr_el0_l') at file='$file_l' for tmplt='$hkey0_l'. Fix it!";
+	    	    	    last;
+	    	    	}
+	    	    } # cycle 2
+	    	    
+	    	    $arr_el0_l=undef;
+	    	    @split_arr0_l=();
+	    	    
+	    	    if ( $return_str_l!~/^OK$/ ) { last; } # exit from cycle 1 if at cycle 2 catched error
+	    	}
+	    	else { ${$res_href_l}{$hkey0_l}{$hkey1_l}{'empty'}=1; } # regex params and value = empty
 	    }
 	    else { ${$res_href_l}{$hkey0_l}{$hkey1_l}=$hval1_l; } # just param=value
 	} # cycle 1
