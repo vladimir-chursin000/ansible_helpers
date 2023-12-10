@@ -246,13 +246,17 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
     
     while ( ($hkey0_l,$hval0_l)=each %{$src_href_l} ) { # cycle 0
 	#hkey0_l=zone_tmpltname, hval0_l=hash ref with params and values
+	
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle 1
 	    #hkey1_l=param_name, hval1_l=param_value
+	    
 	    if ( $hkey1_l=~/$param_list_regex_for_postproc_l/ ) { #if regex list params
 		if ( $hval1_l!~/^empty$/ ) { # if regex list params and value is not empty
 		    @split_arr0_l=split(/\,/,$hval1_l);
+		    
 		    foreach $arr_el0_l ( @split_arr0_l ) { # cycle 2
 			#$arr_el0_l=port/port_type or port_begin-port_end/port_type
+			
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
