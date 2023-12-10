@@ -44,6 +44,12 @@ sub read_88_conf_policies_FIN_v2 {
     #{'egress-firewall_zone_name_tmplt'}=value
     #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
+    #
+    # ADDING not directly via '88_conf_policies_FIN'
+    #{'allowed_services_set'}=empty|set name from '02_1_conf_allowed_services_sets'
+    #{'allowed_ports_set'}=empty|set name from '02_2_conf_allowed_ports_sets'
+    #{'allowed_protcols_set'}=epmty|set name from '02_3_conf_allowed_protocols_sets'
+    #{'icmp_blocks_set'}=empty|set name from '02_4_conf_icmp_blocks_sets'
     ###
 
     my ($exec_res_l,$inv_host_l)=(undef,undef);
