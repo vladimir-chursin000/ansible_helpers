@@ -720,16 +720,16 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 	    
 	    # source ports
 	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}) ) {
-		# Allow source port="firewall-cmd --permanent --zone=some_custom_zone_name --add-source-port=8080/tcp"
-		@zone_allowed_source_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
-		foreach $arr_el1_l ( @zone_allowed_source_ports_arr_l ) {
+	    	# Allow source port="firewall-cmd --permanent --zone=some_custom_zone_name --add-source-port=8080/tcp"
+	    	@zone_allowed_source_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
+	    	foreach $arr_el1_l ( @zone_allowed_source_ports_arr_l ) {
                     #$arr_el1_l=source-port for allow
                     $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-source-port=$arr_el1_l;";
                     push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
-	
+		
                     $wr_str_l=undef;
                 }
-	
+		
                 $arr_el1_l=undef;
                 @zone_allowed_source_ports_arr_l=();
 	    }
@@ -739,25 +739,25 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 	    $zone_icmp_block_inversion_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
 	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block-inversion"
 	    if ( $zone_icmp_block_inversion_l eq 'yes' ) {
-		$wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-icmp-block-inversion;";
-        	push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
-        	                
-        	$wr_str_l=undef;
+	    	$wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-icmp-block-inversion;";
+    	    	push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
+    	    	                
+    	    	$wr_str_l=undef;
 	    }
 	    ###
-	
+	    
 	    # icmp block
 	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) ) {
-		# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block=some_icmp_type"
-		@zone_icmp_block_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
-                foreach $arr_el1_l ( @zone_icmp_block_arr_l ) {
+	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block=some_icmp_type"
+	    	@zone_icmp_block_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
+    	    	foreach $arr_el1_l ( @zone_icmp_block_arr_l ) {
                     #$arr_el1_l=icmp-block
                     $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-icmp-block=$arr_el1_l;";
                     push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
-            
+        	
                     $wr_str_l=undef;
                 }
-            
+        	
                 $arr_el1_l=undef;
                 @zone_icmp_block_arr_l=();
 	    }
