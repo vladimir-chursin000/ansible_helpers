@@ -260,11 +260,12 @@ sub postprocessing_v1_after_read_param_value_templates_from_config {
 			if ( $hkey1_l=~/_ports$/ ) { # if need to check values with ports (udp/tcp)
 			    $arr_el0_l=~s/\/ /\//g;
 			    $arr_el0_l=~s/ \//\//g;
+			    
 			    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
 			    #$port_str_l
 			    if ( $exec_res_l=~/^fail/ ) { # exit from cycle 2 if error
-				$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-				last;
+			    	$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+			    	last;
 			    }
 			}
 			
