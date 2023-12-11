@@ -102,11 +102,11 @@ sub read_02_4_conf_icmp_blocks_sets {
                 foreach $arr_el0_l ( @params_arr_l ) {
                     if ( !exists($res_tmp_lv1_l{$host_id_l}{$hkey0_l}{$arr_el0_l}) ) {
                         $res_tmp_lv1_l{$host_id_l}{$hkey0_l}{$arr_el0_l}=1;
-			    #hkey0_l=set_name
-			$res_tmp_lv1_l{$host_id_l}{$hkey0_l}{'inversion'}=$inversion_l;
+			    #hkey0_l=set_name	
                         push(@{$res_tmp_lv1_l{$host_id_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                     }
                 }
+		$res_tmp_lv1_l{$host_id_l}{$hkey0_l}{'inversion'}=$inversion_l;
 	    	
 	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 	    	
@@ -145,11 +145,11 @@ sub read_02_4_conf_icmp_blocks_sets {
                             if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
                                 $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}=1;
-				    #hkey0_l=set_name
-				$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'inversion'}=$inversion_l;
+				    #hkey0_l=set_name	
                                 push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$arr_el1_l);
                             }
                         }
+			$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'inversion'}=$inversion_l;
                     }
                 }
 	    	
@@ -191,11 +191,11 @@ sub read_02_4_conf_icmp_blocks_sets {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
                                 $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
-				    #hkey0_l=set_name
-				$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'inversion'}=$inversion_l;
+				    #hkey0_l=set_name	
                                 push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                             }
                         }
+			$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'inversion'}=$inversion_l;
                     }
                 }
 	    	
@@ -237,11 +237,11 @@ sub read_02_4_conf_icmp_blocks_sets {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{inv-host}{set_name}
                                 $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
-				    #hkey0_l=set_name
-				$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'inversion'}=$inversion_l;
+				    #hkey0_l=set_name	
                                 push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
                             }
                         }
+			$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'inversion'}=$inversion_l;
                     }
                 }
 		
