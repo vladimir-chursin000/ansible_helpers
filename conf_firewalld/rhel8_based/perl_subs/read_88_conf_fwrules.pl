@@ -46,10 +46,16 @@ sub read_88_conf_policies_FIN_v2 {
     #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
     #
     # ADDING not directly via '88_conf_policies_FIN'
-    #{'allowed_services_set'}=empty|set name from '02_1_conf_allowed_services_sets'
-    #{'allowed_ports_set'}=empty|set name from '02_2_conf_allowed_ports_sets'
-    #{'allowed_protcols_set'}=epmty|set name from '02_3_conf_allowed_protocols_sets'
-    #{'icmp_blocks_set'}=empty|set name from '02_4_conf_icmp_blocks_sets'
+    #{'allowed_services_set'}=[serv1,serv2,etc] (from '02_1_conf_allowed_services_sets')
+        #If not exists -> no set defined for '{inventory_host}{firewall_zone_name_tmplt}'
+    #{'allowed_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+	#If not exists -> no set defined for '{inventory_host}{firewall_zone_name_tmplt}'
+    #{'allowed_protocols_set'}=[proto1,proto2,etc] (from '02_3_conf_allowed_protocols_sets')
+	#If not exists -> no set defined for '{inventory_host}{firewall_zone_name_tmplt}'
+    
+    #{'icmp_blocks_set'}=[icmp-block1,icmp-block2,etc] (from '02_4_conf_icmp_blocks_sets')
+    #{'icmp_blocks_inversion'}=yes/no (from '02_4_conf_icmp_blocks_sets')
+	#If not exists -> no set defined for '{inventory_host}{firewall_zone_name_tmplt}'
     ###
 
     my ($exec_res_l,$inv_host_l)=(undef,undef);
