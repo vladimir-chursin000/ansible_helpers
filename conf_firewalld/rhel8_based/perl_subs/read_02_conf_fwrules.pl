@@ -117,6 +117,11 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	if ( exists(${$hval1_l}{$tmp_str0_l}{'seq'}) ) {
 	    	    @tmp_arr0_l=@{${$hval1_l}{$tmp_str0_l}{'seq'}};
     	    	    
+	    	    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+	    	    	$return_str_l="fail [$proc_name_l]. Value of param '$tmp_str0_l' must be 'empty' or 'list of ports' or 'set:some_set_name'";
+	    	    	last;
+	    	    }
+	    	    
     	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
     	    	    	#$arr_el0_l=port in format 'port/proto' or 'set:set_name'
     	    	    	
