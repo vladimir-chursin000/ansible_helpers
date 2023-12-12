@@ -101,6 +101,17 @@ sub read_02_conf_custom_firewall_zones_templates {
     #$file_l,$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
+    
+    # check '%res_tmp_lv1_l' (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
+	#$hkey0_l=zone_teplate_name, $hval0_l = hashref
+	
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=fwzone-param (zone_name, zone_description, etc)
+	    
+	}
+    }
+    # check '%res_tmp_lv1_l' (end)
 
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
