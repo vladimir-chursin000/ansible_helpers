@@ -67,9 +67,11 @@ sub read_02_conf_custom_firewall_zones_templates {
 
     my $exec_res_l=undef;
     my $arr_el0_l=undef;
+    my $tmp_str0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @split_arr0_l=();
+    my @tmp_arr0_l=();
     my $return_str_l='OK';
     my $param_list_regex_l='^zone_allowed_services$|^zone_allowed_protocols$|^zone_icmp_block$|^zone_allowed_ports$|^zone_allowed_source_ports$';
 
@@ -102,23 +104,76 @@ sub read_02_conf_custom_firewall_zones_templates {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
     
-    # check '%res_tmp_lv1_l' (begin)
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) {
-	#$hkey0_l=zone_teplate_name, $hval0_l = hashref
-	
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
-	    #$hkey1_l=fwzone-param (zone_name, zone_description, etc)
-	    
-	}
-    }
-    # check '%res_tmp_lv1_l' (end)
-
+    # params special checks at '%res_tmp_lv1_l' (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) { # cycle 0 (begin)
+    	#$hkey0_l=zone_teplate_name, $hval0_l = hashref
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle 1 (begin)
+    	    #$hkey1_l=fwzone-param (zone_name, zone_description, etc), $hval1_l=param value
+    	    
+    	    if ( $hkey1_l=~/(^zone_allowed_ports$|^zone_allowed_source_ports$)/ ) {
+	    	$tmp_str0_l=$1; # fwzone-param (tmp)
+	    	
+    	    	if ( exists(${$hval1_l}{$tmp_str0_l}{'seq'}) ) {
+	    	    @tmp_arr0_l=@{${$hval1_l}{$tmp_str0_l}{'seq'}};
+    	    	    
+    	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    	    	#$arr_el0_l=port in format 'port/proto' or 'set:set_name'
+    	    	    	
+	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
+    	    	    	    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
+    	    	    	    #$port_str_l
+                    	    if ( $exec_res_l=~/^fail/ ) {
+                    	    	$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+                    	    	last;
+                    	    }
+    	    	    	    $exec_res_l=undef;
+	    	    	}
+	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+	    	    	    
+	    	    	}
+    	    	    }
+	    	    
+	    	    # clear vars
+	    	    $arr_el0_l=undef;
+	    	    @tmp_arr0_l=();
+	    	    ###
+    	    	}
+		
+		# clear vars
+		$tmp_str0_l=undef;
+		###
+    	    }
+    	    elsif ( $hkey1_l=~/^zone_allowed_services$/ ) {
+    	    	
+    	    }
+    	    elsif ( $hkey1_l=~/^zone_allowed_protocols$/ ) {
+    	    	
+    	    }
+    	    elsif ( $hkey1_l=~/^zone_icmp_block$/ ) {
+    	    	
+    	    }
+    	    
+    	    if ( $return_str_l!~/^OK$/ ) { last; }
+    	} # cycle 1 (end)
+    	
+    	if ( $return_str_l!~/^OK$/ ) { last; }
+    } # cycle 0 (end)
+    
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    ###
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    # params special checks at '%res_tmp_lv1_l' (end)
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     %res_tmp_lv1_l=();
-
+    
     return $return_str_l;
 }
 
