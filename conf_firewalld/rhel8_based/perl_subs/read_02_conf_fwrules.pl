@@ -112,20 +112,20 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    #$hkey1_l=fwzone-param (zone_name, zone_description, etc), $hval1_l=param value
     	    
     	    if ( $hkey1_l=~/(^zone_allowed_ports$|^zone_allowed_source_ports$)/ ) {
-	    	$tmp_str0_l=$1; # fwzone-param (tmp)
-	    	
+    	    	$tmp_str0_l=$1; # fwzone-param (tmp)
+    	    	
     	    	if ( exists(${$hval1_l}{$tmp_str0_l}{'seq'}) ) {
-	    	    @tmp_arr0_l=@{${$hval1_l}{$tmp_str0_l}{'seq'}};
+    	    	    @tmp_arr0_l=@{${$hval1_l}{$tmp_str0_l}{'seq'}};
     	    	    
-	    	    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
-	    	    	$return_str_l="fail [$proc_name_l]. Value of param '$tmp_str0_l' must be 'empty' or 'list of ports' or 'set:some_set_name'";
-	    	    	last;
-	    	    }
-	    	    
+    	    	    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+    	    	    	$return_str_l="fail [$proc_name_l]. Value of param '$tmp_str0_l' must be 'empty' or 'list of ports' or 'set:some_set_name'";
+    	    	    	last;
+    	    	    }
+    	    	    
     	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
     	    	    	#$arr_el0_l=port in format 'port/proto' or 'set:set_name'
     	    	    	
-	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
+    	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
     	    	    	    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
     	    	    	    #$port_str_l
                     	    if ( $exec_res_l=~/^fail/ ) {
@@ -133,30 +133,99 @@ sub read_02_conf_custom_firewall_zones_templates {
                     	    	last;
                     	    }
     	    	    	    $exec_res_l=undef;
-	    	    	}
-	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
-	    	    	    
-	    	    	}
+    	    	    	}
+    	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+    	    	    	    
+    	    	    	}
     	    	    }
-	    	    
-	    	    # clear vars
-	    	    $arr_el0_l=undef;
-	    	    @tmp_arr0_l=();
-	    	    ###
+    	    	    
+    	    	    # clear vars
+    	    	    $arr_el0_l=undef;
+    	    	    @tmp_arr0_l=();
+    	    	    ###
     	    	}
-		
-		# clear vars
-		$tmp_str0_l=undef;
-		###
+    	    	
+    	    	# clear vars
+    	    	$tmp_str0_l=undef;
+    	    	###
     	    }
     	    elsif ( $hkey1_l=~/^zone_allowed_services$/ ) {
-    	    	
+    	    	if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
+    	    	    
+    	    	    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+    	    	    	$return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of services' or 'set:some_set_name'";
+    	    	    	last;
+    	    	    }
+		    
+    	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    	    	#$arr_el0_l=service name or 'set:set_name'
+    	    	    	
+    	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
+    	    	    	    # check service names (maybe. in future)
+    	    	    	}
+    	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+    	    	    	    
+    	    	    	}
+    	    	    }
+		    
+    	    	    # clear vars
+    	    	    $arr_el0_l=undef;
+    	    	    @tmp_arr0_l=();
+    	    	    ###
+    	    	}
     	    }
     	    elsif ( $hkey1_l=~/^zone_allowed_protocols$/ ) {
-    	    	
+    	    	if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
+    	    	    
+    	    	    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+    	    	    	$return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of protocols' or 'set:some_set_name'";
+    	    	    	last;
+    	    	    }
+    	    	    
+    	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    	    	#$arr_el0_l=service name or 'set:set_name'
+    	    	    	
+    	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
+    	    	    	    # check service names (maybe. in future)
+    	    	    	}
+    	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+    	    	    	    
+    	    	    	}
+    	    	    }
+    	    	    
+    	    	    # clear vars
+    	    	    $arr_el0_l=undef;
+    	    	    @tmp_arr0_l=();
+    	    	    ###
+    	    	}
     	    }
     	    elsif ( $hkey1_l=~/^zone_icmp_block$/ ) {
-    	    	
+    	    	if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
+    	    	    
+    	    	    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+    	    	    	$return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of icmp-blocks' or 'set:some_set_name'";
+    	    	    	last;
+    	    	    }
+    	    	    
+    	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    	    	#$arr_el0_l=service name or 'set:set_name'
+    	    	    	
+    	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
+    	    	    	    # check service names (maybe. in future)
+    	    	    	}
+    	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+    	    	    	    
+    	    	    	}
+    	    	    }
+    	    	    
+    	    	    # clear vars
+    	    	    $arr_el0_l=undef;
+    	    	    @tmp_arr0_l=();
+    	    	    ###
+    	    	}
     	    }
     	    
     	    if ( $return_str_l!~/^OK$/ ) { last; }
