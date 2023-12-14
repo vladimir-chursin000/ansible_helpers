@@ -9,15 +9,19 @@ sub read_03_conf_policy_templates {
 
     my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
     #allowed_services_sets_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
+	#*{set-name}{inv-host}
 
     my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
     #allowed_ports_sets_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
+	#*{set-name}{inv-host}
 
     my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
     #allowed_protocols_sets_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
+	#*{set-name}{inv-host}
 
     my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
     #icmp_blocks_sets_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
+	#*{set-name}{inv-host}
 
     #[some_policy--TMPLT:BEGIN]
     #policy_name=some_policy_name
