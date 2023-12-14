@@ -1,10 +1,23 @@
 ###DEPENDENCIES: read_conf_fwrules_common.pl
 
 sub read_03_conf_policy_templates {
-    my ($file_l,$res_href_l)=@_;
+    my ($file_l,$input_hash4proc_href_l,$res_href_l)=@_;
     #file_l=$f03_conf_policy_templates_path_g
+    #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     #res_href_l=hash-ref for %h03_conf_policy_templates_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
+    #inv_hosts_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
+
+    my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
+    #inv_hosts_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
+
+    my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
+    #inv_hosts_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
+
+    my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
+    #inv_hosts_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
 
     #[some_policy--TMPLT:BEGIN]
     #policy_name=some_policy_name
