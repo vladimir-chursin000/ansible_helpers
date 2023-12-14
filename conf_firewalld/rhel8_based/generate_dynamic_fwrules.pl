@@ -203,7 +203,7 @@ our %h02_1_conf_allowed_services_sets_hash_g=();
 #192.168.144.12=samba
 #[serv_set1:END]
 ###
-#$h02_1_conf_allowed_services_sets_hash_g{inv-host}{set_name}->
+#$h02_1_conf_allowed_services_sets_hash_g{set-name}{inv-host}->
     #{'serv-0'}=1
     #{'serv-1'}=1
     #etc
@@ -219,7 +219,7 @@ our %h02_2_conf_allowed_ports_sets_hash_g=();
 #192.168.144.12=11222-11333/tcp
 #[ports_set1:END]
 ###
-#$h02_2_conf_allowed_ports_sets_hash_g{inv-host}{set_name}->
+#$h02_2_conf_allowed_ports_sets_hash_g{set-name}{inv-host}->
     #{'port-0'}=1
     #{'port-1'}=1
     #etc
@@ -235,7 +235,7 @@ our %h02_3_conf_allowed_protocols_sets_hash_g=();
 #192.168.144.12=tcp
 #[protocols_set1:END]
 ###
-#$h02_3_conf_allowed_protocols_sets_hash_g{inv-host}{set_name}->
+#$h02_3_conf_allowed_protocols_sets_hash_g{set-name}{inv-host}->
     #{'proto-0'}=1
     #{'proto-1'}=1
     #etc
@@ -251,11 +251,12 @@ our %h02_4_conf_icmp_blocks_sets_hash_g=();
 #YES:192.168.144.12=address-unreachable
 #[icmp_blocks_set1:END]
 ###
-#$h02_4_conf_icmp_blocks_sets_hash_g{inv-host}{set_name}->
+#$h02_4_conf_icmp_blocks_sets_hash_g{set-name}{inv-host}->
     #{'icmp_block-0'}=1
     #{'icmp_block-1'}=1
     #etc
     #{'seq'}=[val-0,val-1] (val=icmp_block)
+    #{'inversion'}=yes/no
 ######
 
 ######

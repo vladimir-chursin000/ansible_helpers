@@ -15,7 +15,7 @@ sub read_02_4_conf_icmp_blocks_sets {
     #YES:192.168.144.12=address-unreachable
     #[icmp_blocks_set1:END]
     ###
-    #$h02_4_conf_icmp_blocks_sets_hash_g{inv-host}{set_name}->
+    #$h02_4_conf_icmp_blocks_sets_hash_g{set-name}{inv-host}->
     	#{'icmp_block-0'}=1
     	#{'icmp_block-1'}=1
     	#etc
@@ -100,13 +100,13 @@ sub read_02_4_conf_icmp_blocks_sets {
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
 	    	
                 foreach $arr_el0_l ( @params_arr_l ) {
-                    if ( !exists($res_tmp_lv1_l{$host_id_l}{$hkey0_l}{$arr_el0_l}) ) {
-                        $res_tmp_lv1_l{$host_id_l}{$hkey0_l}{$arr_el0_l}=1;
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$host_id_l}{$arr_el0_l}) ) {
+                        $res_tmp_lv1_l{$hkey0_l}{$host_id_l}{$arr_el0_l}=1;
 			    #hkey0_l=set_name	
-                        push(@{$res_tmp_lv1_l{$host_id_l}{$hkey0_l}{'seq'}},$arr_el0_l);
+                        push(@{$res_tmp_lv1_l{$hkey0_l}{$host_id_l}{'seq'}},$arr_el0_l);
                     }
                 }
-		$res_tmp_lv1_l{$host_id_l}{$hkey0_l}{'inversion'}=$inversion_l;
+		$res_tmp_lv1_l{$hkey0_l}{$host_id_l}{'inversion'}=$inversion_l;
 	    	
 	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
 	    	
@@ -140,16 +140,16 @@ sub read_02_4_conf_icmp_blocks_sets {
 		
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
-                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}) ) {
                         foreach $arr_el1_l ( @params_arr_l ) {
-                            if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}) ) {
-                                #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}=1;
+                            if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{$arr_el1_l}) ) {
+                                #$res_tmp_lv1_l{set-name}{inv-host}
+                                $res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{$arr_el1_l}=1;
 				    #hkey0_l=set_name	
-                                push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$arr_el1_l);
+                                push(@{$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{'seq'}},$arr_el1_l);
                             }
                         }
-			$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'inversion'}=$inversion_l;
+			$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{'inversion'}=$inversion_l;
                     }
                 }
 	    	
@@ -186,16 +186,16 @@ sub read_02_4_conf_icmp_blocks_sets {
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$host_id_l}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
 		    
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
-                            if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
-                                #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
+                            if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
+                                #$res_tmp_lv1_l{set-name}{inv-host}
+                                $res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}=1;
 				    #hkey0_l=set_name	
-                                push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
+                                push(@{$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'seq'}},$arr_el0_l);
                             }
                         }
-			$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'inversion'}=$inversion_l;
+			$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'inversion'}=$inversion_l;
                     }
                 }
 	    	
@@ -232,16 +232,16 @@ sub read_02_4_conf_icmp_blocks_sets {
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
 		    
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
-                            if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
-                                #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
+                            if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
+                                #$res_tmp_lv1_l{set-name}{inv-host}
+                                $res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}=1;
 				    #hkey0_l=set_name	
-                                push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
+                                push(@{$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'seq'}},$arr_el0_l);
                             }
                         }
-			$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'inversion'}=$inversion_l;
+			$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'inversion'}=$inversion_l;
                     }
                 }
 		

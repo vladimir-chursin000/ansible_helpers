@@ -15,7 +15,7 @@ sub read_02_3_conf_allowed_protocols_sets {
     #192.168.144.12=tcp
     #[protocols_set1:END]
     ###
-    #$h02_3_conf_allowed_protocols_sets_hash_g{inv-host}{set_name}->
+    #$h02_3_conf_allowed_protocols_sets_hash_g{set-name}{inv-host}->
     	#{'proto-0'}=1
     	#{'proto-1'}=1
     	#etc
@@ -92,9 +92,9 @@ sub read_02_3_conf_allowed_protocols_sets {
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
 		
                 foreach $arr_el0_l ( @params_arr_l ) {
-                    if ( !exists($res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}) ) {
-                        $res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{$arr_el0_l}=1;
-                        push(@{$res_tmp_lv1_l{$tmp_arr0_l[0]}{$hkey0_l}{'seq'}},$arr_el0_l);
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}) ) {
+                        $res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}=1;
+                        push(@{$res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{'seq'}},$arr_el0_l);
                     }
                 }
 		
@@ -126,12 +126,12 @@ sub read_02_3_conf_allowed_protocols_sets {
 		
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
-                    if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}) ) {
                         foreach $arr_el1_l ( @params_arr_l ) {
-                            if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}) ) {
-                                #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$arr_el1_l}=1;
-                                push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$arr_el1_l);
+                            if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{$arr_el1_l}) ) {
+                                #$res_tmp_lv1_l{set-name}{inv-host}
+                                $res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{$arr_el1_l}=1;
+                                push(@{$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{'seq'}},$arr_el1_l);
                             }
                         }
                     }
@@ -166,12 +166,12 @@ sub read_02_3_conf_allowed_protocols_sets {
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$tmp_arr0_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
 	    	    
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
-                            if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
-                                #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
-                                push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
+                            if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
+                                #$res_tmp_lv1_l{set-name}{inv-host}
+                                $res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}=1;
+                                push(@{$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'seq'}},$arr_el0_l);
                             }
                         }
                     }
@@ -206,12 +206,12 @@ sub read_02_3_conf_allowed_protocols_sets {
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
 	    
-                    if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
+                    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
-                            if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
-                                #$res_tmp_lv1_l{inv-host}{set_name}
-                                $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}=1;
-                                push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$arr_el0_l);
+                            if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
+                                #$res_tmp_lv1_l{set-name}{inv-host}
+                                $res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}=1;
+                                push(@{$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'seq'}},$arr_el0_l);
                             }
                         }
                     }
