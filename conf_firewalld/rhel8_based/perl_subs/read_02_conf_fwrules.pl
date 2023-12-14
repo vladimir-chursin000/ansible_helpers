@@ -8,16 +8,16 @@ sub read_02_conf_custom_firewall_zones_templates {
     my $proc_name_l=(caller(0))[3];
     
     my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
+    #allowed_services_sets_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
     
     my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
+    #allowed_ports_sets_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
     
     my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
+    #allowed_protocols_sets_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
     
     my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
+    #icmp_blocks_sets_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
     
     #[some_zone--TMPLT:BEGIN]
     #zone_name=some_zone--custom
@@ -272,16 +272,16 @@ sub read_02_conf_standard_firewall_zones_templates {
     my $proc_name_l=(caller(0))[3];
     
     my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
+    #allowed_services_sets_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
     
     my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
+    #allowed_ports_sets_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
     
     my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
+    #allowed_protocols_sets_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
     
     my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
-    #inv_hosts_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
+    #icmp_blocks_sets_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
     
     #[public--TMPLT:BEGIN]
     #zone_name=public
