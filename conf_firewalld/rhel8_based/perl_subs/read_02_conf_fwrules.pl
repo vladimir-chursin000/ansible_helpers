@@ -152,7 +152,10 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	    $exec_res_l=undef;
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
-    	    	    	    
+    	    	    	    if ( !exists(${$allowed_ports_sets_href_l}{$1}) ) {
+				$return_str_l="fail [$proc_name_l].";
+				last;
+			    }
     	    	    	}
     	    	    }
     	    	    
@@ -182,7 +185,10 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	    # check service names (maybe. in future)
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
-    	    	    	    
+    	    	    	    if ( !exists(${$allowed_services_sets_href_l}{$1}) ) {
+				$return_str_l="fail [$proc_name_l].";
+				last;
+			    }
     	    	    	}
     	    	    }
 		    
@@ -208,7 +214,10 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	    # check service names (maybe. in future)
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
-    	    	    	    
+    	    	    	    if ( !exists(${$allowed_protocols_sets_href_l}{$1}) ) {
+				$return_str_l="fail [$proc_name_l].";
+				last;
+			    }
     	    	    	}
     	    	    }
     	    	    
@@ -234,7 +243,10 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	    # check service names (maybe. in future)
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
-    	    	    	    
+    	    	    	    if ( !exists(${$icmp_blocks_sets_href_l}{$1}) ) {
+				$return_str_l="fail [$proc_name_l].";
+				last;
+			    }
     	    	    	}
     	    	    }
     	    	    
