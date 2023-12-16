@@ -82,16 +82,18 @@ sub read_03_conf_policy_templates {
 
     my $exec_res_l=undef;
     my $arr_el0_l=undef;
+    my $tmp_str0_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my @split_arr0_l=();
+    my @tmp_arr0_l=();
     my $return_str_l='OK';
     my $param_list_regex_l='^policy_allowed_services$|^policy_allowed_protocols$|^policy_icmp_block$|^policy_allowed_ports$|^policy_allowed_source_ports$';
-
+    
     my %res_tmp_lv0_l=();
         #key0=tmplt_name,key1=param, value=value filtered by regex
     my %res_tmp_lv1_l=();
-
+    
     my %cfg_params_and_regex_l=(
         'policy_name'=>'^\S{1,17}$',
         'policy_description'=>'^empty$|^.{1,100}',
@@ -115,6 +117,164 @@ sub read_03_conf_policy_templates {
     #$file_l,$param_list_regex_for_postproc_l,$src_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     ###
+    
+    # params special checks at '%res_tmp_lv1_l' (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv1_l ) { # cycle 0 (begin)
+        #$hkey0_l=policy_teplate_name, $hval0_l = hashref
+                                
+        while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle 1 (begin)
+            #$hkey1_l=fwpolicy-param (policy_name, policy_description, etc), $hval1_l=param value
+          
+            if ( $hkey1_l=~/(^policy_allowed_ports$|^policy_allowed_source_ports$)/ ) {
+                $tmp_str0_l=$1; # fwpolicy-param (tmp)
+          
+                if ( exists(${$hval1_l}{$tmp_str0_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$tmp_str0_l}{'seq'}};
+          
+                    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+                        $return_str_l="fail [$proc_name_l]. Value of param '$tmp_str0_l' must be 'empty' or 'list of ports' or 'set:some_set_name'";
+                        last;
+                    }
+                    
+                    foreach $arr_el0_l ( @tmp_arr0_l ) {
+                        #$arr_el0_l=port in format 'port/proto' or 'set:set_name'
+    
+                        if ( $arr_el0_l!~/^set\:\S+$/ ) {
+                            $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
+                            #$port_str_l
+                            if ( $exec_res_l=~/^fail/ ) {
+                                $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+                                last;
+                            }
+                            $exec_res_l=undef;
+                        }
+                        elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+                            if ( !exists(${$allowed_ports_sets_href_l}{$1}) ) {
+                                $return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_2_conf_allowed_ports_sets'";
+                                last;
+                            }
+                        }
+                    }
+                    
+                    # clear vars
+                    $arr_el0_l=undef;
+                    @tmp_arr0_l=();
+                    ###
+    
+                    if ( $return_str_l!~/^OK$/ ) { last; }
+                }
+    
+                # clear vars
+                $tmp_str0_l=undef;
+                ###
+            }
+            elsif ( $hkey1_l=~/^policy_allowed_services$/ ) {
+                if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
+    
+                    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+                        $return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of services' or 'set:some_set_name'";
+                        last;
+                    }
+    
+                    foreach $arr_el0_l ( @tmp_arr0_l ) {
+                        #$arr_el0_l=service name or 'set:set_name'
+    
+                        if ( $arr_el0_l!~/^set\:\S+$/ ) {
+                            # check service names (maybe. in future)
+                        }
+                        elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+                            if ( !exists(${$allowed_services_sets_href_l}{$1}) ) {
+                                $return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_1_conf_allowed_services_sets'";
+                                last;
+                            }
+                        }
+                    }
+    
+                    # clear vars
+                    $arr_el0_l=undef;
+                    @tmp_arr0_l=();
+                    ###
+    
+                    if ( $return_str_l!~/^OK$/ ) { last; }
+                }
+            }
+            elsif ( $hkey1_l=~/^policy_allowed_protocols$/ ) {
+                if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
+    
+                    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+                        $return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of protocols' or 'set:some_set_name'";
+                        last;
+                    }
+    
+                    foreach $arr_el0_l ( @tmp_arr0_l ) {
+                        #$arr_el0_l=proto or 'set:set_name'
+    
+    	                if ( $arr_el0_l!~/^set\:\S+$/ ) {
+                            # check protocols (maybe. in future)
+                        }
+                        elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+                            if ( !exists(${$allowed_protocols_sets_href_l}{$1}) ) {
+                                $return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_3_conf_allowed_protocols_sets'";
+                                last;
+                            }
+                        }
+                    }
+                    
+                    # clear vars
+                    $arr_el0_l=undef;
+                    @tmp_arr0_l=();
+                    ###
+    
+                    if ( $return_str_l!~/^OK$/ ) { last; }
+                }
+            }
+            elsif ( $hkey1_l=~/^policy_icmp_block$/ ) {
+                if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
+                    @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
+                    
+                    if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
+                        $return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of icmp-blocks' or 'set:some_set_name'";
+                        last;
+                    }
+    
+                    foreach $arr_el0_l ( @tmp_arr0_l ) {
+                        #$arr_el0_l=icmp-block or 'set:set_name'
+                        
+                        if ( $arr_el0_l!~/^set\:\S+$/ ) {
+                            # check icmp-blocks (maybe. in future)
+                        }
+                        elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
+                            if ( !exists(${$icmp_blocks_sets_href_l}{$1}) ) {
+                                $return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_4_conf_icmp_blocks_sets'";
+                                last;
+                            }
+                        }
+                    }
+          
+                    # clear vars
+                    $arr_el0_l=undef;
+                    @tmp_arr0_l=();
+                    ###
+    
+                    if ( $return_str_l!~/^OK$/ ) { last; }
+                }
+            }
+    
+            if ( $return_str_l!~/^OK$/ ) { last; }
+        } # cycle 1 (end)
+        
+        if ( $return_str_l!~/^OK$/ ) { last; }
+    } # cycle 0 (end)
+    
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
+    ###
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    # params special checks at '%res_tmp_lv1_l' (end)
         
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
