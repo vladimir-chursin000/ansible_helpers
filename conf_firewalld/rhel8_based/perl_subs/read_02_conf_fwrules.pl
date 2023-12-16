@@ -153,7 +153,7 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$allowed_ports_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l].";
+				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_2_conf_allowed_ports_sets'";
 				last;
 			    }
     	    	    	}
@@ -186,7 +186,7 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$allowed_services_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l].";
+				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_1_conf_allowed_services_sets'";
 				last;
 			    }
     	    	    	}
@@ -208,14 +208,14 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    }
     	    	    
     	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
-    	    	    	#$arr_el0_l=service name or 'set:set_name'
+    	    	    	#$arr_el0_l=proto or 'set:set_name'
     	    	    	
     	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
-    	    	    	    # check service names (maybe. in future)
+    	    	    	    # check protocols (maybe. in future)
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$allowed_protocols_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l].";
+				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_3_conf_allowed_protocols_sets'";
 				last;
 			    }
     	    	    	}
@@ -237,14 +237,14 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    }
     	    	    
     	    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
-    	    	    	#$arr_el0_l=service name or 'set:set_name'
+    	    	    	#$arr_el0_l=icmp-block or 'set:set_name'
     	    	    	
     	    	    	if ( $arr_el0_l!~/^set\:\S+$/ ) {
-    	    	    	    # check service names (maybe. in future)
+    	    	    	    # check icmp-blocks (maybe. in future)
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$icmp_blocks_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l].";
+				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_4_conf_icmp_blocks_sets'";
 				last;
 			    }
     	    	    	}
