@@ -153,9 +153,9 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$allowed_ports_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_2_conf_allowed_ports_sets'";
-				last;
-			    }
+		    		$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_2_conf_allowed_ports_sets'";
+		    		last;
+		    	    }
     	    	    	}
     	    	    }
     	    	    
@@ -163,6 +163,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    $arr_el0_l=undef;
     	    	    @tmp_arr0_l=();
     	    	    ###
+		    
+		    if ( $return_str_l!~/^OK$/ ) { last; }
     	    	}
     	    	
     	    	# clear vars
@@ -186,9 +188,9 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$allowed_services_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_1_conf_allowed_services_sets'";
-				last;
-			    }
+		    		$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_1_conf_allowed_services_sets'";
+		    		last;
+		    	    }
     	    	    	}
     	    	    }
 		    
@@ -196,6 +198,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    $arr_el0_l=undef;
     	    	    @tmp_arr0_l=();
     	    	    ###
+		    
+		    if ( $return_str_l!~/^OK$/ ) { last; }
     	    	}
     	    }
     	    elsif ( $hkey1_l=~/^zone_allowed_protocols$/ ) {
@@ -215,9 +219,9 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$allowed_protocols_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_3_conf_allowed_protocols_sets'";
-				last;
-			    }
+		    		$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_3_conf_allowed_protocols_sets'";
+		    		last;
+		    	    }
     	    	    	}
     	    	    }
     	    	    
@@ -225,6 +229,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    $arr_el0_l=undef;
     	    	    @tmp_arr0_l=();
     	    	    ###
+		    
+		    if ( $return_str_l!~/^OK$/ ) { last; }
     	    	}
     	    }
     	    elsif ( $hkey1_l=~/^zone_icmp_block$/ ) {
@@ -244,9 +250,9 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    	}
     	    	    	elsif ( $arr_el0_l=~/^set\:(\S+)$/ ) {
     	    	    	    if ( !exists(${$icmp_blocks_sets_href_l}{$1}) ) {
-				$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_4_conf_icmp_blocks_sets'";
-				last;
-			    }
+		    		$return_str_l="fail [$proc_name_l]. Set with name '$1' is not exists at cfg '02_4_conf_icmp_blocks_sets'";
+		    		last;
+		    	    }
     	    	    	}
     	    	    }
     	    	    
@@ -254,6 +260,8 @@ sub read_02_conf_custom_firewall_zones_templates {
     	    	    $arr_el0_l=undef;
     	    	    @tmp_arr0_l=();
     	    	    ###
+		    
+		    if ( $return_str_l!~/^OK$/ ) { last; }
     	    	}
     	    }
     	    
