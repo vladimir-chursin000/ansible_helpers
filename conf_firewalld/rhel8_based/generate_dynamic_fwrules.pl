@@ -674,7 +674,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=(
     	'h02_1_conf_allowed_services_sets_href'=>\%h02_1_conf_allowed_services_sets_hash_g,
     	'h02_2_conf_allowed_ports_sets_href'=>\%h02_2_conf_allowed_ports_sets_hash_g,
-    	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
+	'h02_3_conf_allowed_protocols_sets_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
     	'h02_4_conf_icmp_blocks_sets_href'=>\%h02_4_conf_icmp_blocks_sets_hash_g,
     );
     $exec_res_g=&read_02_conf_custom_firewall_zones_templates($f02_conf_custom_firewall_zones_templates_path_g,\%input_hash4proc_g,\%h02_conf_custom_firewall_zones_templates_hash_g);
@@ -693,7 +693,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=(
     	'h02_1_conf_allowed_services_sets_href'=>\%h02_1_conf_allowed_services_sets_hash_g,
     	'h02_2_conf_allowed_ports_sets_href'=>\%h02_2_conf_allowed_ports_sets_hash_g,
-    	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
+    	'h02_3_conf_allowed_protocols_sets_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
     	'h02_4_conf_icmp_blocks_sets_href'=>\%h02_4_conf_icmp_blocks_sets_hash_g,
     );
     $exec_res_g=&read_02_conf_standard_firewall_zones_templates($f02_conf_standard_firewall_zones_templates_path_g,\%input_hash4proc_g,\%h02_conf_standard_firewall_zones_templates_hash_g);
@@ -712,7 +712,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=(
     	'h02_1_conf_allowed_services_sets_href'=>\%h02_1_conf_allowed_services_sets_hash_g,
     	'h02_2_conf_allowed_ports_sets_href'=>\%h02_2_conf_allowed_ports_sets_hash_g,
-    	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
+    	'h02_3_conf_allowed_protocols_sets_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
     	'h02_4_conf_icmp_blocks_sets_href'=>\%h02_4_conf_icmp_blocks_sets_hash_g,
     );
     $exec_res_g=&read_03_conf_policy_templates($f03_conf_policy_templates_path_g,\%input_hash4proc_g,\%h03_conf_policy_templates_hash_g);
