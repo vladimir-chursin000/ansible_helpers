@@ -781,6 +781,12 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	'inv_hosts_network_data_href'=>\%inv_hosts_network_data_g,
 	'divisions_for_inv_hosts_href'=>\%h00_conf_divisions_for_inv_hosts_hash_g,
 	'h01_conf_ipset_templates_href'=>\%h01_conf_ipset_templates_hash_g,
+	###
+    	'h02_1_conf_allowed_services_sets_href'=>\%h02_1_conf_allowed_services_sets_hash_g,
+    	'h02_2_conf_allowed_ports_sets_href'=>\%h02_2_conf_allowed_ports_sets_hash_g,
+	'h02_3_conf_allowed_protocols_sets_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
+    	'h02_4_conf_icmp_blocks_sets_href'=>\%h02_4_conf_icmp_blocks_sets_hash_g,
+	###
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
 	'h04_conf_forward_ports_sets_href'=>\%h04_conf_forward_ports_sets_hash_g,
@@ -803,6 +809,12 @@ while ( 1 ) { # ONE RUN CYCLE begin
     %input_hash4proc_g=(
 	'inventory_hosts_href'=>\%inventory_hosts_g,
 	'divisions_for_inv_hosts_href'=>\%h00_conf_divisions_for_inv_hosts_hash_g,
+	###
+    	'h02_1_conf_allowed_services_sets_href'=>\%h02_1_conf_allowed_services_sets_hash_g,
+    	'h02_2_conf_allowed_ports_sets_href'=>\%h02_2_conf_allowed_ports_sets_hash_g,
+	'h02_3_conf_allowed_protocols_sets_href'=>\%h02_3_conf_allowed_protocols_sets_hash_g,
+    	'h02_4_conf_icmp_blocks_sets_href'=>\%h02_4_conf_icmp_blocks_sets_hash_g,
+	###
 	'h02_conf_custom_firewall_zones_templates_href'=>\%h02_conf_custom_firewall_zones_templates_hash_g,
 	'h02_conf_standard_firewall_zones_templates_href'=>\%h02_conf_standard_firewall_zones_templates_hash_g,
 	'h03_conf_policy_templates_href'=>\%h03_conf_policy_templates_hash_g,

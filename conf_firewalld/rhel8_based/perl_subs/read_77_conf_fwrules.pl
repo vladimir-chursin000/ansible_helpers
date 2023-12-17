@@ -21,7 +21,42 @@ sub read_77_conf_zones_FIN_v2 {
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
-
+    
+    ######
+    my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
+    #allowed_services_sets_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
+    #$h02_1_conf_allowed_services_sets_hash_g{set-name}{inv-host}->
+        #{'serv-0'}=1
+        #{'serv-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=serv)
+    
+    my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
+    #allowed_ports_sets_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
+    #$h02_2_conf_allowed_ports_sets_hash_g{set-name}{inv-host}->
+        #{'port-0'}=1
+        #{'port-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=port)
+    
+    my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
+    #allowed_protocols_sets_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
+    #$h02_3_conf_allowed_protocols_sets_hash_g{set-name}{inv-host}->
+        #{'proto-0'}=1
+        #{'proto-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=proto)
+    
+    my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
+    #icmp_blocks_sets_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
+    #$h02_4_conf_icmp_blocks_sets_hash_g{set-name}{inv-host}->
+        #{'icmp_block-0'}=1
+        #{'icmp_block-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=icmp_block)
+        #{'inversion'}=yes/no
+    ######
+    
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
 

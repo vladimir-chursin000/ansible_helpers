@@ -17,15 +17,50 @@ sub read_88_conf_policies_FIN_v2 {
     #$policy_templates_href_l=hash-ref for %h03_conf_policy_templates_hash_g
         #$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}-> ... #{'policy_name'}
 
+    ######
+    my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
+    #allowed_services_sets_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
+    #$h02_1_conf_allowed_services_sets_hash_g{set-name}{inv-host}->
+        #{'serv-0'}=1
+        #{'serv-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=serv)
+    
+    my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
+    #allowed_ports_sets_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
+    #$h02_2_conf_allowed_ports_sets_hash_g{set-name}{inv-host}->
+        #{'port-0'}=1
+        #{'port-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=port)
+    
+    my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
+    #allowed_protocols_sets_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
+    #$h02_3_conf_allowed_protocols_sets_hash_g{set-name}{inv-host}->
+        #{'proto-0'}=1
+        #{'proto-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=proto)
+    
+    my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
+    #icmp_blocks_sets_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
+    #$h02_4_conf_icmp_blocks_sets_hash_g{set-name}{inv-host}->
+        #{'icmp_block-0'}=1
+        #{'icmp_block-1'}=1
+        #etc
+        #{'seq'}=[val-0,val-1] (val=icmp_block)
+        #{'inversion'}=yes/no # not used for policies
+    ######
+    
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
-
+    
     my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
-
+    
     my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_forward_ports_sets_href'};
     #$fw_ports_set_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
-
+    
     my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_rich_rules_sets_href'};
     #$rich_rules_set_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
     
@@ -34,7 +69,7 @@ sub read_88_conf_policies_FIN_v2 {
         #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     
     my $proc_name_l=(caller(0))[3];
-
+    
     #INVENTORY_HOST         #POLICY_NAME_TMPLT              #INGRESS-FIREWALL_ZONE_NAME_TMPLT       #EGRESS-FIREWALL_ZONE_NAME_TMPLT    #FORWARD_PORTS_SET      #RICH_RULES_SET
     #all                    policy_public2home--TMPLT       public--TMPLT                           home--TMPLT     			fw_ports_set1       	rich_rules_set1 (example)
     #10.3.2.2               policy_zoneone2zonetwo--TMPLT   zoneone--TMPLT                          zonetwo--TMPLT     			fw_ports_set2    	rich_rules_set2 (example)
