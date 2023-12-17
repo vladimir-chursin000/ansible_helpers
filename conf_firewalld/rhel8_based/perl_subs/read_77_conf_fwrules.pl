@@ -5,19 +5,19 @@ sub read_77_conf_zones_FIN_v2 {
     #$file_l=$f77_conf_zones_FIN_path_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     #$res_href_l=hash ref for %h77_conf_zones_FIN_hash_g
-
+    
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
-
+    
     my $divisions_for_inv_hosts_href_l=${$input_hash4proc_href_l}{'divisions_for_inv_hosts_href'};
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
-
+    
     my $inv_hosts_nd_href_l=${$input_hash4proc_href_l}{'inv_hosts_network_data_href'};
     #$inv_hosts_nd_href_l=hash-ref for %inv_hosts_network_data_g
         #INV_HOST-0       #INT_NAME-1       #IPADDR-2
         #$inv_hosts_network_data_g{inv_host}{int_name}=ipaddr
-
+    
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
@@ -59,27 +59,27 @@ sub read_77_conf_zones_FIN_v2 {
     
     my $custom_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_custom_firewall_zones_templates_href'};
     #$custom_zone_templates_href_l=hash-ref for %h02_conf_custom_firewall_zones_templates_hash_g
-
+    
     my $std_zone_templates_href_l=${$input_hash4proc_href_l}{'h02_conf_standard_firewall_zones_templates_href'};
     #$std_zone_templates_href_l=hash-ref for %h02_conf_standard_firewall_zones_templates_hash_g
-
+    
     my $fw_ports_set_href_l=${$input_hash4proc_href_l}{'h04_conf_forward_ports_sets_href'};
     #$fw_ports_set_href_l=hash-ref for %h04_conf_forward_ports_sets_hash_g
         #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
-
+    
     my $rich_rules_set_href_l=${$input_hash4proc_href_l}{'h05_conf_rich_rules_sets_href'};
     #$rich_rules_set_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
         #$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
-
+    
     my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
         #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
             #{ipset_name_tmplt-0}=1;
             #{ipset_name_tmplt-1}=1;
             #etc
-
+    
     my $proc_name_l=(caller(0))[3];
-
+    
     #INVENTORY_HOST         #FIREWALL_ZONE_NAME_TMPLT       #INTERFACE_LIST   #SOURCE_LIST          #IPSET_TMPLT_LIST               #FORWARD_PORTS_SET      #RICH_RULES_SET
     #all                    public--TMPLT                   ens1,ens2,ens3    10.10.16.0/24         ipset4all_public--TMPLT         empty                   empty (example)
     #10.3.2.2               public--TMPLT                   empty             10.10.15.0/24         ipset4public--TMPLT             fw_ports_set4public     rich_rules_set4public (example)
@@ -113,23 +113,23 @@ sub read_77_conf_zones_FIN_v2 {
     # ADDING not directly via '77_conf_zones_FIN'
     #{'allowed_services_set'}=[serv1,serv2,etc] (from '02_1_conf_allowed_services_sets')
         #Must exists if set defined for 'firewall_zone_name_tmplt'
-	    #at param 'zone_allowed_services' and set name defined at '02_1_conf_allowed_services_sets'
+    	    #at param 'zone_allowed_services' and set name defined at '02_1_conf_allowed_services_sets'
     #{'allowed_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
         #Must exists if set defined for 'firewall_zone_name_tmplt'
-	    #at param 'zone_allowed_ports' and set name defined at '02_2_conf_allowed_ports_sets'
+    	    #at param 'zone_allowed_ports' and set name defined at '02_2_conf_allowed_ports_sets'
     #{'allowed_source_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
         #Must exists if set defined for 'firewall_zone_name_tmplt'
-	    #at param 'zone_allowed_source_ports' and set name defined at '02_2_conf_allowed_ports_sets'
+    	    #at param 'zone_allowed_source_ports' and set name defined at '02_2_conf_allowed_ports_sets'
     #{'allowed_protocols_set'}=[proto1,proto2,etc] (from '02_3_conf_allowed_protocols_sets')
         #Must exists if set defined for 'firewall_zone_name_tmplt'
-	    #at param 'zone_allowed_protocols' and set name defined at '02_3_conf_allowed_protocols_sets'
-
+    	    #at param 'zone_allowed_protocols' and set name defined at '02_3_conf_allowed_protocols_sets'
+    
     #{'icmp_blocks_set'}=[icmp-block1,icmp-block2,etc] (from '02_4_conf_icmp_blocks_sets')
     #{'icmp_blocks_inversion'}=yes/no (from '02_4_conf_icmp_blocks_sets')
         #Must exists if set defined for 'firewall_zone_name_tmplt'
-	    #at param 'zone_icmp_block' and set name defined at '02_4_conf_icmp_blocks_sets'
+    	    #at param 'zone_icmp_block' and set name defined at '02_4_conf_icmp_blocks_sets'
     ###
-
+    
     my ($exec_res_l,$inv_host_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
@@ -137,7 +137,7 @@ sub read_77_conf_zones_FIN_v2 {
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $fwzone_name_l=undef; # for fwzone_uniq_check
     my $return_str_l='OK';
-
+    
     my %fwzone_uniq_check_l=(); # uniq for 'inv-host + firewall_zone_name(not tmplt)'
         #key=inv-host, key1=firewall_zone_name(not tmplt), value=firewall_zone_tmplt_name
     my %int_uniq_check_l=(); # uniq for 'inv-host + interface'
@@ -154,13 +154,13 @@ sub read_77_conf_zones_FIN_v2 {
     $exec_res_l=&read_config_FIN_level0($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,7,1,\%res_tmp_lv0_l); # protects from not uniq 'inv-host+fwzone-tmplt'
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
+    
     # fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
         #hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
         $inv_host_l=$hkey0_l;
         $inv_host_l=~s/\+\S+$//g;
-
+    
         # FIREWALL_ZONE_NAME_TMPLT ops [0] (begin)
         #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ... #{'zone_name'}
             #$custom_zone_templates_href_l
@@ -178,7 +178,7 @@ sub read_77_conf_zones_FIN_v2 {
             $return_str_l="fail [$proc_name_l]. Fw-zone-tmplt='${$hval0_l}[0]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
             last;
         }
-        ### (end)
+        # FIREWALL_ZONE_NAME_TMPLT ops [0] (end)
     
         # fwzone_name uniq check
         if ( exists($fwzone_uniq_check_l{$inv_host_l}{$fwzone_name_l}) ) {
@@ -222,7 +222,7 @@ sub read_77_conf_zones_FIN_v2 {
     
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
-        ### (end)
+        # INTERFACE_LIST ops [1] (end)
     
         # SOURCE_LIST ops [2] (begin)
         if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'empty'}=1; }
@@ -233,7 +233,7 @@ sub read_77_conf_zones_FIN_v2 {
                 #if ( $arr_el0_l!~/some_regex/ ) {
                     #maybe need to add regex for check sources
                 #}
-
+    
                 # check for 'source is already belongs to fw-zone-tmplt'
                 if ( !exists($src_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) { $src_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0]; }
                 else {
@@ -257,7 +257,7 @@ sub read_77_conf_zones_FIN_v2 {
     
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
-        ### (end)
+        # SOURCE_LIST ops [2] (end)
     
         # IPSET_TMPLT_LIST ops [3] (begin)
         if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'empty'}=1; }
@@ -271,7 +271,7 @@ sub read_77_conf_zones_FIN_v2 {
                     $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
                     last;
                 }
- 
+    
                 #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
                     #{ipset_name_tmplt-0}=1;
                 if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_l}{$arr_el0_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_l}{$arr_el0_l}) ) {
@@ -302,8 +302,8 @@ sub read_77_conf_zones_FIN_v2 {
     
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
-        ### (end)
-
+        # IPSET_TMPLT_LIST ops [3] (end)
+    
         # FORWARD_PORTS_SET ops [4] (begin)
         if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
         else {
@@ -315,8 +315,8 @@ sub read_77_conf_zones_FIN_v2 {
             }
             else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
         }
-        ### (end)
-
+        # FORWARD_PORTS_SET ops [4] (end)
+    
         # RICH_RULES_SET ops [5] (begin)
         if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
         else {
@@ -328,22 +328,22 @@ sub read_77_conf_zones_FIN_v2 {
             }
             else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }
         }
-        ### (end)
+        # RICH_RULES_SET ops [5] (end)
     }
         
     ($hkey0_l,$hval0_l)=(undef,undef);
     $inv_host_l=undef;
     $fwzone_name_l=undef;
-
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill %res_tmp_lv1_l (end)
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     %res_tmp_lv1_l=();
-
+    
     return $return_str_l;
 }
 
