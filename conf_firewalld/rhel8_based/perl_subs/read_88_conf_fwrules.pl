@@ -243,6 +243,21 @@ sub read_88_conf_policies_FIN_v2 {
             else { $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[4]; }
         }
         # RICH_RULES_SET ops [4] (end)
+	
+        # allowed_services_set (begin)
+        # allowed_services_set (end)
+	    
+        # allowed_ports_set (begin)
+        # allowed_ports_set (end)
+	
+        # allowed_source_ports_set (begin)
+        # allowed_source_ports_set (end)
+	
+        # allowed_protocols_set (begin)
+        # allowed_protocols_set (end)
+	
+        # icmp_blocks_set + icmp_blocks_inversion (begin)
+        # icmp_blocks_set + icmp_blocks_inversion (end)
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
