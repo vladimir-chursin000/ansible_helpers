@@ -331,18 +331,30 @@ sub read_77_conf_zones_FIN_v2 {
         # RICH_RULES_SET ops [5] (end)
 	
 	# allowed_services_set (begin)
+	    #$inv_host_l
+	    #$zone_type_l=standard/custom
+	    #${$hval0_l}[0]=FIREWALL_ZONE_NAME_TMPLT
+    	    #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ($custom_zone_templates_href_l)
+		#... #{'zone_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
+    	    #$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> (#$std_zone_templates_href_l)
+		#... #{'zone_allowed_services'}{'seq'} (if exists) and seq[0]=set:*
+	
 	# allowed_services_set (end)
 	
 	# allowed_ports_set (begin)
+	    #***{'zone_allowed_ports'}***
 	# allowed_ports_set (end)
 	
 	# allowed_source_ports_set (begin)
+	    #***{'zone_allowed_source_ports'}***
 	# allowed_source_ports_set (end)
 	
 	# allowed_protocols_set (begin)
+	    #***{'zone_allowed_protocols'}***
 	# allowed_protocols_set (end)
 	
 	# icmp_blocks_set + icmp_blocks_inversion (begin)
+	    #***{'zone_icmp_block'}***
 	# icmp_blocks_set + icmp_blocks_inversion (end)
     }
         
