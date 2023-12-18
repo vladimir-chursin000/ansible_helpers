@@ -256,8 +256,8 @@ sub read_88_conf_policies_FIN_v2 {
         # allowed_protocols_set (begin)
         # allowed_protocols_set (end)
 	
-        # icmp_blocks_set + icmp_blocks_inversion (begin)
-        # icmp_blocks_set + icmp_blocks_inversion (end)
+        # icmp_blocks_set (begin)
+        # icmp_blocks_set (end)
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
