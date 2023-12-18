@@ -245,18 +245,26 @@ sub read_88_conf_policies_FIN_v2 {
         # RICH_RULES_SET ops [4] (end)
 	
         # allowed_services_set (begin)
+	    #$inv_host_l
+	    #${$hval0_l}[0]=POLICY_NAME_TMPLT
+            #$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}-> ($policy_templates_href_l)
+                #... #{'policy_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
         # allowed_services_set (end)
 	    
         # allowed_ports_set (begin)
+	    #***{'policy_allowed_ports'}***
         # allowed_ports_set (end)
 	
         # allowed_source_ports_set (begin)
+	    #***{'policy_allowed_source_ports'}***
         # allowed_source_ports_set (end)
 	
         # allowed_protocols_set (begin)
+	    #***{'policy_allowed_protocols'}***
         # allowed_protocols_set (end)
 	
         # icmp_blocks_set (begin)
+	    #***{'policy_icmp_block'}***
         # icmp_blocks_set (end)
     }
     
