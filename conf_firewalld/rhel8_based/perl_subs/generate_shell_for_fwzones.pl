@@ -516,13 +516,13 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 	    }
 	    ###
 	    
-	    # forward_ports_set
-		#$fw_ports_set_href_l
+	    # forward_ports_set (begin)
+	    	#$fw_ports_set_href_l
 	        #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
-    		    #{'rule-0'}=1
-    		    #{'rule-1'}=1
-    		    #etc
-    		    #{'seq'}=[val-0,val-1] (val=rule)
+    	    	    #{'rule-0'}=1
+    	    	    #{'rule-1'}=1
+    	    	    #etc
+    	    	    #{'seq'}=[val-0,val-1] (val=rule)
 	    # Add forward-port = "firewall-cmd --permanent --zone=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
 	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
 		#$arr_el0_l=fw-zone-tmplt-name
@@ -539,21 +539,21 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @forward_ports_arr_l=();
 	    }
-	    ###
+	    # forward_ports_set (end)
 	
-	    # rich_rules_set
-		#$rich_rules_set_href_l
-		#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
-    		    #{'rule-0'}=1
-    		    #{'rule-1'}=1
-    		    #etc
-    		    #{'seq'}=[val-0,val-1] (val=rule)
+	    # rich_rules_set (begin)
+	    	#$rich_rules_set_href_l
+	    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
+    	    	    #{'rule-0'}=1
+    	    	    #{'rule-1'}=1
+    	    	    #etc
+    	    	    #{'seq'}=[val-0,val-1] (val=rule)
 	    # Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name --add-rich-rule='some-rich-rule-string'" (for information only).
 	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
-		#$arr_el0_l=fw-zone-tmplt-name
+	    	#$arr_el0_l=fw-zone-tmplt-name
 	    if ( $rich_rules_set_l ne 'empty' ) {
-		@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
-		foreach $arr_el1_l ( @rich_rules_arr_l ) {
+	    	@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
+	    	foreach $arr_el1_l ( @rich_rules_arr_l ) {
                     #$arr_el1_l=rich-rule
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-rich-rule='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
@@ -564,7 +564,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @rich_rules_arr_l=();
 	    }
-	    ###
+	    # rich_rules_set (end)
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},' ');
     	}
@@ -848,19 +848,19 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 	    }
 	    ###
 	    
-	    # forward_ports_set
-		#$fw_ports_set_href_l
+	    # forward_ports_set (begin)
+	    	#$fw_ports_set_href_l
 	        #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
-    		    #{'rule-0'}=1
-    		    #{'rule-1'}=1
-    		    #etc
-    		    #{'seq'}=[val-0,val-1] (val=rule)
+    	    	    #{'rule-0'}=1
+    	    	    #{'rule-1'}=1
+    	    	    #etc
+    	    	    #{'seq'}=[val-0,val-1] (val=rule)
 	    # Add forward-port = "firewall-cmd --permanent --zone=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
 	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
-		#$arr_el0_l=fw-zone-tmplt-name
+	    	#$arr_el0_l=fw-zone-tmplt-name
 	    if ( $forward_ports_set_l ne 'empty' ) {
-		@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
-		foreach $arr_el1_l ( @forward_ports_arr_l ) {
+	    	@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
+	    	foreach $arr_el1_l ( @forward_ports_arr_l ) {
                     #$arr_el1_l=forward-port rule
                     $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-forward-port='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
@@ -871,21 +871,21 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @forward_ports_arr_l=();
 	    }
-	    ###
-	
-	    # rich_rules_set
-		#$rich_rules_set_href_l
-		#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
-    		    #{'rule-0'}=1
-    		    #{'rule-1'}=1
-    		    #etc
-    		    #{'seq'}=[val-0,val-1] (val=rule)
+	    # forward_ports_set (end)
+	    
+	    # rich_rules_set (begin)
+	    	#$rich_rules_set_href_l
+	    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
+    	    	    #{'rule-0'}=1
+    	    	    #{'rule-1'}=1
+    	    	    #etc
+    	    	    #{'seq'}=[val-0,val-1] (val=rule)
 	    # Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name --add-rich-rule='some-rich-rule-string'" (for information only).
 	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
-		#$arr_el0_l=fw-zone-tmplt-name
+	    	#$arr_el0_l=fw-zone-tmplt-name
 	    if ( $rich_rules_set_l ne 'empty' ) {
-		@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
-		foreach $arr_el1_l ( @rich_rules_arr_l ) {
+	    	@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
+	    	foreach $arr_el1_l ( @rich_rules_arr_l ) {
                     #$arr_el1_l=rich-rule
                     $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-rich-rule='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'custom'}},$wr_str_l);
@@ -896,7 +896,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @rich_rules_arr_l=();
 	    }
-	    ###
+	    # rich_rules_set (end)
 	    
 	    push(@{$wr_hash_l{$hkey0_l}{'custom'}},' ');    
     	}
