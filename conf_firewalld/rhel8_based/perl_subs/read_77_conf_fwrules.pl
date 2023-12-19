@@ -137,6 +137,7 @@ sub read_77_conf_zones_FIN_v2 {
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $fwzone_name_l=undef; # for fwzone_uniq_check
     my $actual_zone_templates_href_l=undef; # possible values: $custom_zone_templates_href_l, $std_zone_templates_href_l
+    my $set_name_l=undef;
     my $return_str_l='OK';
     
     my %fwzone_uniq_check_l=(); # uniq for 'inv-host + firewall_zone_name(not tmplt)'
@@ -351,7 +352,19 @@ sub read_77_conf_zones_FIN_v2 {
 	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}};
 	    
 	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
-	        
+	        $set_name_l=$1;
+		
+		if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+		    $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+		    last;
+		}
+		else {
+		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+		}
+		
+		# clear vars
+		$set_name_l=undef;
+		###
 	    }
 		
 	    # clear vars
