@@ -267,159 +267,159 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	
         $wr_str_l=undef;
     	# commands for remove policies (end)
-	
+    	
     	# commands for configure policies (begin)
     	@tmp_arr_l=sort(keys %{$hval0_l});
     	foreach $arr_el0_l ( @tmp_arr_l ) {
     	    #$arr_el0_l=policy-tmplt-name
     	    $policy_name_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_name'};
-	    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name"
-	    $wr_str_l="firewall-cmd --permanent --new-policy='$policy_name_l';";
-	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    
-	    $wr_str_l=undef;
-	    ###
-	    
-	    # description (begin)
-	    $policy_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_description'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    if ( $policy_description_l ne 'empty' ) {
-	    	# Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description='some_description'"	
-	    	$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-description='$policy_description_l';";
-	    	push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    
-	    	$wr_str_l=undef;
-	    }
-	    
-	    $policy_description_l=undef;
-	    # description (end)
-	    
-	    # short description (begin)
-	    $policy_short_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_short_description'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    if ( $policy_short_description_l ne 'empty' ) {
-	    	# Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short='some_short_description'"
-	    	$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-short='$policy_short_description_l';";
-	    	push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    
-	    	$wr_str_l=undef;
-	    }
-	    
-	    $policy_short_description_l=undef;
-	    # short description (end)
-	    
-	    # policy_target (begin)
-	    $policy_target_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_target'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    # Set policy target = "firewall-cmd --permanent --policy=some_policy_name --set-target=some_target"
-	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-target=$policy_target_l;";
-	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    
-	    $wr_str_l=undef;
-	    $policy_priority_l=undef;
-	    # policy_target (end)
-	    
-	    # policy_priority (begin)
-	    $policy_priority_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_priority'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    # Set policy priority = "firewall-cmd --permanent --policy=some_policy_name --set-priority=-1"
-	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-priority=$policy_priority_l;";
-	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    
-	    $wr_str_l=undef;
-	    $policy_priority_l=undef;
-	    # policy_priority (end)
-	    
-	    # services (begin)
-	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) ) {
-	    	# Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http"
-	    	@policy_allowed_services_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}});
-	    	    #$arr_el0_l=policy-tmplt-name
-	    	foreach $arr_el1_l ( @policy_allowed_services_arr_l ) {
-	    	    #$arr_el1_l=service name for add
-	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-service=$arr_el1_l;";
-	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    	    	    
-	    	    $wr_str_l=undef;
-	    	}
-	    	
-	    	$arr_el1_l=undef;
-	    	@policy_allowed_services_arr_l=();
-	    }
-	    # services (end)
-	    
-	    # ports (begin)
-	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}) ) {
-	    	# Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp"
-	    	@policy_allowed_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}});
-	    	    #$arr_el0_l=policy-tmplt-name
-	    	foreach $arr_el1_l ( @policy_allowed_ports_arr_l ) {
-	    	    #$arr_el1_l=port for allow
-	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-port=$arr_el1_l;";
-	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    	        
-	    	    $wr_str_l=undef;
-	    	}
-	    	
-	    	$arr_el1_l=undef;
-	    	@policy_allowed_ports_arr_l=();
-	    }
-	    # ports (end)
-	    
-	    # protocols (begin)
-	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}) ) {
-	    	# Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre"
-	    	@policy_allowed_protocols_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}});
-	    	    #$arr_el0_l=policy-tmplt-name
-	    	foreach $arr_el1_l ( @policy_allowed_protocols_arr_l ) {
-	    	    #$arr_el1_l=proto for allow
-	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-protocol=$arr_el1_l;";
-	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    	        
-	    	    $wr_str_l=undef;
-	    	}
-	    	
-	    	$arr_el1_l=undef;
-	    	@policy_allowed_protocols_arr_l=();
-	    }
-	    # protocols (end)
-	    
-	    # masquerade (begin)
-	    $policy_masquerade_general_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_masquerade_general'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    # Allow masquerade general = "firewall-cmd --permanent --policy=some_policy_name --add-masquerade"
-	    if ( $policy_masquerade_general_l eq 'yes' ) {
-	    	$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-masquerade;";
+    	    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name"
+    	    $wr_str_l="firewall-cmd --permanent --new-policy='$policy_name_l';";
+    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    
+    	    $wr_str_l=undef;
+    	    ###
+    	    
+    	    # description (begin)
+    	    $policy_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_description'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    if ( $policy_description_l ne 'empty' ) {
+    	    	# Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description='some_description'"	
+    	    	$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-description='$policy_description_l';";
+    	    	push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    
+    	    	$wr_str_l=undef;
+    	    }
+    	    
+    	    $policy_description_l=undef;
+    	    # description (end)
+    	    
+    	    # short description (begin)
+    	    $policy_short_description_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_short_description'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    if ( $policy_short_description_l ne 'empty' ) {
+    	    	# Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short='some_short_description'"
+    	    	$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-short='$policy_short_description_l';";
+    	    	push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    
+    	    	$wr_str_l=undef;
+    	    }
+    	    
+    	    $policy_short_description_l=undef;
+    	    # short description (end)
+    	    
+    	    # policy_target (begin)
+    	    $policy_target_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_target'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    # Set policy target = "firewall-cmd --permanent --policy=some_policy_name --set-target=some_target"
+    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-target=$policy_target_l;";
+    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    
+    	    $wr_str_l=undef;
+    	    $policy_priority_l=undef;
+    	    # policy_target (end)
+    	    
+    	    # policy_priority (begin)
+    	    $policy_priority_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_priority'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    # Set policy priority = "firewall-cmd --permanent --policy=some_policy_name --set-priority=-1"
+    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --set-priority=$policy_priority_l;";
+    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    
+    	    $wr_str_l=undef;
+    	    $policy_priority_l=undef;
+    	    # policy_priority (end)
+    	    
+    	    # services (begin)
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) ) {
+    	    	# Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http"
+    	    	@policy_allowed_services_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}});
+    	    	    #$arr_el0_l=policy-tmplt-name
+    	    	foreach $arr_el1_l ( @policy_allowed_services_arr_l ) {
+    	    	    #$arr_el1_l=service name for add
+    	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-service=$arr_el1_l;";
+    	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    	    	    
+    	    	    $wr_str_l=undef;
+    	    	}
+    	    	
+    	    	$arr_el1_l=undef;
+    	    	@policy_allowed_services_arr_l=();
+    	    }
+    	    # services (end)
+    	    
+    	    # ports (begin)
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}) ) {
+    	    	# Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp"
+    	    	@policy_allowed_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}});
+    	    	    #$arr_el0_l=policy-tmplt-name
+    	    	foreach $arr_el1_l ( @policy_allowed_ports_arr_l ) {
+    	    	    #$arr_el1_l=port for allow
+    	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-port=$arr_el1_l;";
+    	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    	        
+    	    	    $wr_str_l=undef;
+    	    	}
+    	    	
+    	    	$arr_el1_l=undef;
+    	    	@policy_allowed_ports_arr_l=();
+    	    }
+    	    # ports (end)
+    	    
+    	    # protocols (begin)
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}) ) {
+    	    	# Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre"
+    	    	@policy_allowed_protocols_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}});
+    	    	    #$arr_el0_l=policy-tmplt-name
+    	    	foreach $arr_el1_l ( @policy_allowed_protocols_arr_l ) {
+    	    	    #$arr_el1_l=proto for allow
+    	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-protocol=$arr_el1_l;";
+    	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    	        
+    	    	    $wr_str_l=undef;
+    	    	}
+    	    	
+    	    	$arr_el1_l=undef;
+    	    	@policy_allowed_protocols_arr_l=();
+    	    }
+    	    # protocols (end)
+    	    
+    	    # masquerade (begin)
+    	    $policy_masquerade_general_l=${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_masquerade_general'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    # Allow masquerade general = "firewall-cmd --permanent --policy=some_policy_name --add-masquerade"
+    	    if ( $policy_masquerade_general_l eq 'yes' ) {
+    	    	$wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-masquerade;";
     	    	push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
     	    	                
     	    	$wr_str_l=undef;
-	    }
-	    # masquerade (end)
-	    
-	    # source ports (begin)
-	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}) ) {
-	    	# Allow source port="firewall-cmd --permanent --policy=some_policy_name --add-source-port=8080/tcp"
-	    	@policy_allowed_source_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}});
-	    	    #$arr_el0_l=policy-tmplt-name
-	    	foreach $arr_el1_l ( @policy_allowed_source_ports_arr_l ) {
-	    	    #$arr_el1_l=port for allow
-	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-source-port=$arr_el1_l;";
-	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
-	    	        
-	    	    $wr_str_l=undef;
-	    	}
-	    	
-	    	$arr_el1_l=undef;
-	    	@policy_allowed_source_ports_arr_l=();
-	    }
-	    # source ports (end)
-	    
-	    # icmp block (begin)
-	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}) ) {
-	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type"
-	    	@policy_icmp_block_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}});
-	    	    #$arr_el0_l=policy-tmplt-name
-                foreach $arr_el1_l ( @policy_icmp_block_arr_l ) {
+    	    }
+    	    # masquerade (end)
+    	    
+    	    # source ports (begin)
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}) ) {
+    	    	# Allow source port="firewall-cmd --permanent --policy=some_policy_name --add-source-port=8080/tcp"
+    	    	@policy_allowed_source_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}});
+    	    	    #$arr_el0_l=policy-tmplt-name
+    	    	foreach $arr_el1_l ( @policy_allowed_source_ports_arr_l ) {
+    	    	    #$arr_el1_l=port for allow
+    	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-source-port=$arr_el1_l;";
+    	    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
+    	    	        
+    	    	    $wr_str_l=undef;
+    	    	}
+    	    	
+    	    	$arr_el1_l=undef;
+    	    	@policy_allowed_source_ports_arr_l=();
+    	    }
+    	    # source ports (end)
+    	    
+    	    # icmp block (begin)
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}) ) {
+    	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type"
+    	    	@policy_icmp_block_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}});
+    	    	    #$arr_el0_l=policy-tmplt-name
+        	foreach $arr_el1_l ( @policy_icmp_block_arr_l ) {
                     #$arr_el1_l=icmp-block
                     $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-icmp-block=$arr_el1_l;";
                     push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
@@ -429,64 +429,64 @@ sub generate_shell_script_for_recreate_policies_v2 {
             
                 $arr_el1_l=undef;
                 @policy_icmp_block_arr_l=();
-	    }
-	    # icmp block (end)
-	    
-	    # ingress (begin)
-	    $ingress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'ingress-firewall_zone_name_tmplt'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    if ( $ingress_firewall_zone_name_tmplt_l!~/^ANY$|^HOST$/ ) {
-	    	if ( exists(${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
-	    	    $ingress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
-	    	}
-	    	elsif ( exists(${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
-	    	    $ingress_firewall_zone_name_l=${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
-	    	}
-	    }
-	    else { $ingress_firewall_zone_name_l=$ingress_firewall_zone_name_tmplt_l; }
-	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-ingress-zone=some_firewall_zone"
-	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-ingress='$ingress_firewall_zone_name_l';";
+    	    }
+    	    # icmp block (end)
+    	    
+    	    # ingress (begin)
+    	    $ingress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'ingress-firewall_zone_name_tmplt'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    if ( $ingress_firewall_zone_name_tmplt_l!~/^ANY$|^HOST$/ ) {
+    	    	if ( exists(${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
+    	    	    $ingress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+    	    	}
+    	    	elsif ( exists(${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}) ) {
+    	    	    $ingress_firewall_zone_name_l=${$std_zone_templates_href_l}{$ingress_firewall_zone_name_tmplt_l}{'zone_name'};
+    	    	}
+    	    }
+    	    else { $ingress_firewall_zone_name_l=$ingress_firewall_zone_name_tmplt_l; }
+    	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-ingress-zone=some_firewall_zone"
+    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-ingress='$ingress_firewall_zone_name_l';";
     	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
     	    	                
     	    $wr_str_l=undef;
-	    $ingress_firewall_zone_name_l=undef;
-	    $ingress_firewall_zone_name_tmplt_l=undef;
-	    # ingress (end)
-	    
-	    # egress (begin)
-	    $egress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'egress-firewall_zone_name_tmplt'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    if ( $egress_firewall_zone_name_tmplt_l!~/^ANY$|^HOST$/ ) {
-	    	if ( exists(${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
-	    	    $egress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
-	    	}
-	    	elsif ( exists(${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
-	    	    $egress_firewall_zone_name_l=${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
-	    	}
-	    }
-	    else { $egress_firewall_zone_name_l=$egress_firewall_zone_name_tmplt_l; }
-	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-egress-zone=some_firewall_zone"
-	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-egress='$egress_firewall_zone_name_l';";
+    	    $ingress_firewall_zone_name_l=undef;
+    	    $ingress_firewall_zone_name_tmplt_l=undef;
+    	    # ingress (end)
+    	    
+    	    # egress (begin)
+    	    $egress_firewall_zone_name_tmplt_l=${$hval0_l}{$arr_el0_l}{'egress-firewall_zone_name_tmplt'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    if ( $egress_firewall_zone_name_tmplt_l!~/^ANY$|^HOST$/ ) {
+    	    	if ( exists(${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
+    	    	    $egress_firewall_zone_name_l=${$custom_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+    	    	}
+    	    	elsif ( exists(${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}) ) {
+    	    	    $egress_firewall_zone_name_l=${$std_zone_templates_href_l}{$egress_firewall_zone_name_tmplt_l}{'zone_name'};
+    	    	}
+    	    }
+    	    else { $egress_firewall_zone_name_l=$egress_firewall_zone_name_tmplt_l; }
+    	    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-egress-zone=some_firewall_zone"
+    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-egress='$egress_firewall_zone_name_l';";
     	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
     	    	                
     	    $wr_str_l=undef;
-	    $egress_firewall_zone_name_l=undef;
-	    $egress_firewall_zone_name_tmplt_l=undef;
-	    # egress (end)
-	    
-	    # forward_ports_set (begin)
-	    	#$fw_ports_set_href_l
-	        #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
+    	    $egress_firewall_zone_name_l=undef;
+    	    $egress_firewall_zone_name_tmplt_l=undef;
+    	    # egress (end)
+    	    
+    	    # forward_ports_set (begin)
+    	    	#$fw_ports_set_href_l
+    	        #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
     	    	    #{'rule-0'}=1
     	    	    #{'rule-1'}=1
     	    	    #etc
     	    	    #{'seq'}=[val-0,val-1] (val=rule)
-	    # Add forward-port = "firewall-cmd --permanent --policy=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
-	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    if ( $forward_ports_set_l ne 'empty' ) {
-	    	@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
-	    	foreach $arr_el1_l ( @forward_ports_arr_l ) {
+    	    # Add forward-port = "firewall-cmd --permanent --policy=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
+    	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    if ( $forward_ports_set_l ne 'empty' ) {
+    	    	@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
+    	    	foreach $arr_el1_l ( @forward_ports_arr_l ) {
                     #$arr_el1_l=forward-port rule
                     $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-forward-port='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
@@ -496,22 +496,22 @@ sub generate_shell_script_for_recreate_policies_v2 {
             
                 $arr_el1_l=undef;
                 @forward_ports_arr_l=();
-	    }
-	    # forward_ports_set (end)
-	    
-	    # rich_rules_set (begin)
-	    	#$rich_rules_set_href_l
-	    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
+    	    }
+    	    # forward_ports_set (end)
+    	    
+    	    # rich_rules_set (begin)
+    	    	#$rich_rules_set_href_l
+    	    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
     	    	    #{'rule-0'}=1
     	    	    #{'rule-1'}=1
     	    	    #etc
     	    	    #{'seq'}=[val-0,val-1] (val=rule)
-	    # Add rich-rule = "firewall-cmd --permanent --policy=some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
-	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
-	    	#$arr_el0_l=policy-tmplt-name
-	    if ( $rich_rules_set_l ne 'empty' ) {
-	    	@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
-	    	foreach $arr_el1_l ( @rich_rules_arr_l ) {
+    	    # Add rich-rule = "firewall-cmd --permanent --policy=some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
+    	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
+    	    	#$arr_el0_l=policy-tmplt-name
+    	    if ( $rich_rules_set_l ne 'empty' ) {
+    	    	@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
+    	    	foreach $arr_el1_l ( @rich_rules_arr_l ) {
                     #$arr_el1_l=rich-rule
                     $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-rich-rule='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},$wr_str_l);
@@ -521,23 +521,23 @@ sub generate_shell_script_for_recreate_policies_v2 {
             
                 $arr_el1_l=undef;
                 @rich_rules_arr_l=();
-	    }
-	    # rich_rules_set (end)
-	    
-	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
-	}
-	
-	$arr_el0_l=undef;
-	$policy_name_l=undef;
-	@tmp_arr_l=();
-	### commands for configure policies (end)
+    	    }
+    	    # rich_rules_set (end)
+    	    
+    	    push(@{$wr_hash_l{$hkey0_l}{'policies_recreate'}},' ');
+    	}
+    	
+    	$arr_el0_l=undef;
+    	$policy_name_l=undef;
+    	@tmp_arr_l=();
+    	# commands for configure policies (end)
     }
-
+    
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ### fill array (for each host) with commands for recreate policies (end)
-
+    # fill array (for each host) with commands for recreate policies (end)
+    
     # create scripts for each host (begin)
     	#@begin_script_arr_l
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
