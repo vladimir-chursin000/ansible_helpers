@@ -533,6 +533,15 @@ our %h77_conf_zones_FIN_hash_g=();
     #{'seq'}=[val-0,val-1] (val=ipset_tmplt)
 #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
 #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
+
+# ADDING not directly via '77_conf_zones_FIN' (see 'read_77_conf_fwrules.pl')
+#{'allowed_services_set'}=[serv1,serv2,etc] (from '02_1_conf_allowed_services_sets')
+#{'allowed_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+#{'allowed_source_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+#{'allowed_protocols_set'}=[proto1,proto2,etc] (from '02_3_conf_allowed_protocols_sets')
+            
+#{'icmp_blocks_set'}=[icmp-block1,icmp-block2,etc] (from '02_4_conf_icmp_blocks_sets')
+#{'icmp_blocks_inversion'}=yes/no (from '02_4_conf_icmp_blocks_sets')
 ######
 
 ######
@@ -546,6 +555,13 @@ our %h88_conf_policies_FIN_hash_g=();
 #{'egress-firewall_zone_name_tmplt'}=value
 #{'forward_ports_set'}=empty|fw_ports_set (FROM '04_conf_forward_ports_sets')
 #{'rich_rules_set'}=empty|rich_rules_set (FROM '05_conf_rich_rules_sets')
+
+# ADDING not directly via '88_conf_policies_FIN' (see 'read_88_conf_fwrules.pl')
+#{'allowed_services_set'}=[serv1,serv2,etc] (from '02_1_conf_allowed_services_sets')
+#{'allowed_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+#{'allowed_source_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+#{'allowed_protocols_set'}=[proto1,proto2,etc] (from '02_3_conf_allowed_protocols_sets')        
+#{'icmp_blocks_set'}=[icmp-block1,icmp-block2,etc] (from '02_4_conf_icmp_blocks_sets')
 ######
 
 our ($exec_res_g,$exec_status_g)=(undef,'OK');
