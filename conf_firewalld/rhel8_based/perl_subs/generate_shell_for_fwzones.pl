@@ -308,7 +308,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    $zone_target_l=undef;
     	    # target (end)
     	    
-    	    # services (begin)
+    	    # services or services_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}) ) {
     	    	#internal=cockpit,dhcpv6-client,mdns,samba-client,ssh (services)
     	    	#home=cockpit,dhcpv6-client,mdns,samba-client,ssh
@@ -354,9 +354,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    	$arr_el1_l=undef;
     	    	@zone_allowed_services_arr_l=();
     	    }
-    	    # services (end)
+    	    # services or services_sets (end)
     	    
-    	    # ports (begin)
+    	    # ports or ports_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}) ) {
     		# Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp"
     		@zone_allowed_ports_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}});
@@ -372,9 +372,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     		$arr_el1_l=undef;
     		@zone_allowed_ports_arr_l=();
     	    }
-    	    # ports (end)
+    	    # ports or ports_sets (end)
     	    
-    	    # protocols (begin)
+    	    # protocols or protocols_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}) ) {
     		# Allow protocol="firewall-cmd --permanent --zone=some_std_zone_name --add-protocol=gre"
     		@zone_allowed_protocols_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}});
@@ -390,7 +390,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     		$arr_el1_l=undef;
     		@zone_allowed_protocols_arr_l=();
     	    }
-    	    # protocols (end)
+    	    # protocols or protocols_sets (end)
     	    
     	    # forward (begin)
     	    $zone_forward_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_forward'};
@@ -415,7 +415,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    }
     	    # masquerade (end)
     	    
-    	    # source ports (begin)
+    	    # source ports or source_ports_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}) ) {
     	    	# Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp"
     	    	@zone_allowed_source_ports_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
@@ -431,9 +431,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @zone_allowed_source_ports_arr_l=();
     	    }
-    	    # source ports (end)
+    	    # source ports or source_ports_sets (end)
     	    
-    	    # icmp block inversion (begin)
+    	    # icmp block inversion or inversion from icmp_blocks_sets (SETS) (begin)
     	    $zone_icmp_block_inversion_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
     	    	#$arr_el0_l=fw-zone-tmplt-name
     	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block-inversion"
@@ -443,9 +443,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    	                
     	    	$wr_str_l=undef;
     	    }
-    	    # icmp block inversion (end)
+    	    # icmp block inversion or inversion from icmp_blocks_sets (end)
     	    
-    	    # icmp block (begin)
+    	    # icmp block or icmp_blocks_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) ) {
     	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block=some_icmp_type"
     	    	@zone_icmp_block_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
@@ -461,7 +461,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @zone_icmp_block_arr_l=();
     	    }
-    	    # icmp block (end)
+    	    # icmp block or icmp_blocks_sets (end)
     	    
     	    # interface_list (begin)
     	    if ( exists(${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}) ) {
@@ -668,7 +668,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    $zone_target_l=undef;
     	    # target (end)
     	    
-    	    # services (begin)
+    	    # services or services_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}) ) {
     		# Allow service = "firewall-cmd --permanent --zone=some_custom_zone_name --add-service=http"
     		@zone_allowed_services_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}});
@@ -684,9 +684,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     		$arr_el1_l=undef;
     		@zone_allowed_services_arr_l=();
     	    }
-    	    # services (end)
+    	    # services or services_sets (end)
     	    
-    	    # ports (begin)
+    	    # ports or ports_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}) ) {
     		# Allow port = "firewall-cmd --permanent --zone=some_custom_zone_name --add-port=1234/tcp"
     		@zone_allowed_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}});
@@ -702,9 +702,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     		$arr_el1_l=undef;
     		@zone_allowed_ports_arr_l=();
     	    }
-    	    # ports (end)
+    	    # ports or ports_sets (end)
     	    
-    	    # protocols (begin)
+    	    # protocols or protocols_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}) ) {
     		# Allow protocol="firewall-cmd --permanent --zone=some_custom_zone_name --add-protocol=gre"
     		@zone_allowed_protocols_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}});
@@ -720,7 +720,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     		$arr_el1_l=undef;
     		@zone_allowed_protocols_arr_l=();
     	    }
-    	    # protocols (end)
+    	    # protocols or protocols_sets (end)
     	    
     	    # forward (begin)
     	    $zone_forward_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_forward'};
@@ -746,7 +746,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    }
     	    # masquerade (end)
     	    
-    	    # source ports (begin)
+    	    # source ports or source_ports_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}) ) {
     	    	# Allow source port="firewall-cmd --permanent --zone=some_custom_zone_name --add-source-port=8080/tcp"
     	    	@zone_allowed_source_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
@@ -762,9 +762,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @zone_allowed_source_ports_arr_l=();
     	    }
-    	    # source ports (end)
+    	    # source ports or source_ports_sets (end)
     	
-    	    # icmp block inversion (begin)
+    	    # icmp block inversion or inversion from icmp_blocks_sets (SETS) (begin)
     	    $zone_icmp_block_inversion_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
     		#$arr_el0_l=fw-zone-tmplt-name
     	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block-inversion"
@@ -774,9 +774,9 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    	                
     	    	$wr_str_l=undef;
     	    }
-    	    # icmp block inversion (end)
+    	    # icmp block inversion or inversion from icmp_blocks_sets (end)
     	    
-    	    # icmp block (begin)
+    	    # icmp block or icmp_blocks_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) ) {
     	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block=some_icmp_type"
     	    	@zone_icmp_block_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
@@ -792,7 +792,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
                 $arr_el1_l=undef;
                 @zone_icmp_block_arr_l=();
     	    }
-    	    # icmp block (end)
+    	    # icmp block or icmp_blocks_sets (end)
     	
     	    # interface_list (begin)
     	    if ( exists(${$hval0_l}{$arr_el0_l}{'interface_list'}{'seq'}) ) {
