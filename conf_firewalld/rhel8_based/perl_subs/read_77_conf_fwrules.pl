@@ -335,110 +335,170 @@ sub read_77_conf_zones_FIN_v2 {
             else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}=${$hval0_l}[5]; }
         }
         # RICH_RULES_SET ops [5] (end)
-	
-	# allowed_services_set (begin)
-	    #$inv_host_l
-	    #$zone_type_l=standard/custom
-	    #${$hval0_l}[0]=FIREWALL_ZONE_NAME_TMPLT
-	    ###
+    	
+    	# allowed_services_set (begin)
+    	    #$inv_host_l
+    	    #$zone_type_l=standard/custom
+    	    #${$hval0_l}[0]=FIREWALL_ZONE_NAME_TMPLT
+    	    ###
     	    #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ($custom_zone_templates_href_l)
-		#... #{'zone_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
+    		#... #{'zone_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
     	    #$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> (#$std_zone_templates_href_l)
-		#... #{'zone_allowed_services'}{'seq'} (if exists) and seq[0]=set:*
-	    #
-	    #$actual_zone_templates_href_l=$custom_zone_templates_href_l or $std_zone_templates_href_l
-	    ###
-	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}) ) {
-	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}};
-	    
-	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
-	        $set_name_l=$1;
-	    	
-	    	if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
-	    	    $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
-	    	    last;
-	    	}
-	    	else {
-	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
-	    	}
-	    	
-	    	# clear vars
-	    	$set_name_l=undef;
-	    	###
-	    }
-	    	
-	    # clear vars
-	    @arr0_l=();
-	    ###
-	}
-	# allowed_services_set (end)
-	
-	# allowed_ports_set (begin)
-	    #***{'zone_allowed_ports'}***
-	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_ports'}{'seq'}) ) {
-	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_ports'}{'seq'}};
-	    
-	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
-	        $set_name_l=$1;
-	    	
-	    	if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
-	    	    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
-	    	    last;
-	    	}
-	    	else {
-	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
-	    	}
-	    	
-	    	# clear vars
-	    	$set_name_l=undef;
-	    	###
-	    }
-	    	
-	    # clear vars
-	    @arr0_l=();
-	    ###
-	}
-	# allowed_ports_set (end)
-	
-	# allowed_source_ports_set (begin)
-	    #***{'zone_allowed_source_ports'}***
-	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_source_ports'}{'seq'}) ) {
-	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_source_ports'}{'seq'}};
-	    
-	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
-	        $set_name_l=$1;
-	    	
-	    	if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
-	    	    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
-	    	    last;
-	    	}
-	    	else {
-	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
-	    	}
-	    	
-	    	# clear vars
-	    	$set_name_l=undef;
-	    	###
-	    }
-	    	
-	    # clear vars
-	    @arr0_l=();
-	    ###
-	}
-	# allowed_source_ports_set (end)
-	
-	# allowed_protocols_set (begin)
-	    #***{'zone_allowed_protocols'}***
-	# allowed_protocols_set (end)
-	
-	# icmp_blocks_set + icmp_blocks_inversion (begin)
-	    #***{'zone_icmp_block'}***
-	# icmp_blocks_set + icmp_blocks_inversion (end)
+    		#... #{'zone_allowed_services'}{'seq'} (if exists) and seq[0]=set:*
+    	    #
+    	    #$actual_zone_templates_href_l=$custom_zone_templates_href_l or $std_zone_templates_href_l
+    	    ###
+    	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}) ) {
+    	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}};
+    	    
+    	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+    	        $set_name_l=$1;
+    	    	
+    	    	if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+    	    	    $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+    	    	    last;
+    	    	}
+    	    	else {
+    	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	$set_name_l=undef;
+    	    	###
+    	    }
+    	    	
+    	    # clear vars
+    	    @arr0_l=();
+    	    ###
+    	}
+    	# allowed_services_set (end)
+    	
+    	# allowed_ports_set (begin)
+    	    #***{'zone_allowed_ports'}***
+    	    #$allowed_ports_sets_href_l
+    	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_ports'}{'seq'}) ) {
+    	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_ports'}{'seq'}};
+    	    
+    	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+    	        $set_name_l=$1;
+    	    	
+    	    	if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+    	    	    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+    	    	    last;
+    	    	}
+    	    	else {
+    	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	$set_name_l=undef;
+    	    	###
+    	    }
+    	    	
+    	    # clear vars
+    	    @arr0_l=();
+    	    ###
+    	}
+    	# allowed_ports_set (end)
+    	
+    	# allowed_source_ports_set (begin)
+    	    #***{'zone_allowed_source_ports'}***
+    	    #$allowed_ports_sets_href_l
+    	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_source_ports'}{'seq'}) ) {
+    	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_source_ports'}{'seq'}};
+    	    
+    	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+    	        $set_name_l=$1;
+    	    	
+    	    	if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+    	    	    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+    	    	    last;
+    	    	}
+    	    	else {
+    	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	$set_name_l=undef;
+    	    	###
+    	    }
+    	    	
+    	    # clear vars
+    	    @arr0_l=();
+    	    ###
+    	}
+    	# allowed_source_ports_set (end)
+    	
+    	# allowed_protocols_set (begin)
+    	    #***{'zone_allowed_protocols'}***
+    	    #$allowed_protocols_sets_href_l
+    	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_protocols'}{'seq'}) ) {
+    	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_protocols'}{'seq'}};
+    	    
+    	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+    	        $set_name_l=$1;
+    	    	
+    	    	if ( !exists(${$allowed_protocols_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+    	    	    $return_str_l="fail [$proc_name_l]. Allowed_protocols_set='$set_name_l' (conf='02_3_conf_allowed_protocols_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+    	    	    last;
+    	    	}
+    	    	else {
+    	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_protocols_set'}=[@{${$allowed_protocols_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	$set_name_l=undef;
+    	    	###
+    	    }
+    	    	
+    	    # clear vars
+    	    @arr0_l=();
+    	    ###
+    	}
+    	# allowed_protocols_set (end)
+    	
+    	# icmp_blocks_set + icmp_blocks_inversion (begin)
+    	    #***{'zone_icmp_block'}***
+    	    #$icmp_blocks_sets_href_l
+    	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_icmp_block'}{'seq'}) ) {
+    	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_icmp_block'}{'seq'}};
+    	    
+    	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+    	        $set_name_l=$1;
+    	    	
+    	    	if ( !exists(${$icmp_blocks_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+    	    	    $return_str_l="fail [$proc_name_l]. Icmp_blocks_set='$set_name_l' (conf='02_4_conf_icmp_blocks_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+    	    	    last;
+    	    	}
+    	    	else {
+    	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'icmp_blocks_set'}=[@{${$icmp_blocks_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'icmp_blocks_inversion'}=${$icmp_blocks_sets_href_l}{$set_name_l}{$inv_host_l}{'inversion'};
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	$set_name_l=undef;
+    	    	###
+    	    }
+    	    	
+    	    # clear vars
+    	    @arr0_l=();
+    	    ###
+    	}
+    	# icmp_blocks_set + icmp_blocks_inversion (end)
+    	
+    	# clear vars
+    	$inv_host_l=undef;
+    	$zone_type_l=undef;
+    	$fwzone_name_l=undef;
+    	$actual_zone_templates_href_l=undef;
+    	###
     }
         
     ($hkey0_l,$hval0_l)=(undef,undef);
     $inv_host_l=undef;
+    $zone_type_l=undef;
     $fwzone_name_l=undef;
+    $actual_zone_templates_href_l=undef;
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### fill %res_tmp_lv1_l (end)
