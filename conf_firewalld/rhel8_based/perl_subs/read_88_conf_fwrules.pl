@@ -279,11 +279,57 @@ sub read_88_conf_policies_FIN_v2 {
         # allowed_ports_set (begin)
 	    #***{'policy_allowed_ports'}***
 	    #$allowed_ports_sets_href_l
+        if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_ports'}{'seq'}) ) {
+            @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_ports'}{'seq'}};
+
+            if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+                $set_name_l=$1;
+
+                if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+                    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+                    last;
+                }
+                else {
+                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                }
+                
+                # clear vars
+                $set_name_l=undef;
+                ###
+            }
+            
+            # clear vars
+            @arr0_l=();
+            ###
+        }
         # allowed_ports_set (end)
 	
         # allowed_source_ports_set (begin)
 	    #***{'policy_allowed_source_ports'}***
 	    #$allowed_ports_sets_href_l
+        if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_source_ports'}{'seq'}) ) {
+            @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_source_ports'}{'seq'}};
+
+            if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+                $set_name_l=$1;
+
+                if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+                    $return_str_l="fail [$proc_name_l]. Allowed_source_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+                    last;
+                }
+                else {
+                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                }
+                
+                # clear vars
+                $set_name_l=undef;
+                ###
+            }
+            
+            # clear vars
+            @arr0_l=();
+            ###
+        }
         # allowed_source_ports_set (end)
 	
         # allowed_protocols_set (begin)
