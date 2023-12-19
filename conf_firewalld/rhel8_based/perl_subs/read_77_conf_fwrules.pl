@@ -136,6 +136,7 @@ sub read_77_conf_zones_FIN_v2 {
     my @arr0_l=();
     my $zone_type_l=undef; # possible_values: custom, standard 
     my $fwzone_name_l=undef; # for fwzone_uniq_check
+    my $actual_zone_templates_href_l=undef; # possible values: $custom_zone_templates_href_l, $std_zone_templates_href_l
     my $return_str_l='OK';
     
     my %fwzone_uniq_check_l=(); # uniq for 'inv-host + firewall_zone_name(not tmplt)'
@@ -169,10 +170,14 @@ sub read_77_conf_zones_FIN_v2 {
         if ( exists(${$custom_zone_templates_href_l}{${$hval0_l}[0]}) ) {
             $zone_type_l='custom';
             $fwzone_name_l=${$custom_zone_templates_href_l}{${$hval0_l}[0]}{'zone_name'};
+	    
+	    $actual_zone_templates_href_l=$custom_zone_templates_href_l;
         }
         elsif ( exists(${$std_zone_templates_href_l}{${$hval0_l}[0]}) ) {
             $zone_type_l='standard';
             $fwzone_name_l=${$std_zone_templates_href_l}{${$hval0_l}[0]}{'zone_name'};
+	    
+	    $actual_zone_templates_href_l=$std_zone_templates_href_l;
         }
         else {
             $return_str_l="fail [$proc_name_l]. Fw-zone-tmplt='${$hval0_l}[0]' (conf='$file_l') is not exists at '02_conf_custom_firewall_zones_templates/02_conf_standard_firewall_zones_templates'";
@@ -334,10 +339,14 @@ sub read_77_conf_zones_FIN_v2 {
 	    #$inv_host_l
 	    #$zone_type_l=standard/custom
 	    #${$hval0_l}[0]=FIREWALL_ZONE_NAME_TMPLT
+	    ###
     	    #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ($custom_zone_templates_href_l)
 		#... #{'zone_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
     	    #$h02_conf_standard_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> (#$std_zone_templates_href_l)
 		#... #{'zone_allowed_services'}{'seq'} (if exists) and seq[0]=set:*
+	    #
+	    #$actual_zone_templates_href_l=$custom_zone_templates_href_l or $std_zone_templates_href_l
+	    ###
 	
 	# allowed_services_set (end)
 	
