@@ -104,6 +104,7 @@ sub read_88_conf_policies_FIN_v2 {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $policy_name_l=undef;
     my ($ingress_zone_name_l,$egress_zone_name_l)=(undef,undef); # for ingress_egress_uniq_check_l
+    my $set_name_l=undef;
     my $return_str_l='OK';
     
     my %policy_name_uniq_check_l=(); # uniq check for 'inv-host + policy_name (not tmplt)'
@@ -250,6 +251,29 @@ sub read_88_conf_policies_FIN_v2 {
             #$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}-> ($policy_templates_href_l)
                 #... #{'policy_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
 	    ##$allowed_ports_sets_href_l
+        if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_services'}{'seq'}) ) {
+            @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_services'}{'seq'}};
+
+            if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+                $set_name_l=$1;
+
+                if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+                    $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+                    last;
+                }
+                else {
+                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                }
+                
+                # clear vars
+                $set_name_l=undef;
+                ###
+            }
+            
+            # clear vars
+            @arr0_l=();
+            ###
+        }
         # allowed_services_set (end)
 	    
         # allowed_ports_set (begin)
