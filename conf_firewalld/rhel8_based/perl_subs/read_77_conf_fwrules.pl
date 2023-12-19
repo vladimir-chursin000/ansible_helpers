@@ -353,20 +353,20 @@ sub read_77_conf_zones_FIN_v2 {
 	    
 	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
 	        $set_name_l=$1;
-		
-		if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
-		    $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
-		    last;
-		}
-		else {
-		    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
-		}
-		
-		# clear vars
-		$set_name_l=undef;
-		###
+	    	
+	    	if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+	    	    $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+	    	    last;
+	    	}
+	    	else {
+	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+	    	}
+	    	
+	    	# clear vars
+	    	$set_name_l=undef;
+	    	###
 	    }
-		
+	    	
 	    # clear vars
 	    @arr0_l=();
 	    ###
@@ -375,10 +375,56 @@ sub read_77_conf_zones_FIN_v2 {
 	
 	# allowed_ports_set (begin)
 	    #***{'zone_allowed_ports'}***
+	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_ports'}{'seq'}) ) {
+	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_ports'}{'seq'}};
+	    
+	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+	        $set_name_l=$1;
+	    	
+	    	if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+	    	    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+	    	    last;
+	    	}
+	    	else {
+	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+	    	}
+	    	
+	    	# clear vars
+	    	$set_name_l=undef;
+	    	###
+	    }
+	    	
+	    # clear vars
+	    @arr0_l=();
+	    ###
+	}
 	# allowed_ports_set (end)
 	
 	# allowed_source_ports_set (begin)
 	    #***{'zone_allowed_source_ports'}***
+	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_source_ports'}{'seq'}) ) {
+	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_source_ports'}{'seq'}};
+	    
+	    if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
+	        $set_name_l=$1;
+	    	
+	    	if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
+	    	    $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
+	    	    last;
+	    	}
+	    	else {
+	    	    $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+	    	}
+	    	
+	    	# clear vars
+	    	$set_name_l=undef;
+	    	###
+	    }
+	    	
+	    # clear vars
+	    @arr0_l=();
+	    ###
+	}
 	# allowed_source_ports_set (end)
 	
 	# allowed_protocols_set (begin)
