@@ -249,22 +249,27 @@ sub read_88_conf_policies_FIN_v2 {
 	    #${$hval0_l}[0]=POLICY_NAME_TMPLT
             #$h03_conf_policy_templates_hash_g{policy_tmplt_name--TMPLT}-> ($policy_templates_href_l)
                 #... #{'policy_allowed_services'}{'seq'} = (if exists) and seq[0]=set:*
+	    ##$allowed_ports_sets_href_l
         # allowed_services_set (end)
 	    
         # allowed_ports_set (begin)
 	    #***{'policy_allowed_ports'}***
+	    #$allowed_ports_sets_href_l
         # allowed_ports_set (end)
 	
         # allowed_source_ports_set (begin)
 	    #***{'policy_allowed_source_ports'}***
+	    #$allowed_ports_sets_href_l
         # allowed_source_ports_set (end)
 	
         # allowed_protocols_set (begin)
 	    #***{'policy_allowed_protocols'}***
+	    #$allowed_protocols_sets_href_l
         # allowed_protocols_set (end)
 	
         # icmp_blocks_set (begin)
 	    #***{'policy_icmp_block'}***
+	    #$icmp_blocks_sets_href_l
         # icmp_blocks_set (end)
     }
     

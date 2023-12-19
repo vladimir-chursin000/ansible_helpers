@@ -348,6 +348,7 @@ sub read_77_conf_zones_FIN_v2 {
     	    #
     	    #$actual_zone_templates_href_l=$custom_zone_templates_href_l or $std_zone_templates_href_l
     	    ###
+	    #$allowed_services_sets_href_l
     	if ( exists(${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}) ) {
     	    @arr0_l=@{${$actual_zone_templates_href_l}{${$hval0_l}[0]}{'zone_allowed_services'}{'seq'}};
     	    
