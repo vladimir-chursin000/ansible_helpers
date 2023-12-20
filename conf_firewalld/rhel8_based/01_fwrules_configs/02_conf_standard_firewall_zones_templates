@@ -23,19 +23,22 @@
     # default -> like REJECT, but icmp traffic is allowed by default.
     # Set zone target = "firewall-cmd --permanent --zone=some_std_zone_name --set-target=some_target" (for information only).
 
-#zone_allowed_services=empty|http,https (for example)
+#zone_allowed_services=empty|http,https|set:set_name (for example)
     # Opens the standard port(s) of a specific service. For incoming connections.
     # A list of possible default services can be found in the directory "/usr/lib/firewalld/services".
+    # A set of allowed services can be specified in the configuration file '02_1_conf_allowed_services_sets'.
     # Allow service = "firewall-cmd --permanent --zone=some_std_zone_name --add-service=http" (for information only).
 
-#zone_allowed_ports=empty|1234/tcp,1234/udp,60000-61000/udp (for example)
+#zone_allowed_ports=empty|1234/tcp,1234/udp,60000-61000/udp|set:set_name (for example)
     # For incoming connections.
     # Common format = port_num/port_type (or port_num_begin-port_num_end/port_type). Available port types: tcp, udp, sctp, dccp.
+    # A set of allowed ports can be specified in the configuration file '02_2_conf_allowed_ports_sets'.
     # Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp" (for information only).
 
-#zone_allowed_protocols=empty|tcp,udp,gre (etc) (for example)
+#zone_allowed_protocols=empty|tcp,udp,gre|set:set_name (for example)
     # If "empty" -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the zone.
     # The list of protocols is contained in the file "/etc/protocols".
+    # A set of allowed protocols can be specified in the configuration file '02_3_conf_allowed_protocols_sets'.
     # Allow protocol="firewall-cmd --permanent --zone=some_std_zone_name --add-protocol=gre" (for information only).
 
 #zone_forward=yes|no
@@ -47,18 +50,21 @@
     # Yes = enable masquerade (SRC-NAT) option between all interfaces/sources included into the zone.
     # Allow masquerade general = "firewall-cmd --permanent --zone=some_std_zone_name --add-masquerade" (for information only).
 
-#zone_allowed_source_ports=empty|8080/tcp,5060-5061/udp
+#zone_allowed_source_ports=empty|8080/tcp,5060-5061/udp|set:set_name (for example)
     # The option sets the allowed ports for outgoing traffic.
     # Common format = port_num/port_type (or port_num_begin-port_num_end/port_type). Available port types: tcp, udp, sctp, dccp.
     # If set to empty, then ports for outgoing traffic will be assigned from the range of 30000-60000 (approximately).
+    # A set of allowed source ports can be specified in the configuration file '02_2_conf_allowed_ports_sets'.
     # Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp" (for information only).
 
 #zone_icmp_block_inversion=yes|no
     # Yes = turns on the inversion of logic - the listed (at #zone_icmp_block) types of messages become allowed, the rest are blocked.
     # No = turns off the inversion of logic - the listed types (at #zone_icmp_block) of messages become prohibited, the rest are allowed.
+    # When using a set in the 'zone icmp block' parameter, this parameter will be ignored.
     # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block-inversion" (for information only).
 
-#zone_icmp_block=empty|address-unreachable,bad-header,beyond-scope|etc
+#zone_icmp_block=empty|address-unreachable,bad-header,beyond-scope|set:set_name (for example)
+    # A set of icmp blocks can be specified in the configuration file '02_4_conf_icmp_blocks_sets'.
     # Get full list of icmp-types = "firewall-cmd --get-icmptypes" (for information only).
     # Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block=some_icmp_type" (for information only).
 #[some_std_zone_name--TMPLT:END]
