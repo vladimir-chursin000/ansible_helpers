@@ -76,6 +76,11 @@ sub read_02_4_conf_icmp_blocks_sets {
             $exec_res_l=undef;
             ###
 	    
+            if ( $tmp_arr0_l[1]=~/^empty\,|\,empty\,|\,empty$/ ) {
+                $return_str_l="fail [$proc_name_l]. Special value 'empty' cannot be part of a list (rule param '$hkey1_l')";
+                last;
+            }
+	    
             # clear vars
             @tmp_arr0_l=();
 	    ($inversion_l,$host_id_l)=(undef,undef);
@@ -84,7 +89,7 @@ sub read_02_4_conf_icmp_blocks_sets {
 	
         if ( $return_str_l!~/^OK$/ ) { last; }
         # block for checks of strings with rule params (end)
-
+	
         # block for 'single_host' (prio >= 2/high) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params

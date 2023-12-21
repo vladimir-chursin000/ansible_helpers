@@ -74,20 +74,27 @@ sub read_02_2_conf_allowed_ports_sets {
             $exec_res_l=undef;
             ###
 	    
+	    if ( $tmp_arr0_l[1]=~/^empty\,|\,empty\,|\,empty$/ ) {
+                $return_str_l="fail [$proc_name_l]. Special value 'empty' cannot be part of a list (rule param '$hkey1_l')";
+                last;
+            }
+	    	    
 	    ###
-	    foreach $arr_el0_l ( @params_arr_l ) {
-		#$arr_el0_l=port
+	    if ( $tmp_arr0_l[1]!~/^empty$/ ) {
+		foreach $arr_el0_l ( @params_arr_l ) {
+	    	    #$arr_el0_l=port
+	    	    
+	    	    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
+    	    	    #$port_str_l
+    	    	    if ( $exec_res_l=~/^fail/ ) {
+    	    		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+            		last;
+    	    	    }
+	    	    $exec_res_l=undef;
+		}
 		
-		$exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
-        	#$port_str_l
-        	if ( $exec_res_l=~/^fail/ ) {
-            	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-            	    last;
-        	}
-		$exec_res_l=undef;
+		if ( $return_str_l!~/^OK$/ ) { last; }
 	    }
-	    
-	    if ( $return_str_l!~/^OK$/ ) { last; }
 	    ###
 	    
             # clear vars

@@ -72,6 +72,11 @@ sub read_02_1_conf_allowed_services_sets {
             $exec_res_l=undef;
             ###
     	    
+	    if ( $tmp_arr0_l[1]=~/^empty\,|\,empty\,|\,empty$/ ) {
+	    	$return_str_l="fail [$proc_name_l]. Special value 'empty' cannot be part of a list (rule param '$hkey1_l')";
+	    	last;
+	    }
+	    
     	    # clear vars
     	    @tmp_arr0_l=();
     	    ###
