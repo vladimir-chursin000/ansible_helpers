@@ -7,7 +7,7 @@
 
 ###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed_protocols sets. Don't forget to remove the comment characters (#).
 #[ALLOWED_PROTOCOLS_SET_NAME:BEGIN]
-# one row = "all/group_name/list_of_hosts/single_host=tcp,gre,udp"
+# one row = "all/group_name/list_of_hosts/single_host=tcp,gre,udp or empty"
     # The list of protocols is contained in the file "/etc/protocols".
     # If "all" -> the configuration will be applied to all inventory hosts.
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
@@ -21,6 +21,7 @@
 #gr_some_example_group=tcp,udp,gre
 #192.168.144.12,192.168.100.14,192.110.144.16=tcp,udp,gre,dccp
 #192.168.144.12=tcp
+#192.110.144.17=empty
 #[protocols_set1:END]
 
 #################################INSERT YOUR allowed_protocols SETS AFTER THIS LINE#################################

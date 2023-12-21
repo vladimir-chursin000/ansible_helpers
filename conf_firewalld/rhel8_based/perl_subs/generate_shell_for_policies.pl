@@ -340,7 +340,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	    # policy_priority (end)
     	    
     	    # services or services_sets (SETS) (begin)
-    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) ) {
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
     	    	# Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http"
 		
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
@@ -363,15 +363,15 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	    # services or services_sets (end)
     	    
     	    # ports or ports_sets (SETS) (begin)
-    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}) ) {
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     	    	# Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
+	    	
+	    	if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     	    	    @policy_allowed_ports_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_ports'}{'seq'}});
     	    		#$arr_el0_l=policy-tmplt-name
-		}
-		else { @policy_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
-		
+	    	}
+	    	else { @policy_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
+	    	
     	    	foreach $arr_el1_l ( @policy_allowed_ports_arr_l ) {
     	    	    #$arr_el1_l=port for allow
     	    	    $wr_str_l="firewall-cmd --permanent --policy='$policy_name_l' --add-port=$arr_el1_l;";
@@ -386,7 +386,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	    # ports or ports_sets (end)
     	    
     	    # protocols or protocols_sets (SETS) (begin)
-    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}) ) {
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_protocols'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     	    	# Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre"
 		
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
@@ -421,7 +421,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	    # masquerade (end)
     	    
     	    # source ports or source_ports_sets (SETS) (begin)
-    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}) ) {
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_source_ports'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	# Allow source port="firewall-cmd --permanent --policy=some_policy_name --add-source-port=8080/tcp"
 		
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
@@ -444,7 +444,7 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	    # source ports or source_ports_sets (end)
     	    
     	    # icmp block or icmp_blocks_sets (SETS) (begin)
-    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}) ) {
+    	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_icmp_block'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type"
 		
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {

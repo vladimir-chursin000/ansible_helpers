@@ -7,7 +7,7 @@
 
 ###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed icmp_blocks sets. Don't forget to remove the comment characters(#).
 #[ALLOWED_ICMP_BLOCKS_SET_NAME:BEGIN]
-# one row = "[INVERSION]:all/group_name/list_of_hosts/single_host=address-unreachable,bad-header,beyond-scope,etc"
+# one row = "[INVERSION]:all/group_name/list_of_hosts/single_host=address-unreachable,bad-header,beyond-scope,etc or empty"
     # If "INVERSION=YES" (icmp_block_inversion=yes) -> black list of icmp-types.
     # If "INVERSION=NO" (icmp_block_inversion=no) -> white list of icmp-types.
     # Get full list of icmp-types = "firewall-cmd --get-icmptypes".
@@ -26,6 +26,7 @@ arated by "," or individual hosts (2).
 #NO:gr_some_example_group=address-unreachable,bad-header,beyond-scope
 #NO:192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
 #YES:192.168.144.12=address-unreachable
+#YES:192.110.144.17=empty
 #[icmp_blocks_set1:END]
 
 #################################INSERT YOUR allowed icmp_blocks SETS AFTER THIS LINE#################################
