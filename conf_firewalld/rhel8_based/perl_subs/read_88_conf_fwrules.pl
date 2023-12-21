@@ -107,6 +107,8 @@ sub read_88_conf_policies_FIN_v2 {
     
     my ($exec_res_l,$inv_host_l)=(undef,undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @arr0_l=();
+    my @arr1_l=();
     my $policy_name_l=undef;
     my ($ingress_zone_name_l,$egress_zone_name_l)=(undef,undef); # for ingress_egress_uniq_check_l
     my $set_name_l=undef;
@@ -267,7 +269,16 @@ sub read_88_conf_policies_FIN_v2 {
                     last;
                 }
                 else {
-                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                    @arr1_l=@{${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}};
+        	
+                    if ( $arr1_l[0]!~/^empty$/ ) {
+                        $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set'}=[@arr1_l];
+                    }
+                    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_services_set_empty'}=1; }
+        	
+                    # clear vars
+                    @arr1_l=();
+                    ###
                 }
                 
                 # clear vars
@@ -295,7 +306,16 @@ sub read_88_conf_policies_FIN_v2 {
                     last;
                 }
                 else {
-                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                    @arr1_l=@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}};
+        	
+                    if ( $arr1_l[0]!~/^empty$/ ) {
+                        $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set'}=[@arr1_l];
+                    }
+                    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_ports_set_empty'}=1; }
+        	
+                    # clear vars
+                    @arr1_l=();
+                    ###
                 }
                 
                 # clear vars
@@ -323,7 +343,16 @@ sub read_88_conf_policies_FIN_v2 {
                     last;
                 }
                 else {
-                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set'}=[@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                    @arr1_l=@{${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}};
+        	
+                    if ( $arr1_l[0]!~/^empty$/ ) {
+                        $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set'}=[@arr1_l];
+                    }
+                    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_source_ports_set_empty'}=1; }
+        	
+                    # clear vars
+                    @arr1_l=();
+                    ###
                 }
                 
                 # clear vars
@@ -351,7 +380,16 @@ sub read_88_conf_policies_FIN_v2 {
                     last;
                 }
                 else {
-                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'allowed_protocols_set'}=[@{${$allowed_protocols_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                    @arr1_l=@{${$allowed_protocols_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}};
+        	
+                    if ( $arr1_l[0]!~/^empty$/ ) {
+                        $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_protocols_set'}=[@arr1_l];
+                    }
+                    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'allowed_protocols_set_empty'}=1; }
+        	
+                    # clear vars
+                    @arr1_l=();
+                    ###
                 }
                 
                 # clear vars
@@ -379,7 +417,16 @@ sub read_88_conf_policies_FIN_v2 {
                     last;
                 }
                 else {
-                    $res_tmp_lv1_l{$inv_host_l}{${$hval0_l}[0]}{'icmp_blocks_set'}=[@{${$icmp_blocks_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}}];
+                    @arr1_l=@{${$icmp_blocks_sets_href_l}{$set_name_l}{$inv_host_l}{'seq'}};
+        	
+                    if ( $arr1_l[0]!~/^empty$/ ) {
+                        $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'icmp_blocks_set'}=[@arr1_l];
+                    }
+                    else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'icmp_blocks_set_empty'}=1; }
+        	
+                    # clear vars
+                    @arr1_l=();
+                    ###
                 }
                 
                 # clear vars
