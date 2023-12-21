@@ -82,19 +82,24 @@ sub read_88_conf_policies_FIN_v2 {
     #
     # ADDING not directly via '88_conf_policies_FIN'
     #{'allowed_services_set'}=[serv1,serv2,etc] (from '02_1_conf_allowed_services_sets')
+    #{'allowed_services_set_empty'}=1 (if set configured, but set is empty for current inv-host)
         #Must exists if set defined for 'policy_name_tmplt'
             #at param 'policy_allowed_services' and set name defined at '02_1_conf_allowed_services_sets'
     #{'allowed_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+    #{'allowed_ports_set_empty'}=1 (if set configured, but set is empty for current inv-host)
         #Must exists if set defined for 'policy_name_tmplt'
             #at param 'policy_allowed_ports' and set name defined at '02_2_conf_allowed_ports_sets'
     #{'allowed_source_ports_set'}=[port1,port2,etc] (from '02_2_conf_allowed_ports_sets')
+    #{'allowed_source_ports_set_empty'}=1 (if set configured, but set is empty for current inv-host)
         #Must exists if set defined for 'policy_name_tmplt'
             #at param 'policy_allowed_source_ports' and set name defined at '02_2_conf_allowed_ports_sets'
     #{'allowed_protocols_set'}=[proto1,proto2,etc] (from '02_3_conf_allowed_protocols_sets')
+    #{'allowed_protocols_set_empty'}=1 (if set configured, but set is empty for current inv-host)
         #Must exists if set defined for 'policy_name_tmplt'
             #at param 'policy_allowed_protocols' and set name defined at '02_3_conf_allowed_protocols_sets'
     
     #{'icmp_blocks_set'}=[icmp-block1,icmp-block2,etc] (from '02_4_conf_icmp_blocks_sets')
+    #{'icmp_blocks_set_empty'}=1 (if set configured, but set is empty for current inv-host)
     ###{'icmp_blocks_inversion'}=yes/no (from '02_4_conf_icmp_blocks_sets') = NOT EXISTS FOR policies
         #Must exists if set defined for 'firewall_zone_name_tmplt'
             #at param 'policy_icmp_block' and set name defined at '02_4_conf_icmp_blocks_sets'
