@@ -4,7 +4,7 @@ sub generate_firewall_configs {
     my ($dyn_fwrules_files_dir_l,$conf_firewalld_href_l)=@_;
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$conf_firewalld_href_l = hash-ref for %h00_conf_firewalld_hash_g
-
+    
     my $proc_name_l=(caller(0))[3];
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
@@ -53,29 +53,29 @@ sub generate_firewall_configs {
         ' '
     );
     my $return_str_l='OK';
-
+    
     # form arrays for create fw-configs
     while ( ($hkey0_l,$hval0_l)=each %{$conf_firewalld_href_l} ) {
         #$hkey0_l=inv-host
         
         # form firewalld.conf
         @{$wr_hash_l{$hkey0_l}{'fw_config'}}=@begin_conf_arr_l;
-
+    
         foreach $arr_el0_l ( @fw_config_seq_l ) {
             #$arr_el0_l=fw-param
             $wr_str_l="$arr_el0_l=${$hval0_l}{$arr_el0_l}";
             push(@{$wr_hash_l{$hkey0_l}{'fw_config'}},$wr_str_l);
-
+    
             $wr_str_l=undef;
         }
-
+    
         $arr_el0_l=undef;
         ###
-
+    
         # logging_of_dropped_packets
         @{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=@begin_conf_arr_l;
         push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},'# NO CHANGES');
-
+    
         if ( ${$hval0_l}{'enable_logging_of_dropped_packets'} eq 'yes' && ${$hval0_l}{'LogDenied'} eq 'all' ) {
             #enable_logging_of_dropped_packets=yes|no
                 # Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
@@ -95,43 +95,43 @@ sub generate_firewall_configs {
         ###
     }
     ###
-
+    
     # create fw-configs for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
-	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+    	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/firewalld.conf';
         if ( exists(${$hval0_l}{'fw_config'}) ) { @wr_arr_l=@{${$hval0_l}{'fw_config'}}; }
-
+    
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
         if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
+    
         $wr_file_l=undef;
         @wr_arr_l=();
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
-
+    
     # create 'firewalld-droppd' (for rsyslog) for each host
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
-	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+    	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/rsyslog_firewalld-droppd.conf';
         if ( exists(${$hval0_l}{'firewalld-droppd'}) ) { @wr_arr_l=@{${$hval0_l}{'firewalld-droppd'}}; }
-
+    
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
         if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
+    
         $wr_file_l=undef;
         @wr_arr_l=();
     }
-
+    
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
-
+    
     return $return_str_l;
 }
 

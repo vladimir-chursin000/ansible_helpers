@@ -28,7 +28,7 @@ sub write_local_ipset_input_log_ops {
     
     my $date_l=&get_dt_yyyymmdd();
     my $dt_now_l=&get_dt_yyyymmddhhmmss();
-
+    
     my $in_fn_cr_dt_l=&conv_epoch_sec_to_yyyymmddhhmiss($in_fn_cr_epoch_l);
     #$for_conv_sec_l
     

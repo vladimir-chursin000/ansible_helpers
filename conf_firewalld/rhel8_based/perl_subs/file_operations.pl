@@ -54,7 +54,7 @@ sub read_actual_ipset_file_to_hash {
     
     #href = key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
     # or key0=info, value=[array of info strings]
-
+    
     my $line_l=undef;
     my $ipset_entry_l=undef;
     my ($expire_epoch_sec_l,$now_epoch_sec_l)=(0,undef);
@@ -86,11 +86,11 @@ sub read_actual_ipset_file_to_hash {
     	    	    
     	    	    if ( $file_type_l==1 && $tmp_expire_timeout_l>2147483 ) { # if temporary ipset entry and expire timeout > max_value
                        $expire_epoch_sec_l=$now_epoch_sec_l+2147483;
-    	    		
+    	    	    	
                        $expire_datetime_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_l);
                        #$for_conv_sec_l
                     }
-    	    	
+    	    	    
     	    	    if ( $expire_epoch_sec_l>$now_epoch_sec_l ) { # if temporary ipset entry is not expired
                         ${$href_l}{'content'}{$ipset_entry_l}=$expire_datetime_l;
                     }
@@ -137,19 +137,19 @@ sub read_lines_without_comments_of_file_to_hash {
     
     open(FILE,'<',$file_l);
     while ( <FILE> ) {
-	$line_l=$_;
-	
-	$line_l=~s/^\s+//g;
-	$line_l=~s/\n|\r|\r\n|\n\r//g;
-	
-	if ( $line_l!~/^\#/ ) { # if line not comment
-	    $line_l=~s/\s+//g;
-	    ${$href_l}{$line_l}=1;
-	}
-	
-	# clear vars
-	$line_l=undef;
-	###
+    	$line_l=$_;
+    	
+    	$line_l=~s/^\s+//g;
+    	$line_l=~s/\n|\r|\r\n|\n\r//g;
+    	
+    	if ( $line_l!~/^\#/ ) { # if line not comment
+    	    $line_l=~s/\s+//g;
+    	    ${$href_l}{$line_l}=1;
+    	}
+    	
+    	# clear vars
+    	$line_l=undef;
+    	###
     }
     close(FILE);
     
@@ -165,19 +165,19 @@ sub read_lines_without_comments_of_file_to_array {
     
     open(FILE,'<',$file_l);
     while ( <FILE> ) {
-	$line_l=$_;
-	
-	$line_l=~s/^\s+//g;
-	$line_l=~s/\n|\r|\r\n|\n\r//g;
-	
-	if ( $line_l!~/^\#/ ) { # if line not comment
-	    $line_l=~s/\s+//g;
-	    push(@{$aref_l},$line_l);
-	}
-	
-	# clear vars
-	$line_l=undef;
-	###
+    	$line_l=$_;
+    	
+    	$line_l=~s/^\s+//g;
+    	$line_l=~s/\n|\r|\r\n|\n\r//g;
+    	
+    	if ( $line_l!~/^\#/ ) { # if line not comment
+    	    $line_l=~s/\s+//g;
+    	    push(@{$aref_l},$line_l);
+    	}
+    	
+    	# clear vars
+    	$line_l=undef;
+    	###
     }
     close(FILE);
     
@@ -333,7 +333,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     	    	if ( !-e($ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/info') ) {
     	    	    system("echo 'DO NOT CHANGE ANY FILES AT THIS DIR' > $ipset_actual_data_dir_l/$hkey0_l/permanent/$hkey1_l/initial_content/info");
     	    	}
-	    
+    	    
     	    	#permanent/ipset_template_name/... (dir)
             	    # actual__ipset_name.txt (file)
                 	# First line - description like "###You CAN manually ADD entries to this file!".
@@ -357,16 +357,16 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     	    	##############
     	    } # while h66, permanent, inv-host (end)
     	    	
-	    # clear vars
+    	    # clear vars
     	    ($hkey1_l,$hval1_l)=(undef,undef);
-	    ###
+    	    ###
     	}
     	
     	if ( exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}) ) {
     	    while ( ($hkey1_l,$hval1_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$hkey0_l}} ) { # while h66, temporary, inv-host (begin)
     	    	#$hkey1_l=ipset_name_tmplt
     	    	system("mkdir -p $ipset_actual_data_dir_l/$hkey0_l/temporary/$hkey1_l/change_history");
-	    
+    	    
     	    	#temporary/ipset_template_name/.. (dir)
             	    # actual__ipset_name.txt (file)
                 	# First line - description like "###You CAN manually ADD entries to this file!".
@@ -381,13 +381,13 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     	    		'###You CAN manually ADD entries to this file! One row="ipset_entry;+expire_date" (date format=YYYYMMDDHHMISS). The difference from the current date must not be more than 24 days, 20 hours, 31 minutes and 23 seconds',
     	    		"###$dt_now_l;+$ipset_type_l"
     	    	    );
-	    
+    	    
     	    	    &rewrite_file_from_array_ref($init_file_l,\@init_lines_arr_l);
     	    	    #$file_l,$aref_l
     	    	    
     	    	    @init_lines_arr_l=();
     	    	}
-	    
+    	    
     	    	($ipset_name_l,$ipset_type_l)=(undef,undef);
     	    	$init_file_l=undef;
     	    	##############
