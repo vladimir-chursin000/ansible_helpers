@@ -35,6 +35,7 @@ sub read_param_value_templates_from_config {
     while ( <CONF_TMPLT> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	$line_l=~s/\#.*$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
@@ -42,10 +43,10 @@ sub read_param_value_templates_from_config {
 	
 	$line_l=~s/ \,/\,/g;
 	$line_l=~s/\, /\,/g;
-
+	
 	$line_l=~s/ \=/\=/g;
 	$line_l=~s/\= /\=/g;
-
+	
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+\-\-TMPLT)\:BEGIN\]$/ ) { # if cfg block begin
 		$tmplt_name_begin_l=$1;
@@ -160,6 +161,7 @@ sub read_param_only_templates_from_config {
     while ( <CONF_TMPLT> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	$line_l=~s/\#.*$//g;
         while ( $line_l=~/\t/ ) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
@@ -167,19 +169,19 @@ sub read_param_only_templates_from_config {
 	
 	$line_l=~s/ \./\./g;
 	$line_l=~s/\. /\./g;
-
+	
 	$line_l=~s/ \,/\,/g;
 	$line_l=~s/\, /\,/g;
-
+	
 	$line_l=~s/ \:/\:/g;
 	$line_l=~s/\: /\:/g;
-
+	
 	$line_l=~s/ \=/\=/g;
 	$line_l=~s/\= /\=/g;
-
+	
         $line_l=~s/ \//\//g;
         $line_l=~s/\/ /\//g;
-
+	
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
 	    if ( $line_l=~/^\[(\S+)\:BEGIN\]$/ ) { # if cfg block begin
 		$tmplt_name_begin_l=$1;
@@ -324,6 +326,7 @@ sub read_config_FIN_level0 {
     while ( <CONF_FIN> ) {
 	$line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+	$line_l=~s/\#.*$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
