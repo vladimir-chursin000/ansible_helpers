@@ -11,22 +11,22 @@ sub apply_IPSET_files_operation_main {
     
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
-
+    
     my $divisions_for_inv_hosts_href_l=${$input_hash4proc_href_l}{'divisions_for_inv_hosts_href'};
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
-
+    
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
-	#{'ipset_name'}=value
-	#{'ipset_description'}=empty|value
-	#{'ipset_short_description'}=empty|value
-	#{'ipset_create_option_timeout'}=num
-	#{'ipset_create_option_hashsize'}=num
-	#{'ipset_create_option_maxelem'}=num
-	#{'ipset_create_option_family'}=inet|inet6
-	#{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+    	#{'ipset_name'}=value
+    	#{'ipset_description'}=empty|value
+    	#{'ipset_short_description'}=empty|value
+    	#{'ipset_create_option_timeout'}=num
+    	#{'ipset_create_option_hashsize'}=num
+    	#{'ipset_create_option_maxelem'}=num
+    	#{'ipset_create_option_family'}=inet|inet6
+    	#{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     
     my $h65_conf_initial_ipsets_content_FIN_href_l=${$input_hash4proc_href_l}{'h65_conf_initial_ipsets_content_FIN_href'};
     #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
@@ -50,7 +50,7 @@ sub apply_IPSET_files_operation_main {
     my $return_str_l='OK';
     
     ######
-
+    
     &init_create_dirs_at_local_ipset_input_dir($ipset_input_dir_l);
     #$ipset_input_dir_l
     #
@@ -68,36 +68,36 @@ sub apply_IPSET_files_operation_main {
     $exec_res_l=undef;
     
     ######
-
+    
     $exec_res_l=&read_local_ipset_input($ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,\%ipset_input_l);
     #$ipset_input_dir_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     #print Dumper(\%ipset_input_l);
-
+    
     ######
         
     $exec_res_l=&update_initial_content_for_local_ipset_actual_data($ipset_actual_data_dir_l,$h65_conf_initial_ipsets_content_FIN_href_l);
     #$ipset_actual_data_dir_l,$h65_conf_initial_ipsets_content_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
     ######
-
+    
     $exec_res_l=&update_local_ipset_actual_data($ipset_actual_data_dir_l,\%ipset_input_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l);
     #$ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
     ######
-
+    
     $exec_res_l=&copy_actual_ipset_data_to_scripts_for_remote($ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l);
     #$ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     
     ######
-
+    
     return $return_str_l;
 }
 
