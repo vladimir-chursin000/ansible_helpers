@@ -13,6 +13,7 @@ sub read_inventory_file {
     while ( <INVDATA> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	$line_l=~s/\#.*$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
@@ -53,6 +54,7 @@ sub read_network_data_for_checks {
     while ( <NDATA> ) {
         $line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	$line_l=~s/\#.*$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
