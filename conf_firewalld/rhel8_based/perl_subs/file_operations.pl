@@ -24,10 +24,10 @@ sub rewrite_actual_ipset_file_from_hash {
     	    
     	    $expire_date_l=${${$href_l}{'content'}}{$arr_el0_l};
     	    if ( $expire_date_l>0 ) { # for teporary ipsets and permanent ipsets WITH external timeout
-    		push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
+    	    	push(@wr_arr_l,"$arr_el0_l;+$expire_date_l");
     	    }
     	    else { # for permanent ipsets WITHOUT external timeout
-    		push(@wr_arr_l,$arr_el0_l);
+    	    	push(@wr_arr_l,$arr_el0_l);
     	    }
     	}
     	
@@ -49,7 +49,7 @@ sub rewrite_actual_ipset_file_from_hash {
 sub read_actual_ipset_file_to_hash {
     my ($file_l,$file_type_l,$href_l)=@_;
     #$file_type_l: 0-permanent ipset, 1-temporary_ipset
-
+    
     my $proc_name_l=(caller(0))[3];
     
     #href = key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
@@ -392,7 +392,7 @@ sub init_create_dirs_and_files_at_local_ipset_actual_data_dir { # used at 'apply
     	    	$init_file_l=undef;
     	    	##############
     	    } # while h66, temporary, inv-host (end)
-    
+	    
     	    ($hkey1_l,$hval1_l)=(undef,undef);
     	}
     }

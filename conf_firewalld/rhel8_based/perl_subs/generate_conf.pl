@@ -24,7 +24,7 @@ sub generate_firewall_configs {
     #{'FlushAllOnReload'}=yes|no
     #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
-
+    
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
@@ -60,22 +60,22 @@ sub generate_firewall_configs {
         
         # form firewalld.conf
         @{$wr_hash_l{$hkey0_l}{'fw_config'}}=@begin_conf_arr_l;
-    
+	
         foreach $arr_el0_l ( @fw_config_seq_l ) {
             #$arr_el0_l=fw-param
             $wr_str_l="$arr_el0_l=${$hval0_l}{$arr_el0_l}";
             push(@{$wr_hash_l{$hkey0_l}{'fw_config'}},$wr_str_l);
-    
+	    
             $wr_str_l=undef;
         }
-    
+	
         $arr_el0_l=undef;
         ###
-    
+	
         # logging_of_dropped_packets
         @{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=@begin_conf_arr_l;
         push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},'# NO CHANGES');
-    
+	
         if ( ${$hval0_l}{'enable_logging_of_dropped_packets'} eq 'yes' && ${$hval0_l}{'LogDenied'} eq 'all' ) {
             #enable_logging_of_dropped_packets=yes|no
                 # Need for set "LogDenied=all" (at "/atc/firewalld/firewalld.conf").
@@ -102,11 +102,11 @@ sub generate_firewall_configs {
     	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/firewalld.conf';
         if ( exists(${$hval0_l}{'fw_config'}) ) { @wr_arr_l=@{${$hval0_l}{'fw_config'}}; }
-    
+    	
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
         if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-    
+    	
         $wr_file_l=undef;
         @wr_arr_l=();
     }
@@ -120,11 +120,11 @@ sub generate_firewall_configs {
     	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/rsyslog_firewalld-droppd.conf';
         if ( exists(${$hval0_l}{'firewalld-droppd'}) ) { @wr_arr_l=@{${$hval0_l}{'firewalld-droppd'}}; }
-    
+	
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
         if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-    
+	
         $wr_file_l=undef;
         @wr_arr_l=();
     }
