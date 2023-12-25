@@ -6,23 +6,23 @@ sub read_03_conf_policy_templates {
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     #res_href_l=hash-ref for %h03_conf_policy_templates_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my $allowed_services_sets_href_l=${$input_hash4proc_href_l}{'h02_1_conf_allowed_services_sets_href'};
     #allowed_services_sets_href_l=hash-ref for %h02_1_conf_allowed_services_sets_hash_g
-	#*{set-name}{inv-host}
-
+    	#*{set-name}{inv-host}
+    
     my $allowed_ports_sets_href_l=${$input_hash4proc_href_l}{'h02_2_conf_allowed_ports_sets_href'};
     #allowed_ports_sets_href_l=hash-ref for %h02_2_conf_allowed_ports_sets_hash_g
-	#*{set-name}{inv-host}
-
+    	#*{set-name}{inv-host}
+    
     my $allowed_protocols_sets_href_l=${$input_hash4proc_href_l}{'h02_3_conf_allowed_protocols_sets_href'};
     #allowed_protocols_sets_href_l=hash-ref for %h02_3_conf_allowed_protocols_sets_hash_g
-	#*{set-name}{inv-host}
-
+    	#*{set-name}{inv-host}
+    
     my $icmp_blocks_sets_href_l=${$input_hash4proc_href_l}{'h02_4_conf_icmp_blocks_sets_href'};
     #icmp_blocks_sets_href_l=hash-ref for %h02_4_conf_icmp_blocks_sets_hash_g
-	#*{set-name}{inv-host}
-
+    	#*{set-name}{inv-host}
+    
     #[some_policy--TMPLT:BEGIN]
     #policy_name=some_policy_name
     #policy_description=empty
@@ -79,7 +79,7 @@ sub read_03_conf_policy_templates {
             #{'icmptype-1'}=1
             #etc
         #{'seq'}=[val-0,val-1] (val=icmptype)
-
+    
     my $exec_res_l=undef;
     my $arr_el0_l=undef;
     my $tmp_str0_l=undef;
@@ -127,10 +127,10 @@ sub read_03_conf_policy_templates {
           
             if ( $hkey1_l=~/(^policy_allowed_ports$|^policy_allowed_source_ports$)/ ) {
                 $tmp_str0_l=$1; # fwpolicy-param (tmp)
-          
+            
                 if ( exists(${$hval1_l}{$tmp_str0_l}{'seq'}) ) {
                     @tmp_arr0_l=@{${$hval1_l}{$tmp_str0_l}{'seq'}};
-          
+            
                     if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
                         $return_str_l="fail [$proc_name_l]. Value of param '$tmp_str0_l' must be 'empty' or 'list of ports' or 'set:some_set_name'";
                         last;
@@ -138,7 +138,7 @@ sub read_03_conf_policy_templates {
                     
                     foreach $arr_el0_l ( @tmp_arr0_l ) {
                         #$arr_el0_l=port in format 'port/proto' or 'set:set_name'
-    
+	    
                         if ( $arr_el0_l!~/^set\:\S+$/ ) {
                             $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
                             #$port_str_l
@@ -160,10 +160,10 @@ sub read_03_conf_policy_templates {
                     $arr_el0_l=undef;
                     @tmp_arr0_l=();
                     ###
-    
+	    
                     if ( $return_str_l!~/^OK$/ ) { last; }
                 }
-    
+	    
                 # clear vars
                 $tmp_str0_l=undef;
                 ###
@@ -171,15 +171,15 @@ sub read_03_conf_policy_templates {
             elsif ( $hkey1_l=~/^policy_allowed_services$/ ) {
                 if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
                     @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
-    
+	    
                     if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
                         $return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of services' or 'set:some_set_name'";
                         last;
                     }
-    
+	    
                     foreach $arr_el0_l ( @tmp_arr0_l ) {
                         #$arr_el0_l=service name or 'set:set_name'
-    
+	    
                         if ( $arr_el0_l!~/^set\:\S+$/ ) {
                             # check service names (maybe. in future)
                         }
@@ -190,27 +190,27 @@ sub read_03_conf_policy_templates {
                             }
                         }
                     }
-    
+	    
                     # clear vars
                     $arr_el0_l=undef;
                     @tmp_arr0_l=();
                     ###
-    
+	    
                     if ( $return_str_l!~/^OK$/ ) { last; }
                 }
             }
             elsif ( $hkey1_l=~/^policy_allowed_protocols$/ ) {
                 if ( exists(${$hval1_l}{$hkey1_l}{'seq'}) ) {
                     @tmp_arr0_l=@{${$hval1_l}{$hkey1_l}{'seq'}};
-    
+	    
                     if ( $#tmp_arr0_!=0 && "@tmp_arr0_l"=~/set\:\S+/ ) {
                         $return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of protocols' or 'set:some_set_name'";
                         last;
                     }
-    
+	    
                     foreach $arr_el0_l ( @tmp_arr0_l ) {
                         #$arr_el0_l=proto or 'set:set_name'
-    
+	    
     	                if ( $arr_el0_l!~/^set\:\S+$/ ) {
                             # check protocols (maybe. in future)
                         }
@@ -226,7 +226,7 @@ sub read_03_conf_policy_templates {
                     $arr_el0_l=undef;
                     @tmp_arr0_l=();
                     ###
-    
+	    
                     if ( $return_str_l!~/^OK$/ ) { last; }
                 }
             }
@@ -238,7 +238,7 @@ sub read_03_conf_policy_templates {
                         $return_str_l="fail [$proc_name_l]. Value of param '$hkey1_l' must be 'empty' or 'list of icmp-blocks' or 'set:some_set_name'";
                         last;
                     }
-    
+	    
                     foreach $arr_el0_l ( @tmp_arr0_l ) {
                         #$arr_el0_l=icmp-block or 'set:set_name'
                         
@@ -252,16 +252,16 @@ sub read_03_conf_policy_templates {
                             }
                         }
                     }
-          
+            
                     # clear vars
                     $arr_el0_l=undef;
                     @tmp_arr0_l=();
                     ###
-    
+	    
                     if ( $return_str_l!~/^OK$/ ) { last; }
                 }
             }
-    
+	    
             if ( $return_str_l!~/^OK$/ ) { last; }
         } # cycle 1 (end)
         
