@@ -143,6 +143,8 @@ sub read_66_conf_ipsets_FIN_v2 {
     my @params_arr_l=();
     my $return_str_l='OK';
     
+    my %ipset_types_l=(); # key=ipset_tmplt-name, value=ipset_type (temporary/permanent)
+    
     my %ipset_uniq_check_l=();
         #key0=inv-host, key1=ipset_name (not tmplt-name), value=1
     
@@ -179,39 +181,116 @@ sub read_66_conf_ipsets_FIN_v2 {
         }
         $exec_res_l=undef;
         ###
-	
-	@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-	
-	foreach $arr_el0_l ( @params_arr_l ) {
-	    #$arr_el0_l=ipset_tmplt_name
-	    
-	}
+    	
+	# ipset-templates checks (begin)
+    	@params_arr_l=split(/\,/,$tmp_arr0_l[1]);	
+    	foreach $arr_el0_l ( @params_arr_l ) {
+    	    #$arr_el0_l=ipset_tmplt_name
+            #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+                #{'ipset_name'}=value
+                #{'ipset_description'}=empty|value
+                #{'ipset_short_description'}=empty|value
+                #{'ipset_create_option_timeout'}=num
+                #{'ipset_create_option_hashsize'}=num
+                #{'ipset_create_option_maxelem'}=num
+                #{'ipset_create_option_family'}=inet|inet6
+                #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
+    	    
+	    # check ipset-templates for exists at 'h01_conf_ipset_templates_hash_g' (begin)
+            if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) { $ipset_types_l{$arr_el0_l}='temporary'; }
+            elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) { $ipset_types_l{$arr_el0_l}='permanent'; }
+            else {
+                $return_str_l="fail [$proc_name_l]. Template '$arr_el0_l' (used at '$file_l') is not exists at '01_conf_ipset_templates'";
+                last;
+            }
+	    # check ipset-templates for exists at 'h01_conf_ipset_templates_hash_g' (end)
+    	}
     	
     	# clear vars
-	$arr_el0_l=undef;
+    	$arr_el0_l=undef;
     	@tmp_arr0_l=();
-	@params_arr_l=();
+    	@params_arr_l=();
     	###
+    	
+    	if ( $return_str_l!~/^OK$/ ) { last; }
+    	# ipset-templates checks (end)
     }
-    
-    if ( $return_str_l!~/^OK$/ ) { last; }
-    # block for checks of strings with rule params (begin)
-    
+
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
     $arr_el0_l=undef;
     @tmp_arr0_l=();
     @host_list_l=();
     @params_arr_l=();
-
+    ###
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ### FILL %res_tmp_lv1_l (END)
+    # block for checks of strings with rule params (begin)
 
+    # block for 'single_host' (prio >= 2/high) (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+        #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
+        #host-id=all/gr_***/list of hosts/single_host
+    }
+
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    $arr_el0_l=undef;
+    @tmp_arr0_l=();
+    @params_arr_l=();
+    ###
+    # block for 'single_host' (prio >= 2/high) (end)
+    
+    # block for 'host_list' (prio = 2) (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+        #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
+        #host-id=all/gr_***/list of hosts/single_host
+    }
+
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    $arr_el0_l=undef;
+    @tmp_arr0_l=();
+    @host_list_l=();
+    @params_arr_l=();
+    ###
+    # block for 'host_list' (prio = 2) (end)
+    
+    # block for 'groups' (prio = 1) (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+        #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
+        #host-id=all/gr_***/list of hosts/single_host
+    }
+
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    $arr_el0_l=undef;
+    @tmp_arr0_l=();
+    @params_arr_l=();
+    ###
+    # block for 'groups' (prio = 1) (end)
+    
+    # block for 'all' (prio = 0/min) (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+        #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
+        #host-id=all/gr_***/list of hosts/single_host
+    }
+    
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    $arr_el0_l=undef;
+    @tmp_arr0_l=();
+    @params_arr_l=();
+    ###
+    # block for 'all' (prio = 0/min) (end)
+    ### FILL %res_tmp_lv1_l (END)
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     %res_tmp_lv1_l=();
-
+    
     return $return_str_l;
 }
 
