@@ -179,7 +179,7 @@ sub read_param_only_templates_from_config {
 		}
 	    }
 	    elsif ( $read_tmplt_flag_l==1 && $tmplt_name_begin_l ne 'notmplt' ) { # if param str
-		if ( !exists($res_tmp_lv0_l{$line_l}) ) {
+		if ( !exists($res_tmp_lv0_l{$tmplt_name_begin_l}{$line_l}) ) {
 		    push(@{$res_tmp_lv0_l{$tmplt_name_begin_l}{'seq'}},$line_l);
 		    $res_tmp_lv0_l{$tmplt_name_begin_l}{$line_l}=1;
 		}

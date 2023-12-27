@@ -120,9 +120,9 @@ sub read_66_conf_ipsets_FIN_v2 {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
     #$res_href_l=hash ref for %h66_conf_ipsets_FIN_hash_g
-
+    
     my $proc_name_l=(caller(0))[3];
-
+    
     #INVENTORY_HOST         #IPSET_NAME_TMPLT_LIST
     #all                    ipset1--TMPLT,ipset4all_public--TMPLT (example)
     #10.3.2.2               ipset4public--TMPLT (example)
@@ -132,27 +132,29 @@ sub read_66_conf_ipsets_FIN_v2 {
         #{ipset_name_tmplt-1}=1;
         #etc
     ###
-
+    
     my $exec_res_l=undef;
     my $arr_el0_l=undef;
     my $ipset_type_l=undef; # temporary / permanent
     my $ipset_name_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my @tmp_arr0_l=();
+    my @host_list_l=();
+    my @params_arr_l=();
     my $return_str_l='OK';
-
+    
     my %ipset_uniq_check_l=();
         #key0=inv-host, key1=ipset_name (not tmplt-name), value=1
-
+    
     my %res_tmp_lv0_l=();
         #key=string with params, value=1
     my %res_tmp_lv1_l=();
         #final hash
-
+    
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
+    
     ### FILL %res_tmp_lv1_l (BEGIN)
     
     # block for checks of strings with rule params (begin)
@@ -177,9 +179,18 @@ sub read_66_conf_ipsets_FIN_v2 {
         }
         $exec_res_l=undef;
         ###
+	
+	@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+	
+	foreach $arr_el0_l ( @params_arr_l ) {
+	    #$arr_el0_l=ipset_tmplt_name
+	    
+	}
     	
     	# clear vars
+	$arr_el0_l=undef;
     	@tmp_arr0_l=();
+	@params_arr_l=();
     	###
     }
     
@@ -189,6 +200,8 @@ sub read_66_conf_ipsets_FIN_v2 {
     ($hkey0_l,$hval0_l)=(undef,undef);
     $arr_el0_l=undef;
     @tmp_arr0_l=();
+    @host_list_l=();
+    @params_arr_l=();
 
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ### FILL %res_tmp_lv1_l (END)
