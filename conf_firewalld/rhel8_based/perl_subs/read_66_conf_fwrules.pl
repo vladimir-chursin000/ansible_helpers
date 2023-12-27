@@ -138,7 +138,7 @@ sub read_66_conf_ipsets_FIN_v2 {
     my $ipset_type_l=undef; # temporary / permanent
     my $ipset_name_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
-    my @arr0_l=();
+    my @tmp_arr0_l=();
     my $return_str_l='OK';
 
     my %ipset_uniq_check_l=();
@@ -153,16 +153,45 @@ sub read_66_conf_ipsets_FIN_v2 {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
 
-    # fill %res_tmp_lv1_l
+    ### FILL %res_tmp_lv1_l (BEGIN)
+    
+    # block for checks of strings with rule params (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+    	#$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
+    	#host-id=all/gr_***/list of hosts/single_host
+    		
+    	@tmp_arr0_l=split(/ /,$hkey1_l);
+        # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+    	
+    	if ( $#tmp_arr0_l!=1 ) {
+    	    $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host params'";
+            last;
+        }
+    	
+        ###
+        $exec_res_l=&check_inv_host_by_type($tmp_arr0_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
+        #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l
+        if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+            last;
+        }
+        $exec_res_l=undef;
+        ###
+    	
+    	# clear vars
+    	@tmp_arr0_l=();
+    	###
     }
+    
+    if ( $return_str_l!~/^OK$/ ) { last; }
+    # block for checks of strings with rule params (begin)
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     $arr_el0_l=undef;
-    @arr0_l=();
+    @tmp_arr0_l=();
 
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
+    ### FILL %res_tmp_lv1_l (END)
 
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
