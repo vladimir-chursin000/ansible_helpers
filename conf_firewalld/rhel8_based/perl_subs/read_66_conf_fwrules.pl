@@ -197,13 +197,31 @@ sub read_66_conf_ipsets_FIN_v2 {
                 #{'ipset_type'}=hash:ip|hash:ip,port|hash:ip,mark|hash:net|hash:net,port|hash:net,iface|hash:mac|hash:ip,port,ip|hash:ip,port,net|hash:net,net|hash:net,port,net
     	    
 	    # check ipset-templates for exists at 'h01_conf_ipset_templates_hash_g' (begin)
-            if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) { $ipset_types_l{$arr_el0_l}='temporary'; }
-            elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) { $ipset_types_l{$arr_el0_l}='permanent'; }
+            if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}) ) {
+	    	$ipset_types_l{$arr_el0_l}='temporary';
+	    	$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'};
+	    }
+            elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}) ) {
+	    	$ipset_types_l{$arr_el0_l}='permanent';
+	    	$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'};
+	    }
             else {
                 $return_str_l="fail [$proc_name_l]. Template '$arr_el0_l' (used at '$file_l') is not exists at '01_conf_ipset_templates'";
                 last;
             }
 	    # check ipset-templates for exists at 'h01_conf_ipset_templates_hash_g' (end)
+
+            # check for uniq host-id+ipset_name (begin)
+            if ( exists($ipset_uniq_check_l{$tmp_arr0_l[0]}{$ipset_name_l}) ) {
+                $return_str_l="fail [$proc_name_l]. Duplicate ipset_name='$ipset_name_l' (tmplt_name='$arr_el0_l') for inv-host='$hkey0_l' at conf '66_conf_ipsets_FIN'. Check '01_conf_ipset_templates' and '66_conf_ipsets_FIN'";
+                last;
+            }
+            $ipset_uniq_check_l{$tmp_arr0_l[0]}{$ipset_name_l}=1;
+            # check for uniq host-id+ipset_name (end)
+	    
+	    # clear vars
+	    $ipset_name_l=undef;
+	    ###
     	}
     	
     	# clear vars
