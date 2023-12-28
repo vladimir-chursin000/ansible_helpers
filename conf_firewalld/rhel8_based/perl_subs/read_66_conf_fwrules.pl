@@ -134,7 +134,7 @@ sub read_66_conf_ipsets_FIN_v2 {
     ###
     
     my $exec_res_l=undef;
-    my $arr_el0_l=undef;
+    my ($arr_el0_l,$arr_el1_l)=(undef,undef);
     my $ipset_type_l=undef; # temporary / permanent
     my $ipset_name_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
@@ -286,14 +286,40 @@ sub read_66_conf_ipsets_FIN_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
         #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
         #host-id=all/gr_***/list of hosts/single_host
+    	
+    	@tmp_arr0_l=split(/ /,$hkey1_l);
+        # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+    	
+    	if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
+    	    @host_list_l=split(/\,/,$tmp_arr0_l[0]);
+    	    @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+    	    
+    	    foreach $arr_el0_l ( @host_list_l ) {
+                #$arr_el0_l=inv-host
+    		
+    		foreach $arr_el1_l ( @params_arr_l ) {
+    		    #$arr_el1_l=ipset_tmplt_name
+    		}
+    		
+    		# clear vars
+    		$arr_el1_l=undef;
+    		###
+    	    }
+    	    
+    	    # clear vars
+    	    $arr_el0_l=undef;
+    	    @host_list_l=();
+    	    @params_arr_l=();
+    	    ###
+    	}
+    	
+    	# clear vars
+    	@tmp_arr0_l=();
+    	###
     }
-
+    
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
-    $arr_el0_l=undef;
-    @tmp_arr0_l=();
-    @host_list_l=();
-    @params_arr_l=();
     ###
     # block for 'host_list' (prio = 2) (end)
     
