@@ -249,13 +249,36 @@ sub read_66_conf_ipsets_FIN_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
         #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
         #host-id=all/gr_***/list of hosts/single_host
+	
+    	@tmp_arr0_l=split(/ /,$hkey1_l);
+        # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+
+	if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
+	    @params_arr_l=split(/\,/,$tmp_arr0_l[1]);	
+    	    foreach $arr_el0_l ( @params_arr_l ) {
+		#$arr_el0_l=ipset_tmplt_name
+		$ipset_type_l=$ipset_types_l{$arr_el0_l};
+		$ipset_name_l=${$ipset_templates_href_l}{$ipset_type_l}{$arr_el0_l}{'ipset_name'};
+		$ipset_uniq_check_l{$tmp_arr0_l[0]}{$ipset_name_l}=1;
+		
+		#clear vars
+		($ipset_type_l,$ipset_name_l)=(undef,undef);
+		###
+	    }
+	    
+	    # clear vars
+	    $arr_el0_l=undef;
+	    @params_arr_l=();
+	    ###
+	}
+	
+	# clear vars
+	@tmp_arr0_l=();
+	###
     }
 
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
-    $arr_el0_l=undef;
-    @tmp_arr0_l=();
-    @params_arr_l=();
     ###
     # block for 'single_host' (prio >= 2/high) (end)
     
