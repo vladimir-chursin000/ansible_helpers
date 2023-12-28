@@ -258,11 +258,12 @@ sub read_66_conf_ipsets_FIN_v2 {
     	    foreach $arr_el0_l ( @params_arr_l ) {
 		#$arr_el0_l=ipset_tmplt_name
 		$ipset_type_l=$ipset_types_l{$arr_el0_l};
-		$ipset_name_l=${$ipset_templates_href_l}{$ipset_type_l}{$arr_el0_l}{'ipset_name'};
-		$ipset_uniq_check_l{$tmp_arr0_l[0]}{$ipset_name_l}=1;
+		$res_tmp_lv1_l{$ipset_type_l}{$tmp_arr0_l[0]}{$arr_el0_l}=1;
+		    #$res_tmp_lv1_l{ipset_type}{inv-host}{ipset_tmplt_name}
+		    #$tmp_arr0_l[0]=inv-host
 		
 		#clear vars
-		($ipset_type_l,$ipset_name_l)=(undef,undef);
+		$ipset_type_l=undef;
 		###
 	    }
 	    
@@ -299,6 +300,12 @@ sub read_66_conf_ipsets_FIN_v2 {
     		
     		foreach $arr_el1_l ( @params_arr_l ) {
     		    #$arr_el1_l=ipset_tmplt_name
+		    $ipset_type_l=$ipset_types_l{$arr_el1_l};
+		    
+		    if ( !exists($res_tmp_lv1_l{$ipset_type_l}{$arr_el0_l}{$arr_el1_l}) ) {
+			$res_tmp_lv1_l{$ipset_type_l}{$arr_el0_l}{$arr_el1_l}=1;
+			    #$res_tmp_lv1_l{ipset_type}{inv-host}{ipset_tmplt_name}
+		    }
     		}
     		
     		# clear vars
