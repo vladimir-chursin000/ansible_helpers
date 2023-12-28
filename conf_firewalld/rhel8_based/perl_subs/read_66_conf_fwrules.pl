@@ -384,6 +384,14 @@ sub read_66_conf_ipsets_FIN_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
         #$hkey0_l = sting like 'host-id some_set0_ipset--TMPLT,some_set1_ipset--TMPLT'
         #host-id=all/gr_***/list of hosts/single_host
+    	
+    	@tmp_arr0_l=split(/ /,$hkey0_l);
+        # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
+    	
+    	if ( $tmp_arr0_l[0]=~/^all$/ ) {
+	    @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+	    
+    	}
     }
     
     # clear vars
