@@ -74,6 +74,10 @@ sub read_05_conf_rich_rules_sets_v2 {
 	    ###
 	    # CHECK 'RICH_RULE' (maybe, future functionality)
 	    ###
+
+	    # Replace ipset-tmplt-names to ipset-names (begin)
+		# firewall-cmd --add-rich-rule='rule source ipset=blacklist drop' (example)
+	    # Replace ipset-tmplt-names to ipset-names (end)
 	    
 	    # clear vars
             $exec_res_l=undef;
@@ -93,7 +97,7 @@ sub read_05_conf_rich_rules_sets_v2 {
 	    # 0=INVENTORY_HOST, 1=RICH_RULE
 	
             if ( $rule_params_l[0]=~/^\S+$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {
-		if ( !exists($res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}) ) {
+		if ( !exists($res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}) ) {	    
             	    $res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}=1;
             	    push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_params_l[0]);
 		}
