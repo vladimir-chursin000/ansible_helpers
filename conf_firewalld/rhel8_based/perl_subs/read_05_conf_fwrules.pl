@@ -29,6 +29,7 @@ sub read_05_conf_rich_rules_sets_v2 {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($hkey2_l,$hval2_l)=(undef,undef);
+    my ($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l)=(undef,undef,undef);
     my @rule_params_l=();
     my $return_str_l='OK';
 
@@ -79,8 +80,10 @@ sub read_05_conf_rich_rules_sets_v2 {
 
 	    # Replace ipset-tmplt-names to ipset-names (begin)
 		# firewall-cmd --add-rich-rule='rule source ipset=blacklist drop' (example)
-	    if ( $rule_params_l[1]=~/\-\-TMPLT/ ) {
-		
+	    if ( $rule_params_l[1]=~/ipset\=(\"\S+\-\-TMPLT\")/ or $rule_params_l[1]=~/ipset\=(\S+\-\-TMPLT)/ ) {
+		$ipset_tmplt_orig_l=$1;
+		$ipset_tmplt_l=$ipset_tmplt_orig_l;
+		$ipset_tmplt_l=~s/\"//g;
 	    }
 	    # Replace ipset-tmplt-names to ipset-names (end)
 	    
