@@ -1,11 +1,13 @@
 ###DEPENDENCIES: read_conf_fwrules_common.pl
 
 sub read_05_conf_rich_rules_sets_v2 {
-    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$ipset_templates_href_l,$res_href_l)=@_;
     #file_l=$f05_conf_rich_rules_sets_path_g
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
+    #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+        #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->#{'ipset_name'}=value
     #res_href_l=hash-ref for %h05_conf_rich_rules_sets_hash_g
     my $proc_name_l=(caller(0))[3];
 
