@@ -84,6 +84,10 @@ sub read_05_conf_rich_rules_sets_v2 {
 		$ipset_tmplt_orig_l=$1;
 		$ipset_tmplt_l=$ipset_tmplt_orig_l;
 		$ipset_tmplt_l=~s/\"//g;
+		
+		# clear vars
+		($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l)=(undef,undef,undef);
+		###
 	    }
 	    # Replace ipset-tmplt-names to ipset-names (end)
 	    
