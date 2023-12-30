@@ -79,6 +79,9 @@ sub read_05_conf_rich_rules_sets_v2 {
 
 	    # Replace ipset-tmplt-names to ipset-names (begin)
 		# firewall-cmd --add-rich-rule='rule source ipset=blacklist drop' (example)
+	    if ( $rule_params_l[1]=~/\-\-TMPLT/ ) {
+		
+	    }
 	    # Replace ipset-tmplt-names to ipset-names (end)
 	    
 	    # clear vars
