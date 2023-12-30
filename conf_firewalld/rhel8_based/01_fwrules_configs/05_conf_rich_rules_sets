@@ -12,6 +12,11 @@
 # Rich rules examples
 #"rule family=ipv4 forward-port to-port=8080 protocol=tcp port=80"
 #"rule family=ipv4 source address=192.168.55.4/32 destination address=10.10.7.0/24 masquerade"
+###
+#"rule family=ipv4 source ipset=some_ipset_template_name--TMPLT destination address=10.10.7.0/24 masquerade"
+#"rule family=ipv4 source ipset="some_ipset_template_name--TMPLT" destination address=10.10.7.0/24 masquerade"
+    # Within a rule, you can use ipset-templates configured in the file '01_conf_ipset_templates'.
+    # As a result, the template names will be replaced with the names of the ipsets.
 
 ###CUSTOM RICH RULES SET EXAMPLE. Use this template to define rich rules sets. Don't forget to remove the comment characters (#).
 

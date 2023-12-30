@@ -51,21 +51,21 @@ sub read_05_conf_rich_rules_sets_v2 {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # cycle 0
         #hkey0_l=tmplt_name, hval0_l=hash ref where key=string with rule params
     	
-	delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
-	
-	# block for checks of strings with rule params (begin)
+    	delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
+    	
+    	# block for checks of strings with rule params (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
-	    #string with rule params = #INVENTORY_HOST	#RICH_RULE
-	    
-	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+    	    #string with rule params = #INVENTORY_HOST	#RICH_RULE
+    	    
+    	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
             # 0=INVENTORY_HOST, 1=RICH_RULE
-	
-	    if ( $#rule_params_l!=1 ) {
+    	    
+    	    if ( $#rule_params_l!=1 ) {
                 $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should contain 2 parameters";
                 last;
             }
-	
+    	    
             ###
             $exec_res_l=&check_inv_host_by_type($rule_params_l[0],$inv_hosts_href_l,$divisions_for_inv_hosts_href_l);
             #$inv_host_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l
@@ -75,179 +75,205 @@ sub read_05_conf_rich_rules_sets_v2 {
             }
             $exec_res_l=undef;
             ###
-	    
-	    ###
-	    # CHECK 'RICH_RULE' (maybe, future functionality)
-	    ###
-
-	    # Replace ipset-tmplt-names to ipset-names (begin)
-		# firewall-cmd --add-rich-rule='rule source ipset=blacklist drop' (example)
-	    if ( $rule_params_l[1]=~/ipset\=(\"\S+\-\-TMPLT\")/ or $rule_params_l[1]=~/ipset\=(\S+\-\-TMPLT)/ ) {
-		$ipset_tmplt_orig_l=$1;
-		$ipset_tmplt_l=$ipset_tmplt_orig_l;
-		$ipset_tmplt_l=~s/\"//g;
-		$ipset_name_l='empty';
-		
-		if ( exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}) ) {
-		    $ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}{'ipset_name'};
-		}
-		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_l}) ) {
-		    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_l}{'ipset_name'};
-		}
-		else {
-		    $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. Ipset_tmplt='$ipset_tmplt_l' is not configured at '01_conf_ipset_templates'";
-		    last;
-		}
-		
-		if ( $ipset_name_l!~/^empty$/ ) {
-		    $new_rule_l=$hkey1_l;
-		    $new_rule_l=~s/$ipset_tmplt_orig_l/$ipset_name_l/g;
-		    
-		    $tmp_upd_l{'ins'}{$new_rule_l}=1;
-		    $tmp_upd_l{'del'}{$hkey1_l}=1;
-		}
-		
-		# clear vars
-		($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l,$new_rule_l)=(undef,undef,undef,undef);
-		###
-	    }
-	    # Replace ipset-tmplt-names to ipset-names (end)
-	    
-	    # clear vars
+    	    
+    	    ###
+    	    # CHECK 'RICH_RULE' (maybe, future functionality)
+    	    ###
+    	    
+    	    # Replace ipset-tmplt-names to ipset-names (begin)
+    	    	# firewall-cmd --add-rich-rule='rule source ipset=blacklist drop' (example)
+    	    if ( $rule_params_l[1]=~/ipset\=(\"\S+\-\-TMPLT\")/ or $rule_params_l[1]=~/ipset\=(\S+\-\-TMPLT)/ ) {
+    	    	$ipset_tmplt_orig_l=$1;
+    	    	$ipset_tmplt_l=$ipset_tmplt_orig_l;
+    	    	$ipset_tmplt_l=~s/\"//g;
+    	    	$ipset_name_l='empty';
+    	    	
+    	    	if ( exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}) ) {
+    	    	    $ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}{'ipset_name'};
+    	    	}
+    	    	elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_l}) ) {
+    	    	    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_l}{'ipset_name'};
+    	    	}
+    	    	else {
+    	    	    $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. Ipset_tmplt='$ipset_tmplt_l' is not configured at '01_conf_ipset_templates'";
+    	    	    last;
+    	    	}
+    	    	
+    	    	if ( $ipset_name_l!~/^empty$/ ) {
+    	    	    $new_rule_l=$hkey1_l;
+    	    	    $new_rule_l=~s/$ipset_tmplt_orig_l/$ipset_name_l/g;
+    	    	    
+    	    	    $tmp_upd_l{'ins'}{$new_rule_l}=1;
+    	    	    $tmp_upd_l{'del'}{$hkey1_l}=1;
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l,$new_rule_l)=(undef,undef,undef,undef);
+    	    	###
+    	    }
+    	    # Replace ipset-tmplt-names to ipset-names (end)
+    	    
+    	    # clear vars
             $exec_res_l=undef;
             @rule_params_l=();
             ###
         }
        
         if ( $return_str_l!~/^OK$/ ) { last; }
-	# block for checks of strings with rule params (end)
+    	# block for checks of strings with rule params (end)
+    	
+	# upd/ins after ipset-tmplt replace (begin)
+	if ( scalar(keys %{$tmp_upd_l{'del'}})>0 ) {
+	    while ( ($hkey1_l,$hval1_l)=each %{$tmp_upd_l{'del'}} ) {
+	    	delete(${$hval0_l}{$hkey1_l});
+	    }
+	    
+	    # clear vars
+	    ($hkey1_l,$hval1_l)=(undef,undef);
+	    ###
+	}
 	
-	# block for 'single_host' (prio >= 2/high) (begin)
+	if ( scalar(keys %{$tmp_upd_l{'ins'}})>0 ) {
+	    while ( ($hkey1_l,$hval1_l)=each %{$tmp_upd_l{'ins'}} ) {
+		${$hval0_l}{$hkey1_l}=1;
+	    }
+	    
+	    # clear vars
+	    ($hkey1_l,$hval1_l)=(undef,undef);
+	    ###
+	}
+	
+	# clear vars
+	%tmp_upd_l=();
+	###
+	# upd/ins after ipset-tmplt replace (end)
+	
+    	# block for 'single_host' (prio >= 2/high) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
-	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
-	    
-	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
-	    # 0=INVENTORY_HOST, 1=RICH_RULE
-	
+    	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+    	    
+    	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+    	    # 0=INVENTORY_HOST, 1=RICH_RULE
+    	
             if ( $rule_params_l[0]=~/^\S+$/ && $rule_params_l[0]!~/\,|^all|^gr_/ ) {
-		if ( !exists($res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}) ) {	    
+    		if ( !exists($res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}) ) {	    
             	    $res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{$rule_params_l[0]}=1;
             	    push(@{$res_tmp_lv1_l{$rule_params_l[0]}{$hkey0_l}{'seq'}},$rule_params_l[0]);
-		}
-		
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    		}
+    		
+    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
             }
             
             # clear vars
             @rule_params_l=();
             ###
-	}
-	# block for 'single_host' (prio >= 2/high) (end)
-	
-	# block for 'host_list' (prio = 2) (begin)
+    	}
+    	# block for 'single_host' (prio >= 2/high) (end)
+    	
+    	# block for 'host_list' (prio = 2) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
-	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
-	    
-	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
-	    # 0=INVENTORY_HOST, 1=RICH_RULE
-	    
+    	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+    	    
+    	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+    	    # 0=INVENTORY_HOST, 1=RICH_RULE
+    	    
             if ( $rule_params_l[0]=~/^\S+\,\S+/ ) {
                 @tmp_arr0_l=split(/\,/,$rule_params_l[0]); # array of hosts
-	    
+    	    
                 foreach $arr_el0_l ( @tmp_arr0_l ) {
                     #$arr_el0_l=inv-host from host_list
-	    
+    	    
                     if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}) ) {
-			if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$rule_params_l[1]}) ) {
+    			if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$rule_params_l[1]}) ) {
                     	    $res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{$rule_params_l[1]}=1;
                     	    push(@{$res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
-			}
+    			}
                     }
                 }
-	    
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-		
+    	    
+    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    		
                 # clear vars
                 $arr_el0_l=undef;
                 @tmp_arr0_l=();
                 ###
             }
-	    
+    	    
             # clear vars
             @rule_params_l=();
             ###
         }
-	# block for 'host_list' (prio = 2) (end)
-	
-	# block for 'groups' (prio = 1) (begin)
+    	# block for 'host_list' (prio = 2) (end)
+    	
+    	# block for 'groups' (prio = 1) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
-	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
-	    
-	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
-	    # 0=INVENTORY_HOST, 1=RICH_RULE
-	    
+    	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+    	    
+    	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+    	    # 0=INVENTORY_HOST, 1=RICH_RULE
+    	    
             if ( $rule_params_l[0]=~/^gr_\S+$/ ) {
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$rule_params_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
-		
+    		
                     if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
-			if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}) ) {
+    			if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}) ) {
                     	    $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}=1;
                     	    push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
-			}
+    			}
                     }
                 }
                 
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-		
+    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    		
                 # clear vars
                 ($hkey2_l,$hval2_l)=(undef,undef);
                 ###
             }
-	
+    	
             # clear vars
             @rule_params_l=();
             ###
         }
-	# block for 'groups' (prio = 1) (end)
-	
-	# block for 'all' (prio = 0/min) (begin)
+    	# block for 'groups' (prio = 1) (end)
+    	
+    	# block for 'all' (prio = 0/min) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
-	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
-	    
-	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
-	    # 0=INVENTORY_HOST, 1=RICH_RULE
-	    
+    	    #string with rule params = #INVENTORY_HOST  #RICH_RULE
+    	    
+    	    (@rule_params_l)=$hkey1_l=~/^(\S+) \"(.*)\"$/;
+    	    # 0=INVENTORY_HOST, 1=RICH_RULE
+    	    
             if ( $rule_params_l[0]=~/^all$/ ) {
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from inventory
-		
+    		
                     if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
-			if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}) ) {
+    			if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}) ) {
                     	    $res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$rule_params_l[1]}=1;
                     	    push(@{$res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{'seq'}},$rule_params_l[1]);
-			}
+    			}
                     }
                 }
                 
-		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-		
+    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    		
                 # clear vars
                 ($hkey2_l,$hval2_l)=(undef,undef);
                 ###
             }
-	    
+    	    
             # clear vars
             @rule_params_l=();
             ###
         }
-	# block for 'all' (prio = 0/min) (end)
-	
-	# clear vars
+    	# block for 'all' (prio = 0/min) (end)
+    	
+    	# clear vars
         $exec_res_l=undef;
         ($hkey1_l,$hval1_l)=(undef,undef);
         @rule_params_l=();
