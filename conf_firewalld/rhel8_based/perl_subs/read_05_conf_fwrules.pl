@@ -85,6 +85,17 @@ sub read_05_conf_rich_rules_sets_v2 {
 		$ipset_tmplt_l=$ipset_tmplt_orig_l;
 		$ipset_tmplt_l=~s/\"//g;
 		
+		if ( exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}) ) {
+		    $ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}{'ipset_name'};
+		}
+		elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_l}) ) {
+		    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_l}{'ipset_name'};
+		}
+		else {
+		    $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. Ipset_tmplt='$ipset_tmplt_l' is not configured at '01_conf_ipset_templates'";
+		    last;
+		}
+		
 		# clear vars
 		($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l)=(undef,undef,undef);
 		###
