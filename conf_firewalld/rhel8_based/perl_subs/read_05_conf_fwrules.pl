@@ -29,10 +29,12 @@ sub read_05_conf_rich_rules_sets_v2 {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($hkey2_l,$hval2_l)=(undef,undef);
-    my ($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l)=(undef,undef,undef);
+    my ($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l,$new_rule_l)=(undef,undef,undef,undef);
     my @rule_params_l=();
     my $return_str_l='OK';
 
+    %tmp_upd_l=(); #key0=del/ins (for ops with '%{$res_tmp_lv0_l{tmplt_name}}'), key1=string with rule params
+    
     my %res_tmp_lv0_l=();
         #key=set_tmplt_name, value=
             #{'string with rule params-1'}
@@ -84,6 +86,7 @@ sub read_05_conf_rich_rules_sets_v2 {
 		$ipset_tmplt_orig_l=$1;
 		$ipset_tmplt_l=$ipset_tmplt_orig_l;
 		$ipset_tmplt_l=~s/\"//g;
+		$ipset_name_l='empty';
 		
 		if ( exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}) ) {
 		    $ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_l}{'ipset_name'};
@@ -96,8 +99,16 @@ sub read_05_conf_rich_rules_sets_v2 {
 		    last;
 		}
 		
+		if ( $ipset_name_l!~/^empty$/ ) {
+		    $new_rule_l=$hkey1_l;
+		    $new_rule_l=~s/$ipset_tmplt_orig_l/$ipset_name_l/g;
+		    
+		    $tmp_upd_l{'ins'}{$new_rule_l}=1;
+		    $tmp_upd_l{'del'}{$hkey1_l}=1;
+		}
+		
 		# clear vars
-		($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l)=(undef,undef,undef);
+		($ipset_tmplt_orig_l,$ipset_tmplt_l,$ipset_name_l,$new_rule_l)=(undef,undef,undef,undef);
 		###
 	    }
 	    # Replace ipset-tmplt-names to ipset-names (end)
