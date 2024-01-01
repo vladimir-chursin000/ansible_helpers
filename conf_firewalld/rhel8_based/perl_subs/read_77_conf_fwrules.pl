@@ -168,7 +168,7 @@ sub read_77_conf_zones_FIN_v2 {
         #hval0_l=arr-ref for [FIREWALL_ZONE_NAME_TMPLT-0, INTERFACE_LIST-1, SOURCE_LIST-2, IPSET_TMPLT_LIST-3, FORWARD_PORTS_SET-4, RICH_RULES_SET-5]
         $inv_host_l=$hkey0_l;
         $inv_host_l=~s/\+\S+$//g;
-	
+    	
         # FIREWALL_ZONE_NAME_TMPLT ops [0] (begin)
         #$h02_conf_custom_firewall_zones_templates_hash_g{zone_teplate_name--TMPLT}-> ... #{'zone_name'}
             #$custom_zone_templates_href_l
@@ -191,7 +191,7 @@ sub read_77_conf_zones_FIN_v2 {
             last;
         }
         # FIREWALL_ZONE_NAME_TMPLT ops [0] (end)
-	
+    	
         # fwzone_name uniq check
         if ( exists($fwzone_uniq_check_l{$inv_host_l}{$fwzone_name_l}) ) {
             $return_str_l="fail [$proc_name_l]. Fwzone_name='$fwzone_name_l' (inv-host='$inv_host_l', fwzone-tmplt='${$hval0_l}[0]') is already assign to fwzone-tmplt='$fwzone_uniq_check_l{$inv_host_l}{$fwzone_name_l}' at conf='77_conf_zones_FIN'";
@@ -218,7 +218,7 @@ sub read_77_conf_zones_FIN_v2 {
                     last;
                 }
                 ###
-	
+    	
                 if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}) ) {
                     $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'list'}{$arr_el0_l}=1;
                     push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'interface_list'}{'seq'}},$arr_el0_l);
@@ -228,14 +228,14 @@ sub read_77_conf_zones_FIN_v2 {
                     last;
                 }
             }
-	
+    	
             @arr0_l=();
             $arr_el0_l=undef;
-	
+    	
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
         # INTERFACE_LIST ops [1] (end)
-	
+    	
         # SOURCE_LIST ops [2] (begin)
         if ( ${$hval0_l}[2]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'empty'}=1; }
         else {
@@ -245,7 +245,7 @@ sub read_77_conf_zones_FIN_v2 {
                 #if ( $arr_el0_l!~/some_regex/ ) {
                     #maybe need to add regex for check sources
                 #}
-	
+    	
                 # check for 'source is already belongs to fw-zone-tmplt'
                 if ( !exists($src_uniq_check_l{$inv_host_l}{$arr_el0_l}) ) { $src_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0]; }
                 else {
@@ -253,7 +253,7 @@ sub read_77_conf_zones_FIN_v2 {
                     last;
                 }
                 ###
-	
+    	
                 if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}) ) {
                     $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'list'}{$arr_el0_l}=1;
                     push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'source_list'}{'seq'}},$arr_el0_l);
@@ -266,11 +266,11 @@ sub read_77_conf_zones_FIN_v2 {
         
             @arr0_l=();
             $arr_el0_l=undef;
-	
+    	
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
         # SOURCE_LIST ops [2] (end)
-	
+    	
         # IPSET_TMPLT_LIST ops [3] (begin)
         if ( ${$hval0_l}[3]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'empty'}=1; }
         else {
@@ -283,7 +283,7 @@ sub read_77_conf_zones_FIN_v2 {
                     $return_str_l="fail [$proc_name_l]. IPSET_TMPLT_NAME='$arr_el0_l' (conf='$file_l') is not exists at '01_conf_ipset_templates'";
                     last;
                 }
-	
+    	
                 #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
                     #{ipset_name_tmplt-0}=1;
                 if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_l}{$arr_el0_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_l}{$arr_el0_l}) ) {
@@ -298,7 +298,7 @@ sub read_77_conf_zones_FIN_v2 {
                 }
                 $ipset_tmplt_uniq_check_l{$inv_host_l}{$arr_el0_l}=${$hval0_l}[0];
                 ###
-	
+    	
                 if ( !exists($res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}) ) {
                     $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'list'}{$arr_el0_l}=1;
                     push(@{$res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'ipset_tmplt_list'}{'seq'}},$arr_el0_l);
@@ -308,14 +308,14 @@ sub read_77_conf_zones_FIN_v2 {
                     last;
                 }
             }
-	
+    	
             @arr0_l=();
             $arr_el0_l=undef;
-	
+    	
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
         # IPSET_TMPLT_LIST ops [3] (end)
-	
+    	
         # FORWARD_PORTS_SET ops [4] (begin)
         if ( ${$hval0_l}[4]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}='empty'; }
         else {
@@ -328,7 +328,7 @@ sub read_77_conf_zones_FIN_v2 {
             else { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'forward_ports_set'}=${$hval0_l}[4]; }
         }
         # FORWARD_PORTS_SET ops [4] (end)
-	
+    	
         # RICH_RULES_SET ops [5] (begin)
         if ( ${$hval0_l}[5]=~/^empty$/ ) { $res_tmp_lv1_l{$zone_type_l}{$inv_host_l}{${$hval0_l}[0]}{'rich_rules_set'}='empty'; }
         else {

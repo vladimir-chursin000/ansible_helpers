@@ -260,10 +260,10 @@ sub read_88_conf_policies_FIN_v2 {
     	    ##$allowed_ports_sets_href_l
         if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_services'}{'seq'}) ) {
             @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_services'}{'seq'}};
-	
+    	
             if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
                 $set_name_l=$1;
-	
+    	
                 if ( !exists(${$allowed_services_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Allowed_services_set='$set_name_l' (conf='02_1_conf_allowed_services_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
                     last;
@@ -297,10 +297,10 @@ sub read_88_conf_policies_FIN_v2 {
     	    #$allowed_ports_sets_href_l
         if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_ports'}{'seq'}) ) {
             @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_ports'}{'seq'}};
-	
+    	
             if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
                 $set_name_l=$1;
-	
+    	
                 if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Allowed_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
                     last;
@@ -334,10 +334,10 @@ sub read_88_conf_policies_FIN_v2 {
     	    #$allowed_ports_sets_href_l
         if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_source_ports'}{'seq'}) ) {
             @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_source_ports'}{'seq'}};
-	
+    	
             if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
                 $set_name_l=$1;
-	
+    	
                 if ( !exists(${$allowed_ports_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Allowed_source_ports_set='$set_name_l' (conf='02_2_conf_allowed_ports_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
                     last;
@@ -371,10 +371,10 @@ sub read_88_conf_policies_FIN_v2 {
     	    #$allowed_protocols_sets_href_l
         if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_protocols'}{'seq'}) ) {
             @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_allowed_protocols'}{'seq'}};
-	
+    	
             if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
                 $set_name_l=$1;
-	
+    	
                 if ( !exists(${$allowed_protocols_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Allowed_protocols_set='$set_name_l' (conf='02_3_conf_allowed_protocols_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
                     last;
@@ -408,10 +408,10 @@ sub read_88_conf_policies_FIN_v2 {
     	    #$icmp_blocks_sets_href_l
         if ( exists(${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_icmp_block'}{'seq'}) ) {
             @arr0_l=@{${$policy_templates_href_l}{${$hval0_l}[0]}{'policy_icmp_block'}{'seq'}};
-	
+    	
             if ( $arr0_l[0]=~/^set\:(\S+)$/ ) {
                 $set_name_l=$1;
-	
+    	
                 if ( !exists(${$icmp_blocks_sets_href_l}{$set_name_l}{$inv_host_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Icmp_blocks_set='$set_name_l' (conf='02_4_conf_icmp_blocks_sets') is not configured for inv-host='$inv_host_l' (within a group or tag 'all')";
                     last;
