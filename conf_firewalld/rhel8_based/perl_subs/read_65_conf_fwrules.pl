@@ -50,22 +50,22 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
         #hkey0_l=set_name, hval0_l=hash ref where key=string with rule params
     	
         delete($res_tmp_lv0_l{$hkey0_l}{'seq'}); # seq-array don't need here
-
+	
     	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$hkey0_l}) ) {
     	    $return_str_l="fail [$proc_name_l]. IPSET_TMPLT='$hkey0_l' configured at '65_conf_initial_ipsets_content_FIN' is not permanent (at '01_conf_ipset_templates')";
     	    last;
     	}
     	
     	# block for checks of strings with rule params (begin)
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
     	    #hkey1_l=string with rule params
             #string with rule params="host=param1,param2,etc"
                 
             @tmp_arr0_l=split(/\=/,$hkey1_l);
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-	    
+    	    
             if ( $#tmp_arr0_l!=1 ) {
-		$return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host=params'";
+    		$return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'host=params'";
                 last;
             }
             
@@ -78,27 +78,27 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
             }
             $exec_res_l=undef;
             ###
-	    
-	    ###
-	    # checks for ipset element (may be in future)
-	    ###
-	    
+    	    
+    	    ###
+    	    # checks for ipset element (may be in future)
+    	    ###
+    	    
     	    # clear vars
     	    @tmp_arr0_l=();
             ###
         }
         
-	if ( $return_str_l!~/^OK$/ ) { last; }
+    	if ( $return_str_l!~/^OK$/ ) { last; }
     	# block for checks of strings with rule params (end)
     	
     	# block for 'single_host' (prio >= 2/high) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
             #string with rule params="host=param1,param2,etc"
-	    
+    	    
             @tmp_arr0_l=split(/\=/,$hkey1_l);
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-	    
+    	    
             if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
                 @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
                 
@@ -116,7 +116,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
                 @params_arr_l=();
                 ###
             }
-	    
+    	    
             # clear vars
             @tmp_arr0_l=();
             ###
@@ -127,14 +127,14 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
             #string with rule params="host=param1,param2,etc"
-	    
+    	    
             @tmp_arr0_l=split(/\=/,$hkey1_l);
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-	    
+    	    
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
                 @host_list_l=split(/\,/,$tmp_arr0_l[0]);
                 @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
-		
+    		
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
                     if ( !exists($res_tmp_lv1_l{$arr_el0_l}{$hkey0_l}) ) {
@@ -147,16 +147,16 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
                         }
                     }
                 }
-		
+    		
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-		
+    		
                 # clear vars
                 ($arr_el0_l,$arr_el1_l)=(undef,undef);
                 @host_list_l=();
                 @params_arr_l=();
                 ###
             }
-	    
+    	    
             # clear vars
             @tmp_arr0_l=();
             ###
@@ -167,16 +167,16 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
             #string with rule params="host=param1,param2,etc"
-	    
+    	    
             @tmp_arr0_l=split(/\=/,$hkey1_l);
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-	    
+    	    
             if ( $tmp_arr0_l[0]=~/^gr_\S+$/ ) {
                 @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
-		
+    		
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$tmp_arr0_l[0]}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
-		    
+    		    
                     if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
@@ -189,7 +189,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
                 }
                 
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-		
+    		
                 # clear vars
                 $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
@@ -207,16 +207,16 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
             #string with rule params="host=param1,param2,etc"
-	    
+    	    
             @tmp_arr0_l=split(/\=/,$hkey1_l);
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-	    
+    	    
             if ( $tmp_arr0_l[0]=~/^all$/ ) {
                 @params_arr_l=split(/\;/,$tmp_arr0_l[1]);
-		
+    		
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
-		    
+    		    
                     if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey2_l}{$hkey0_l}{$arr_el0_l}) ) {
@@ -229,14 +229,14 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
                 }
                 
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-		
+    		
                 # clear vars
                 $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
                 @params_arr_l=();
                 ###
             }
-	    
+    	    
             # clear vars
             @tmp_arr0_l=();
             ###
@@ -249,7 +249,7 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
         @tmp_arr0_l=();
         ###
     } # cycle 0
-
+    
     # clear vars
     $exec_res_l=undef;
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -260,14 +260,14 @@ sub read_65_conf_initial_ipsets_content_FIN_v2 {
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     # check rules and save res to '%res_tmp_lv1_l' (end)
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     %res_tmp_lv0_l=();
     %res_tmp_lv1_l=();
-
+    
     return $return_str_l;
 }
 
