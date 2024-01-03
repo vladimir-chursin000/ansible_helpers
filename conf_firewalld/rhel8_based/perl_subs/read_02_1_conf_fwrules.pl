@@ -72,11 +72,11 @@ sub read_02_1_conf_allowed_services_sets {
             $exec_res_l=undef;
             ###
     	    
-	    if ( $tmp_arr0_l[1]=~/^empty\,|\,empty\,|\,empty$/ ) {
-	    	$return_str_l="fail [$proc_name_l]. Special value 'empty' cannot be part of a list (rule param '$hkey1_l')";
-	    	last;
-	    }
-	    
+    	    if ( $tmp_arr0_l[1]=~/^empty\,|\,empty\,|\,empty$/ ) {
+    	    	$return_str_l="fail [$proc_name_l]. Special value 'empty' cannot be part of a list (rule param '$hkey1_l')";
+    	    	last;
+    	    }
+    	    
     	    # clear vars
     	    @tmp_arr0_l=();
     	    ###
@@ -106,7 +106,7 @@ sub read_02_1_conf_allowed_services_sets {
     		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
     		
     		#clear vars
-		$arr_el0_l=undef;
+    		$arr_el0_l=undef;
     		@params_arr_l=();
     		###
             }
@@ -196,7 +196,7 @@ sub read_02_1_conf_allowed_services_sets {
             ###
         }
         # block for 'groups' (end)
-    
+    	
     	# block for 'all' (prio = 0/min) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
