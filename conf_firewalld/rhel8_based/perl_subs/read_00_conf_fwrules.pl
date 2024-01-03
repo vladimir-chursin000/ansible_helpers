@@ -6,7 +6,7 @@ sub read_00_conf_divisions_for_inv_hosts {
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($line_l,$arr_el0_l)=(undef,undef);
     my @arr0_l=();
     my @arr1_l=();
@@ -15,7 +15,7 @@ sub read_00_conf_divisions_for_inv_hosts {
     my $return_str_l='OK';
      
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
-
+    
     open(GROUP_HOSTS,'<',$file_l);
     while ( <GROUP_HOSTS> ) {
         $line_l=$_;
@@ -48,7 +48,7 @@ sub read_00_conf_divisions_for_inv_hosts {
             foreach $arr_el0_l ( @arr1_l ) {
                 #$arr0_l[0]=group-name
                 #$arr_el0_l=inv-host
-
+    
                 if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Inv-host='$arr_el0_l' is not exists at inventory-file (conf '00_conf_divisions_for_inv_hosts')";
                     last;
@@ -58,7 +58,7 @@ sub read_00_conf_divisions_for_inv_hosts {
                     $return_str_l="fail [$proc_name_l]. Inv-host='$arr_el0_l' is already used for host_group='$group_uniq_hosts_l{$arr_el0_l}' at conf '00_conf_divisions_for_inv_hosts'";
                     last;
                 }
-
+    
                 $group_uniq_hosts_l{$arr_el0_l}=$arr0_l[0];
                 ${$res_href_l}{$arr0_l[0]}{$arr_el0_l}=1;
             }
@@ -66,16 +66,16 @@ sub read_00_conf_divisions_for_inv_hosts {
             $arr_el0_l=undef;
             @arr0_l=();
             @arr1_l=();
-
+    
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
     }
     close(GROUP_HOSTS);
-
+    
     $line_l=undef;
-
+    
     if ( $return_str_l!~/OK$/ ) { return $return_str_l; }
-
+    
     return $return_str_l;
 }
 
