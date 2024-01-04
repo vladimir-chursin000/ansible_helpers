@@ -6,7 +6,7 @@ sub generate_rollback_fwrules_changes_sh {
     #$scripts_for_remote_dir_l=$scripts_for_remote_dir_g
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
     #$inv_hosts_href_l=hash-ref for %inventory_hosts_g
-	#Key=inventory_host, value=1
+    	#Key=inventory_host, value=1
     
     #$h00_conf_firewalld_hash_g{inventory_host}->
     #{'unconfigured_custom_firewall_zones_action'}=no_action|remove
@@ -26,9 +26,9 @@ sub generate_rollback_fwrules_changes_sh {
     #{'FlushAllOnReload'}=yes|no
     #{'RFC3964_IPv4'}=yes|no
     #{'AllowZoneDrifting'}=yes|no
-	
+    	
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $rollback_timeout_l=undef;
     my ($rollback_fwrules_changes_tmplt_file_l,$rollback_fwrules_changes_file_l)=(undef,undef);
@@ -38,19 +38,19 @@ sub generate_rollback_fwrules_changes_sh {
     if ( $with_rollback_l==1 ) {
     	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
     	    #hkey0_l=inv-host
-	    if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
-	    $rollback_timeout_l=${$conf_firewalld_href_l}{$hkey0_l}{'temporary_apply_fwrules_timeout'};
-	    $rollback_fwrules_changes_tmplt_file_l=$scripts_for_remote_dir_l.'/rollback_fwrules_changes_tmplt.sh';
-	    $rollback_fwrules_changes_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/rollback_fwrules_changes.sh';
-	    system("\\cp $rollback_fwrules_changes_tmplt_file_l $rollback_fwrules_changes_file_l");
-	    system("sed -i 's/!_TIMEOUT_NUM_!/$rollback_timeout_l/g' $rollback_fwrules_changes_file_l");
-	    
-	    ($rollback_fwrules_changes_tmplt_file_l,$rollback_fwrules_changes_file_l)=(undef,undef);
+    	    if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+    	    $rollback_timeout_l=${$conf_firewalld_href_l}{$hkey0_l}{'temporary_apply_fwrules_timeout'};
+    	    $rollback_fwrules_changes_tmplt_file_l=$scripts_for_remote_dir_l.'/rollback_fwrules_changes_tmplt.sh';
+    	    $rollback_fwrules_changes_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/rollback_fwrules_changes.sh';
+    	    system("\\cp $rollback_fwrules_changes_tmplt_file_l $rollback_fwrules_changes_file_l");
+    	    system("sed -i 's/!_TIMEOUT_NUM_!/$rollback_timeout_l/g' $rollback_fwrules_changes_file_l");
+    	    
+    	    ($rollback_fwrules_changes_tmplt_file_l,$rollback_fwrules_changes_file_l)=(undef,undef);
     	}
-	
-	if ( $return_str_l=~/^fail/ ) { return $return_str_l; }
+    	
+    	if ( $return_str_l=~/^fail/ ) { return $return_str_l; }
     
-	($hkey0_l,$hval0_l)=(undef,undef);
+    	($hkey0_l,$hval0_l)=(undef,undef);
     }
     ###
     
