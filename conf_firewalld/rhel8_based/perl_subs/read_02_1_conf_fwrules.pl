@@ -89,26 +89,26 @@ sub read_02_1_conf_allowed_services_sets {
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
     	    #string with rule params="host=param1,param2,etc"
-    	
+    	    
     	    @tmp_arr0_l=split(/\=/,$hkey1_l);
     	    # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
-    	
+    	    
             if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
-    		@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-    		
-    		foreach $arr_el0_l ( @params_arr_l ) {
-    		    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}) ) {
-    			$res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}=1;
-    			push(@{$res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{'seq'}},$arr_el0_l);
-    		    }
-    		}
-    		
-    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-    		
-    		#clear vars
-    		$arr_el0_l=undef;
-    		@params_arr_l=();
-    		###
+    	    	@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+    	    	
+    	    	foreach $arr_el0_l ( @params_arr_l ) {
+    	    	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}) ) {
+    	    		$res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}=1;
+    	    		push(@{$res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{'seq'}},$arr_el0_l);
+    	    	    }
+    	    	}
+    	    	
+    	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    	    	
+    	    	#clear vars
+    	    	$arr_el0_l=undef;
+    	    	@params_arr_l=();
+    	    	###
             }
             
             # clear vars
@@ -207,10 +207,10 @@ sub read_02_1_conf_allowed_services_sets {
     	    
             if ( $tmp_arr0_l[0]=~/^all$/ ) {
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-    		
+    	    	
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
-    		    
+    	    	    
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
