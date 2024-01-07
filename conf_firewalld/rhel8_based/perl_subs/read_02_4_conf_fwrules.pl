@@ -62,7 +62,7 @@ sub read_02_4_conf_icmp_blocks_sets {
 	    ($inversion_l,$host_id_l)=split(/\:/,$tmp_arr0_l[0]);
 	    
             if ( $#tmp_arr0_l!=1 or $inversion_l!~/^YES$|^NO$/ ) {
-                $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'inversion:host=params'";
+                $return_str_l="fail [$proc_name_l]. String with rule params ('$hkey1_l') is incorrect. It should be like 'inversion:host=params' (for example 'NO:all=param1,param2,etc')";
                 last;
             }
 	    

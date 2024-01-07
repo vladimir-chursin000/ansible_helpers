@@ -328,6 +328,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
     	    	    @zone_allowed_services_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}});
     	    		#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_services_arr_l[0]=~/^set\:/ ) { @zone_allowed_services_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_services_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_services_set'}}); }
     	    	if ( exists($std_fwzones_defs_services_l{$zone_name_l}) ) {
@@ -375,6 +376,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     		    @zone_allowed_ports_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_ports_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
 		
@@ -398,6 +400,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     		    @zone_allowed_protocols_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_protocols_arr_l[0]=~/^set\:/ ) { @zone_allowed_protocols_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_protocols_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}}); }
 		
@@ -444,6 +447,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	    @zone_allowed_source_ports_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
     	    		#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_source_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_source_ports_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_source_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}}); }
 		
@@ -483,6 +487,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	    @zone_icmp_block_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
     	    		#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_icmp_block_arr_l[0]=~/^set\:/ ) { @zone_icmp_block_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_icmp_block_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}}); }
 		
@@ -711,6 +716,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
     		    @zone_allowed_services_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_services_arr_l[0]=~/^set\:/ ) { @zone_allowed_services_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_services_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_services_set'}}); }
 		
@@ -734,6 +740,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     		    @zone_allowed_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_ports_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
 		
@@ -757,6 +764,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     		    @zone_allowed_protocols_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_protocols_arr_l[0]=~/^set\:/ ) { @zone_allowed_protocols_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_protocols_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}}); }
 		
@@ -804,6 +812,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	    @zone_allowed_source_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_allowed_source_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_source_ports_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_allowed_source_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}}); }
 		
@@ -843,6 +852,7 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	    @zone_icmp_block_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
+		    if ( $zone_icmp_block_arr_l[0]=~/^set\:/ ) { @zone_icmp_block_arr_l=(); } # clear arr if set is empty
 		}
 		else { @zone_icmp_block_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}}); }
 		
