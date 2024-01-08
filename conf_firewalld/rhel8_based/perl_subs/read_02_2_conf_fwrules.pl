@@ -81,19 +81,19 @@ sub read_02_2_conf_allowed_ports_sets {
     	    	    
     	    ###
     	    if ( $tmp_arr0_l[1]!~/^empty$/ ) {
-    		foreach $arr_el0_l ( @params_arr_l ) {
+    	    	foreach $arr_el0_l ( @params_arr_l ) {
     	    	    #$arr_el0_l=port
     	    	    
     	    	    $exec_res_l=&check_port_for_apply_to_fw_conf($arr_el0_l);
     	    	    #$port_str_l
     	    	    if ( $exec_res_l=~/^fail/ ) {
-    	    		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-            		last;
+    	    	    	$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+            	    	last;
     	    	    }
     	    	    $exec_res_l=undef;
-    		}
-    		
-    		if ( $return_str_l!~/^OK$/ ) { last; }
+    	    	}
+    	    	
+    	    	if ( $return_str_l!~/^OK$/ ) { last; }
     	    }
     	    ###
     	    
@@ -115,19 +115,19 @@ sub read_02_2_conf_allowed_ports_sets {
             # 0 - host-id (all/group/list_of_hosts/single_host), 1 - str with params
     	    
             if ( $tmp_arr0_l[0]=~/^\S+$/ && $tmp_arr0_l[0]!~/\,|^all|^gr_/ ) {
-    		@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-    		
+    	    	@params_arr_l=split(/\,/,$tmp_arr0_l[1]);
+    	    	
                 foreach $arr_el0_l ( @params_arr_l ) {
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}) ) {
                         $res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{$arr_el0_l}=1;
                         push(@{$res_tmp_lv1_l{$hkey0_l}{$tmp_arr0_l[0]}{'seq'}},$arr_el0_l);
                     }
                 }
-    		
-    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-    		
+    	    	
+    	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    	    	
                 # clear vars
-    		$arr_el0_l=undef;
+    	    	$arr_el0_l=undef;
                 @params_arr_l=();
                 ###
             }
@@ -149,7 +149,7 @@ sub read_02_2_conf_allowed_ports_sets {
             if ( $tmp_arr0_l[0]=~/^\S+\,\S+/ ) {
                 @host_list_l=split(/\,/,$tmp_arr0_l[0]);
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-    	    
+    		
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}) ) {
@@ -164,7 +164,7 @@ sub read_02_2_conf_allowed_ports_sets {
                 }
     	    	
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-    	    
+    		
                 # clear vars
     	    	($arr_el0_l,$arr_el1_l)=(undef,undef);
                 @host_list_l=();
@@ -203,8 +203,8 @@ sub read_02_2_conf_allowed_ports_sets {
                     }
                 }
     	    	
-    		delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-    	    
+    	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
+    		
                 # clear vars
                 $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
