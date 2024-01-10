@@ -1519,7 +1519,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($hkey1_l,$hval1_l)=(undef,undef);
     my $arr_el0_l=undef;
-    my $ipset_name_l=undef;
+    my ($ipset_tmplt_name_l,$ipset_name_l)=(undef,undef);
     my $dst_dir_l=undef;
     my $apply_run_flag_file_path_l=undef; # file for track changes at ipsets via copy to remote status (for example, like 'recreate_fw_zones.sh')
     my ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
@@ -1528,6 +1528,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my @actual_file_cont_l=();
     my @list_of_ipsets_l=();
     my @apply_run_flag_file_content_l=();
+    my @list_of_ipset_tmplt_names_l=();
     
     # vars only for permanent with external timeout
     my $dst_dir_pwet_l=undef; #pwet = permanent with external timeout
@@ -1554,11 +1555,12 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
 	$ipsets_list_file_path_pwet_l=$dst_dir_pwet_l.'/LIST';
-    	    
-    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
+    	
+	@list_of_ipset_tmplt_names_l=sort(keys %{$hval0_l});
+	foreach $ipset_tmplt_name_l ( @list_of_ipset_tmplt_names_l ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
     	    #$hkey1_l=ipset_tmplt_name
-    	    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
-    	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
+    	    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_l}{'ipset_name'};
+    	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$ipset_tmplt_name_l.'/actual__'.$ipset_name_l.'.txt';
 	    
     	    $dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
 	    $dst_ipset_file_path_pwet_l=$dst_dir_pwet_l.'/'.$ipset_name_l; # pwet
@@ -1645,7 +1647,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
 	###
     	    
     	#clear vars
-    	($hkey1_l,$hval1_l)=(undef,undef);
+	$ipset_tmplt_name_l=undef;
     	$dst_dir_l=undef;
 	$dst_dir_pwet_l=undef;
     	$ipsets_list_file_path_l=undef;
@@ -1656,6 +1658,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	@list_of_ipsets_pwet_l=();
     	@apply_run_flag_file_content_l=();
 	@apply_run_flag_file_content_pwet_l=();
+	@list_of_ipset_tmplt_names_l=();
     	###
     } # cycle for h66, inv-hosts (end)
     
@@ -1676,10 +1679,10 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
     	    
-    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
-    	    #$hkey1_l=ipset_tmplt_name
-    	    $ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$hkey1_l}{'ipset_name'};
-    	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$hkey1_l.'/actual__'.$ipset_name_l.'.txt';
+        @list_of_ipset_tmplt_names_l=sort(keys %{$hval0_l});
+        foreach $ipset_tmplt_name_l ( @list_of_ipset_tmplt_names_l ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
+    	    $ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_l}{'ipset_name'};
+    	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/temporary/'.$ipset_tmplt_name_l.'/actual__'.$ipset_name_l.'.txt';
     	    $dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
     	    &read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
     	    #$file_l,$aref_l
@@ -1717,12 +1720,13 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	}
     	    
     	#clear vars
-    	($hkey1_l,$hval1_l)=(undef,undef);
+	$ipset_tmplt_name_l=undef;
     	$dst_dir_l=undef;
     	$ipsets_list_file_path_l=undef;
 	$apply_run_flag_file_path_l=undef;
     	@list_of_ipsets_l=();
     	@apply_run_flag_file_content_l=();
+	@list_of_ipset_tmplt_names_l=();
     	###
     } # cycle for h66, inv-hosts (end)
     
