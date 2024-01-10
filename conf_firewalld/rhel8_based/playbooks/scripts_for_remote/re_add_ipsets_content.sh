@@ -250,16 +250,26 @@ fi;
 if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     # for permanent WITHOUT external timeout
     if [[ -s "$LIST_FILE_str" ]]; then
-	echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names from file='$LIST_FILE_str'";
-	
-	while read -r LINE0_str; # LINE0_str = ipset_name
-	do
-	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-		echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
-
-		firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
-	    fi;
-	done < $LIST_FILE_str;
+    	echo_log_func "re_add_ipsets_content.sh: Execute scenario='re_add_permanent'. Read ipset-names from file='$LIST_FILE_str'";
+    	
+    	while read -r LINE0_str; # LINE0_str = ipset_name
+    	do
+    	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+    	    	echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+    		
+		###
+		# DO NOT WORK CORRECTLY if scripting :-(
+    	    	#firewall-cmd --permanent --ipset=$LINE0_str --add-entries-from-file="$CONTENT_DIR_str/$LINE0_str";
+		###
+		
+    	    	while read -r LINE1_str; # LINE1_str = one line with ipset entry
+    	        do
+		    echo_log_func "re_add_ipsets_content.sh: Add ipset entry '$LINE1_str' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is OK";
+		    
+    	    	    firewall-cmd --permanent --ipset="$LINE0_str" --add-entry="$LINE1_str";
+    	    	done < "$CONTENT_DIR_str/$LINE0_str";
+    	    fi;
+    	done < $LIST_FILE_str;
     fi;
     ###
     
