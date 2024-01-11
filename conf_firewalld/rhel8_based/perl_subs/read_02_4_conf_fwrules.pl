@@ -107,16 +107,16 @@ sub read_02_4_conf_icmp_blocks_sets {
                 foreach $arr_el0_l ( @params_arr_l ) {
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$host_id_l}{$arr_el0_l}) ) {
                         $res_tmp_lv1_l{$hkey0_l}{$host_id_l}{$arr_el0_l}=1;
-    			    #hkey0_l=set_name	
+    	    		    #hkey0_l=set_name	
                         push(@{$res_tmp_lv1_l{$hkey0_l}{$host_id_l}{'seq'}},$arr_el0_l);
                     }
                 }
-    		$res_tmp_lv1_l{$hkey0_l}{$host_id_l}{'inversion'}=$inversion_l;
+    	    	$res_tmp_lv1_l{$hkey0_l}{$host_id_l}{'inversion'}=$inversion_l;
     	    	
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
     	    	
                 # clear vars
-    		$arr_el0_l=undef;
+    	    	$arr_el0_l=undef;
                 @params_arr_l=();
                 ###
             }
@@ -127,7 +127,7 @@ sub read_02_4_conf_icmp_blocks_sets {
             ###
         }
         # block for 'single_host' (end)
-    
+	
         # block for 'host_list' (prio = 2) (begin)
         while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
             #hkey1_l=string with rule params
@@ -142,7 +142,7 @@ sub read_02_4_conf_icmp_blocks_sets {
             if ( $host_id_l=~/^\S+\,\S+/ ) {
                 @host_list_l=split(/\,/,$host_id_l);
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-    		
+    	    	
                 foreach $arr_el0_l ( @host_list_l ) {
                     #$arr_el0_l=inv-host
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}) ) {
@@ -150,11 +150,11 @@ sub read_02_4_conf_icmp_blocks_sets {
                             if ( !exists($res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{$arr_el1_l}) ) {
                                 #$res_tmp_lv1_l{set-name}{inv-host}
                                 $res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{$arr_el1_l}=1;
-    				    #hkey0_l=set_name	
+    	    			    #hkey0_l=set_name	
                                 push(@{$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{'seq'}},$arr_el1_l);
                             }
                         }
-    			$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{'inversion'}=$inversion_l;
+    	    		$res_tmp_lv1_l{$hkey0_l}{$arr_el0_l}{'inversion'}=$inversion_l;
                     }
                 }
     	    	
@@ -187,32 +187,32 @@ sub read_02_4_conf_icmp_blocks_sets {
     	    
             if ( $host_id_l=~/^gr_\S+$/ ) {
                 @params_arr_l=split(/\,/,$tmp_arr0_l[1]);
-    		
+    	    	
                 while ( ($hkey2_l,$hval2_l)=each %{${$divisions_for_inv_hosts_href_l}{$host_id_l}} ) {
                     #$hkey2_l=inv-host from '00_conf_divisions_for_inv_hosts' by group name
-    		    
+    	    	    
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{set-name}{inv-host}
                                 $res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}=1;
-    				    #hkey0_l=set_name	
+    	    			    #hkey0_l=set_name	
                                 push(@{$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'seq'}},$arr_el0_l);
                             }
                         }
-    			$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'inversion'}=$inversion_l;
+    	    		$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'inversion'}=$inversion_l;
                     }
                 }
     	    	
     	    	delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-    		
+    	    	
                 # clear vars
                 $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
                 @params_arr_l=();
                 ###
             }
-    	
+    	    
             # clear vars
             @tmp_arr0_l=();
     	    ($inversion_l,$host_id_l)=(undef,undef);
@@ -236,22 +236,22 @@ sub read_02_4_conf_icmp_blocks_sets {
     	    
                 while ( ($hkey2_l,$hval2_l)=each %{$inv_hosts_href_l} ) {
                     #$hkey2_l=inv-host from '%inventory_hosts_g'
-    		    
+    	    	    
                     if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}) ) {
                         foreach $arr_el0_l ( @params_arr_l ) {
                             if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}) ) {
                                 #$res_tmp_lv1_l{set-name}{inv-host}
                                 $res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{$arr_el0_l}=1;
-    				    #hkey0_l=set_name	
+    	    			    #hkey0_l=set_name	
                                 push(@{$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'seq'}},$arr_el0_l);
                             }
                         }
-    			$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'inversion'}=$inversion_l;
+    	    		$res_tmp_lv1_l{$hkey0_l}{$hkey2_l}{'inversion'}=$inversion_l;
                     }
                 }
-    		
+    	    	
                 delete($res_tmp_lv0_l{$hkey0_l}{$hkey1_l});
-    		
+    	    	
                 # clear vars
                 $arr_el0_l=undef;
                 ($hkey2_l,$hval2_l)=(undef,undef);
