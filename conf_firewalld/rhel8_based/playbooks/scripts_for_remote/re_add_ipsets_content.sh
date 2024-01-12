@@ -89,7 +89,7 @@ fi;
 # GET PREV CONTENT of ipsets and define content-dirs + list-files (begin)
 if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     echo_log_func "re_add_ipsets_content.sh: run with argv-param='permanent'";
-
+    
     # for permanent ipsets without external timeout
     CONTENT_DIR_str="$SELF_DIR_str/permanent_ipsets";
     PREV_CONTENT_DIR_str="$SELF_DIR_str/prev_permanent_ipsets";
@@ -103,9 +103,9 @@ if [[ "$OPERATION_IPSET_TYPE_str" == "permanent" ]]; then
     LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/LIST";
     NO_LIST_FILE_PWET_str="$CONTENT_DIR_PWET_str/NO_LIST";
     ###
-
+    
     if [[ "$IS_FORCE_REMOVED_PERMANENT_IPSETS_str" == "no" ]]; then
-	# for cases: 1) permanent ipsets is not recreated; 2) no configured permanent ipsets.
+    	# for cases: 1) permanent ipsets is not recreated; 2) no configured permanent ipsets.
     	if [[ ! -d $PREV_CONTENT_DIR_str ]]; then
     	    mkdir -p $PREV_CONTENT_DIR_str;
     	fi;
@@ -212,11 +212,22 @@ if [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_permanent" ]]; then
 	# delete all permanent entries via 'sed'
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
-	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+	    #if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
+	    #	echo_log_func "re_add_ipsets_content.sh: Delete entries from ipset='$LINE0_str'";
+	    #
+	    #	sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
+	    #fi;
+	    if [[ -s "$PREV_CONTENT_DIR_str/CFG_$LINE0_str" ]]; then
 		echo_log_func "re_add_ipsets_content.sh: Delete entries from ipset='$LINE0_str'";
 
-		sed -i '/\<entry\>/d' "/etc/firewalld/ipsets/$LINE0_str.xml";
+                while read -r LINE1_str; # LINE1_str = one line with ipset entry
+                do
+		    echo_log_func "re_add_ipsets_content.sh: Remove ipset entry '$LINE1_str' from permanent ipset='$LINE0_str' via 'firewall-cmd'";
+		    
+		    firewall-cmd --permanent --ipset="$LINE0_str" --remove-entry="$LINE1_str";
+                done < "$PREV_CONTENT_DIR_str/CFG_$LINE0_str";
 	    fi;
+	    
 	done < $PREV_LIST_FILE_FROM_CFG_str;
 	###
     fi;
@@ -232,7 +243,9 @@ elif [[ "$DELETE_IPSETS_CONTENT_NEED_str" == "delete_all_temporary" && "$IS_CLEA
 
 		while read -r LINE1_str; # LINE1_str = one line with ipset entry
 		do
-		    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)
+		    TMP_arr=($LINE1_str); # 0=ip, 1=string "timeout", 2=timeout (num)		    
+		    echo_log_func "re_add_ipsets_content.sh: Remove ipset entry '${TMP_arr[0]}' from temporary ipset='$LINE0_str' via 'ipset del'";
+		    
 		    ipset del $LINE0_str ${TMP_arr[0]};
 		    
 		    # clear vars
@@ -255,7 +268,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
     	while read -r LINE0_str; # LINE0_str = ipset_name
     	do
     	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-    	    	echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+    	    	echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to permanent ipset='$LINE0_str'";
     		
 		###
 		# DO NOT WORK CORRECTLY if scripting :-(
@@ -264,7 +277,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		
     	    	while read -r LINE1_str; # LINE1_str = one line with ipset entry
     	        do
-		    echo_log_func "re_add_ipsets_content.sh: Add ipset entry '$LINE1_str' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is OK";
+		    echo_log_func "re_add_ipsets_content.sh: Add ipset entry '$LINE1_str' from file='$CONTENT_DIR_str/$LINE0_str' to permanent ipset='$LINE0_str' via 'fiewall-cmd'";
 		    
     	    	    firewall-cmd --permanent --ipset="$LINE0_str" --add-entry="$LINE1_str";
     	    	done < "$CONTENT_DIR_str/$LINE0_str";
@@ -280,7 +293,7 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-		echo_log_func "re_add_ipsets_content.sh: Add ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str'";
+		echo_log_func "re_add_ipsets_content.sh: Add ipsets entries with external timeout from file='$CONTENT_DIR_PWET_str/$LINE0_str' to permanent (with external timeout) ipset='$LINE0_str'";
 		
 		while read -r LINE1_str; # LINE1_str = one line with ipset entry
 		do
@@ -291,10 +304,10 @@ if [[ "$MAIN_SCENARIO_str" == "re_add_permanent" ]]; then
 		    TIMEOUT_num=$(($EPOCH_TIME_CFG_num - $EPOCH_TIME_NOW_num));
 		    
 		    if [[ "$TIMEOUT_num" -gt "0" ]]; then
-			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is OK";
+			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to permanent (with external timeout) ipset='$LINE0_str' via 'firewall-cmd'";
 			firewall-cmd --permanent --ipset="$LINE0_str" --add-entry="${TMP_arr[0]}";
 		    else
-			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_PWET_str/$LINE0_str' to permanent (with external timeout) ipset='$LINE0_str' is CANCELLED. Entry is expired";
 		    fi;
 
 		    # clear vars
@@ -315,7 +328,7 @@ elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
 	while read -r LINE0_str; # LINE0_str = ipset_name
 	do
 	    if [[ -s "$CONTENT_DIR_str/$LINE0_str" && -s "/etc/firewalld/ipsets/$LINE0_str.xml" ]]; then # if file exists and not empty
-		echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str'";
+		echo_log_func "re_add_ipsets_content.sh: Add ipsets entries from file='$CONTENT_DIR_str/$LINE0_str' to temporary ipset='$LINE0_str'";
 
 		while read -r LINE1_str; # LINE1_str = one line with ipset entry
 		do
@@ -329,12 +342,14 @@ elif [[ "$MAIN_SCENARIO_str" == "re_add_temporary" ]]; then
 			if [[ "$TIMEOUT_num" -gt "2147483" ]]; then
 			    TIMEOUT_num='2147483';
 			    
-			    echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' = DONE, but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
+			    echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to temporary ipset='$LINE0_str' via 'ipset add', but timeout is set to '2147483' because calculated value > maximum_timeout_value ('2147483')";
+			else 
+			    echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to temporary ipset='$LINE0_str' via 'ipset add'";
 			fi;
 			
 			ipset add $LINE0_str ${TMP_arr[0]} timeout $TIMEOUT_num;
 		    else
-			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to ipset='$LINE0_str' is CANCELLED. Entry is expired";
+			echo_log_func "re_add_ipsets_content.sh: Add ipset entry '${TMP_arr[0]}' from file='$CONTENT_DIR_str/$LINE0_str' to temporary ipset='$LINE0_str' is CANCELLED. Entry is expired";
 		    fi;
 		    
 		    # clear vars

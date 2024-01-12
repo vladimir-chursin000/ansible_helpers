@@ -47,6 +47,7 @@
 #DefaultZone=public
     # The default zone used if an empty zone string is used. Default: public.
     # Parameter for /etc/firewalld/firewalld.conf
+    # I recommend using either "drop" or "block".
 
 #CleanupOnExit=yes
     # If set to no or false the firewall configuration will not get cleaned up on exit or stop of firewalld. Default: yes.
@@ -125,7 +126,7 @@
 #if_no_ipsets_conf_action=no_action
 #if_no_zones_conf_action=no_action
 #if_no_policies_conf_action=no_action
-#DefaultZone=public
+#DefaultZone=block
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
 #Lockdown=no
@@ -146,7 +147,7 @@
 #if_no_ipsets_conf_action=remove
 #if_no_zones_conf_action=restore_defaults
 #if_no_policies_conf_action=remove
-#DefaultZone=public
+#DefaultZone=drop
 #CleanupOnExit=yes
 #CleanupModulesOnExit=yes
 #Lockdown=no
@@ -168,7 +169,7 @@ temporary_apply_fwrules_timeout=10
 if_no_ipsets_conf_action=remove
 if_no_zones_conf_action=restore_defaults
 if_no_policies_conf_action=remove
-DefaultZone=public
+DefaultZone=block
 CleanupOnExit=yes
 CleanupModulesOnExit=yes
 Lockdown=no
