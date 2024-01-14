@@ -46,12 +46,9 @@
 #gr_some_example_group	public--TMPLT				eth11,eth12	  empty					enpty				enpty			empty (example, prio = 1)
 #10.1.2.2,10.1.2.4	public--TMPLT				eth0,eth1,ens01	  empty					empty				fw_ports_set4zone1	rich_rules_set4zone1 (example, prio = 2)
 #10.3.2.2		public--TMPLT				empty		  10.10.15.0/24				ipset4public--TMPLT		fw_ports_set4public	rich_rules_set4public (example, prio => 2)
-#gr_qemu_kvm_servers	publ_services_z--TMPLT			empty		  192.168.168.0/24			empty				empty			empty
-#gr_qemu_kvm_servers	publ_services_z--TMPLT			empty		  192.168.168.0/24			empty				publ_serv_ssh_port_set	empty
 
 # WORK cfg (begin)
 gr_qemu_kvm_servers	publ_services_z--TMPLT			empty		  empty					publ_services_z_ipset--TMPLT	empty			publ_services_z_rich_rules_set
-#gr_qemu_kvm_servers	publ_services_z--TMPLT			empty		  empty					publ_services_z_ipset--TMPLT	empty			empty
 gr_qemu_kvm_servers	srcnat_z--TMPLT				empty		  empty					srcnat_z_ipset--TMPLT		empty			empty
 gr_qemu_kvm_servers	control_z--TMPLT			empty		  empty					control_z_ipset--TMPLT		empty			empty
 gr_qemu_kvm_servers	other_z--TMPLT				empty		  empty					other_z_ipset--TMPLT		empty			empty
@@ -61,8 +58,3 @@ gr_infra_servers	publ_services_z--TMPLT			empty		  empty					publ_services_z_ips
 gr_bridge_connect_only	control_z--TMPLT			empty		  empty					control_z_ipset--TMPLT		empty			empty
 gr_bridge_connect_only	other_z--TMPLT				empty		  empty					other_z_ipset--TMPLT		empty			empty
 # WORK cfg (end)
-
-# TEST0 cfg (begin)
-#gr_qemu_kvm_servers	srcnat_z--TMPLT				br0,virbr0	  empty					empty				empty			empty
-#gr_qemu_kvm_servers	srcnat_z--TMPLT				empty		  192.168.1.0/24,192.168.122.0/24	empty				empty			empty
-# TEST0 cfg (end)
