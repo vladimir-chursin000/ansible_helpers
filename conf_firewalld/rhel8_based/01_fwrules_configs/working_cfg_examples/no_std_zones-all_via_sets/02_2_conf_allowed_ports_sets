@@ -1,0 +1,68 @@
+###############################################################################################
+#FOR CONFIGURATION OF allowed_ports/allowed_source_ports (sets) for FIREWALL ZONES or POLICIES#
+###############################################################################################
+
+# This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates"
+# and "03_conf_policy_templates".
+
+###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed_ports/allowed_source_ports sets. Don't forget to remove the comment characters (#).
+#[ALLOWED_PORTS_SET_NAME:BEGIN]
+# one row = "all/group_name/list_of_hosts/single_host=80/tcp,443/tcp,5004/dccp,30100/sctp,etc or empty"
+    # The protocol (port-num/proto) can either be tcp, udp, sctp or dccp.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+#[ALLOWED_PORTS_SET_NAME:END]
+
+#[ports_set1:BEGIN]
+#all=1122/tcp,1133/udp
+#all=1111/tcp/2222/udp
+    # (remove this line at working cfg) Result for 'all'=1122/tcp,1133/udp,1111/tcp/2222/udp.
+    # (remove this line at working cfg) Correctly also for 'group_name/list_of_hosts/single_host').
+#gr_some_example_group=1122/tcp,1133/tcp,1133/udp
+#192.168.144.12,192.168.100.14,192.110.144.16=11221/tcp,11331/udp
+#192.168.144.12=11222-11333/tcp
+#192.110.144.17=empty
+#[ports_set1:END]
+
+#################################INSERT YOUR allowed_ports/allowed_source_ports SETS AFTER THIS LINE#################################
+# WORK sets for zones (begin)
+[aport_publ_services_z_set:BEGIN]
+# Set of allowed ports for zone template "publ_services_z--TMPLT"
+all=empty
+[aport_publ_services_z_set:END]
+
+[aport_srcnat_z_set:BEGIN]
+# Set of allowed ports for zone template "srcnat_z--TMPLT"
+all=empty
+[aport_srcnat_z_set:END]
+
+[aport_control_z_set:BEGIN]
+# Set of allowed ports for zone template "control_z--TMPLT"
+all=empty
+[aport_control_z_set:END]
+
+[aport_other_z_set:BEGIN]
+# Set of allowed ports for zone template "other_z--TMPLT"
+all=empty
+[aport_other_z_set:END]
+
+[asrcport_publ_services_z_set:BEGIN]
+# Set of allowed source ports for zone template "publ_services_z--TMPLT"
+all=empty
+[asrcport_publ_services_z_set:END]
+
+[asrcport_srcnat_z_set:BEGIN]
+# Set of allowed source ports for zone template "srcnat_z--TMPLT"
+all=empty
+[asrcport_srcnat_z_set:END]
+
+[asrcport_control_z_set:BEGIN]
+# Set of allowed source ports for zone template "control_z--TMPLT"
+all=empty
+[asrcport_control_z_set:END]
+
+[asrcport_other_z_set:BEGIN]
+# Set of allowed source ports for zone template "other_z--TMPLT"
+all=empty
+[asrcport_other_z_set:END]
+# WORK sets for zones (end)

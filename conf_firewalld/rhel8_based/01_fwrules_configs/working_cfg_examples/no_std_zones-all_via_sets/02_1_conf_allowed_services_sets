@@ -1,0 +1,52 @@
+#############################################################################
+#FOR CONFIGURATION OF allowed_services (sets) for FIREWALL ZONES or POLICIES#
+#############################################################################
+
+# This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates" 
+# and "03_conf_policy_templates".
+
+###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed_services sets. Don't forget to remove the comment characters (#).
+#[ALLOWED_SERVICES_SET_NAME:BEGIN]
+# one row = "all/group_name/list_of_hosts/single_host=http,https,etc or empty"
+    # A list of possible default services can be found in the directory "/usr/lib/firewalld/services".
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+#[ALLOWED_SERVICES_SET_NAME:END]
+
+#[serv_set1:BEGIN]
+#all=http,https
+#all=dns,dns-over-tls
+    # (remove this line at working cfg) Result for 'all'=http,https,dns,dns-over-tls.
+    # (remove this line at working cfg) Correctly also for 'group_name/list_of_hosts/single_host').
+#gr_some_example_group=http,https,ssh
+#192.168.144.12,192.168.100.14,192.110.144.16=http,https,ssh,dns
+#192.168.144.12=samba
+#192.110.144.17=empty
+#[serv_set1:END]
+
+#################################INSERT YOUR allowed_services SETS AFTER THIS LINE#################################
+# WORK sets for zones (begin)
+[asrvs_publ_services_z_set:BEGIN]
+# Set for zone template "publ_services_z--TMPLT"
+all=empty
+gr_qemu_kvm_servers=nfs,rpc-bind,mountd
+gr_infra_servers=ssh,ntp
+[asrvs_publ_services_z_set:END]
+
+[asrvs_srcnat_z_set:BEGIN]
+# Set for zone template "srcnat_z--TMPLT"
+all=empty
+[asrvs_srcnat_z_set:END]
+
+[asrvs_control_z_set:BEGIN]
+# Set for zone template "control_z--TMPLT"
+all=empty
+gr_qemu_kvm_servers=ssh
+gr_bridge_connect_only=ssh
+[asrvs_control_z_set:END]
+
+[asrvs_other_z_set:BEGIN]
+# Set for zone template "other_z--TMPLT"
+all=empty
+[asrvs_other_z_set:END]
+# WORK sets for zones (end)

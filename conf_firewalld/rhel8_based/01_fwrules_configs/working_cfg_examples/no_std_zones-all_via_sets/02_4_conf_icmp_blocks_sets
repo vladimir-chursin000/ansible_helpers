@@ -1,0 +1,55 @@
+#######################################################################
+#FOR CONFIGURATION OF icmp_blocks (sets) for FIREWALL ZONES or POLICIES#
+#######################################################################
+
+# This CFG is linked with: "02_conf_custom_firewall_zones_templates", "02_conf_standard_firewall_zones_templates"
+# and "03_conf_policy_templates".
+
+###CUSTOM (with values) CFG EXAMPLE. Use this template to create allowed icmp_blocks sets. Don't forget to remove the comment characters(#).
+#[ALLOWED_ICMP_BLOCKS_SET_NAME:BEGIN]
+# one row = "[INVERSION]:all/group_name/list_of_hosts/single_host=address-unreachable,bad-header,beyond-scope,etc or empty"
+    # If "INVERSION=YES" (icmp_block_inversion=yes) -> black list of icmp-types.
+    # If "INVERSION=NO" (icmp_block_inversion=no) -> white list of icmp-types.
+    # When creating a set for policies, the inversion substring is also required, but will subsequently be ignored,
+	# since inversion is not provided for policies.
+    # Get full list of icmp-types = "firewall-cmd --get-icmptypes".
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), 
+	# list of inventory hosts separated by "," or individual hosts (2).
+#[ALLOWED_ICMP_BLOCKS_SET_NAME:END]
+
+#[icmp_blocks_set1:BEGIN]
+#NO:all=address-unreachable,bad-header
+#NO:all=tos-network-unreachable
+    # (remove this line at working cfg) Result for 'all'=address-unreachable,bad-header,tos-network-unreachable.
+    # (remove this line at working cfg) It is prohibited to set different values for the "INVERSION" parameter
+	# within the same identifier ('all/group_name/list_of_hosts/single_host').
+    # (remove this line at working cfg) Correctly also for 'group_name/list_of_hosts/single_host').
+#NO:gr_some_example_group=address-unreachable,bad-header,beyond-scope
+#NO:192.168.144.12,192.168.100.14,192.110.144.16=address-unreachable,bad-header,beyond-scope,communication-prohibited
+#YES:192.168.144.12=address-unreachable
+#YES:192.110.144.17=empty
+#[icmp_blocks_set1:END]
+
+#################################INSERT YOUR allowed icmp_blocks SETS AFTER THIS LINE#################################
+# WORK sets for zones (begin)
+[icmp_publ_services_z_set:BEGIN]
+# Set for zone template "publ_services_z--TMPLT"
+NO:all=empty
+[icmp_publ_services_z_set:END]
+
+[icmp_srcnat_z_set:BEGIN]
+# Set for zone template "srcnat_z--TMPLT"
+NO:all=empty
+[icmp_srcnat_z_set:END]
+
+[icmp_control_z_set:BEGIN]
+# Set for zone template "control_z--TMPLT"
+NO:all=empty
+[icmp_control_z_set:END]
+
+[icmp_other_z_set:BEGIN]
+# Set for zone template "other_z--TMPLT"
+NO:all=empty
+[icmp_other_z_set:END]
+# WORK sets for zones (end)

@@ -1,0 +1,249 @@
+###########################################
+#FOR CONFIGURATION OF IPSETS for FIREWALLD#
+###########################################
+
+# For use in configuration files: "05_conf_rich_rules_sets", "65_conf_initial_ipsets_FIN", "66_conf_ipsets_FIN", "77_conf_zones_FIN".
+# It is possible to create several ipset conf (#ipset_name) with the same name but within different template_names to apply to different hosts.
+# Ipset conf template names must be unique.
+# The ipset template name must always contain a substring "--TMPLT" at the end.
+# Ipset conf template name examples: ipset1--TMPLT, ipset-ver1--TMPLT, ipset-special_ver2--TMPLT.
+# About version of ipset = ipset v7.1, protocol version: 7
+
+###EXAMPLE (with explanation)
+#[some_ipset_template_name--TMPLT:BEGIN]
+#ipset_FINAL_CONF = "66_conf_ipsets_FIN" (DO NOT USE AT this CONFIG! For information only)
+    # To configure it is necessary to edit the file "66_conf_ipsets_FIN".
+#################################
+#ipset_name=some_ipset_name
+    # Ipset with this name will be created/recreated on the target hosts.    
+    # All ipsets not configured within this config will be removed on remote hosts.
+    # Maximum length - 15 characters.
+    # Create ipset-list with default options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type" (for information only).
+
+#ipset_description=empty|some_description
+    # Default = empty.
+    # Do not use here "=" or ",".
+    # The maximum length is 100 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
+    # Set description + create ipset = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type --set-description=some_description" (for information only).
+
+#ipset_short_description=empty|some_short_description
+    # Default = empty.
+    # Do not use here "=" or ",".
+    # The maximum length is 20 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
+    # Set short description + create ipset = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=some_ipset_type --set-short=some_short_description" (for information only).
+
+###ipset create options
+#ipset_create_option_timeout=0|some_timeout
+    # Default = 0.
+    # Maximum possible value: 2147483 (seconds). 2147483 = 24 days, 20 hours, 31 minutes and 23 seconds.
+    # Original name of paramameter = timeout.
+    # If equal to "0" then ipset elements are used without time limits.
+    # If the value is greater than 0 (for example, 50) then any added element will be removed from the set after the specified time (in seconds), for example, after 50 seconds.
+    # If timeout = 0 --> ipset is permanent. If timeout > 0 --> ipset is temporary. 
+
+#ipset_create_option_hashsize=1024
+    # Default = 1024.
+    # Original name of paramameter = hashsize.
+    # Parameter defines the initial hash size for the set.
+    # The hash size must be a power of two, the kernel automatically rounds up non power of two hash sizes to the first correct value.
+
+#ipset_create_option_maxelem=65536
+    # Default = 65536.
+    # Original name of paramameter = maxelem.
+    # This parameter is valid for the create command of all hash type sets. It does define the maximal number of elements which can be stored in the set.
+
+#ipset_create_option_family=inet|inet6
+    # Default = inet (IPv4).
+    # Original name of paramameter = family.
+    # This parameter is valid for the create command of all hash type sets except for "hash:mac".
+    # It defines the protocol family of the IP addresses to be stored in the set.
+    # For the inet family one can add or delete multiple entries by specifying a range or a network of IPv4 addresses in the IP address part of the entry.
+
+    # Create ipset-list with custom options = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
+    # Remove ipset-list = "firewall-cmd --permanent --delete-ipset=some_ipset_name" (for information only).
+###ipset create options
+
+#ipset_type=some_ipset_type
+    # Original name of paramameter = type.
+    # Possible values:
+	# Therefore only a limited list of ipset types can be used as sources in zones: hash:ip; hash:ip,port; hash:ip,mark; hash:net; hash:net,port; hash:net,iface; hash:mac.
+	###
+	# hash:ip = a selective list of IP addresses (or IP subnets with the same mask).
+	    # Allowed create-options (via this config): family, hashsize, maxelem, netmask, timeout.
+	    # If a subnet mask has already been used within a set (for example, "/24"), then other masks within this set are not allowed to be used.
+	    # Can be used as source in zones.
+	    # Examples:
+		# 192.168.10.67
+		# 192.168.11.0/24
+	
+	# hash:ip,port = a selective list of IP addresses, where a port can be stored with each address. You can also store a transport layer protocol ID for each port number.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # If a subnet mask has already been used within a set (for example, "/24"), then other masks within this set are not allowed to be used.
+	    # Can be used as source in zones.
+	    # Examples:
+		# 192.168.12.12,udp:53
+		# 192.168.1.0/24,80-82
+		# 192.168.1.1,vrrp:0
+		# 192.168.1.1,80
+
+	# hash:ip,mark = uses a hash to store IP address and packet mark pairs. Allows you to set bits you are interested in the packet mark.
+	    # Allowed create-options (via this config): family, markmask, hashsize, maxelem, timeout.
+	    # This values is then used to perform bitwise AND operation for every mark added. Markmask can be any value between 1 and 4294967295, by default all 32 bits are set.
+	    # The mark can be any value between 0 and 4294967295.
+	    # If a subnet mask has already been used within a set (for example, "/24"), then other masks within this set are not allowed to be used.
+	    # Can be used as source in zones.
+	    # Examples:
+		# 192.168.1.0/24,555
+		# 192.168.1.1,0x63
+		# 192.168.1.1,111236
+
+	# hash:net = selective list of IP subnets (blocks of IP addresses). Unlike "hash:ip", subnets with different masks can be present in one list.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # Can be used as source in zones.
+	    # Examples:
+		# 192.168.0.0/24
+		# 10.1.0.0/16
+		# 192.168.0/24
+
+	# hash:net,port = uses a hash to store different sized IP network address and port pairs.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # The port number is interpreted together with a protocol (default TCP) and zero protocol number cannot be used.
+	    # Network address with zero prefix size is not accepted either.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Can be used as source in zones.
+	    # Examples:
+		# 192.168.0/24,25
+		# 10.1.0.0/16,80
+		# 192.168.0/24,25
+		# 192.168.1.0/24,tcp:8081
+
+	# hash:net,iface = a selective list of IP subnets, whereby the name of the network interface can be stored with each subnet.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # There is a limitation that you cannot store more than 64 interface names with the same subnet address.
+	    # This data type is useful when a system has a large number of network interfaces (for example, hundreds of VLAN interfaces).
+	    # Can be used as source in zones.
+	    # Examples:
+		# 192.168.0/24,eth0
+		# 10.1.0.0/16,eth1
+		# 192.168.0/24,eth0
+
+	# hash:mac = uses a hash to store MAC addresses. Zero valued MAC addresses cannot be stored in a "hash:mac" type of set. For matches on destination MAC addresses.
+	    # Allowed create-options (via this config): hashsize, maxelem, timeout.
+	    # Can be used as source in zones.
+	    # Examples:
+		# 01:02:03:04:05:06
+	#############################################
+	# hash:ip,port,ip = a selective list of IP addresses, where a port and one more IP address can be stored with each address.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Examples:
+		# 192.168.1.1,80,10.0.0.1
+		# 192.168.1.1,udp:53,10.0.0.1
+	
+	# hash:ip,port,net = a selective list of IP addresses, where a port and an IP subnet can be stored with each address.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Examples:
+		# 192.168.1,tcp:8080,10.0.0/24
+		# 192.168.2,25,10.1.0.0/16
+		# 192.168.1,80.10.0.0/24
+	
+	# hash:net,net = uses a hash to store pairs of different sized IP network addresses.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # Examples:
+		# 192.168.0.0/24,10.0.1.0/24
+		# 10.1.0.0/16,10.255.0.0/24
+		# 192.168.0/24,192.168.54.0-192.168.54.255
+	
+	# hash:net,port,net = behaves similarly to hash:ip,port,net but accepts a cidr value for both the first and last parameter.
+	    # Allowed create-options (via this config): family, hashsize, maxelem, timeout.
+	    # Either subnet is permitted to be a /0 should you wish to match port between all destinations.
+	    # You can also store a transport layer protocol ID for each port number.
+	    # Examples:
+		# 192.168.1.0/24,0,10.0.0/24
+		# 192.168.2.0/24,25,10.1.0.0/16
+		# 192.168.1.1,80,10.0.0.1
+		# 192.168.1.2,tcp:8081,10.0.0.2
+	
+    # Get ipset-types = "firewall-cmd --get-ipset-types" (for information only).
+    # Create ipset with parameters = "firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0 --option=family=inet --option=hashsize=4096 --option=maxelem=200000" (for information only).
+    # Get ipset entries (if "ipset_create_option_timeout = 0") = "firewall-cmd --permanent --ipset=some_ipset_name --get-entries" (for information only).
+
+#ipset_input_dir (for information only).
+    # ".../ipset_input".
+    # Add ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --add-entries-from-file=some_ipset_list.txt" (for information only).
+    # Remove ipset list from file (for ipsets with no timeout only) = "firewall-cmd --permanent --ipset=some_ipset_name --remove-entries-from-file=some_ipset_list.txt" (for information only).
+    # Add entry to ipset (using for add entry to ipset with timeout) = "firewall-cmd --ipset=some_ipset_name --add-entry="some_entry"" (for information only).
+
+######
+# Conditions for changing the parameters of an already created ipset:
+# 1) For an already existing ipset, you cannot change the parameters "ipset_create_option_timeout" (orig. name = timeout) and "ipset_type" (orig. name = type).
+# 2) If you change any parameters (except those mentioned above), the ipset will be recreated (through deletion). 
+#    If the ipset is temporary (ipset_create_option_timeout > 0), then its contents will be cleared (WARNING!). 
+#    If ipset is permanent (ipset_create_option_timeout = 0), then its contents will be preserved.
+#[some_ipset_template_name--TMPLT:END]
+
+###CUSTOM IPSET CFG EXAMPLE. Use this template to create custom ipset. Don't forget to remove the comment characters (#).
+#[some_ipset_template_name--TMPLT:BEGIN]
+#Maximum length for "ipset_name" = 15 characters
+#ipset_name=some_ipset_name
+###
+#ipset_description=empty
+#ipset_short_description=empty
+#ipset_create_option_timeout=0
+#ipset_create_option_hashsize=1024
+#ipset_create_option_maxelem=65536
+#ipset_create_option_family=inet
+#ipset_type=some_ipset_type
+#[some_ipset_template_name--TMPLT:END]
+
+#################################INSERT YOUR CUSTOM IPSET TEMPLATES AFTER THIS LINE#################################
+# WORK ipsets templates (begin)
+[publ_services_z_ipset--TMPLT:BEGIN]
+#Maximum length for "ipset_name" = 15 characters
+ipset_name=publish_z_ipset
+ipset_description=Ipset for custom zone publ_services_z
+ipset_short_description=Ipset for custom zone publ_services_z
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[publ_services_z_ipset--TMPLT:END]
+
+[srcnat_z_ipset--TMPLT:BEGIN]
+#Maximum length for "ipset_name" = 15 characters
+ipset_name=srcnat_z_ipset
+ipset_description=Ipset for custom zone srcnat_z
+ipset_short_description=Ipset for custom zone srcnat_z
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[srcnat_z_ipset--TMPLT:END]
+
+[control_z_ipset--TMPLT:BEGIN]
+#Maximum length for "ipset_name" = 15 characters
+ipset_name=control_z_ipset
+ipset_description=Ipset for custom zone control_z
+ipset_short_description=Ipset for custom zone control_z
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[control_z_ipset--TMPLT:END]
+
+[other_z_ipset--TMPLT:BEGIN]
+#Maximum length for "ipset_name" = 15 characters
+ipset_name=other_z_ipset
+ipset_description=Ipset for custom zone other_z
+ipset_short_description=Ipset for custom zone other_z
+ipset_create_option_timeout=0
+ipset_create_option_hashsize=1024
+ipset_create_option_maxelem=65536
+ipset_create_option_family=inet
+ipset_type=hash:net
+[other_z_ipset--TMPLT:END]
+# WORK ipsets templates (end)

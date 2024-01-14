@@ -1,0 +1,62 @@
+########################################################
+#FOR ASSIGN INITIAL VALUES of IPSETS to INVENTORY HOSTS#
+########################################################
+
+# This CFG is linked with: "01_conf_ipset_templates" and "66_conf_ipsets_FIN".
+# This CFG only for permanent ipset templates (if "#ipset_create_option_timeout=0").
+
+# You can also add elements to sets via "ipset_actual_data" and "ipset_input".
+# Read files: ".../ipset_actual_data/info", ".../ipset_input/info".
+
+###CUSTOM INITIAL IPSETS (with values) CFG EXAMPLE. Use this template to create custom initial ipsets. Don't forget to remove the comment characters (#).
+#[IPSET_TEMPLATE_NAME:BEGIN]
+# one row = "all/group_name/list_of_hosts/single_host=ipset_entry0;ipset_entry1;ipset_entry2;ipset_entryN"
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+    # ipset_entries -> accoring to "#ipset_type" of conf file "01_conf_ipset_templates"
+#[IPSET_TEMPLATE_NAME:END]
+
+#[ipset1--TMPLT:BEGIN]
+#all=10.1.2.3;10.1.2.11
+#all=10.10.3.10;10.10.4.10
+    # (remove this line at working cfg) Result for 'all'=10.1.2.3;10.1.2.11,10.10.3.10;10.10.4.10.
+    # (remove this line at working cfg) Correctly also for 'group_name/list_of_hosts/single_host').
+#gr_some_example_group=10.10.2.3;10.10.2.11;10.5.122.77
+#192.168.144.12,192.168.100.14,192.110.144.16=10.15.25.5;10.16.27.10
+#192.168.144.12=10.1.20.3;10.1.20.11
+#[ipset1--TMPLT:END]
+
+#################################INSERT YOUR CUSTOM INITIAL IPSETS AFTER THIS LINE#################################
+# Subnets list:
+# 10.0.1.0/24 (intbr01) [gr_infra_servers+]
+# 192.168.11.0/24 (vlan1=br0) [gr_qemu_kvm_servers+, gr_infra_servers+]
+# 192.168.22.0/24 (vlan22=br22) [gr_qemu_kvm_servers+, gr_infra_servers+]
+# 192.168.99.0/24 (vlan99=br99) [gr_qemu_kvm_servers+, gr_infra_servers+]
+# 192.168.101.0/24 (vlan101=br101) [gr_qemu_kvm_servers+, gr_infra_servers+]
+# 192.168.188.0/24 (wifi) [gr_bridge_connect_only+]
+# 192.168.68.0/24 (br_servers) [gr_qemu_kvm_servers+, gr_infra_servers+, gr_bridge_connect_only+]
+
+# WORK sets (begin)
+[publ_services_z_ipset--TMPLT:BEGIN]
+# Ipset content for zone template "publ_services_z"
+gr_qemu_kvm_servers=192.168.68.0/24
+gr_infra_servers=10.0.1.0/24;192.168.11.0/24;192.168.22.0/24;192.168.99.0/24;192.168.101.0/24;192.168.68.0/24
+[publ_services_z_ipset--TMPLT:END]
+
+[srcnat_z_ipset--TMPLT:BEGIN]
+# Ipset content for zone template "srcnat_z"
+gr_qemu_kvm_servers=192.168.11.0/24
+[srcnat_z_ipset--TMPLT:END]
+
+[control_z_ipset--TMPLT:BEGIN]
+# Ipset content for zone template "control_z"
+gr_qemu_kvm_servers=192.168.22.99;192.168.22.55;192.168.22.77;192.168.22.66
+gr_bridge_connect_only=192.168.68.0/24
+[control_z_ipset--TMPLT:END]
+
+[other_z_ipset--TMPLT:BEGIN]
+# Ipset content for zone template "other_z"
+gr_qemu_kvm_servers=192.168.99.0/24;192.168.101.0/24
+gr_bridge_connect_only=192.168.188.0/24
+[other_z_ipset--TMPLT:END]
+# WORK sets (end)

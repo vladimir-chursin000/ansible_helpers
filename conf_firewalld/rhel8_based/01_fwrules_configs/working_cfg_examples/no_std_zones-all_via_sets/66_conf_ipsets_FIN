@@ -1,0 +1,28 @@
+######################################
+#FOR ASSIGN IPSETS to INVENTORY HOSTS#
+######################################
+
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+###
+# IPSET_TEMPLATE_NAME_LIST = list of ipset_templates, separated by ",".
+    # IPSET_TEMPLATES must be equal to the corresponding ipset template configured in the file "01_conf_ipset_templates".
+###
+#INVENTORY_HOST		#IPSET_NAME_TMPLT_LIST
+#all			ipset1--TMPLT,ipset4all_public--TMPLT (example, prio for ipset1--TMPLT = 0)
+#gr_some_example_group  ipset1--TMPLT,ipset2--TMPLT,ipset3-qwerty--TMPLT (example, prio = 1)
+#gr_some_example_group  ipset11--TMPLT,ipset22--TMPLT,ipset33-qwerty--TMPLT (example, prio = 1)
+    #Result for "gr_some_example_group" = "ipset1--TMPLT,ipset2--TMPLT,ipset3-qwerty--TMPLT,ipset11--TMPLT,ipset22--TMPLT,ipset33-qwerty--TMPLT"
+#10.3.2.2,10.2.2.1	ipset1--TMPLT (example, prio = 2)
+#10.3.2.2		ipset1--TMPLT (example, prio => 2)
+
+# WORK cfg (begin)
+gr_qemu_kvm_servers	publ_services_z_ipset--TMPLT,srcnat_z_ipset--TMPLT
+gr_qemu_kvm_servers	control_z_ipset--TMPLT,other_z_ipset--TMPLT
+gr_infra_servers	publ_services_z_ipset--TMPLT
+gr_bridge_connect_only	control_z_ipset--TMPLT,other_z_ipset--TMPLT
+# WORK cfg (end)
+
+# TEST0 cfg (begin)
+# TEST0 cfg (end)
