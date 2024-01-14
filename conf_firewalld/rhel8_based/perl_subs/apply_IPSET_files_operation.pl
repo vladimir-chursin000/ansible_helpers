@@ -476,108 +476,108 @@ sub read_local_ipset_input {
     	    	    	}
     	    	    	else { $ipset_record_is_ok_l=0; $log_status_l='Expire_datetime is not correct'; }	
     	    	    }
-	    	    elsif ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
-	    		$ipset_entry_l=$1; $expire_datetime_l=0; $ipset_record_is_ok_l=1;
-	    	    }
-	    	    else {
-	    	    	# other cases: if permanent ipset entry without external timeout (add/del), 
-	    	    	# permanent with ext timeout, temporary ipsets (add with def timeout), temporary ipsets (del)
-	    		$ipset_entry_l=$hkey0_l; $expire_datetime_l=0; $ipset_record_is_ok_l=1;
-	    	    }
-	    	    
-	    	    if ( $ipset_record_is_ok_l==1 ) {
-	    		$log_status_l='OK';
-	    		$res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$ipset_entry_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l];
-	    	    }
-	    
-	    	    ######
-	    	    %log_ops_input_l=(
+    	    	    elsif ( $hkey0_l=~/^(\S+)\;\+(\S+)$/ && $arr_el0_l eq 'del' ) { # if exp-timeout is set, but this del-operation
+    	    		$ipset_entry_l=$1; $expire_datetime_l=0; $ipset_record_is_ok_l=1;
+    	    	    }
+    	    	    else {
+    	    	    	# other cases: if permanent ipset entry without external timeout (add/del), 
+    	    	    	# permanent with ext timeout, temporary ipsets (add with def timeout), temporary ipsets (del)
+    	    		$ipset_entry_l=$hkey0_l; $expire_datetime_l=0; $ipset_record_is_ok_l=1;
+    	    	    }
+    	    	    
+    	    	    if ( $ipset_record_is_ok_l==1 ) {
+    	    		$log_status_l='OK';
+    	    		$res_tmp_lv0_slice_l{$ipset_type_by_time_l.';+'.$arr_el1_l.';+'.$input_ipset_template_name_l.';+'.$ipset_name_l.';+'.$ipset_entry_l}{$arr_el0_l}=[$last_access_epoch_sec_l,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l];
+    	    	    }
+    	    
+    	    	    ######
+    	    	    %log_ops_input_l=(
     	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    		'INV_HOST'=>$arr_el1_l, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    		'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
+    	    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>$hkey0_l,
     	    		'STATUS'=>$log_status_l,
-	    	    );
-	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    	    #$history_log_dir_l,$input_params_href_l
-	    	    %log_ops_input_l=();
-	    	    ######
-	    	    
-	    	    # clear vars
-	    	    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
-	    	    $ipset_record_is_ok_l=0;
-	    	    $log_status_l=undef;
-	    	    ###
-	    	}
-	    	
-	    	# clear vars
-	    	($hkey0_l,$hval0_l)=(undef,undef);
-	    	###
-	    	
-	    	# write records to %res_tmp_lv0_slice_l (end)
-	    } # foreach @input_inv_host_arr_l (end)
-	    ###
-	    
-	    # check if no added content to %res_tmp_lv0_slice_l for list of inv-hosts '@input_inv_host_arr_l'
-	    if ( scalar(keys %res_tmp_lv0_slice_l)<1 ) {
-	    	######
-	    	%log_ops_input_l=(
+    	    	    );
+    	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	    #$history_log_dir_l,$input_params_href_l
+    	    	    %log_ops_input_l=();
+    	    	    ######
+    	    	    
+    	    	    # clear vars
+    	    	    ($ipset_entry_l,$expire_datetime_l)=(undef,undef);
+    	    	    $ipset_record_is_ok_l=0;
+    	    	    $log_status_l=undef;
+    	    	    ###
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	($hkey0_l,$hval0_l)=(undef,undef);
+    	    	###
+    	    	
+    	    	# write records to %res_tmp_lv0_slice_l (end)
+    	    } # foreach @input_inv_host_arr_l (end)
+    	    ###
+    	    
+    	    # check if no added content to %res_tmp_lv0_slice_l for list of inv-hosts '@input_inv_host_arr_l'
+    	    if ( scalar(keys %res_tmp_lv0_slice_l)<1 ) {
+    	    	######
+    	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-	    	    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+    	    	    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	    'STATUS'=>"no content after check ipset_template_name is in '66_conf_ipsets_FIN'",
-	    	);
-	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    	#$history_log_dir_l,$input_params_href_l
-	    	%log_ops_input_l=();
-	    	######
-	    	
-	    	next;
-	    }
-	    ###
-	    
-	    # add %res_tmp_lv0_slice_l to %res_tmp_lv0_l and clear %res_tmp_lv0_slice_l
-	    %res_tmp_lv0_l=(%res_tmp_lv0_l,%res_tmp_lv0_slice_l);
-	    %res_tmp_lv0_slice_l=();
-	    ###
-	    
-	    # Move input file to correct-dir and write log (begin)
-	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'correct_input_dir'},'__');
-	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-	    ######
-	    %log_ops_input_l=(
+    	    	);
+    	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	#$history_log_dir_l,$input_params_href_l
+    	    	%log_ops_input_l=();
+    	    	######
+    	    	
+    	    	next;
+    	    }
+    	    ###
+    	    
+    	    # add %res_tmp_lv0_slice_l to %res_tmp_lv0_l and clear %res_tmp_lv0_slice_l
+    	    %res_tmp_lv0_l=(%res_tmp_lv0_l,%res_tmp_lv0_slice_l);
+    	    %res_tmp_lv0_slice_l=();
+    	    ###
+    	    
+    	    # Move input file to correct-dir and write log (begin)
+    	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'correct_input_dir'},'__');
+    	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+    	    ######
+    	    %log_ops_input_l=(
     	    	'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    	'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	'STATUS'=>'OK',
-	    );
-	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-	    #$history_log_dir_l,$input_params_href_l
-	    %log_ops_input_l=();
-	    ######
-	    ### (end)
-	    	    
+    	    );
+    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    #$history_log_dir_l,$input_params_href_l
+    	    %log_ops_input_l=();
+    	    ######
+    	    ### (end)
+    	    	    
     	    ###### clear vars
     	    $ipset_type_by_time_l=undef;
-	    ($ipset_name_l,$ipset_type_l,$ipset_create_option_family_l)=(undef,undef,undef);
+    	    ($ipset_name_l,$ipset_type_l,$ipset_create_option_family_l)=(undef,undef,undef);
     	    ($dir_line_l,$input_file_name_l,$input_ipset_template_name_l)=(undef,undef,undef);
     	    @input_inv_host_arr_l=();
-	    $last_access_epoch_sec_l=undef;
-	    %log_ops_input_l=();
-	    %input_file_content_hash_l=();
-	    ######
+    	    $last_access_epoch_sec_l=undef;
+    	    %log_ops_input_l=();
+    	    %input_file_content_hash_l=();
+    	    ######
     	} # readdir(DIR) end
     	closedir(DIR);
     } # foreach @read_input_seq_l (end)
     
     $arr_el0_l=undef;
     ###
-
+    
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # while %res_tmp_lv0_l (begin)
     	#$hkey0_l=temporary/permanent-0;+inv-host-1;+ipset_template_name-2;+ipset_name-3;+ipset_entry-4
@@ -663,7 +663,7 @@ sub read_local_ipset_input {
     	} # while %res_tmp_lv0_l -> %{$hval0_l} (end)
     } # while %res_tmp_lv0_l (end)
     ###
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
