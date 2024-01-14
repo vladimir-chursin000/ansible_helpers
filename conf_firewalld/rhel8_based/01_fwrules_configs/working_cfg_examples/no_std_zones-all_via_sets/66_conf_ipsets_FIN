@@ -23,6 +23,3 @@ gr_qemu_kvm_servers	control_z_ipset--TMPLT,other_z_ipset--TMPLT
 gr_infra_servers	publ_services_z_ipset--TMPLT
 gr_bridge_connect_only	control_z_ipset--TMPLT,other_z_ipset--TMPLT
 # WORK cfg (end)
-
-# TEST0 cfg (begin)
-# TEST0 cfg (end)
