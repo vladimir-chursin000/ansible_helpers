@@ -206,11 +206,11 @@ sub read_local_ipset_input {
     my %res_tmp_lv0_slice_l=();
     #key0=temporary/permanent;+inv-host;+ipset_template_name;+ipset_name;+ipset_entry (according to #ipset_type)
     	# key1=add/del, value=[last_access_time_in_sec_epoch,$input_file_name_l,$ipset_type_l,$ipset_create_option_family_l,$expire_datetime_l]
-    
+	
     my %res_tmp_lv1_l=(); # like %ipset_input_l
             #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
                 #key2=add/del,key3=ipset_entry (according to #ipset_type), value=$expire_datetime_l
-    
+    	
     my $return_str_l='OK';
     
     ###READ INPUT ADD/DEL
@@ -225,39 +225,39 @@ sub read_local_ipset_input {
     	    #$file_l
     	    
     	    if ( $dir_line_l=~/^(all)\_\_(\S+)\.txt$/ ) { # all (VER2)
-    		$input_file_name_l=$dir_line_l;
-    		$input_ipset_template_name_l=$2;
-    		
-    		if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
-    		    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
-    		        #$hkey0_l=inv-host
-    			push(@input_inv_host_arr_l,$hkey0_l);
-    		    }
-    		    ($hkey0_l,$hval0_l)=(undef,undef);
-    		}
-    		else { # inventory file is empty
-    		    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
-    		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    		    
-    		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
-    		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-    		    
-    		    ######
-    		    %log_ops_input_l=(
-        		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        		'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-        		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
-        		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
-        		'STATUS'=>'inventory file is empty',
-    		    );
-    		    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-    		    #$history_log_dir_l,$input_params_href_l
-    		    %log_ops_input_l=();
-    		    ######
-    		    
-    		    next; # if error for 'inv_host' at filename
-    		}
+    	    	$input_file_name_l=$dir_line_l;
+    	    	$input_ipset_template_name_l=$2;
+    	    	
+    	    	if ( scalar(keys %{$inv_hosts_href_l})>0 ) {
+    	    	    while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
+    	    	        #$hkey0_l=inv-host
+    	    		push(@input_inv_host_arr_l,$hkey0_l);
+    	    	    }
+    	    	    ($hkey0_l,$hval0_l)=(undef,undef);
+    	    	}
+    	    	else { # inventory file is empty
+    	    	    # move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    	    	    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
+    	    	    
+    	    	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+    	    	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+    	    	    
+    	    	    ######
+    	    	    %log_ops_input_l=(
+    	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+    	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+    	    		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
+    	    		'STATUS'=>'inventory file is empty',
+    	    	    );
+    	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	    #$history_log_dir_l,$input_params_href_l
+    	    	    %log_ops_input_l=();
+    	    	    ######
+    	    	    
+    	    	    next; # if error for 'inv_host' at filename
+    	    	}
     	    }
     	    elsif ( $dir_line_l=~/^(gr_\S+)\_\_(\S+)\.txt$/ ) { # groups (VER3)
     	    	$input_file_name_l=$dir_line_l;
@@ -289,62 +289,62 @@ sub read_local_ipset_input {
     	    	    #$history_log_dir_l,$input_params_href_l
     	    	    %log_ops_input_l=();
     	    	    ######
-    		    
-    		    next; # if error for 'inv_host' at filename
+    	    	    
+    	    	    next; # if error for 'inv_host' at filename
     	    	}
     	    }
     	    elsif ( $dir_line_l=~/^(\S+)\_\_(\S+)\.txt$/ ) { # inv-host (VER1)
     	    	$input_file_name_l=$dir_line_l;
     	    	$input_ipset_template_name_l=$2;
-    		
+    	    	
     	    	if ( !exists(${$inv_hosts_href_l}{$1}) ) {
     	    	    # inv-host not exists at inv-hosts. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
-    		    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    
-    		    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
-    		    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-    
-    		    ######
-    		    %log_ops_input_l=(
-        		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-        		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        		'INV_HOST'=>$1, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
-        		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
-    			'IPSET_TYPE'=>'no', 'RECORD'=>'no',
-        		'STATUS'=>"host '$1' is not exists at inventory_file",
-    		    );
-    		    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-    		    #$history_log_dir_l,$input_params_href_l
-    		    %log_ops_input_l=();
-    		    ######
-    		    
-    		    next; # if error for 'inv_host' at filename
+    	    	    # ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
+	    
+    	    	    &move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+    	    	    #$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+	    
+    	    	    ######
+    	    	    %log_ops_input_l=(
+    	    		'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
+    	    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    		'INV_HOST'=>$1, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
+    	    		'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+    	    		'IPSET_TYPE'=>'no', 'RECORD'=>'no',
+    	    		'STATUS'=>"host '$1' is not exists at inventory_file",
+    	    	    );
+    	    	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	    #$history_log_dir_l,$input_params_href_l
+    	    	    %log_ops_input_l=();
+    	    	    ######
+    	    	    
+    	    	    next; # if error for 'inv_host' at filename
     	    	}
-    		
-    		push(@input_inv_host_arr_l,$1);
+    	    	
+    	    	push(@input_inv_host_arr_l,$1);
     	    }
     	    else {
-    		# not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
-    		# ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
-    
-    		&move_file_with_add_to_filename_datetime($dir_line_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
-    		#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-    		
-    		######
-    		%log_ops_input_l=(
-        	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$dir_line_l,
-        	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
-        	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>'no',
-    		    'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
-    		    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
-        	    'STATUS'=>"input file is not match with VER1/VER2/VER3 templates",
-    		);
-    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-    		#$history_log_dir_l,$input_params_href_l
-    		%log_ops_input_l=();
-    		######
-    		
-    		next; # if error for 'inv_host' at filename
+    	    	# not match with VER1/VER2/VER3. Move file to ".../incorrect_input_files/del(add)" and write to log ".../history/DATE-history.log"
+    	    	# ".../incorrect_input_files/del(add)"= $read_input_dirs_l{'del/add'}{'incorrect_input_dir'}
+	    
+    	    	&move_file_with_add_to_filename_datetime($dir_line_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
+    	    	#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
+    	    	
+    	    	######
+    	    	%log_ops_input_l=(
+    	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$dir_line_l,
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>'no',
+    	    	    'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
+    	    	    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
+    	    	    'STATUS'=>"input file is not match with VER1/VER2/VER3 templates",
+    	    	);
+    	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	#$history_log_dir_l,$input_params_href_l
+    	    	%log_ops_input_l=();
+    	    	######
+    	    	
+    	    	next; # if error for 'inv_host' at filename
     	    }
     	    ######
     	    
@@ -358,18 +358,18 @@ sub read_local_ipset_input {
     	    	######
     	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    	    'INV_HOST'=>$1, 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	    'IPSET_NAME'=>'no', 'IPSET_TYPE_BY_TIME'=>'no',
-    		    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
+    	    	    'IPSET_TYPE'=>'no', 'RECORD'=>'no',
     	    	    'STATUS'=>"ipset template is not exists at '01_conf_ipset_templates'",
     	    	);
     	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
     	    	#$history_log_dir_l,$input_params_href_l
     	    	%log_ops_input_l=();
     	    	######
-    		
-    		next; # if error for 'ipset template' at filename
+    	    	
+    	    	next; # if error for 'ipset template' at filename
     	    }
     	    ###
     	    
@@ -381,13 +381,13 @@ sub read_local_ipset_input {
     	    # read input file (begin)
     	    open(INPUT_FILE,'<',$read_input_dirs_l{$arr_el0_l}{'input_dir'}.'/'.$input_file_name_l);
     	    while ( <INPUT_FILE> ) {
-    		$file_line_l=$_;
-    		$file_line_l=~s/\n|\r//g;
-    		$file_line_l=~s/\s+/ /g;
-    		$file_line_l=~s/ //g;
-    		if ( $file_line_l!~/^\#/ ) {
-    		    $input_file_content_hash_l{$file_line_l}=0;
-    		}
+    	    	$file_line_l=$_;
+    	    	$file_line_l=~s/\n|\r//g;
+    	    	$file_line_l=~s/\s+/ /g;
+    	    	$file_line_l=~s/ //g;
+    	    	if ( $file_line_l!~/^\#/ ) {
+    	    	    $input_file_content_hash_l{$file_line_l}=0;
+    	    	}
     	    }
     	    close(INPUT_FILE);
     	    
@@ -400,22 +400,22 @@ sub read_local_ipset_input {
     	    if ( scalar(keys %input_file_content_hash_l)<1 ) {
     	    	&move_file_with_add_to_filename_datetime($input_file_name_l,$read_input_dirs_l{$arr_el0_l}{'input_dir'},$read_input_dirs_l{$arr_el0_l}{'incorrect_input_dir'},'__');
     	    	#$src_filename_l,$src_dir_l,$dst_dir_l,$dt_separator_l
-    
+	    
     	    	######
     	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    	    'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	    'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-    		    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+    	    	    'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	    'STATUS'=>'no content while read file',
     	    	);
     	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
     	    	#$history_log_dir_l,$input_params_href_l
     	    	%log_ops_input_l=();
     	    	######
-    
-    		next; # if no content
+	    
+    	    	next; # if no content
     	    }
     	    ###
     	    
@@ -452,8 +452,8 @@ sub read_local_ipset_input {
     	    	# write records to %res_tmp_lv0_slice_l (begin)
     	    	while ( ($hkey0_l,$hval0_l)=each %input_file_content_hash_l ) {
     	    	    #$hkey0_l=ipset_record, $hval0_l=0
-    		    $ipset_record_is_ok_l=1;
-    		    
+    	    	    $ipset_record_is_ok_l=1;
+    	    	    
     	    	    #FOR USE IN FUTURE
     	    	    #&check_ipset_input($hkey0_l,$ipset_type_l,$ipset_create_option_family_l);
     	    	    #$ipset_val_l,$ipset_type_l,$ipset_family_l
@@ -464,7 +464,7 @@ sub read_local_ipset_input {
     	    	    	    if ( &check_yyyymmddhhmiss_is_expire($expire_datetime_l) ) {
     	    	    		#$input_file_content_hash_l{$ipset_entry_l}=$expire_datetime_l;
     	    	    		$ipset_record_is_ok_l=0;
-    				$log_status_l='Expire_datetime is ALREADY EXPIRED';
+    	    			$log_status_l='Expire_datetime is ALREADY EXPIRED';
     	    	    	    }
     	    	    	    
     	    	    	    if ( $ipset_type_by_time_l eq 'temporary' && &check_yyyymmddhhmiss_is_more_than_max_ipset_timeout($expire_datetime_l,$now_epoch_sec_l,2147483) ) {
@@ -550,10 +550,10 @@ sub read_local_ipset_input {
     	    ######
     	    %log_ops_input_l=(
     	    	'INPUT_OP_TYPE'=>$arr_el0_l, 'INPUT_FILE_NAME'=>$input_file_name_l,
-    		'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
+    	    	'INPUT_FILE_CREATE_DATETIME_epoch'=>$last_access_epoch_sec_l,
     	    	'INV_HOST'=>'no', 'IPSET_TEMPLATE_NAME'=>$input_ipset_template_name_l,
     	    	'IPSET_NAME'=>$ipset_name_l, 'IPSET_TYPE_BY_TIME'=>$ipset_type_by_time_l,
-    		'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
+    	    	'IPSET_TYPE'=>$ipset_type_l, 'RECORD'=>'no',
     	    	'STATUS'=>'OK',
     	    );
     	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -585,57 +585,57 @@ sub read_local_ipset_input {
     	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
     	    	
     	if ( exists(${$hval0_l}{'add'}) && exists(${$hval0_l}{'del'}) ) {
-    
+	
     	    if ( ${${$hval0_l}{'add'}}[0] > ${${$hval0_l}{'del'}}[0] ) {
-    		######
-    		%log_ops_input_l=(
+    	    	######
+    	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>'del', 'INPUT_FILE_NAME'=>${${$hval0_l}{'del'}}[1],
-    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'del'}}[0],
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'del'}}[0],
     	    	    'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
     	    	    'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
-    		    'IPSET_TYPE'=>${${$hval0_l}{'del'}}[2], 'RECORD'=>$tmp_arr0_l[4],
+    	    	    'IPSET_TYPE'=>${${$hval0_l}{'del'}}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	    'STATUS'=>"OK. Del operation is skipped because del:INPUT_FILE_CREATE_DATETIME < add:INPUT_FILE_CREATE_DATETIME",
-    		);
-    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-    		#$history_log_dir_l,$input_params_href_l
-    		%log_ops_input_l=();
-    		######
-    		
-    		delete(${$hval0_l}{'del'});
+    	    	);
+    	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	#$history_log_dir_l,$input_params_href_l
+    	    	%log_ops_input_l=();
+    	    	######
+    	    	
+    	    	delete(${$hval0_l}{'del'});
     	    }
     	    elsif ( ${${$hval0_l}{'del'}}[0] > ${${$hval0_l}{'add'}}[0] ) {
-    		######
-    		%log_ops_input_l=(
+    	    	######
+    	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>'add', 'INPUT_FILE_NAME'=>${${$hval0_l}{'add'}}[1],
-    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'add'}}[0],
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'add'}}[0],
     	    	    'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
     	    	    'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
-    		    'IPSET_TYPE'=>${${$hval0_l}{'add'}}[2], 'RECORD'=>$tmp_arr0_l[4],
+    	    	    'IPSET_TYPE'=>${${$hval0_l}{'add'}}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	    'STATUS'=>"OK. Add operation is skipped because add:INPUT_FILE_CREATE_DATETIME < del:INPUT_FILE_CREATE_DATETIME",
-    		);
-    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-    		#$history_log_dir_l,$input_params_href_l
-    		%log_ops_input_l=();
-    		######
-    		
-    		delete(${$hval0_l}{'add'});
+    	    	);
+    	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	#$history_log_dir_l,$input_params_href_l
+    	    	%log_ops_input_l=();
+    	    	######
+    	    	
+    	    	delete(${$hval0_l}{'add'});
     	    }
     	    elsif ( ${${$hval0_l}{'del'}}[0]==${${$hval0_l}{'add'}}[0] ) {
-    		######
-    		%log_ops_input_l=(
+    	    	######
+    	    	%log_ops_input_l=(
     	    	    'INPUT_OP_TYPE'=>'add', 'INPUT_FILE_NAME'=>${${$hval0_l}{'add'}}[1],
-    		    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'add'}}[0],
+    	    	    'INPUT_FILE_CREATE_DATETIME_epoch'=>${${$hval0_l}{'add'}}[0],
     	    	    'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
     	    	    'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
-    		    'IPSET_TYPE'=>${${$hval0_l}{'add'}}[2], 'RECORD'=>$tmp_arr0_l[4],
+    	    	    'IPSET_TYPE'=>${${$hval0_l}{'add'}}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	    'STATUS'=>"OK. Add operation is skipped because add:INPUT_FILE_CREATE_DATETIME = del:INPUT_FILE_CREATE_DATETIME",
-    		);
-    		&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
-    		#$history_log_dir_l,$input_params_href_l
-    		%log_ops_input_l=();
-    		######
-    
-    		delete(${$hval0_l}{'add'});
+    	    	);
+    	    	&write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
+    	    	#$history_log_dir_l,$input_params_href_l
+    	    	%log_ops_input_l=();
+    	    	######
+	    
+    	    	delete(${$hval0_l}{'add'});
     	    }
     	}
     	
@@ -645,10 +645,10 @@ sub read_local_ipset_input {
     	    ######
     	    %log_ops_input_l=(
     	    	'INPUT_OP_TYPE'=>$hkey1_l, 'INPUT_FILE_NAME'=>${$hval1_l}[1],
-    		'INPUT_FILE_CREATE_DATETIME_epoch'=>${$hval1_l}[0],
+    	    	'INPUT_FILE_CREATE_DATETIME_epoch'=>${$hval1_l}[0],
     	    	'INV_HOST'=>$tmp_arr0_l[1], 'IPSET_TEMPLATE_NAME'=>$tmp_arr0_l[2],
     	    	'IPSET_NAME'=>$tmp_arr0_l[3], 'IPSET_TYPE_BY_TIME'=>$tmp_arr0_l[0],
-    		'IPSET_TYPE'=>${$hval1_l}[2], 'RECORD'=>$tmp_arr0_l[4],
+    	    	'IPSET_TYPE'=>${$hval1_l}[2], 'RECORD'=>$tmp_arr0_l[4],
     	    	'STATUS'=>'OK',
     	    );
     	    &write_local_ipset_input_log_ops($read_input_dirs_l{'history'},\%log_ops_input_l);
@@ -711,22 +711,22 @@ sub update_initial_content_for_local_ipset_actual_data {
     	    
     	    # form content of $init_content_file_path_now4del_l (if need)
     	    while ( ($hkey2_l,$hval2_l)=each %prev4add_content_l ) {
-    		#$hkey2_l=ipset-entry fromn prev4add
-    		
-    		if ( !exists(${$hval1_l}{$hkey2_l}) ) {
-    		    push(@tmp_arr0_l,$hkey2_l); # form content of new $init_content_file_path_now4del_l
-    		}
+    	    	#$hkey2_l=ipset-entry fromn prev4add
+    	    	
+    	    	if ( !exists(${$hval1_l}{$hkey2_l}) ) {
+    	    	    push(@tmp_arr0_l,$hkey2_l); # form content of new $init_content_file_path_now4del_l
+    	    	}
     	    }
     	    
     	    if ( $#tmp_arr0_l!=-1 ) {
-    		&rewrite_file_from_array_ref($init_content_file_path_now4del_l,\@tmp_arr0_l);
-    		#$file_l,$aref_l
+    	    	&rewrite_file_from_array_ref($init_content_file_path_now4del_l,\@tmp_arr0_l);
+    	    	#$file_l,$aref_l
     	    }
     	    ###
     	    
     	    if ( $#{${$hval1_l}{'seq'}}!=-1 ) {
-    		&rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@{${$hval1_l}{'seq'}});
-    		#$file_l,$aref_l
+    	    	&rewrite_file_from_array_ref($init_content_file_path_now4add_l,\@{${$hval1_l}{'seq'}});
+    	    	#$file_l,$aref_l
     	    }
     	    	    
     	    # clear vars
@@ -742,7 +742,7 @@ sub update_initial_content_for_local_ipset_actual_data {
     
     ($hkey0_l,$hval0_l)=(undef,undef); # clear vars
     ###
-
+    
     my $return_str_l='OK';
     
     return $return_str_l;
@@ -752,11 +752,11 @@ sub update_local_ipset_actual_data {
     my ($ipset_actual_data_dir_l,$ipset_input_href_l,$inv_hosts_href_l,$ipset_templates_href_l,$h65_conf_initial_ipsets_content_FIN_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$ipset_input_href_l=hash-ref for %ipset_input_l
-	#key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
+    	#key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
             #key2=add/del,key3=ipset_entry (according to #ipset_type), value=$expire_datetime_l
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+    	#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
         #{'ipset_name'}=value
     #$h65_conf_initial_ipsets_content_FIN_hash_g{inv-host}{ipset_template_name}->
         #{'record-0'}=1 (record=ipset_entry)
@@ -764,19 +764,19 @@ sub update_local_ipset_actual_data {
         #etc
         #{'seq'}=[val-0,val-1] (val=record)
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
-	#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
+    	#$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
             #{ipset_name_tmplt-0}=1;
             #{ipset_name_tmplt-1}=1;
             #etc
-
+    
     #Directory structure
     #...ipset_actual_data/inv-host/... (dir)
     	    #permanent/ipset_template_name/... (dir)
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###You CAN manually ADD entries to this file!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
-            	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
+    		    # One line - one record with ipset_entry or record in format "ipset_entry;+expire_datetime_utc".
+        	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
             	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
             	    # The expire_date mechanism is external. That is, WITHOUT using ipset timeouts on the remote side.
             	    # This file can be used to recreate the set if it was deleted (for some reason) on the side of the inventory host.
@@ -786,25 +786,25 @@ sub update_local_ipset_actual_data {
                 	# For move "actual__ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
                 	# First line - "datetime of creation;+datetime of change" + "old_ipset_type;+new_ipset_type" + "old_ipset_name;+new_ipset_name"
                     	    # in the format "###YYYYMMDDHHMISS(CREATE_DATE);+YYYYMMDDHHMISS(CHANGE_DATE);+OLD_IPSET_TYPE;+NEW_IPSET_TYPE;+OLD_IPSET_NAME;+NEW_IPSET_NAME".
-
+	
     	    #temporary/ipset_template_name/.. (dir)
         	#actual__ipset_name.txt (file)
             	    # First line - description like "###Manually ADDING entries to this file is DENIED!".
             	    # Second line - "datetime of creation" + "ipset_type" in the format "###YYYYMMDDHHMISS;+IPSET_TYPE".
-		    # One line - one record in format "ipset_entry;+expire_datetime_utc".
+    		    # One line - one record in format "ipset_entry;+expire_datetime_utc".
             	    # Ipset_entry must match the ipset type (according to #ipset_type at the conf-file "01_conf_ipset_templates").
             	    # Expire datetime has the format "YYYYMMDDHHMISS" (must be UTC).
-		    # The expire_date mechanism is internal. That is, WITH using ipset timeouts on the remote side.
+    		    # The expire_date mechanism is internal. That is, WITH using ipset timeouts on the remote side.
             	    # Expire date when adding an element to ipset via "ipset_input/add" is calculated as follows - current date + #ipset_create_option_timeout.
-		    # You can manually add entries (according to ipset_type) to this file.
+    		    # You can manually add entries (according to ipset_type) to this file.
         	#/change_history/ (dir)
             	    #CHANGE_DATETIME__ipset_name.txt (file)
                 	# For move "actual__ipset_name.txt" here (to this dir) with rename if changed ipset_name or ipset_type.
                 	# First line - "datetime of creation;+datetime of change" + "old_ipset_type;+new_ipset_type" + "old_ipset_name;+new_ipset_name"
                     	    # in the format "###YYYYMMDDHHMISS(CREATE_DATE);+YYYYMMDDHHMISS(CHANGE_DATE);+OLD_IPSET_TYPE;+NEW_IPSET_TYPE;+OLD_IPSET_NAME;+NEW_IPSET_NAME".
-
+	
     	    #delete_history/... (dir)
-		# If "ipset template_name" is deleted from "01_conf_ipset_templates", then the ipset data and change history
+    		# If "ipset template_name" is deleted from "01_conf_ipset_templates", then the ipset data and change history
             	# are moved to this directory.
         	#permanent/DEL_DATETIME-ipset_template_name/... (dir)
             	    #actual__ipset_name.txt (file)
@@ -834,7 +834,7 @@ sub update_local_ipset_actual_data {
     my %tmp_hash0_l=();
     my $dt_now_l=undef;
     my $ipset_actual_file_path_l=undef;
-
+    
     my $return_str_l='OK';
     
     ###
@@ -846,9 +846,9 @@ sub update_local_ipset_actual_data {
     
     my %ipset_actual_files_composition_hash_l=();
     # key0=$ipset_actual_file_path_l
-	#key1A='ipset_file_type': 0-permanent, 1-temporary
-	#key1B='subhash' (%ipset_actual_file_data_hash_l)
-    
+    	#key1A='ipset_file_type': 0-permanent, 1-temporary
+    	#key1B='subhash' (%ipset_actual_file_data_hash_l)
+    	
     my $expire_date_actual_l=undef; # for $ipset_actual_file_data_hash_l{'content'}{ipset_entry}=expire_date_actual
     my $expire_date_calculated_l=undef; # for expire_date (for temporary ipset) calculated by adding #ipset_create_option_timeout to current-date
     my ($expire_epoch_sec_actual_l,$expire_epoch_sec_calculated_l)=(undef,undef);
@@ -857,312 +857,312 @@ sub update_local_ipset_actual_data {
     opendir(DIR,$ipset_actual_data_dir_l);
     
     while ( readdir(DIR) ) { # readdir(DIR) begin
-	$inv_host_dir_line_l=$_;
+    	$inv_host_dir_line_l=$_;
         if ( $inv_host_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l) ) { next; }
-	
-	if ( !exists(${$inv_hosts_href_l}{$inv_host_dir_line_l}) ) {
-	    system("echo '$inv_host_dir_line_l is not exists at inventory' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
-	    
-	    next;
-	}
-	
-	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}) ) {
-	    system("echo '$inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
-	    
-	    next;
-	}
-	
-	# read inv-host/permanent dir (BEGIN)
-	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent') ) {
-	    $ipset_actual_permanent_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent';
-	    opendir(DIR_P,$ipset_actual_permanent_dir_l);
-	    
-	    while ( readdir(DIR_P) ) { # while readdir DIR_P (BEGIN)
-	    	$ipset_tmplt_name_dir_line_l=$_;
-	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
-	    	
-		# if existing dir (with name=permanent template name) is not configured at '01_conf_ipset_templates'
-	    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {	    
-		    # create info-file at $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l
-	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
-		    # move dir $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l to delete_history
-	    	    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/");
-	    	    
-	    	    # move to delete_history
+    	
+    	if ( !exists(${$inv_hosts_href_l}{$inv_host_dir_line_l}) ) {
+    	    system("echo '$inv_host_dir_line_l is not exists at inventory' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
+    	    
+    	    next;
+    	}
+    	
+    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}) && !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}) ) {
+    	    system("echo '$inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_data_dir_l/$inv_host_dir_line_l/info");
+    	    
+    	    next;
+    	}
+    	
+    	# read inv-host/permanent dir (BEGIN)
+    	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent') ) {
+    	    $ipset_actual_permanent_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/permanent';
+    	    opendir(DIR_P,$ipset_actual_permanent_dir_l);
+    	    
+    	    while ( readdir(DIR_P) ) { # while readdir DIR_P (BEGIN)
+    	    	$ipset_tmplt_name_dir_line_l=$_;
+    	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
+    	    	
+    	    	# if existing dir (with name=permanent template name) is not configured at '01_conf_ipset_templates'
+    	    	if ( !exists(${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}) ) {	    
+    	    	    # create info-file at $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l
+    	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
+    	    	    # move dir $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l to delete_history
+    	    	    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/");
+    	    	    
+    	    	    # move to delete_history
 	    	    $tmp_var_l=get_dt_yyyymmddhhmmss();
-	    	    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
-	    	    $tmp_var_l=undef;
-	    	    ###
-	    	    
-	    	    next;
-	    	}
-		###
-	    	
-		# if existing dir (with name=permanent template name) is not configured at '66_conf_ipsets_FIN' for inv-host ($inv_host_dir_line_l)
-	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
-	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
-	    	    
-	    	    next;
-	    	}
-		###
-	    	
-	    	# get ipset_name from 'actual__*'-file
-	    	$file_ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
-	    	$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	    	$ipset_name_actual_l=$file_ipset_name_actual_l;
-	    	$ipset_name_actual_l=~s/^actual__|\.txt$//g;
-	    	###
-	    	
-	    	# get ipset_type from 'actual__*'-file
-	    	$tmp_var_l=`sed -n '2p' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
-	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-		($ipset_create_date_actual_l,$ipset_type_actual_l)=$tmp_var_l=~/^\#\#\#(\S+)\;\+(\S+)$/;
-	    	$tmp_var_l=undef;
-	    	###
-	    
-	    	# get ipset_name and ipset_type from CFG
-	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'};
-	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
-	    	###
-	    	
-	    	# check for changed ipset_name and/or ipset_type (BEGIN)
-	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
-		    # no need to copy ipset_content because different ipset types incompatible with each other
-		    
-		    $dt_now_l=&get_dt_yyyymmddhhmmss();
-		    
-		    # move 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at moved file
-		    $file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_actual_l.'.txt';
-		    
-		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    
-		    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    
-		    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
-		    system("echo ' ' >> $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    system("sed -i '1i $change_hist_1line_l' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    
-	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
-		    	# if need to fix ipset_name changing after move 'actual__*'-file to change_history
-			$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
-		    }
-		    
-		    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
-		    
-		    $file_ipset_name_ch_hist_l=undef;
-		    $change_hist_1line_l=undef;
+    	    	    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/permanent/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
+    	    	    $tmp_var_l=undef;
+    	    	    ###
+    	    	    
+    	    	    next;
+    	    	}
+    	    	###
+    	    	
+    	    	# if existing dir (with name=permanent template name) is not configured at '66_conf_ipsets_FIN' for inv-host ($inv_host_dir_line_l)
+    	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'permanent'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
+    	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/info");
+    	    	    
+    	    	    next;
+    	    	}
+    	    	###
+    	    	
+    	    	# get ipset_name from 'actual__*'-file
+    	    	$file_ipset_name_actual_l=`ls $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+    	    	$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	    	$ipset_name_actual_l=$file_ipset_name_actual_l;
+    	    	$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+    	    	###
+    	    	
+    	    	# get ipset_type from 'actual__*'-file
+    	    	$tmp_var_l=`sed -n '2p' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
+    	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	    	($ipset_create_date_actual_l,$ipset_type_actual_l)=$tmp_var_l=~/^\#\#\#(\S+)\;\+(\S+)$/;
+    	    	$tmp_var_l=undef;
+    	    	###
+    	    
+    	    	# get ipset_name and ipset_type from CFG
+    	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'};
+    	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
+    	    	###
+    	    	
+    	    	# check for changed ipset_name and/or ipset_type (BEGIN)
+    	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
+    	    	    # no need to copy ipset_content because different ipset types incompatible with each other
+    	    	    
+    	    	    $dt_now_l=&get_dt_yyyymmddhhmmss();
+    	    	    
+    	    	    # move 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at moved file
+    	    	    $file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_actual_l.'.txt';
+    	    	    
+    	    	    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    
+    	    	    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    
+    	    	    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+    	    	    system("echo ' ' >> $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    system("sed -i '1i $change_hist_1line_l' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    
+    	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
+    	    	    	# if need to fix ipset_name changing after move 'actual__*'-file to change_history
+    	    		$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
+    	    	    }
+    	    	    
+    	    	    system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+    	    	    
+    	    	    $file_ipset_name_ch_hist_l=undef;
+    	    	    $change_hist_1line_l=undef;
                     ###
-		    		    		    
-		    # create new empty 'actual__*'-file
-		    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
-		    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_cfg_l");
+    	    	    		    		    
+    	    	    # create new empty 'actual__*'-file
+    	    	    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+    	    	    @tmp_arr0_l=('###You CAN manually ADD entries to this file!',"###$dt_now_l;+$ipset_type_cfg_l");
                     &rewrite_file_from_array_ref($ipset_actual_permanent_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
                     #$file_l,$aref_l
-		    
+    	    	    
                     @tmp_arr0_l=();
-		    $file_ipset_name_cfg_l=undef;
-		    ###
-		    
-		    $dt_now_l=undef;
-	    	}
-		else { # need to copy content from old file to new
-		    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
-			$dt_now_l=&get_dt_yyyymmddhhmmss();
-			
-			# copy 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at copied file
-			$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
-			
-			system("cp $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-			
-			system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-			system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-			
-			$change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
-			system("echo ' ' >> $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-			system("sed -i '1i $change_hist_1line_l' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-			
-			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
-			
-			$file_ipset_name_ch_hist_l=undef;
-			$change_hist_1line_l=undef;
-			###
-			
-			# rename 'actual__*'-file
-			$file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
-			system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_cfg_l");
-			
-			$file_ipset_name_cfg_l=undef;
-			###
-			
-			$dt_now_l=undef;
-		    }
-		}
-	    	# check for changed ipset_name and/or ipset_type (END)
-	    	
-	    	# clear vars
-	    	$ipset_tmplt_name_dir_line_l=undef;
-		$ipset_create_date_actual_l=undef;
-	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
-	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
-	    	###
-	    } # while readdir DIR_P (END)
-	    
-	    closedir(DIR_P);
-	    
-	    # clear vars
-	    $ipset_actual_permanent_dir_l=undef;
-	    ###
-	}
-	# read inv-host/permanent dir (END)
-	
-	# read inv-host/temporary dir (BEGIN)
-	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary') ) {
-	    $ipset_actual_temporary_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary';
-	    opendir(DIR_T,$ipset_actual_temporary_dir_l);
-	    
-	    while ( readdir(DIR_T) ) { # while readdir DIR_T (BEGIN)
-	    	$ipset_tmplt_name_dir_line_l=$_;
-	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
-	    	
-		# if existing dir (with name=temporary template name) is not configured at '01_conf_ipset_templates'
-	    	if ( !exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}) ) {
-	    	    # create info-file at $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l
-	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
-	    	    # move dir $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l to delete_history
-	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/");
-	    	    
-	    	    # move to delete_history
-	    	    $tmp_var_l=get_dt_yyyymmddhhmmss();
-	    	    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
-	    	    $tmp_var_l=undef;
-	    	    ###
-	    	    
-	    	    next;
-	    	}
-		###
-		
-		# if existing dir (with name=temporary template name) is not configured at '66_conf_ipsets_FIN' for inv-host ($inv_host_dir_line_l)
-	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
-	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
-	    	    
-	    	    next;
-	    	}
-		###
-	    
-	    	# get ipset_name from 'actual__*'-file
-	    	$file_ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
-	    	$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	    	$ipset_name_actual_l=$file_ipset_name_actual_l;
-	    	$ipset_name_actual_l=~s/^actual__|\.txt$//g;
-	    	###
-	    
-	    	# get ipset_type from 'actual__*'-file
-	    	$tmp_var_l=`sed -n '2p' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
-	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	    	($ipset_create_date_actual_l,$ipset_type_actual_l)=$tmp_var_l=~/^\#\#\#(\S+)\;\+(\S+)$/;
-	    	$tmp_var_l=undef;
-	    	###
-	    	
-	    	# get ipset_name and ipset_type from CFG
-	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'};
-	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
-	    	###
-	    	
-	    	# check for changed ipset_name and/or ipset_type (BEGIN)
-	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
-	    	    # no need to copy ipset_content because different different ipset types incompatible with each other
-	    	    
-	    	    $dt_now_l=&get_dt_yyyymmddhhmmss();
-	    	    
-	    	    # move 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at moved file
-	    	    $file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_actual_l.'.txt';
-	    	    
-	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-	    	    
-	    	    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-	    	    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-	    	    
-	    	    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
-	    	    system("echo ' ' >> $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-	    	    system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-	    	    
-	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
-	    	    	# if need to fix ipset_name changing after move 'actual__*'-file to change_history
-	    		$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
-	    	    }
-	    	    
-	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
-	    	    
-	    	    $file_ipset_name_ch_hist_l=undef;
-	    	    $change_hist_1line_l=undef;
-	    	    ###
-	    	    
-	    	    # create new empty 'actual__*'-file
-	    	    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
-	    	    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_cfg_l");
+    	    	    $file_ipset_name_cfg_l=undef;
+    	    	    ###
+    	    	    
+    	    	    $dt_now_l=undef;
+    	    	}
+    	    	else { # need to copy content from old file to new
+    	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
+    	    		$dt_now_l=&get_dt_yyyymmddhhmmss();
+    	    		
+    	    		# copy 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at copied file
+    	    		$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
+    	    		
+    	    		system("cp $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    		
+    	    		system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    		system("sed -i 1d $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    		
+    	    		$change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+    	    		system("echo ' ' >> $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    		system("sed -i '1i $change_hist_1line_l' $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    		
+    	    		system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+    	    		
+    	    		$file_ipset_name_ch_hist_l=undef;
+    	    		$change_hist_1line_l=undef;
+    	    		###
+    	    		
+    	    		# rename 'actual__*'-file
+    	    		$file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+    	    		system("mv $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_permanent_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_cfg_l");
+    	    		
+    	    		$file_ipset_name_cfg_l=undef;
+    	    		###
+    	    		
+    	    		$dt_now_l=undef;
+    	    	    }
+    	    	}
+    	    	# check for changed ipset_name and/or ipset_type (END)
+    	    	
+    	    	# clear vars
+    	    	$ipset_tmplt_name_dir_line_l=undef;
+    	    	$ipset_create_date_actual_l=undef;
+    	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
+    	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
+    	    	###
+    	    } # while readdir DIR_P (END)
+    	    
+    	    closedir(DIR_P);
+    	    
+    	    # clear vars
+    	    $ipset_actual_permanent_dir_l=undef;
+    	    ###
+    	}
+    	# read inv-host/permanent dir (END)
+    	
+    	# read inv-host/temporary dir (BEGIN)
+    	if ( -d($ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary') ) {
+    	    $ipset_actual_temporary_dir_l=$ipset_actual_data_dir_l.'/'.$inv_host_dir_line_l.'/temporary';
+    	    opendir(DIR_T,$ipset_actual_temporary_dir_l);
+    	    
+    	    while ( readdir(DIR_T) ) { # while readdir DIR_T (BEGIN)
+    	    	$ipset_tmplt_name_dir_line_l=$_;
+    	    	if ( $ipset_tmplt_name_dir_line_l=~/^\.|^info/ or !-d($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l) ) { next; }
+    	    	
+    	    	# if existing dir (with name=temporary template name) is not configured at '01_conf_ipset_templates'
+    	    	if ( !exists(${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}) ) {
+    	    	    # create info-file at $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l
+    	    	    system("echo '$ipset_tmplt_name_dir_line_l is not configured at 01_conf_ipset_templates' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
+    	    	    # move dir $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l to delete_history
+    	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/");
+    	    	    
+    	    	    # move to delete_history
+    	    	    $tmp_var_l=get_dt_yyyymmddhhmmss();
+    	    	    system("mv $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$ipset_tmplt_name_dir_line_l $ipset_actual_data_dir_l/$inv_host_dir_line_l/delete_history/temporary/$tmp_var_l-$ipset_tmplt_name_dir_line_l");
+    	    	    $tmp_var_l=undef;
+    	    	    ###
+    	    	    
+    	    	    next;
+    	    	}
+    	    	###
+    	    	
+    	    	# if existing dir (with name=temporary template name) is not configured at '66_conf_ipsets_FIN' for inv-host ($inv_host_dir_line_l)
+    	    	if ( !exists(${$h66_conf_ipsets_FIN_href_l}{'temporary'}{$inv_host_dir_line_l}{$ipset_tmplt_name_dir_line_l}) ) {
+    	    	    system("echo '$ipset_tmplt_name_dir_line_l for $inv_host_dir_line_l is not configured at 66_conf_ipsets_FIN' > $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/info");
+    	    	    
+    	    	    next;
+    	    	}
+    	    	###
+    	    
+    	    	# get ipset_name from 'actual__*'-file
+    	    	$file_ipset_name_actual_l=`ls $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l | grep actual__`;
+    	    	$file_ipset_name_actual_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	    	$ipset_name_actual_l=$file_ipset_name_actual_l;
+    	    	$ipset_name_actual_l=~s/^actual__|\.txt$//g;
+    	    	###
+    	    
+    	    	# get ipset_type from 'actual__*'-file
+    	    	$tmp_var_l=`sed -n '2p' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l`;
+    	    	$tmp_var_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	    	($ipset_create_date_actual_l,$ipset_type_actual_l)=$tmp_var_l=~/^\#\#\#(\S+)\;\+(\S+)$/;
+    	    	$tmp_var_l=undef;
+    	    	###
+    	    	
+    	    	# get ipset_name and ipset_type from CFG
+    	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_name'};
+    	    	$ipset_type_cfg_l=${$ipset_templates_href_l}{'temporary'}{$ipset_tmplt_name_dir_line_l}{'ipset_type'};
+    	    	###
+    	    	
+    	    	# check for changed ipset_name and/or ipset_type (BEGIN)
+    	    	if ( $ipset_type_actual_l ne $ipset_type_cfg_l ) {
+    	    	    # no need to copy ipset_content because different different ipset types incompatible with each other
+    	    	    
+    	    	    $dt_now_l=&get_dt_yyyymmddhhmmss();
+    	    	    
+    	    	    # move 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at moved file
+    	    	    $file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_actual_l.'.txt';
+    	    	    
+    	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    
+    	    	    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    
+    	    	    $change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+    	    	    system("echo ' ' >> $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    
+    	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { 
+    	    	    	# if need to fix ipset_name changing after move 'actual__*'-file to change_history
+    	    		$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
+    	    	    }
+    	    	    
+    	    	    system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+    	    	    
+    	    	    $file_ipset_name_ch_hist_l=undef;
+    	    	    $change_hist_1line_l=undef;
+    	    	    ###
+    	    	    
+    	    	    # create new empty 'actual__*'-file
+    	    	    $file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+    	    	    @tmp_arr0_l=('###Manually ADDING entries to this file is DENIED!',"###$dt_now_l;+$ipset_type_cfg_l");
                     &rewrite_file_from_array_ref($ipset_actual_temporary_dir_l.'/'.$ipset_tmplt_name_dir_line_l.'/'.$file_ipset_name_cfg_l,\@tmp_arr0_l);
                     #$file_l,$aref_l
-	    	    
+    	    	    
                     @tmp_arr0_l=();
-	    	    $file_ipset_name_cfg_l=undef;
-	    	    ###
-	    	    
-	    	    $dt_now_l=undef;
-	    	}
-	    	else { # need to copy content from old file to new
-	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
-	    	    	$dt_now_l=&get_dt_yyyymmddhhmmss();
-	    	    	
-		    	# copy 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at copied file
-		    	$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
-		    	
-		    	system("cp $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    	
-		    	system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    	system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    	
-		    	$change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
-		    	system("echo ' ' >> $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    	system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
-		    	
-		    	system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
-		    	
-		    	$file_ipset_name_ch_hist_l=undef;
-		    	$change_hist_1line_l=undef;
-		    	###
-		    	
-		    	# rename 'actual__*'-file
-		    	$file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
-		    	system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_cfg_l");
-		    	
-		    	$file_ipset_name_cfg_l=undef;
-		    	###
-			
-	    	    	$dt_now_l=undef;
-	    	    }
-	    	}
-	    	# check for changed ipset_name and/or ipset_type (END)
-	    	
-	    	# clear vars
-	    	$ipset_tmplt_name_dir_line_l=undef;
-	    	$ipset_create_date_actual_l=undef;
-	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
-	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
-	    	###
-	    } # while readdir DIR_T (END)
-	    
-	    closedir(DIR_T);
-	    
-	    # clear vars
-	    $ipset_actual_temporary_dir_l=undef;
-	    ###
-	}
-	# read inv-host/temporary dir (END)
-	
-	# clear vars
-	$inv_host_dir_line_l=undef;
-	###
+    	    	    $file_ipset_name_cfg_l=undef;
+    	    	    ###
+    	    	    
+    	    	    $dt_now_l=undef;
+    	    	}
+    	    	else { # need to copy content from old file to new
+    	    	    if ( $ipset_name_actual_l ne $ipset_name_cfg_l ) { # if need to fix ipset_name changing only
+    	    	    	$dt_now_l=&get_dt_yyyymmddhhmmss();
+    	    	    	
+    	    	    	# copy 'actual__*'-file to change_history + modify name of file (from actual to change_history-format) and first lines at copied file
+    	    	    	$file_ipset_name_ch_hist_l=$dt_now_l.'__'.$ipset_name_cfg_l.'.txt';
+    	    	    	
+    	    	    	system("cp $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    	
+    	    	    	system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    	system("sed -i 1d $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    	
+    	    	    	$change_hist_1line_l="###$ipset_create_date_actual_l;+$dt_now_l;+$ipset_type_actual_l;+$ipset_type_cfg_l;+$ipset_name_actual_l;+$ipset_name_cfg_l";
+    	    	    	system("echo ' ' >> $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    	system("sed -i '1i $change_hist_1line_l' $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l");
+    	    	    	
+    	    	    	system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/change_history/$file_ipset_name_ch_hist_l");
+    	    	    	
+    	    	    	$file_ipset_name_ch_hist_l=undef;
+    	    	    	$change_hist_1line_l=undef;
+    	    	    	###
+    	    	    	
+    	    	    	# rename 'actual__*'-file
+    	    	    	$file_ipset_name_cfg_l='actual__'.$ipset_name_cfg_l.'.txt';
+    	    	    	system("mv $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_actual_l $ipset_actual_temporary_dir_l/$ipset_tmplt_name_dir_line_l/$file_ipset_name_cfg_l");
+    	    	    	
+    	    	    	$file_ipset_name_cfg_l=undef;
+    	    	    	###
+    	    		
+    	    	    	$dt_now_l=undef;
+    	    	    }
+    	    	}
+    	    	# check for changed ipset_name and/or ipset_type (END)
+    	    	
+    	    	# clear vars
+    	    	$ipset_tmplt_name_dir_line_l=undef;
+    	    	$ipset_create_date_actual_l=undef;
+    	    	($file_ipset_name_actual_l,$ipset_name_actual_l,$ipset_type_actual_l)=(undef,undef,undef);
+    	    	($ipset_name_cfg_l,$ipset_type_cfg_l)=(undef,undef);
+    	    	###
+    	    } # while readdir DIR_T (END)
+    	    
+    	    closedir(DIR_T);
+    	    
+    	    # clear vars
+    	    $ipset_actual_temporary_dir_l=undef;
+    	    ###
+    	}
+    	# read inv-host/temporary dir (END)
+    	
+    	# clear vars
+    	$inv_host_dir_line_l=undef;
+    	###
     } # readdir(DIR) end
     
     closedir(DIR);
@@ -1177,70 +1177,70 @@ sub update_local_ipset_actual_data {
     	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) { # while h66, permanent, %{$hval0_l}, hkey=ipset_tmplt_name (begin)
     	    #$hkey1_l=ipset_tmplt_name
     	    if ( exists(${$ipset_templates_href_l}{'permanent'}{$hkey1_l}) ) {
-    		$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
-    		$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
-    	
-    		###
-    		&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,0,\%ipset_actual_file_data_hash_l);
-    		#$file_l,$file_type_l,$href_l
-    		# %ipset_actual_file_data_hash_l=();
-    		# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
-    		# or key0=info, value=[array of info strings]
-    		###
-    		
-    		# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l (BEGIN)
-    		    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
-    		$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
-    		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
-    		#$file_l,$href_l
-    		
-    		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
-    		    #$hkey2_l = ipset entry for add
-    		    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
-    			$ipset_actual_file_data_hash_l{'content'}{$hkey2_l}=0;
-    		    }
-    		}
-    		
-    		# clear vars
-    		($hkey2_l,$hval2_l)=(undef,undef);
-    		%tmp_hash0_l=();
-    		###
-    		# check for exists initial file 'now4add' (END)
-    	
-    		# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l (BEGIN)
-    		    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
-    		$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
-    		&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
-    		#$file_l,$href_l
-    	
-    		while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
-    		    #$hkey2_l = ipset entry for del
-    		    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
-    			delete($ipset_actual_file_data_hash_l{'content'}{$hkey2_l});
-    		    }
-    		}
-    		
-    		# clear vars
-    		($hkey2_l,$hval2_l)=(undef,undef);		
-    		%tmp_hash0_l=();
-    		###
-    		# check for exists initial file 'now4del' (END)
-    		
-    		# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
-    		# %ipset_actual_files_composition_hash_l
-    		# key0=$ipset_actual_file_path_l
-    		    #key1A='ipset_file_type': 0-permanent, 1-temporary
-    		    #key1B='subhash' (%ipset_actual_file_data_hash_l)
-    		$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
-    		%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
-    		%ipset_actual_file_data_hash_l=();
-    		###
-    	
-    		# clear vars
-    		$ipset_name_cfg_l=undef;
-    		$ipset_actual_file_path_l=undef;
-    		($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef);
-    		###
+    	    	$ipset_name_cfg_l=${$ipset_templates_href_l}{'permanent'}{$hkey1_l}{'ipset_name'};
+    	    	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/actual__'.$ipset_name_cfg_l.'.txt';
+    	    
+    	    	###
+    	    	&read_actual_ipset_file_to_hash($ipset_actual_file_path_l,0,\%ipset_actual_file_data_hash_l);
+    	    	#$file_l,$file_type_l,$href_l
+    	    	# %ipset_actual_file_data_hash_l=();
+    	    	# key0=content, key1=entry, value=expire_date (if=0 -> permanent ipset)
+    	    	# or key0=info, value=[array of info strings]
+    	    	###
+    	    	
+    	    	# check for exists initial file 'now4add' and add ipset values if exists to %ipset_actual_file_data_hash_l (BEGIN)
+    	    	    #now4add formed at sub 'update_initial_content_for_local_ipset_actual_data'
+    	    	$init_content_file_path_now4add_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4add';
+    	    	&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4add_l,\%tmp_hash0_l);
+    	    	#$file_l,$href_l
+    	    	
+    	    	while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
+    	    	    #$hkey2_l = ipset entry for add
+    	    	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
+    	    		$ipset_actual_file_data_hash_l{'content'}{$hkey2_l}=0;
+    	    	    }
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	($hkey2_l,$hval2_l)=(undef,undef);
+    	    	%tmp_hash0_l=();
+    	    	###
+    	    	# check for exists initial file 'now4add' (END)
+    	    
+    	    	# check for exists initial file 'now4del' and delete ipset values if exists from %ipset_actual_file_data_hash_l (BEGIN)
+    	    	    #now4del formed at sub 'update_initial_content_for_local_ipset_actual_data'
+    	    	$init_content_file_path_now4del_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$hkey1_l.'/initial_content/now4del';
+    	    	&read_lines_without_comments_of_file_to_hash($init_content_file_path_now4del_l,\%tmp_hash0_l);
+    	    	#$file_l,$href_l
+    	    
+    	    	while ( ($hkey2_l,$hval2_l)=each %tmp_hash0_l ) {
+    	    	    #$hkey2_l = ipset entry for del
+    	    	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey2_l}) ) {
+    	    		delete($ipset_actual_file_data_hash_l{'content'}{$hkey2_l});
+    	    	    }
+    	    	}
+    	    	
+    	    	# clear vars
+    	    	($hkey2_l,$hval2_l)=(undef,undef);		
+    	    	%tmp_hash0_l=();
+    	    	###
+    	    	# check for exists initial file 'now4del' (END)
+    	    	
+    	    	# WRITE %ipset_actual_file_data_hash_l TO %ipset_actual_files_composition_hash_l
+    	    	# %ipset_actual_files_composition_hash_l
+    	    	# key0=$ipset_actual_file_path_l
+    	    	    #key1A='ipset_file_type': 0-permanent, 1-temporary
+    	    	    #key1B='subhash' (%ipset_actual_file_data_hash_l)
+    	    	$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'ipset_file_type'}=0;
+    	    	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
+    	    	%ipset_actual_file_data_hash_l=();
+    	    	###
+    	    
+    	    	# clear vars
+    	    	$ipset_name_cfg_l=undef;
+    	    	$ipset_actual_file_path_l=undef;
+    	    	($init_content_file_path_now4add_l,$init_content_file_path_now4del_l)=(undef,undef);
+    	    	###
     	    }
     	} # while h66, permanent, %{$hval0_l}, hkey=ipset_tmplt_name (end)
     	
@@ -1286,9 +1286,9 @@ sub update_local_ipset_actual_data {
     	    }
     	} # while h66, temporary, %{$hval0_l}, hkey=ipset_tmplt_name (end)
     	
-	# clear vars
+    	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
-	###
+    	###
     } # while h66, temporary, hkey=inv-host (end)
     
     # clear vars
@@ -1297,7 +1297,7 @@ sub update_local_ipset_actual_data {
     # READ CONTENT of ipsets (permanent and temporary) into %ipset_actual_files_composition_hash_l (END)
     
     # operations for permanent ipsets (BEGIN)
-	#$ipset_input_href_l=hash-ref for %ipset_input_l
+    	#$ipset_input_href_l=hash-ref for %ipset_input_l
     	    #key0=permanent/temporary,key1=inv-host;+ipset_template_name;+ipset_name ->
         	#key2=add/del,key3=ipset_entry (according to #ipset_type), value=expire_datetime (0 - no expire, datetime_utc - yes expire)
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'permanent'}} ) { # while ipset_input -> permanent (begin)
@@ -1305,54 +1305,54 @@ sub update_local_ipset_actual_data {
     	@tmp_arr0_l=split(/\;\+/,$hkey0_l);
     	
     	$ipset_actual_file_path_l=$ipset_actual_data_dir_l.'/'.$tmp_arr0_l[0].'/permanent/'.$tmp_arr0_l[1].'/actual__'.$tmp_arr0_l[2].'.txt';
-    
+	
     	# GET %ipset_actual_file_data_hash_l FROM %ipset_actual_files_composition_hash_l 
     	%ipset_actual_file_data_hash_l=%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}};
     	###
-    
+	
     	# ops for 'add' (permanent) (begin)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'add'}} ) {
     	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime (0 or datetime)
     	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) { # if entry is not exists before
-		if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
+    		if ( $hval1_l<1 ) { # if permanent WITHOUT external timeout
     		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=0;
-		}
-		else { # if permanent WITH external timeout
-		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$hval1_l;
-		}
+    		}
+    		else { # if permanent WITH external timeout
+    		    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$hval1_l;
+    		}
     	    }
-	    elsif ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) && $hval1_l>1 ) {
-		# if entry already exists and have external timeout
-		
-		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}; # from actual-file
-		
+    	    elsif ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) && $hval1_l>1 ) {
+    		# if entry already exists and have external timeout
+    		
+    		$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}; # from actual-file
+    		
     	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
     	    	#$for_conv_dt
-		
-		$expire_date_calculated_l=$hval1_l; # from input-dir
-		    
-		$expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
+    		
+    		$expire_date_calculated_l=$hval1_l; # from input-dir
+    		    
+    		$expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
     	    	#$for_conv_dt
-		
-		# RENEW EXP TIME
-		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if calc exprire time (or from input time) > current time
+    		
+    		# RENEW EXP TIME
+    		if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if calc exprire time (or from input time) > current time
     	    	    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
     	    	}
     	    	else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
-		###
-		
-		#clear vars
-		($expire_date_actual_l,$expire_epoch_sec_actual_l)=(undef,undef);
-		($expire_date_calculated_l,$expire_epoch_sec_calculated_l)=(undef,undef);
-		###
-	    }
+    		###
+    		
+    		#clear vars
+    		($expire_date_actual_l,$expire_epoch_sec_actual_l)=(undef,undef);
+    		($expire_date_calculated_l,$expire_epoch_sec_calculated_l)=(undef,undef);
+    		###
+    	    }
     	}
     	
-	# clear vars
+    	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
-	###
+    	###
     	# ops for 'add' (permanent) (end)
-    
+	
     	# ops for 'del' (permanent)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
     	    #$hkey1_l=ipset_record, $hval1_l=0
@@ -1363,7 +1363,7 @@ sub update_local_ipset_actual_data {
     		
     	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
     	###
-    
+	
     	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
     	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
     	%ipset_actual_file_data_hash_l=();
@@ -1379,7 +1379,7 @@ sub update_local_ipset_actual_data {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     # operations for permanent ipsets (END)
-
+    
     # operations for temporary ipsets (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{${$ipset_input_href_l}{'temporary'}} ) { # while ipset_input -> temporary (begin)
     	#hkey1_l=inv-host-0;+ipset_template_name-1;+ipset_name-2
@@ -1396,15 +1396,15 @@ sub update_local_ipset_actual_data {
     	    #$hkey1_l=ipset_entry, $hval1_l=expire_datetime ('0 for def' or 'datetime')
     	    
     	    if ( !exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-		if ( $hval1_l<1 ) { # if temporary with DEF expire_datetime (configured at cfg '01_conf_ipset_templates')
+    		if ( $hval1_l<1 ) { # if temporary with DEF expire_datetime (configured at cfg '01_conf_ipset_templates')
     	    	    $expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-		    
+    		    
     	    	    $expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
     	    	    #$for_conv_sec_l
-		}
-		else { # if temporary with NOT DEF expire_datetime
-		    $expire_date_calculated_l=$hval1_l; # rom input-dir
-		}
+    		}
+    		else { # if temporary with NOT DEF expire_datetime
+    		    $expire_date_calculated_l=$hval1_l; # rom input-dir
+    		}
     	    	    
     	    	$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
     	    	    
@@ -1415,29 +1415,29 @@ sub update_local_ipset_actual_data {
     	    }
     	    else {
     	    	$expire_date_actual_l=$ipset_actual_file_data_hash_l{'content'}{$hkey1_l}; # from actual-file
-		
+    		
     	    	$expire_epoch_sec_actual_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_actual_l);
     	    	#$for_conv_dt
     	    	
-		if ( $hval1_l<1 ) { # if temporary with DEF expire_datetime (configured at cfg '01_conf_ipset_templates')
+    		if ( $hval1_l<1 ) { # if temporary with DEF expire_datetime (configured at cfg '01_conf_ipset_templates')
     	    	    $expire_epoch_sec_calculated_l=time() + ${$ipset_templates_href_l}{$tmp_arr0_l[1]}{'ipset_create_option_timeout'};
-		    
+    		    
     	    	    $expire_date_calculated_l=&conv_epoch_sec_to_yyyymmddhhmiss($expire_epoch_sec_calculated_l);
     	    	    #$for_conv_sec_l
-		}
-		else { # if temporary with NOT DEF expire_datetime
-		    $expire_date_calculated_l=$hval1_l; # from input-dir
-		    
-		    $expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
+    		}
+    		else { # if temporary with NOT DEF expire_datetime
+    		    $expire_date_calculated_l=$hval1_l; # from input-dir
+    		    
+    		    $expire_epoch_sec_calculated_l=&conv_yyyymmddhhmiss_to_epoch_sec($expire_date_calculated_l);
     	    	    #$for_conv_dt
-		}
+    		}
     	    	
-		# RENEW EXP TIME    
+    		# RENEW EXP TIME    
     	    	if ( $expire_epoch_sec_calculated_l>$expire_epoch_sec_actual_l ) { # if calc exprire time (or from input time) > current time
     	    	    $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_calculated_l;
     	    	}
     	    	else { $ipset_actual_file_data_hash_l{'content'}{$hkey1_l}=$expire_date_actual_l; }
-		###
+    		###
     	    	    
     	    	# clear vars
     	    	$expire_date_actual_l=undef;
@@ -1447,27 +1447,27 @@ sub update_local_ipset_actual_data {
     	    }
     	} # while ipset_input -> temporary -> add (end)
     	
-	# clear vars
+    	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
-	###
+    	###
     	# ops for 'add' (temporary) (end)
     	
     	# ops for 'del' (temporary)
     	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'del'}} ) {
     	    #$hkey1_l=ipset_entry, $hval1_l=0
     	    if ( exists($ipset_actual_file_data_hash_l{'content'}{$hkey1_l}) ) {
-    		delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
+    	    	delete($ipset_actual_file_data_hash_l{'content'}{$hkey1_l});
     	    }
     	}
     	
     	($hkey1_l,$hval1_l)=(undef,undef); # clear vars
     	###
-    
+	
     	# UPDATE 'subhash' FOR ipset_actual_file_path_l AT %ipset_actual_files_composition_hash_l
     	%{$ipset_actual_files_composition_hash_l{$ipset_actual_file_path_l}{'subhash'}}=(%ipset_actual_file_data_hash_l);
     	%ipset_actual_file_data_hash_l=();
     	###
-    
+	
     	# clear vars
     	@tmp_arr0_l=();
     	$ipset_actual_file_path_l=undef;
@@ -1478,17 +1478,17 @@ sub update_local_ipset_actual_data {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     # operations for temporary ipsets (END)
-
+    
     # FIN write to actual*-files (begin)
     while ( ($hkey0_l,$hval0_l)=each %ipset_actual_files_composition_hash_l ) {
-	#$hkey0_l=actual-file-path
-	#${$hval0_l}{'ipset_file_type'}=$file_type_l: 0-permanent ipset, 1-temporary_ipset
-	#%{${$hval0_l}{'subhash'}}=hash with actual-file-content
-	
-	# FIN write to one actual*-file
-	&rewrite_actual_ipset_file_from_hash($hkey0_l,\%{${$hval0_l}{'subhash'}});
-	#$file_l,$href_l
-	###
+    	#$hkey0_l=actual-file-path
+    	#${$hval0_l}{'ipset_file_type'}=$file_type_l: 0-permanent ipset, 1-temporary_ipset
+    	#%{${$hval0_l}{'subhash'}}=hash with actual-file-content
+    	
+    	# FIN write to one actual*-file
+    	&rewrite_actual_ipset_file_from_hash($hkey0_l,\%{${$hval0_l}{'subhash'}});
+    	#$file_l,$href_l
+    	###
     }
     
     # clear vars
@@ -1504,7 +1504,7 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     my ($ipset_actual_data_dir_l,$dyn_fwrules_files_dir_l,$ipset_templates_href_l,$h66_conf_ipsets_FIN_href_l)=@_;
     #$ipset_actual_data_dir_l=$ipset_actual_data_dir_g
     #$dyn_fwrules_files_dir_l=$dyn_fwrules_files_dir_g
-	#...playbooks/scripts_for_remote/fwrules_files
+    	#...playbooks/scripts_for_remote/fwrules_files
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
         #{'ipset_name'}=value
@@ -1548,37 +1548,37 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	$apply_run_flag_file_path_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_flag_file_pwet';
     	    
     	$dst_dir_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets';
-	$dst_dir_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_pwet';
-	
+    	$dst_dir_pwet_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/permanent_ipsets_pwet';
+    	
     	system("mkdir -p $dst_dir_l");
-	system("mkdir -p $dst_dir_pwet_l");
+    	system("mkdir -p $dst_dir_pwet_l");
     	    
     	$ipsets_list_file_path_l=$dst_dir_l.'/LIST';
-	$ipsets_list_file_path_pwet_l=$dst_dir_pwet_l.'/LIST';
+    	$ipsets_list_file_path_pwet_l=$dst_dir_pwet_l.'/LIST';
     	
-	@list_of_ipset_tmplt_names_l=sort(keys %{$hval0_l});
-	foreach $ipset_tmplt_name_l ( @list_of_ipset_tmplt_names_l ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
+    	@list_of_ipset_tmplt_names_l=sort(keys %{$hval0_l});
+    	foreach $ipset_tmplt_name_l ( @list_of_ipset_tmplt_names_l ) { # cycle for h66, inv-hosts -> ipset_templates (begin)
     	    #$hkey1_l=ipset_tmplt_name
     	    $ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$ipset_tmplt_name_l}{'ipset_name'};
     	    $src_ipset_file_path_l=$ipset_actual_data_dir_l.'/'.$hkey0_l.'/permanent/'.$ipset_tmplt_name_l.'/actual__'.$ipset_name_l.'.txt';
-	    
+    	    
     	    $dst_ipset_file_path_l=$dst_dir_l.'/'.$ipset_name_l;
-	    $dst_ipset_file_path_pwet_l=$dst_dir_pwet_l.'/'.$ipset_name_l; # pwet
-	    
+    	    $dst_ipset_file_path_pwet_l=$dst_dir_pwet_l.'/'.$ipset_name_l; # pwet
+    	    
     	    &read_lines_without_comments_of_file_to_array($src_ipset_file_path_l,\@tmp_arr0_l);
     	    #$file_l,$aref_l
-	    
-	    foreach $arr_el0_l ( @tmp_arr0_l ) {
-	    	if ( $arr_el0_l=~/\;\+/ ) { # if record WITH external timeout
-	    	    push(@actual_file_cont_pwet_l,$arr_el0_l); # pwet
-	    	}
-	    	else { # if record WITHOUT external timeout
-	    	    push(@actual_file_cont_l,$arr_el0_l);
-	    	}
-	    }
-	    
-	    # FOR permanent WITHOUT external timeout
-	    if ( $#actual_file_cont_l!=-1 ) { # write to dst if ipset entries exists at src-file
+    	    
+    	    foreach $arr_el0_l ( @tmp_arr0_l ) {
+    	    	if ( $arr_el0_l=~/\;\+/ ) { # if record WITH external timeout
+    	    	    push(@actual_file_cont_pwet_l,$arr_el0_l); # pwet
+    	    	}
+    	    	else { # if record WITHOUT external timeout
+    	    	    push(@actual_file_cont_l,$arr_el0_l);
+    	    	}
+    	    }
+    	    
+    	    # FOR permanent WITHOUT external timeout
+    	    if ( $#actual_file_cont_l!=-1 ) { # write to dst if ipset entries exists at src-file
     	    	&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@actual_file_cont_l);
     	    	#$file_l,$aref_l
     	    	    
@@ -1587,10 +1587,10 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    	@apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,@actual_file_cont_l,' ');
     	    }
     	    else { @apply_run_flag_file_content_l=(@apply_run_flag_file_content_l,$ipset_name_l,'empty',' '); }
-	    ###
-	    
-	    # FOR permanent WITH external timeout
-	    if ( $#actual_file_cont_pwet_l!=-1 ) { # write to dst if ipset entries exists at src-file
+    	    ###
+    	    
+    	    # FOR permanent WITH external timeout
+    	    if ( $#actual_file_cont_pwet_l!=-1 ) { # write to dst if ipset entries exists at src-file
     	    	&rewrite_file_from_array_ref($dst_ipset_file_path_l,\@actual_file_cont_pwet_l);
     	    	#$file_l,$aref_l
     	    	    
@@ -1599,20 +1599,20 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    	@apply_run_flag_file_content_pwet_l=(@apply_run_flag_file_content_pwet_l,$ipset_name_l,@actual_file_cont_pwet_l,' ');
     	    }
     	    else { @apply_run_flag_file_content_pwet_l=(@apply_run_flag_file_content_pwet_l,$ipset_name_l,'empty',' '); }
-	    ###
+    	    ###
     	    	
     	    # clear vars
     	    $ipset_name_l=undef;
-	    $arr_el0_l=undef;
+    	    $arr_el0_l=undef;
     	    ($src_ipset_file_path_l,$dst_ipset_file_path_l)=(undef,undef);
-	    $dst_ipset_file_path_pwet_l=undef;
+    	    $dst_ipset_file_path_pwet_l=undef;
     	    @tmp_arr0_l=();
-	    @actual_file_cont_l=();
-	    @actual_file_cont_pwet_l=();
+    	    @actual_file_cont_l=();
+    	    @actual_file_cont_pwet_l=();
     	    ###
     	} # cycle for h66, inv-hosts -> ipset_templates (end)
     	
-	# FOR permanent WITHOUT external timeout
+    	# FOR permanent WITHOUT external timeout
     	if ( $#list_of_ipsets_l!=-1 ) {
     	    @list_of_ipsets_l=sort(@list_of_ipsets_l);
     	    &rewrite_file_from_array_ref($ipsets_list_file_path_l,\@list_of_ipsets_l);
@@ -1627,9 +1627,9 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    &rewrite_file_from_array_ref($apply_run_flag_file_path_l,\@apply_run_flag_file_content_l);
             #$file_l,$aref_l
     	}
-	###
-	
-	# FOR permanent WITH external timeout
+    	###
+    	
+    	# FOR permanent WITH external timeout
     	if ( $#list_of_ipsets_pwet_l!=-1 ) {
     	    @list_of_ipsets_pwet_l=sort(@list_of_ipsets_pwet_l);
     	    &rewrite_file_from_array_ref($ipsets_list_file_path_pwet_l,\@list_of_ipsets_pwet_l);
@@ -1644,21 +1644,21 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	    &rewrite_file_from_array_ref($apply_run_flag_file_path_pwet_l,\@apply_run_flag_file_content_pwet_l);
             #$file_l,$aref_l
     	}
-	###
+    	###
     	    
     	#clear vars
-	$ipset_tmplt_name_l=undef;
+    	$ipset_tmplt_name_l=undef;
     	$dst_dir_l=undef;
-	$dst_dir_pwet_l=undef;
+    	$dst_dir_pwet_l=undef;
     	$ipsets_list_file_path_l=undef;
-	$ipsets_list_file_path_pwet_l=undef;
-	$apply_run_flag_file_path_l=undef;
-	$apply_run_flag_file_path_pwet_l=undef;
+    	$ipsets_list_file_path_pwet_l=undef;
+    	$apply_run_flag_file_path_l=undef;
+    	$apply_run_flag_file_path_pwet_l=undef;
     	@list_of_ipsets_l=();
     	@list_of_ipsets_pwet_l=();
     	@apply_run_flag_file_content_l=();
-	@apply_run_flag_file_content_pwet_l=();
-	@list_of_ipset_tmplt_names_l=();
+    	@apply_run_flag_file_content_pwet_l=();
+    	@list_of_ipset_tmplt_names_l=();
     	###
     } # cycle for h66, inv-hosts (end)
     
@@ -1720,13 +1720,13 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     	}
     	    
     	#clear vars
-	$ipset_tmplt_name_l=undef;
+    	$ipset_tmplt_name_l=undef;
     	$dst_dir_l=undef;
     	$ipsets_list_file_path_l=undef;
-	$apply_run_flag_file_path_l=undef;
+    	$apply_run_flag_file_path_l=undef;
     	@list_of_ipsets_l=();
     	@apply_run_flag_file_content_l=();
-	@list_of_ipset_tmplt_names_l=();
+    	@list_of_ipset_tmplt_names_l=();
     	###
     } # cycle for h66, inv-hosts (end)
     
@@ -1734,9 +1734,9 @@ sub copy_actual_ipset_data_to_scripts_for_remote {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     # operations for temporary ipsets (END)
-
+    
     my $return_str_l='OK';
-
+    
     return $return_str_l;
 }
 
