@@ -1,12 +1,14 @@
 sub get_dt_yyyymmddhhmmss {
     my $dt_now_l=`date '+%Y%m%d%H%M%S'`;
     $dt_now_l=~s/\n|\r//g;
+    #output format 'YYYYMMDDHHMISS'
     return $dt_now_l;
 }
 
 sub get_dt_yyyymmdd {
     my $date_now_l=`date '+%Y%m%d'`;
     $date_now_l=~s/\n|\r//g;
+    #output format 'YYYYMMDD'
     return $date_now_l;
 }
 
@@ -17,6 +19,7 @@ sub conv_epoch_sec_to_yyyymmddhhmiss {
     $year_l=$year_l+1900;
     $mon_l=$mon_l+1;
     my $ret_value_l=sprintf("%.4d%.2d%.2d%.2d%.2d%.2d",$year_l,$mon_l,$mday_l,$hour_l,$min_l,$sec_l);
+    #putput format 'YYYYMMDDHHMISS'
     return $ret_value_l;
 }
 
