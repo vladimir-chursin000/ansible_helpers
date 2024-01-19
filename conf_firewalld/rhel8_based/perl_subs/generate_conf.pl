@@ -58,7 +58,7 @@ sub generate_firewall_configs {
     while ( ($hkey0_l,$hval0_l)=each %{$conf_firewalld_href_l} ) {
         #$hkey0_l=inv-host
         
-        # form firewalld.conf
+        # form firewalld.conf (begin)
         @{$wr_hash_l{$hkey0_l}{'fw_config'}}=@begin_conf_arr_l;
     	
         foreach $arr_el0_l ( @fw_config_seq_l ) {
@@ -70,7 +70,7 @@ sub generate_firewall_configs {
         }
     	
         $arr_el0_l=undef;
-        ###
+        # form firewalld.conf (end)
     	
         # logging_of_dropped_packets
         @{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=@begin_conf_arr_l;
@@ -96,7 +96,7 @@ sub generate_firewall_configs {
     }
     ###
     
-    # create fw-configs for each host
+    # create fw-configs for each host (begin)
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
     	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
@@ -112,9 +112,9 @@ sub generate_firewall_configs {
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
-    ###
+    # create fw-configs for each host (end)
     
-    # create 'firewalld-droppd' (for rsyslog) for each host
+    # create 'firewalld-droppd' (for rsyslog) for each host (begin)
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
         #$hkey0_l=inv-host
     	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
@@ -132,7 +132,7 @@ sub generate_firewall_configs {
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
-    ###
+    # create 'firewalld-droppd' (for rsyslog) for each host (end)
     
     return $return_str_l;
 }
