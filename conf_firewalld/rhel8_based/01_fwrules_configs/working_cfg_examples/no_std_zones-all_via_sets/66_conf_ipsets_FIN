@@ -20,6 +20,6 @@
 # WORK cfg (begin)
 gr_qemu_kvm_servers	publ_services_z_ipset--TMPLT,srcnat_z_ipset--TMPLT
 gr_qemu_kvm_servers	control_z_ipset--TMPLT,other_z_ipset--TMPLT
-gr_infra_servers	publ_services_z_ipset--TMPLT
+gr_infra_servers	publ_services_z_ipset--TMPLT,other_z_ipset--TMPLT
 gr_bridge_connect_only	control_z_ipset--TMPLT,other_z_ipset--TMPLT
 # WORK cfg (end)

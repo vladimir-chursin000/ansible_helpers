@@ -40,7 +40,7 @@
 [publ_services_z_ipset--TMPLT:BEGIN]
 # Ipset content for zone template "publ_services_z"
 gr_qemu_kvm_servers=192.168.68.0/24
-gr_infra_servers=10.0.1.0/24;192.168.11.0/24;192.168.22.0/24;192.168.99.0/24;192.168.101.0/24;192.168.68.0/24
+gr_infra_servers=10.0.1.0/24;192.168.22.0/24;192.168.101.0/24;192.168.68.0/24
 [publ_services_z_ipset--TMPLT:END]
 
 [srcnat_z_ipset--TMPLT:BEGIN]
@@ -57,6 +57,7 @@ gr_bridge_connect_only=192.168.68.0/24
 [other_z_ipset--TMPLT:BEGIN]
 # Ipset content for zone template "other_z"
 gr_qemu_kvm_servers=192.168.99.0/24;192.168.101.0/24
+gr_infra_servers=192.168.11.0/24;192.168.99.0/24
 gr_bridge_connect_only=192.168.188.0/24
 [other_z_ipset--TMPLT:END]
 # WORK sets (end)
