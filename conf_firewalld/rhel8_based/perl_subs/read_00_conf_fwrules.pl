@@ -16,6 +16,7 @@ sub read_00_conf_divisions_for_inv_hosts {
      
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
     
+    # read from file (begin)
     open(GROUP_HOSTS,'<',$file_l);
     while ( <GROUP_HOSTS> ) {
         $line_l=$_;
@@ -72,7 +73,10 @@ sub read_00_conf_divisions_for_inv_hosts {
     }
     close(GROUP_HOSTS);
     
+    # clear vars
     $line_l=undef;
+    ###
+    # read from file (end)
     
     if ( $return_str_l!~/OK$/ ) { return $return_str_l; }
     
@@ -168,8 +172,8 @@ sub read_00_conf_firewalld {
     $exec_res_l=&read_param_value_templates_from_config($file_l,\%cfg_params_and_regex_l,\%res_tmp_lv0_l);
     #$file_l,$regex_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
-    # fill res_tmp_lv1_l
+    
+    # fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # read only host_list_for_apply=all
         #hkey0_l=tmplt_name, hval0_l=hash of params
         if ( ${$hval0_l}{'host_list_for_apply'} eq 'all' ) {
@@ -177,9 +181,9 @@ sub read_00_conf_firewalld {
                 #$hkey1_l=inv-host from inv-host-hash
                 push(@inv_hosts_arr_l,$hkey1_l);
             }
-
+	    
             ($hkey1_l,$hval1_l)=(undef,undef);
-
+	    
             foreach $arr_el0_l ( @inv_hosts_arr_l ) {
                 #arr_el0_l=inv-host
                 %{$res_tmp_lv1_l{$arr_el0_l}}=%{$hval0_l};
@@ -187,7 +191,7 @@ sub read_00_conf_firewalld {
             
             $arr_el0_l=undef;
             @inv_hosts_arr_l=();
-
+	    
             delete($res_tmp_lv0_l{$hkey0_l});
         }
     }
@@ -196,7 +200,7 @@ sub read_00_conf_firewalld {
     
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # read only host_list_for_apply=host groups
         #hkey0_l=tmplt_name, hval0_l=hash of params
-    
+	
         if ( ${$hval0_l}{'host_list_for_apply'}=~/^gr_/ && exists(${$divisions_for_inv_hosts_href_l}{${$hval0_l}{'host_list_for_apply'}}) ) {
             while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{${$hval0_l}{'host_list_for_apply'}}} ) {
                 #hkey1_l=inv-host
@@ -216,14 +220,14 @@ sub read_00_conf_firewalld {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) { # read only host_list_for_apply=some host or list of hosts (separated by ',')
         #hkey0_l=tmplt_name, hval0_l=hash of params
         @inv_hosts_arr_l=split(/\,/,${$hval0_l}{'host_list_for_apply'});
-
+	
         foreach $arr_el0_l ( @inv_hosts_arr_l ) {
             #arr_el0_l=inv-host
             if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
                 $return_str_l="fail [$proc_name_l]. Host='$arr_el0_l' is not exists at inventory file";
                 last;
             }
-
+	
             %{$res_tmp_lv1_l{$arr_el0_l}}=%{$hval0_l};
         }
         
@@ -233,12 +237,14 @@ sub read_00_conf_firewalld {
         delete($res_tmp_lv0_l{$hkey0_l});
     }
     
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
     @inv_hosts_arr_l=();
     %res_tmp_lv0_l=();
     ###
-
-    # check for not existing configs for inv-hosts
+    # fill %res_tmp_lv1_l (end)
+    
+    # check for not existing configs for inv-hosts (begin)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         # hkey0_l = inv-host-name
         if ( !exists($res_tmp_lv1_l{$hkey0_l}) ) {
@@ -246,19 +252,20 @@ sub read_00_conf_firewalld {
             last;
         }
     }
-
+    
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
-
-    if ( $return_str_l!~/OK$/ ) { return $return_str_l; }
-
     ###
-
+    
+    if ( $return_str_l!~/OK$/ ) { return $return_str_l; }
+    # check for not existing configs for inv-hosts (begin)
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     %res_tmp_lv1_l=();
-
+    
     return $return_str_l;
 }
 
