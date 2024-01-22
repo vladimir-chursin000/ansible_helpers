@@ -165,8 +165,8 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     ######
     #$h77_conf_zones_FIN_hash_g{'custom/standard'}{inventory_host}{firewall_zone_name_tmplt}->
     #{'interface_list'}->;
-	#{'empty'}=1
-	#{'list'}->
+    	#{'empty'}=1
+    	#{'list'}->
     	    #{'interface-0'}=1
     	    #{'interface-1'}=1
     	    #etc
@@ -372,14 +372,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # ports or ports_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     		# Allow port = "firewall-cmd --permanent --zone=some_std_zone_name --add-port=1234/tcp"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     		    @zone_allowed_ports_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_ports_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
-		
+    		    if ( $zone_allowed_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_ports_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
+    		
     		foreach $arr_el1_l ( @zone_allowed_ports_arr_l ) {
     		    #$arr_el1_l=port for allow
     		    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-port=$arr_el1_l;";
@@ -396,14 +396,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # protocols or protocols_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     		# Allow protocol="firewall-cmd --permanent --zone=some_std_zone_name --add-protocol=gre"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     		    @zone_allowed_protocols_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_protocols_arr_l[0]=~/^set\:/ ) { @zone_allowed_protocols_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_protocols_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}}); }
-		
+    		    if ( $zone_allowed_protocols_arr_l[0]=~/^set\:/ ) { @zone_allowed_protocols_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_protocols_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}}); }
+    		
     		foreach $arr_el1_l ( @zone_allowed_protocols_arr_l ) {
     		    #$arr_el1_l=proto for allow
     		    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-protocol=$arr_el1_l;";
@@ -443,14 +443,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # source ports or source_ports_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	# Allow source port="firewall-cmd --permanent --zone=some_std_zone_name --add-source-port=8080/tcp"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	    @zone_allowed_source_ports_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
     	    		#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_source_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_source_ports_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_source_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}}); }
-		
+    		    if ( $zone_allowed_source_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_source_ports_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_source_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}}); }
+    		
     	    	foreach $arr_el1_l ( @zone_allowed_source_ports_arr_l ) {
                     #$arr_el1_l=source-port for allow
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-source-port=$arr_el1_l;";
@@ -465,12 +465,12 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # source ports or source_ports_sets (end)
     	    
     	    # icmp block inversion or inversion from icmp_blocks_sets (SETS) (begin)
-	    if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}) ) {
+    	    if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}) ) {
     		$zone_icmp_block_inversion_l=${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
     	    	    #$arr_el0_l=fw-zone-tmplt-name
-	    }
-	    else { $zone_icmp_block_inversion_l=${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}; }
-	    
+    	    }
+    	    else { $zone_icmp_block_inversion_l=${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}; }
+    	    
     	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block-inversion"
     	    if ( $zone_icmp_block_inversion_l eq 'yes' ) {
     	    	$wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-icmp-block-inversion;";
@@ -483,14 +483,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # icmp block or icmp_blocks_sets (SETS) (begin)
     	    if ( exists(${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_std_zone_name --add-icmp-block=some_icmp_type"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	    @zone_icmp_block_arr_l=sort(@{${$std_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
     	    		#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_icmp_block_arr_l[0]=~/^set\:/ ) { @zone_icmp_block_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_icmp_block_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}}); }
-		
+    		    if ( $zone_icmp_block_arr_l[0]=~/^set\:/ ) { @zone_icmp_block_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_icmp_block_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}}); }
+    		
                 foreach $arr_el1_l ( @zone_icmp_block_arr_l ) {
                     #$arr_el1_l=icmp-block
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-icmp-block=$arr_el1_l;";
@@ -518,15 +518,15 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
             
                 $arr_el1_l=undef;
                 @interface_list_arr_l=();
-	    }
-	    # interface_list (end)
-	    
-	    # source_list (begin)
-	    if ( exists(${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}) ) {
-	    	# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=some_source"
-	    	@source_list_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}});
-	    	    #$arr_el0_l=fw-zone-tmplt-name
-	    	foreach $arr_el1_l ( @source_list_arr_l ) {
+    	    }
+    	    # interface_list (end)
+    	    
+    	    # source_list (begin)
+    	    if ( exists(${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}) ) {
+    	    	# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=some_source"
+    	    	@source_list_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'source_list'}{'seq'}});
+    	    	    #$arr_el0_l=fw-zone-tmplt-name
+    	    	foreach $arr_el1_l ( @source_list_arr_l ) {
                     #$arr_el1_l=source
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --change-source=$arr_el1_l;";
                     push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
@@ -536,25 +536,25 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
             
                 $arr_el1_l=undef;
                 @source_list_arr_l=();
-	    }
-	    # source_list (end)
-	    
-	    # ipset_tmplt_list (begin)
-	    if ( exists(${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}) ) {
-	    	# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=ipset:some_ipset"
-	    	@ipset_tmplt_list_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}});
-	    	    #$arr_el0_l=fw-zone-tmplt-name
-	    	foreach $arr_el1_l ( @ipset_tmplt_list_arr_l ) {
+    	    }
+    	    # source_list (end)
+    	    
+    	    # ipset_tmplt_list (begin)
+    	    if ( exists(${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}) ) {
+    	    	# Change source affiliation to zone = "firewall-cmd --permanent --zone=some_zone_name --change-source=ipset:some_ipset"
+    	    	@ipset_tmplt_list_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'ipset_tmplt_list'}{'seq'}});
+    	    	    #$arr_el0_l=fw-zone-tmplt-name
+    	    	foreach $arr_el1_l ( @ipset_tmplt_list_arr_l ) {
                     #$arr_el1_l=ipset-tmplt-name
-	    		#$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
-	    		#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
-	    		    #{'ipset_name'}=value
-	    	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el1_l}) ) {
-	    		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$arr_el1_l}{'ipset_name'};
-	    	    }
-	    	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el1_l}) ) {
-	    		$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$arr_el1_l}{'ipset_name'};
-	    	    }
+    	    		#$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
+    	    		#$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
+    	    		    #{'ipset_name'}=value
+    	    	    if ( exists(${$ipset_templates_href_l}{'temporary'}{$arr_el1_l}) ) {
+    	    		$ipset_name_l=${$ipset_templates_href_l}{'temporary'}{$arr_el1_l}{'ipset_name'};
+    	    	    }
+    	    	    elsif ( exists(${$ipset_templates_href_l}{'permanent'}{$arr_el1_l}) ) {
+    	    		$ipset_name_l=${$ipset_templates_href_l}{'permanent'}{$arr_el1_l}{'ipset_name'};
+    	    	    }
     	    	    $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --change-source=ipset:$ipset_name_l;";
                     push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
             
@@ -563,22 +563,22 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
             
                 $arr_el1_l=undef;
                 @ipset_tmplt_list_arr_l=();
-	    }
-	    # ipset_tmplt_list (end)
-	    
-	    # forward_ports_set (begin)
-	    	#$fw_ports_set_href_l
-	        #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
+    	    }
+    	    # ipset_tmplt_list (end)
+    	    
+    	    # forward_ports_set (begin)
+    	    	#$fw_ports_set_href_l
+    	        #$h04_conf_forward_ports_sets_hash_g{inv-host}{set_name}->
     	    	    #{'rule-0'}=1
     	    	    #{'rule-1'}=1
     	    	    #etc
     	    	    #{'seq'}=[val-0,val-1] (val=rule)
-	    # Add forward-port = "firewall-cmd --permanent --zone=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
-	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
-	    	#$arr_el0_l=fw-zone-tmplt-name
-	    if ( $forward_ports_set_l ne 'empty' ) {
-	    	@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
-	    	foreach $arr_el1_l ( @forward_ports_arr_l ) {
+    	    # Add forward-port = "firewall-cmd --permanent --zone=some_zone_name --add-forward-port='some-fw-port-string'" (for information only).
+    	    $forward_ports_set_l=${$hval0_l}{$arr_el0_l}{'forward_ports_set'};
+    	    	#$arr_el0_l=fw-zone-tmplt-name
+    	    if ( $forward_ports_set_l ne 'empty' ) {
+    	    	@forward_ports_arr_l=sort(@{${$fw_ports_set_href_l}{$hkey0_l}{$forward_ports_set_l}{'seq'}});
+    	    	foreach $arr_el1_l ( @forward_ports_arr_l ) {
                     #$arr_el1_l=forward-port rule
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-forward-port='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
@@ -588,22 +588,22 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
             
                 $arr_el1_l=undef;
                 @forward_ports_arr_l=();
-	    }
-	    # forward_ports_set (end)
-	    
-	    # rich_rules_set (begin)
-	    	#$rich_rules_set_href_l
-	    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
+    	    }
+    	    # forward_ports_set (end)
+    	    
+    	    # rich_rules_set (begin)
+    	    	#$rich_rules_set_href_l
+    	    	#$h05_conf_rich_rules_sets_hash_g{inv-host}{set_name}->
     	    	    #{'rule-0'}=1
     	    	    #{'rule-1'}=1
     	    	    #etc
     	    	    #{'seq'}=[val-0,val-1] (val=rule)
-	    # Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name --add-rich-rule='some-rich-rule-string'" (for information only).
-	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
-	    	#$arr_el0_l=fw-zone-tmplt-name
-	    if ( $rich_rules_set_l ne 'empty' ) {
-	    	@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
-	    	foreach $arr_el1_l ( @rich_rules_arr_l ) {
+    	    # Add rich-rule = "firewall-cmd --permanent --zone=some_zone_name --add-rich-rule='some-rich-rule-string'" (for information only).
+    	    $rich_rules_set_l=${$hval0_l}{$arr_el0_l}{'rich_rules_set'};
+    	    	#$arr_el0_l=fw-zone-tmplt-name
+    	    if ( $rich_rules_set_l ne 'empty' ) {
+    	    	@rich_rules_arr_l=sort(@{${$rich_rules_set_href_l}{$hkey0_l}{$rich_rules_set_l}{'seq'}});
+    	    	foreach $arr_el1_l ( @rich_rules_arr_l ) {
                     #$arr_el1_l=rich-rule
                     $wr_str_l="firewall-cmd --permanent --zone=$zone_name_l --add-rich-rule='$arr_el1_l';";
                     push(@{$wr_hash_l{$hkey0_l}{'standard'}},$wr_str_l);
@@ -613,16 +613,16 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
             
                 $arr_el1_l=undef;
                 @rich_rules_arr_l=();
-	    }
-	    # rich_rules_set (end)
-	    
-	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},' ');
+    	    }
+    	    # rich_rules_set (end)
+    	    
+    	    push(@{$wr_hash_l{$hkey0_l}{'standard'}},' ');
     	}
-	
-	$arr_el0_l=undef;
-	$zone_name_l=undef;
-	@tmp_arr_l=();
-	# commands for configure and correcting std fw-zones (end)
+    	
+    	$arr_el0_l=undef;
+    	$zone_name_l=undef;
+    	@tmp_arr_l=();
+    	# commands for configure and correcting std fw-zones (end)
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
@@ -716,10 +716,10 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
 		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
     		    @zone_allowed_services_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_services'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_services_arr_l[0]=~/^set\:/ ) { @zone_allowed_services_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_services_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_services_set'}}); }
-		
+    		    if ( $zone_allowed_services_arr_l[0]=~/^set\:/ ) { @zone_allowed_services_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_services_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_services_set'}}); }
+    		
     		foreach $arr_el1_l ( @zone_allowed_services_arr_l ) {
     		    #$arr_el1_l=service name for add
     		    $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-service=$arr_el1_l;";
@@ -736,14 +736,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # ports or ports_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     		# Allow port = "firewall-cmd --permanent --zone=some_custom_zone_name --add-port=1234/tcp"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}) ) {
     		    @zone_allowed_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_ports'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_ports_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
-		
+    		    if ( $zone_allowed_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_ports_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_ports_set'}}); }
+    		
     		foreach $arr_el1_l ( @zone_allowed_ports_arr_l ) {
     		    #$arr_el1_l=port for allow
     		    $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-port=$arr_el1_l;";
@@ -760,14 +760,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # protocols or protocols_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     		# Allow protocol="firewall-cmd --permanent --zone=some_custom_zone_name --add-protocol=gre"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}) ) {
     		    @zone_allowed_protocols_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_protocols'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_protocols_arr_l[0]=~/^set\:/ ) { @zone_allowed_protocols_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_protocols_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}}); }
-		
+    		    if ( $zone_allowed_protocols_arr_l[0]=~/^set\:/ ) { @zone_allowed_protocols_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_protocols_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_protocols_set'}}); }
+    		
     		foreach $arr_el1_l ( @zone_allowed_protocols_arr_l ) {
     		    #$arr_el1_l=proto for allow
     		    $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-protocol=$arr_el1_l;";
@@ -808,14 +808,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # source ports or source_ports_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	# Allow source port="firewall-cmd --permanent --zone=some_custom_zone_name --add-source-port=8080/tcp"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}) ) {
     	    	    @zone_allowed_source_ports_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_allowed_source_ports'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_allowed_source_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_source_ports_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_allowed_source_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}}); }
-		
+    		    if ( $zone_allowed_source_ports_arr_l[0]=~/^set\:/ ) { @zone_allowed_source_ports_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_allowed_source_ports_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'allowed_source_ports_set'}}); }
+    		
     	    	foreach $arr_el1_l ( @zone_allowed_source_ports_arr_l ) {
                     #$arr_el1_l=source-port for allow
                     $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-source-port=$arr_el1_l;";
@@ -830,12 +830,12 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # source ports or source_ports_sets (end)
     	
     	    # icmp block inversion or inversion from icmp_blocks_sets (SETS) (begin)
-	    if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}) ) {
+    	    if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}) ) {
     		$zone_icmp_block_inversion_l=${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block_inversion'};
     		    #$arr_el0_l=fw-zone-tmplt-name
-	    }
-	    else { $zone_icmp_block_inversion_l=${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}; }
-	    
+    	    }
+    	    else { $zone_icmp_block_inversion_l=${$hval0_l}{$arr_el0_l}{'icmp_blocks_inversion'}; }
+    	    
     	    # Set icmp-block-inversion = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block-inversion"
     	    if ( $zone_icmp_block_inversion_l eq 'yes' ) {
     	    	$wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-icmp-block-inversion;";
@@ -848,14 +848,14 @@ sub generate_shell_script_for_recreate_firewall_zones_v2 {
     	    # icmp block or icmp_blocks_sets (SETS) (begin)
     	    if ( exists(${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	# Add icmptype to icmp-block section = "firewall-cmd --permanent --zone=some_custom_zone_name --add-icmp-block=some_icmp_type"
-		
-		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
+    		
+    		if ( !exists(${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}) ) {
     	    	    @zone_icmp_block_arr_l=sort(@{${$custom_zone_templates_href_l}{$arr_el0_l}{'zone_icmp_block'}{'seq'}});
     			#$arr_el0_l=fw-zone-tmplt-name
-		    if ( $zone_icmp_block_arr_l[0]=~/^set\:/ ) { @zone_icmp_block_arr_l=(); } # clear arr if set is empty
-		}
-		else { @zone_icmp_block_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}}); }
-		
+    		    if ( $zone_icmp_block_arr_l[0]=~/^set\:/ ) { @zone_icmp_block_arr_l=(); } # clear arr if set is empty
+    		}
+    		else { @zone_icmp_block_arr_l=sort(@{${$hval0_l}{$arr_el0_l}{'icmp_blocks_set'}}); }
+    		
     	    	foreach $arr_el1_l ( @zone_icmp_block_arr_l ) {
                     #$arr_el1_l=icmp-block
                     $wr_str_l="firewall-cmd --permanent --zone='$zone_name_l' --add-icmp-block=$arr_el1_l;";

@@ -54,7 +54,7 @@ sub generate_firewall_configs {
     );
     my $return_str_l='OK';
     
-    # form arrays for create fw-configs
+    # form arrays for create fw-configs (begin)
     while ( ($hkey0_l,$hval0_l)=each %{$conf_firewalld_href_l} ) {
         #$hkey0_l=inv-host
         
@@ -72,7 +72,7 @@ sub generate_firewall_configs {
         $arr_el0_l=undef;
         # form firewalld.conf (end)
     	
-        # logging_of_dropped_packets
+        # logging_of_dropped_packets (begin)
         @{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}}=@begin_conf_arr_l;
         push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},'# NO CHANGES');
     	
@@ -92,9 +92,9 @@ sub generate_firewall_configs {
             push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},':msg,contains,"_REJECT" /var/log/firewalld-droppd.log');
             push(@{$wr_hash_l{$hkey0_l}{'firewalld-droppd'}},'& stop');
         }
-        ###
+        # logging_of_dropped_packets (end)
     }
-    ###
+    # form arrays for create fw-configs (end)
     
     # create fw-configs for each host (begin)
     while ( ($hkey0_l,$hval0_l)=each %wr_hash_l ) {
