@@ -6,22 +6,22 @@ sub generate_shell_script_for_recreate_ipsets {
     #$remote_dir_for_absible_helper_l=$remote_dir_for_absible_helper_g
     #$input_hash4proc_href_l=hash-ref for %input_hash4proc_g (hash with hash refs for input)
     my $proc_name_l=(caller(0))[3];
-
+    
     my $inv_hosts_href_l=${$input_hash4proc_href_l}{'inventory_hosts_href'};
     #$inv_hosts_href_l=hash-ref for %invetory_hosts_g
-
+    
     my $conf_firewalld_href_l=${$input_hash4proc_href_l}{'h00_conf_firewalld_href'};
     #$conf_firewalld_href_l=hash-ref for %h00_conf_firewalld_hash_g
         #$h00_conf_firewalld_hash_g{inventory_host}->
-
+    
     my $ipset_templates_href_l=${$input_hash4proc_href_l}{'h01_conf_ipset_templates_href'};
     #$ipset_templates_href_l=hash-ref for %h01_conf_ipset_templates_hash_g
         #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
-
+    
     my $h66_conf_ipsets_FIN_href_l=${$input_hash4proc_href_l}{'h66_conf_ipsets_FIN_href'};
     #$h66_conf_ipsets_FIN_href_l=hash-ref for \%h66_conf_ipsets_FIN_hash_g
         #$h66_conf_ipsets_FIN_hash_g{'temporary/permanent'}{inventory_host}->
-
+    
     #$h01_conf_ipset_templates_hash_g{'temporary/permanent'}{ipset_template_name--TMPLT}->
     #{'ipset_name'}=value
     #{'ipset_description'}=empty|value
@@ -37,7 +37,7 @@ sub generate_shell_script_for_recreate_ipsets {
         #{ipset_name_tmplt-1}=1;
         #etc
     ###
-
+    
     my $exec_res_l=undef;
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $arr_el0_l=undef;
@@ -61,7 +61,7 @@ sub generate_shell_script_for_recreate_ipsets {
         # --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
         #$hkey0_l=inv-host
-
+    
         @tmp_arr_l=sort(keys %{$hval0_l});
         foreach $arr_el0_l ( @tmp_arr_l ) {
             #$arr_el0_l=ipset_tmplt_name
