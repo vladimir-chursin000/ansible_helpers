@@ -56,7 +56,7 @@ sub generate_shell_script_for_recreate_ipsets {
         #key=inv-host, value=array of temporary ipset names at current inv-host
     my $return_str_l='OK';
     
-    # fill array (for each host) with commands for recreate temporary ipsets
+    # fill array (for each host) with commands for recreate temporary ipsets (begin)
     #"firewall-cmd --permanent --new-ipset=some_ipset_name --type=hash:net --set-description=some_description --set-short=some_short_description --option=timeout=0
         # --option=family=inet --option=hashsize=4096 --option=maxelem=200000"
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'temporary'}} ) {
@@ -70,8 +70,9 @@ sub generate_shell_script_for_recreate_ipsets {
                 last;
             }
             
-	    push(@{$temporary_ipset_names_l{$hkey0_l}},${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'});
-	    
+    	    push(@{$temporary_ipset_names_l{$hkey0_l}},${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'});
+    	    
+    	    # form firewall-cmd command (begin)
             $wr_str_l="firewall-cmd --permanent";
             $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_name'};
             $wr_str_l.=" --type=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_type'};
@@ -85,9 +86,10 @@ sub generate_shell_script_for_recreate_ipsets {
             $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_family'};
             $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_hashsize'};
             $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'temporary'}{$arr_el0_l}{'ipset_create_option_maxelem'}.";";
-
+    	    # form firewall-cmd command (end)
+    
             push(@wr_arr_l,$wr_str_l);
-
+    
             $wr_str_l=undef;
         }
         
@@ -97,21 +99,21 @@ sub generate_shell_script_for_recreate_ipsets {
             @wr_arr_l=();
         }
         else { @{$wr_hash_temporary_l{$hkey0_l}}=(); }
-
+    
         $arr_el0_l=undef;
-
+    
         if ( $return_str_l!~/^OK$/ ) { last; }
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
+    # fill array (for each host) with commands for recreate temporary ipsets (end)
 
-    # fill array (for each host) with commands for recreate permanent ipsets
+    # fill array (for each host) with commands for recreate permanent ipsets (begin)
     while ( ($hkey0_l,$hval0_l)=each %{${$h66_conf_ipsets_FIN_href_l}{'permanent'}} ) {
         #$hkey0_l=inv-host
-
+	
         @tmp_arr_l=sort(keys %{$hval0_l});
         foreach $arr_el0_l ( @tmp_arr_l ) {
             #$arr_el0_l=ipset_tmplt_name
@@ -121,7 +123,8 @@ sub generate_shell_script_for_recreate_ipsets {
             }
             
             push(@{$permanet_ipset_names_l{$hkey0_l}},${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'});
-
+	
+    	    # form firewall-cmd command (begin)    
             $wr_str_l="firewall-cmd --permanent";
             $wr_str_l.=" --new-ipset=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_name'};
             $wr_str_l.=" --type=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_type'};
@@ -135,34 +138,35 @@ sub generate_shell_script_for_recreate_ipsets {
             $wr_str_l.=" --option=family=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_family'};
             $wr_str_l.=" --option=hashsize=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_hashsize'};
             $wr_str_l.=" --option=maxelem=".${$ipset_templates_href_l}{'permanent'}{$arr_el0_l}{'ipset_create_option_maxelem'}.";";
-	    
+    	    # form firewall-cmd command (end)
+    	    
             push(@wr_arr_l,$wr_str_l);
-
+	
             $wr_str_l=undef;
         }
-
+	
         if ( $#wr_arr_l!=-1 ) {
             push(@wr_arr_l,' ');
             #@{$wr_hash_permanent_l{$hkey0_l}}=(@{$wr_hash_permanent_l{$hkey0_l}},@wr_arr_l);
-	    @{$wr_hash_permanent_l{$hkey0_l}}=@wr_arr_l;
+    	    @{$wr_hash_permanent_l{$hkey0_l}}=@wr_arr_l;
             @wr_arr_l=();
         }
         else { @{$wr_hash_permanent_l{$hkey0_l}}=(); }
-
+	
         $arr_el0_l=undef;
-
+	
         if ( $return_str_l!~/^OK$/ ) { last; }
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
-
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-    ###
-
+    # fill array (for each host) with commands for recreate permanent ipsets (end)
+    
     # create script "recreate_permanent_ipsets" (and ipset_names_list + content) for copy to remote hosts (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         #hkey0_l=inv-host
-	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+    	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/recreate_permanent_ipsets.sh';
         
         if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_permanent_ipsets.sh' (begin)
