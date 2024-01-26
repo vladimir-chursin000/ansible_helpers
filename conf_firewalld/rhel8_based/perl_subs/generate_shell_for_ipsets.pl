@@ -217,21 +217,21 @@ sub generate_shell_script_for_recreate_ipsets {
         $wr_file_l=undef;
         @wr_arr_l=();
     }
-
+    
     ($hkey0_l,$hval0_l)=(undef,undef);
     # create script "recreate_permanent_ipsets" (and ipset_names_list + content) for copy to remote hosts (END)
     
     # create script for recreate temporary ipsets (and ipset_names_list + content) for copy to remote hosts (BEGIN)
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
         #hkey0_l=inv-host
-	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
+    	if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
         $wr_file_l=$dyn_fwrules_files_dir_l.'/'.$hkey0_l.'/recreate_temporary_ipsets.sh';
-	
-	if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_temporary_ipsets.sh'
-	    # 1) add lines with with commands for recreate temporary ipsets
+    	
+    	if ( exists($wr_hash_permanent_l{$hkey0_l}) ) { # if exists content for 'recreate_temporary_ipsets.sh'
+    	    # 1) add lines with with commands for recreate temporary ipsets
             @wr_arr_l=@{$wr_hash_temporary_l{$hkey0_l}}; 
-	    ###
-	
+    	    ###
+    	
             # 2) insert compiler path and remove commands at the begin of the script
             @wr_arr_l=(
                 '#!/usr/bin/bash',
@@ -243,8 +243,8 @@ sub generate_shell_script_for_recreate_ipsets {
                 ' ',
                 @wr_arr_l
             );
-	    ###
-	} # if exists content for 'recreate_temporary_ipsets.sh' (end)
+    	    ###
+    	} # if exists content for 'recreate_temporary_ipsets.sh' (end)
         elsif ( !exists($wr_hash_temporary_l{$hkey0_l}) && ${$conf_firewalld_href_l}{$hkey0_l}{'if_no_ipsets_conf_action'}=~/^remove$/ ) {
             @wr_arr_l=(
                 '#!/usr/bin/bash',
@@ -264,19 +264,19 @@ sub generate_shell_script_for_recreate_ipsets {
                 '###DO NOT CHANGE!',
                 ' ',
                 '#NO NEED TO RECREATE IPSETS',
-		' ',
+    		' ',
             );
         }
-
+    
         $exec_res_l=&rewrite_file_from_array_ref($wr_file_l,\@wr_arr_l);
         #$file_l,$aref_l
         if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
-
+    
         $wr_file_l=undef;
         @wr_arr_l=();
     }
     # create script for recreate temporary ipsets (and ipset_names_list + content) for copy to remote hosts (END)
-
+    
     return $return_str_l;
 }
 
