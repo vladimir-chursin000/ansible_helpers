@@ -38,6 +38,7 @@ sub generate_rollback_fwrules_changes_sh {
     if ( $with_rollback_l==1 ) {
     	while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_href_l} ) {
     	    #hkey0_l=inv-host
+    	    
     	    if ( ! -d "$dyn_fwrules_files_dir_l/$hkey0_l" ) { system("mkdir -p $dyn_fwrules_files_dir_l/$hkey0_l"); }
     	    $rollback_timeout_l=${$conf_firewalld_href_l}{$hkey0_l}{'temporary_apply_fwrules_timeout'};
     	    $rollback_fwrules_changes_tmplt_file_l=$scripts_for_remote_dir_l.'/rollback_fwrules_changes_tmplt.sh';
@@ -49,7 +50,7 @@ sub generate_rollback_fwrules_changes_sh {
     	}
     	
     	if ( $return_str_l=~/^fail/ ) { return $return_str_l; }
-    
+    	
     	($hkey0_l,$hval0_l)=(undef,undef);
     }
     ###
