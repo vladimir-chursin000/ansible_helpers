@@ -51,6 +51,7 @@ gr_qemu_kvm_servers=192.168.11.0/24
 [control_z_ipset--TMPLT:BEGIN]
 # Ipset content for zone template "control_z"
 gr_qemu_kvm_servers=192.168.22.99;192.168.22.55;192.168.22.77;192.168.22.66
+192.168.22.66=192.168.22.0/24
 gr_bridge_connect_only=192.168.68.0/24
 [control_z_ipset--TMPLT:END]
 

@@ -342,7 +342,6 @@ sub generate_shell_script_for_recreate_policies_v2 {
     	    # services or services_sets (SETS) (begin)
     	    if ( exists(${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}) or exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
     	    	# Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http"
-    		print "tst0\n";
     		
     		if ( !exists(${$hval0_l}{$arr_el0_l}{'allowed_services_set'}) ) {
     		    @policy_allowed_services_arr_l=sort(@{${$conf_policy_templates_href_l}{$arr_el0_l}{'policy_allowed_services'}{'seq'}});

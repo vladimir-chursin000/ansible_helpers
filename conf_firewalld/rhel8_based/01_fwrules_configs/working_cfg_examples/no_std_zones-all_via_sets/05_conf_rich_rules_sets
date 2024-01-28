@@ -38,3 +38,6 @@
 gr_qemu_kvm_servers	"rule family=ipv4 source address=192.168.68.33/32 service name=ssh accept"
 [publ_services_z_rich_rules_set:END]
 # WORK sets for zones (end)
+
+# WORK sets for policies (begin)
+# WORK sets for policies (end)

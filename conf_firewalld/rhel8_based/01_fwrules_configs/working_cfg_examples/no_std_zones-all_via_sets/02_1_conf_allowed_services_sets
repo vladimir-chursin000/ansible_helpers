@@ -50,3 +50,11 @@ gr_bridge_connect_only=ssh
 all=empty
 [asrvs_other_z_set:END]
 # WORK sets for zones (end)
+
+# WORK sets for policies (begin)
+[asrvs_fr_publ2ctrl_plc_set:BEGIN]
+# Set for policy template "fr_publ2ctrl_plc--TMPLT"
+all=empty
+192.168.2.6=ssh
+[asrvs_fr_publ2ctrl_plc_set:END]
+# WORK sets for policies (end)

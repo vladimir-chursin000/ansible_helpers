@@ -1,0 +1,117 @@
+######################################################################
+#FOR CONFIGURATION OF POLICIES (between firewall zones) for FIREWALLD#
+######################################################################
+
+# The policy template name must always contain a substring "--TMPLT" at the end.
+# It is possible to create several policies (#policy_name) with the same name but within different template_names to apply to different hosts.
+# Policy template names must be unique.
+# Policy template name examples: policy1--TMPLT, policy1_ver1--TMPLT, policy1_special--TMPLT, etc.
+
+###EXAMPLE (with explanation)
+#[policy_template_name--TMPLT:BEGIN]
+#policy_FINAL_CONF = "88_conf_policies_FIN" (DO NOT USE AT this CONFIG! For information only)
+    # To configure it is necessary to edit the file "88_conf_policies_FIN".
+#################################
+#policy_name=some_policy_name
+    # A policy with this name will be created/recreated on the target hosts.
+    # All policies are not configured in this config will be deleted on remote hosts.
+    # Maximum length - 17 characters.
+    # Create policy = "firewall-cmd --permanent --new-policy=some_policy_name" (for information only).
+
+#policy_description=empty|some description
+    # Do not use here "=" or ",".
+    # The maximum length is 100 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
+    # Set policy description = "firewall-cmd --permanent --policy=some_policy_name --set-description='some_description'" (for information only).
+    
+#policy_short_description=empty|some short description
+    # Do not use here "=" or ",".
+    # The maximum length is 20 characters (custom limit by this software). If this value is exceeded, the string will be truncated to the maximum value.
+    # Set policy short description = "firewall-cmd --permanent --policy=some_policy_name --set-short='some_short_description'" (for information only).
+
+#policy_target=ACCEPT|REJECT|DROP|CONTINUE
+    # ACCEPT -> will accept every packet that does not match any rule.
+    # REJECT  -> reject every packet not matching any rule. The system will send a packet notifying the source of the packet that it is rejected.
+    # DROP    -> will drop every packet not matching a rule. The system just dumps the packet and does not notify the sender.
+    # CONTINUE -> packets will be subject to rules in following policies and zones.
+    # Default value = CONTINUE.
+    # Set policy target = "firewall-cmd --permanent --policy=some_policy_name --set-target=some_target" (for information only).
+
+#policy_priority=num
+    # Default = "-1".
+    # The priority determines the relative ordering of policies.
+    # This is an integer value between -32768 and 32767 where -1 is the default value for new policies and 0 is reserved for internal use.
+    # If a priority is < 0, then the policy's rules will execute before all rules in all zones.
+    # If a priority is > 0, then the policy's rules will execute after all rules in all zones.
+    # Set policy priority = "firewall-cmd --permanent --policy=some_policy_name --set-priority=-1" (for information only).
+
+#policy_allowed_services=empty|http,https|set:set_name (for example)
+    # Opens the standard port(s) of a specific service. For incoming connections.
+    # A list of possible default services can be found in the directory "/usr/lib/firewalld/services".
+    # A set of allowed services can be specified in the configuration file '02_1_conf_allowed_services_sets'.
+    # Allow service = "firewall-cmd --permanent --policy=some_policy_name --add-service=http" (for information only).
+
+#policy_allowed_ports=empty|1234/tcp,1234/udp,60000-61000/udp|set:set_name (for example)
+    # For incoming connections.
+    # Common format = port_num/port_type (or port_num_begin-port_num_end/port_type). Available port types: tcp, udp, sctp, dccp.
+    # A set of allowed ports can be specified in the configuration file '02_2_conf_allowed_ports_sets'.
+    # Allow port = "firewall-cmd --permanent --policy=some_policy_name --add-port=1234/tcp" (for information only).
+
+#policy_allowed_protocols=empty|tcp,udp,gre|set:set_name (for example)
+    # If "empty" -> allow all protocols. If at least one (or several) protocol is defined, then only it will be allowed for the policy.
+    # The list of protocols is contained in the file "/etc/protocols".
+    # A set of allowed protocols can be specified in the configuration file '02_3_conf_allowed_protocols_sets'.
+    # Allow protocol="firewall-cmd --permanent --policy=some_policy_name --add-protocol=gre" (for information only).
+
+#policy_masquerade_general=yes|no
+    # Yes = enable masquerade (SRC-NAT) option between all interfaces/sources included into the policy.
+    # Allow masquerade general = "firewall-cmd --permanent --policy=some_policy_name --add-masquerade" (for information only).
+
+#policy_allowed_source_ports=empty|8080/tcp,5060-5061/udp|set:set_name (for example)
+    # The option sets the allowed ports for outgoing traffic.
+    # Common format = port_num/port_type (or port_num_begin-port_num_end/port_type). Available port types: tcp, udp, sctp, dccp.
+    # If set to empty, then ports for outgoing traffic will be assigned from the range of 30000-60000 (approximately).
+    # A set of allowed source ports can be specified in the configuration file '02_2_conf_allowed_ports_sets'.
+    # Allow source port="firewall-cmd --permanent --policy=some_policy_name --add-source-port=8080/tcp" (for information only).
+
+#policy_icmp_block=empty|address-unreachable,bad-header,beyond-scope|set:set_name (for example)
+    # A set of icmp blocks can be specified in the configuration file '02_4_conf_icmp_blocks_sets'.
+    # Get full list of icmp-types = "firewall-cmd --get-icmptypes" (for information only).
+    # Add icmptype to icmp-block section = "firewall-cmd --permanent --policy=some_policy_name --add-icmp-block=some_icmp_type" (for information only).
+
+#[policy_template_name--TMPLT:END]
+
+###POLICY EXAMPLE. Use this template to create policies. Don't forget to remove the comment characters (#).
+#[some_policy--TMPLT:BEGIN]
+#Maximum length for "policy_name" = 17 characters
+#policy_name=some_policy_name
+###
+#policy_description=empty
+#policy_short_description=empty
+#policy_target=CONTINUE
+#policy_priority=-1
+#policy_allowed_services=empty
+#policy_allowed_ports=empty
+#policy_allowed_protocols=empty
+#policy_masquerade_general=no
+#policy_allowed_source_ports=empty
+#policy_icmp_block=empty
+#[some_policy--TMPLT:END]
+
+#################################INSERT YOUR CUSTOM POLICY TEMPLATES AFTER THIS LINE#################################
+# WORK policy templates (begin)
+[fr_publ2ctrl_plc--TMPLT:BEGIN]
+#Maximum length for "policy_name" = 17 characters
+policy_name=from_publ2ctrl
+###
+policy_description=From publish to control
+policy_short_description=From publish to control
+policy_target=CONTINUE
+policy_priority=-500
+policy_allowed_services=set:asrvs_fr_publ2ctrl_plc_set
+policy_allowed_ports=set:aport_fr_publ2ctrl_plc_set
+policy_allowed_protocols=set:aproto_fr_publ2ctrl_plc_set
+policy_masquerade_general=yes
+policy_allowed_source_ports=set:asrcport_fr_publ2ctrl_plc_set
+policy_icmp_block=set:icmp_fr_publ2ctrl_plc_set
+[fr_publ2ctrl_plc--TMPLT:END]
+# WORK policy templates (end)

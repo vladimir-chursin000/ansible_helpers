@@ -1,0 +1,52 @@
+########################################
+#FOR ASSIGN POLICIES to INVENTORY_HOSTS#
+########################################
+
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1), list of inventory hosts separated by "," or individual hosts (2).
+###
+# POLICY_TEMPLATE_NAME = must be equal to the corresponding policy template configured in the file "03_conf_policy_templates".
+###
+# INGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the ingress zone is the zone from which the packet originated.
+    # Add ingress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-ingress-zone=some_firewall_zone" (for information only).
+    # Other possible values: HOST, ANY.
+    # The HOST symbolic zone allows policies for the traffic originating from or has a destination to the host running firewalld.
+    # The ANY symbolic zone applies policy to all the current and future zones. ANY symbolic zone acts as a wildcard for all zones.
+###
+# EGRESS-FIREWALL_ZONE_TEMPLATE_NAME = the egress zone is the zone to which the packet is destined.
+    # Add egress zone to policy = "firewall-cmd --permanent --policy=some_policy --add-egress-zone=some_firewall_zone" (for information only).
+    # Other possible values: HOST, ANY.
+    # The HOST symbolic zone allows policies for the traffic originating from or has a destination to the host running firewalld.
+    # The ANY symbolic zone applies policy to all the current and future zones. ANY symbolic zone acts as a wildcard for all zones.
+###
+# FORWARD_PORTS_SET = name of forward ports set for apply to policy. To configure #FORWARD_PORTS_SET edit file "04_conf_forward_ports_sets".
+    # DST-NAT configuration.
+    # With port forwarding, all traffic sent to a particular port will be redirected either to another port on the local system or to a port on the external system.
+    # If forwarding to an external network is required, you must also configure masquerading (SRC-NAT).
+    # Possible values:
+        # some_forward_ports_set_name (for apply some forward ports rules to firewall zone)
+        # empty (for don't apply any forward ports rules to firewall zone).
+    # Add forward-port = "firewall-cmd --permanent --zone=some_policy_name --add-forward-port='some-fw-port-string'" (for information only).
+###
+# RICH_RULES_SET = name of rich rules set for apply to policy. To configure #RICH_RULES_SET edit file "05_conf_rich_rules_sets".
+    # Possible values:
+        # some_rich_rules_set_name (for apply some rich rules to firewall zone)
+        # empty (for don't apply any rich rules to firewall zone).
+    # Add rich-rule = "firewall-cmd --permanent --zone=some_policy_name --add-rich-rule='some-rich-rule-string'" (for information only).
+###
+#INVENTORY_HOST		#POLICY_NAME_TMPLT		#INGRESS-FIREWALL_ZONE_NAME_TMPLT	#EGRESS-FIREWALL_ZONE_NAME_TMPLT	#FORWARD_PORTS_SET      #RICH_RULES_SET
+#all			policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set1		rich_rules_set1 (example, prio = 0)
+#gr_some_example_group	policy_public2home--TMPLT	public--TMPLT                           home--TMPLT				empty			empty (example, prio = 1)
+#10.3.2.2,10.3.2.1	policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set2		rich_rules_set2 (example, prio = 2)
+#10.3.2.2		policy_public2home--TMPLT	public--TMPLT				home--TMPLT				fw_ports_set2		rich_rules_set2 (example, prio => 2)
+
+# WORK cfg (begin)
+192.168.22.66		fr_publ2ctrl_plc--TMPLT		publ_services_z--TMPLT			control_z--TMPLT			empty			empty
+    ### For access from zone configured at tmplt 'publ_services_z--TMPLT' to zone configured at tmplt 'control_z--TMPLT'.
+    ### Access service = ssh (block 'asrvs_fr_publ2ctrl_plc_set' at '02_1_conf_allowed_services_sets' for '192.168.22.66').
+    ### SRC at 'publ_services_z--TMPLT' = 192.168.68.0/24 for group 'gr_qemu_kvm_servers' (see '65_conf_initial_ipsets_content_FIN').
+    ### DST at 'control_z--TMPLT' = '192.168.22.0/24' (see '65_conf_initial_ipsets_content_FIN').
+    ### At 192.168.68.33 (gr_bridge_connect_only) need to add route "ip route add 192.168.22.0/24 via 192.168.68.22".
+	# 192.168.68.22 = another interface at inventory host 192.168.22.66 wich directly connected to 192.168.68.33 (via LAN cable).
+# WORK cfg (end)
