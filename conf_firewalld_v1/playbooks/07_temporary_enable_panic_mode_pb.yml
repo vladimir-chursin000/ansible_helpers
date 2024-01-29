@@ -1,5 +1,5 @@
 ---
-- hosts: rhel8_firewall_conf_dedic_app
+- hosts: firewall_conf_dedic_app_v1
   vars:
      panic_timeout: "{{lookup('file','{{playbook_dir}}/tmp_vars/panic_timeout')}}"
   tasks:
