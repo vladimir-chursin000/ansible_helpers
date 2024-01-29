@@ -47,6 +47,6 @@
     ### Access service = ssh (block 'asrvs_fr_publ2ctrl_plc_set' at '02_1_conf_allowed_services_sets' for '192.168.22.66').
     ### SRC at 'publ_services_z--TMPLT' = 192.168.68.0/24 for group 'gr_qemu_kvm_servers' (see '65_conf_initial_ipsets_content_FIN').
     ### DST at 'control_z--TMPLT' = '192.168.22.0/24' (see '65_conf_initial_ipsets_content_FIN').
-    ### At 192.168.68.33 (gr_bridge_connect_only) need to add route "ip route add 192.168.22.0/24 via 192.168.68.22".
+    ### At 192.168.68.33 (gr_bridge_connect_only) need to organize route to 192.168.22.0/24.
 	# 192.168.68.22 = another interface at inventory host 192.168.22.66 wich directly connected to 192.168.68.33 (via LAN cable).
 # WORK cfg (end)
