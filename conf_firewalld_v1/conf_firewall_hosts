@@ -1,5 +1,6 @@
 [rhel8_firewall_conf_dedic_app]
-#WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE with OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc)
+#WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE with OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc).
+#I think it will work on RHEL7 based systems.
 
 [rhel8_firewall_conf_dedic_app:vars]
 ansible_python_interpreter=/usr/bin/python3

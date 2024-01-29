@@ -10,11 +10,8 @@ READY helpers:
 4. install_nfs_server
 5. conf_int_ipv4_via_network_scripts
 
-Partially READY helpers (can be used):
-1. conf_firewalld_tmp (version before major refactoring)
-
 NOT READY helpers:
-1. conf_firewalld (testing in progress + some fixes)
+1. conf_firewalld_v1 (testing in progress + some fixes)
 2. conf_linux_core
 3. install_fileserv
 4. install_openssh
