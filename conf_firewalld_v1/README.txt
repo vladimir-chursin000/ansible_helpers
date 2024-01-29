@@ -1,4 +1,5 @@
 NOT READY! Testing!
+For OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc).
 ####
 # 1) UPDATE list (for install and configure firewall) of ip addresses = conf_firewall_hosts (inventory).
 
