@@ -1,3 +1,5 @@
+# Will be deleted after release of 'conf_chrony_v1'.
+###
 # 1) CHECK and CHANGE (if needed): "playbooks/conf/chrony_server.conf".
 
 # 2) UPDATE list (for install chrony-server) of ip addresses = chrony_server_hosts.
