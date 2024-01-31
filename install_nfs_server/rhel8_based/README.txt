@@ -1,4 +1,4 @@
-# Will be deleted after release of 'install_fileserv_v1'.
+# Will be deleted after release of 'conf_fileserv_v1'.
 ###
 # 1) CHECK and CHANGE (if needed): "playbooks/conf/nfs_server.conf", "playbooks/conf/nfsmount_server.conf", "dyn_exports_config" (for configure exports).
 

@@ -1,4 +1,4 @@
-# Will be deleted after release of 'install_fileserv_v1'.
+# Will be deleted after release of 'conf_fileserv_v1'.
 ###
 # 1) UPDATE list (for install nfs-clients) of ip addresses = nfs_client_hosts.
 
