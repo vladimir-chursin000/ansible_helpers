@@ -1,3 +1,5 @@
+# Will be deleted after release of 'install_fileserv_v1'.
+###
 # 1) UPDATE list (for install nfs-clients) of ip addresses = nfs_client_hosts.
 
 # 2) Fill conf_file='dyn_mount_config' (where clients must connect to various nfs-servers).
