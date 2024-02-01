@@ -1,5 +1,5 @@
-[rhel8_lxc_server_conf_dedic_app]
+[lxc_server_conf_dedic_app_v1]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE
 
-[rhel8_lxc_server_conf_dedic_app:vars]
+[lxc_server_conf_dedic_app_v1:vars]
 ansible_python_interpreter=/usr/bin/python3
