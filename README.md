@@ -12,9 +12,11 @@ READY helpers:
 
 NOT READY helpers:
 1. conf_firewalld_v1 (testing in progress + some fixes)
-2. conf_linux_core
-3. install_fileserv
-4. install_openssh
-5. SIMPLE_custom_ansible
+2. conf_linux_core_v1
+3. conf_fileserv_v1
+4. conf_openssh_v1
+5. conf_lxc_server_v1
+6. conf_chrony_v1
+7. SIMPLE_custom_ansible
 
 DATE: 2023-11-08 02:07
