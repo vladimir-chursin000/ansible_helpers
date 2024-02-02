@@ -1,4 +1,6 @@
 # ANSIBLE-APP NOT FINISHED YET!!!
+###
+# For OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc).
 ################
 # 1) CHECK and CHANGE (if needed): "playbooks/conf/lxc_default.conf", "playbooks/conf/lxc-usernet", "playbooks/conf/lxc_subuid", "playbooks/conf/lxc_subgid".
 
