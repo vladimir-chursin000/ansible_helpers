@@ -13,6 +13,10 @@ NOT READY! Testing!
 ##################
 
 # '00_just_install_firewall.sh' = just install firewalld.
+# For install packages: firewall, procps-ng, rsyslog, conntrack-tools.
+
+# '00_uninstall_firewall.sh' = uninstall firewalld.
+# For uninstall packages: firewall.
 
 # '01_check_firewall_serv_is_started.sh' = check for firewalld.service is started (and start if not).
 

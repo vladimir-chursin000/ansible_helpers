@@ -1,0 +1,9 @@
+---
+- hosts: firewall_conf_dedic_app_v1
+  tasks:
+    - name: "Uninstall 'firewall' at remote"
+      ansible.builtin.dnf:
+        name: "{{item}}"
+        state: removed
+      with_items:
+        - firewalld
