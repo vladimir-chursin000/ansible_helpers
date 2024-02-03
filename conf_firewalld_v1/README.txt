@@ -79,9 +79,9 @@ NOT READY! Testing!
 # 2) ./07_temporary_enable_panic_mode.sh "limit=192.168.168.1" "timeout=3";
 # 3) ./07_temporary_enable_panic_mode.sh "timeout=3" "limit=192.168.168.1";
 
-# '08_stop_and_disable_firewall.sh' = stop and disable service 'firewalld.service' at remote.
+# '99_stop_and_disable_firewall.sh' = stop and disable service 'firewalld.service' at remote.
 
-# '08_uninstall_firewall.sh' = uninstall firewalld at remote.
+# '99_uninstall_firewall.sh' = uninstall firewalld at remote.
 # For uninstall packages: firewall.
 
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
@@ -238,13 +238,13 @@ SCRIPTS LOGIC DESCRIPTION
     1) Run script 'main.sh' ->
 	1) Run playbook '07_temporary_enable_panic_mode_pb.yml'.
 
-'08_stop_and_disable_firewall.sh' ->
+'99_stop_and_disable_firewall.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '08_stop_and_disable_firewall_pb.yml'.
+	1) Run playbook '99_stop_and_disable_firewall_pb.yml'.
 
-'08_uninstall_firewall.sh' ->
+'99_uninstall_firewall.sh' ->
     1) Run script 'main.sh' ->
-	1) Run playbook '08_uninstall_firewall_pb.yml'.
+	1) Run playbook '99_uninstall_firewall_pb.yml'.
 
 ##################
 #With best regards
