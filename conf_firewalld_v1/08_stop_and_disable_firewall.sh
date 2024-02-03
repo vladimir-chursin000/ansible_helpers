@@ -1,12 +1,12 @@
 #!/usr/bin/bash
 
-# For start and enable services (at remote): firewalld.service, rsyslog.service.
+# For stop and disable services (at remote): firewalld.service.
 
 ######DEFAULT INPUT VARS (for main.sh)
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
-PLAYBOOK_str='01_check_firewall_serv_is_started_pb.yml';
+PLAYBOOK_str='08_stop_and_disable_firewall_pb.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='no'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='no';

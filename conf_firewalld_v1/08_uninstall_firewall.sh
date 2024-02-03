@@ -1,12 +1,12 @@
 #!/usr/bin/bash
 
-# For uninstall packages: firewall.
+# For uninstall packages (at remote): firewall.
 
 ######DEFAULT INPUT VARS (for main.sh)
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
-PLAYBOOK_str='00_uninstall_firewall_pb.yml';
+PLAYBOOK_str='08_uninstall_firewall_pb.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='no'; #for run before script 'generate_dynamic_fwrules.pl' and/or PLAYBOOK
 GEN_DYN_FWRULES_RUN_str='no';

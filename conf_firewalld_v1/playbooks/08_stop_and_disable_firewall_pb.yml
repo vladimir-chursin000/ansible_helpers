@@ -1,0 +1,11 @@
+---
+- hosts: firewall_conf_dedic_app_v1
+  tasks:
+    - name: "Disable and stop service 'firewalld.service' at remote"
+      ansible.builtin.systemd:
+        name: "{{item}}"
+        state: stopped
+        enabled: no
+        masked: no
+      with_items:
+        - firewalld.service

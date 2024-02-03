@@ -15,9 +15,6 @@ NOT READY! Testing!
 # '00_just_install_firewall.sh' = just install firewalld.
 # For install packages: firewall, procps-ng, rsyslog, conntrack-tools.
 
-# '00_uninstall_firewall.sh' = uninstall firewalld.
-# For uninstall packages: firewall.
-
 # '01_check_firewall_serv_is_started.sh' = check for firewalld.service is started (and start if not).
 
 # '01_check_fwrules_without_apply.sh' = just check configuration without apply new settings.
@@ -74,6 +71,19 @@ NOT READY! Testing!
 # '07_temporary_enable_panic_mode.sh' = for temporary enable panic mode (block all input/output network trafic).
 # Also kill all ssh sessions and flush conntrack table.
 
+# For the script '07_temporary_enable_panic_mode.sh' the parameter 'timeout' is available.
+# This parameter limits the duration of the 'panic' mode (in minutes).
+# The default value (one minute) of the parameter can be edited in the script.
+# Examples:
+# 1) ./07_temporary_enable_panic_mode.sh "timeout=3";
+# 2) ./07_temporary_enable_panic_mode.sh "limit=192.168.168.1" "timeout=3";
+# 3) ./07_temporary_enable_panic_mode.sh "timeout=3" "limit=192.168.168.1";
+
+# '08_stop_and_disable_firewall.sh' = stop and disable service 'firewalld.service' at remote.
+
+# '08_uninstall_firewall.sh' = uninstall firewalld at remote.
+# For uninstall packages: firewall.
+
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
 # 3) group name configured at cfg-file '00_conf_divisions_for_inv_hosts'.
@@ -81,14 +91,6 @@ NOT READY! Testing!
 # 1) ./03_force_apply_fwrules.sh "limit=192.168.168.1";
 # 2) ./03_force_apply_fwrules.sh "limit=192.168.168.1,192.168.168.2";
 # 3) ./03_force_apply_fwrules.sh "limit=gr_some_group1".
-
-# Also for the script '07_temporary_enable_panic_mode.sh' the parameter 'timeout' is available.
-# This parameter limits the duration of the 'panic' mode (in minutes).
-# The default value (one minute) of the parameter can be edited in the script.
-# Examples:
-# 1) ./07_temporary_enable_panic_mode.sh "timeout=3";
-# 2) ./07_temporary_enable_panic_mode.sh "limit=192.168.168.1" "timeout=3";
-# 3) ./07_temporary_enable_panic_mode.sh "timeout=3" "limit=192.168.168.1";
 
 # 'generate_dynamic_fwrules.pl' = SCRIPT for generate firewall rules for each inventory host.
 # Used with '00_install_firewall_and_configure_fwrules.sh', '03_apply_immediately_fwrules.sh', '03_apply_temporary_fwrules.sh' .
@@ -235,6 +237,14 @@ SCRIPTS LOGIC DESCRIPTION
 '07_temporary_enable_panic_mode.sh' ->
     1) Run script 'main.sh' ->
 	1) Run playbook '07_temporary_enable_panic_mode_pb.yml'.
+
+'08_stop_and_disable_firewall.sh' ->
+    1) Run script 'main.sh' ->
+	1) Run playbook '08_stop_and_disable_firewall_pb.yml'.
+
+'08_uninstall_firewall.sh' ->
+    1) Run script 'main.sh' ->
+	1) Run playbook '08_uninstall_firewall_pb.yml'.
 
 ##################
 #With best regards
