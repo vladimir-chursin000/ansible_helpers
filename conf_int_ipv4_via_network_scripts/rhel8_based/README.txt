@@ -2,9 +2,9 @@
 
 # 2) Fill conf_file='config'. Example config='config_examples'.
 
-# 3) Update config file '01_configs/dns_settings' for configure resolv.conf at remote hosts.
+# 3) Update config file '01_configs/01_dns_settings' for configure resolv.conf at remote hosts.
 
-# 4) If need to remove interfaces (shutdown and remove ifcfg-files) not included to 'config' update config file '01_configs/config_del_not_configured_ifcfg'.
+# 4) If need to remove interfaces (shutdown and remove ifcfg-files) not included to 'config' update config file '01_configs/02_config_del_not_configured_ifcfg'.
 
 # 5) Make sure that the pub-ssh-key is thrown to the hosts (conf_network_scripts_hosts).
 
@@ -30,7 +30,7 @@
 
 # '03_apply_temporary_ifcfg.sh' = run for temporary apply changes (without run installation of 'network-scripts') if generated ifcfg differs from actual ifcfg.
 # Before apply changes starts script 'rollback_ifcfg_changes.sh' on remote host for
-# rollback changes after N minutes (rollback_timeout configuration = '01_configs/config_temporary_apply_ifcfg').
+# rollback changes after N minutes (rollback_timeout configuration = '01_configs/03_config_temporary_apply_ifcfg').
 
 # 'generate_dynamic_ifcfg.pl' = SCRIPT for generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf. Used with
 # '03_apply_immediately_ifcfg.sh', '03_apply_temporary_ifcfg.sh' and '00_install_network_scripts_and_configure_network.sh'.
