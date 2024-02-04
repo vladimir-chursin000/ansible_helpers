@@ -1,5 +1,7 @@
 #!/usr/bin/bash
 
+# For install packages: network-scripts, procps-ng.
+
 SELF_DIR="$(dirname $(readlink -f $0))";
 INV_FILE="$SELF_DIR/conf_network_scripts_hosts";
 PLAYBOOK='just_install_network_scripts_playbook.yml';
