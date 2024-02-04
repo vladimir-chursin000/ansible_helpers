@@ -22,7 +22,7 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 ###ARGV
 
 ###CFG file
-our $conf_file_g=$self_dir_g.'config';
+our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
 our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/02_config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg';
@@ -83,8 +83,8 @@ our %inv_hosts_network_data_g=();
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 ############VARS
 
-######MAIN SEQ
-while ( 1 ) { # ONE RUN CYCLE begin
+######MAIN SEQ (begin)
+while ( 1 ) { # ONE RUN CYCLE (begin)
     ###READ network data for checks
     $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
     #$file_l,$res_href_l
@@ -95,7 +95,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
     }
     ###READ network data for checks
     
-    ###READ config
+    ###READ '00_config' (begin)
     $exec_res_g=&read_main_config($conf_file_g,\%inv_hosts_network_data_g,\%cfg0_hash_g);
     #$file_l,$inv_hosts_network_data_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -103,9 +103,9 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    ###READ config
+    ###READ '00_config' (end)
     
-    ###REcreate ifcfg_tmplt
+    ###Recreate ifcfg_tmplt (begin)
     $exec_res_g=&recreate_ifcfg_tmplt_based_on_cfg0_hash($dyn_ifcfg_common_dir_g,$ifcfg_tmplt_dir_g,\%cfg0_hash_g,\%conf_type_sub_refs_g,\%inv_hosts_hash0_g);
     #$dyn_ifcfg_common_dir_l,$ifcfg_tmplt_dir_l,$cfg0_hash_href_l,$conf_type_sub_refs_href_l,$res_inv_hosts_hash0_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -113,7 +113,7 @@ while ( 1 ) { # ONE RUN CYCLE begin
 	print "$exec_res_g\n";
 	last;
     }
-    ###REcreate ifcfg_tmplt
+    ###Recreate ifcfg_tmplt (end)
     
     if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final    
 	###READ conf file '01_dns_settings' and generate resolv-conf-files
@@ -189,14 +189,14 @@ while ( 1 ) { # ONE RUN CYCLE begin
     }
     
     last;
-}# ONE RUN CYCLE end
+} # ONE RUN CYCLE (end)
 
 system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
     exit;
 }
-######MAIN SEQ
+######MAIN SEQ (end)
 
 ######SUBROUTINES
 ##general subs
@@ -238,7 +238,7 @@ sub read_network_data_for_checks {
 
 sub read_main_config {
     my ($file_l,$inv_hosts_network_data_href_l,$res_href_l)=@_;
-    #file_l=config,$res_href_l=hash rer for %cfg0_hash_g
+    #file_l='01_configs/00_config',$res_href_l=hash rer for %cfg0_hash_g
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
     my $proc_name_l=(caller(0))[3];
     
@@ -268,7 +268,7 @@ sub read_main_config {
     #$cfg0_uniq_check{inv_host}{'vlan'}{bond_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bond_name ne 'no'.
     #$cfg0_uniq_check{inv_host}{'vlan'}{bridge_name-vlan_id}=conf_id; #if vlan_id ne 'no' and bridge_name ne 'no'.
     ###
-    #Checks (uniq) for interfaces at config (for all inv_hosts)
+    #Checks (uniq) for interfaces at '00_config' (for all inv_hosts)
     #$cfg0_uniq_check{'all_hosts'}{hwaddr}=inv_host;
     #$cfg0_uniq_check{'all_hosts'}{ipaddr}=inv_host; #if ipaddr ne 'dhcp'.
     ######
@@ -295,7 +295,7 @@ sub read_main_config {
     	    
     	    @arr0_l=split(' ',$line_l);
     	    if ( $#arr0_l!=10 ) {
-    		$return_str_l="fail [$proc_name_l]. Conf-line='$line_l' must contain 11 params. Please, check and correct config-file";
+    		$return_str_l="fail [$proc_name_l]. Conf-line='$line_l' must contain 11 params. Please, check and correct config-file ('00_config')";
     		last;
     	    }
     	
@@ -305,11 +305,11 @@ sub read_main_config {
     	    
     	    #######check conf_type
     	    if ( $conf_type_l!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
-    		$return_str_l="fail [$proc_name_l]. Wrong conf_type='$conf_type_l'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file";
+    		$return_str_l="fail [$proc_name_l]. Wrong conf_type='$conf_type_l'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file ('00_config')";
 		last;
     	    }
 	    if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
-		$return_str_l="fail [$proc_name_l]. For vlan-config-type param vlan_id must be a NUMBER. Please, check and correct config-file";
+		$return_str_l="fail [$proc_name_l]. For vlan-config-type param vlan_id must be a NUMBER. Please, check and correct config-file ('00_config')";
 		last;
 	    }
     	    #######check conf_type
@@ -320,7 +320,7 @@ sub read_main_config {
     		$defroute_check_l{$inv_host_l}=$conf_id_l;
     	    }
     	    elsif ( exists($defroute_check_l{$inv_host_l}) && $defroute_l eq 'yes' ) {
-    		$return_str_l="fail [$proc_name_l]. Defroute for inv_host='$inv_host_l' (conf_id='$conf_id_l') is already defined by conf_id='$defroute_check_l{$inv_host_l}'. Please, check and correct config-file";
+    		$return_str_l="fail [$proc_name_l]. Defroute for inv_host='$inv_host_l' (conf_id='$conf_id_l') is already defined by conf_id='$defroute_check_l{$inv_host_l}'. Please, check and correct config-file ('00_config')";
 		last;
     	    }
     	    #######defroute check
@@ -328,44 +328,44 @@ sub read_main_config {
     	    #######bond_name/bridge_name simple checks
     	    if ( $conf_type_l=~/^just_interface$|^interface\-vlan$/ ) {
     		if ( $bond_name_l ne 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		if ( $bridge_name_l ne 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
     	    
     	    if ( $conf_type_l=~/^virt_bridge$|^just_bridge$|^bridge\-vlan$/ ) {
     		if ( $bond_name_l ne 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		if ( $bridge_name_l eq 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
     	    
     	    if ( $conf_type_l=~/^just_bond$|^bond\-vlan$/ ) {
     		if ( $bridge_name_l ne 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		if ( $bond_name_l eq 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
     	    
     	    if ( $conf_type_l=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) {
     		if ( $bridge_name_l eq 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		if ( $bond_name_l eq 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bond_name must be NOT 'no'. Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bond_name must be NOT 'no'. Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
@@ -373,11 +373,11 @@ sub read_main_config {
 	    
     	    #######IPADDRv4 PREcheck via regexp
     	    if ( $conf_type_l!~/^virt_bridge$/ && $ipaddr_opts_l!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-    		$return_str_l="fail [$proc_name_l]. IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		$return_str_l="fail [$proc_name_l]. IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		last;
     	    }
     	    elsif ( $conf_type_l=~/^virt_bridge$/ && $ipaddr_opts_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,nogw\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-    		$return_str_l="fail [$proc_name_l]. IPv4_ADDR_OPTS for conf_type='virt-bridge' (conf_id='$conf_id_l') must be 'ipv4,nogw,netmask' (for example '10.1.1.1,nogw,255.255.255.0'). Please, check and correct config-file";
+    		$return_str_l="fail [$proc_name_l]. IPv4_ADDR_OPTS for conf_type='virt-bridge' (conf_id='$conf_id_l') must be 'ipv4,nogw,netmask' (for example '10.1.1.1,nogw,255.255.255.0'). Please, check and correct config-file ('00_config')";
 		last;
     	    }
     	    #######IPADDRv4 PREcheck via regexp
@@ -395,7 +395,7 @@ sub read_main_config {
 	    
 	    #######CHECK if ip=gw
 	    if ( $ipaddr_opts_arr_l[0] eq $ipaddr_opts_arr_l[1] ) {
-		$return_str_l="fail [$proc_name_l]. It is deny to set ip=gw (conf_id='$conf_id_l'). Please, check and correct config-file";
+		$return_str_l="fail [$proc_name_l]. It is deny to set ip=gw (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		last;
 	    }
 	    #######CHECK if ip=gw
@@ -403,11 +403,11 @@ sub read_main_config {
     	    #######interfaces + hwaddr count checks for each conf_type
     	    if ( $conf_type_l=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
     		if ( $#hwaddr_list_arr_l!=0 ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		if ( $#int_list_arr_l>0 or $int_list_arr_l[0] ne 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain only 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain only 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
@@ -415,23 +415,23 @@ sub read_main_config {
     	    if ( $conf_type_l=~/^just_interface$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
 		# prev = $conf_type_l=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/
     		if ( ($#int_list_arr_l==$#hwaddr_list_arr_l && $#int_list_arr_l!=0) or $#int_list_arr_l!=$#hwaddr_list_arr_l ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		if ( $int_list_arr_l[0] eq 'no' ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain interface names, but not 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain interface names, but not 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
     	    
     	    if ( $conf_type_l=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where >=2 interfaces
     		if ( $#int_list_arr_l<1 or $#int_list_arr_l!=$#hwaddr_list_arr_l ) {
-    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' amount of interfaces must = amount of hwaddr and amount of interfaces must be >= 2 (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' amount of interfaces must = amount of hwaddr and amount of interfaces must be >= 2 (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     		foreach $arr_el0_l ( @int_list_arr_l ) {
     		    if ( $arr_el0_l eq 'no' ) {
-    			$return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain interface names, but not 'no' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    			$return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain interface names, but not 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
     			last;
     		    }
     		}
@@ -445,7 +445,7 @@ sub read_main_config {
 	    if ( $conf_type_l!~/^virt_bridge$/ ) {
     		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
     		    if ( $arr_el0_l!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
-    			$return_str_l="fail [$proc_name_l]. HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file";
+    			$return_str_l="fail [$proc_name_l]. HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 			last;
     		    }
     		}
@@ -453,7 +453,7 @@ sub read_main_config {
 	    else {
 		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
     		    if ( $arr_el0_l!~/^no$/ ) {
-    			$return_str_l="fail [$proc_name_l]. HWADDR for virt_bridge must be 'no' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file";
+    			$return_str_l="fail [$proc_name_l]. HWADDR for virt_bridge must be 'no' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 			last;
     		    }
     		}
@@ -475,7 +475,7 @@ sub read_main_config {
 		    }
 		    
 		    if ( !exists(${$inv_hosts_network_data_href_l}{'inv_host'}{$inv_host_l}{$int_list_arr_l[$arr_i0_l]}{$hwaddr_list_arr_l[$arr_i0_l]}) ) {
-			$return_str_l="fail [$proc_name_l]. NETWORK DATA check. At inv_host='$inv_host_l' interface='$int_list_arr_l[$arr_i0_l]' not linked with hwaddr='$hwaddr_list_arr_l[$arr_i0_l]' (conf_id='$conf_id_l'). Please, check and correct config-file";
+			$return_str_l="fail [$proc_name_l]. NETWORK DATA check. At inv_host='$inv_host_l' interface='$int_list_arr_l[$arr_i0_l]' not linked with hwaddr='$hwaddr_list_arr_l[$arr_i0_l]' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 			last;
 		    }
 		}
@@ -493,7 +493,7 @@ sub read_main_config {
     		}
     		else {
     		    if ( $cfg0_uniq_check_l{'all_hosts'}{$arr_el0_l} ne $inv_host_l ) {
-    			$return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' is already used at host='$cfg0_uniq_check_l{'all_hosts'}{$arr_el0_l}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    			$return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' is already used at host='$cfg0_uniq_check_l{'all_hosts'}{$arr_el0_l}' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
     			last;
     		    }
     		}
@@ -506,7 +506,7 @@ sub read_main_config {
     		    $cfg0_uniq_check_l{'all_hosts'}{$ipaddr_opts_arr_l[0]}=$inv_host_l;
     		}
     		else {
-    		    $return_str_l="fail [$proc_name_l]. IPaddr='$ipaddr_opts_arr_l[0]' is already used at host='$cfg0_uniq_check_l{'all_hosts'}{$ipaddr_opts_arr_l[0]}' (conf_id='$conf_id_l'). Please, check and correct config-file";
+    		    $return_str_l="fail [$proc_name_l]. IPaddr='$ipaddr_opts_arr_l[0]' is already used at host='$cfg0_uniq_check_l{'all_hosts'}{$ipaddr_opts_arr_l[0]}' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
     		}
     	    }
@@ -518,7 +518,7 @@ sub read_main_config {
     	    	    $cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}=$conf_id_l;
     	    	}
     	    	else {
-    	    	    $return_str_l="fail [$proc_name_l]. Bridge_name='$bridge_name_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}."'. Please, check and correct config-file";
+    	    	    $return_str_l="fail [$proc_name_l]. Bridge_name='$bridge_name_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bridge_name_l}."'. Please, check and correct config-file ('00_config')";
     	    	    last;
     	    	}
     	    }
@@ -533,7 +533,7 @@ sub read_main_config {
     	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}=$conf_id_l;
     	    	    }
     	    	    else {
-    	    		$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}'. Please, check and correct config-file";
+    	    		$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}'. Please, check and correct config-file ('00_config')";
 	    		last;
     	    	    }
     	    	}
@@ -547,7 +547,7 @@ sub read_main_config {
     	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}=$conf_id_l;
     	    	    }
     	    	    else {
-    	    		$return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}'. Please, check and correct config-file";
+    	    		$return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$arr_el0_l}'. Please, check and correct config-file ('00_config')";
 	    		last;
     	    	    }
     	    	}
@@ -561,7 +561,7 @@ sub read_main_config {
     	    		$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}=$conf_id_l;
     	    	    }
     	    	    else {
-    	    		$return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}'. Please, check and correct config-file";
+    	    		$return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$bond_name_l}'. Please, check and correct config-file ('00_config')";
     	    		last;
     	    	    }
     	    	}
@@ -573,7 +573,7 @@ sub read_main_config {
     	    	        $cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}=$conf_id_l;
     	    	    }
     	    	    else {
-    	    		$return_str_l="fail [$proc_name_l]. Ipaddr='$ipaddr_opts_arr_l[0]' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}'. Please, check and correct config-file";
+    	    		$return_str_l="fail [$proc_name_l]. Ipaddr='$ipaddr_opts_arr_l[0]' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'common'}{$ipaddr_opts_arr_l[0]}'. Please, check and correct config-file ('00_config')";
 	    		last;
     	    	    }
     	    	}
@@ -585,7 +585,7 @@ sub read_main_config {
     	    	    $cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}=$conf_id_l;
     	    	}
     	    	else {
-    	    	    $return_str_l="fail [$proc_name_l]. Vlan_id='$vlan_id_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}'. Please, check and correct config-file";
+    	    	    $return_str_l="fail [$proc_name_l]. Vlan_id='$vlan_id_l' (inv_host='$inv_host_l', conf_id='$conf_id_l') is already used at config with id='$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$vlan_id_l}'. Please, check and correct config-file ('00_config')";
 	    	    last;
     	    	}
     	    	###
@@ -597,7 +597,7 @@ sub read_main_config {
     	    		$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}=$conf_id_l;
     	    	    }
     	    	    else {
-    	    		$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l', vlan_id='$vlan_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+    	    		$return_str_l="fail [$proc_name_l]. Interface_name='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l', vlan_id='$vlan_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file ('00_config')";
 	    		last;
     	    	    }
     	    	}
@@ -611,7 +611,7 @@ sub read_main_config {
     	    		$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}=$conf_id_l;
     	    	    }
     	    	    else {
-    	    	        $return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l', vlan_id='$vlan_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+    	    	        $return_str_l="fail [$proc_name_l]. Hwaddr='$arr_el0_l' (inv_host='$inv_host_l', conf_id='$conf_id_l', vlan_id='$vlan_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$arr_el0_l.'-'.$vlan_id_l}."'. Please, check and correct config-file ('00_config')";
 	    		last;
     	    	    }
     	    	}
@@ -625,7 +625,7 @@ sub read_main_config {
                         $cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}=$conf_id_l;
                     }
                     else {
-                        $return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l', conf_id='$conf_id_l', vlan_id='$vlan_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}."'. Please, check and correct config-file";
+                        $return_str_l="fail [$proc_name_l]. Bond_name='$bond_name_l' (inv_host='$inv_host_l', conf_id='$conf_id_l', vlan_id='$vlan_id_l') is already used at config with id='".$cfg0_uniq_check_l{$inv_host_l}{'vlan'}{$bond_name_l.'-'.$vlan_id_l}."'. Please, check and correct config-file ('00_config')";
                         last;
                     }
                 }
@@ -669,7 +669,7 @@ sub read_main_config {
 		}
     	    }
     	    else {
-    		$return_str_l="fail [$proc_name_l]. For inv_host='$inv_host_l' conf_id='$conf_id_l' is already exists. Please, check and correct config-file";
+    		$return_str_l="fail [$proc_name_l]. For inv_host='$inv_host_l' conf_id='$conf_id_l' is already exists. Please, check and correct config-file ('00_config')";
     		last;
     	    }
     	    ########unique conf_id for inventory_host
@@ -936,7 +936,7 @@ sub modify_inv_hosts_hash1 {
     #%inv_hosts_hash1_g=(); #key0=inv_host, key1=now/fin (generated by this script)/for_upd/for_del, key2=ifcfg_name
     while ( ($hkey0_l,$hval0_l)=each %{$res_href_l} ) {
 	#hkey0_l=inv_host, hval0_l=hash
-	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'fin'}} ) { #just only configure interfaces from 'config'
+	while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'fin'}} ) { #just only configure interfaces from '00_config'
 	    #hkey1_l=ifcfg_name
 	    if ( !exists(${$hval0_l}{'now'}{$hkey1_l}) ) { #new interface -> for_upd
 	        ${$res_href_l}{$hkey0_l}{'for_upd'}{$hkey1_l}=1;
@@ -952,7 +952,7 @@ sub modify_inv_hosts_hash1 {
 	}
 	($hkey1_l,$hval1_l)=(undef,undef);
 	
-	if ( exists(${$inv_hosts_ifcfg_del_not_configured_href_l}{$hkey0_l}) ) { #if need to configure AND to delete not configured at 'config' interfaces
+	if ( exists(${$inv_hosts_ifcfg_del_not_configured_href_l}{$hkey0_l}) ) { #if need to configure AND to delete not configured at '00_config' interfaces
 	    while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'now'}} ) {
 		#hkey1_l=ifcfg_name
 		
@@ -1106,7 +1106,7 @@ sub generate_dynamic_playbooks {
 	    print DYN_YML "\n";
 	}
 	
-	###task for copy resolv.conf
+	###task for copy resolv.conf (begin)
 	if ( exists(${$inv_hosts_dns_href_l}{$hkey0_l}) ) { #use special resolv.conf for inv_host
 	    print DYN_YML "- name: copy/upd resolv.conf\n";
 	    print DYN_YML "  ansible.builtin.copy:\n";
@@ -1138,9 +1138,9 @@ sub generate_dynamic_playbooks {
 	print DYN_YML "\n";
 	print DYN_YML "######################################################\n";
 	print DYN_YML "\n";
-	###task for copy resolv.conf
+	###task for copy resolv.conf (end)
 	
-	###for cancel operation of rollback ifcfg changes if run 'apply_immediately_ifcfg.sh' with GEN_DYN_IFCFG_RUN='yes'
+	###for cancel operation of rollback ifcfg changes if run 'apply_immediately_ifcfg.sh' with GEN_DYN_IFCFG_RUN='yes' (begin)
 	if ( $gen_playbooks_next_with_rollback_l==0 ) {
 	    print DYN_YML "- name: cancel rollback operation (rollback_ifcfg_changes.sh) if need\n";
 	    print DYN_YML "  ansible.builtin.command: \"pkill -9 -f rollback_ifcfg_changes\"\n";
@@ -1149,7 +1149,7 @@ sub generate_dynamic_playbooks {
 	    print DYN_YML "######################################################\n";
 	    print DYN_YML "\n";
 	}
-	###for cancel operation of rollback ifcfg changes if run 'apply_immediately_ifcfg.sh' with GEN_DYN_IFCFG_RUN='yes'
+	###for cancel operation of rollback ifcfg changes if run 'apply_immediately_ifcfg.sh' with GEN_DYN_IFCFG_RUN='yes' (end)
 	
 	close(DYN_YML);
 	$tmp_file0_l=undef;

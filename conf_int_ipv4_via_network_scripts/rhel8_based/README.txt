@@ -1,10 +1,10 @@
 # 1) UPDATE list (for install and configure network-scripts) of ip addresses = conf_network_scripts_hosts (inventory).
 
-# 2) Fill conf_file='config'. Example config='config_examples'.
+# 2) Fill conf_file='01_configs/00_config'. Example config='01_configs/00_config_examples'.
 
 # 3) Update config file '01_configs/01_dns_settings' for configure resolv.conf at remote hosts.
 
-# 4) If need to remove interfaces (shutdown and remove ifcfg-files) not included to 'config' update config file '01_configs/02_config_del_not_configured_ifcfg'.
+# 4) If need to remove interfaces (shutdown and remove ifcfg-files) not included to '00_config' update config file '01_configs/02_config_del_not_configured_ifcfg'.
 
 # 5) Make sure that the pub-ssh-key is thrown to the hosts (conf_network_scripts_hosts).
 
