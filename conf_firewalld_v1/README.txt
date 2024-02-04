@@ -12,8 +12,11 @@ NOT READY! Testing!
 # 4) Run '00_install_firewall_and_configure_fwrules.sh' (or '03_apply_immediately_fwrules.sh').
 ##################
 
-# '00_just_install_firewall.sh' = just install firewalld.
+# '00_just_install_firewall.sh' = just install firewalld and some ther packages.
 # For install packages: firewall, procps-ng, rsyslog, conntrack-tools.
+
+# '00_update_firewall.sh' = update firewalld and some other packages.
+# For uodate packages: firewall, procps-ng, rsyslog, conntrack-tools.
 
 # '01_check_firewall_serv_is_started.sh' = check for firewalld.service is started (and start if not).
 

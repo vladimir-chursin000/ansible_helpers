@@ -1,0 +1,12 @@
+---
+- hosts: firewall_conf_dedic_app_v1
+  tasks:
+    - name: "Update (get latest) 'firewall, procps-ng, rsyslog, conntrack-tools' at remote"
+      ansible.builtin.dnf:
+        name: "{{item}}"
+        state: latest
+      with_items:
+        - firewalld
+        - procps-ng
+        - rsyslog
+        - conntrack-tools
