@@ -23,9 +23,9 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 
 ###CFG file
 our $conf_file_g=$self_dir_g.'config';
-our $conf_file_del_not_configured_g=$self_dir_g.'/additional_configs/config_del_not_configured_ifcfg';
-our $conf_temp_apply_g=$self_dir_g.'/additional_configs/config_temporary_apply_ifcfg';
-our $conf_dns_g=$self_dir_g.'/additional_configs/dns_settings'; #for configure resolv.conf
+our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/config_del_not_configured_ifcfg';
+our $conf_temp_apply_g=$self_dir_g.'/01_configs/config_temporary_apply_ifcfg';
+our $conf_dns_g=$self_dir_g.'/01_configs/dns_settings'; #for configure resolv.conf
 ###CFG file
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper
