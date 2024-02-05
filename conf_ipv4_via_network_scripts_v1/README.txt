@@ -1,5 +1,5 @@
 # For OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc).
-# I think it will work on RHEL7 based systems.
+# I think it will work on RHEL6/RHEL7 based systems.
 ####
 # 1) UPDATE list (for install and configure network-scripts) of ip addresses = conf_network_scripts_hosts (inventory).
 
