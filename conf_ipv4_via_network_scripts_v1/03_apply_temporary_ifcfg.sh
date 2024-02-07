@@ -10,4 +10,8 @@ PLAYBOOK_BEFORE='ifcfg_backup_playbook_for_temp_apply.yml';
 GEN_DYN_IFCFG_RUN='yes_with_rollback';
 ######DEFAULT INPUT VARS
 
+######VARS
+TMP_VAR_str='';
+######VARS
+
 $SELF_DIR/main.sh "$INV_FILE" "$PLAYBOOK" "$LOG_DIR" "$PLAYBOOK_BEFORE" "$GEN_DYN_IFCFG_RUN";
