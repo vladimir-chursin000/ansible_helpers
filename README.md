@@ -8,7 +8,7 @@ READY helpers:
 2. install_chrony_server
 3. install_nfs_client
 4. install_nfs_server
-5. conf_int_ipv4_via_network_scripts
+5. conf_int_ipv4_via_network_scripts (some refactoring)
 
 NOT READY helpers:
 1. conf_firewalld_v1 (testing in progress + some fixes)

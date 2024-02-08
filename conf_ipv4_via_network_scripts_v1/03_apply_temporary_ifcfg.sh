@@ -14,4 +14,15 @@ GEN_DYN_IFCFG_RUN='yes_with_rollback';
 TMP_VAR_str='';
 ######VARS
 
+######READ ARGV array
+for TMP_VAR_str in "$@"
+do
+    if [[ "$TMP_VAR_str" =~ ^"limit=" ]]; then
+        # possible argv values: host_name, "host_name1,host_name2,..." (host names from inventory = "conf_network_scripts_hosts"),
+            # group name from "00_conf_divisions_for_inv_hosts" (for example, gr_some_group).
+        INV_LIMIT_str=$(echo $TMP_VAR_str | sed s/^"limit="//);
+    fi;
+done;
+######READ ARGV array
+
 $SELF_DIR/main.sh "$INV_FILE" "$PLAYBOOK" "$LOG_DIR" "$PLAYBOOK_BEFORE" "$GEN_DYN_IFCFG_RUN";
