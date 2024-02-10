@@ -31,6 +31,43 @@ echo "Used playbook: $SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_s
 echo "Start time: $NOW_DT_str" | tee -a $LOG_FILE_str;
 echo "#########" | tee -a $LOG_FILE_str;
 
+if [[ "$INV_LIMIT_str" == "no" || "$INV_LIMIT_str" == "all" ]]; then
+    INV_LIMIT_str='';
+    echo "INV_LIMIT = not defined or 'all'" | tee -a $LOG_FILE_str;
+elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
+    echo "INV_LIMIT = '$INV_LIMIT_str' (group_name from cfg='00_conf_divisions_for_inv_hosts')" | tee -a $LOG_FILE_str;
+    TMP_VAR_str=$(grep ^"gr_" $CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str | grep $INV_LIMIT_str | sed 's/\t//g' | sed 's/\s//g' | sed s/"$INV_LIMIT_str"//);
+    INV_LIMIT_str=$TMP_VAR_str;
+    echo "GROUP content='$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
+    TMP_VAR_str='';
+
+    TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
+    for TMP_VAR_str in "${TMP_arr[@]}"
+    do
+        if [[ `grep -Fx "$TMP_VAR_str" $INV_FILE_str | wc -l` != "1" ]]; then
+            echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!" | tee -a $LOG_FILE_str;
+            exit;
+        fi;
+    done;
+
+    TMP_VAR_str='';
+    TMP_arr=();
+else
+    echo "INV_LIMIT = '$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
+
+    TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
+    for TMP_VAR_str in "${TMP_arr[@]}"
+    do
+        if [[ `grep -Fx "$TMP_VAR_str" $INV_FILE_str | wc -l` != "1" ]]; then
+            echo "Host='$TMP_VAR_str' is not exists at inv_file='$INV_FILE_str'. Exit!" | tee -a $LOG_FILE_str;
+            exit;
+        fi;
+    done;
+
+    TMP_VAR_str='';
+    TMP_arr=();
+fi;
+
 if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; then
     if [[ "$PLAYBOOK_BEFORE_str" =~ "ifcfg_backup" ]]; then
 	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir

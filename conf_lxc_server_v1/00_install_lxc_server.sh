@@ -3,7 +3,7 @@
 ######DEFAULT INPUT VARS (for main.sh)
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
-INV_LIMIT_str="$SELF_DIR_str/lxc_server_hosts";
+INV_LIMIT_str='no';
 PLAYBOOK_str='full_install_lxc_serv_playbook.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 ######DEFAULT INPUT VARS
