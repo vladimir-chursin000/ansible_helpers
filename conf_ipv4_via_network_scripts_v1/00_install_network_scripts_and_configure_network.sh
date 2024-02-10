@@ -2,12 +2,12 @@
 
 ######DEFAULT INPUT VARS (for main.sh)
 # Do not change this variables manually
-SELF_DIR="$(dirname $(readlink -f $0))";
-INV_FILE="$SELF_DIR/conf_network_scripts_hosts";
-PLAYBOOK='full_install_network_scripts_and_configure_network_playbook.yml';
-LOG_DIR="$SELF_DIR/run_history";
-PLAYBOOK_BEFORE='ifcfg_backup_playbook.yml';
-GEN_DYN_IFCFG_RUN='yes';
+SELF_DIR_str="$(dirname $(readlink -f $0))";
+INV_LIMIT_str='no';
+PLAYBOOK_str='full_install_network_scripts_and_configure_network_playbook.yml';
+LOG_DIR_str="$SELF_DIR_str/run_history";
+PLAYBOOK_BEFORE_str='ifcfg_backup_playbook.yml';
+GEN_DYN_IFCFG_RUN_str='yes';
 ######DEFAULT INPUT VARS
 
 ######VARS
@@ -25,4 +25,4 @@ do
 done;
 ######READ ARGV array
 
-$SELF_DIR/main.sh "$INV_FILE" "$PLAYBOOK" "$LOG_DIR" "$PLAYBOOK_BEFORE" "$GEN_DYN_IFCFG_RUN";
+$SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_IFCFG_RUN_str";
