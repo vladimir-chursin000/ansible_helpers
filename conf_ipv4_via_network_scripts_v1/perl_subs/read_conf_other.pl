@@ -1,0 +1,38 @@
+sub read_network_data_for_checks {
+    my ($file_l,$res_href_l)=@_;
+    #file_l=$ifcfg_backup_from_remote_nd_file_g
+    #res_href_l=hash-ref for %inv_hosts_network_data_g
+    my $proc_name_l=(caller(0))[3];
+
+    my ($line_l,$value_cnt_l)=(undef,0);
+    my @arr0_l=undef;
+    
+    if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
+    
+    open(NDATA,'<',$file_l);
+    while ( <NDATA> ) {
+        $line_l=$_;
+        $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+        while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+        $line_l=~s/\s+/ /g;
+        $line_l=~s/^ //g;
+        $line_l=~s/ $//g;
+        if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+            #INV_HOST-0       #INT_NAME-1       #HWADDR-2
+            @arr0_l=split(' ',$line_l);
+            ${$res_href_l}{'hwaddr_all'}{$arr0_l[2]}=$arr0_l[0];
+            ${$res_href_l}{'inv_host'}{$arr0_l[0]}{$arr0_l[1]}{$arr0_l[2]}=1;
+            $value_cnt_l++;
+        }
+    }
+    close(NDATA);
+
+    $line_l=undef;
+
+    if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
+
+    return 'OK';
+}
+
+#With best regards
+#Chursin Vladimir ( https://github.com/vladimir-chursin000 )
