@@ -10,7 +10,7 @@ use Data::Dumper;
 our ($self_dir_g,$script_name_g)=Cwd::abs_path($0)=~/(.*[\/\\])(\S+)$/;
 $self_dir_g=~s/\/$//g;
 
-###LOAD SUBROUTINES
+###LOAD SUBROUTINES (begin)
 our @do_arr_g=(
     'read_00_conf.pl',
     'read_01_conf.pl',
@@ -25,9 +25,9 @@ foreach my $do_g ( @do_arr_g ) {
     do ($self_dir_g.'/perl_subs/'.$do_g);
     if ( $@ ) { die "'$do_g' error:$@"; }
 }
-###LOAD SUBROUTINES
+###LOAD SUBROUTINES (end)
 
-###ARGV
+###ARGV (begin)
 our $gen_playbooks_next_g=0;
 our $gen_playbooks_next_with_rollback_g=0;
 if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
@@ -37,16 +37,16 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
     $gen_playbooks_next_g=1;
     $gen_playbooks_next_with_rollback_g=1;
 }
-###ARGV
+###ARGV (end)
 
-###CFG file
+###CFG file (begin)
 our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
 our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/02_config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg';
-###CFG file
+###CFG file (end)
 
-############STATIC VARS. Change dir paths if you want just use this script without ansible helper
+############STATIC VARS. Change dir paths if you want just use this script without ansible helper (begin)
 our $dyn_ifcfg_common_dir_g=$self_dir_g.'/playbooks/dyn_ifcfg_playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
 our $dyn_resolv_common_dir_g=$self_dir_g.'/playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf'; # dir for save generated resolv-conf-files
 our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'/playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
@@ -54,9 +54,9 @@ our $ifcfg_tmplt_dir_g=$self_dir_g.'/playbooks/ifcfg_tmplt'; # dir with ifcfg te
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'/playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth, hwaddr) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_int_ipv4_via_network_scripts'; # dir for creating/manipulate files at remote side
-############STATIC VARS
+############STATIC VARS (end)
 
-############VARS
+############VARS (begin)
 our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ######
 our %cfg0_hash_g=();
@@ -99,7 +99,7 @@ our %inv_hosts_network_data_g=();
 #read 'ip_link_noqueue' first
 #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
-############VARS
+############VARS (end)
 
 ######MAIN SEQ (begin)
 while ( 1 ) { # ONE RUN CYCLE (begin)
