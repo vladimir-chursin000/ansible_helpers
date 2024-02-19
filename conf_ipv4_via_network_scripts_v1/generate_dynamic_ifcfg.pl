@@ -101,6 +101,13 @@ our %inv_hosts_network_data_g=();
 #read 'ip_link_noqueue' first
 #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
+
+######
+our %h00_conf_divisions_for_inv_hosts_hash_g=();
+#DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
+###
+#$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
+######
 ############VARS (end)
 
 ######MAIN SEQ (begin)
@@ -124,6 +131,18 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	last;
     }
     ###READ '00_config' (end)
+
+    ###READ '00_conf_divisions_for_inv_hosts' (begin)
+    #$exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
+    ##$file_l,$inv_hosts_href_l,$res_href_l
+    #if ( $exec_res_g=~/^fail/ ) {
+    #    $exec_status_g='FAIL';
+    #    print "$exec_res_g\n";
+    #    last;
+    #}
+    #$exec_res_g=undef;
+    #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
+    ###READ '00_conf_divisions_for_inv_hosts' (end)
     
     ###Recreate ifcfg_tmplt (begin)
     $exec_res_g=&recreate_ifcfg_tmplt_based_on_cfg0_hash($dyn_ifcfg_common_dir_g,$ifcfg_tmplt_dir_g,\%cfg0_hash_g,\%conf_type_sub_refs_g,\%inv_hosts_hash0_g);
