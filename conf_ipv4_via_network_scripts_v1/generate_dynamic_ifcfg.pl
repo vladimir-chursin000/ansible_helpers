@@ -41,6 +41,7 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 ###ARGV (end)
 
 ###CFG file (begin)
+our $inventory_conf_path_g=$self_dir_g.'/conf_network_scripts_hosts';
 our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/01_configs/00_conf_divisions_for_inv_hosts';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
@@ -108,11 +109,24 @@ our %h00_conf_divisions_for_inv_hosts_hash_g=();
 ###
 #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
 ######
+our %inventory_hosts_g=();
+#Key=inventory_host, value=1
 ############VARS (end)
 
 ######MAIN SEQ (begin)
 while ( 1 ) { # ONE RUN CYCLE (begin)
-    ###READ network data for checks
+    $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%inventory_hosts_g);
+
+    ######
+
     $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
     #$file_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -120,9 +134,9 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	print "$exec_res_g\n";
 	last;
     }
-    ###READ network data for checks
     
-    ###READ '00_config' (begin)
+    ######
+    
     $exec_res_g=&read_main_config($conf_file_g,\%inv_hosts_network_data_g,\%cfg0_hash_g);
     #$file_l,$inv_hosts_network_data_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -130,21 +144,21 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	print "$exec_res_g\n";
 	last;
     }
-    ###READ '00_config' (end)
-
-    ###READ '00_conf_divisions_for_inv_hosts' (begin)
-    #$exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
-    ##$file_l,$inv_hosts_href_l,$res_href_l
-    #if ( $exec_res_g=~/^fail/ ) {
-    #    $exec_status_g='FAIL';
-    #    print "$exec_res_g\n";
-    #    last;
-    #}
-    #$exec_res_g=undef;
-    #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
-    ###READ '00_conf_divisions_for_inv_hosts' (end)
     
-    ###Recreate ifcfg_tmplt (begin)
+    ######
+
+    $exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
+    #$file_l,$inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
+    
+    ######
+    
     $exec_res_g=&recreate_ifcfg_tmplt_based_on_cfg0_hash($dyn_ifcfg_common_dir_g,$ifcfg_tmplt_dir_g,\%cfg0_hash_g,\%conf_type_sub_refs_g,\%inv_hosts_hash0_g);
     #$dyn_ifcfg_common_dir_l,$ifcfg_tmplt_dir_l,$cfg0_hash_href_l,$conf_type_sub_refs_href_l,$res_inv_hosts_hash0_href_l
     if ( $exec_res_g=~/^fail/ ) {
@@ -152,7 +166,8 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	print "$exec_res_g\n";
 	last;
     }
-    ###Recreate ifcfg_tmplt (end)
+    
+    ######
     
     if ( $gen_playbooks_next_g==1 ) { # if need to generate dynamic playbooks for ifcfg upd/del and resolv-conf-files at final    
 	###READ conf file '01_dns_settings' and generate resolv-conf-files
