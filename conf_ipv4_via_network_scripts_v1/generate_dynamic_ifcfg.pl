@@ -42,8 +42,8 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 
 ###CFG file (begin)
 our $inventory_conf_path_g=$self_dir_g.'/conf_network_scripts_hosts';
-our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/01_configs/00_conf_divisions_for_inv_hosts';
+our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
 our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/02_config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg';
