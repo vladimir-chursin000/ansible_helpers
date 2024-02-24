@@ -46,6 +46,11 @@
 # 'generate_dynamic_ifcfg.pl' = SCRIPT for generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf. Used with
 # '03_apply_immediately_ifcfg.sh', '03_apply_temporary_ifcfg.sh' and '00_install_network_scripts_and_configure_network.sh'.
 
+##################
+SCRIPTS LOGIC DESCRIPTION
+
+##################
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
 
