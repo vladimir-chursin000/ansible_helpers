@@ -35,6 +35,14 @@
 # Before apply changes starts script 'rollback_ifcfg_changes.sh' on remote host for
 # rollback changes after N minutes (rollback_timeout configuration = '01_configs/03_config_temporary_apply_ifcfg').
 
+# All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
+# Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
+# 3) group name configured at cfg-file '00_conf_divisions_for_inv_hosts'.
+# Examples (on the example of the script '03_apply_immediately_ifcfg.sh'):
+# 1) ./03_apply_immediately_ifcfg.sh "limit=192.168.168.1";
+# 2) ./03_apply_immediately_ifcfg.sh "limit=192.168.168.1,192.168.168.2";
+# 3) ./03_apply_immediately_ifcfg.sh "limit=gr_some_group1".
+
 # 'generate_dynamic_ifcfg.pl' = SCRIPT for generate ifcfg-files, resolv.conf for each inventory host and dynamic playbooks for ifcfg and resolv.conf. Used with
 # '03_apply_immediately_ifcfg.sh', '03_apply_temporary_ifcfg.sh' and '00_install_network_scripts_and_configure_network.sh'.
 
