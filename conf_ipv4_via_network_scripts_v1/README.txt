@@ -50,24 +50,29 @@
 SCRIPTS LOGIC DESCRIPTION
 '00_install_network_scripts_and_configure_network.sh' ->
     1) Run script 'main.sh' ->
+        1) Run playbook 'ifcfg_backup_playbook.yml' ->
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
 
 '01_check_ifcfg_without_apply.sh' ->
     1) Run script 'main.sh' ->
+        1) Run playbook 'ifcfg_backup_playbook.yml' ->
 
 '01_check_network_scripts_serv_is_started.sh' ->
     1) Run script 'main.sh' ->
 
 '02_just_run_ifcfg_backup.sh' ->
     1) Run script 'main.sh' ->
+        1) Run playbook 'ifcfg_backup_playbook.yml' ->
 
 '03_apply_immediately_ifcfg.sh' ->
     1) Run script 'main.sh' ->
+        1) Run playbook 'ifcfg_backup_playbook.yml' ->
 
 '03_apply_temporary_ifcfg.sh' ->
     1) Run script 'main.sh' ->
+        1) Run playbook 'ifcfg_backup_playbook_for_temp_apply.yml' ->
 ##################
 
 #With best regards
