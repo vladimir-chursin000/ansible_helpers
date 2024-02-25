@@ -54,6 +54,7 @@ SCRIPTS LOGIC DESCRIPTION
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook 'just_install_network_scripts_playbook.yml' ->
 
 '01_check_ifcfg_without_apply.sh' ->
     1) Run script 'main.sh' ->
@@ -61,6 +62,7 @@ SCRIPTS LOGIC DESCRIPTION
 
 '01_check_network_scripts_serv_is_started.sh' ->
     1) Run script 'main.sh' ->
+	1) Run playbook 'check_network_scripts_serv_is_started_playbook.yml' ->
 
 '02_just_run_ifcfg_backup.sh' ->
     1) Run script 'main.sh' ->
