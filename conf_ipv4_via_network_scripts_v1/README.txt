@@ -51,6 +51,8 @@ SCRIPTS LOGIC DESCRIPTION
 '00_install_network_scripts_and_configure_network.sh' ->
     1) Run script 'main.sh' ->
         1) Run playbook 'ifcfg_backup_playbook.yml' ->
+	
+	2) Run script 'generate_dynamic_ifcfg.pl'. Steps:
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
@@ -59,6 +61,9 @@ SCRIPTS LOGIC DESCRIPTION
 '01_check_ifcfg_without_apply.sh' ->
     1) Run script 'main.sh' ->
         1) Run playbook 'ifcfg_backup_playbook.yml' ->
+
+	2) Run script 'generate_dynamic_ifcfg.pl'. Steps:
+	*** See description for '00_install_network_scripts_and_configure_network.sh'.
 
 '01_check_network_scripts_serv_is_started.sh' ->
     1) Run script 'main.sh' ->
@@ -72,9 +77,15 @@ SCRIPTS LOGIC DESCRIPTION
     1) Run script 'main.sh' ->
         1) Run playbook 'ifcfg_backup_playbook.yml' ->
 
+	2) Run script 'generate_dynamic_ifcfg.pl'. Steps:
+	*** See description for '00_install_network_scripts_and_configure_network.sh'.
+
 '03_apply_temporary_ifcfg.sh' ->
     1) Run script 'main.sh' ->
         1) Run playbook 'ifcfg_backup_playbook_for_temp_apply.yml' ->
+
+	2) Run script 'generate_dynamic_ifcfg.pl'. Steps:
+	
 ##################
 
 #With best regards
