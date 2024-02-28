@@ -113,7 +113,7 @@ SCRIPTS LOGIC DESCRIPTION
 		1) Recreate dir 'scripts_for_remote/fwrules_files' if need.
     		2) Remove sh/conf-files from 'scripts_for_remote/fwrules_files'.
 	    2) Run procedure 'read_inventory_file'.
-		(info) REad file 'conf_firewall_hosts' to hash '%inventory_hosts_g'.
+		(info) Read file 'conf_firewall_hosts' to hash '%inventory_hosts_g'.
 	    3) Run procedure 'read_network_data_for_checks'.
 		(info) Read file 'fwrules_backup_from_remote/network_data/inv_hosts_interfaces_info.txt' to hash '%inv_hosts_network_data_g'.
 	    4) Read configuration files from dir '01_fwrules_configs' to several hashes.
