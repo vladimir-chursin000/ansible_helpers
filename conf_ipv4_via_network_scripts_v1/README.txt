@@ -54,9 +54,11 @@ SCRIPTS LOGIC DESCRIPTION
 	    1) Run task 'tasks/ifcfg_backup_task_main.yml'.
 	    2) Run task 'tasks/ifcfg_backup_collect_raw_network_data_task.yml'.
 	2) Run script 'generate_dynamic_ifcfg.pl'. Steps:
-            2) Run procedure 'read_inventory_file'.
+            1) Run procedure 'read_inventory_file'.
                 (info) Read file 'conf_network_scripts_hosts' to hash '%inventory_hosts_g'.
-
+	    2) Run procedure 'read_00_conf_divisions_for_inv_hosts'.
+	    3) Run procedure 'read_network_data_for_checks'.
+	    4) Run procedure 'read_main_config'.
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
