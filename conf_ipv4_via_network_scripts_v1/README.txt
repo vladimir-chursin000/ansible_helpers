@@ -59,6 +59,11 @@ SCRIPTS LOGIC DESCRIPTION
 	    2) Run procedure 'read_00_conf_divisions_for_inv_hosts'.
 	    3) Run procedure 'read_network_data_for_checks'.
 	    4) Run procedure 'read_main_config'.
+	    5) Run procedure 'recreate_ifcfg_tmplt_based_on_cfg0_hash'.
+
+	    6) Run procedure 'generate_resolv_conf_files'.
+	    7) Run procedure 'read_config_del_not_configured_ifcfg'.
+	    8) Run procedure 'read_config_temporary_apply_ifcfg'.
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
