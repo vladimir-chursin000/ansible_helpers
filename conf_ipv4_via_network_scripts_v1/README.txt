@@ -57,7 +57,10 @@ SCRIPTS LOGIC DESCRIPTION
             1) Run procedure 'read_inventory_file'.
                 (info) Read file 'conf_network_scripts_hosts' to hash '%inventory_hosts_g'.
 	    2) Run procedure 'read_00_conf_divisions_for_inv_hosts'.
+		(info) Read file '01_configs/00_conf_divisions_for_inv_hosts' to hash '%h00_conf_divisions_for_inv_hosts_hash_g'.
 	    3) Run procedure 'read_network_data_for_checks'.
+		(info) Read file 'playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'
+		    to hash '%inv_hosts_network_data_g'.
 	    4) Run procedure 'read_main_config'.
 	    5) Run procedure 'recreate_ifcfg_tmplt_based_on_cfg0_hash'.
 
