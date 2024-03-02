@@ -64,6 +64,9 @@ SCRIPTS LOGIC DESCRIPTION
 	    6) Run procedure 'generate_resolv_conf_files'.
 	    7) Run procedure 'read_config_del_not_configured_ifcfg'.
 	    8) Run procedure 'read_config_temporary_apply_ifcfg'.
+	    9) Run procedure 'fill_inv_hosts_hash1_with_fin_n_now_dirs'.
+	    10) Run procedure 'modify_inv_hosts_hash1'.
+	    11) Run procedure 'generate_dynamic_playbooks'.
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
