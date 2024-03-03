@@ -62,7 +62,10 @@ SCRIPTS LOGIC DESCRIPTION
 		(info) Read file 'playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'
 		    to hash '%inv_hosts_network_data_g'.
 	    4) Run procedure 'read_main_config'.
+		(info) Read file '01_configs/00_config' to hash '%cfg0_hash_g'.
 	    5) Run procedure 'recreate_ifcfg_tmplt_based_on_cfg0_hash'.
+		(info) Create/recreate ifcfg-files (based on ifcfg-tmplt-files='playbooks/ifcfg_tmplt')
+		    at dir='playbooks/dyn_ifcfg_playbooks/dyn_ifcfg' for hosts configured at '00_config'.
 
 	    6) Run procedure 'generate_resolv_conf_files'.
 	    7) Run procedure 'read_config_del_not_configured_ifcfg'.
