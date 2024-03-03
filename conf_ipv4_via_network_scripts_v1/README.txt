@@ -68,6 +68,8 @@ SCRIPTS LOGIC DESCRIPTION
 		    at dir='playbooks/dyn_ifcfg_playbooks/dyn_ifcfg' for hosts configured at '00_config'.
 
 	    6) Run procedure 'generate_resolv_conf_files'.
+		(info) Create/recreate resolv-conf-files for each inventory host
+		    at dir='playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf'.
 	    7) Run procedure 'read_config_del_not_configured_ifcfg'.
 	    8) Run procedure 'read_config_temporary_apply_ifcfg'.
 	    9) Run procedure 'fill_inv_hosts_hash1_with_fin_n_now_dirs'.
