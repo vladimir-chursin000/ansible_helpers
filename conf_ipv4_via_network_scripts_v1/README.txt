@@ -75,6 +75,9 @@ SCRIPTS LOGIC DESCRIPTION
 	    8) Run procedure 'read_config_temporary_apply_ifcfg'.
 		(info) Read file '01_configs/03_config_temporary_apply_ifcfg' to hash '%inv_hosts_tmp_apply_cfg_g'.
 	    9) Run procedure 'fill_inv_hosts_hash1_with_fin_n_now_dirs'.
+		(info) Read file names from dirs 'playbooks/ifcfg_backup_from_remote/now/*INV_HOST*',
+		    'playbooks/dyn_ifcfg_playbooks/dyn_ifcfg/*INV_HOST*/fin'
+		    and save info to hash '%inv_hosts_hash1_g'.
 	    10) Run procedure 'modify_inv_hosts_hash1'.
 	    11) Run procedure 'generate_dynamic_playbooks'.
 
