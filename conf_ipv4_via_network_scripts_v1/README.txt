@@ -78,6 +78,7 @@ SCRIPTS LOGIC DESCRIPTION
 		(info) Read file names from dirs 'playbooks/ifcfg_backup_from_remote/now/*INV_HOST*',
 		'playbooks/dyn_ifcfg_playbooks/dyn_ifcfg/*INV_HOST*/fin' and save info into the hash '%inv_hosts_hash1_g'.
 		    For 'now' (ifcfg-files downloaded from hosts) -> $inv_hosts_hash1_g{inv_host}{'now'}{interface_name}.
+			Exception: wifi-interfaces.
 		    For 'fin' (ifcfg-files finally gen by 'generate*' script) -> $inv_hosts_hash1_g{inv_host}{'fin'}{interface_name}.
 	    10) Run procedure 'modify_inv_hosts_hash1'.
 	    11) Run procedure 'generate_dynamic_playbooks'.
