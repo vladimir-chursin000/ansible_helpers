@@ -81,6 +81,12 @@ SCRIPTS LOGIC DESCRIPTION
 			Exception: wifi-interfaces.
 		    For 'fin' (ifcfg-files finally gen by 'generate*' script) -> $inv_hosts_hash1_g{inv_host}{'fin'}{interface_name}.
 	    10) Run procedure 'modify_inv_hosts_hash1'.
+		(info) Modify hash '%inv_hosts_hash1_g':
+		    1) If content of now-ifcfg-file (file name from '$inv_hosts_hash1_g{inv_host}{'now'}{interface_name}')
+			differ from content of fin-ifcfg-file (file name from '$inv_hosts_hash1_g{inv_host}{'fin'}{interface_name}')
+			or fin-ifcfg-file is new ->
+			-> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_upd'}{interface_name}'.
+		    2) 
 	    11) Run procedure 'generate_dynamic_playbooks'.
 
 '00_just_install_network_scripts.sh' ->
