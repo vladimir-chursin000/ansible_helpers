@@ -86,9 +86,11 @@ SCRIPTS LOGIC DESCRIPTION
 			differ from content of fin-ifcfg-file (file name from '$inv_hosts_hash1_g{inv_host}{'fin'}{interface_name}')
 			or fin-ifcfg-file is new ->
 			-> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_upd'}{interface_name}'.
+			    (for create interface at remote side)
 		    2) For inv-hosts configured at '02_config_del_not_configured_ifcfg'.
 			If env-host exists at 'now' and not exits at 'fin' -> 
 			-> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_del'}{interface_name}'.
+			    (for shutdown interface and delete ifcfg-file)
 	    11) Run procedure 'generate_dynamic_playbooks'.
 
 '00_just_install_network_scripts.sh' ->
