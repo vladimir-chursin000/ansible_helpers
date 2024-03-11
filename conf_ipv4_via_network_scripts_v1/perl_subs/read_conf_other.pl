@@ -164,8 +164,10 @@ sub modify_inv_hosts_hash1 {
                 #$ifcfg_backup_from_remote_nd_file_l = file for grep-check. If ifcfg-int at this file for cur inv_host -> no 'ip link delete'
                 if ( !exists(${$hval0_l}{'fin'}{$hkey1_l}) ) { #interface for delete -> for_del
                     $tmp_var_l=$hkey1_l;
-                    $tmp_var_l=~s/^ifcfg\-//g;
+                    $tmp_var_l=~s/^ifcfg\-//g; # now-ifcfg-name without 'ifcfg-'
                     $exec_res_l=`grep -a $hkey0_l $ifcfg_backup_from_remote_nd_file_l | grep $tmp_var_l | wc -l`;
+		    #hkey0_l=inv-host
+		    #ifcfg_backup_from_remote_nd_file_l=path to 'inv_hosts_interfaces_info.txt'
                     $exec_res_l=~s/\n|\r|\n\r|\r\n//g;
                     $exec_res_l=int($exec_res_l);
 
