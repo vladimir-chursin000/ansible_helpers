@@ -85,12 +85,15 @@ SCRIPTS LOGIC DESCRIPTION
 		    1) If content of now-ifcfg-file (file name from '$inv_hosts_hash1_g{inv_host}{'now'}{interface_name}')
 			differ from content of fin-ifcfg-file (file name from '$inv_hosts_hash1_g{inv_host}{'fin'}{interface_name}')
 			or fin-ifcfg-file is new ->
-			-> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_upd'}{interface_name}'.
-			    (for create interface at remote side)
+			-> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_upd'}{ifcfg-name}'
+			    (for create interface at remote side).
 		    2) For inv-hosts configured at '02_config_del_not_configured_ifcfg'.
-			If env-host exists at 'now' and not exits at 'fin' -> 
-			-> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_del'}{interface_name}'.
-			    (for shutdown interface and delete ifcfg-file)
+			2.1) If env-host exists at 'now' and not exits at 'fin' -> 
+			    -> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_del'}{ifcfg-name}'
+				(for shutdown interface and delete ifcfg-file at remote side).
+			2.2) If env-host exists at 'now' + not exits at 'fin' + interface-name not exists at remote host ->
+			    -> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_del_ip_link'}{interface_name}'
+				(for operation 'ip link delete <interface_name>' at remote side).
 	    11) Run procedure 'generate_dynamic_playbooks'.
 
 '00_just_install_network_scripts.sh' ->

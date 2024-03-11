@@ -173,7 +173,7 @@ sub modify_inv_hosts_hash1 {
 
                     ${$res_href_l}{$hkey0_l}{'for_del'}{$hkey1_l}=1; # just shutdown and delete ifcfg-file
 
-                    if ( $exec_res_l!=1 ) {
+                    if ( $exec_res_l!=1 ) { # not exists at 'fin' (generated) and interface-name not exists at remote host
                         ${$res_href_l}{$hkey0_l}{'for_del_ip_link'}{$tmp_var_l}=1; # if included (means not interface-ifcfg) -> 'ip link delete'
                     }
 
