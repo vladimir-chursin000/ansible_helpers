@@ -53,6 +53,10 @@ SCRIPTS LOGIC DESCRIPTION
         1) Run playbook 'ifcfg_backup_playbook.yml' ->
 	    1) Run task 'tasks/ifcfg_backup_task_main.yml'.
 	    2) Run task 'tasks/ifcfg_backup_collect_raw_network_data_task.yml'.
+		(info) Operations:
+		1) "ip -o link | grep -v noqueue > ~/ansible_helpers/conf_int_ipv4_via_network_scripts/ip_link_noqueue".
+		2) "ip neighbour > ~/ansible_helpers/conf_int_ipv4_via_network_scripts/ip_neighbour".
+		3) Copy files "ip_link_noqueue" and "ip_neighbour" to "../playbooks/ifcfg_backup_from_remote/network_data".
 	2) Run script 'generate_dynamic_ifcfg.pl'. Steps:
             1) Run procedure 'read_inventory_file'.
                 (info) Read file 'conf_network_scripts_hosts' to hash '%inventory_hosts_g'.
