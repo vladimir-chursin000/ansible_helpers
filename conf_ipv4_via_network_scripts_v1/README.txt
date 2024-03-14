@@ -158,7 +158,11 @@ SCRIPTS LOGIC DESCRIPTION
         2) Run playbook 'ifcfg_backup_playbook_for_temp_apply.yml' ->
 	    1) Run task 'tasks/ifcfg_backup_task_main.yml'.
 		*** See description for '00_install_network_scripts_and_configure_network.sh'.
-	    2) Run task 'tasks/ifcfg_local_backup_for_temp_apply_task.yml'.
+	    2) Run task 'tasks/ifcfg_local_backup_for_temp_apply_task.yml' ->
+		1) Run task 'tasks/ifcfg_backup_task_main.yml'.
+		2) Run task 'tasks/ifcfg_local_backup_for_temp_apply_task.yml'.
+		3) Run task 'tasks/ifcfg_backup_collect_raw_network_data_task.yml'.
+		    *** See description for '00_install_network_scripts_and_configure_network.sh'.
 	    3) Run task 'tasks/ifcfg_backup_collect_raw_network_data_task.yml'.
 		*** See description for '00_install_network_scripts_and_configure_network.sh'.
 	3) Run perl-script '/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl'
