@@ -103,13 +103,13 @@ SCRIPTS LOGIC DESCRIPTION
 			    -> create hash-record '$inv_hosts_hash1_g{inv_host}{'for_del_ip_link'}{interface_name}'
 				(for operation 'ip link delete <interface_name>' at remote side).
 	    11) Run procedure 'generate_dynamic_playbooks'.
-		Generates playbook 'aa.bb.cc.dd_ifcfg_change.yml' for each inventory host.
+		Generates playbook 'aa.bb.cc.dd_ifcfg_change.yml' at 'playbooks/dyn_ifcfg_playbooks' for each inventory host.
 	    
 	5) Run playbook 'full_install_network_scripts_and_configure_network_playbook.yml' ->
 	    1) Run playbook 'just_install_network_scripts_playbook.yml' (install network-scripts, procps-ng).
 	    2) Run playbook 'check_network_scripts_serv_is_started_playbook.yml'.
 	    3) Run playbook 'dyn_ifcfg_playbooks/dynamic_ifcfg_loader.yml'.
-		1) Run dynamically generated playbook 'aa.bb.cc.dd_ifcfg_change.yml'.
+		1) Run dynamically generated playbook 'playbooks/dyn_ifcfg_playbooks/aa.bb.cc.dd_ifcfg_change.yml'.
 
 '00_just_install_network_scripts.sh' ->
     1) Run script 'main.sh' ->
