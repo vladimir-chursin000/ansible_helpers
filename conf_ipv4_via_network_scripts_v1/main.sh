@@ -21,7 +21,7 @@ CUR_USER_str=`id -u -n`;
 LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 ###VARS
 
-###MAIN
+###MAIN (begin)
 /usr/bin/mkdir -p "$LOG_DIR_str";
 
 echo "User: $CUR_USER_str" | tee -a $LOG_FILE_str;
@@ -129,7 +129,7 @@ if [[ -f "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/WARNINGS
     echo "########################################" | tee -a $LOG_FILE_str;
     echo "PROBABLY YOU HAVE some mac duplicate WARNINGS at '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt'" | tee -a $LOG_FILE_str;
 fi;
-###MAIN
+###MAIN (end)
 
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

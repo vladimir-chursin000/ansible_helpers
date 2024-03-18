@@ -24,7 +24,7 @@ LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 declare -a TMP_arr;
 ######VARS
 
-######MAIN
+######MAIN (begin)
 /usr/bin/mkdir -p "$LOG_DIR_str/from_remote";
 
 echo "User: $CUR_USER_str" | tee -a $LOG_FILE_str;
@@ -128,7 +128,7 @@ if [[ "$PLAYBOOK_str" =~ "02_fwrules_backup" ]]; then
     /usr/bin/perl "$SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/playbooks/fwrules_backup_from_remote/network_data";
     echo "Run script (after playbook '$PLAYBOOK_str'): $SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
 fi;
-######MAIN
+######MAIN (end)
 
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
