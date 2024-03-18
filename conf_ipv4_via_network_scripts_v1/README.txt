@@ -104,6 +104,16 @@ SCRIPTS LOGIC DESCRIPTION
 				(for operation 'ip link delete <interface_name>' at remote side).
 	    11) Run procedure 'generate_dynamic_playbooks'.
 		Generates playbook 'aa.bb.cc.dd_ifcfg_change.yml' at 'playbooks/dyn_ifcfg_playbooks' for each inventory host.
+		    1) If exists '$inv_hosts_hash1_g{inv_host}{'for_del'}{ifcfg-name}' ->
+			add tasks for shutdown and delete interfaces at remote.
+		    2) If exists '$inv_hosts_hash1_g{inv_host}{'for_del_ip_link'}{interface_name}' ->
+			add task with 'ip link delete <interface_name>' for exec at remote.
+		    3) If exists '$inv_hosts_hash1_g{inv_host}{'for_upd'}{ifcfg-name}' ->
+			add task for 'upd/add' interfaces at remote.
+		    4) If rollback needed -> add tasks for rollback changes at remote.
+		    5) If items 1-4 is actual -> add task for restart network.service at remote.
+		    6) Add task for update resolv.conf at remote.
+		    7) If operation without rollback -> add task for rollback cancel.
 	    
 	5) Run playbook 'full_install_network_scripts_and_configure_network_playbook.yml' ->
 	    1) Run playbook 'just_install_network_scripts_playbook.yml' (install network-scripts, procps-ng).
