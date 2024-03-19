@@ -113,7 +113,7 @@ SCRIPTS LOGIC DESCRIPTION
 		    4) If rollback needed -> add tasks for rollback changes at remote.
 		    5) If items 1-4 is actual -> add task for restart network.service at remote.
 		    6) Add task for update resolv.conf at remote.
-		    7) If operation without rollback -> add task for rollback cancel.
+		    7) If operation without rollback -> add task for cancel rollback.
 	    
 	5) Run playbook 'full_install_network_scripts_and_configure_network_playbook.yml' ->
 	    1) Run playbook 'just_install_network_scripts_playbook.yml' (install network-scripts, procps-ng).
