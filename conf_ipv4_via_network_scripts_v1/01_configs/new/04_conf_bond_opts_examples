@@ -1,0 +1,49 @@
+###
+# INV_HOST - host-ip from inventory "conf_network_scripts_hosts".
+###
+# CONF_ID - string without spaces. Must be unique for inventory_host (INV_HOST).
+###
+# BOND_OPTS - defines bond configuraton. Possible values: def ("mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100") or another configuration (params separated by ",").
+###
+#INV_HOST    	#CONF_ID	#BOND_OPTS
+###
+###NO-VLAN Examples, static IP
+# Be carefull with configuring interfaces with default route. Typically, such interfaces are configured for access via ssh.
+192.168.1.2  	novlstat4	def
+192.168.1.2  	novlstat5	def
+
+###NO-VLAN Examples, dhcp
+192.168.1.2  	novldhcp3	def
+192.168.1.2  	novldhcp4	def
+
+###VLAN Examples for "bond-vlan", static IP
+#Bond for native vlan (with id=1)
+192.168.1.2  	vlanstat7	def
+#Bond for vlan with id=8
+192.168.1.2  	vlanstat8	def
+#Bond for vlan with id=88
+192.168.1.2  	vlanstat9	def
+
+###VLAN Examples for "bond-bridge-vlan", static IP
+#Bond and bridge for native vlan (with id=1)
+192.168.1.2  	vlanstat10	def
+#Bond and bridge for vlan with id=9
+192.168.1.2  	vlanstat11	def
+#Bond and bridge for vlan with id=99
+192.168.1.2  	vlanstat12	def
+
+###VLAN Examples for "bond-vlan", dhcp
+#Bond for native vlan (with id=1)
+192.168.1.2  	vlandhcp7	def
+#Bond for vlan with id=12
+192.168.1.2  	vlandhcp8	def
+#Bond for vlan with id=112
+192.168.1.2  	vlandhcp9	def
+
+###VLAN Examples for "bond-bridge-vlan", dhcp
+#Bond and bridge for native vlan (with id=1)
+192.168.1.2  	vlandhcp10	def
+#Bond and bridge for vlan with id=13
+192.168.1.2  	vlandhcp11	def
+#Bond and bridge for vlan with id=113
+192.168.1.2  	vlandhcp12	def

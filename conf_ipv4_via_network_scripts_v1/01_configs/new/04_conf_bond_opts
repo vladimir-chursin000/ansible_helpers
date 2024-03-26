@@ -1,0 +1,10 @@
+# NOT USED yet!
+###
+# INV_HOST - host-ip from inventory "conf_network_scripts_hosts".
+###
+# CONF_ID - string without spaces. Must be unique for inventory_host (INV_HOST).
+###
+# BOND_OPTS - defines bond configuraton. Possible values: def ("mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100") or another configuration (params separated by ",").
+###
+#INV_HOST    	#CONF_ID	#BOND_OPTS
+###
