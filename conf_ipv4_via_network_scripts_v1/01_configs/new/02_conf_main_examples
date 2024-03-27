@@ -23,84 +23,84 @@
 ###
 # DEFROUTE - enables default route for CONF_ID. Possible values = yes/no.
 ###
-#INV_HOST    #CONF_ID	#CONF_TYPE	 #INT_LIST		#VLAN_ID    #BOND_NAME   #BRIDGE_NAME  	#DEFROUTE
+#INV_HOST    #CONF_ID		#CONF_TYPE	 #INT_LIST		#VLAN_ID    #BOND_NAME   #BRIDGE_NAME  	#DEFROUTE
 ###
 ###NO-VLAN Examples, static IP
 # Be carefull with configuring interfaces with default route. Typically, such interfaces are configured for access via ssh.
-192.168.1.2  novlstat1	just_interface	 eth0			no	    no		  no	       	yes
+192.168.1.2  justintnovlstat1	just_interface	 eth0			no	    no		  no	       	yes
 #
-192.168.1.2  novlstat2	virt_bridge	 no			no	    no		  virbr0       	no
-192.168.1.2  novlstat3	just_bridge	 eth1			no	    no		  br0	       	no
-192.168.1.2  novlstat3a	just_bridge	 eth112,eth111		no	    no		  br000	       	no
-192.168.1.2  novlstat4	just_bond	 eth2,eth3		no	    bond0	  no	       	no
-192.168.1.2  novlstat5	bond-bridge	 eth4,eth5		no	    bond1	  br1	       	no
+192.168.1.2  virbrnovlstat2	virt_bridge	 no			no	    no		  virbr0       	no
+192.168.1.2  justbrnovlstat3	just_bridge	 eth1			no	    no		  br0	       	no
+192.168.1.2  justbrnovlstat3a	just_bridge	 eth112,eth111		no	    no		  br000	       	no
+192.168.1.2  justbndnovlstat4	just_bond	 eth2,eth3		no	    bond0	  no	       	no
+192.168.1.2  bndbrnovlstat5	bond-bridge	 eth4,eth5		no	    bond1	  br1	       	no
 
 ###NO-VLAN Examples, dhcp
-192.168.1.2  novldhcp1	just_interface	 eth6			no	    no		  no	    	no
-192.168.1.2  novldhcp2	just_bridge	 eth7			no	    no		  br11	      	no
-192.168.1.2  novldhcp3	just_bond	 eth8,eth9		no	    bond2	  no	       	no
-192.168.1.2  novldhcp4	bond-bridge	 eth10,eth11		no	    bond3	  br12	       	no
+192.168.1.2  justintnovldhcp1	just_interface	 eth6			no	    no		  no	    	no
+192.168.1.2  justbrnovldhcp2	just_bridge	 eth7			no	    no		  br11	      	no
+192.168.1.2  justbndnovldhcp3	just_bond	 eth8,eth9		no	    bond2	  no	       	no
+192.168.1.2  bndbrnovldhcp4	bond-bridge	 eth10,eth11		no	    bond3	  br12	       	no
 
 ###VLAN Examples for "interface-vlan", static IP
 #Interface for native vlan (with id=1)
-192.168.1.2  vlanstat1	just_interface	 eth12			no	    no		  no	       	no
+192.168.1.2  justintvlanstat1	just_interface	 eth12			no	    no		  no	       	no
 #Interface for vlan with id=6
-192.168.1.2  vlanstat2	interface-vlan	 eth12			6	    no		  no	       	no
+192.168.1.2  intvlanstat2	interface-vlan	 eth12			6	    no		  no	       	no
 #Interface for vlan with id=66
-192.168.1.2  vlanstat3	interface-vlan	 eth12			66	    no		  no	       	no
+192.168.1.2  intvlanstat3	interface-vlan	 eth12			66	    no		  no	       	no
 
 ###VLAN Examples for "bridge-vlan", static IP
 #Bridge for native vlan (with id=1)
-192.168.1.2  vlanstat4	just_bridge	 eth13			no	    no		  brvlan0n     	no
+192.168.1.2  justbrvlanstat4	just_bridge	 eth13			no	    no		  brvlan0n     	no
 #Bridge for vlan with id=7
-192.168.1.2  vlanstat5	bridge-vlan	 eth13			7	    no		  brvlan7      	no
+192.168.1.2  brvlanstat5	bridge-vlan	 eth13			7	    no		  brvlan7      	no
 #Bridge for vlan with id=77
-192.168.1.2  vlanstat6	bridge-vlan	 eth13			77	    no		  brvlan77     	no
+192.168.1.2  brvlanstat6	bridge-vlan	 eth13			77	    no		  brvlan77     	no
 
 ###VLAN Examples for "bond-vlan", static IP
 #Bond for native vlan (with id=1)
-192.168.1.2  vlanstat7	just_bond	 eth14,eth15		no	    bond4	  no	       	no
+192.168.1.2  justbndvlanstat7	just_bond	 eth14,eth15		no	    bond4	  no	       	no
 #Bond for vlan with id=8
-192.168.1.2  vlanstat8	bond-vlan	 eth14,eth15		8	    bond4	  no	       	no
+192.168.1.2  bndvlanstat8	bond-vlan	 eth14,eth15		8	    bond4	  no	       	no
 #Bond for vlan with id=88
-192.168.1.2  vlanstat9	bond-vlan	 eth14,eth15		88	    bond4	  no	       	no
+192.168.1.2  bndvlanstat9	bond-vlan	 eth14,eth15		88	    bond4	  no	       	no
 
 ###VLAN Examples for "bond-bridge-vlan", static IP
 #Bond and bridge for native vlan (with id=1)
-192.168.1.2  vlanstat10	bond-bridge	 eth16,eth17		no	    bond5	  brvlan1n     	no
+192.168.1.2  bndbrvlanstat10	bond-bridge	 eth16,eth17		no	    bond5	  brvlan1n     	no
 #Bond and bridge for vlan with id=9
-192.168.1.2  vlanstat11	bond-bridge-vlan eth16,eth17		9	    bond5	  brvlan9      	no
+192.168.1.2  bndbrvlanstat11	bond-bridge-vlan eth16,eth17		9	    bond5	  brvlan9      	no
 #Bond and bridge for vlan with id=99
-192.168.1.2  vlanstat12	bond-bridge-vlan eth16,eth17		99	    bond5  	  brvlan99     	no
+192.168.1.2  bndbrvlanstat12	bond-bridge-vlan eth16,eth17		99	    bond5  	  brvlan99     	no
 
 ###VLAN Examples for "interface-vlan", dhcp
 #Interface for native vlan (with id=1)
-192.168.1.2  vlandhcp1	just_interface	 eth18			no	    no		  no	      	no
+192.168.1.2  justintvlandhcp1	just_interface	 eth18			no	    no		  no	      	no
 #Interface for vlan with id=10
-192.168.1.2  vlandhcp2	interface-vlan	 eth18			10	    no		  no	      	no
+192.168.1.2  intvlandhcp2	interface-vlan	 eth18			10	    no		  no	      	no
 #Interface for vlan with id=110
-192.168.1.2  vlandhcp3	interface-vlan	 eth18			110	    no		  no	       	no
+192.168.1.2  intvlandhcp3	interface-vlan	 eth18			110	    no		  no	       	no
 
 ###VLAN Examples for "bridge-vlan", dhcp
 #Bridge for native vlan (with id=1)
-192.168.1.2  vlandhcp4	just_bridge	 eth19			no	    no		  brvlan2n    	no
+192.168.1.2  justbrvlandhcp4	just_bridge	 eth19			no	    no		  brvlan2n    	no
 #Bridge for vlan with id=11
-192.168.1.2  vlandhcp5	bridge-vlan	 eth19			11	    no		  brvlan11     	no
+192.168.1.2  brvlandhcp5	bridge-vlan	 eth19			11	    no		  brvlan11     	no
 #Bridge for vlan with id=111
-192.168.1.2  vlandhcp6	bridge-vlan	 eth19			111	    no		  brvlan111   	no
+192.168.1.2  brvlandhcp6	bridge-vlan	 eth19			111	    no		  brvlan111   	no
 
 ###VLAN Examples for "bond-vlan", dhcp
 #Bond for native vlan (with id=1)
-192.168.1.2  vlandhcp7	just_bond	 eth20,eth21		no	    bond6  	  no	       	no
+192.168.1.2  justbndvlandhcp7	just_bond	 eth20,eth21		no	    bond6  	  no	       	no
 #Bond for vlan with id=12
-192.168.1.2  vlandhcp8	bond-vlan	 eth20,eth21		12	    bond6  	  no	      	no
+192.168.1.2  bndvlandhcp8	bond-vlan	 eth20,eth21		12	    bond6  	  no	      	no
 #Bond for vlan with id=112
-192.168.1.2  vlandhcp9	bond-vlan	 eth20,eth21		112	    bond6     	  no	      	no
+192.168.1.2  bndvlandhcp9	bond-vlan	 eth20,eth21		112	    bond6     	  no	      	no
 
 ###VLAN Examples for "bond-bridge-vlan", dhcp
 #Bond and bridge for native vlan (with id=1)
-192.168.1.2  vlandhcp10	bond-bridge	 eth22,eth23		no	    bond7  	  brvlan3n     	no
+192.168.1.2  bndbrvlandhcp10	bond-bridge	 eth22,eth23		no	    bond7  	  brvlan3n     	no
 #Bond and bridge for vlan with id=13
-192.168.1.2  vlandhcp11	bond-bridge-vlan eth22,eth23		13	    bond7  	  brvlan13    	no
+192.168.1.2  bndbrvlandhcp11	bond-bridge-vlan eth22,eth23		13	    bond7  	  brvlan13    	no
 #Bond and bridge for vlan with id=113
-192.168.1.2  vlandhcp12	bond-bridge-vlan eth22,eth23		113	    bond7     	  brvlan113   	no
+192.168.1.2  bndbrvlandhcp12	bond-bridge-vlan eth22,eth23		113	    bond7     	  brvlan113   	no
