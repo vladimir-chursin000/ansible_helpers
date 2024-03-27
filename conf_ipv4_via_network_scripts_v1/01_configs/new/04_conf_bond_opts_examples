@@ -5,45 +5,45 @@
 ###
 # BOND_OPTS - defines bond configuraton. Possible values: def ("mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100") or another configuration (params separated by ",").
 ###
-#INV_HOST    	#CONF_ID	#BOND_OPTS
+#INV_HOST    	#CONF_ID		#BOND_OPTS
 ###
 ###NO-VLAN Examples, static IP
 # Be carefull with configuring interfaces with default route. Typically, such interfaces are configured for access via ssh.
-192.168.1.2  	novlstat4	def
-192.168.1.2  	novlstat5	def
+192.168.1.2  	justbndnovlstat4	def
+192.168.1.2  	bndbrnovlstat5		def
 
 ###NO-VLAN Examples, dhcp
-192.168.1.2  	novldhcp3	def
-192.168.1.2  	novldhcp4	def
+192.168.1.2  	justbndnovldhcp3	def
+192.168.1.2  	bndbrnovldhcp4		def
 
 ###VLAN Examples for "bond-vlan", static IP
 #Bond for native vlan (with id=1)
-192.168.1.2  	vlanstat7	def
+192.168.1.2  	justbndvlanstat7	def
 #Bond for vlan with id=8
-192.168.1.2  	vlanstat8	def
+192.168.1.2  	bndvlanstat8		def
 #Bond for vlan with id=88
-192.168.1.2  	vlanstat9	def
+192.168.1.2  	bndvlanstat9		def
 
 ###VLAN Examples for "bond-bridge-vlan", static IP
 #Bond and bridge for native vlan (with id=1)
-192.168.1.2  	vlanstat10	def
+192.168.1.2  	bndbrvlanstat10		def
 #Bond and bridge for vlan with id=9
-192.168.1.2  	vlanstat11	def
+192.168.1.2  	bndbrvlanstat11		def
 #Bond and bridge for vlan with id=99
-192.168.1.2  	vlanstat12	def
+192.168.1.2  	bndbrvlanstat12		def
 
 ###VLAN Examples for "bond-vlan", dhcp
 #Bond for native vlan (with id=1)
-192.168.1.2  	vlandhcp7	def
+192.168.1.2  	justbndvlandhcp7	def
 #Bond for vlan with id=12
-192.168.1.2  	vlandhcp8	def
+192.168.1.2  	bndvlandhcp8		def
 #Bond for vlan with id=112
-192.168.1.2  	vlandhcp9	def
+192.168.1.2  	bndvlandhcp9		def
 
 ###VLAN Examples for "bond-bridge-vlan", dhcp
 #Bond and bridge for native vlan (with id=1)
-192.168.1.2  	vlandhcp10	def
+192.168.1.2  	bndbrvlandhcp10		def
 #Bond and bridge for vlan with id=13
-192.168.1.2  	vlandhcp11	def
+192.168.1.2  	bndbrvlandhcp11		def
 #Bond and bridge for vlan with id=113
-192.168.1.2  	vlandhcp12	def
+192.168.1.2  	bndbrvlandhcp12		def

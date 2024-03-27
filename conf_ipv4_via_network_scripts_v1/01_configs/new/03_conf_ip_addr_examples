@@ -9,80 +9,80 @@
 ###
 ###NO-VLAN Examples, static IP
 # Be carefull with configuring interfaces with default route. Typically, such interfaces are configured for access via ssh.
-192.168.1.2  novlstat1		192.168.1.2,192.168.1.1,255.255.255.0
+192.168.1.2  justintnovlstat1	192.168.1.2,192.168.1.1,255.255.255.0
 #
-192.168.1.2  novlstat2		10.2.2.1,nogw,255.255.255.0
-192.168.1.2  novlstat3		10.2.3.2,10.1.3.1,255.255.255.0
-192.168.1.2  novlstat3a		10.2.8.2,10.1.8.1,255.255.255.0
-192.168.1.2  novlstat4		10.2.4.2,10.1.4.1,255.255.255.0
-192.168.1.2  novlstat5		10.2.5.2,10.1.6.1,255.255.255.0
+192.168.1.2  virbrnovlstat2	10.2.2.1,nogw,255.255.255.0
+192.168.1.2  justbrnovlstat3	10.2.3.2,10.1.3.1,255.255.255.0
+192.168.1.2  justbrnovlstat3a	10.2.8.2,10.1.8.1,255.255.255.0
+192.168.1.2  justbndnovlstat4	10.2.4.2,10.1.4.1,255.255.255.0
+192.168.1.2  bndbrnovlstat5	10.2.5.2,10.1.6.1,255.255.255.0
 
 ###NO-VLAN Examples, dhcp
-192.168.1.2  novldhcp1		dhcp
-192.168.1.2  novldhcp2		dhcp
-192.168.1.2  novldhcp3		dhcp
-192.168.1.2  novldhcp4		dhcp
+192.168.1.2  justintnovldhcp1	dhcp
+192.168.1.2  justbrnovldhcp2	dhcp
+192.168.1.2  justbndnovldhcp3	dhcp
+192.168.1.2  bndbrnovldhcp4	dhcp
 
 ###VLAN Examples for "interface-vlan", static IP
 #Interface for native vlan (with id=1)
-192.168.1.2  vlanstat1		10.3.1.2,10.1.6.1,255.255.255.0
+192.168.1.2  justintvlanstat1	10.3.1.2,10.1.6.1,255.255.255.0
 #Interface for vlan with id=6
-192.168.1.2  vlanstat2		10.3.6.2,10.1.6.1,255.255.255.0
+192.168.1.2  intvlanstat2	10.3.6.2,10.1.6.1,255.255.255.0
 #Interface for vlan with id=66
-192.168.1.2  vlanstat3		10.3.66.2,10.1.66.1,255.255.255.0
+192.168.1.2  intvlanstat3	10.3.66.2,10.1.66.1,255.255.255.0
 
 ###VLAN Examples for "bridge-vlan", static IP
 #Bridge for native vlan (with id=1)
-192.168.1.2  vlanstat4		10.4.1.2,10.1.7.1,255.255.255.0
+192.168.1.2  justbrvlanstat4	10.4.1.2,10.1.7.1,255.255.255.0
 #Bridge for vlan with id=7
-192.168.1.2  vlanstat5		10.4.7.2,10.1.7.1,255.255.255.0
+192.168.1.2  brvlanstat5	10.4.7.2,10.1.7.1,255.255.255.0
 #Bridge for vlan with id=77
-192.168.1.2  vlanstat6		10.4.77.2,10.1.77.1,255.255.255.0
+192.168.1.2  brvlanstat6	10.4.77.2,10.1.77.1,255.255.255.0
 
 ###VLAN Examples for "bond-vlan", static IP
 #Bond for native vlan (with id=1)
-192.168.1.2  vlanstat7		10.5.1.2,10.1.8.1,255.255.255.0
+192.168.1.2  justbndvlanstat7	10.5.1.2,10.1.8.1,255.255.255.0
 #Bond for vlan with id=8
-192.168.1.2  vlanstat8		10.5.8.2,10.1.8.1,255.255.255.0
+192.168.1.2  bndvlanstat8	10.5.8.2,10.1.8.1,255.255.255.0
 #Bond for vlan with id=88
-192.168.1.2  vlanstat9		10.5.88.2,10.1.8.1,255.255.255.0
+192.168.1.2  bndvlanstat9	10.5.88.2,10.1.8.1,255.255.255.0
 
 ###VLAN Examples for "bond-bridge-vlan", static IP
 #Bond and bridge for native vlan (with id=1)
-192.168.1.2  vlanstat10		10.6.1.2,10.1.9.1,255.255.255.0
+192.168.1.2  bndbrvlanstat10	10.6.1.2,10.1.9.1,255.255.255.0
 #Bond and bridge for vlan with id=9
-192.168.1.2  vlanstat11		10.6.9.2,10.1.9.1,255.255.255.0
+192.168.1.2  bndbrvlanstat11	10.6.9.2,10.1.9.1,255.255.255.0
 #Bond and bridge for vlan with id=99
-192.168.1.2  vlanstat12		10.6.99.2,10.1.99.1,255.255.255.0
+192.168.1.2  bndbrvlanstat12	10.6.99.2,10.1.99.1,255.255.255.0
 
 ###VLAN Examples for "interface-vlan", dhcp
 #Interface for native vlan (with id=1)
-192.168.1.2  vlandhcp1		dhcp
+192.168.1.2  justintvlandhcp1	dhcp
 #Interface for vlan with id=10
-192.168.1.2  vlandhcp2		dhcp
+192.168.1.2  intvlandhcp2	dhcp
 #Interface for vlan with id=110
-192.168.1.2  vlandhcp3		dhcp
+192.168.1.2  intvlandhcp3	dhcp
 
 ###VLAN Examples for "bridge-vlan", dhcp
 #Bridge for native vlan (with id=1)
-192.168.1.2  vlandhcp4		dhcp
+192.168.1.2  justbrvlandhcp4	dhcp
 #Bridge for vlan with id=11
-192.168.1.2  vlandhcp5		dhcp
+192.168.1.2  brvlandhcp5	dhcp
 #Bridge for vlan with id=111
-192.168.1.2  vlandhcp6		dhcp
+192.168.1.2  brvlandhcp6	dhcp
 
 ###VLAN Examples for "bond-vlan", dhcp
 #Bond for native vlan (with id=1)
-192.168.1.2  vlandhcp7		dhcp
+192.168.1.2  justbndvlandhcp7	dhcp
 #Bond for vlan with id=12
-192.168.1.2  vlandhcp8		dhcp
+192.168.1.2  bndvlandhcp8	dhcp
 #Bond for vlan with id=112
-192.168.1.2  vlandhcp9		dhcp
+192.168.1.2  bndvlandhcp9	dhcp
 
 ###VLAN Examples for "bond-bridge-vlan", dhcp
 #Bond and bridge for native vlan (with id=1)
-192.168.1.2  vlandhcp10		dhcp
+192.168.1.2  bndbrvlandhcp10	dhcp
 #Bond and bridge for vlan with id=13
-192.168.1.2  vlandhcp11		dhcp
+192.168.1.2  bndbrvlandhcp11	dhcp
 #Bond and bridge for vlan with id=113
-192.168.1.2  vlandhcp12		dhcp
+192.168.1.2  bndbrvlandhcp12	dhcp
