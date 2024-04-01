@@ -79,6 +79,13 @@ our %h00_conf_divisions_for_inv_hosts_hash_g=();
 #$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
 ######
 ######new. Not used yet (begin)
+our %h01a_conf_int_hwaddr_inf_hash_g=();
+our %h01b_conf_main_hash_g=();
+our %h01c_conf_ip_addr_hash_g=();
+our %h01d_conf_bond_opts_hash_g=();
+our %h02_dns_settings_hash_g=();
+our %h03_config_del_not_configured_ifcfg_hash_g=();
+our %h04_config_temporary_apply_ifcfg_hash_g=();
 ######new (end)
 ######
 our %cfg0_hash_g=();
