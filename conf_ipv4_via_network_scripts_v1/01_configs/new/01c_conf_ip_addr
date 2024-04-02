@@ -4,7 +4,7 @@
 ###
 # CONF_ID - string without spaces. Must be unique for inventory_host (INV_HOST).
 ###
-# IPv4_ADDR_OPTS - defines ip-addr. Possible values: string with "ipv4,gateway,netmask" or "dhcp". For config_type="virt_bridge" set gateway to value 'nogw'.
+# IPv4_ADDR_OPTS - defines ip-addr. Possible values: string with "ipv4,gateway,network-prefix" or "dhcp". For config_type="virt_bridge" set gateway to value 'nogw'.
 ###
 #INV_HOST    #CONF_ID		#IPv4_ADDR_OPTS
 ###
