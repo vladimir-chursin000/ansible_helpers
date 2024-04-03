@@ -603,19 +603,5 @@ sub recreate_ifcfg_tmplt_based_on_cfg0_hash {
     return $return_str_l;
 }
 
-######new. Not used yet (begin)
-sub read_01a_conf_int_hwaddr {
-}
-
-sub read_01b_conf_main {
-}
-
-sub read_01c_conf_ip_addr {
-}
-
-sub read_01d_conf_bond_opts {
-}
-######new (end)
-
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

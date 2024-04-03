@@ -16,6 +16,7 @@ our @do_arr_g=(
     'read_01_conf.pl',
     'read_02_conf.pl',
     'read_03_conf.pl',
+    'read_conf_common.pl',
     'gen_playbooks.pl',
     'conf_type_subs.pl',
     'read_conf_other.pl',
