@@ -82,6 +82,7 @@ our %h00_conf_divisions_for_inv_hosts_hash_g=();
 ######new. Not used yet (begin)
 our %h01a_conf_int_hwaddr_inf_hash_g=();
 #INV_HOST       #INT            #HWADDR
+#key0=inv-host, key1=interface, key2=hwaddr, value=1
 ###
 our %h01b_conf_main_hash_g=();
 #INV_HOST    #CONF_ID   #CONF_TYPE       #INT_LIST      #VLAN_ID    #BOND_NAME   #BRIDGE_NAME   #DEFROUTE
