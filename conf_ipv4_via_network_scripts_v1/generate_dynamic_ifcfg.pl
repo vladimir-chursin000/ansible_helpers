@@ -81,12 +81,25 @@ our %h00_conf_divisions_for_inv_hosts_hash_g=();
 ######
 ######new. Not used yet (begin)
 our %h01a_conf_int_hwaddr_inf_hash_g=();
+#INV_HOST       #INT            #HWADDR
+###
 our %h01b_conf_main_hash_g=();
+#INV_HOST    #CONF_ID   #CONF_TYPE       #INT_LIST      #VLAN_ID    #BOND_NAME   #BRIDGE_NAME   #DEFROUTE
+###
 our %h01c_conf_ip_addr_hash_g=();
+#INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS
+###
 our %h01d_conf_bond_opts_hash_g=();
+#INV_HOST       #CONF_ID        #BOND_OPTS
+###
 our %h02_dns_settings_hash_g=();
+#key=inv_host/common, value=[array of nameservers]
+###
 our %h03_config_del_not_configured_ifcfg_hash_g=();
+#Key=inv_host
+###
 our %h04_config_temporary_apply_ifcfg_hash_g=();
+#key=inv_host/common, value=rollback_ifcfg_timeout
 ######new (end)
 ######
 our %cfg0_hash_g=();
