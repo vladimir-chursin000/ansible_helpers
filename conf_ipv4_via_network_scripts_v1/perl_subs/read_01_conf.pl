@@ -62,15 +62,23 @@ sub read_01a_conf_int_hwaddr {
 
 sub read_01b_conf_main {
     my ($file_l,$res_href_l)=@_;
-    #file_l='01_configs/00_config'
+    #file_l='01_configs/01b_conf_main'
     #res_href_l = hash ref for %h01b_conf_main_hash_g
     my $proc_name_l=(caller(0))[3];
 }
 
 sub read_01c_conf_ip_addr {
+    my ($file_l,$res_href_l)=@_;
+    #file_l='01_configs/01c_conf_ip_addr'
+    #res_href_l = hash ref for %h01c_conf_ip_addr_hash_g
+    my $proc_name_l=(caller(0))[3];
 }
 
 sub read_01d_conf_bond_opts {
+    my ($file_l,$res_href_l)=@_;
+    #file_l='01_configs/01d_conf_bond_opts'
+    #res_href_l = hash ref for %h01d_conf_bond_opts_hash_g
+    my $proc_name_l=(caller(0))[3];
 }
 ######new (end)
 
