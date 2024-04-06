@@ -101,6 +101,9 @@ our %h01c_conf_ip_addr_hash_g=();
 ###
 our %h01d_conf_bond_opts_hash_g=();
 #INV_HOST       #CONF_ID        #BOND_OPTS
+#h01d_conf_bond_opts_hash_g{inv-host}{conf-id}=bond-opts-value
+#If bond-opts-value=def -> 'mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'.
+#Else -> 'bond-opts-value'.
 ###
 our %h02_dns_settings_hash_g=();
 #key=inv_host/common, value=[array of nameservers]
