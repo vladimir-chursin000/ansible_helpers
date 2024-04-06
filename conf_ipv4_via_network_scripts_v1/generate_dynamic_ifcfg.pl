@@ -94,7 +94,10 @@ our %h01b_conf_main_hash_g=();
 #h01b_conf_main_hash_g{inv-host}{conf-id}{'int_list'}=[interface0,interface1...etc]
 ###
 our %h01c_conf_ip_addr_hash_g=();
-#INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS
+#INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS (ip,gw,prefix)
+#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ip'}=ip-value
+#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw'}=gw-value
+#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix'}=prefix-value
 ###
 our %h01d_conf_bond_opts_hash_g=();
 #INV_HOST       #CONF_ID        #BOND_OPTS
