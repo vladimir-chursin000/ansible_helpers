@@ -58,6 +58,12 @@ sub read_01a_conf_int_hwaddr {
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
     #res_href_l = hash ref for %h01a_conf_int_hwaddr_inf_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    my ($exec_res_l)=(undef);
+    my $return_str_l='OK';
+
+    my %res_tmp_lv0_l=();
+        #key=string with params from cfg, value=1
 }
 
 sub read_01b_conf_main {
@@ -65,6 +71,12 @@ sub read_01b_conf_main {
     #file_l='01_configs/01b_conf_main'
     #res_href_l = hash ref for %h01b_conf_main_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    my ($exec_res_l)=(undef);
+    my $return_str_l='OK';
+
+    my %res_tmp_lv0_l=();
+        #key=string with params from cfg, value=1
 }
 
 sub read_01c_conf_ip_addr {
@@ -72,6 +84,12 @@ sub read_01c_conf_ip_addr {
     #file_l='01_configs/01c_conf_ip_addr'
     #res_href_l = hash ref for %h01c_conf_ip_addr_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    my ($exec_res_l)=(undef);
+    my $return_str_l='OK';
+
+    my %res_tmp_lv0_l=();
+        #key=string with params from cfg, value=1
 }
 
 sub read_01d_conf_bond_opts {
@@ -79,6 +97,12 @@ sub read_01d_conf_bond_opts {
     #file_l='01_configs/01d_conf_bond_opts'
     #res_href_l = hash ref for %h01d_conf_bond_opts_hash_g
     my $proc_name_l=(caller(0))[3];
+
+    my ($exec_res_l)=(undef);
+    my $return_str_l='OK';
+
+    my %res_tmp_lv0_l=();
+        #key=string with params from cfg, value=1
 }
 ######new (end)
 
