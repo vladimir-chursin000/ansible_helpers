@@ -64,6 +64,13 @@ sub read_01a_conf_int_hwaddr {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
+    #$file_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+    
+    return $return_str_l;
 }
 
 sub read_01b_conf_main {
@@ -77,6 +84,13 @@ sub read_01b_conf_main {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
+    #$file_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+    
+    return $return_str_l;
 }
 
 sub read_01c_conf_ip_addr {
@@ -90,6 +104,13 @@ sub read_01c_conf_ip_addr {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
+    #$file_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+    
+    return $return_str_l;
 }
 
 sub read_01d_conf_bond_opts {
@@ -103,6 +124,13 @@ sub read_01d_conf_bond_opts {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
+    #$file_l,$res_href_l
+    if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
+    $exec_res_l=undef;
+    
+    return $return_str_l;
 }
 ######new (end)
 
