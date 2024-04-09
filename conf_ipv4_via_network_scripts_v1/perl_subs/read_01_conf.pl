@@ -64,6 +64,7 @@ sub read_01a_conf_int_hwaddr {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+    my %res_tmp_lv1_l=(); # result hash
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -84,6 +85,7 @@ sub read_01b_conf_main {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+    my %res_tmp_lv1_l=(); # result hash
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -104,6 +106,7 @@ sub read_01c_conf_ip_addr {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+    my %res_tmp_lv1_l=(); # result hash
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -124,6 +127,7 @@ sub read_01d_conf_bond_opts {
 
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
+    my %res_tmp_lv1_l=(); # result hash
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
