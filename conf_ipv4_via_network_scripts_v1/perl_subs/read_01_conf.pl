@@ -60,6 +60,7 @@ sub read_01a_conf_int_hwaddr {
     my $proc_name_l=(caller(0))[3];
 
     my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -81,6 +82,7 @@ sub read_01b_conf_main {
     my $proc_name_l=(caller(0))[3];
 
     my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -102,6 +104,7 @@ sub read_01c_conf_ip_addr {
     my $proc_name_l=(caller(0))[3];
 
     my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -123,6 +126,7 @@ sub read_01d_conf_bond_opts {
     my $proc_name_l=(caller(0))[3];
 
     my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
