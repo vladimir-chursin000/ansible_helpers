@@ -66,6 +66,8 @@ sub read_01a_conf_int_hwaddr {
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
+    #INV_HOST       #INT            #HWADDR
+    #key0=inv-host, key1=interface, key2=hwaddr, value=1
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -88,6 +90,13 @@ sub read_01b_conf_main {
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
+    #INV_HOST    #CONF_ID   #CONF_TYPE       #INT_LIST      #VLAN_ID    #BOND_NAME   #BRIDGE_NAME   #DEFROUTE
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'conf_type'}=conf-type-value
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'bond_name'}=bond-name-value # if bond-name='no' -> no key
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'bridge_name'}=bridge-name-value # if bridge-name='no' -> no key
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'defroute'}=1 # if defroute='no' -> no key
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value # if vlan-id='no' -> no key
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'int_list'}=[interface0,interface1...etc]
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -110,6 +119,10 @@ sub read_01c_conf_ip_addr {
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
+    #INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS (ip,gw,prefix)
+    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ip'}=ip-value
+    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw'}=gw-value
+    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix'}=prefix-value
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
@@ -132,6 +145,10 @@ sub read_01d_conf_bond_opts {
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
+    #INV_HOST       #CONF_ID        #BOND_OPTS
+    #h01d_conf_bond_opts_hash_g{inv-host}{conf-id}=bond-opts-value
+    #If bond-opts-value=def -> 'mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'.
+    #Else -> 'bond-opts-value'.
 
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
     #$file_l,$res_href_l
