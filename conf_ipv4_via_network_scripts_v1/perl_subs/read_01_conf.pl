@@ -73,6 +73,11 @@ sub read_01a_conf_int_hwaddr {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
+
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l = #INV_HOST #INT #HWADDR
+    }
+    ($hkey0_l,$hval0_l)=(undef,undef);
     
     return $return_str_l;
 }
@@ -102,6 +107,11 @@ sub read_01b_conf_main {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
+
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l = #INV_HOST #CONF_ID #CONF_TYPE #INT_LIST #VLAN_ID #BOND_NAME #BRIDGE_NAME #DEFROUTE
+    }
+    ($hkey0_l,$hval0_l)=(undef,undef);
     
     return $return_str_l;
 }
@@ -128,6 +138,11 @@ sub read_01c_conf_ip_addr {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
+
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l = #INV_HOST #CONF_ID #IPv4_ADDR_OPTS
+    }
+    ($hkey0_l,$hval0_l)=(undef,undef);
     
     return $return_str_l;
 }
@@ -154,6 +169,11 @@ sub read_01d_conf_bond_opts {
     #$file_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
+
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l = #INV_HOST #CONF_ID #BOND_OPTS
+    }
+    ($hkey0_l,$hval0_l)=(undef,undef);
     
     return $return_str_l;
 }
