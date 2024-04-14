@@ -75,7 +75,7 @@ sub read_01a_conf_int_hwaddr {
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST #INT #HWADDR
+	#hkey0_l = #INV_HOST-0 #INT-1 #HWADDR-2
     }
     ($hkey0_l,$hval0_l)=(undef,undef);
     
@@ -109,7 +109,7 @@ sub read_01b_conf_main {
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST #CONF_ID #CONF_TYPE #INT_LIST #VLAN_ID #BOND_NAME #BRIDGE_NAME #DEFROUTE
+	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #CONF_TYPE-2 #INT_LIST-3 #VLAN_ID-4 #BOND_NAME-5 #BRIDGE_NAME-6 #DEFROUTE-7
     }
     ($hkey0_l,$hval0_l)=(undef,undef);
     
@@ -140,7 +140,7 @@ sub read_01c_conf_ip_addr {
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST #CONF_ID #IPv4_ADDR_OPTS
+	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2
     }
     ($hkey0_l,$hval0_l)=(undef,undef);
     
@@ -171,7 +171,7 @@ sub read_01d_conf_bond_opts {
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST #CONF_ID #BOND_OPTS
+	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2
     }
     ($hkey0_l,$hval0_l)=(undef,undef);
     
