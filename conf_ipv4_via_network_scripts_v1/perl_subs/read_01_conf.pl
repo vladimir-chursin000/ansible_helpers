@@ -61,6 +61,7 @@ sub read_01a_conf_int_hwaddr {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -76,8 +77,16 @@ sub read_01a_conf_int_hwaddr {
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l = #INV_HOST-0 #INT-1 #HWADDR-2
+	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	
+	# clear vars
+	@str_arr_l=();
+	###
     }
+    
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     
     return $return_str_l;
 }
@@ -90,6 +99,7 @@ sub read_01b_conf_main {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -110,8 +120,16 @@ sub read_01b_conf_main {
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #CONF_TYPE-2 #INT_LIST-3 #VLAN_ID-4 #BOND_NAME-5 #BRIDGE_NAME-6 #DEFROUTE-7
+	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	
+	# clear vars
+	@str_arr_l=();
+	###
     }
+    
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     
     return $return_str_l;
 }
@@ -124,6 +142,7 @@ sub read_01c_conf_ip_addr {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -141,8 +160,16 @@ sub read_01c_conf_ip_addr {
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2
+	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	
+	# clear vars
+	@str_arr_l=();
+	###
     }
+    
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     
     return $return_str_l;
 }
@@ -155,6 +182,7 @@ sub read_01d_conf_bond_opts {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -172,8 +200,16 @@ sub read_01d_conf_bond_opts {
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2
+	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	
+	# clear vars
+	@str_arr_l=();
+	###
     }
+    
+    # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     
     return $return_str_l;
 }
