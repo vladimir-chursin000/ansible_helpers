@@ -56,6 +56,9 @@ sub read_01a_conf_int_hwaddr {
     my ($file_l,$inv_hosts_network_data_href_l,$res_href_l)=@_;
     #file_l='01_configs/01a_conf_int_hwaddr_inf'
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
+	#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+	#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
+    ###
     #res_href_l = hash ref for %h01a_conf_int_hwaddr_inf_hash_g
     my $proc_name_l=(caller(0))[3];
 
