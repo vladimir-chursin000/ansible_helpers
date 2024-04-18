@@ -91,6 +91,12 @@ sub read_01a_conf_int_hwaddr {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+    
     return $return_str_l;
 }
 
@@ -134,6 +140,12 @@ sub read_01b_conf_main {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+
     return $return_str_l;
 }
 
@@ -174,6 +186,12 @@ sub read_01c_conf_ip_addr {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+    
     return $return_str_l;
 }
 
@@ -212,6 +230,12 @@ sub read_01d_conf_bond_opts {
     
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
     return $return_str_l;
