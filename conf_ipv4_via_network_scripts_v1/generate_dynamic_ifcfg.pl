@@ -20,6 +20,7 @@ our @do_arr_g=(
     'gen_playbooks.pl',
     'conf_type_subs.pl',
     'read_conf_other.pl',
+    'value_check.pl',
     'other.pl',
 );
 
