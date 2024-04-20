@@ -6,7 +6,12 @@ sub hwaddr_check {
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
-    
+
+    if ( $hwaddr_l!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
+        $return_str_l="fail [$proc_name_l]. HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$hwaddr_l'). Please, check and correct config-file ('01a_conf_int_hwaddr_inf')";
+        return $return_str_l;
+    }
+
     return $return_str_l;
 }
 
