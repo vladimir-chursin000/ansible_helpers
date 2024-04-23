@@ -64,6 +64,7 @@ sub read_01a_conf_int_hwaddr {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
     my @str_arr_l=();
     my $return_str_l='OK';
 
@@ -82,8 +83,18 @@ sub read_01a_conf_int_hwaddr {
 	#hkey0_l = #INV_HOST-0 #INT-1 #HWADDR-2
 	(@str_arr_l)=$hkey0_l=~/\S+/g;
 	
+	($inv_host_l,$interface_name_l,$hwaddr_l)=@str_arr_l;
+	
+	$exec_res_l=&hwaddr_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
+	#$inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+	
 	# clear vars
 	@str_arr_l=();
+	($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
 	###
     }
     
