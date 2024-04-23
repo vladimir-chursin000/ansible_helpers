@@ -65,7 +65,6 @@ sub read_01a_conf_int_hwaddr {
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
-    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -74,16 +73,15 @@ sub read_01a_conf_int_hwaddr {
     #INV_HOST       #INT            #HWADDR
     #key0=inv-host, key1=interface, key2=hwaddr, value=1
 
-    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
-    #$file_l,$res_href_l
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
+    #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST-0 #INT-1 #HWADDR-2
-	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	#hval0_l = arryaref for (#INV_HOST-0 #INT-1 #HWADDR-2)
 	
-	($inv_host_l,$interface_name_l,$hwaddr_l)=@str_arr_l;
+	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
 	
 	$exec_res_l=&hwaddr_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
 	#$inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l
@@ -93,7 +91,6 @@ sub read_01a_conf_int_hwaddr {
 	}
 	
 	# clear vars
-	@str_arr_l=();
 	($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
 	###
     }
@@ -119,7 +116,6 @@ sub read_01b_conf_main {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
-    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -133,17 +129,15 @@ sub read_01b_conf_main {
     #h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value # if vlan-id='no' -> no key
     #h01b_conf_main_hash_g{inv-host}{conf-id}{'int_list'}=[interface0,interface1...etc]
 
-    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
-    #$file_l,$res_href_l
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,8,\%res_tmp_lv0_l);
+    #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #CONF_TYPE-2 #INT_LIST-3 #VLAN_ID-4 #BOND_NAME-5 #BRIDGE_NAME-6 #DEFROUTE-7
-	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #CONF_TYPE-2 #INT_LIST-3 #VLAN_ID-4 #BOND_NAME-5 #BRIDGE_NAME-6 #DEFROUTE-7)
 	
 	# clear vars
-	@str_arr_l=();
 	###
     }
     
@@ -168,7 +162,6 @@ sub read_01c_conf_ip_addr {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
-    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -179,17 +172,15 @@ sub read_01c_conf_ip_addr {
     #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw'}=gw-value
     #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix'}=prefix-value
 
-    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
-    #$file_l,$res_href_l
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
+    #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2
-	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
 	
 	# clear vars
-	@str_arr_l=();
 	###
     }
     
@@ -214,7 +205,6 @@ sub read_01d_conf_bond_opts {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
-    my @str_arr_l=();
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -225,17 +215,15 @@ sub read_01d_conf_bond_opts {
     #If bond-opts-value=def -> 'mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'.
     #Else -> 'bond-opts-value'.
 
-    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,\%res_tmp_lv0_l);
-    #$file_l,$res_href_l
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
+    #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
 
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l = #INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2
-	(@str_arr_l)=$hkey0_l=~/\S+/g;
+	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2)
 	
 	# clear vars
-	@str_arr_l=();
 	###
     }
     
