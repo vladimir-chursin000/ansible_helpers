@@ -166,6 +166,7 @@ sub read_01c_conf_ip_addr {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -184,7 +185,10 @@ sub read_01c_conf_ip_addr {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
 	
+	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
+	
 	# clear vars
+	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
 	###
     }
     
@@ -209,6 +213,7 @@ sub read_01d_conf_bond_opts {
 
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
@@ -227,7 +232,10 @@ sub read_01d_conf_bond_opts {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2)
 	
+	($inv_host_l,$conf_id_l,$bond_opts_l)=@{$hval0_l};
+	
 	# clear vars
+	($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
 	###
     }
     
