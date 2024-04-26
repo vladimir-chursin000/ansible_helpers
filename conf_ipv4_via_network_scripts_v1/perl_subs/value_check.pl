@@ -25,5 +25,15 @@ sub hwaddr_check {
     return $return_str_l;
 }
 
+sub inv_host_check {
+    my ($inv_host_l,$inv_hosts_href_l)=@_;
+    #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
