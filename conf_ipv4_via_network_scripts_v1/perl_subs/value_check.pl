@@ -11,17 +11,17 @@ sub hwaddr_check {
         $return_str_l="fail [$proc_name_l]. Incorrect value='$hwaddr_l' (inv-host='$inv_host_l', interface='$interface_name_l'). HWADDR must be like 'XX:XX:XX:XX:XX:XX'. Please, check and correct config-file ('01a_conf_int_hwaddr_inf')";
         return $return_str_l;
     }
-
+    
     if ( exists(${$inv_hosts_network_data_href_l}{'hwaddr_all'}{$hwaddr_l}) && $inv_host_l ne ${$inv_hosts_network_data_href_l}{'hwaddr_all'}{$hwaddr_l} ) {
         $return_str_l="fail [$proc_name_l]. NETWORK DATA check. HWADDR='$hwaddr_l' configured for inv_host='$inv_host_l' is already used by host='${$inv_hosts_network_data_href_l}{'hwaddr_all'}{$hwaddr_l}'. Please, check and correct config-file ('01a_conf_int_hwaddr_inf') or solve problem with duplicated mac-address";
-	return $return_str_l;
+    	return $return_str_l;
     }
                     
     if ( !exists(${$inv_hosts_network_data_href_l}{'inv_host'}{$inv_host_l}{$interface_name_l}{$hwaddr_l}) ) {
-        $return_str_l="fail [$proc_name_l]. NETWORK DATA check. At inv_host='$inv_host_l' interface='interface_name_l' not linked with hwaddr='$hwaddr_l. Please, check and correct config-file ('01a_conf_int_hwaddr_inf')";
-	return $return_str_l;
+    	$return_str_l="fail [$proc_name_l]. NETWORK DATA check. At inv_host='$inv_host_l' interface='interface_name_l' not linked with hwaddr='$hwaddr_l. Please, check and correct config-file ('01a_conf_int_hwaddr_inf')";
+    	return $return_str_l;
     }
-
+    
     return $return_str_l;
 }
 
@@ -31,7 +31,7 @@ sub inv_host_check {
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
-
+    
     return $return_str_l;
 }
 
