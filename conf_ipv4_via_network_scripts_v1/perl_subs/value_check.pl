@@ -26,11 +26,15 @@ sub hwaddr_check {
 }
 
 sub inv_host_check {
-    my ($inv_host_l,$inv_hosts_href_l)=@_;
+    my ($inv_host_l,$inv_hosts_href_l,$conf_file_l)=@_;
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
+    
+    if ( !exists(${$inv_hosts_href_l}{$inv_host_l}) ) {
+	return "fail [$proc_name_l]. Inv-host='$inv_host_l' (conf-file='$conf_file_l') is not exists at inventory";
+    }
     
     return $return_str_l;
 }
