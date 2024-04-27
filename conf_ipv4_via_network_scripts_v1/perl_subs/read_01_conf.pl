@@ -84,6 +84,13 @@ sub read_01a_conf_int_hwaddr {
 	
 	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
 	
+	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+
 	$exec_res_l=&hwaddr_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
 	#$inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l
 	if ( $exec_res_l=~/^fail/ ) {
@@ -142,6 +149,13 @@ sub read_01b_conf_main {
 	
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{$hval0_l};
 	
+	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+
 	# clear vars
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
 	###
@@ -189,6 +203,13 @@ sub read_01c_conf_ip_addr {
 	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
 	
 	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
+
+	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
 	
 	# clear vars
 	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
@@ -237,6 +258,13 @@ sub read_01d_conf_bond_opts {
 	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2)
 	
 	($inv_host_l,$conf_id_l,$bond_opts_l)=@{$hval0_l};
+
+	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
 	
 	# clear vars
 	($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
