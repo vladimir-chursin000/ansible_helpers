@@ -67,7 +67,9 @@ sub read_01a_conf_int_hwaddr {
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
     my $return_str_l='OK';
-
+    
+    my %hwaddr_uniq_check_l=();
+	#key0=hwaddr, value=inv-host
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -98,6 +100,15 @@ sub read_01a_conf_int_hwaddr {
 	    last;
 	}
 	
+	if ( exists($hwaddr_uniq_check_l{$hwaddr_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Hwaddr='$hwaddr_l' is already used at inv-host='$hwaddr_uniq_check_l{$hwaddr_l}'. Fix it at conf-file='$file_l'";
+	    last;
+	}
+	
+	$hwaddr_uniq_check_l{$hwaddr_l}=$inv_host_l;
+	
+	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
+		
 	# clear vars
 	($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
 	###
@@ -105,6 +116,7 @@ sub read_01a_conf_int_hwaddr {
     
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    %hwaddr_uniq_check_l=();
     ###
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
