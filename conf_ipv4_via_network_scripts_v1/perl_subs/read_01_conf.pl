@@ -70,7 +70,7 @@ sub read_01a_conf_int_hwaddr {
     
     my %hwaddr_uniq_check_l=();
 	#key0=hwaddr, value=inv-host
-    my %int_name_uniq_for_host_check_l=();
+    my %int_name_uniq_check_for_one_host_l=();
 	#key0=inv-host, key1=interface_name, value=hwaddr
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
@@ -107,14 +107,14 @@ sub read_01a_conf_int_hwaddr {
 	    last;
 	}
 	
-	if ( exists($int_name_uniq_for_host_check_l{$inv_host_l}{$interface_name_l}) ) {
-	    $return_str_l="fail [$proc_name_l]. Interface='$interface_name_l' (conf-file='$file_l') for inv-host='$inv_host_l' is already configured for hwaddr='$int_name_uniq_for_host_check_l{$inv_host_l}{$interface_name_l}'. Fix it!";
+	if ( exists($int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Interface='$interface_name_l' (conf-file='$file_l') for inv-host='$inv_host_l' is already configured for hwaddr='$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}'. Fix it!";
 	    last;
 	}
 	
 	# fill uniq-check hashes
 	$hwaddr_uniq_check_l{$hwaddr_l}=$inv_host_l;
-	$int_name_uniq_for_host_check_l{$inv_host_l}{$interface_name_l}=$hwaddr_l;
+	$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}=$hwaddr_l;
 	###
 	
 	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
@@ -150,6 +150,8 @@ sub read_01b_conf_main {
     my ($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
     my $return_str_l='OK';
 
+    my %conf_id_uniq_check_l=();
+	#key0=conf_id, value=1
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
