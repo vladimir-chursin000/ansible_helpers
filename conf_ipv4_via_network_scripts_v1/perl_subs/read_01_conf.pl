@@ -103,11 +103,19 @@ sub read_01a_conf_int_hwaddr {
 	}
 	
 	if ( exists($hwaddr_uniq_check_l{$hwaddr_l}) ) {
-	    $return_str_l="fail [$proc_name_l]. Hwaddr='$hwaddr_l' is already used at inv-host='$hwaddr_uniq_check_l{$hwaddr_l}'. Fix it at conf-file='$file_l'";
+	    $return_str_l="fail [$proc_name_l]. Hwaddr='$hwaddr_l' is already used at inv-host='$hwaddr_uniq_check_l{$hwaddr_l}'. Fix it at conf-file='$file_l'!";
 	    last;
 	}
 	
+	if ( exists($int_name_uniq_for_host_check_l{$inv_host_l}{$interface_name_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Interface='$interface_name_l' (conf-file='$file_l') for inv-host='$inv_host_l' is already configured for hwaddr='$int_name_uniq_for_host_check_l{$inv_host_l}{$interface_name_l}'. Fix it!";
+	    last;
+	}
+	
+	# fill uniq-check hashes
 	$hwaddr_uniq_check_l{$hwaddr_l}=$inv_host_l;
+	$int_name_uniq_for_host_check_l{$inv_host_l}{$interface_name_l}=$hwaddr_l;
+	###
 	
 	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
 		
