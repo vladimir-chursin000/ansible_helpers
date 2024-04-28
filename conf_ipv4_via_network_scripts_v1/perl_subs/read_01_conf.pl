@@ -70,6 +70,8 @@ sub read_01a_conf_int_hwaddr {
     
     my %hwaddr_uniq_check_l=();
 	#key0=hwaddr, value=inv-host
+    my %int_name_uniq_for_host_check_l=();
+	#key0=inv-host, key1=interface_name, value=hwaddr
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
