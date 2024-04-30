@@ -57,36 +57,36 @@ sub read_01a_conf_int_hwaddr {
     #file_l='01_configs/01a_conf_int_hwaddr_inf'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
-	#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
-	#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
+    	#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+    	#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
     ###
     #res_href_l = hash ref for %h01a_conf_int_hwaddr_inf_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
     my $return_str_l='OK';
     
     my %hwaddr_uniq_check_l=();
-	#key0=hwaddr, value=inv-host
+    	#key0=hwaddr, value=inv-host
     my %int_name_uniq_check_for_one_host_l=();
-	#key0=inv-host, key1=interface_name, value=hwaddr
+    	#key0=inv-host, key1=interface_name, value=hwaddr
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
     #INV_HOST       #INT            #HWADDR
     #key0=inv-host, key1=interface, key2=hwaddr, value=1
-
+    
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
     #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hval0_l = arryaref for (#INV_HOST-0 #INT-1 #HWADDR-2)
-	
-	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
+    	#hval0_l = arryaref for (#INV_HOST-0 #INT-1 #HWADDR-2)
+    	
+    	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
 	
 	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
 	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
