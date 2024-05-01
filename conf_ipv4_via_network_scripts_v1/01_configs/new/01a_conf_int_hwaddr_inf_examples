@@ -2,8 +2,6 @@
 # INV_HOST - host-ip/domain-name from inventory "conf_network_scripts_hosts".
 ###
 # INT - interface name
-# If using vlan then interface will be renamed to "interface_name.vlan_id" automatically. At INT_LIST is not need add VLAN_ID to the interface names manually.
-# For conf_type virt_bridge set "no".
 ###
 # HWADDR - hwaddr (mac-addr like 'xx:xx:xx:xx:xx:xx')
 ###
