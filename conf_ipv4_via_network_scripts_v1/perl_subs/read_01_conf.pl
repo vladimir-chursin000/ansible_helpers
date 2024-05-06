@@ -139,9 +139,10 @@ sub read_01a_conf_int_hwaddr {
 }
 
 sub read_01b_conf_main {
-    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$h01a_conf_int_hwaddr_inf_hash_l,$res_href_l)=@_;
     #file_l='01_configs/01b_conf_main'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #h01a_conf_int_hwaddr_inf_hash_l=hash-ref for %h01a_conf_int_hwaddr_inf_hash_g
     #res_href_l = hash ref for %h01b_conf_main_hash_g
     my $proc_name_l=(caller(0))[3];
 
