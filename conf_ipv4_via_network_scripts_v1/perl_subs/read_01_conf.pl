@@ -102,6 +102,7 @@ sub read_01a_conf_int_hwaddr {
 	    last;
 	}
 	
+	# uniq checks (begin)
 	if ( exists($hwaddr_uniq_check_l{$hwaddr_l}) ) {
 	    $return_str_l="fail [$proc_name_l]. Hwaddr='$hwaddr_l' is already used at inv-host='$hwaddr_uniq_check_l{$hwaddr_l}'. Fix it at conf-file='$file_l'!";
 	    last;
@@ -111,6 +112,7 @@ sub read_01a_conf_int_hwaddr {
 	    $return_str_l="fail [$proc_name_l]. Interface='$interface_name_l' (conf-file='$file_l') for inv-host='$inv_host_l' is already configured for hwaddr='$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}'. Fix it!";
 	    last;
 	}
+	# uniq checks (end)
 	
 	# fill uniq-check hashes
 	$hwaddr_uniq_check_l{$hwaddr_l}=$inv_host_l;
@@ -181,6 +183,17 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
+	
+	# uniq checks (begin)
+	if ( exists($conf_id_uniq_check_l{$conf_id_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Conf_id='$conf_id_l' is already used. Fix it at conf-file='$file_l'!";
+	    last;
+	}
+	# uniq checks (end)
+
+	# fill uniq-check hashes
+	$conf_id_uniq_check_l{$conf_id_l}=1;
+	###
 
 	# clear vars
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
