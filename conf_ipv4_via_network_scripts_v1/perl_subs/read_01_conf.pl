@@ -184,6 +184,13 @@ sub read_01b_conf_main {
 	    last;
 	}
 	
+	$exec_res_l=&conf_type_check($conf_type_l,$file_l);
+	#$conf_type_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+	
 	# uniq checks (begin)
 	if ( exists($conf_id_uniq_check_l{$conf_id_l}) ) {
 	    $return_str_l="fail [$proc_name_l]. Conf_id='$conf_id_l' is already used. Fix it at conf-file='$file_l'!";
