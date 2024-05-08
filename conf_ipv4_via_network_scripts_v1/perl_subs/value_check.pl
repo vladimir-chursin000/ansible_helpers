@@ -39,5 +39,18 @@ sub inv_host_check {
     return $return_str_l;
 }
 
+sub conf_type_check {
+    my ($conf_type_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( $conf_type_l!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
+        return "fail [$proc_name_l]. Wrong conf_type='$conf_type_l'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
