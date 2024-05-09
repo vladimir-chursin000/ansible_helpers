@@ -183,6 +183,13 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
+
+	$exec_res_l=&conf_id_check($conf_id_l,$file_l);
+	#$conf_id_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
 	
 	$exec_res_l=&conf_type_check($conf_type_l,$file_l);
 	#$conf_type_l,$conf_file_l
@@ -256,6 +263,13 @@ sub read_01c_conf_ip_addr {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
+
+	$exec_res_l=&conf_id_check($conf_id_l,$file_l);
+	#$conf_id_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
 	
 	# clear vars
 	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
@@ -307,6 +321,13 @@ sub read_01d_conf_bond_opts {
 
 	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
 	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+
+	$exec_res_l=&conf_id_check($conf_id_l,$file_l);
+	#$conf_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
