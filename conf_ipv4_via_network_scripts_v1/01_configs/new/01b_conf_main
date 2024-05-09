@@ -3,6 +3,7 @@
 # INV_HOST - host-ip/domain-name from inventory "conf_network_scripts_hosts".
 ###
 # CONF_ID - string without spaces. The parameter must be unique in this configuration file.
+# Must contains only numbers, latin chars and symbol '_'.
 ###
 # CONF_TYPE (possible values): just_interface, interface-vlan, virt_bridge, just_bridge, bridge-vlan, just_bond, bond-vlan, bond-bridge, bond-bridge-vlan.
 # For using vlans port (or ports for bonding) at switch/router-side must be in trunk state.

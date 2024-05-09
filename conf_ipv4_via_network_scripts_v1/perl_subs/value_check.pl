@@ -52,5 +52,18 @@ sub conf_type_check {
     return $return_str_l;
 }
 
+sub conf_id_check {
+    my ($conf_id_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( $conf_type_l!~/^\w+$/ ) {
+        return "fail [$proc_name_l]. Wrong conf_id='$conf_id_l'. Conf_id must be a string with numbers, latin chars and symbol '_'. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
