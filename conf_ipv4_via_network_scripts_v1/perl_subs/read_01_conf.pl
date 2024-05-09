@@ -87,43 +87,43 @@ sub read_01a_conf_int_hwaddr {
     	#hval0_l = arryaref for (#INV_HOST-0 #INT-1 #HWADDR-2)
     	
     	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
-	
-	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
-	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-
-	$exec_res_l=&hwaddr_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
-	#$inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	# uniq checks (begin)
-	if ( exists($hwaddr_uniq_check_l{$hwaddr_l}) ) {
-	    $return_str_l="fail [$proc_name_l]. Hwaddr='$hwaddr_l' is already used at inv-host='$hwaddr_uniq_check_l{$hwaddr_l}'. Fix it at conf-file='$file_l'!";
-	    last;
-	}
-	
-	if ( exists($int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}) ) {
-	    $return_str_l="fail [$proc_name_l]. Interface='$interface_name_l' (conf-file='$file_l') for inv-host='$inv_host_l' is already configured for hwaddr='$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}'. Fix it!";
-	    last;
-	}
-	# uniq checks (end)
-	
-	# fill uniq-check hashes
-	$hwaddr_uniq_check_l{$hwaddr_l}=$inv_host_l;
-	$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}=$hwaddr_l;
-	###
-	
-	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
-		
-	# clear vars
-	($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
-	###
+    	
+    	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+    	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    
+    	$exec_res_l=&hwaddr_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
+    	#$inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	# uniq checks (begin)
+    	if ( exists($hwaddr_uniq_check_l{$hwaddr_l}) ) {
+    	    $return_str_l="fail [$proc_name_l]. Hwaddr='$hwaddr_l' is already used at inv-host='$hwaddr_uniq_check_l{$hwaddr_l}'. Fix it at conf-file='$file_l'!";
+    	    last;
+    	}
+    	
+    	if ( exists($int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}) ) {
+    	    $return_str_l="fail [$proc_name_l]. Interface='$interface_name_l' (conf-file='$file_l') for inv-host='$inv_host_l' is already configured for hwaddr='$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}'. Fix it!";
+    	    last;
+    	}
+    	# uniq checks (end)
+    	
+    	# fill uniq-check hashes
+    	$hwaddr_uniq_check_l{$hwaddr_l}=$inv_host_l;
+    	$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}=$hwaddr_l;
+    	###
+    	
+    	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
+    		
+    	# clear vars
+    	($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
+    	###
     }
     
     # clear vars
@@ -132,7 +132,7 @@ sub read_01a_conf_int_hwaddr {
     ###
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
