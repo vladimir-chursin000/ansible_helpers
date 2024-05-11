@@ -152,6 +152,7 @@ sub read_01b_conf_main {
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
+    my @int_list_l=();
     my $return_str_l='OK';
 
     my %conf_id_uniq_check_l=();
