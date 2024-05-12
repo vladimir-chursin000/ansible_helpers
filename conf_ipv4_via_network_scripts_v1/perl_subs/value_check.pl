@@ -65,5 +65,29 @@ sub conf_id_check {
     return $return_str_l;
 }
 
+sub int_list_check {
+    my ($inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l)=@_;
+    #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
+        #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+        #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
+    my $proc_name_l=(caller(0))[3];
+    
+    my $int_l=undef;
+    my $return_str_l='OK';
+    
+    foreach $int_l ( @{$int_list_aref_l} ) {
+	if ( !exists(${$inv_hosts_network_data_href_l}{'inv_host'}{$inv_host_l}{$int_l}) ) {
+	    $return_str_l="fail [$proc_name_l]. Interface='$int_l' is not exists at host='$inv_host_l' (conf-file='$conf_file_l')";
+	    last;
+	}
+    }
+    
+    # clear vars
+    $int_l=undef;
+    ###
+    
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

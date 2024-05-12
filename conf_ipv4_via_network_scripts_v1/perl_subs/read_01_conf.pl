@@ -141,9 +141,12 @@ sub read_01a_conf_int_hwaddr {
 }
 
 sub read_01b_conf_main {
-    my ($file_l,$inv_hosts_href_l,$h01a_conf_int_hwaddr_inf_hash_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$inv_hosts_network_data_href_l,$h01a_conf_int_hwaddr_inf_hash_l,$res_href_l)=@_;
     #file_l='01_configs/01b_conf_main'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
+    	#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+    	#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
     #h01a_conf_int_hwaddr_inf_hash_l=hash-ref for %h01a_conf_int_hwaddr_inf_hash_g
 	#key0=inv-host, key1=interface, key2=hwaddr, value=1
     #res_href_l = hash ref for %h01b_conf_main_hash_g
@@ -200,6 +203,13 @@ sub read_01b_conf_main {
 	    last;
 	}
 	
+	$exec_res_l=&int_list_check($inv_host_l,\@int_list_arr_l,$inv_hosts_network_data_href_l,$file_l);
+	#$inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+	
 	# uniq checks (begin)
 	if ( exists($conf_id_uniq_check_l{$conf_id_l}) ) {
 	    $return_str_l="fail [$proc_name_l]. Conf_id='$conf_id_l' is already used. Fix it at conf-file='$file_l'!";
@@ -213,6 +223,7 @@ sub read_01b_conf_main {
 
 	# clear vars
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
+	@int_list_arr_l=();
 	###
     }
     
