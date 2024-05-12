@@ -152,7 +152,7 @@ sub read_01b_conf_main {
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
-    my @int_list_l=();
+    my @int_list_arr_l=();
     my $return_str_l='OK';
 
     my %conf_id_uniq_check_l=();
@@ -177,6 +177,7 @@ sub read_01b_conf_main {
     	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #CONF_TYPE-2 #INT_LIST-3 #VLAN_ID-4 #BOND_NAME-5 #BRIDGE_NAME-6 #DEFROUTE-7)
 	
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{$hval0_l};
+	@int_list_arr_l=split(/\,/);
 	
 	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
 	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
