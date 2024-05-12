@@ -58,8 +58,21 @@ sub conf_id_check {
     
     my $return_str_l='OK';
     
-    if ( $conf_type_l!~/^\w+$/ ) {
+    if ( $conf_id_l!~/^\w+$/ ) {
         return "fail [$proc_name_l]. Wrong conf_id='$conf_id_l'. Conf_id must be a string with numbers, latin chars and symbol '_'. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    return $return_str_l;
+}
+
+sub vlan_id_check {
+    my ($vlan_id_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( $vlan_id_l!~/^no$|^\d+$/ ) {
+        return "fail [$proc_name_l]. Wrong vlan_id='$vlan_id_l'. Conf_id must be a number or 'no'. Please, check and correct config-file ('$conf_file_l')";
     }
 
     return $return_str_l;
