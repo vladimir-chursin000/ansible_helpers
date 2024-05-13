@@ -87,6 +87,7 @@ sub read_01a_conf_int_hwaddr {
     	#hval0_l = arryaref for (#INV_HOST-0 #INT-1 #HWADDR-2)
     	
     	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
+	$hwaddr_l=lc($hwaddr_l);
     	
     	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
     	#$inv_host_l,$inv_hosts_href_l,$conf_file_l

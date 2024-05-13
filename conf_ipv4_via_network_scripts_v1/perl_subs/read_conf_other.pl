@@ -59,6 +59,7 @@ sub read_network_data_for_checks {
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             #INV_HOST-0       #INT_NAME-1       #HWADDR-2
             @arr0_l=split(' ',$line_l);
+	    $arr0_l[2]=lc($arr0_l[2]);
             ${$res_href_l}{'hwaddr_all'}{$arr0_l[2]}=$arr0_l[0];
             ${$res_href_l}{'inv_host'}{$arr0_l[0]}{$arr0_l[1]}{$arr0_l[2]}=1;
             $value_cnt_l++;
