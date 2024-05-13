@@ -503,7 +503,7 @@ sub read_main_config {
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_name_'}=$bond_name_l;
 		${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'int_list'}=[@int_list_arr_l];
 		
-		if ( $conf_type_l=~/vlan$/ && $vlan_id_l ne 'no' ) { # redifine interface/bond names if VLAN
+		if ( $conf_type_l=~/vlan$/ && $vlan_id_l ne 'no' ) { # redefine interface/bond names if VLAN
 		    if ( $bond_name_l eq 'no' ) { # for cases there vlan applied to interface (interface-vlan, bridge-vlan)
 			${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'main'}{'_bond_name_'}=$bond_name_l;
 			foreach $arr_el0_l (@{${$res_href_l}{$inv_host_l.'-'.$conf_id_l}{$conf_type_l}{'int_list'}}) { $arr_el0_l.='.'.$vlan_id_l; }
