@@ -51,7 +51,7 @@ sub generate_resolv_conf_files {
     return $return_str_l;
 }
 
-######new. Not used yet (begin)
+######new (V2). Not used yet (begin)
 sub read_01a_conf_int_hwaddr {
     my ($file_l,$inv_hosts_href_l,$inv_hosts_network_data_href_l,$res_href_l)=@_;
     #file_l='01_configs/01a_conf_int_hwaddr_inf'
