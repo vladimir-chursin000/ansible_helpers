@@ -1,3 +1,4 @@
+###For V2 (new)
 sub read_uniq_lines_with_params_from_config {
     my ($file_l,$prms_per_line_l,$res_href_l)=@_;
     #file_l=simple config where one line=string with params

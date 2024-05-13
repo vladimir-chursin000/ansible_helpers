@@ -16,11 +16,11 @@ our @do_arr_g=(
     'read_01_conf.pl',
     'read_02_conf.pl',
     'read_03_conf.pl',
-    'read_conf_common.pl',
+    'read_conf_common.pl', # new (V2)
     'gen_playbooks.pl',
     'conf_type_subs.pl',
     'read_conf_other.pl',
-    'value_check.pl',
+    'value_check.pl', # new (v2)
     'other.pl',
 );
 
@@ -87,7 +87,7 @@ our %inv_hosts_network_data_g=();
 #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 ######
-######new. Not used yet (begin)
+######new (V2). Not used yet (begin)
 our %h01a_conf_int_hwaddr_inf_hash_g=();
 #INV_HOST       #INT            #HWADDR
 #key0=inv-host, key1=interface, key2=hwaddr, value=1
