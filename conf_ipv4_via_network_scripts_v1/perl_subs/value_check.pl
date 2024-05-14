@@ -103,5 +103,18 @@ sub int_list_check {
     return $return_str_l;
 }
 
+sub bond_name_check {
+    my ($bond_name_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    #if ( $vlan_id_l!~/^no$|^\d+$/ ) {
+    #    return "fail [$proc_name_l]. Wrong vlan_id='$vlan_id_l'. Conf_id must be a number or 'no'. Please, check and correct config-file ('$conf_file_l')";
+    #}
+
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
