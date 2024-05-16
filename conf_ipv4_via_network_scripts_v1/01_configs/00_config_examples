@@ -18,8 +18,8 @@
 ###
 # BOND_NAME - used only for config_type="just_bond/bond-vlan/bond-bridge/bond-bridge-vlan". Sets bond-name for connections with bond using.
 # If bonding not using set "no".
-# If using vlan over bond BOND_NAME must be like "bond_name.vlan_id" automatically. At BOND_NAME is not need add VLAN_ID to the nond name manually.
-# For example, some_bond.10. "some_bond" = bond interface withoit VLAN_ID, "10" = VLAN_ID, full bond name for vlan = "some_bond.10".
+# If a bond connection is used together with a vlan, then the resulting name (on the remote side) will look 
+# like “bond_name.vlan_id”. This happens automatically. There is no need to manually enter the bond name with vlan_id.
 ###
 # BRIDGE_NAME - used only for config_type="virt_bridge/just_bridge/bridge-vlan/bond-bridge/bond-bridge-vlan". Sets bridge-name for connections with bridge using.
 # If bridging not using set "no".
