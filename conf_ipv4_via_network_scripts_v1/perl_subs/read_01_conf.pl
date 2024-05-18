@@ -224,6 +224,13 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
+
+	$exec_res_l=&bridge_name_check($bridge_name_l,$file_l);
+	#$bond_name_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
 	
 	# uniq checks (begin)
 	if ( exists($conf_id_uniq_check_l{$conf_id_l}) ) {

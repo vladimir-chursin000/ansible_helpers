@@ -110,7 +110,20 @@ sub bond_name_check {
     my $return_str_l='OK';
     
     if ( $bond_name_l!~/^no$|^\w+$|^bnd/ ) {
-        return "fail [$proc_name_l]. Wrong bond_name='$bond_name_l'. Conf_id must be a string with numbers, latin chars and symbol '_' and start with 'bnd'. Please, check and correct config-file ('$conf_file_l')";
+        return "fail [$proc_name_l]. Wrong bond_name='$bond_name_l'. Bond_name must be a string with numbers, latin chars and symbol '_' and start with 'bnd'. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    return $return_str_l;
+}
+
+sub bridge_name_check {
+    my ($bridge_name_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( $bridge_name_l!~/^no$|^\w+$|^br/ ) {
+        return "fail [$proc_name_l]. Wrong bridge_name='$bridge_name_l'. Conf_id must be a string with numbers, latin chars and symbol '_' and start with 'br'. Please, check and correct config-file ('$conf_file_l')";
     }
 
     return $return_str_l;

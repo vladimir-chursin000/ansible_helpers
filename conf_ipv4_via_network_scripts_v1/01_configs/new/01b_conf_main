@@ -23,6 +23,7 @@
 ###
 # BRIDGE_NAME - used only for config_type="virt_bridge/just_bridge/bridge-vlan/bond-bridge/bond-bridge-vlan". Sets bridge-name for connections with bridge using.
 # If bridging not using set "no".
+# The parameter must begin with "br" and contains only numbers, latin chars and symbol '_'.
 # Must be unique within a current host.
 ###
 # DEFROUTE - enables default route for CONF_ID. Possible values = yes/no.
