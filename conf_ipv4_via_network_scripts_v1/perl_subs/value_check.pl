@@ -109,9 +109,9 @@ sub bond_name_check {
     
     my $return_str_l='OK';
     
-    #if ( $vlan_id_l!~/^no$|^\d+$/ ) {
-    #    return "fail [$proc_name_l]. Wrong vlan_id='$vlan_id_l'. Conf_id must be a number or 'no'. Please, check and correct config-file ('$conf_file_l')";
-    #}
+    if ( $bond_name_l!~/^no$|^\w+$|^bnd/ ) {
+        return "fail [$proc_name_l]. Wrong bond_name='$bond_name_l'. Conf_id must be a string with numbers, latin chars and symbol '_' and start with 'bnd'. Please, check and correct config-file ('$conf_file_l')";
+    }
 
     return $return_str_l;
 }

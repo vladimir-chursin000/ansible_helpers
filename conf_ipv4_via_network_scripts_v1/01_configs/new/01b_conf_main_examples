@@ -15,7 +15,7 @@
 ###
 # BOND_NAME - used only for config_type="just_bond/bond-vlan/bond-bridge/bond-bridge-vlan". Sets bond-name for connections with bond using.
 # If bonding is not used, then set it to "no".
-# The parameter must begin with "bnd".
+# The parameter must begin with "bnd" and contains only numbers, latin chars and symbol '_'.
 # If bonding is used, you need to make changes to the file "00d_conf_bond_opts".
 # If a bond connection is used together with a vlan, then the resulting name (on the remote side) will look 
 # like “bond_name.vlan_id”. This happens automatically. There is no need to manually enter the bond name with vlan_id.
