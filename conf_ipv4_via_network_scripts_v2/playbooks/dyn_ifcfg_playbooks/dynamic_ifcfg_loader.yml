@@ -1,0 +1,15 @@
+---
+- hosts: network_scripts_conf_dedic_app_v1
+  tasks:
+
+    - name: "check_for_ifcfg_dynamic_task_for_change"
+      delegate_to: localhost
+      stat:
+        path: "{{playbook_dir}}/{{inventory_hostname}}_ifcfg_change.yml"
+      register: is_ifcfg_dynamic_task_for_change
+
+######################################################
+
+    - name: "run_ifcfg_dynamic_change_task_if_exists"
+      ansible.builtin.include_tasks: "{{playbook_dir}}/{{inventory_hostname}}_ifcfg_change.yml"
+      when: is_ifcfg_dynamic_task_for_change.stat.exists==true

@@ -1,0 +1,16 @@
+#CONF_ID=_conf_id_
+VLAN=yes
+TYPE=Ethernet
+MTU=1500
+DEFROUTE=_defroute_
+IPV4_FAILURE_FATAL=yes
+IPV6INIT=no
+IPV6_AUTOCONF=no
+NAME=_interface_name_
+DEVICE=_interface_name_
+ONBOOT=yes
+BOOTPROTO=dhcp
+HWADDR=_hwaddr_
+NM_CONTROLLED=no
+USERCTL=no
+PEERDNS=no

@@ -1,0 +1,4 @@
+# Write here inventory hosts if you need to delete ifcfg-files and shutdown interfaces that not configured at file 'config'.
+# This setting is recommended to be used, for example, if you plan to rename interfaces (for example, ifcfg-br0 -> ifcfg-br00).
+# Configured Wi-Fi interfaces (with line 'TYPE=Wireless' at ifcfg-file) will not be deleted.
+# One line = one inventory host.

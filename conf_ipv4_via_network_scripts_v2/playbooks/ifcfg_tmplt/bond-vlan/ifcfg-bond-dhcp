@@ -1,0 +1,17 @@
+#CONF_ID=_conf_id_
+VLAN=yes
+TYPE=Bond
+MTU=1500
+DEFROUTE=_defroute_
+IPV4_FAILURE_FATAL=yes
+IPV6INIT=no
+IPV6_AUTOCONF=no
+BONDING_MASTER=yes
+BONDING_OPTS="_bond_opts_"
+NAME=_bond_name_
+DEVICE=_bond_name_
+ONBOOT=yes
+BOOTPROTO=dhcp
+NM_CONTROLLED=no
+USERCTL=no
+PEERDNS=no

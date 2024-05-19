@@ -1,0 +1,56 @@
+###
+# INV_HOST - host-ip from inventory "conf_network_scripts_hosts".
+###
+# CONF_ID - string without spaces. Must be unique for inventory_host (INV_HOST).
+###
+# CONF_TYPE (possible values): just_interface, interface-vlan, virt_bridge, just_bridge, bridge-vlan, just_bond, bond-vlan, bond-bridge, bond-bridge-vlan.
+# For using vlans port (or ports for bonding) at switch/router-side must be in trunk state.
+###
+# INT_LIST - list of interfaces separated by "," (without spaces) or just one interface name.
+# If using vlan then interface will be renamed to "interface_name.vlan_id" automatically. At INT_LIST is not need add VLAN_ID to the interface names manually.
+# For conf_type virt_bridge set "no".
+###
+# HWADDR_LIST - list of hwaddr (mac-addr like 'xx:xx:xx:xx:xx:xx') separated by "," (without spaces) or just one hwaddr (mac-addr).
+# Must corresponds to interface_list by sequence. For example, interface_list=eth0,eth1 -> hwaddr_list=xx:xx:xx:xx:ET:H0,xx:xx:xx:xx:ET:H1.
+# For conf_type virt_bridge set "no".
+###
+# VLAN_ID - defines vlan identificator. Possible values: no (native-vlan=1) or some vlan-id (for example, 10).
+###
+# BOND_NAME - used only for config_type="just_bond/bond-vlan/bond-bridge/bond-bridge-vlan". Sets bond-name for connections with bond using.
+# If bonding not using set "no".
+# If a bond connection is used together with a vlan, then the resulting name (on the remote side) will look 
+# like “bond_name.vlan_id”. This happens automatically. There is no need to manually enter the bond name with vlan_id.
+###
+# BRIDGE_NAME - used only for config_type="virt_bridge/just_bridge/bridge-vlan/bond-bridge/bond-bridge-vlan". Sets bridge-name for connections with bridge using.
+# If bridging not using set "no".
+# Must be unique within a current host.
+###
+# IPv4_ADDR_OPTS - defines ip-addr. Possible values: string with "ipv4,gateway,netmask" or "dhcp". For config_type="virt_bridge" set gateway to value 'nogw'.
+###
+# BOND_OPTS - defines bond configuraton. Possible values: def ("mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100") or another configuration (params separated by ",").
+###
+# DEFROUTE - enables default route for CONF_ID. Possible values = yes/no.
+###
+#INV_HOST    #CONF_ID	#CONF_TYPE	 #INT_LIST	#HWADDR_LIST		#VLAN_ID    #BOND_NAME   #BRIDGE_NAME  #IPv4_ADDR_OPTS			 	  #BOND_OPTS  #DEFROUTE
+###
+192.168.2.10    cnfvl2	  just_interface	 eth0		52:54:00:4C:2D:5C	no	    no		 no	       192.168.2.10,192.168.2.1,255.255.255.0	  no	     yes
+192.168.2.10    cnfvl9	  just_interface	 ens10		52:54:00:8E:C9:E6	no	    no		 no	       192.168.9.10,192.168.9.1,255.255.255.0	  no	     no
+192.168.2.10    cnfvl10	  just_interface	 ens11		52:54:00:01:2B:86	no	    no		 no	       192.168.10.10,192.168.10.1,255.255.255.0	  no	     no
+192.168.2.10    cnfextbr0 just_bridge	         ens12		52:54:00:20:09:18	no	    no		 extbr0	       192.168.168.10,192.168.168.1,255.255.255.0 no	     no
+192.168.2.10    cnfvl1	  just_interface	 ens9		52:54:00:80:D6:56	no	    no		 no	       192.168.1.10,192.168.1.1,255.255.255.0	  no	     no
+192.168.2.10    cnfintbr0 virt_bridge	         no		no			no	    no		 intbr01       10.0.1.1,nogw,255.255.255.0		  no	     no
+#
+192.168.2.7     cnfbr0     just_bridge   eno1		 A8:A1:59:17:1A:81	no	    no		 br0	       192.168.1.7,192.168.1.1,255.255.255.0	  no	     yes
+192.168.2.7     cnfbrvl2   bridge-vlan	 eno1		 A8:A1:59:17:1A:81	2	    no		 br02	       192.168.2.7,192.168.2.1,255.255.255.0	  no	     no
+192.168.2.7     cnfbrvl9   bridge-vlan	 eno1		 A8:A1:59:17:1A:81	9	    no		 br09	       192.168.9.7,192.168.9.1,255.255.255.0	  no	     no
+192.168.2.7     cnfbrvl10  bridge-vlan	 eno1		 A8:A1:59:17:1A:81	10	    no		 br10	       192.168.10.7,192.168.10.1,255.255.255.0	  no	     no
+192.168.2.7     cnfbr2srv1 just_bridge	 enp5s0		 50:3E:AA:13:83:BA	no	    no		 br_servers    192.168.168.1,192.168.168.2,255.255.255.0  no	     no
+#
+192.168.2.6     cnfbr0     just_bridge   enp4s0f0	 1C:FD:08:76:76:6C			no	    no		 br0	       192.168.1.6,192.168.1.1,255.255.255.0	  no	     yes
+192.168.2.6     cnfbrvl2   bridge-vlan	 enp4s0f0	 1C:FD:08:76:76:6C			2	    no		 br02	       192.168.2.6,192.168.2.1,255.255.255.0	  no	     no
+192.168.2.6     cnfbrvl9   bridge-vlan	 enp4s0f0	 1C:FD:08:76:76:6C			9	    no		 br09	       192.168.9.6,192.168.9.1,255.255.255.0	  no	     no
+192.168.2.6     cnfbrvl10  bridge-vlan	 enp4s0f0	 1C:FD:08:76:76:6C			10	    no		 br10	       192.168.10.6,192.168.10.1,255.255.255.0	  no	     no
+#192.168.2.6     cnfbr2srv0 just_bridge	 enp4s0f1 	 1C:FD:08:76:76:6D			no	    no		 br_servers    192.168.168.2,192.168.168.1,255.255.255.0  no	     no
+192.168.2.6     cnfbr2srv0 just_bridge	 enp4s0f1,enp3s0 1C:FD:08:76:76:6D,00:e0:4c:15:7c:39	no	    no		 br_servers    192.168.168.2,192.168.168.1,255.255.255.0  no	     no
+#
+#192.168.168.3	cnfbr2srv  just_bridge	 enp2s0		 5c:f9:dd:67:7b:96			no	    no		 br_servers    192.168.168.3,192.168.168.1,255.255.255.0  no	     no
