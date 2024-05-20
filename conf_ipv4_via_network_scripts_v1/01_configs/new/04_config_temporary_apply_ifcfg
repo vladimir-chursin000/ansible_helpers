@@ -1,7 +1,0 @@
-# Write here inventory hosts if you need to use temporary ifcfg apply mechanism of ifcfg-files.
-# One line = "inventory_host timeout_in_minutes" or "common timeout_in_minutes".
-# If "common" -> temporary ifcfg apply mechanism for all inventory hosts if run 'apply_temporary_ifcfg.sh'.
-###EXAMPLES
-#192.168.1.10   15
-###
-common		10

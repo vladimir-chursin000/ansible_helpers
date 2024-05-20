@@ -16,11 +16,9 @@ our @do_arr_g=(
     'read_01_conf.pl',
     'read_02_conf.pl',
     'read_03_conf.pl',
-    'read_conf_common.pl', # new (V2)
     'gen_playbooks.pl',
     'conf_type_subs.pl',
     'read_conf_other.pl',
-    'value_check.pl', # new (v2)
     'other.pl',
 );
 
@@ -44,18 +42,6 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 
 ###CFG file (begin)
 our $inventory_conf_path_g=$self_dir_g.'/conf_network_scripts_hosts';
-our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/01_configs/00_conf_divisions_for_inv_hosts';
-
-#new. not used yet (begin)
-our $f01a_conf_int_hwaddr_inf_path_g=$self_dir_g.'/01_configs/01a_conf_int_hwaddr_inf';
-our $f01b_conf_main_path_g=$self_dir_g.'/01_configs/01b_conf_main';
-our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
-our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
-our $f02_dns_settings_path_g=$self_dir_g.'/01_configs/02_dns_settings';
-our $f03_config_del_not_configured_ifcfg_path_g=$self_dir_g.'/01_configs/03_config_del_not_configured_ifcfg';
-our $f04_config_temporary_apply_ifcfg_path_g=$self_dir_g.'/01_configs/04_config_temporary_apply_ifcfg';
-#new (end)
-
 our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
 our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/02_config_del_not_configured_ifcfg';
@@ -77,51 +63,10 @@ our ($exec_res_g,$exec_status_g)=(undef,'OK');
 ######
 our %inventory_hosts_g=(); #Key=inventory_host, value=1
 ######
-our %h00_conf_divisions_for_inv_hosts_hash_g=();
-#DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
-###
-#$h00_conf_divisions_for_inv_hosts_hash_g{group_name}{inv-host}=1;
-######
 our %inv_hosts_network_data_g=();
 #read 'ip_link_noqueue' first
 #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
-######
-######new (V2). Not used yet (begin)
-our %h01a_conf_int_hwaddr_inf_hash_g=();
-#INV_HOST       #INT            #HWADDR
-#key0=inv-host, key1=interface, key2=hwaddr, value=1
-###
-our %h01b_conf_main_hash_g=();
-#INV_HOST    #CONF_ID   #CONF_TYPE       #INT_LIST      #VLAN_ID    #BOND_NAME   #BRIDGE_NAME   #DEFROUTE
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'conf_type'}=conf-type-value
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'bond_name'}=bond-name-value # if bond-name='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'bridge_name'}=bridge-name-value # if bridge-name='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'defroute'}=1 # if defroute='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value # if vlan-id='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'int_list'}=[interface0,interface1...etc]
-###
-our %h01c_conf_ip_addr_hash_g=();
-#INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS (ip,gw,prefix)
-#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ip'}=ip-value
-#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw'}=gw-value
-#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix'}=prefix-value
-###
-our %h01d_conf_bond_opts_hash_g=();
-#INV_HOST       #CONF_ID        #BOND_OPTS
-#h01d_conf_bond_opts_hash_g{inv-host}{conf-id}=bond-opts-value
-#If bond-opts-value=def -> 'mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'.
-#Else -> 'bond-opts-value'.
-###
-our %h02_dns_settings_hash_g=();
-#key=inv_host/common, value=[array of nameservers]
-###
-our %h03_config_del_not_configured_ifcfg_hash_g=();
-#Key=inv_host
-###
-our %h04_config_temporary_apply_ifcfg_hash_g=();
-#key=inv_host/common, value=rollback_ifcfg_timeout
-######new (end)
 ######
 our %cfg0_hash_g=();
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_inv_host_'}=inv_host;
@@ -171,18 +116,6 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     $exec_res_g=undef;
     #print Dumper(\%inventory_hosts_g);
 
-    ######
-
-    $exec_res_g=&read_00_conf_divisions_for_inv_hosts($f00_conf_divisions_for_inv_hosts_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g);
-    #$file_l,$inv_hosts_href_l,$res_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-        $exec_status_g='FAIL';
-        print "$exec_res_g\n";
-        last;
-    }
-    $exec_res_g=undef;
-    #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
-    
     ######
 
     $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);

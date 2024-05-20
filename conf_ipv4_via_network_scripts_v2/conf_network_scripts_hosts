@@ -1,10 +1,6 @@
 [network_scripts_conf_dedic_app_v1]
 #WRITE_HERE_IP_ADDRESSES_FOR_MAINTENANCE with OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc).
 #I think it will work on RHEL6/RHEL7 based systems.
-192.168.2.10  # alma8-infrastr-serv0
-192.168.2.7   # home-server0
-192.168.2.6   # home-server1
-#192.168.168.3 # workbook
 
 [network_scripts_conf_dedic_app_v1:vars]
 ansible_python_interpreter=/usr/bin/python3
