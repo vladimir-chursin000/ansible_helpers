@@ -16,11 +16,11 @@ our @do_arr_g=(
     'read_01_conf.pl',
     'read_02_conf.pl',
     'read_03_conf.pl',
-    'read_conf_common.pl', # new (V2)
+    'read_conf_common.pl',
     'gen_playbooks.pl',
     'conf_type_subs.pl',
     'read_conf_other.pl',
-    'value_check.pl', # new (v2)
+    'value_check.pl',
     'other.pl',
 );
 
@@ -46,7 +46,6 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 our $inventory_conf_path_g=$self_dir_g.'/conf_network_scripts_hosts';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/01_configs/00_conf_divisions_for_inv_hosts';
 
-#new. not used yet (begin)
 our $f01a_conf_int_hwaddr_inf_path_g=$self_dir_g.'/01_configs/01a_conf_int_hwaddr_inf';
 our $f01b_conf_main_path_g=$self_dir_g.'/01_configs/01b_conf_main';
 our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
@@ -54,7 +53,6 @@ our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
 our $f02_dns_settings_path_g=$self_dir_g.'/01_configs/02_dns_settings';
 our $f03_config_del_not_configured_ifcfg_path_g=$self_dir_g.'/01_configs/03_config_del_not_configured_ifcfg';
 our $f04_config_temporary_apply_ifcfg_path_g=$self_dir_g.'/01_configs/04_config_temporary_apply_ifcfg';
-#new (end)
 
 our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
@@ -87,7 +85,6 @@ our %inv_hosts_network_data_g=();
 #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
 #v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 ######
-######new (V2). Not used yet (begin)
 our %h01a_conf_int_hwaddr_inf_hash_g=();
 #INV_HOST       #INT            #HWADDR
 #key0=inv-host, key1=interface, key2=hwaddr, value=1
@@ -121,7 +118,6 @@ our %h03_config_del_not_configured_ifcfg_hash_g=();
 ###
 our %h04_config_temporary_apply_ifcfg_hash_g=();
 #key=inv_host/common, value=rollback_ifcfg_timeout
-######new (end)
 ######
 our %cfg0_hash_g=();
 #$cfg0_hash_g{inv_host-conf_id}{conf_type}{'main'}{'_inv_host_'}=inv_host;
