@@ -95,7 +95,7 @@ sub read_01a_conf_int_hwaddr {
     	    last;
     	}
     
-    	$exec_res_l=&hwaddr_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
+    	$exec_res_l=&hwaddr_complex_check($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l);
     	#$inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;

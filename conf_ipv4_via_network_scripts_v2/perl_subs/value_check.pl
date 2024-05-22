@@ -1,4 +1,4 @@
-sub hwaddr_check {
+sub hwaddr_complex_check {
     my ($inv_host_l,$interface_name_l,$hwaddr_l,$inv_hosts_network_data_href_l)=@_;
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
         #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
