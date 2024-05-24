@@ -196,7 +196,7 @@ sub read_01b_conf_main {
 	    last;
 	}
 	
-	$exec_res_l=&conf_type_simple_check($conf_type_l,$file_l);
+	$exec_res_l=&conf_type_simple_check($conf_type_l,$vlan_id_l,$file_l);
 	#$conf_type_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
@@ -210,8 +210,8 @@ sub read_01b_conf_main {
 	    last;
 	}
 
-	$exec_res_l=&vlan_id_simple_check($vlan_id_l,$file_l);
-	#$vlan_id_l,$conf_file_l
+	$exec_res_l=&vlan_id_simple_check($vlan_id_l,$conf_type_l,$file_l);
+	#$vlan_id_l,$conf_type_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;

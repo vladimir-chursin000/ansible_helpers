@@ -40,7 +40,7 @@ sub inv_host_simple_check {
 }
 
 sub conf_type_simple_check {
-    my ($conf_type_l,$conf_file_l)=@_;
+    my ($conf_type_l,$vlan_id_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
@@ -66,13 +66,17 @@ sub conf_id_simple_check {
 }
 
 sub vlan_id_simple_check {
-    my ($vlan_id_l,$conf_file_l)=@_;
+    my ($vlan_id_l,$conf_type_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
     
     if ( $vlan_id_l!~/^no$|^\d+$/ ) {
         return "fail [$proc_name_l]. Wrong vlan_id='$vlan_id_l'. Vlan_id must be a number or 'no'. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
+        return "fail [$proc_name_l]. For vlan-config-type param vlan_id must be a NUMBER. Please, check and correct config-file ('$conf_file_l')";
     }
 
     return $return_str_l;
