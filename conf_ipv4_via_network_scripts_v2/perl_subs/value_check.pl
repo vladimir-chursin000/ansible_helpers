@@ -133,13 +133,20 @@ sub bridge_name_check {
 }
 
 sub defroute_check {
-    my ($defroute_l,$inv_host_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l)=@_;
+    my ($defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
     
-    if ( $defroute_l!~/^no$|^\w+$|^br/ ) {
+    if ( $defroute_l!~/^no$|^yes$/ ) {
         return "fail [$proc_name_l]. Wrong defroute='$defroute_l'. Defroute must be 'yes' or 'no'. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    if ( !exists(${$defroute_uniq_check_by_inv_host_href_l}{$inv_host_l}) && $defroute_l eq 'yes' ) {
+        ${$defroute_uniq_check_by_inv_host_href_l}{$inv_host_l}=$conf_id_l;
+    }
+    elsif ( exists(${$defroute_uniq_check_by_inv_host_href_l}{$inv_host_l}) && $defroute_l eq 'yes' ) {
+        return "fail [$proc_name_l]. Defroute for inv_host='$inv_host_l' (conf_id='$conf_id_l') is already defined by conf_id='${$defroute_uniq_check_by_inv_host_href_l}{$inv_host_l}'. Please, check and correct config-file ('$conf_file_l')";
     }
     
     return $return_str_l;

@@ -233,8 +233,8 @@ sub read_01b_conf_main {
 	    last;
 	}
 
-	$exec_res_l=&defroute_check($defroute_l,$inv_host_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
-	#$defroute_l,$inv_host_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
+	$exec_res_l=&defroute_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
+	#$defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
