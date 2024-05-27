@@ -133,7 +133,7 @@ sub bridge_name_check {
 }
 
 sub defroute_check {
-    my ($defroute_l,$conf_file_l)=@_;
+    my ($defroute_l,$inv_host_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';

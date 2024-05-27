@@ -160,6 +160,8 @@ sub read_01b_conf_main {
 
     my %conf_id_uniq_check_l=();
 	#key0=conf_id, value=1
+    my %defroute_uniq_check_by_inv_host_l=(); # for using at procedure 'defroute_check' via ref
+	#key0=inv-host, value=defroute (yes/no)
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -225,14 +227,14 @@ sub read_01b_conf_main {
 	}
 
 	$exec_res_l=&bridge_name_check($bridge_name_l,$file_l);
-	#$bond_name_l,$conf_file_l
+	#$bridge_name_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&defroute_check($defroute_l,$file_l);
-	#$bond_name_l,$conf_file_l
+	$exec_res_l=&defroute_check($defroute_l,$inv_host_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
+	#$defroute_l,$inv_host_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
