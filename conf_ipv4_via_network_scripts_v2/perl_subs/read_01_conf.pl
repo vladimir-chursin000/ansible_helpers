@@ -88,7 +88,7 @@ sub read_01a_conf_int_hwaddr {
     	($inv_host_l,$interface_name_l,$hwaddr_l)=@{$hval0_l};
 	$hwaddr_l=lc($hwaddr_l);
     	
-    	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+    	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
     	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
@@ -184,61 +184,79 @@ sub read_01b_conf_main {
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{$hval0_l};
 	@int_list_arr_l=split(/\,/);
 	
-	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	### simple checks (begin)
+	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
 	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&conf_id_check($conf_id_l,$file_l);
+	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
 	#$conf_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&conf_type_check($conf_type_l,$vlan_id_l,$file_l);
+	$exec_res_l=&conf_type_simple_check($conf_type_l,$file_l);
 	#$conf_type_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 		
-	$exec_res_l=&int_list_check($inv_host_l,\@int_list_arr_l,$inv_hosts_network_data_href_l,$file_l);
+	$exec_res_l=&int_list_simple_check($inv_host_l,\@int_list_arr_l,$inv_hosts_network_data_href_l,$file_l);
 	#$inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&vlan_id_check($vlan_id_l,$conf_type_l,$file_l);
-	#$vlan_id_l,$conf_type_l,$conf_file_l
+	$exec_res_l=&vlan_id_simple_check($vlan_id_l,$file_l);
+	#$vlan_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&bond_name_check($bond_name_l,$file_l);
+	$exec_res_l=&bond_name_simple_check($bond_name_l,$file_l);
 	#$bond_name_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&bridge_name_check($bridge_name_l,$file_l);
+	$exec_res_l=&bridge_name_simple_check($bridge_name_l,$file_l);
 	#$bridge_name_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&defroute_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
+	$exec_res_l=&defroute_simple_check($defroute_l,$file_l);
+	#$defroute_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+	### simple checks (end)
+	
+	### additional checks (begin)
+	$exec_res_l=&conf_type_additional_check($conf_type_l,$vlan_id,$file_l);
+	#$conf_type_l,$vlan_id,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+
+	$exec_res_l=&defroute_additional_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
 	#$defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
+	### additional checks (end)
 	
 	# uniq checks (begin)
 	if ( exists($conf_id_uniq_check_l{$conf_id_l}) ) {
@@ -300,14 +318,14 @@ sub read_01c_conf_ip_addr {
 	
 	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
 
-	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
 	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&conf_id_check($conf_id_l,$file_l);
+	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
 	#$conf_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
@@ -362,14 +380,14 @@ sub read_01d_conf_bond_opts {
 	
 	($inv_host_l,$conf_id_l,$bond_opts_l)=@{$hval0_l};
 
-	$exec_res_l=&inv_host_check($inv_host_l,$inv_hosts_href_l,$file_l);
+	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
 	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 
-	$exec_res_l=&conf_id_check($conf_id_l,$file_l);
+	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
 	#$conf_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;

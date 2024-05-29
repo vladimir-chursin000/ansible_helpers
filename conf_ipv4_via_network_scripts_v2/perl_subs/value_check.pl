@@ -25,7 +25,7 @@ sub hwaddr_check {
     return $return_str_l;
 }
 
-sub inv_host_check {
+sub inv_host_simple_check {
     my ($inv_host_l,$inv_hosts_href_l,$conf_file_l)=@_;
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     my $proc_name_l=(caller(0))[3];
@@ -39,8 +39,8 @@ sub inv_host_check {
     return $return_str_l;
 }
 
-sub conf_type_check {
-    my ($conf_type_l,$vlan_id_l,$conf_file_l)=@_;
+sub conf_type_simple_check {
+    my ($conf_type_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
@@ -52,7 +52,7 @@ sub conf_type_check {
     return $return_str_l;
 }
 
-sub conf_id_check {
+sub conf_id_simple_check {
     my ($conf_id_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
@@ -65,8 +65,21 @@ sub conf_id_check {
     return $return_str_l;
 }
 
-sub vlan_id_check {
-    my ($vlan_id_l,$conf_type_l,$conf_file_l)=@_;
+sub conf_type_additional_check {
+    my ($conf_type_l,$vlan_id,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
+        return "fail [$proc_name_l]. For vlan-config-type='$conf_type_l' param vlan_id must be a NUMBER. Please, check and correct config-file ('$conf_file_l')";
+    }
+    
+    return $return_str_l;
+}
+
+sub vlan_id_simple_check {
+    my ($vlan_id_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
@@ -75,14 +88,10 @@ sub vlan_id_check {
         return "fail [$proc_name_l]. Wrong vlan_id='$vlan_id_l'. Vlan_id must be a number or 'no'. Please, check and correct config-file ('$conf_file_l')";
     }
     
-    if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
-        return "fail [$proc_name_l]. For vlan-config-type param vlan_id must be a NUMBER. Please, check and correct config-file ('$conf_file_l')";
-    }
-    
     return $return_str_l;
 }
 
-sub int_list_check {
+sub int_list_simple_check {
     my ($inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l)=@_;
     #inv_hosts_network_data_href_l=hash ref for %inv_hosts_network_data_g
         #v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
@@ -106,7 +115,7 @@ sub int_list_check {
     return $return_str_l;
 }
 
-sub bond_name_check {
+sub bond_name_simple_check {
     my ($bond_name_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
@@ -119,7 +128,7 @@ sub bond_name_check {
     return $return_str_l;
 }
 
-sub bridge_name_check {
+sub bridge_name_simple_check {
     my ($bridge_name_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
@@ -132,8 +141,8 @@ sub bridge_name_check {
     return $return_str_l;
 }
 
-sub defroute_check {
-    my ($defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l)=@_;
+sub defroute_simple_check {
+    my ($defroute_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
@@ -142,6 +151,15 @@ sub defroute_check {
         return "fail [$proc_name_l]. Wrong defroute='$defroute_l'. Defroute must be 'yes' or 'no'. Please, check and correct config-file ('$conf_file_l')";
     }
 
+    return $return_str_l;
+}
+
+sub defroute_additional_check {
+    my ($defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
     if ( !exists(${$defroute_uniq_check_by_inv_host_href_l}{$inv_host_l}) && $defroute_l eq 'yes' ) {
         ${$defroute_uniq_check_by_inv_host_href_l}{$inv_host_l}=$conf_id_l;
     }
