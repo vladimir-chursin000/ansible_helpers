@@ -148,7 +148,7 @@ sub read_main_config {
 
 	    $hwaddr_list_str_l=lc($hwaddr_list_str_l);
     	    
-    	    #######check conf_type
+    	    #######check conf_type -> &conf_type_check
     	    if ( $conf_type_l!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
     		$return_str_l="fail [$proc_name_l]. Wrong conf_type='$conf_type_l'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file ('00_config')";
 		last;
@@ -159,7 +159,7 @@ sub read_main_config {
 	    }
     	    #######check conf_type
     	    
-    	    #######defroute check
+    	    #######defroute check -> &defroute_check
     		#$defroute_check_l{inv_host}=conf_id;
     	    if ( !exists($defroute_check_l{$inv_host_l}) && $defroute_l eq 'yes' ) {
     		$defroute_check_l{$inv_host_l}=$conf_id_l;
