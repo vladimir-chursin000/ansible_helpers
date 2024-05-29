@@ -197,14 +197,14 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-	
+
 	$exec_res_l=&conf_type_check($conf_type_l,$vlan_id_l,$file_l);
 	#$conf_type_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-	
+		
 	$exec_res_l=&int_list_check($inv_host_l,\@int_list_arr_l,$inv_hosts_network_data_href_l,$file_l);
 	#$inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
