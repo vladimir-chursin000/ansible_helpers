@@ -191,14 +191,14 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
 	#$conf_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&conf_type_simple_check($conf_type_l,$file_l);
 	#$conf_type_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
@@ -212,28 +212,28 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&vlan_id_simple_check($vlan_id_l,$file_l);
 	#$vlan_id_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&bond_name_simple_check($bond_name_l,$file_l);
 	#$bond_name_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&bridge_name_simple_check($bridge_name_l,$file_l);
 	#$bridge_name_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&defroute_simple_check($defroute_l,$file_l);
 	#$defroute_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
@@ -249,7 +249,7 @@ sub read_01b_conf_main {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
-
+	
 	$exec_res_l=&defroute_additional_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
 	#$defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
@@ -264,11 +264,11 @@ sub read_01b_conf_main {
 	    last;
 	}
 	# uniq checks (end)
-
+	
 	# fill uniq-check hashes
 	$conf_id_uniq_check_l{$conf_id_l}=1;
 	###
-
+	
 	# clear vars
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
 	@int_list_arr_l=();
