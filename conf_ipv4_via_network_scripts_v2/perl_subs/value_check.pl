@@ -66,13 +66,22 @@ sub conf_id_simple_check {
 }
 
 sub conf_type_additional_check {
-    my ($conf_type_l,$vlan_id,$conf_file_l)=@_;
+    my ($conf_type_l,$vlan_id,$bond_name_l,$bridge_name_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
     
     if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
         return "fail [$proc_name_l]. For vlan-config-type='$conf_type_l' param vlan_id must be a NUMBER. Please, check and correct config-file ('$conf_file_l')";
+    }
+
+    if ( $conf_type_l=~/^just_interface$|^interface\-vlan$/ ) {
+        if ( $bond_name_l ne 'no' ) {
+            return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
+        }
+        if ( $bridge_name_l ne 'no' ) {
+            return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
+        }
     }
     
     return $return_str_l;
