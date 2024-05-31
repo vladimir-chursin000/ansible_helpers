@@ -148,20 +148,20 @@ sub read_01b_conf_main {
     	#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
     	#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
     #h01a_conf_int_hwaddr_inf_hash_l=hash-ref for %h01a_conf_int_hwaddr_inf_hash_g
-	#key0=inv-host, key1=interface, key2=hwaddr, value=1
+    	#key0=inv-host, key1=interface, key2=hwaddr, value=1
     #res_href_l = hash ref for %h01b_conf_main_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
     my @int_list_arr_l=();
     my $return_str_l='OK';
-
+    
     my %conf_id_uniq_check_l=();
-	#key0=conf_id, value=1
+    	#key0=conf_id, value=1
     my %defroute_uniq_check_by_inv_host_l=(); # for using at procedure 'defroute_check' via ref
-	#key0=inv-host, value=defroute (yes/no)
+    	#key0=inv-host, value=defroute (yes/no)
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -180,13 +180,13 @@ sub read_01b_conf_main {
     
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
     	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #CONF_TYPE-2 #INT_LIST-3 #VLAN_ID-4 #BOND_NAME-5 #BRIDGE_NAME-6 #DEFROUTE-7)
-	
-	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{$hval0_l};
-	@int_list_arr_l=split(/\,/);
-	
-	### simple checks (begin)
-	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
-	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+    	
+    	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=@{$hval0_l};
+    	@int_list_arr_l=split(/\,/);
+    	
+    	### simple checks (begin)
+    	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
+    	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
