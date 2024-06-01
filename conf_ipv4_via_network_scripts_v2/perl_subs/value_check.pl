@@ -92,6 +92,15 @@ sub conf_type_additional_check {
             return "fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('$conf_file_l')";
         }
     }
+
+    if ( $conf_type_l=~/^just_bond$|^bond\-vlan$/ ) {
+        if ( $bridge_name_l ne 'no' ) {
+            return "fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
+        }
+        if ( $bond_name_l eq 'no' ) {
+            return "fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file ('$conf_file_l')";
+        }
+    }
     
     return $return_str_l;
 }

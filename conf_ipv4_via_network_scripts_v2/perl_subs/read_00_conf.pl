@@ -195,7 +195,7 @@ sub read_main_config {
     		}
     	    }
     	    
-    	    if ( $conf_type_l=~/^just_bond$|^bond\-vlan$/ ) {
+    	    if ( $conf_type_l=~/^just_bond$|^bond\-vlan$/ ) { # -> &conf_type_additional_check
     		if ( $bridge_name_l ne 'no' ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 		    last;
