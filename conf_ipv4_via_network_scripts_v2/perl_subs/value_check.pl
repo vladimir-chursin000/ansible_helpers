@@ -77,10 +77,19 @@ sub conf_type_additional_check {
 
     if ( $conf_type_l=~/^just_interface$|^interface\-vlan$/ ) {
         if ( $bond_name_l ne 'no' ) {
-            return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
+            return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
         }
         if ( $bridge_name_l ne 'no' ) {
-            return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
+            return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
+        }
+    }
+
+    if ( $conf_type_l=~/^virt_bridge$|^just_bridge$|^bridge\-vlan$/ ) {
+        if ( $bond_name_l ne 'no' ) {
+            return "fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
+        }
+        if ( $bridge_name_l eq 'no' ) {
+            return "fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('$conf_file_l')";
         }
     }
     
