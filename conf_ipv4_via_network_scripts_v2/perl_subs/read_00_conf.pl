@@ -206,7 +206,7 @@ sub read_main_config {
     		}
     	    }
     	    
-    	    if ( $conf_type_l=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) {
+    	    if ( $conf_type_l=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) { # -> &conf_type_additional_check
     		if ( $bridge_name_l eq 'no' ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('00_config')";
 		    last;
