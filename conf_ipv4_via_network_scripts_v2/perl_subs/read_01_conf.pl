@@ -294,12 +294,12 @@ sub read_01c_conf_ip_addr {
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l = hash ref for %h01c_conf_ip_addr_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
     my $return_str_l='OK';
-
+    
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -307,34 +307,34 @@ sub read_01c_conf_ip_addr {
     #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ip'}=ip-value
     #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw'}=gw-value
     #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix'}=prefix-value
-
+    
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
     #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
-	
-	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
-
-	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
-	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-
-	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
-	#$conf_id_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	# clear vars
-	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
-	###
+    	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
+    	
+    	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
+    
+    	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
+    	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    
+    	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
+    	#$conf_id_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	# clear vars
+    	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
+    	###
     }
     
     # clear vars
@@ -342,7 +342,7 @@ sub read_01c_conf_ip_addr {
     ###
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
