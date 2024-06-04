@@ -158,9 +158,9 @@ sub read_01b_conf_main {
     my @int_list_arr_l=();
     my $return_str_l='OK';
     
-    my %conf_id_uniq_check_l=();
+    my %conf_id_uniq_check_hash_l=();
     	#key0=conf_id, value=1
-    my %defroute_uniq_check_by_inv_host_l=(); # for using at procedure 'defroute_check' via ref
+    my %defroute_uniq_check_by_inv_host_hash_l=(); # for using at procedure 'defroute_check' via ref
     	#key0=inv-host, value=defroute (yes/no)
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
@@ -243,6 +243,13 @@ sub read_01b_conf_main {
 	### simple checks (end)
 	
 	### additional checks (begin)
+	$exec_res_l=&conf_id_additional_check($conf_id_l,\%conf_id_uniq_check_hash_l,$file_l);
+	#$conf_id_l,$conf_id_uniq_check_href_l,$conf_file_l
+	if ( $exec_res_l=~/^fail/ ) {
+	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+	    last;
+	}
+	
 	$exec_res_l=&conf_type_additional_check($conf_type_l,$vlan_id,$file_l);
 	#$conf_type_l,$vlan_id,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
@@ -250,24 +257,13 @@ sub read_01b_conf_main {
 	    last;
 	}
 	
-	$exec_res_l=&defroute_additional_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_l,$file_l);
+	$exec_res_l=&defroute_additional_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_hash_l,$file_l);
 	#$defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
 	if ( $exec_res_l=~/^fail/ ) {
 	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
 	    last;
 	}
 	### additional checks (end)
-	
-	# uniq checks (begin)
-	if ( exists($conf_id_uniq_check_l{$conf_id_l}) ) {
-	    $return_str_l="fail [$proc_name_l]. Conf_id='$conf_id_l' is already used. Fix it at conf-file='$file_l'!";
-	    last;
-	}
-	# uniq checks (end)
-	
-	# fill uniq-check hashes
-	$conf_id_uniq_check_l{$conf_id_l}=1;
-	###
 	
 	# clear vars
 	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
@@ -284,7 +280,7 @@ sub read_01b_conf_main {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     return $return_str_l;
 }
 

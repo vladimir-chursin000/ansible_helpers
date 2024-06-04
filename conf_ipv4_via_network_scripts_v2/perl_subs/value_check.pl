@@ -65,6 +65,21 @@ sub conf_id_simple_check {
     return $return_str_l;
 }
 
+sub conf_id_additional_check {
+    my ($conf_id_l,$conf_id_uniq_check_href_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+
+    if ( exists(${$conf_id_uniq_check_href_l}{$conf_id_l}) ) {
+        return "fail [$proc_name_l]. Conf_id='$conf_id_l' is already used. Fix it at conf-file='$conf_file_l'!";
+    }
+    
+    ${$conf_id_uniq_check_href_l}{$conf_id_l}=1;
+    
+    return $return_str_l;
+}
+
 sub conf_type_additional_check {
     my ($conf_type_l,$vlan_id,$bond_name_l,$bridge_name_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
