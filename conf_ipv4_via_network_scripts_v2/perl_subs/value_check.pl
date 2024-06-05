@@ -80,6 +80,15 @@ sub conf_id_additional_check {
     return $return_str_l;
 }
 
+sub conf_id_is_exists_at_01b_main_check {
+    my ($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l)=@_;
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+
+    return $return_str_l;
+}
+
 sub conf_type_additional_check {
     my ($conf_type_l,$vlan_id,$bond_name_l,$bridge_name_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
