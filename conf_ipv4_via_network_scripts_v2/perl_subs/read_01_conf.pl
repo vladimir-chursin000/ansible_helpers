@@ -187,88 +187,88 @@ sub read_01b_conf_main {
     	### simple checks (begin)
     	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
     	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
-	#$conf_id_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&conf_type_simple_check($conf_type_l,$file_l);
-	#$conf_type_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-		
-	$exec_res_l=&int_list_simple_check($inv_host_l,\@int_list_arr_l,$inv_hosts_network_data_href_l,$file_l);
-	#$inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&vlan_id_simple_check($vlan_id_l,$file_l);
-	#$vlan_id_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&bond_name_simple_check($bond_name_l,$file_l);
-	#$bond_name_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&bridge_name_simple_check($bridge_name_l,$file_l);
-	#$bridge_name_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&defroute_simple_check($defroute_l,$file_l);
-	#$defroute_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	### simple checks (end)
-	
-	### additional checks (begin)
-	$exec_res_l=&conf_id_additional_check($conf_id_l,\%conf_id_uniq_check_hash_l,$file_l);
-	#$conf_id_l,$conf_id_uniq_check_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&conf_type_additional_check($conf_type_l,$vlan_id,$file_l);
-	#$conf_type_l,$vlan_id,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	$exec_res_l=&defroute_additional_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_hash_l,$file_l);
-	#$defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	### additional checks (end)
-	
-	# clear vars
-	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
-	@int_list_arr_l=();
-	###
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
+    	#$conf_id_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&conf_type_simple_check($conf_type_l,$file_l);
+    	#$conf_type_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    		
+    	$exec_res_l=&int_list_simple_check($inv_host_l,\@int_list_arr_l,$inv_hosts_network_data_href_l,$file_l);
+    	#$inv_host_l,$int_list_aref_l,$inv_hosts_network_data_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&vlan_id_simple_check($vlan_id_l,$file_l);
+    	#$vlan_id_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&bond_name_simple_check($bond_name_l,$file_l);
+    	#$bond_name_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&bridge_name_simple_check($bridge_name_l,$file_l);
+    	#$bridge_name_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&defroute_simple_check($defroute_l,$file_l);
+    	#$defroute_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	### simple checks (end)
+    	
+    	### additional checks (begin)
+    	$exec_res_l=&conf_id_additional_check($conf_id_l,\%conf_id_uniq_check_hash_l,$file_l);
+    	#$conf_id_l,$conf_id_uniq_check_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&conf_type_additional_check($conf_type_l,$vlan_id,$file_l);
+    	#$conf_type_l,$vlan_id,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&defroute_additional_check($defroute_l,$inv_host_l,$conf_id_l,\%defroute_uniq_check_by_inv_host_hash_l,$file_l);
+    	#$defroute_l,$inv_host_l,$conf_id_l,$defroute_uniq_check_by_inv_host_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	### additional checks (end)
+    	
+    	# clear vars
+    	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
+    	@int_list_arr_l=();
+    	###
     }
     
     # clear vars
@@ -314,31 +314,31 @@ sub read_01c_conf_ip_addr {
     	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
     	
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
-    
-	### simple checks (begin)
+	
+    	### simple checks (begin)
     	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
     	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
-    
+	
     	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
     	#$conf_id_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
-	### simple checks (end)
-	
-	### additional checks (begin)
-	$exec_res_l=&conf_id_is_exists_at_01b_main_check($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$file_l);
-	#$conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l
+    	### simple checks (end)
+    	
+    	### additional checks (begin)
+    	$exec_res_l=&conf_id_is_exists_at_01b_main_check($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$file_l);
+    	#$conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
-	### additional checks (end)
+    	### additional checks (end)
     	
     	# clear vars
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
@@ -365,12 +365,12 @@ sub read_01d_conf_bond_opts {
     #$h01b_conf_main_href_l=hash-ref for %h01b_conf_main_hash_g
     #res_href_l = hash ref for %h01d_conf_bond_opts_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
     my $return_str_l='OK';
-
+    
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -378,34 +378,45 @@ sub read_01d_conf_bond_opts {
     #h01d_conf_bond_opts_hash_g{inv-host}{conf-id}=bond-opts-value
     #If bond-opts-value=def -> 'mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'.
     #Else -> 'bond-opts-value'.
-
+    
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
     #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2)
-	
-	($inv_host_l,$conf_id_l,$bond_opts_l)=@{$hval0_l};
-
-	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
-	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-
-	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
-	#$conf_id_l,$conf_file_l
-	if ( $exec_res_l=~/^fail/ ) {
-	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
-	    last;
-	}
-	
-	# clear vars
-	($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
-	###
+    	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #BOND_OPTS-2)
+    	
+    	($inv_host_l,$conf_id_l,$bond_opts_l)=@{$hval0_l};
+    	
+    	### simple checks (begin)
+    	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
+    	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	
+    	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
+    	#$conf_id_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	### simple checks (end)
+    	
+    	### additional checks (begin)
+    	$exec_res_l=&conf_id_is_exists_at_01b_main_check($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$file_l);
+    	#$conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+    	### additional checks (end)
+    	
+    	# clear vars
+    	($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
+    	###
     }
     
     # clear vars
@@ -413,7 +424,7 @@ sub read_01d_conf_bond_opts {
     ###
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
