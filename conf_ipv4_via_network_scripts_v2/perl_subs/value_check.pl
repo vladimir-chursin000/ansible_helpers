@@ -82,10 +82,15 @@ sub conf_id_additional_check {
 
 sub conf_id_is_exists_at_01b_main_check {
     my ($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l)=@_;
+	#h01b_conf_main_hash_g{inv-host}{conf-id}
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
-
+    
+    if ( !exists(${$h01b_conf_main_href_l}{$inv_host_l}{$conf_id_l}) ) {
+	return "fail [$proc_name_l]. Conf_id='$conf_id_l' is not exists at conf '01b_conf_main'. Please, check and correct config-file ('$conf_file_l')";
+    }
+    
     return $return_str_l;
 }
 

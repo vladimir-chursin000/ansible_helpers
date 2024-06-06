@@ -285,9 +285,10 @@ sub read_01b_conf_main {
 }
 
 sub read_01c_conf_ip_addr {
-    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$h01b_conf_main_href_l,$res_href_l)=@_;
     #file_l='01_configs/01c_conf_ip_addr'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$h01b_conf_main_href_l=hash-ref for %h01b_conf_main_hash_g
     #res_href_l = hash ref for %h01c_conf_ip_addr_hash_g
     my $proc_name_l=(caller(0))[3];
     
@@ -314,6 +315,7 @@ sub read_01c_conf_ip_addr {
     	
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
     
+	### simple checks (begin)
     	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
     	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
@@ -327,6 +329,16 @@ sub read_01c_conf_ip_addr {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
+	### simple checks (end)
+	
+	### additional checks (begin)
+	$exec_res_l=&conf_id_is_exists_at_01b_main_check($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$file_l);
+	#$conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+	### additional checks (end)
     	
     	# clear vars
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
@@ -347,9 +359,10 @@ sub read_01c_conf_ip_addr {
 }
 
 sub read_01d_conf_bond_opts {
-    my ($file_l,$inv_hosts_href_l,$res_href_l)=@_;
+    my ($file_l,$inv_hosts_href_l,$h01b_conf_main_href_l,$res_href_l)=@_;
     #file_l='01_configs/01d_conf_bond_opts'
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
+    #$h01b_conf_main_href_l=hash-ref for %h01b_conf_main_hash_g
     #res_href_l = hash ref for %h01d_conf_bond_opts_hash_g
     my $proc_name_l=(caller(0))[3];
 
