@@ -25,7 +25,7 @@ sub generate_resolv_conf_files {
         }
     }
     close(CONF_DNS);
-
+    
     $line_l=undef;
     ######
     if ( -d $dyn_resolv_common_dir_l ) {
@@ -40,14 +40,14 @@ sub generate_resolv_conf_files {
             print RESOLV "nameserver $arr_el0_l\n";
         }
         close(RESOLV);
-
+	
         $arr_el0_l=undef;
     }
-
+    
     $arr_el0_l=undef;
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###READ conf file '01_dns_settings' and generate resolv-conf-files
-
+    
     return $return_str_l;
 }
 
