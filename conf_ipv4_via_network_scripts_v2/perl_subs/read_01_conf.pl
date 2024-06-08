@@ -119,6 +119,7 @@ sub read_01a_conf_int_hwaddr {
     	$int_name_uniq_check_for_one_host_l{$inv_host_l}{$interface_name_l}=$hwaddr_l;
     	###
     	
+	# WRITE to %h01a_conf_int_hwaddr_inf_hash_g
     	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
     		
     	# clear vars
