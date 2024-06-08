@@ -121,6 +121,7 @@ sub read_01a_conf_int_hwaddr {
     	
 	# WRITE to %h01a_conf_int_hwaddr_inf_hash_g
     	$res_tmp_lv1_l{$inv_host_l}{$interface_name_l}{$hwaddr_l}=1;
+	###
     		
     	# clear vars
     	($inv_host_l,$interface_name_l,$hwaddr_l)=(undef,undef,undef);
@@ -266,6 +267,15 @@ sub read_01b_conf_main {
     	}
     	### additional checks (end)
     	
+	# WRITE to %h01b_conf_main_hash_g
+	${$res_href_l}{$inv_host_l}{$conf_id_l}{'conf_type'}=$conf_type_l;
+	${$res_href_l}{$inv_host_l}{$conf_id_l}{'bond_name'}=$bond_name_l;
+	${$res_href_l}{$inv_host_l}{$conf_id_l}{'bridge_name'}=$bridge_name_l;
+	${$res_href_l}{$inv_host_l}{$conf_id_l}{'defroute'}=$defroute_l;
+	${$res_href_l}{$inv_host_l}{$conf_id_l}{'vlan_id'}=$vlan_id_l;
+	${$res_href_l}{$inv_host_l}{$conf_id_l}{'int_list'}=[@int_list_arr_l];
+	###
+	
     	# clear vars
     	($inv_host_l,$conf_id_l,$conf_type_l,$interface_list_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef);
     	@int_list_arr_l=();
