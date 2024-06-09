@@ -306,7 +306,7 @@ sub read_01c_conf_ip_addr {
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
-    my ($ip_l,$gw_l,$prefix_l)=(undef,undef,undef);
+    my ($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=(undef,undef,undef);
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -326,7 +326,7 @@ sub read_01c_conf_ip_addr {
     	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
     	
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
-	($ip_l,$gw_l,$prefix_l)=split(/\,/,$ipv4_addr_opts_l);
+	($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=split(/\,/,$ipv4_addr_opts_l);
 	
     	### simple checks (begin)
     	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
