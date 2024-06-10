@@ -326,8 +326,8 @@ sub read_01c_conf_ip_addr {
     	#hval0_l = arrayref for (#INV_HOST-0 #CONF_ID-1 #IPv4_ADDR_OPTS-2)
     	
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=@{$hval0_l};
-	($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=split(/\,/,$ipv4_addr_opts_l);
-	
+    	($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=split(/\,/,$ipv4_addr_opts_l);
+    	
     	### simple checks (begin)
     	$exec_res_l=&inv_host_simple_check($inv_host_l,$inv_hosts_href_l,$file_l);
     	#$inv_host_l,$inv_hosts_href_l,$conf_file_l
@@ -335,7 +335,7 @@ sub read_01c_conf_ip_addr {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
-	
+    	
     	$exec_res_l=&conf_id_simple_check($conf_id_l,$file_l);
     	#$conf_id_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
