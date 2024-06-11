@@ -235,5 +235,14 @@ sub defroute_additional_check {
     return $return_str_l;
 }
 
+sub ipv4_addr_check {
+}
+
+sub gw_ipv4_check {
+}
+
+sub prefix_ipv4_check {
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
