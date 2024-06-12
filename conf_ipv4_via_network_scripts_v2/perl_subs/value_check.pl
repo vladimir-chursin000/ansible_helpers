@@ -259,7 +259,7 @@ sub prefix_ipv4_check {
     
     my $return_str_l='OK';
     
-    if ( $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
+    if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
 	return "fail [$proc_name_l]. Incorrect prefix='$prefix_ipv4_l'. Prefix must be in the range from 0 to 32. Please, check and correct config-file ('$conf_file_l')";
     }
     
