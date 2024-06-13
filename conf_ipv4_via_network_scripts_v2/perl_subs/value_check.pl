@@ -235,26 +235,8 @@ sub defroute_additional_check {
     return $return_str_l;
 }
 
-sub ipv4_addr_check {
-    my ($ipv4_addr_l,$conf_file_l)=@_;
-    my $proc_name_l=(caller(0))[3];
-    
-    my $return_str_l='OK';
-    
-    return $return_str_l;
-}
-
-sub gw_ipv4_check {
-    my ($gw_ipv4_l,$conf_file_l)=@_;
-    my $proc_name_l=(caller(0))[3];
-    
-    my $return_str_l='OK';
-    
-    return $return_str_l;
-}
-
-sub prefix_ipv4_check {
-    my ($prefix_ipv4_l,$conf_file_l)=@_;
+sub ipv4_addr_opts_check {
+    my ($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
