@@ -241,6 +241,12 @@ sub ipv4_addr_opts_check {
     
     my $return_str_l='OK';
     
+    if ( $ipv4_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    }
+
+    if ( $gw_ipv4_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    }
+    
     if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
 	return "fail [$proc_name_l]. Incorrect prefix='$prefix_ipv4_l'. Prefix must be in the range from 0 to 32. Please, check and correct config-file ('$conf_file_l')";
     }
