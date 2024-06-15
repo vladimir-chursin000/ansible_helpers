@@ -242,9 +242,11 @@ sub ipv4_addr_opts_check {
     my $return_str_l='OK';
     
     if ( $ipv4_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+	return "fail [$proc_name_l]. Incorrect ipv4_addr='$ipv4_addr_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.50)";
     }
 
     if ( $gw_ipv4_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+	return "fail [$proc_name_l]. Incorrect ipv4_gateway='$gw_ipv4_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.1)";
     }
     
     if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
