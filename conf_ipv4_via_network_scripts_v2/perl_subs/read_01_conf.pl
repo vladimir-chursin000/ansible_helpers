@@ -342,6 +342,13 @@ sub read_01c_conf_ip_addr {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
+
+	$exec_res_l=&ipv4_addr_opts_check($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$file_l);
+	#$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
     	### simple checks (end)
     	
     	### additional checks (begin)
@@ -355,6 +362,7 @@ sub read_01c_conf_ip_addr {
     	
     	# clear vars
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
+	($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=(undef,undef,undef);
     	###
     }
     
