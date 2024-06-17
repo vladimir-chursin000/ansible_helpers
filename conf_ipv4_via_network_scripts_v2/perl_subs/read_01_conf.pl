@@ -309,6 +309,8 @@ sub read_01c_conf_ip_addr {
     my ($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=(undef,undef,undef);
     my $return_str_l='OK';
     
+    my %ipv4_uniq_check_hash_l=();
+	#key=ipv4, value=conf_id
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -354,6 +356,13 @@ sub read_01c_conf_ip_addr {
     	### additional checks (begin)
     	$exec_res_l=&conf_id_is_exists_at_01b_main_check($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$file_l);
     	#$conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l
+    	if ( $exec_res_l=~/^fail/ ) {
+    	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+    	    last;
+    	}
+
+	$exec_res_l=&ipv4_additional_check($ipv4_addr_l,$conf_id_l,\%ipv4_uniq_check_hash_l,$file_l);
+	#$ipv4_addr_l,$conf_id_l,$ipv4_uniq_check_href_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;

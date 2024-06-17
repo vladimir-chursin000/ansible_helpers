@@ -256,7 +256,7 @@ sub ipv4_addr_opts_check {
     return $return_str_l;
 }
 
-sub ipv4_uniq_check {
+sub ipv4_additional_check {
     my ($ipv4_addr_l,$conf_id_l,$ipv4_uniq_check_href_l,$conf_file_l)=@_;
     my $proc_name_l=(caller(0))[3];
     
