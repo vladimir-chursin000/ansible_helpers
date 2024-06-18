@@ -315,9 +315,9 @@ sub read_01c_conf_ip_addr {
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
     #INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS (ip,gw,prefix)
-    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ip'}=ip-value
-    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw'}=gw-value
-    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix'}=prefix-value
+    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ipv4'}=ip-value
+    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw_ipv4'}=gw-value
+    #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix_ipv4'}=prefix-value
     
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
     #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
