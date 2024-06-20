@@ -371,8 +371,11 @@ sub read_01c_conf_ip_addr {
 	
 	# WRITE to %res_tmp_lv1_l
 	$res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'ipv4'}=$ipv4_addr_l;
-	$res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'gw_ipv4'}=$gw_ipv4_l;
-	$res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'prefix_ipv4'}=$prefix_ipv4_l;
+	
+	if ( $ipv4_addr_l ne 'dhcp' ) {
+	    $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'gw_ipv4'}=$gw_ipv4_l;
+	    $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'prefix_ipv4'}=$prefix_ipv4_l;
+	}
 	###
     	
     	# clear vars
