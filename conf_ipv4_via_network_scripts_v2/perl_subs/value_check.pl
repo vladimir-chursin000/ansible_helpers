@@ -241,16 +241,18 @@ sub ipv4_addr_opts_check {
     
     my $return_str_l='OK';
     
-    if ( $ipv4_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-	return "fail [$proc_name_l]. Incorrect ipv4_addr='$ipv4_addr_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.50). Please, check and correct config-file ('$conf_file_l')";
-    }
-
-    if ( $gw_ipv4_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-	return "fail [$proc_name_l]. Incorrect ipv4_gateway='$gw_ipv4_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.1). Please, check and correct config-file ('$conf_file_l')";
-    }
-    
-    if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
-	return "fail [$proc_name_l]. Incorrect prefix='$prefix_ipv4_l'. Prefix must be in the range from 0 to 32. Please, check and correct config-file ('$conf_file_l')";
+    if ( $ipv4_addr_l ne 'dhcp' ) {
+	if ( $ipv4_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+	    return "fail [$proc_name_l]. Incorrect ipv4_addr='$ipv4_addr_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.50). Please, check and correct config-file ('$conf_file_l')";
+	}
+	
+	if ( $gw_ipv4_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+	    return "fail [$proc_name_l]. Incorrect ipv4_gateway='$gw_ipv4_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.1). Please, check and correct config-file ('$conf_file_l')";
+	}
+	
+	if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
+	    return "fail [$proc_name_l]. Incorrect prefix='$prefix_ipv4_l'. Prefix must be in the range from 0 to 32. Please, check and correct config-file ('$conf_file_l')";
+	}
     }
     
     return $return_str_l;
@@ -262,11 +264,13 @@ sub ipv4_additional_check {
     
     my $return_str_l='OK';
 
-    if ( exists(${$ipv4_uniq_check_href_l}{$ipv4_addr_l}) ) {
-        return "fail [$proc_name_l]. IPv4_addr='$ipv4_addr_l' is already used for conf_id='${$ipv4_uniq_check_href_l}{$ipv4_addr_l}'. Fix it at conf-file='$conf_file_l'!";
+    if ( $ipv4_addr_l ne 'dhcp' ) {
+	if ( exists(${$ipv4_uniq_check_href_l}{$ipv4_addr_l}) ) {
+    	    return "fail [$proc_name_l]. IPv4_addr='$ipv4_addr_l' is already used for conf_id='${$ipv4_uniq_check_href_l}{$ipv4_addr_l}'. Fix it at conf-file='$conf_file_l'!";
+	}
+	
+	${$ipv4_uniq_check_href_l}{$ipv4_addr_l}=$conf_id_l;
     }
-    
-    ${$ipv4_uniq_check_href_l}{$ipv4_addr_l}=$conf_id_l;
 
     return $return_str_l;
 }
