@@ -100,7 +100,7 @@ our %h01b_conf_main_hash_g=();
 ###
 our %h01c_conf_ip_addr_hash_g=();
 #INV_HOST    #CONF_ID           #IPv4_ADDR_OPTS (ip,gw,prefix)
-#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ipv4'}=ip-value
+#h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'ipv4'}=ip-value (or 'dhcp')
 #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'gw_ipv4'}=gw-value
 #h01c_conf_ip_addr_hash_g{inv-host}{conf-id}{'prefix_ipv4'}=prefix-value
 ###
