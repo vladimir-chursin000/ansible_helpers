@@ -388,6 +388,10 @@ sub read_01c_conf_ip_addr {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
+    # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (begin)
+    
+    # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (end)
+
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
     # fill result hash
