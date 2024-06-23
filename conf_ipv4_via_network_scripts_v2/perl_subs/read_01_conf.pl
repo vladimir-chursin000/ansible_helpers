@@ -305,6 +305,7 @@ sub read_01c_conf_ip_addr {
     
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
     my ($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=(undef,undef,undef);
     my $return_str_l='OK';
@@ -389,7 +390,21 @@ sub read_01c_conf_ip_addr {
     ###
     
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (begin)
-    
+    while ( ($hkey0_l,$hval0_l)=each %{$h01b_conf_main_href_l} ) {
+	#$hkey0_l=inv-host
+	
+	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+	    #$hkey1_l=conf-id
+	}
+	
+	# clear vars
+	($hkey1_l,$hval1_l)=(undef,undef);
+	###
+    }
+
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (end)
 
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
