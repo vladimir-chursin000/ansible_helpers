@@ -395,6 +395,10 @@ sub read_01c_conf_ip_addr {
 	
 	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
 	    #$hkey1_l=conf-id
+	    
+	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey1_l}) ) {
+		
+	    }
 	}
 	
 	# clear vars
