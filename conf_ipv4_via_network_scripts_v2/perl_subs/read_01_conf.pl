@@ -480,6 +480,11 @@ sub read_01d_conf_bond_opts {
     	    last;
     	}
     	### additional checks (end)
+	
+	# WRITE to %res_tmp_lv1_l
+	if ( $bond_opts_l eq 'def' ) { $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}='mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'; }
+	else { $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}=$bond_opts_l; }
+	###
     	
     	# clear vars
     	($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
