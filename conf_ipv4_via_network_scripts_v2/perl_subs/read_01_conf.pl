@@ -389,21 +389,26 @@ sub read_01c_conf_ip_addr {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %{$h01b_conf_main_href_l} ) {
-	#$hkey0_l=inv-host
+    	#$hkey0_l=inv-host
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+    	    #$hkey1_l=conf-id
+    	    
+    	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey1_l}) ) {
+    	    	$return_str_l="fail [$proc_name_l]. Conf_id exists ar '01b_conf_main', but not configured at '$file_l'. Fix it!";
+    	    	last;
+    	    }
+    	}
+    	
+    	# clear vars
+    	($hkey1_l,$hval1_l)=(undef,undef);
+    	###
 	
-	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
-	    #$hkey1_l=conf-id
-	    
-	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey1_l}) ) {
-		
-	    }
-	}
-	
-	# clear vars
-	($hkey1_l,$hval1_l)=(undef,undef);
-	###
+	if ( $return_str_l=~/^fail/ ) { last; }
     }
 
     # clear vars
