@@ -139,6 +139,8 @@ sub read_01a_conf_int_hwaddr {
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
+    %res_tmp_lv1_l=();
+    
     return $return_str_l;
 }
 
@@ -292,6 +294,8 @@ sub read_01b_conf_main {
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
     
+    %res_tmp_lv1_l=();
+    
     return $return_str_l;
 }
 
@@ -413,6 +417,7 @@ sub read_01c_conf_ip_addr {
 
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
     ###
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (end)
 
@@ -421,6 +426,8 @@ sub read_01c_conf_ip_addr {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
+    
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
@@ -520,6 +527,7 @@ sub read_01d_conf_bond_opts {
 
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    ($hkey1_l,$hval1_l)=(undef,undef);
     ###
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (for bond-conns) (end)
 
@@ -528,6 +536,8 @@ sub read_01d_conf_bond_opts {
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
+    
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
