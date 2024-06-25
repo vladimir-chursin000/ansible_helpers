@@ -399,7 +399,7 @@ sub read_01c_conf_ip_addr {
     	    #$hkey1_l=conf-id
     	    
     	    if ( !exists($res_tmp_lv1_l{$hkey0_l}{$hkey1_l}) ) {
-    	    	$return_str_l="fail [$proc_name_l]. Conf_id exists ar '01b_conf_main', but not configured at '$file_l'. Fix it!";
+    	    	$return_str_l="fail [$proc_name_l]. Conf_id='$hkey1_l' exists at '01b_conf_main', but not configured at '$file_l'. Fix it!";
     	    	last;
     	    }
     	}
@@ -435,6 +435,7 @@ sub read_01d_conf_bond_opts {
     
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($hkey1_l,$hval1_l)=(undef,undef);
     my ($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
     my $return_str_l='OK';
     
@@ -497,6 +498,33 @@ sub read_01d_conf_bond_opts {
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
+    # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (for bond-conns) (begin)
+    while ( ($hkey0_l,$hval0_l)=each %{$h01b_conf_main_href_l} ) {
+    	#$hkey0_l=inv-host
+    	
+    	while ( ($hkey1_l,$hval1_l)=each %{$hval0_l} ) {
+    	    #$hkey1_l=conf-id
+    	    
+    	    if ( ${$hval1_l}{'conf_type'}=~/bond/ && !exists($res_tmp_lv1_l{$hkey0_l}{$hkey1_l}) ) {
+    	    	$return_str_l="fail [$proc_name_l]. Conf_id='$hkey1_l' (for bond-connection) exists at '01b_conf_main', but not configured at '$file_l'. Fix it!";
+    	    	last;
+    	    }
+    	}
+    	
+    	# clear vars
+    	($hkey1_l,$hval1_l)=(undef,undef);
+    	###
+	
+	if ( $return_str_l=~/^fail/ ) { last; }
+    }
+
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
+    # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (for bond-conns) (end)
+
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
