@@ -58,10 +58,6 @@ our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg'
 ###CFG file (end)
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper (begin)
-our $dyn_ifcfg_common_dir_g=$self_dir_g.'/playbooks/dyn_ifcfg_playbooks/dyn_ifcfg'; # dir for save generated ifcfg-files
-our $dyn_resolv_common_dir_g=$self_dir_g.'/playbooks/dyn_ifcfg_playbooks/dyn_resolv_conf'; # dir for save generated resolv-conf-files
-our $dyn_ifcfg_playbooks_dir_g=$self_dir_g.'/playbooks/dyn_ifcfg_playbooks'; # dir for save generated dynamic playbooks. Playbooks will be created if changes needed
-our $ifcfg_tmplt_dir_g=$self_dir_g.'/playbooks/ifcfg_tmplt'; # dir with ifcfg templates
 our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'/playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth, hwaddr) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 our $remote_dir_for_absible_helper_g='~/ansible_helpers/conf_int_ipv4_via_network_scripts'; # dir for creating/manipulate files at remote side
