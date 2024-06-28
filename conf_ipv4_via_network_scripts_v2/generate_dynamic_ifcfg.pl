@@ -52,7 +52,6 @@ our $f02_dns_settings_path_g=$self_dir_g.'/01_configs/02_dns_settings';
 our $f03_config_del_not_configured_ifcfg_path_g=$self_dir_g.'/01_configs/03_config_del_not_configured_ifcfg';
 our $f04_config_temporary_apply_ifcfg_path_g=$self_dir_g.'/01_configs/04_config_temporary_apply_ifcfg';
 
-our $conf_file_g=$self_dir_g.'/01_configs/00_config';
 our $conf_dns_g=$self_dir_g.'/01_configs/01_dns_settings'; #for configure resolv.conf
 our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/02_config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg';
