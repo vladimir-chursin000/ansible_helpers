@@ -171,10 +171,10 @@ sub read_01b_conf_main {
     my %res_tmp_lv1_l=(); # result hash
     #INV_HOST    #CONF_ID   #CONF_TYPE       #INT_LIST      #VLAN_ID    #BOND_NAME   #BRIDGE_NAME   #DEFROUTE
     #h01b_conf_main_hash_g{inv-host}{conf-id}{'conf_type'}=conf-type-value
-    #h01b_conf_main_hash_g{inv-host}{conf-id}{'bond_name'}=bond-name-value # if bond-name='no' -> no key
-    #h01b_conf_main_hash_g{inv-host}{conf-id}{'bridge_name'}=bridge-name-value # if bridge-name='no' -> no key
-    #h01b_conf_main_hash_g{inv-host}{conf-id}{'defroute'}=1 # if defroute='no' -> no key
-    #h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value # if vlan-id='no' -> no key
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'bond_name'}=bond-name-value
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'bridge_name'}=bridge-name-value
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'defroute'}=no/yes
+    #h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value
     #h01b_conf_main_hash_g{inv-host}{conf-id}{'int_list'}=[interface0,interface1...etc]
     
     $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,8,\%res_tmp_lv0_l);

@@ -85,10 +85,10 @@ our %h01a_conf_int_hwaddr_inf_hash_g=();
 our %h01b_conf_main_hash_g=();
 #INV_HOST    #CONF_ID   #CONF_TYPE       #INT_LIST      #VLAN_ID    #BOND_NAME   #BRIDGE_NAME   #DEFROUTE
 #h01b_conf_main_hash_g{inv-host}{conf-id}{'conf_type'}=conf-type-value
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'bond_name'}=bond-name-value # if bond-name='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'bridge_name'}=bridge-name-value # if bridge-name='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'defroute'}=1 # if defroute='no' -> no key
-#h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value # if vlan-id='no' -> no key
+#h01b_conf_main_hash_g{inv-host}{conf-id}{'bond_name'}=bond-name-value
+#h01b_conf_main_hash_g{inv-host}{conf-id}{'bridge_name'}=bridge-name-value
+#h01b_conf_main_hash_g{inv-host}{conf-id}{'defroute'}=yes/no
+#h01b_conf_main_hash_g{inv-host}{conf-id}{'vlan_id'}=vlan-id-value
 #h01b_conf_main_hash_g{inv-host}{conf-id}{'int_list'}=[interface0,interface1...etc]
 ###
 our %h01c_conf_ip_addr_hash_g=();
