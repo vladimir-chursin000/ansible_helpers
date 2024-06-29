@@ -27,5 +27,17 @@ sub read_config_del_not_configured_ifcfg {
     return $return_str_l;
 }
 
+sub read_02_dns_settings {
+    my ($file_l,$res_href_l)=@_;
+    #$file_l=$f02_dns_settings_path_g
+    #$res_href_l=hash ref for %h02_dns_settings_hash_g
+    	#key=inv_host, value=[array of nameservers]
+    my $proc_name_l=(caller(0))[3];
+    
+    my $return_str_l='OK';
+    
+    return $return_str_l;
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

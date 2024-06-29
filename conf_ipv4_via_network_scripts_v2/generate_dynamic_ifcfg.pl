@@ -104,7 +104,7 @@ our %h01d_conf_bond_opts_hash_g=();
 #Else -> 'bond-opts-value'.
 ###
 our %h02_dns_settings_hash_g=();
-#key=inv_host/common, value=[array of nameservers]
+#key=inv_host, value=[array of nameservers]
 ###
 our %h03_config_del_not_configured_ifcfg_hash_g=();
 #Key=inv_host
@@ -113,7 +113,6 @@ our %h04_config_temporary_apply_ifcfg_hash_g=();
 #key=inv_host/common, value=rollback_ifcfg_timeout
 ######
 our %inv_hosts_ifcfg_del_not_configured_g=(); #for config '02_config_del_not_configured_ifcfg'. Key=inv_host
-our %inv_hosts_dns_g=(); #key=inv_host/common, value=[array of nameservers]
 our %inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
 ############VARS (end)
 
