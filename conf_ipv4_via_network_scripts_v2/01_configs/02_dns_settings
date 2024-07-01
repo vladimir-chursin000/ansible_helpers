@@ -1,5 +1,7 @@
 # Set here nameservers with format "inventory_hostname nameserver_ip" or "common nameserver_ip".
 # If not exists conf for inv_host -> using 'common'.
+###
+#INV_HOST	#LIST_OF_NAME_SERVERS
 ###EXAMPLES
 #192.168.1.10	192.168.1.1
 #192.168.1.10	192.168.1.100
