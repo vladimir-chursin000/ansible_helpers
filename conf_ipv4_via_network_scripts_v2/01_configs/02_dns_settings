@@ -1,5 +1,10 @@
-# Set here nameservers with format "inventory_hostname nameserver_ip" or "common nameserver_ip".
-# If not exists conf for inv_host -> using 'common'.
+###
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+    # list of inventory hosts separated by "," or individual hosts (2).
+###
+# LIST_OF_NAME_SERVERS
 ###
 #INV_HOST	#LIST_OF_NAME_SERVERS
 ###EXAMPLES
