@@ -41,7 +41,7 @@ sub read_02_dns_settings {
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
     
-    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,3,\%res_tmp_lv0_l);
+    $exec_res_l=&read_uniq_lines_with_params_from_config($file_l,2,\%res_tmp_lv0_l);
     #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
