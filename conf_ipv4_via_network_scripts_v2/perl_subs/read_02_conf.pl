@@ -32,6 +32,19 @@ sub read_02_dns_settings {
     #$file_l=$f02_dns_settings_path_g
     #$res_href_l=hash ref for %h02_dns_settings_hash_g
     	#key=inv_host, value=[array of nameservers]
+    ###############
+    # INVENTORY_HOST = all/list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+	# If "all" -> the configuration will be applied to all inventory hosts.
+	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+	# list of inventory hosts separated by "," or individual hosts (2).
+    ###
+    # LIST_OF_NAME_SERVERS - list of params for 'resolv.conf'.
+    # Format = "search-domain=somedomain.org,nameserver1,nameserver2,etc"
+    # or "nameserver1,nameserver2,etc" (without param 'search-domain').
+    ###
+    #INVENTORY_HOST                 #LIST_OF_NAME_SERVERS
+    ###############
+
     my $proc_name_l=(caller(0))[3];
     
     my ($exec_res_l)=(undef);    
