@@ -47,7 +47,8 @@ sub read_02_dns_settings {
 
     my $proc_name_l=(caller(0))[3];
     
-    my ($exec_res_l)=(undef);    
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -58,6 +59,11 @@ sub read_02_dns_settings {
     #$file_l,$file_l,$prms_per_line_l,$res_href_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
+
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	
+    }
+    ($hkey0_l,$hval0_l)=(undef,undef);
     
     return $return_str_l;
 }
