@@ -85,11 +85,11 @@ sub read_conf_lines_with_priority_by_first_param {
     #$file_l=conf file
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
-	#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
+    	#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$needed_elements_at_line_arr_l=needed count of elements at array formed from line
     #$add_ind4key_l (addditional index of array for hash-key)=by default at result hash key=first element of array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
     #res_href_l=hash ref for result-hash
-	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
+    	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
     ###
     
     my $proc_name_l=(caller(0))[3];
@@ -101,21 +101,21 @@ sub read_conf_lines_with_priority_by_first_param {
     my ($arr_cnt_l,$key_ind_l)=(undef,undef);
     my $inv_hosts_group_name_l=undef;
     my %key_ind_cnt_l=();
-	#key=$key_ind_l, value=1
+    	#key=$key_ind_l, value=1
     my @arr0_l=();
     my @arr1_l=();
     my %res_tmp_lv0_l=();
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+    	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
     my %res_tmp_lv1_l=();
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc] (AFTER prereturnPROCESSING)
+    	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-1,arr-2,etc] (AFTER prereturnPROCESSING)
     my $return_str_l='OK';
     
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
-
+    
     # read conf file
     open(CONF_LINES_WITH_PRIO,'<',$file_l);
     while ( <CONF_LINES_WITH_PRIO> ) {
-	$line_l=$_;
+    	$line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
 	$line_l=~s/\#.*$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
