@@ -117,41 +117,41 @@ sub read_conf_lines_with_priority_by_first_param {
     while ( <CONF_LINES_WITH_PRIO> ) {
     	$line_l=$_;
         $line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	$line_l=~s/\#.*$//g;
+    	$line_l=~s/\#.*$//g;
         while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
-	$line_l=~s/ $//g;
-
-	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-	    $line_l=~s/ \,/\,/g;
-	    $line_l=~s/\, /\,/g;
-
-	    @arr0_l=$line_l=~/(\S+)/g;
-	    
-	    # arr0_l element count check
-	    $arr_cnt_l=$#arr0_l+1;
-	    if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
-		$return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
-		last;
-	    }
-	    ###
-
-	    # key-ind uniq check
-	    $key_ind_l=$arr0_l[0];
-	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
-	    if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
-	    else {
-		$return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
-		last;
-	    }
-	    ###
-	    
-	    $res_tmp_lv0_l{$key_ind_l}=[@arr0_l];
-	    
-	    $key_ind_l=undef;
-	    @arr0_l=();
-	}
+    	$line_l=~s/ $//g;
+    
+    	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+    	    $line_l=~s/ \,/\,/g;
+    	    $line_l=~s/\, /\,/g;
+    
+    	    @arr0_l=$line_l=~/(\S+)/g;
+    	    
+    	    # arr0_l element count check
+    	    $arr_cnt_l=$#arr0_l+1;
+    	    if ( $arr_cnt_l!=$needed_elements_at_line_arr_l ) {
+    		$return_str_l="fail [$proc_name_l]. Count of params at string of cfg-file='$file_l' must be = $needed_elements_at_line_arr_l";
+    		last;
+    	    }
+    	    ###
+    
+    	    # key-ind uniq check
+    	    $key_ind_l=$arr0_l[0];
+    	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
+    	    if ( !exists($key_ind_cnt_l{$key_ind_l}) ) { $key_ind_cnt_l{$key_ind_l}=1; }
+    	    else {
+    		$return_str_l="fail [$proc_name_l]. At conf='$file_l' can be only one param 'inventory-host' with value like '$key_ind_l'. Check config and run again";
+    		last;
+    	    }
+    	    ###
+    	    
+    	    $res_tmp_lv0_l{$key_ind_l}=[@arr0_l];
+    	    
+    	    $key_ind_l=undef;
+    	    @arr0_l=();
+    	}
     }
     close(CONF_LINES_WITH_PRIO);
     
@@ -164,29 +164,29 @@ sub read_conf_lines_with_priority_by_first_param {
     
     # first read %res_tmp_lv0_l (for inv-host='all')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#%res_tmp_lv0_l
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
-	
-	if ( ${$hval0_l}[0] eq 'all' ) {
-	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
+    	#%res_tmp_lv0_l
+    	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+    	
+    	if ( ${$hval0_l}[0] eq 'all' ) {
+    	    while ( ($hkey1_l,$hval1_l)=each %{$inv_hosts_href_l} ) {
             	#$hkey1_l=inv-host from inv-host-hash
-	    	$key_ind_l=$hkey1_l;
-	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
-	    	
-	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
-		
-		$key_ind_l=undef;
+    	    	$key_ind_l=$hkey1_l;
+    	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+    	    	
+    	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+    		
+    		$key_ind_l=undef;
     	    }
-	    
-	    ($hkey1_l,$hval1_l)=(undef,undef);
-	    ###
-	    delete($res_tmp_lv0_l{$hkey0_l});
-	}
+    	    
+    	    ($hkey1_l,$hval1_l)=(undef,undef);
+    	    ###
+    	    delete($res_tmp_lv0_l{$hkey0_l});
+    	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
-
+    
     # second read %res_tmp_lv0_l (for inv-host='some_group')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#%res_tmp_lv0_l
