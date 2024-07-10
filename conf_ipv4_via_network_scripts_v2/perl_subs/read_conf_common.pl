@@ -189,32 +189,32 @@ sub read_conf_lines_with_priority_by_first_param {
     
     # second read %res_tmp_lv0_l (for inv-host='some_group')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#%res_tmp_lv0_l
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
-	
-	# check for group-name inside the list (via ",")
-	if ( ${$hval0_l}[0]=~/gr_\S+/ && ${$hval0_l}[0]=~/\,/ ) {
-	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Deny to include group-name ('${$hval0_l}[0]') to the list separated by ','.";
-	    last;
-	}
-	###
-	
-	if ( ${$hval0_l}[0]=~/^(gr_\S+)$/ ) {
-	    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
+    	#%res_tmp_lv0_l
+    	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+    	
+    	# check for group-name inside the list (via ",")
+    	if ( ${$hval0_l}[0]=~/gr_\S+/ && ${$hval0_l}[0]=~/\,/ ) {
+    	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Deny to include group-name ('${$hval0_l}[0]') to the list separated by ','.";
+    	    last;
+    	}
+    	###
+    	
+    	if ( ${$hval0_l}[0]=~/^(gr_\S+)$/ ) {
+    	    #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     		#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
-	    $inv_hosts_group_name_l=$1;
-	    
-	    # check for exists at '00_conf_divisions_for_inv_hosts'
-	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}) ) {
-		$return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-group='$inv_hosts_group_name_l' is not configured at '00_conf_divisions_for_inv_hosts'";
-		last;
-	    }
-	    ###
-	    
-	    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}} ) {
-		#$hkey1_l=inv-host
-		$key_ind_l=$hkey1_l;
-	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+    	    $inv_hosts_group_name_l=$1;
+    	    
+    	    # check for exists at '00_conf_divisions_for_inv_hosts'
+    	    if ( !exists(${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}) ) {
+    		$return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-group='$inv_hosts_group_name_l' is not configured at '00_conf_divisions_for_inv_hosts'";
+    		last;
+    	    }
+    	    ###
+    	    
+    	    while ( ($hkey1_l,$hval1_l)=each %{${$divisions_for_inv_hosts_href_l}{$inv_hosts_group_name_l}} ) {
+    		#$hkey1_l=inv-host
+    		$key_ind_l=$hkey1_l;
+    	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
 	    	
 	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
 		
