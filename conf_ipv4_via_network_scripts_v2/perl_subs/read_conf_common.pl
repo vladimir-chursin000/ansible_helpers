@@ -215,24 +215,24 @@ sub read_conf_lines_with_priority_by_first_param {
     		#$hkey1_l=inv-host
     		$key_ind_l=$hkey1_l;
     	    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
-	    	
-	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
-		
-		$key_ind_l=undef;
-	    }
-	    
-	    ($hkey1_l,$hval1_l)=(undef,undef);
-	    $inv_hosts_group_name_l=undef;
-	    ###
-	    delete($res_tmp_lv0_l{$hkey0_l});
-	}
+    	    	
+    	    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+    		
+    		$key_ind_l=undef;
+    	    }
+    	    
+    	    ($hkey1_l,$hval1_l)=(undef,undef);
+    	    $inv_hosts_group_name_l=undef;
+    	    ###
+    	    delete($res_tmp_lv0_l{$hkey0_l});
+    	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
-
+    
     # third read %res_tmp_lv0_l (for inv-host='list of inv hosts')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#%res_tmp_lv0_l
