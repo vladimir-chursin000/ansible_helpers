@@ -235,13 +235,13 @@ sub read_conf_lines_with_priority_by_first_param {
     
     # third read %res_tmp_lv0_l (for inv-host='list of inv hosts')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#%res_tmp_lv0_l
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
-	if ( ${$hval0_l}[0]=~/\,/ ) {
-	    @arr0_l=split(/\,/,${$hval0_l}[0]);
-	    foreach $arr_el0_l ( @arr0_l ) {
-		#$arr_el0_l=inv-host
-		
+    	#%res_tmp_lv0_l
+    	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+    	if ( ${$hval0_l}[0]=~/\,/ ) {
+    	    @arr0_l=split(/\,/,${$hval0_l}[0]);
+    	    foreach $arr_el0_l ( @arr0_l ) {
+    		#$arr_el0_l=inv-host
+    		
 		# check if exists at inventory-file
 		if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
 	    	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='$arr_el0_l' is not exists at inventory-file";
