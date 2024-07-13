@@ -242,12 +242,12 @@ sub read_conf_lines_with_priority_by_first_param {
     	    foreach $arr_el0_l ( @arr0_l ) {
     		#$arr_el0_l=inv-host
     		
-		# check if exists at inventory-file
-		if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
-	    	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='$arr_el0_l' is not exists at inventory-file";
-		    last;
-		}
-		###
+    		# check if exists at inventory-file
+    		if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
+    	    	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='$arr_el0_l' is not exists at inventory-file";
+    		    last;
+    		}
+    		###
 		
 		$key_ind_l=$arr_el0_l;
 		if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
