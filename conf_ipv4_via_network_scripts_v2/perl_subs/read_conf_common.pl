@@ -248,22 +248,22 @@ sub read_conf_lines_with_priority_by_first_param {
     		    last;
     		}
     		###
-		
-		$key_ind_l=$arr_el0_l;
-		if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
-	    	    
-		$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
-	    	
-		$key_ind_l=undef;
-	    }
-	
-	    $arr_el0_l=undef;
-	    @arr0_l=();
-	    
-	    delete($res_tmp_lv0_l{$hkey0_l});
-	        
-	    if ( $return_str_l!~/^OK$/ ) { last; }
-	}
+    		
+    		$key_ind_l=$arr_el0_l;
+    		if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+    	    	    
+    		$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+    	    	
+    		$key_ind_l=undef;
+    	    }
+    	
+    	    $arr_el0_l=undef;
+    	    @arr0_l=();
+    	    
+    	    delete($res_tmp_lv0_l{$hkey0_l});
+    	        
+    	    if ( $return_str_l!~/^OK$/ ) { last; }
+    	}
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
