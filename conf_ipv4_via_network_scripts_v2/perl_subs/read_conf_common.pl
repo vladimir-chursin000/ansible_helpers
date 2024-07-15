@@ -270,36 +270,36 @@ sub read_conf_lines_with_priority_by_first_param {
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
-
+    
     # third read %res_tmp_lv0_l (for inv-host='single hosts')
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#%res_tmp_lv0_l
-	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
-	    
-	# check if exists at inventory-file
-	if ( !exists(${$inv_hosts_href_l}{${$hval0_l}[0]}) ) {
-	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='${$hval0_l}[0]' is not exists at inventory-file";
-	    last;
-	}
-	###
-		
-	$key_ind_l=${$hval0_l}[0];
-	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
-	    	    
-	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
-	    	
-	$key_ind_l=undef;
-	
-	delete($res_tmp_lv0_l{$hkey0_l});
-	
-	if ( $return_str_l!~/^OK$/ ) { last; }
+    	#%res_tmp_lv0_l
+    	#key=inventory-host (arr-0 + arr with index=$add_ind4key_l), value=[arr-0,arr-1,arr-2,etc]
+    	    
+    	# check if exists at inventory-file
+    	if ( !exists(${$inv_hosts_href_l}{${$hval0_l}[0]}) ) {
+    	    $return_str_l="fail [$proc_name_l]. Err at conf_file='$file_l'. Inv-host='${$hval0_l}[0]' is not exists at inventory-file";
+    	    last;
+    	}
+    	###
+    		
+    	$key_ind_l=${$hval0_l}[0];
+    	if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.${$hval0_l}[$add_ind4key_l]; }
+    	    	    
+    	$res_tmp_lv1_l{$key_ind_l}=[@{$hval0_l}[1..$#{$hval0_l}]];
+    	    	
+    	$key_ind_l=undef;
+    	
+    	delete($res_tmp_lv0_l{$hkey0_l});
+    	
+    	if ( $return_str_l!~/^OK$/ ) { last; }
     }
     
     ($hkey0_l,$hval0_l)=(undef,undef);
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     ###
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
