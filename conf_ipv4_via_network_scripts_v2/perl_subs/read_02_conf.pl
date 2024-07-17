@@ -60,16 +60,6 @@ sub read_02_dns_settings {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
 
-    # for 'all' (begin)
-    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	
-    }
-    
-    # clear vars
-    ($hkey0_l,$hval0_l)=(undef,undef);
-    ###
-    # for 'all' (end)
-    
     return $return_str_l;
 }
 
