@@ -87,7 +87,8 @@ sub read_conf_lines_with_priority_by_first_param {
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     	#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$needed_elements_at_line_arr_l=needed count of elements at array formed from line
-    #$add_ind4key_l (addditional index of array for hash-key)=by default at result hash key=first element of array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
+    #$add_ind4key_l (addditional index of array for hash-key)=by default at result hash key=first element of 
+	#array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
     #res_href_l=hash ref for result-hash
     	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
     ###
