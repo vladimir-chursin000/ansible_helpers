@@ -52,6 +52,8 @@ sub read_02_dns_settings {
     
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($search_domain_l)=(undef);
+    my @nameservers_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
