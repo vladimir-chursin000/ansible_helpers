@@ -65,15 +65,22 @@ sub read_02_dns_settings {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     
-    # check %res_tmp_lv0_l (begin)
+    # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+	#hkey0_l=inv-host, hval0_l="search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"
 	
     }
     
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
-    # check %res_tmp_lv0_l (end)
+    # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (end)
+
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+
+    %res_tmp_lv1_l=();
     
     return $return_str_l;
 }
