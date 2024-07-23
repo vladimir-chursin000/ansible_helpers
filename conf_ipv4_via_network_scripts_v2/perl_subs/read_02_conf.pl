@@ -69,7 +69,8 @@ sub read_02_dns_settings {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l=inv-host, hval0_l="search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"
 	if ( $hval0_l=~/\,search\-domain\=/ ) {
-	    
+	    $return_str_l="fail [$proc_name_l]. The parameter 'search-domain' must be at the beginning of the line '$hval0_l' (conf='$file_l')";
+	    last;
 	}
     }
     
