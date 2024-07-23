@@ -34,7 +34,7 @@ sub read_02_dns_settings {
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$res_href_l=hash ref for %h02_dns_settings_hash_g
-    	#key=inv_host, value=[array of nameservers]
+    	#key=inv_host, value=[search-domain(optional), array of nameservers]
     ###############
     # INVENTORY_HOST = all/list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
     	# If "all" -> the configuration will be applied to all inventory hosts.
