@@ -72,6 +72,13 @@ sub read_02_dns_settings {
 	    $return_str_l="fail [$proc_name_l]. The parameter 'search-domain' must be at the beginning of the line '$hval0_l' (conf='$file_l')";
 	    last;
 	}
+	
+	@nameservers_l=split(/\,/,$hval0_l);
+	
+	if ( $nameservers_l[0]=~/search\-domain\=/ ) {
+	    $nameservers_l[0]=~s/search\-domain\=//;
+	    $nameservers_l[0]='search '.$nameservers_l[0];
+	}
     }
     
     # clear vars
