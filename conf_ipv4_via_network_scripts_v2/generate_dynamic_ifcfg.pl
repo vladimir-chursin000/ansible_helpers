@@ -126,6 +126,18 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     }
     $exec_res_g=undef;
     #print Dumper(\%inventory_hosts_g);
+
+    ######
+        
+    $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
+    #$file_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%inv_hosts_network_data_g);
     
     ######
     
@@ -140,19 +152,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     #print Dumper(\%h00_conf_divisions_for_inv_hosts_hash_g);
     
     ######
-    
-    $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
-    #$file_l,$res_href_l
-    if ( $exec_res_g=~/^fail/ ) {
-    	$exec_status_g='FAIL';
-    	print "$exec_res_g\n";
-    	last;
-    }
-    $exec_res_g=undef;
-    #print Dumper(\%inv_hosts_network_data_g);
-    
-    ######
-    
+        
     $exec_res_g=&read_02_dns_settings($f02_dns_settings_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_dns_settings_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
