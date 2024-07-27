@@ -126,7 +126,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     }
     $exec_res_g=undef;
     #print Dumper(\%inventory_hosts_g);
-
+    
     ######
         
     $exec_res_g=&read_network_data_for_checks($ifcfg_backup_from_remote_nd_file_g,\%inv_hosts_network_data_g);
