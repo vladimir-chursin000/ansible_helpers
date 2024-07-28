@@ -176,6 +176,18 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     #print Dumper(\%h01b_conf_main_hash_g);
     
     ######
+    
+    $exec_res_g=&read_01c_conf_ip_addr($f01c_conf_ip_addr_path_g,\%inventory_hosts_g,\%h01b_conf_main_hash_g,\%h01c_conf_ip_addr_hash_g);
+    #$file_l,$inv_hosts_href_l,$h01b_conf_main_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h01c_conf_ip_addr_hash_g);
+    
+    ######
         
     $exec_res_g=&read_02_dns_settings($f02_dns_settings_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_dns_settings_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
