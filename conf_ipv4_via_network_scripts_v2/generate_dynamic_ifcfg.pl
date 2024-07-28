@@ -164,6 +164,18 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     #print Dumper(\%h01a_conf_int_hwaddr_inf_hash_g);
     
     ######
+    
+    $exec_res_g=&read_01b_conf_main($f01b_conf_main_path_g,\%inventory_hosts_g,\%inv_hosts_network_data_g,\%h01a_conf_int_hwaddr_inf_hash_g,\%h01b_conf_main_hash_g);
+    #$file_l,$inv_hosts_href_l,$inv_hosts_network_data_href_l,$h01a_conf_int_hwaddr_inf_hash_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+        $exec_status_g='FAIL';
+        print "$exec_res_g\n";
+        last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h01b_conf_main_hash_g);
+    
+    ######
         
     $exec_res_g=&read_02_dns_settings($f02_dns_settings_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_dns_settings_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
