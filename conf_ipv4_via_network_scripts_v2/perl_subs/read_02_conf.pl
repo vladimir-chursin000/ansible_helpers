@@ -3,12 +3,12 @@ sub read_config_del_not_configured_ifcfg {
     #$file_l=$conf_file_del_not_configured_g
     #$res_href_l=hash ref for %inv_hosts_ifcfg_del_not_configured_g
     my $proc_name_l=(caller(0))[3];
-
+    
     #%inv_hosts_ifcfg_del_not_configured_g=(); #for config '02_config_del_not_configured_ifcfg'. Key=inv_host
     
     my $line_l=undef;
     my $return_str_l='OK';
-
+    
     open(CONF_DEL,'<',$file_l);
     while ( <CONF_DEL> ) {
         $line_l=$_;
@@ -23,7 +23,7 @@ sub read_config_del_not_configured_ifcfg {
     close(CONF_DEL);
     
     $line_l=undef;
-
+    
     return $return_str_l;
 }
 
