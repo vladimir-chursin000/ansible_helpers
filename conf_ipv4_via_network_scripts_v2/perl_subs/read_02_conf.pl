@@ -60,7 +60,7 @@ sub read_02_dns_settings {
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
-	#key=inv_host, value=[search-domain(optional), array of nameservers]
+    	#key=inv_host, value=[search-domain(optional), array of nameservers]
     
     $exec_res_l=&read_conf_lines_with_priority_by_first_param($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,2,0,\%res_tmp_lv0_l);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
@@ -69,36 +69,36 @@ sub read_02_dns_settings {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=inv-host, hval0_l="search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"
-	if ( $hval0_l=~/\,search\-domain\=/ ) {
-	    $return_str_l="fail [$proc_name_l]. The parameter 'search-domain' must be at the beginning of the line '$hval0_l' (conf='$file_l')";
-	    last;
-	}
-	
-	@nameservers_l=split(/\,/,$hval0_l);
-	
-	if ( $nameservers_l[0]=~/search\-domain\=/ ) {
-	    $search_domain_l=$nameservers_l[0];
-	    $search_domain_l=~s/search\-domain\=//;
-	    $search_domain_l='search '.$nameservers_l[0];
-	    
-	    shift(@nameservers_l);
-	}
-	else { $search_domain_l='no'; }
-	
-	for ( $cnt_l=0; $cnt_l<=$#nameservers_l; $cnt_l++ ) { $nameservers_l[$cnt_l]='nameserver '.$nameservers_l[$cnt_l]; }
-	
-	if ( $search_domain_l!~/^no$/ ) { @nameservers_l=($search_domain_l,@nameservers_l); }
-	
-	# fill %res_tmp_lv1_l
-	$res_tmp_lv1_l{$hkey0_l}=[@nameservers_l];
-	###
-	
-	# clear vars
-	@nameservers_l=();
-	$search_domain_l=undef;
-	$cnt_l=0;
-	###
+    	#hkey0_l=inv-host, hval0_l="search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"
+    	if ( $hval0_l=~/\,search\-domain\=/ ) {
+    	    $return_str_l="fail [$proc_name_l]. The parameter 'search-domain' must be at the beginning of the line '$hval0_l' (conf='$file_l')";
+    	    last;
+    	}
+    	
+    	@nameservers_l=split(/\,/,$hval0_l);
+    	
+    	if ( $nameservers_l[0]=~/search\-domain\=/ ) {
+    	    $search_domain_l=$nameservers_l[0];
+    	    $search_domain_l=~s/search\-domain\=//;
+    	    $search_domain_l='search '.$nameservers_l[0];
+    	    
+    	    shift(@nameservers_l);
+    	}
+    	else { $search_domain_l='no'; }
+    	
+    	for ( $cnt_l=0; $cnt_l<=$#nameservers_l; $cnt_l++ ) { $nameservers_l[$cnt_l]='nameserver '.$nameservers_l[$cnt_l]; }
+    	
+    	if ( $search_domain_l!~/^no$/ ) { @nameservers_l=($search_domain_l,@nameservers_l); }
+    	
+    	# fill %res_tmp_lv1_l
+    	$res_tmp_lv1_l{$hkey0_l}=[@nameservers_l];
+    	###
+    	
+    	# clear vars
+    	@nameservers_l=();
+    	$search_domain_l=undef;
+    	$cnt_l=0;
+    	###
     }
     
     # clear vars
@@ -108,11 +108,11 @@ sub read_02_dns_settings {
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (end)
     
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
-
+    
     %res_tmp_lv1_l=();
     
     return $return_str_l;
