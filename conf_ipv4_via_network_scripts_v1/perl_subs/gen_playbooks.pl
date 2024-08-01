@@ -70,7 +70,7 @@ sub generate_dynamic_playbooks {
 	    print DYN_YML "    dest: \"/etc/sysconfig/network-scripts/{{item}}\"\n";
     	    print DYN_YML "    owner: root\n";
     	    print DYN_YML "    group: root\n";
-    	    print DYN_YML "    mode: '0600'\n";
+    	    print DYN_YML "    mode: '0644'\n";
     	    print DYN_YML "    seuser: system_u\n";
     	    print DYN_YML "    setype: net_conf_t\n";
     	    print DYN_YML "    serole: object_r\n";
@@ -143,7 +143,7 @@ sub generate_dynamic_playbooks {
 	    print DYN_YML "    dest: \"/etc/resolv.conf\"\n";
     	    print DYN_YML "    owner: root\n";
     	    print DYN_YML "    group: root\n";
-    	    print DYN_YML "    mode: '0600'\n";
+    	    print DYN_YML "    mode: '0644'\n";
     	    print DYN_YML "    seuser: system_u\n";
     	    print DYN_YML "    setype: net_conf_t\n";
     	    print DYN_YML "    serole: object_r\n";
