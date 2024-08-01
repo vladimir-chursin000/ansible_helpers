@@ -3,12 +3,12 @@ sub read_config_temporary_apply_ifcfg {
     #file_l=conf_temp_apply_g
     #res_href_l=hash ref for %inv_hosts_tmp_apply_cfg_g
     my $proc_name_l=(caller(0))[3];
-
+    
     #%inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
-
+    
     my $line_l=undef;
     my $return_str_l='OK';
-
+    
     open(CONF_TMP_APPLY,'<',$file_l);
     while ( <CONF_TMP_APPLY> ) {
         $line_l=$_;
@@ -23,7 +23,7 @@ sub read_config_temporary_apply_ifcfg {
     close(CONF_TMP_APPLY);
     
     $line_l=undef;
-
+    
     return $return_str_l;
 }
 
