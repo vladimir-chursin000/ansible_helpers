@@ -2,11 +2,11 @@ sub read_inventory_file {
     my ($file_l,$res_href_l)=@_;
     #file_l=$inventory_conf_path_g, res_href_l=hash-ref for %inventory_hosts_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($line_l,$start_read_hosts_flag_l,$value_cnt_l)=(undef,0,0);
-
+    
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
-
+    
     open(INVDATA,'<',$file_l);
     while ( <INVDATA> ) {
         $line_l=$_;
@@ -29,11 +29,11 @@ sub read_inventory_file {
         }
     }
     close(INVDATA);
-
+    
     ($line_l,$start_read_hosts_flag_l)=(undef,undef);
-
+    
     if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
-
+    
     return 'OK';
 }
 

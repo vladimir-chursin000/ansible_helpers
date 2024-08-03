@@ -4,16 +4,16 @@ sub read_00_conf_divisions_for_inv_hosts {
     #inv_hosts_href_l=hash-ref for %inventory_hosts_g
     #res_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($line_l,$arr_el0_l)=(undef,undef);
     my @arr0_l=();
     my @arr1_l=();
     my %group_uniq_hosts_l=();
         #key0=inv-host, value=group_name
     my $return_str_l='OK';
-
+    
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
-
+    
     # read from file (begin)
     open(GROUP_HOSTS,'<',$file_l);
     while ( <GROUP_HOSTS> ) {
@@ -23,10 +23,10 @@ sub read_00_conf_divisions_for_inv_hosts {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
-
+    
         $line_l=~s/\, /\,/g;
         $line_l=~s/ \,/\,/g;
-
+    
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             #DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
             ###
