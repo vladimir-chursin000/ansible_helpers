@@ -263,15 +263,15 @@ sub ipv4_additional_check {
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
-
+    
     if ( $ipv4_addr_l ne 'dhcp' ) {
-	if ( exists(${$ipv4_uniq_check_href_l}{$ipv4_addr_l}) ) {
+    	if ( exists(${$ipv4_uniq_check_href_l}{$ipv4_addr_l}) ) {
     	    return "fail [$proc_name_l]. IPv4_addr='$ipv4_addr_l' is already used for conf_id='${$ipv4_uniq_check_href_l}{$ipv4_addr_l}'. Fix it at conf-file='$conf_file_l'!";
-	}
-	
-	${$ipv4_uniq_check_href_l}{$ipv4_addr_l}=$conf_id_l;
+    	}
+    	
+    	${$ipv4_uniq_check_href_l}{$ipv4_addr_l}=$conf_id_l;
     }
-
+    
     return $return_str_l;
 }
 #With best regards
