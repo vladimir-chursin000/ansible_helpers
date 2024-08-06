@@ -70,7 +70,7 @@ sub conf_id_additional_check {
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
-
+    
     if ( exists(${$conf_id_uniq_check_href_l}{$conf_id_l}) ) {
         return "fail [$proc_name_l]. Conf_id='$conf_id_l' is already used. Fix it at conf-file='$conf_file_l'!";
     }
@@ -82,13 +82,13 @@ sub conf_id_additional_check {
 
 sub conf_id_is_exists_at_01b_main_check {
     my ($conf_id_l,$inv_host_l,$h01b_conf_main_href_l,$conf_file_l)=@_;
-	#h01b_conf_main_hash_g{inv-host}{conf-id}
+    	#h01b_conf_main_hash_g{inv-host}{conf-id}
     my $proc_name_l=(caller(0))[3];
     
     my $return_str_l='OK';
     
     if ( !exists(${$h01b_conf_main_href_l}{$inv_host_l}{$conf_id_l}) ) {
-	return "fail [$proc_name_l]. Conf_id='$conf_id_l' is not exists at conf '01b_conf_main'. Please, check and correct config-file ('$conf_file_l')";
+    	return "fail [$proc_name_l]. Conf_id='$conf_id_l' is not exists at conf '01b_conf_main'. Please, check and correct config-file ('$conf_file_l')";
     }
     
     return $return_str_l;
@@ -103,7 +103,7 @@ sub conf_type_additional_check {
     if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
         return "fail [$proc_name_l]. For vlan-config-type='$conf_type_l' param vlan_id must be a NUMBER. Please, check and correct config-file ('$conf_file_l')";
     }
-
+    
     if ( $conf_type_l=~/^just_interface$|^interface\-vlan$/ ) {
         if ( $bond_name_l ne 'no' ) {
             return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
@@ -112,7 +112,7 @@ sub conf_type_additional_check {
             return "fail [$proc_name_l]. For conf_types='just_interface/interface-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
         }
     }
-
+    
     if ( $conf_type_l=~/^virt_bridge$|^just_bridge$|^bridge\-vlan$/ ) {
         if ( $bond_name_l ne 'no' ) {
             return "fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bond_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
@@ -121,7 +121,7 @@ sub conf_type_additional_check {
             return "fail [$proc_name_l]. For conf_types='virt_bridge/just_bridge/bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('$conf_file_l')";
         }
     }
-
+    
     if ( $conf_type_l=~/^just_bond$|^bond\-vlan$/ ) {
         if ( $bridge_name_l ne 'no' ) {
             return "fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bridge_name must be 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('$conf_file_l')";
@@ -130,7 +130,7 @@ sub conf_type_additional_check {
             return "fail [$proc_name_l]. For conf_types='just_bond/bond-vlan' bond_name must be NOT 'no'. Please, check and correct config-file ('$conf_file_l')";
         }
     }
-
+    
     if ( $conf_type_l=~/^bond\-bridge$|^bond\-bridge\-vlan$/ ) {
         if ( $bridge_name_l eq 'no' ) {
             return "fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bridge_name must be NOT 'no'. Please, check and correct config-file ('$conf_file_l')";
@@ -215,7 +215,7 @@ sub defroute_simple_check {
     if ( $defroute_l!~/^no$|^yes$/ ) {
         return "fail [$proc_name_l]. Wrong defroute='$defroute_l'. Defroute must be 'yes' or 'no'. Please, check and correct config-file ('$conf_file_l')";
     }
-
+    
     return $return_str_l;
 }
 
@@ -242,17 +242,17 @@ sub ipv4_addr_opts_check {
     my $return_str_l='OK';
     
     if ( $ipv4_addr_l ne 'dhcp' ) {
-	if ( $ipv4_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-	    return "fail [$proc_name_l]. Incorrect ipv4_addr='$ipv4_addr_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.50). Please, check and correct config-file ('$conf_file_l')";
-	}
-	
-	if ( $gw_ipv4_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
-	    return "fail [$proc_name_l]. Incorrect ipv4_gateway='$gw_ipv4_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.1). Please, check and correct config-file ('$conf_file_l')";
-	}
-	
-	if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
-	    return "fail [$proc_name_l]. Incorrect prefix='$prefix_ipv4_l'. Prefix must be in the range from 0 to 32. Please, check and correct config-file ('$conf_file_l')";
-	}
+    	if ( $ipv4_addr_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    	    return "fail [$proc_name_l]. Incorrect ipv4_addr='$ipv4_addr_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.50). Please, check and correct config-file ('$conf_file_l')";
+    	}
+    	
+    	if ( $gw_ipv4_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
+    	    return "fail [$proc_name_l]. Incorrect ipv4_gateway='$gw_ipv4_l'. The address must be of the form 'a.b.c.d' (for example, 192.168.11.1). Please, check and correct config-file ('$conf_file_l')";
+    	}
+    	
+    	if ( $prefix_ipv4_l!~/^\d+$/ or $prefix_ipv4_l<0 or $prefix_ipv4_l>32 ) {
+    	    return "fail [$proc_name_l]. Incorrect prefix='$prefix_ipv4_l'. Prefix must be in the range from 0 to 32. Please, check and correct config-file ('$conf_file_l')";
+    	}
     }
     
     return $return_str_l;
