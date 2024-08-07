@@ -11,10 +11,10 @@ sub read_uniq_lines_with_params_from_config {
     my $return_str_l='OK';
     
     $prms_per_line_l=$prms_per_line_l-1;
-
+    
     my %res_tmp_lv0_l=();
         #key=string with params, value=1
-
+    
     if ( length($file_l)<1 or ! -e($file_l) ) { return "fail [$proc_name_l]. File='$file_l' is not exists"; }
     
     # read file
@@ -27,28 +27,28 @@ sub read_uniq_lines_with_params_from_config {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
-
+    
         $line_l=~s/ \./\./g;
         $line_l=~s/\. /\./g;
-
+    
         $line_l=~s/ \,/\,/g;
         $line_l=~s/\, /\,/g;
-
+    
         $line_l=~s/ \:/\:/g;
         $line_l=~s/\: /\:/g;
-
+    
         $line_l=~s/ \=/\=/g;
         $line_l=~s/\= /\=/g;
-
+    
         $line_l=~s/ \//\//g;
         $line_l=~s/\/ /\//g;
-
+    
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             if ( exists($res_tmp_lv0_l{$line_l}) ) { # duplicated value
                 $return_str_l="fail [$proc_name_l]. Duplicated value ('$line_l') at file='$file_l'. Fix it!";
                 last;
             }
-
+    
 	    (@str_arr_l)=$line_l=~/\S+/g;
 	    
 	    if ( $#str_arr_l!=$prms_per_line_l ) {
