@@ -262,7 +262,7 @@ sub read_01c_conf_ip_addr {
     my $return_str_l='OK';
     
     my %ipv4_uniq_check_hash_l=();
-	#key=ipv4, value=conf_id
+    	#key=ipv4, value=conf_id
     my %res_tmp_lv0_l=();
         #key=string with params from cfg, value=1
     my %res_tmp_lv1_l=(); # result hash
@@ -296,9 +296,9 @@ sub read_01c_conf_ip_addr {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
-
-	$exec_res_l=&ipv4_addr_opts_check($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$file_l);
-	#$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
+    
+    	$exec_res_l=&ipv4_addr_opts_check($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$file_l);
+    	#$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
@@ -312,27 +312,27 @@ sub read_01c_conf_ip_addr {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
-
-	$exec_res_l=&ipv4_additional_check($ipv4_addr_l,$conf_id_l,\%ipv4_uniq_check_hash_l,$file_l);
-	#$ipv4_addr_l,$conf_id_l,$ipv4_uniq_check_href_l,$conf_file_l
+    
+    	$exec_res_l=&ipv4_additional_check($ipv4_addr_l,$conf_id_l,\%ipv4_uniq_check_hash_l,$file_l);
+    	#$ipv4_addr_l,$conf_id_l,$ipv4_uniq_check_href_l,$conf_file_l
     	if ( $exec_res_l=~/^fail/ ) {
     	    $return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
     	    last;
     	}
     	### additional checks (end)
-	
-	# WRITE to %res_tmp_lv1_l
-	$res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'ipv4'}=$ipv4_addr_l;
-	
-	if ( $ipv4_addr_l ne 'dhcp' ) {
-	    $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'gw_ipv4'}=$gw_ipv4_l;
-	    $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'prefix_ipv4'}=$prefix_ipv4_l;
-	}
-	###
+    	
+    	# WRITE to %res_tmp_lv1_l
+    	$res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'ipv4'}=$ipv4_addr_l;
+    	
+    	if ( $ipv4_addr_l ne 'dhcp' ) {
+    	    $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'gw_ipv4'}=$gw_ipv4_l;
+    	    $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}{'prefix_ipv4'}=$prefix_ipv4_l;
+    	}
+    	###
     	
     	# clear vars
     	($inv_host_l,$conf_id_l,$ipv4_addr_opts_l)=(undef,undef,undef);
-	($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=(undef,undef,undef);
+    	($ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l)=(undef,undef,undef);
     	###
     }
     
@@ -358,16 +358,16 @@ sub read_01c_conf_ip_addr {
     	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
     	###
-	
-	if ( $return_str_l=~/^fail/ ) { last; }
+    	
+    	if ( $return_str_l=~/^fail/ ) { last; }
     }
-
+    
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
     ($hkey1_l,$hval1_l)=(undef,undef);
     ###
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (end)
-
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
     # fill result hash
