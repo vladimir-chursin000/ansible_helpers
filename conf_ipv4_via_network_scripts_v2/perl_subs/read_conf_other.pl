@@ -29,11 +29,11 @@ sub read_inventory_file {
         }
     }
     close(INVDATA);
-
+    
     ($line_l,$start_read_hosts_flag_l)=(undef,undef);
-
+    
     if ( $value_cnt_l<1 ) { return "fail [$proc_name_l]. No needed data at file='$file_l'"; }
-
+    
     return 'OK';
 }
 
@@ -42,7 +42,7 @@ sub read_network_data_for_checks {
     #file_l=$ifcfg_backup_from_remote_nd_file_g
     #res_href_l=hash-ref for %inv_hosts_network_data_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my ($line_l,$value_cnt_l)=(undef,0);
     my @arr0_l=undef;
     
