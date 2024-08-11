@@ -48,35 +48,35 @@ sub read_uniq_lines_with_params_from_config {
                 $return_str_l="fail [$proc_name_l]. Duplicated value ('$line_l') at file='$file_l'. Fix it!";
                 last;
             }
-    
-	    (@str_arr_l)=$line_l=~/\S+/g;
-	    
-	    if ( $#str_arr_l!=$prms_per_line_l ) {
-		$return_str_l="fail [$proc_name_l]. Conf-line='$line_l' must contain $prms_per_line_l params. Please, check and correct config-file ('$file_l')";
-		last;
-	    }
-	    
+    	
+    	    (@str_arr_l)=$line_l=~/\S+/g;
+    	    
+    	    if ( $#str_arr_l!=$prms_per_line_l ) {
+    		$return_str_l="fail [$proc_name_l]. Conf-line='$line_l' must contain $prms_per_line_l params. Please, check and correct config-file ('$file_l')";
+    		last;
+    	    }
+    	    
             push(@{$res_tmp_lv0_l{'seq'}},$line_l);
             $res_tmp_lv0_l{$line_l}=[@str_arr_l];
-	    
-	    # clear vars
-	    @str_arr_l=();
-	    ###
+    	    
+    	    # clear vars
+    	    @str_arr_l=();
+    	    ###
         }
     }
     close(CONF_LINES);
-
+    
     $line_l=undef;
-
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; } # check for return_str err after lv1-read
     ###
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv0_l;
     ###
-
+    
     %res_tmp_lv0_l=();
-
+    
     return $return_str_l;
 }
 
