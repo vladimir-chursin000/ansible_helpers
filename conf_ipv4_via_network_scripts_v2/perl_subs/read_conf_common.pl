@@ -88,7 +88,7 @@ sub read_conf_lines_with_priority_by_first_param {
     	#$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$needed_elements_at_line_arr_l=needed count of elements at array formed from line
     #$add_ind4key_l (addditional index of array for hash-key)=by default at result hash key=first element of 
-	#array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
+    	#array (with 0 index), but if set add_ind_l -> key="0+add_ind_l"
     #res_href_l=hash ref for result-hash
     	#key=inventory-host (arr-0), value=[arr-1,arr-2,etc]
     ###
@@ -127,7 +127,7 @@ sub read_conf_lines_with_priority_by_first_param {
     	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
     	    $line_l=~s/ \,/\,/g;
     	    $line_l=~s/\, /\,/g;
-	    
+    	    
     	    @arr0_l=$line_l=~/(\S+)/g;
     	    
     	    # arr0_l element count check
@@ -137,7 +137,7 @@ sub read_conf_lines_with_priority_by_first_param {
     	    	last;
     	    }
     	    ###
-	    
+    	    
     	    # key-ind uniq check
     	    $key_ind_l=$arr0_l[0];
     	    if ( $add_ind4key_l>0 ) { $key_ind_l.='+'.$arr0_l[$add_ind4key_l]; }
