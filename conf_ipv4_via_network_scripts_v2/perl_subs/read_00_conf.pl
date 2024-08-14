@@ -23,10 +23,10 @@ sub read_00_conf_divisions_for_inv_hosts {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
-    
+	
         $line_l=~s/\, /\,/g;
         $line_l=~s/ \,/\,/g;
-    
+	
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             #DIVISION_NAME/GROUP_NAME       #LIST_OF_HOSTS
             ###
@@ -47,12 +47,12 @@ sub read_00_conf_divisions_for_inv_hosts {
             foreach $arr_el0_l ( @arr1_l ) {
                 #$arr0_l[0]=group-name
                 #$arr_el0_l=inv-host
-
+	
                 if ( !exists(${$inv_hosts_href_l}{$arr_el0_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Inv-host='$arr_el0_l' is not exists at inventory-file (conf '00_conf_divisions_for_inv_hosts')";
                     last;
                 }
-
+	
                 if ( exists($group_uniq_hosts_l{$arr_el0_l}) ) {
                     $return_str_l="fail [$proc_name_l]. Inv-host='$arr_el0_l' is already used for host_group='$group_uniq_hosts_l{$arr_el0_l}' at conf '00_conf_divisions_for_inv_hosts'";
                     last;
@@ -65,7 +65,7 @@ sub read_00_conf_divisions_for_inv_hosts {
             $arr_el0_l=undef;
             @arr0_l=();
             @arr1_l=();
-    
+	
             if ( $return_str_l!~/^OK$/ ) { last; }
         }
     }
