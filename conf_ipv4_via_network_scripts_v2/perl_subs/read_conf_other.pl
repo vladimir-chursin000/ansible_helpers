@@ -81,12 +81,12 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
     #$inv_hosts_hash0_href_l=hash ref for %inv_hosts_hash0_g
     #$res_href_l=hash ref for %inv_hosts_hash1_g
     my $proc_name_l=(caller(0))[3];
-
+    
     my $line_l=undef;
     my $is_wireless_interface_l=0; # if == 1 (is wireless interface) -> ignore (no add to res_href_l)
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
-
+    
     while ( ($hkey0_l,$hval0_l)=each %{$inv_hosts_hash0_href_l} ) {
         #hkey0_g=inv_host
         opendir(DIR_FIN,$dyn_ifcfg_common_dir_l.'/'.$hkey0_l.'/fin');
@@ -102,9 +102,9 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
         while ( readdir DIR_NOW ) {
             $line_l=$_;
             if ( $line_l=~/^\./ ) { next; }
-
+    
             $is_wireless_interface_l=`grep -i 'TYPE=Wireless' "$ifcfg_backup_from_remote_dir_l/$hkey0_l/$line_l" | wc -l`;
-
+    
             if ( $line_l!~/^\.|^ifcfg\-lo$/ && $is_wireless_interface_l!=1 ) {
                 ${$res_href_l}{$hkey0_l}{'now'}{$line_l}=1;
             }
@@ -115,7 +115,7 @@ sub fill_inv_hosts_hash1_with_fin_n_now_dirs {
             ###
         }
         closedir(DIR_NOW);
-
+    
         delete(${$inv_hosts_hash0_href_l}{$hkey0_l});
     }
     
