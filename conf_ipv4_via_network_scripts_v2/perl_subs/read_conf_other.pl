@@ -150,34 +150,34 @@ sub modify_inv_hosts_hash1 {
             else {
                 $exec_res_l=&ifcfg_diff_with_zone_param_save("$dyn_ifcfg_common_dir_l/$hkey0_l/fin/$hkey1_l","$ifcfg_backup_from_remote_dir_l/$hkey0_l/$hkey1_l");
                 #$ifcfg_generated_file_l,$ifcfg_from_remote_file_l
-    
+	
                 if ( $exec_res_l>0 ) { #if generated ifcfg (fin) not eq actual (now) -> for_upd
                     ${$res_href_l}{$hkey0_l}{'for_upd'}{$hkey1_l}=1;
                 }
             }
         }
         ($hkey1_l,$hval1_l)=(undef,undef);
-    
+	
         if ( exists(${$inv_hosts_ifcfg_del_not_configured_href_l}{$hkey0_l}) ) { #if need to configure AND to delete not configured at '00_config' interfaces
             while ( ($hkey1_l,$hval1_l)=each %{${$hval0_l}{'now'}} ) {
                 #hkey1_l=ifcfg_name
-    
+		
                 #$ifcfg_backup_from_remote_nd_file_l = file for grep-check. If ifcfg-int at this file for cur inv_host -> no 'ip link delete'
                 if ( !exists(${$hval0_l}{'fin'}{$hkey1_l}) ) { #interface for delete -> for_del
                     $tmp_var_l=$hkey1_l;
                     $tmp_var_l=~s/^ifcfg\-//g; # now-ifcfg-name without 'ifcfg-'
                     $exec_res_l=`grep -a $hkey0_l $ifcfg_backup_from_remote_nd_file_l | grep $tmp_var_l | wc -l`;
-    		    #hkey0_l=inv-host
-    		    #ifcfg_backup_from_remote_nd_file_l=path to 'inv_hosts_interfaces_info.txt'
+    	    	    #hkey0_l=inv-host
+    	    	    #ifcfg_backup_from_remote_nd_file_l=path to 'inv_hosts_interfaces_info.txt'
                     $exec_res_l=~s/\n|\r|\n\r|\r\n//g;
                     $exec_res_l=int($exec_res_l);
-    
+		    
                     ${$res_href_l}{$hkey0_l}{'for_del'}{$hkey1_l}=1; # just shutdown and delete ifcfg-file
-    
+		    
                     if ( $exec_res_l!=1 ) { # not exists at 'fin' (generated) and interface-name not exists at remote host
                         ${$res_href_l}{$hkey0_l}{'for_del_ip_link'}{$tmp_var_l}=1; # if included (means not interface-ifcfg) -> 'ip link delete'
                     }
-    
+		    
                     ($tmp_var_l,$exec_res_l)=(undef,undef);
                 }
             }
