@@ -27,33 +27,33 @@ sub read_uniq_lines_with_params_from_config {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
-    
+	
         $line_l=~s/ \./\./g;
         $line_l=~s/\. /\./g;
-    
+	
         $line_l=~s/ \,/\,/g;
         $line_l=~s/\, /\,/g;
-    
+	
         $line_l=~s/ \:/\:/g;
         $line_l=~s/\: /\:/g;
-    
+	
         $line_l=~s/ \=/\=/g;
         $line_l=~s/\= /\=/g;
-    
+	
         $line_l=~s/ \//\//g;
         $line_l=~s/\/ /\//g;
-    
+	
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             if ( exists($res_tmp_lv0_l{$line_l}) ) { # duplicated value
                 $return_str_l="fail [$proc_name_l]. Duplicated value ('$line_l') at file='$file_l'. Fix it!";
                 last;
             }
-    	
+    	    
     	    (@str_arr_l)=$line_l=~/\S+/g;
     	    
     	    if ( $#str_arr_l!=$prms_per_line_l ) {
-    		$return_str_l="fail [$proc_name_l]. Conf-line='$line_l' must contain $prms_per_line_l params. Please, check and correct config-file ('$file_l')";
-    		last;
+    	    	$return_str_l="fail [$proc_name_l]. Conf-line='$line_l' must contain $prms_per_line_l params. Please, check and correct config-file ('$file_l')";
+    	    	last;
     	    }
     	    
             push(@{$res_tmp_lv0_l{'seq'}},$line_l);
@@ -123,7 +123,7 @@ sub read_conf_lines_with_priority_by_first_param {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
     	$line_l=~s/ $//g;
-	
+    	
     	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
     	    $line_l=~s/ \,/\,/g;
     	    $line_l=~s/\, /\,/g;
