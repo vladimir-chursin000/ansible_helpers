@@ -27,22 +27,22 @@ sub read_uniq_lines_with_params_from_config {
         $line_l=~s/\s+/ /g;
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
-	
+    	
         $line_l=~s/ \./\./g;
         $line_l=~s/\. /\./g;
-	
+    	
         $line_l=~s/ \,/\,/g;
         $line_l=~s/\, /\,/g;
-	
+    	
         $line_l=~s/ \:/\:/g;
         $line_l=~s/\: /\:/g;
-	
+    	
         $line_l=~s/ \=/\=/g;
         $line_l=~s/\= /\=/g;
-	
+    	
         $line_l=~s/ \//\//g;
         $line_l=~s/\/ /\//g;
-	
+    	
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
             if ( exists($res_tmp_lv0_l{$line_l}) ) { # duplicated value
                 $return_str_l="fail [$proc_name_l]. Duplicated value ('$line_l') at file='$file_l'. Fix it!";
