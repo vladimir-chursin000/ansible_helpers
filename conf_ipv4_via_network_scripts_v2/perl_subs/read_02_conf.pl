@@ -41,9 +41,10 @@ sub read_02_dns_settings {
     	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
     	# list of inventory hosts separated by "," or individual hosts (2).
     ###
-    # LIST_OF_NAME_SERVERS - list of params for 'resolv.conf'.
-    # Format = "search-domain=somedomain.org,nameserver1,nameserver2,etc"
-    # or "nameserver1,nameserver2,etc" (without param 'search-domain').
+    # LIST_OF_NAME_SERVERS - list of params for 'resolv.conf'. Format = "search-domain=somedomain.org,nameserver1,nameserver2,etc"
+    # or "nameserver1,nameserver2,etc" (without param 'search-domain')
+    # or "no-name-servers" (remove all name servers and search domain from 'resolv.conf')
+    # or "do-not-touch" (do not modify the file 'resolv.conf').
     ###
     #INVENTORY_HOST                 #LIST_OF_NAME_SERVERS
     ###############
