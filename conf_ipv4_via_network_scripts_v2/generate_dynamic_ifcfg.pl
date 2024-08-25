@@ -103,7 +103,7 @@ our %h01d_conf_bond_opts_hash_g=();
 #Else -> 'bond-opts-value'.
 ###
 our %h02_dns_settings_hash_g=();
-#key=inv_host, value=[search-domain(optional), array of nameservers]
+#key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
 ###
 our %h03_config_del_not_configured_ifcfg_hash_g=();
 #Key=inv_host
