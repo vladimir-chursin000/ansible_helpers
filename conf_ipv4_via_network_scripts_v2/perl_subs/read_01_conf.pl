@@ -435,11 +435,11 @@ sub read_01d_conf_bond_opts {
     	    last;
     	}
     	### additional checks (end)
-	
-	# WRITE to %res_tmp_lv1_l
-	if ( $bond_opts_l eq 'def' ) { $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}='mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'; }
-	else { $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}=$bond_opts_l; }
-	###
+    	
+    	# WRITE to %res_tmp_lv1_l
+    	if ( $bond_opts_l eq 'def' ) { $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}='mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'; }
+    	else { $res_tmp_lv1_l{$inv_host_l}{$conf_id_l}=$bond_opts_l; }
+    	###
     	
     	# clear vars
     	($inv_host_l,$conf_id_l,$bond_opts_l)=(undef,undef,undef);
@@ -468,18 +468,18 @@ sub read_01d_conf_bond_opts {
     	# clear vars
     	($hkey1_l,$hval1_l)=(undef,undef);
     	###
-	
-	if ( $return_str_l=~/^fail/ ) { last; }
+    	
+    	if ( $return_str_l=~/^fail/ ) { last; }
     }
-
+    
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
     ($hkey1_l,$hval1_l)=(undef,undef);
     ###
     # check if some conf-ids from %h01b_conf_main_hash_g is not configured at %res_tmp_lv1_l (for bond-conns) (end)
-
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
-
+    
     # fill result hash
     %{$res_href_l}=%res_tmp_lv1_l;
     ###
