@@ -94,10 +94,10 @@ sub read_main_config {
     my @int_list_arr_l=();
     my @hwaddr_list_arr_l=();
     my @ipaddr_opts_arr_l=();
-
+    
     my $bond_opts_str_def_l='mode=4 xmit_hash_policy=2 lacp_rate=1 miimon=100';
     my $bond_opts_str_l=$bond_opts_str_def_l;
-
+    
     my %cfg0_uniq_check_l=();
     #Checks (uniq) for novlan interfaces at current inv_host.
     #$cfg0_uniq_check{inv_host}{'common'}{interface_name}=conf_id; #if interface_name ne 'no' and vlan_id eq 'no'.
@@ -119,15 +119,15 @@ sub read_main_config {
     ######
     my %defroute_check_l=();
     #$defroute_check_l{inv_host}=conf_id; ###2
-
+    
     my ($inv_host_l,$conf_id_l,$conf_type_l,$int_list_str_l,$hwaddr_list_str_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$ipaddr_opts_l,$bond_opts_l,$defroute_l)=(undef,undef,undef,undef,undef,undef,undef,undef,undef,undef,undef);
         
     open(CONF,'<',$file_l);
     while ( <CONF> ) {
-	$line_l=$_;
-	$line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
-	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
-	$line_l=~s/\s+/ /g;
+    	$line_l=$_;
+    	$line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
+    	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
+    	$line_l=~s/\s+/ /g;
 	$line_l=~s/^ //g;
 	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
     	    $line_l=~s/ \,/\,/g;
