@@ -128,8 +128,8 @@ sub read_main_config {
     	$line_l=~s/\n$|\r$|\n\r$|\r\n$//g;
     	while ($line_l=~/\t/) { $line_l=~s/\t/ /g; }
     	$line_l=~s/\s+/ /g;
-	$line_l=~s/^ //g;
-	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
+    	$line_l=~s/^ //g;
+    	if ( length($line_l)>0 && $line_l!~/^\#/ ) {
     	    $line_l=~s/ \,/\,/g;
     	    $line_l=~s/\, /\,/g;
     	    $line_l=~s/ \, /\,/g;
@@ -145,20 +145,20 @@ sub read_main_config {
     	    }
     	
     	    ($inv_host_l,$conf_id_l,$conf_type_l,$int_list_str_l,$hwaddr_list_str_l,$vlan_id_l,$bond_name_l,$bridge_name_l,$ipaddr_opts_l,$bond_opts_l,$defroute_l)=@arr0_l;
-
-	    $hwaddr_list_str_l=lc($hwaddr_list_str_l);
+    
+    	    $hwaddr_list_str_l=lc($hwaddr_list_str_l);
     	    
     	    #######check conf_type
     	    if ( $conf_type_l!~/^just_interface$|^virt_bridge$|^just_bridge$|^just_bond$|^bond\-bridge$|^interface\-vlan$|^bridge\-vlan$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) {
-		# -> &conf_type_simple_check
+    		# -> &conf_type_simple_check
     		$return_str_l="fail [$proc_name_l]. Wrong conf_type='$conf_type_l'. Conf_type must be 'just_interface/virt_bridge/just_bridge/just_bond/bond-bridge/interface-vlan/bridge-vlan/bond-vlan/bond-bridge-vlan'. Please, check and correct config-file ('00_config')";
-		last;
+    		last;
     	    }
-	    if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
-		# -> &conf_type_additional_check
-		$return_str_l="fail [$proc_name_l]. For vlan-config-type param vlan_id must be a NUMBER. Please, check and correct config-file ('00_config')";
-		last;
-	    }
+    	    if ( $conf_type_l=~/\-vlan$/ && $vlan_id_l eq 'no' ) {
+    		# -> &conf_type_additional_check
+    		$return_str_l="fail [$proc_name_l]. For vlan-config-type param vlan_id must be a NUMBER. Please, check and correct config-file ('00_config')";
+    		last;
+    	    }
     	    #######check conf_type
     	    
     	    #######defroute check -> &defroute_additional_check
