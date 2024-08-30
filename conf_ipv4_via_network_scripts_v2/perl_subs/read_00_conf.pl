@@ -213,39 +213,39 @@ sub read_main_config {
     		}
     		if ( $bond_name_l eq 'no' ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_types='bond-bridge/bond-bridge-vlan' bond_name must be NOT 'no'. Please, check and correct config-file ('00_config')";
-		    last;
+    		    last;
     		}
     	    }
     	    #######bond_name/bridge_name simple checks
-	    
+    	    
     	    #######IPADDRv4 PREcheck via regexp
     	    if ( $conf_type_l!~/^virt_bridge$/ && $ipaddr_opts_l!~/^dhcp$|^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
     		$return_str_l="fail [$proc_name_l]. IPv4_ADDR_OPTS must be 'dhcp' or 'ipv4,gw,netmask' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		last;
+    		last;
     	    }
     	    elsif ( $conf_type_l=~/^virt_bridge$/ && $ipaddr_opts_l!~/^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\,nogw\,\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/ ) {
     		$return_str_l="fail [$proc_name_l]. IPv4_ADDR_OPTS for conf_type='virt-bridge' (conf_id='$conf_id_l') must be 'ipv4,nogw,netmask' (for example '10.1.1.1,nogw,255.255.255.0'). Please, check and correct config-file ('00_config')";
-		last;
+    		last;
     	    }
     	    #######IPADDRv4 PREcheck via regexp
-	    
+    	    
     	    #######extract complex vars
     	    @int_list_arr_l=split(/\,/,$int_list_str_l);
     	    @hwaddr_list_arr_l=split(/\,/,$hwaddr_list_str_l);
     	    @ipaddr_opts_arr_l=split(/\,/,$ipaddr_opts_l);
-	    $bond_opts_str_l=$bond_opts_str_def_l;
+    	    $bond_opts_str_l=$bond_opts_str_def_l;
     	    if ( $conf_type_l=~/^just_bond$|^bond\-vlan$|^bond\-bridge$|^bond\-bridge\-vlan$/ && $bond_opts_l!~/^def$/ ) {
     		$bond_opts_str_l=$bond_opts_l;
     		$bond_opts_str_l=~s/\,/ /g;
     	    }
     	    #######extract complex vars
-	    
-	    #######CHECK if ip=gw
-	    if ( $ipaddr_opts_arr_l[0] eq $ipaddr_opts_arr_l[1] ) {
-		$return_str_l="fail [$proc_name_l]. It is deny to set ip=gw (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		last;
-	    }
-	    #######CHECK if ip=gw
+    	    
+    	    #######CHECK if ip=gw
+    	    if ( $ipaddr_opts_arr_l[0] eq $ipaddr_opts_arr_l[1] ) {
+    		$return_str_l="fail [$proc_name_l]. It is deny to set ip=gw (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
+    		last;
+    	    }
+    	    #######CHECK if ip=gw
     	    
     	    #######interfaces + hwaddr count checks for each conf_type
     	    if ( $conf_type_l=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
