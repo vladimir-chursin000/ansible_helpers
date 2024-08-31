@@ -251,30 +251,30 @@ sub read_main_config {
     	    if ( $conf_type_l=~/^virt_bridge$/ ) { #for conf_type=virt_bridge. No interfaces
     		if ( $#hwaddr_list_arr_l!=0 ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		    last;
+    		    last;
     		}
     		if ( $#int_list_arr_l>0 or $int_list_arr_l[0] ne 'no' ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain only 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		    last;
+    		    last;
     		}
     	    }
     	    
     	    if ( $conf_type_l=~/^just_interface$|^interface\-vlan$|^bridge\-vlan$/ ) { #for conf_types where possible using only one interface
-		# prev = $conf_type_l=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/
+    		# prev = $conf_type_l=~/^just_interface$|^just_bridge$|^interface\-vlan$|^bridge\-vlan$/
     		if ( ($#int_list_arr_l==$#hwaddr_list_arr_l && $#int_list_arr_l!=0) or $#int_list_arr_l!=$#hwaddr_list_arr_l ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' must be configured only one HWADDR (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		    last;
+    		    last;
     		}
     		if ( $int_list_arr_l[0] eq 'no' ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' int_list must contain interface names, but not 'no' (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		    last;
+    		    last;
     		}
     	    }
     	    
     	    if ( $conf_type_l=~/^just_bond$|^bond\-bridge$|^bond\-vlan$|^bond\-bridge\-vlan$/ ) { #for conf_types where >=2 interfaces
     		if ( $#int_list_arr_l<1 or $#int_list_arr_l!=$#hwaddr_list_arr_l ) {
     		    $return_str_l="fail [$proc_name_l]. For conf_type='$conf_type_l' amount of interfaces must = amount of hwaddr and amount of interfaces must be >= 2 (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-		    last;
+    		    last;
     		}
     		foreach $arr_el0_l ( @int_list_arr_l ) {
     		    if ( $arr_el0_l eq 'no' ) {
@@ -284,21 +284,21 @@ sub read_main_config {
     		}
     		$arr_el0_l=undef;
     	    }
-	    
-	    if ( $return_str_l!~/^OK$/ ) { last; }
+    	    
+    	    if ( $return_str_l!~/^OK$/ ) { last; }
     	    #######interfaces + hwaddr count checks for each conf_type
     	    
     	    #######hwaddr check via regexp
-	    if ( $conf_type_l!~/^virt_bridge$/ ) {
+    	    if ( $conf_type_l!~/^virt_bridge$/ ) {
     		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
     		    if ( $arr_el0_l!~/^\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}\:\S{2}$/ ) {
     			$return_str_l="fail [$proc_name_l]. HWADDR must be like 'XX:XX:XX:XX:XX:XX' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-			last;
+    			last;
     		    }
     		}
-	    }
-	    else {
-		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
+    	    }
+    	    else {
+    		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
     		    if ( $arr_el0_l!~/^no$/ ) {
     			$return_str_l="fail [$proc_name_l]. HWADDR for virt_bridge must be 'no' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
 			last;
