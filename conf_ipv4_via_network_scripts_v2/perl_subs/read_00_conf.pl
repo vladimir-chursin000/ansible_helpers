@@ -301,19 +301,19 @@ sub read_main_config {
     		foreach $arr_el0_l ( @hwaddr_list_arr_l ) {
     		    if ( $arr_el0_l!~/^no$/ ) {
     			$return_str_l="fail [$proc_name_l]. HWADDR for virt_bridge must be 'no' (incorrect value='$arr_el0_l') (conf_id='$conf_id_l'). Please, check and correct config-file ('00_config')";
-			last;
+    			last;
     		    }
     		}
-	    }
-	    
-	    if ( $return_str_l!~/^OK$/ ) { last; }
+    	    }
+    	    
+    	    if ( $return_str_l!~/^OK$/ ) { last; }
     	    #######hwaddr check via regexp
     	    
-	    #######NETWORK DATA (ip link) checks
-	    if ( $conf_type_l!~/^virt_bridge$/ ) {
-		#our %inv_hosts_network_data_g=();
-		#read 'ip_link_noqueue' first
-		#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
+    	    #######NETWORK DATA (ip link) checks
+    	    if ( $conf_type_l!~/^virt_bridge$/ ) {
+    		#our %inv_hosts_network_data_g=();
+    		#read 'ip_link_noqueue' first
+    		#v1) key0='hwaddr_all', key1=hwaddr, value=inv_host
 		#v2) key0='inv_host', key1=inv_host, key2=interface_name, key3=hwaddr
 		for ( $arr_i0_l=0; $arr_i0_l<=$#hwaddr_list_arr_l; $arr_i0_l++ ) {
 		    if ( exists(${$inv_hosts_network_data_href_l}{'hwaddr_all'}{$hwaddr_list_arr_l[$arr_i0_l]}) && $inv_host_l ne ${$inv_hosts_network_data_href_l}{'hwaddr_all'}{$hwaddr_list_arr_l[$arr_i0_l]} ) {
