@@ -40,7 +40,7 @@ elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
     INV_LIMIT_str=$TMP_VAR_str;
     echo "GROUP content='$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
     TMP_VAR_str='';
-
+    
     TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
     for TMP_VAR_str in "${TMP_arr[@]}"
     do
@@ -49,12 +49,12 @@ elif [[ "$INV_LIMIT_str" =~ ^"gr_" ]]; then
             exit;
         fi;
     done;
-
+    
     TMP_VAR_str='';
     TMP_arr=();
 else
     echo "INV_LIMIT = '$INV_LIMIT_str'" | tee -a $LOG_FILE_str;
-
+    
     TMP_arr=($(echo "$INV_LIMIT_str" | sed 's/,/\n/g'));
     for TMP_VAR_str in "${TMP_arr[@]}"
     do
@@ -63,7 +63,7 @@ else
             exit;
         fi;
     done;
-
+    
     TMP_VAR_str='';
     TMP_arr=();
 fi;
@@ -71,9 +71,9 @@ fi;
 
 if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; then
     if [[ "$PLAYBOOK_BEFORE_str" =~ "ifcfg_backup" ]]; then
-	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
-	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
-	echo "Remove prev downloaded data from '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE_str;
+    	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
+    	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
+    	echo "Remove prev downloaded data from '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE_str;
     fi;
     ###
     echo " " | tee -a $LOG_FILE_str;
