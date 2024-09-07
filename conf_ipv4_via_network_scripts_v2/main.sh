@@ -82,23 +82,23 @@ if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; th
     /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
     
     if [[ "$PLAYBOOK_BEFORE_str" =~ "ifcfg_backup" ]]; then
-	/usr/bin/perl "$SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data";
-	echo "Run script (after playbook '$PLAYBOOK_BEFORE_str'): $SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
+    	/usr/bin/perl "$SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data";
+    	echo "Run script (after playbook '$PLAYBOOK_BEFORE_str'): $SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
     fi;
 fi;
 
 if [[ ! -z "$GEN_DYN_IFCFG_RUN_str" ]] && [[ "$GEN_DYN_IFCFG_RUN_str" =~ "yes" ]]; then
     if [[ "$GEN_DYN_IFCFG_RUN_str" == "yes" ]]; then
-	$SELF_DIR_str/generate_dynamic_ifcfg.pl "gen_dyn_playbooks";
-	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks\"" | tee -a $LOG_FILE_str;
+    	$SELF_DIR_str/generate_dynamic_ifcfg.pl "gen_dyn_playbooks";
+    	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks\"" | tee -a $LOG_FILE_str;
     elif [[ "$GEN_DYN_IFCFG_RUN_str" == "yes_with_rollback" ]]; then
-	$SELF_DIR_str/generate_dynamic_ifcfg.pl "gen_dyn_playbooks_with_rollback";
-	echo "Run script (before playbook '$PLAYBOOK_str'): $SELF_DIR_str/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks_with_rollback\"" | tee -a $LOG_FILE_str;
+    	$SELF_DIR_str/generate_dynamic_ifcfg.pl "gen_dyn_playbooks_with_rollback";
+    	echo "Run script (before playbook '$PLAYBOOK_str'): $SELF_DIR_str/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks_with_rollback\"" | tee -a $LOG_FILE_str;
     fi;
-
+    
     if [[ ! -f "$SELF_DIR_str/GEN_DYN_IFCFG_STATUS" ]]; then
-	echo "File with status of execution of 'generate_dynamic_ifcfg.pl' is not exists. Exit!" | tee -a $LOG_FILE_str;
-	exit;
+    	echo "File with status of execution of 'generate_dynamic_ifcfg.pl' is not exists. Exit!" | tee -a $LOG_FILE_str;
+    	exit;
     fi;
     
     if [[ $(grep -L 'OK' "$SELF_DIR_str/GEN_DYN_IFCFG_STATUS") ]]; then
