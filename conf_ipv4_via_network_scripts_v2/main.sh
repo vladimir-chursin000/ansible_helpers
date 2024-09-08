@@ -102,8 +102,8 @@ if [[ ! -z "$GEN_DYN_IFCFG_RUN_str" ]] && [[ "$GEN_DYN_IFCFG_RUN_str" =~ "yes" ]
     fi;
     
     if [[ $(grep -L 'OK' "$SELF_DIR_str/GEN_DYN_IFCFG_STATUS") ]]; then
-	echo "Status of execution of 'generate_dynamic_ifcfg.pl' is not OK. Exit!" | tee -a $LOG_FILE_str;
-	exit;
+    	echo "Status of execution of 'generate_dynamic_ifcfg.pl' is not OK. Exit!" | tee -a $LOG_FILE_str;
+    	exit;
     fi;
 fi;
 
