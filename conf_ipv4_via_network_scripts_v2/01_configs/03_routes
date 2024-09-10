@@ -4,7 +4,7 @@
     # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
     # list of inventory hosts separated by "," or individual hosts (2).
 ###
-# LIST_OF_NAME_ROUTES - list of routes. 
+# LIST_OF_NAME_ROUTES - list of routes separated by ";". Format = "IP/SUBNET-addr,PREFIX,METRIC".
 ###
 #INVENTORY_HOST			#LIST_OF_NAME_ROUTES
 ###EXAMPLES
