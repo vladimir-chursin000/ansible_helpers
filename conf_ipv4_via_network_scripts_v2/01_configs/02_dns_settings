@@ -10,10 +10,11 @@
 # or "do-not-touch" (do not modify the file 'resolv.conf').
 ###
 #INVENTORY_HOST			#LIST_OF_NAME_SERVERS
-###EXAMPLES
+###EXAMPLES (begin)
 #all				search-domain=somedomain.com,192.168.1.1,192.168.2.1
 #gr_some_example_group0		192.168.3.1,192.168.4.1
 #192.168.1.10,192.168.1.100	search-domain=somedomain0.com,192.168.1.7,192.168.2.8
 #192.168.1.11			192.168.10.1,192.168.10.2,192.168.10.4
 #192.168.2.12			no-name-servers
 #192.168.2.13			do-not-touch
+###EXAMPLES (end)
