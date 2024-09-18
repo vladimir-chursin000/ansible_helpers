@@ -49,6 +49,7 @@ our $f01b_conf_main_path_g=$self_dir_g.'/01_configs/01b_conf_main';
 our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
 our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
 our $f02_dns_settings_path_g=$self_dir_g.'/01_configs/02_dns_settings';
+our $f03_routes_path_g=$self_dir_g.'/01_configs/03_routes';
 our $f03_config_del_not_configured_ifcfg_path_g=$self_dir_g.'/01_configs/03_config_del_not_configured_ifcfg';
 our $f04_config_temporary_apply_ifcfg_path_g=$self_dir_g.'/01_configs/04_config_temporary_apply_ifcfg';
 
