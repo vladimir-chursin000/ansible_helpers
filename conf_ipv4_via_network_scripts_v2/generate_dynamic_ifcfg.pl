@@ -53,7 +53,6 @@ our $f03_routes_path_g=$self_dir_g.'/01_configs/03_routes';
 our $f04_not_configured_ifcfg_path_g=$self_dir_g.'/01_configs/04_not_configured_ifcfg';
 our $f04_config_temporary_apply_ifcfg_path_g=$self_dir_g.'/01_configs/04_config_temporary_apply_ifcfg';
 
-our $conf_file_del_not_configured_g=$self_dir_g.'/01_configs/02_config_del_not_configured_ifcfg';
 our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg';
 ###CFG file (end)
 
@@ -108,13 +107,12 @@ our %h02_dns_settings_hash_g=();
 ###
 our %h03_routes_hash_g=();
 ###
-our %h03_config_del_not_configured_ifcfg_hash_g=();
+our %h04_not_configured_ifcfg_hash_g=();
 #Key=inv_host
 ###
 our %h04_config_temporary_apply_ifcfg_hash_g=();
 #key=inv_host/common, value=rollback_ifcfg_timeout
 ######
-our %inv_hosts_ifcfg_del_not_configured_g=(); #for config '02_config_del_not_configured_ifcfg'. Key=inv_host
 our %inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
 ############VARS (end)
 
