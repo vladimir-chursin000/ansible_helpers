@@ -50,10 +50,8 @@ our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
 our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
 our $f02_dns_settings_path_g=$self_dir_g.'/01_configs/02_dns_settings';
 our $f03_routes_path_g=$self_dir_g.'/01_configs/03_routes';
-our $f04_not_configured_ifcfg_path_g=$self_dir_g.'/01_configs/04_not_configured_ifcfg';
-our $f04_config_temporary_apply_ifcfg_path_g=$self_dir_g.'/01_configs/04_config_temporary_apply_ifcfg';
-
-our $conf_temp_apply_g=$self_dir_g.'/01_configs/03_config_temporary_apply_ifcfg';
+our $f04_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/04_not_configured_interfaces';
+our $f05_conf_temp_apply_path_g=$self_dir_g.'/01_configs/05_conf_temp_apply';
 ###CFG file (end)
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper (begin)
@@ -106,14 +104,14 @@ our %h02_dns_settings_hash_g=();
 #key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
 ###
 our %h03_routes_hash_g=();
+#key=inv-host, value=[array of routes]
 ###
-our %h04_not_configured_ifcfg_hash_g=();
+our %h04_not_configured_interfaces_hash_g=();
 #Key=inv_host
 ###
-our %h04_config_temporary_apply_ifcfg_hash_g=();
-#key=inv_host/common, value=rollback_ifcfg_timeout
+our %h05_conf_temp_apply_hash_g=();
+#key=inv_host/common, value=rollback_timeout
 ######
-our %inv_hosts_tmp_apply_cfg_g=(); #key=inv_host/common, value=rollback_ifcfg_timeout
 ############VARS (end)
 
 ######MAIN SEQ (begin)
