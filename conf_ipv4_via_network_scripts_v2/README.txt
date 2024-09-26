@@ -7,7 +7,7 @@
 
 # 2) Fill conf_file='01_configs/00_config'. Example config='01_configs/00_config_examples'.
 
-# 3) Update config file '01_configs/01_dns_settings' for configure resolv.conf at remote hosts.
+# 3) Update config file '01_configs/01_conf_dns' for configure resolv.conf at remote hosts.
 
 # 4) If need to remove interfaces (shutdown and remove ifcfg-files) not included to '00_config' update config file '01_configs/02_config_del_not_configured_ifcfg'.
 

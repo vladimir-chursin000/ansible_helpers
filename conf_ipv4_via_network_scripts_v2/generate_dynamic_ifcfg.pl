@@ -49,7 +49,7 @@ our $f01a_conf_int_hwaddr_inf_path_g=$self_dir_g.'/01_configs/01a_conf_int_hwadd
 our $f01b_conf_main_path_g=$self_dir_g.'/01_configs/01b_conf_main';
 our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
 our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
-our $f02_dns_settings_path_g=$self_dir_g.'/01_configs/02_dns_settings';
+our $f02_conf_dns_path_g=$self_dir_g.'/01_configs/02_conf_dns';
 our $f03_routes_path_g=$self_dir_g.'/01_configs/03_routes';
 our $f04_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/04_not_configured_interfaces';
 our $f05_conf_temp_apply_path_g=$self_dir_g.'/01_configs/05_conf_temp_apply';
@@ -101,7 +101,7 @@ our %h01d_conf_bond_opts_hash_g=();
 #If bond-opts-value=def -> 'mode=4,xmit_hash_policy=2,lacp_rate=1,miimon=100'.
 #Else -> 'bond-opts-value'.
 ###
-our %h02_dns_settings_hash_g=();
+our %h02_conf_dns_hash_g=();
 #key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
 ###
 our %h03_routes_hash_g=();
@@ -201,7 +201,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     
     ######
         
-    $exec_res_g=&read_02_dns_settings($f02_dns_settings_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_dns_settings_hash_g);
+    $exec_res_g=&read_02_conf_dns($f02_conf_dns_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h02_conf_dns_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
     	$exec_status_g='FAIL';
@@ -209,7 +209,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     	last;
     }
     $exec_res_g=undef;
-    #print Dumper(\%h02_dns_settings_hash_g);
+    #print Dumper(\%h02_conf_dns_hash_g);
     
     ######
     
