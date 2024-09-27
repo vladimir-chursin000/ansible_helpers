@@ -50,7 +50,7 @@ our $f01b_conf_main_path_g=$self_dir_g.'/01_configs/01b_conf_main';
 our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
 our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
 our $f02_conf_dns_path_g=$self_dir_g.'/01_configs/02_conf_dns';
-our $f03_routes_path_g=$self_dir_g.'/01_configs/03_routes';
+our $f03_conf_routes_path_g=$self_dir_g.'/01_configs/03_conf_routes';
 our $f04_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/04_not_configured_interfaces';
 our $f05_conf_temp_apply_path_g=$self_dir_g.'/01_configs/05_conf_temp_apply';
 ###CFG file (end)
@@ -104,7 +104,7 @@ our %h01d_conf_bond_opts_hash_g=();
 our %h02_conf_dns_hash_g=();
 #key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
 ###
-our %h03_routes_hash_g=();
+our %h03_conf_routes_hash_g=();
 #key=inv-host, value=[array of routes]
 ###
 our %h04_not_configured_interfaces_hash_g=();
