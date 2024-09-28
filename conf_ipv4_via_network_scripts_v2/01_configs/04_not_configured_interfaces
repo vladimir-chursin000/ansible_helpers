@@ -1,4 +1,13 @@
-# Write here inventory hosts if you need to delete ifcfg-files and shutdown interfaces that not configured at file 'config'.
-# This setting is recommended to be used, for example, if you plan to rename interfaces (for example, ifcfg-br0 -> ifcfg-br00).
-# Configured Wi-Fi interfaces (with line 'TYPE=Wireless' at ifcfg-file) will not be deleted.
-# One line = one inventory host.
+### Write here inventory hosts if you need to delete ifcfg-files and shutdown interfaces that not configured at file 'config'.
+### This setting is recommended to be used, for example, if you plan to rename interfaces (for example, ifcfg-br0 -> ifcfg-br00).
+### One line = one inventory host.
+###
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+    # list of inventory hosts separated by "," or individual hosts (2).
+###
+# ACTION. Possible values: do-not-touch, 
+    # Configured Wi-Fi interfaces (with line 'TYPE=Wireless' at ifcfg-file) will not be deleted.
+###
+#INVENTORY_HOST                 #ACTION
