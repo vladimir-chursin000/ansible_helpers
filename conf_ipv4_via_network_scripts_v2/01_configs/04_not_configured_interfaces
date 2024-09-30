@@ -11,4 +11,10 @@
 	# This setting is recommended to be used, for example, if you plan to rename interfaces
 	    #(for example, ifcfg-br0 -> ifcfg-br00).
 ###
-#INVENTORY_HOST                 #ACTION
+#INVENTORY_HOST                 	#ACTION
+###EXAMPLES (begin)
+#all					do-not-touch
+#gr_some_example_group0			reconfigure
+#192.191.190.189,192.191.190.189	do-not-touch
+#192.191.190.180			reconfigure	
+###EXAMPLES (end)
