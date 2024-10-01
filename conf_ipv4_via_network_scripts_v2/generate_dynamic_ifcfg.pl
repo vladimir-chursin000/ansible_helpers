@@ -108,7 +108,7 @@ our %h03_conf_routes_hash_g=();
 #key=inv-host, value=[array of routes]
 ###
 our %h04_not_configured_interfaces_hash_g=();
-#Key=inv_host
+#Key=inv_host, value=do-not-touch/reconfigure
 ###
 our %h05_conf_temp_apply_hash_g=();
 #key=inv_host/common, value=rollback_timeout
