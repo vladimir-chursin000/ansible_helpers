@@ -1,7 +1,15 @@
-# Write here inventory hosts if you need to use temporary ifcfg apply mechanism of ifcfg-files.
-# One line = "inventory_host timeout_in_minutes" or "common timeout_in_minutes".
-# If "common" -> temporary ifcfg apply mechanism for all inventory hosts if run 'apply_temporary_ifcfg.sh'.
-###EXAMPLES
-#192.168.1.10   15
 ###
-common		10
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+    # list of inventory hosts separated by "," or individual hosts (2).
+###
+# TEMP_APPLY_TIMEOUT - temp apply timeout (in minutes).
+###
+#INVENTORY_HOST				#TEMP_APPLY_TIMEOUT
+###EXAMPLES (begin)
+#all                                    15
+#gr_some_example_group0                 10
+#192.191.190.189,192.191.190.189        4
+#192.191.190.180                        5
+###EXAMPLES (end)
