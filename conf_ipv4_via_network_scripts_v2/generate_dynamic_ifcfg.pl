@@ -111,7 +111,7 @@ our %h04_not_configured_interfaces_hash_g=();
 #Key=inv_host, value=do-not-touch/reconfigure
 ###
 our %h05_conf_temp_apply_hash_g=();
-#key=inv_host/common, value=rollback_timeout
+#key=inv_host, value=rollback_timeout
 ######
 ############VARS (end)
 
