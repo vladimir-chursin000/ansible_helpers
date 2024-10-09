@@ -27,5 +27,8 @@ sub read_config_temporary_apply_ifcfg {
     return $return_str_l;
 }
 
+sub read_05_conf_temp_apply {
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )

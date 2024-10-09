@@ -27,5 +27,9 @@ sub read_config_del_not_configured_ifcfg {
     return $return_str_l;
 }
 
+sub read_04_not_configured_interfaces {
+    
+}
+
 #With best regards
 #Chursin Vladimir ( https://github.com/vladimir-chursin000 )
