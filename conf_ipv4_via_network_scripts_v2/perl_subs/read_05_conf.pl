@@ -28,6 +28,7 @@ sub read_config_temporary_apply_ifcfg {
 }
 
 sub read_05_conf_temp_apply {
+    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l)=@_;
 }
 
 #With best regards

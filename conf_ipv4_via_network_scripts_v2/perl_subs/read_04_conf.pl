@@ -28,7 +28,7 @@ sub read_config_del_not_configured_ifcfg {
 }
 
 sub read_04_not_configured_interfaces {
-    
+    my ($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l)=@_;
 }
 
 #With best regards
