@@ -7,6 +7,16 @@ sub read_03_conf_routes {
     #$res_href_l=hash ref for %h03_conf_routes_hash_g
 	#key=inv-host, value=[array of routes]
     ###############
+    # INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+	# If "all" -> the configuration will be applied to all inventory hosts.
+        # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+        # list of inventory hosts separated by "," or individual hosts (2).
+    ###
+    # LIST_OF_ROUTES - list of routes separated by ";". Format for one route = "IP/SUBNET-addr,PREFIX,GW,METRIC".
+    ###
+    #INVENTORY_HOST                 #LIST_OF_ROUTES
+    ###############
+
 }
 
 #With best regards
