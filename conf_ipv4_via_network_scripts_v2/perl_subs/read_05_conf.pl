@@ -36,6 +36,15 @@ sub read_05_conf_temp_apply {
     #$res_href_l=hash ref for %h05_conf_temp_apply_hash_g
         #key=inv_host, value=rollback_timeout
     ###############
+    # INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+	# If "all" -> the configuration will be applied to all inventory hosts.
+	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+	# list of inventory hosts separated by "," or individual hosts (2).
+    ###
+    # TEMP_APPLY_TIMEOUT - temp apply timeout (in minutes).
+    ###
+    #INVENTORY_HOST                         #TEMP_APPLY_TIMEOUT
+    ###############
 
 }
 
