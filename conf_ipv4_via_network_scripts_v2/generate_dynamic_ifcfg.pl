@@ -16,7 +16,8 @@ our @do_arr_g=(
     'read_01_conf.pl',
     'read_02_conf.pl',
     'read_03_conf.pl',
-    'read_04_conf.pl',
+    'read_05_conf.pl',
+    'read_06_conf.pl',
     'read_conf_common.pl',
     'read_conf_other.pl',
     'value_check.pl',
@@ -51,8 +52,8 @@ our $f01c_conf_ip_addr_path_g=$self_dir_g.'/01_configs/01c_conf_ip_addr';
 our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
 our $f02_conf_dns_path_g=$self_dir_g.'/01_configs/02_conf_dns';
 our $f03_conf_routes_path_g=$self_dir_g.'/01_configs/03_conf_routes';
-our $f04_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/04_not_configured_interfaces';
-our $f05_conf_temp_apply_path_g=$self_dir_g.'/01_configs/05_conf_temp_apply';
+our $f05_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/04_not_configured_interfaces';
+our $f06_conf_temp_apply_path_g=$self_dir_g.'/01_configs/05_conf_temp_apply';
 ###CFG file (end)
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper (begin)
@@ -107,10 +108,10 @@ our %h02_conf_dns_hash_g=();
 our %h03_conf_routes_hash_g=();
 #key=inv-host, value=[array of routes]
 ###
-our %h04_not_configured_interfaces_hash_g=();
+our %h05_not_configured_interfaces_hash_g=();
 #Key=inv_host, value=do-not-touch/reconfigure
 ###
-our %h05_conf_temp_apply_hash_g=();
+our %h06_conf_temp_apply_hash_g=();
 #key=inv_host, value=rollback_timeout
 ######
 ############VARS (end)
