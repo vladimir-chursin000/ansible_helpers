@@ -6,4 +6,6 @@ sub read_04_conf_remote_backend {
         #$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$res_href_l=hash ref for %h04_conf_remote_backend_hash_g
         #Key=inv_host, value=
+    ###############
+
 }
