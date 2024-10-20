@@ -1,0 +1,9 @@
+###
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+    # list of inventory hosts separated by "," or individual hosts (2).
+###
+# REMOTE_BACKEND
+###
+#INVENTORY_HOST                 #REMOTE_BACKEND
