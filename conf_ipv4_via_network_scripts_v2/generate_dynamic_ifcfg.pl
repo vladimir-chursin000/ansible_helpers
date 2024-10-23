@@ -109,6 +109,9 @@ our %h02_conf_dns_hash_g=();
 our %h03_conf_routes_hash_g=();
 #key=inv-host, value=[array of routes]
 ###
+our %h04_conf_remote_backend_hash_g=();
+#key=inv-host, value=network-scripts/NetworkManager
+###
 our %h05_not_configured_interfaces_hash_g=();
 #Key=inv_host, value=do-not-touch/reconfigure
 ###
