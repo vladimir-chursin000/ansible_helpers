@@ -1,4 +1,0 @@
----
-- import_playbook: just_install_network_scripts_playbook.yml
-- import_playbook: check_network_scripts_serv_is_started_playbook.yml
-- import_playbook: "{{playbook_dir}}/dyn_ifcfg_playbooks/dynamic_ifcfg_loader.yml"
