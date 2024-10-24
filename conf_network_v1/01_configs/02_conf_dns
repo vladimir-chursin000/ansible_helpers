@@ -1,0 +1,20 @@
+###
+# INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
+    # If "all" -> the configuration will be applied to all inventory hosts.
+    # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+    # list of inventory hosts separated by "," or individual hosts (2).
+###
+# LIST_OF_NAME_SERVERS - list of params for 'resolv.conf'. Format = "search-domain=somedomain.org,nameserver1,nameserver2,etc"
+# or "nameserver1,nameserver2,etc" (without param 'search-domain') 
+# or "no-name-servers" (remove all name servers and search domain from 'resolv.conf')
+# or "do-not-touch" (do not modify the file 'resolv.conf').
+###
+#INVENTORY_HOST			#LIST_OF_NAME_SERVERS
+###EXAMPLES (begin)
+#all				search-domain=somedomain.com,192.168.1.1,192.168.2.1
+#gr_some_example_group0		192.168.3.1,192.168.4.1
+#192.168.1.10,192.168.1.100	search-domain=somedomain0.com,192.168.1.7,192.168.2.8
+#192.168.1.11			192.168.10.1,192.168.10.2,192.168.10.4
+#192.168.2.12			no-name-servers
+#192.168.2.13			do-not-touch
+###EXAMPLES (end)
