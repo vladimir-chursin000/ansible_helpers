@@ -43,7 +43,7 @@ elsif ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks_with_rollback$/ ) {
 ###ARGV (end)
 
 ###CFG file (begin)
-our $inventory_conf_path_g=$self_dir_g.'/conf_network_scripts_hosts';
+our $inventory_conf_path_g=$self_dir_g.'/conf_network_hosts';
 our $f00_conf_divisions_for_inv_hosts_path_g=$self_dir_g.'/01_configs/00_conf_divisions_for_inv_hosts';
 
 our $f01a_conf_int_hwaddr_inf_path_g=$self_dir_g.'/01_configs/01a_conf_int_hwaddr_inf';

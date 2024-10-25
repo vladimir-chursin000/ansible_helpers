@@ -17,8 +17,8 @@ sub read_inventory_file {
         $line_l=~s/^ //g;
         $line_l=~s/ $//g;
         if ( length($line_l)>0 && $line_l!~/^\#/ ) {
-            if ( $line_l=~/^\[network_scripts_conf_dedic_app_v2\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
-            elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[network_scripts_conf_dedic_app_v2\:vars\]/ ) {
+            if ( $line_l=~/^\[conf_network_dedic_app_v1\]/ && $start_read_hosts_flag_l==0 ) { $start_read_hosts_flag_l=1; }
+            elsif ( $start_read_hosts_flag_l==1 && $line_l=~/^\[conf_network_dedic_app_v1\:vars\]/ ) {
                 $start_read_hosts_flag_l=0;
                 last;
             }
