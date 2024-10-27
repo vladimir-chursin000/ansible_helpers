@@ -39,7 +39,7 @@
 # 2) ./03_apply_immediately_ifcfg.sh "limit=192.168.168.1,192.168.168.2";
 # 3) ./03_apply_immediately_ifcfg.sh "limit=gr_some_group1".
 
-# 'generate_dynamic_ifcfg.pl' = SCRIPT for generate json-files for playbooks. Used with
+# 'generate_json_files.pl' = SCRIPT for generate json-files for playbooks. Used with
 # '03_apply_immediately_ifcfg.sh', '03_apply_temporary_ifcfg.sh' and '00_install_network_scripts_and_configure_network.sh'.
 
 ##################

@@ -7,7 +7,7 @@ INV_LIMIT_str=$1;
 PLAYBOOK_str=$2;
 LOG_DIR_str=$3;
 PLAYBOOK_BEFORE_str=$4; #playbook for run before all
-GEN_DYN_IFCFG_RUN_str=$5; #possible values: yes (run 'generate_dynamic_ifcfg.pl' before  playbook), no
+GEN_DYN_IFCFG_RUN_str=$5; #possible values: yes (run 'generate_json_files.pl' before  playbook), no
 ###ARGV
 
 ###CFG
@@ -89,20 +89,20 @@ fi;
 
 if [[ ! -z "$GEN_DYN_IFCFG_RUN_str" ]] && [[ "$GEN_DYN_IFCFG_RUN_str" =~ "yes" ]]; then
     if [[ "$GEN_DYN_IFCFG_RUN_str" == "yes" ]]; then
-    	$SELF_DIR_str/generate_dynamic_ifcfg.pl "gen_dyn_playbooks";
-    	echo "Run script (before playbook): $SELF_DIR_str/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks\"" | tee -a $LOG_FILE_str;
+    	$SELF_DIR_str/generate_json_files.pl "gen_dyn_playbooks";
+    	echo "Run script (before playbook): $SELF_DIR_str/generate_json_files.pl \"gen_dyn_playbooks\"" | tee -a $LOG_FILE_str;
     elif [[ "$GEN_DYN_IFCFG_RUN_str" == "yes_with_rollback" ]]; then
-    	$SELF_DIR_str/generate_dynamic_ifcfg.pl "gen_dyn_playbooks_with_rollback";
-    	echo "Run script (before playbook '$PLAYBOOK_str'): $SELF_DIR_str/generate_dynamic_ifcfg.pl \"gen_dyn_playbooks_with_rollback\"" | tee -a $LOG_FILE_str;
+    	$SELF_DIR_str/generate_json_files.pl "gen_dyn_playbooks_with_rollback";
+    	echo "Run script (before playbook '$PLAYBOOK_str'): $SELF_DIR_str/generate_json_files.pl \"gen_dyn_playbooks_with_rollback\"" | tee -a $LOG_FILE_str;
     fi;
     
     if [[ ! -f "$SELF_DIR_str/GEN_DYN_IFCFG_STATUS" ]]; then
-    	echo "File with status of execution of 'generate_dynamic_ifcfg.pl' is not exists. Exit!" | tee -a $LOG_FILE_str;
+    	echo "File with status of execution of 'generate_json_files.pl' is not exists. Exit!" | tee -a $LOG_FILE_str;
     	exit;
     fi;
     
     if [[ $(grep -L 'OK' "$SELF_DIR_str/GEN_DYN_IFCFG_STATUS") ]]; then
-    	echo "Status of execution of 'generate_dynamic_ifcfg.pl' is not OK. Exit!" | tee -a $LOG_FILE_str;
+    	echo "Status of execution of 'generate_json_files.pl' is not OK. Exit!" | tee -a $LOG_FILE_str;
     	exit;
     fi;
 fi;
