@@ -7,12 +7,12 @@
 
 # *) Make sure that the pub-ssh-key is thrown to the hosts (conf_network_scripts_hosts).
 
-# *) Run '00_install_network_scripts_and_configure_network.sh' (or '03_apply_immediately_ifcfg.sh').
+# *) Run '00_install_network_backend_n_conf_network.sh' (or '03_apply_immediately_ifcfg.sh').
 ##################
 
-# '00_install_network_scripts_and_configure_network.sh' = install network-scripts and configure network after.
+# '00_install_network_backend_n_conf_network.sh' = install network backend and configure network after.
 
-# '00_just_install_network_scripts.sh' = just install network-scripts.
+# '00_just_install_network_backend.sh' = just install network backend.
 
 # '01_check_ifcfg_without_apply.sh' = just check configuration without apply new settings.
 
