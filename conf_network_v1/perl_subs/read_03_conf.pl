@@ -17,6 +17,11 @@ sub read_03_conf_routes {
     #INVENTORY_HOST                 #LIST_OF_ROUTES
     ###############
 
+    my $proc_name_l=(caller(0))[3];
+        
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+
 }
 
 #With best regards

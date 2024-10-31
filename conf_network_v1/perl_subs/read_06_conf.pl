@@ -46,6 +46,11 @@ sub read_06_conf_temp_apply {
     #INVENTORY_HOST                         #TEMP_APPLY_TIMEOUT
     ###############
 
+    my $proc_name_l=(caller(0))[3];
+        
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+
 }
 
 #With best regards

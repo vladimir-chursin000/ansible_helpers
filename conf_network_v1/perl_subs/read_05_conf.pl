@@ -51,6 +51,11 @@ sub read_05_not_configured_interfaces {
     #INVENTORY_HOST                         #ACTION
     ###############
 
+    my $proc_name_l=(caller(0))[3];
+        
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+
 }
 
 #With best regards

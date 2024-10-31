@@ -8,4 +8,9 @@ sub read_04_conf_remote_backend {
         #Key=inv_host, value=
     ###############
 
+    my $proc_name_l=(caller(0))[3];
+        
+    my ($exec_res_l)=(undef);
+    my ($hkey0_l,$hval0_l)=(undef,undef);
+
 }
