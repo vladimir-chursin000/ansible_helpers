@@ -30,7 +30,7 @@ sub read_02_conf_dns {
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
-        #key=string with params from cfg, value=1
+        #key=inv-host, value=1
     my %res_tmp_lv1_l=(); # result hash
     	#key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
     
