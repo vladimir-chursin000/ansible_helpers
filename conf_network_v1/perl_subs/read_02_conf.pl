@@ -30,7 +30,7 @@ sub read_02_conf_dns {
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
-        #key=inv-host, value=1
+        #key=inv-host, value=[list-of-name-servers(via ',')] (array with one element)
     my %res_tmp_lv1_l=(); # result hash
     	#key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
     
@@ -43,13 +43,13 @@ sub read_02_conf_dns {
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
     	#hkey0_l=inv-host, hval0_l="search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"
     	
-    	if ( $hval0_l!~/^no\-name\-servers$|^do\-not\-touch$/ ) {
-    	    if ( $hval0_l=~/\,search\-domain\=/ ) {
-    	    	$return_str_l="fail [$proc_name_l]. The parameter 'search-domain' must be at the beginning of the line '$hval0_l' (conf='$file_l')";
+    	if ( ${$hval0_l}[0]!~/^no\-name\-servers$|^do\-not\-touch$/ ) {
+    	    if ( ${$hval0_l}[0]=~/\,search\-domain\=/ ) {
+    	    	$return_str_l="fail [$proc_name_l]. The parameter 'search-domain' must be at the beginning of the string '${$hval0_l}[0]' (conf='$file_l')";
     	    	last;
     	    }
     	    
-    	    @nameservers_l=split(/\,/,$hval0_l);
+    	    @nameservers_l=split(/\,/,${$hval0_l}[0]);
     	    
     	    if ( $nameservers_l[0]=~/search\-domain\=/ ) {
     	    	$search_domain_l=$nameservers_l[0];
@@ -76,7 +76,7 @@ sub read_02_conf_dns {
     	}
     	else { # if 'no-name-servers' or 'do-not-touch'
     	    # fill %res_tmp_lv1_l
-    	    $res_tmp_lv1_l{$hkey0_l}=[$hval0_l];
+    	    $res_tmp_lv1_l{$hkey0_l}=[${$hval0_l}[0]];
     	    ###
     	}
     }
