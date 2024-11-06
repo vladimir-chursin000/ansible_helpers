@@ -15,7 +15,7 @@ sub read_04_conf_remote_backend {
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-        #key=string with params from cfg, value=1
+	#key=inv-host, value=['network-scripts/NetworkManager
     my %res_tmp_lv1_l=(); # result hash
         #key=inv_host, value=network-scripts/NetworkManager
 

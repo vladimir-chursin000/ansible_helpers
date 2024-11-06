@@ -24,7 +24,6 @@ sub read_03_conf_routes {
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-        #key=string with params from cfg, value=1
 	#key=inv-host, value=[list-of-routes(via ';')] (array with one element)
     my %res_tmp_lv1_l=(); # result hash
         #key=inv_host, value=[array of routes]. Route='IP/SUBNET-addr,PREFIX,GW,METRIC'
