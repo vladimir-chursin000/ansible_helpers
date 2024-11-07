@@ -15,9 +15,9 @@ sub read_04_conf_remote_backend {
     my $return_str_l='OK';
 
     my %res_tmp_lv0_l=();
-	#key=inv-host, value=['network-scripts/NetworkManager
+	#key=inv-host, value=['network-scripts/NetworkManager'] #array with one element
     my %res_tmp_lv1_l=(); # result hash
-        #key=inv_host, value=network-scripts/NetworkManager
+        #key=inv_host, value='network-scripts/NetworkManager'
 
     $exec_res_l=&read_conf_lines_with_priority_by_first_param($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,2,0,\%res_tmp_lv0_l);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
