@@ -219,6 +219,18 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     
     ######
     
+    $exec_res_g=&read_03_conf_routes($f03_conf_routes_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h03_conf_routes_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h02_conf_dns_hash_g);
+
+    ######
+    
     last;
 } # ONE RUN CYCLE (end)
 
