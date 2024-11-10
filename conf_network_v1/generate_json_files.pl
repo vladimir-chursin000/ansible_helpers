@@ -227,8 +227,20 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     	last;
     }
     $exec_res_g=undef;
-    #print Dumper(\%h02_conf_dns_hash_g);
-
+    #print Dumper(\%h03_conf_routes_hash_g);
+    
+    ######
+    
+    $exec_res_g=&read_04_conf_remote_backend($f04_conf_remote_backend_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%%h04_conf_remote_backend_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h04_conf_remote_backend_hash_g);
+    
     ######
     
     last;
