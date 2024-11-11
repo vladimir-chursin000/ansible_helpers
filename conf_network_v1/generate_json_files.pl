@@ -54,8 +54,8 @@ our $f01d_conf_bond_opts_path_g=$self_dir_g.'/01_configs/01d_conf_bond_opts';
 our $f02_conf_dns_path_g=$self_dir_g.'/01_configs/02_conf_dns';
 our $f03_conf_routes_path_g=$self_dir_g.'/01_configs/03_conf_routes';
 our $f04_conf_remote_backend_path_g=$self_dir_g.'/01_configs/04_conf_remote_backend';
-our $f05_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/04_not_configured_interfaces';
-our $f06_conf_temp_apply_path_g=$self_dir_g.'/01_configs/05_conf_temp_apply';
+our $f05_not_configured_interfaces_path_g=$self_dir_g.'/01_configs/05_not_configured_interfaces';
+our $f06_conf_temp_apply_path_g=$self_dir_g.'/01_configs/06_conf_temp_apply';
 ###CFG file (end)
 
 ############STATIC VARS. Change dir paths if you want just use this script without ansible helper (begin)
@@ -231,7 +231,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     
     ######
     
-    $exec_res_g=&read_04_conf_remote_backend($f04_conf_remote_backend_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%%h04_conf_remote_backend_hash_g);
+    $exec_res_g=&read_04_conf_remote_backend($f04_conf_remote_backend_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h04_conf_remote_backend_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {
     	$exec_status_g='FAIL';
@@ -240,6 +240,18 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     }
     $exec_res_g=undef;
     #print Dumper(\%h04_conf_remote_backend_hash_g);
+    
+    ######
+
+    $exec_res_g=&read_05_not_configured_interfaces($f05_not_configured_interfaces_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h05_not_configured_interfaces_hash_g);
+    #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    #print Dumper(\%h05_not_configured_interfaces_hash_g);
     
     ######
     
