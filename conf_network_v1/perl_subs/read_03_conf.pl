@@ -5,10 +5,10 @@ sub read_03_conf_routes {
     #$divisions_for_inv_hosts_href_l=hash-ref for %h00_conf_divisions_for_inv_hosts_hash_g
         #$h00_conf_divisions_for_inv_hosts_hash_g{group-name}{inv-host}=1;
     #$res_href_l=hash ref for %h03_conf_routes_hash_g
-	#key=inv-host, value=[array of routes]
+    	#key=inv-host, value=[array of routes]
     ###############
     # INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
-	# If "all" -> the configuration will be applied to all inventory hosts.
+    	# If "all" -> the configuration will be applied to all inventory hosts.
         # Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
         # list of inventory hosts separated by "," or individual hosts (2).
     ###
@@ -16,15 +16,15 @@ sub read_03_conf_routes {
     ###
     #INVENTORY_HOST                 #LIST_OF_ROUTES
     ###############
-
+    
     my $proc_name_l=(caller(0))[3];
         
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
-
+    
     my %res_tmp_lv0_l=();
-	#key=inv-host, value=[list-of-routes(via ';')] (array with one element)
+    	#key=inv-host, value=[list-of-routes(via ';')] (array with one element)
     my %res_tmp_lv1_l=(); # result hash
         #key=inv_host, value=[array of routes]. Route='IP/SUBNET-addr,PREFIX,GW,METRIC'
     
@@ -32,7 +32,16 @@ sub read_03_conf_routes {
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+    
+    %res_tmp_lv1_l=();
+    
+    return $return_str_l;
 }
 
 #With best regards

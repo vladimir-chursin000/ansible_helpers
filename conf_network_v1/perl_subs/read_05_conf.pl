@@ -37,12 +37,12 @@ sub read_05_not_configured_interfaces {
         #Key=inv_host, value=do-not-touch/reconfigure
     ###############
     # INVENTORY_HOST = all / list of inventory hosts separated by "," / group name from conf '00_conf_divisions_for_inv_hosts'.
-	# If "all" -> the configuration will be applied to all inventory hosts.
-	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
-	# list of inventory hosts separated by "," or individual hosts (2).
+    	# If "all" -> the configuration will be applied to all inventory hosts.
+    	# Priority (from lower to higher): all (0), group name from conf '00_conf_divisions_for_inv_hosts' (1),
+    	# list of inventory hosts separated by "," or individual hosts (2).
     ###
     # ACTION. Possible values: do-not-touch (for new hosts), reconfigure (for hosts with already configured interfaces).
-	# "reconfigure"
+    	# "reconfigure"
     	    # Configured Wi-Fi interfaces (with line 'TYPE=Wireless' at ifcfg-file) will ignored.
     	    # Delete ifcfg-files and shutdown interfaces that not configured at conf files.
     	    # This setting is recommended to be used, for example, if you plan to rename interfaces
@@ -50,23 +50,32 @@ sub read_05_not_configured_interfaces {
     ###
     #INVENTORY_HOST                         #ACTION
     ###############
-
+    
     my $proc_name_l=(caller(0))[3];
         
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
     my $return_str_l='OK';
-
+    
     my %res_tmp_lv0_l=();
         #key=inv-host, value=['do-not-touch/reconfigure'] #array with one element
     my %res_tmp_lv1_l=(); # result hash
         #key=inv_host, value='do-not-touch/reconfigure'
-
+    
     $exec_res_l=&read_conf_lines_with_priority_by_first_param($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,2,0,\%res_tmp_lv0_l);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
-
+    
+    if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
+    
+    # fill result hash
+    %{$res_href_l}=%res_tmp_lv1_l;
+    ###
+    
+    %res_tmp_lv1_l=();
+    
+    return $return_str_l;
 }
 
 #With best regards
