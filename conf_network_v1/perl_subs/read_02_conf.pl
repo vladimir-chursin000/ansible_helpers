@@ -41,7 +41,7 @@ sub read_02_conf_dns {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-    	#hkey0_l=inv-host, hval0_l="search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"
+    	#hkey0_l=inv-host, hval0_l=["search-domain=somedomain.org,nameserver1,nameserver2,etc" or "nameserver1,nameserver2,etc"]
     	
     	if ( ${$hval0_l}[0]!~/^no\-name\-servers$|^do\-not\-touch$/ ) {
     	    if ( ${$hval0_l}[0]=~/\,search\-domain\=/ ) {
