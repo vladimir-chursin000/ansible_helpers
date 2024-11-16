@@ -33,6 +33,16 @@ sub read_03_conf_routes {
     if ( $exec_res_l=~/^fail/ ) { return "fail [$proc_name_l] -> ".$exec_res_l; }
     $exec_res_l=undef;
     
+    # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
+    while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
+    	
+    }
+    
+    # clear vars
+    ($hkey0_l,$hval0_l)=(undef,undef);
+    ###
+    # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (end)
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
     # fill result hash
