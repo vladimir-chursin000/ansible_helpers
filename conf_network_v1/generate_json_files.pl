@@ -108,7 +108,7 @@ our %h02_conf_dns_hash_g=();
 #key=inv_host, value=[search-domain(optional), array of nameservers] or ['no-name-servers/do-not-touch']
 ###
 our %h03_conf_routes_hash_g=();
-#key=inv-host, value=[array of routes]
+#key=inv-host, value=[array of routes]. Route='IP/SUBNET-addr,GW,PREFIX,METRIC'
 ###
 our %h04_conf_remote_backend_hash_g=();
 #key=inv-host, value=network-scripts/NetworkManager
