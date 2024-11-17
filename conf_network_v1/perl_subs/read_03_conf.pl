@@ -21,6 +21,7 @@ sub read_03_conf_routes {
         
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my @routes_arr_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -35,11 +36,20 @@ sub read_03_conf_routes {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=inv-host, hval0_l=[list-of-routes(via ';')]. Route='IP/SUBNET-addr,PREFIX,GW,METRIC'    	
+	#hkey0_l=inv-host, hval0_l=[list-of-routes(via ';')]. Route='IP/SUBNET-addr,PREFIX,GW,METRIC'
+	
+	@routes_arr_l=split(/\;/,${$hval0_l}[0]);
+	
+	$res_tmp_lv1_l{$hkey0_l}=[@routes_arr_l];
+	
+	# clear vars
+	@routes_arr_l=();
+	###
     }
     
     # clear vars
     ($hkey0_l,$hval0_l)=(undef,undef);
+    @routes_arr_l=();
     ###
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (end)
     

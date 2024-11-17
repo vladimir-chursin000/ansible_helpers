@@ -70,6 +70,7 @@ sub read_05_not_configured_interfaces {
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#key=inv-host, value=['do-not-touch/reconfigure']
+	
     }
     
     # clear vars
