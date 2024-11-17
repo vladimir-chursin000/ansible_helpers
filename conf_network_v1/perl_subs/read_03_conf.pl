@@ -21,6 +21,7 @@ sub read_03_conf_routes {
         
     my ($exec_res_l)=(undef);
     my ($hkey0_l,$hval0_l)=(undef,undef);
+    my ($arr_el0_l)=(undef);
     my ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
     my @routes_arr_l=();
     my $return_str_l='OK';
@@ -42,7 +43,13 @@ sub read_03_conf_routes {
 	
 	@routes_arr_l=split(/\;/,${$hval0_l}[0]);
 	
-	$res_tmp_lv1_l{$hkey0_l}=[@routes_arr_l];
+	foreach $arr_el0_l ( @routes_arr_l ) {
+	    #$arr_el0_l='IP/SUBNET-addr,GW,PREFIX,METRIC'
+	    
+	    ($ip_addr_l,$gw_l,$prefix_l)=split(/\,/, $arr_el0_l);
+	
+	    #$res_tmp_lv1_l{$hkey0_l}=[@routes_arr_l];
+	}
 	
 	# clear vars
 	@routes_arr_l=();
