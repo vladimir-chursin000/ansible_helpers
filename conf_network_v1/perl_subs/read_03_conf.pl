@@ -27,7 +27,7 @@ sub read_03_conf_routes {
     my %res_tmp_lv0_l=();
     	#key=inv-host, value=[list-of-routes(via ';')] (array with one element)
     my %res_tmp_lv1_l=(); # result hash
-        #key=inv_host, value=[array of routes]. Route='IP/SUBNET-addr,PREFIX,GW,METRIC'
+        #key=inv_host, value=[array of routes]. Route='IP/SUBNET-addr,GW,PREFIX,METRIC'
     
     $exec_res_l=&read_conf_lines_with_priority_by_first_param($file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,2,0,\%res_tmp_lv0_l);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$needed_elements_at_line_arr_l,$add_ind4key_l,$res_href_l
@@ -36,7 +36,8 @@ sub read_03_conf_routes {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=inv-host, hval0_l=[list-of-routes(via ';')]. Route='IP/SUBNET-addr,PREFIX,GW,METRIC'
+	#hkey0_l=inv-host, hval0_l=[list-of-routes(via ';')] (array with one element).
+	    #Route='IP/SUBNET-addr,GW,PREFIX,METRIC'
 	
 	@routes_arr_l=split(/\;/,${$hval0_l}[0]);
 	
