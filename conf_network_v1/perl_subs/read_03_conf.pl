@@ -46,10 +46,24 @@ sub read_03_conf_routes {
 	foreach $arr_el0_l ( @routes_arr_l ) {
 	    #$arr_el0_l='IP/SUBNET-addr,GW,PREFIX,METRIC'
 	    
-	    ($ip_addr_l,$gw_l,$prefix_l)=split(/\,/, $arr_el0_l);
+	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=split(/\,/,$arr_el0_l);
+	    
+	    $exec_res_l=&ipv4_addr_opts_check($ip_addr_l,$gw_l,$prefix_l);
+	    #$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
+	    if ( $exec_res_l=~/^fail/ ) {
+		$return_str_l="fail [$proc_name_l] -> ".$exec_res_l;
+		last;
+	    }
+	    $exec_res_l=undef;
 	
-	    #$res_tmp_lv1_l{$hkey0_l}=[@routes_arr_l];
+	    push(@{$res_tmp_lv1_l{$hkey0_l}},$arr_el0_l);
+	    
+	    # clear vars
+	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
+	    ###
 	}
+	
+	if ( $return_str_l!~/^OK$/ ) { last; }
 	
 	# clear vars
 	@routes_arr_l=();
