@@ -55,6 +55,11 @@ sub read_03_conf_routes {
 		last;
 	    }
 	    $exec_res_l=undef;
+	    
+	    if ( $metric_l!~/^\d+$/ ) {
+		$return_str_l="fail [$proc_name_l]. Metric='$metric_l' is not correct. Fix it!";
+		last;
+	    }
 	
 	    push(@{$res_tmp_lv1_l{$hkey0_l}},$arr_el0_l);
 	    
