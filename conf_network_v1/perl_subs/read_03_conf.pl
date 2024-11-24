@@ -24,6 +24,7 @@ sub read_03_conf_routes {
     my ($arr_el0_l)=(undef);
     my ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
     my @routes_arr_l=();
+    my @one_route_arr_l=();
     my $return_str_l='OK';
     
     my %res_tmp_lv0_l=();
@@ -46,7 +47,14 @@ sub read_03_conf_routes {
 	foreach $arr_el0_l ( @routes_arr_l ) {
 	    #$arr_el0_l='IP/SUBNET-addr,GW,PREFIX,METRIC'
 	    
-	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=split(/\,/,$arr_el0_l);
+	    @one_route_arr_l=split(/\,/,$arr_el0_l);
+	    
+	    if ( $#one_route_arr_l!=3 ) {
+	    	$return_str_l="fail [$proc_name_l]. Incorrect route = '$arr_el0_l'. The route must contain 4 parameters and look like this 'IP/SUBNET-addr,GW,PREFIX,METRIC'. Fix it!";
+	    	last;
+	    }
+	    
+	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=@one_route_arr_l;
 	    
 	    $exec_res_l=&ipv4_addr_opts_check($ip_addr_l,$gw_l,$prefix_l);
 	    #$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
@@ -65,6 +73,7 @@ sub read_03_conf_routes {
 	    
 	    # clear vars
 	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
+	    @one_route_arr_l=();
 	    ###
 	}
 	
