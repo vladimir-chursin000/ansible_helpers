@@ -27,7 +27,11 @@ sub read_04_conf_remote_backend {
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
 	#hkey0_l=inv-host, hval0_l=['network-scripts/NetworkManager']
+	
+	if ( ${$hval0_l}[0]!~/^network\-scripts$|^NetworkManager$/ ) {
 	    
+	    last;
+	}
     }
     
     # clear vars
