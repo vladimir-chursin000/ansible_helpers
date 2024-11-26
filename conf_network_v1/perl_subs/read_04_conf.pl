@@ -29,7 +29,7 @@ sub read_04_conf_remote_backend {
 	#hkey0_l=inv-host, hval0_l=['network-scripts/NetworkManager']
 	
 	if ( ${$hval0_l}[0]!~/^network\-scripts$|^NetworkManager$/ ) {
-	    
+	    $return_str_l="fail [$proc_name_l]. Incorrect REMOTE_BACKEND='${$hval0_l}[0]'. Possible values: network-scripts, NetworkManager. Fix it!";
 	    last;
 	}
     }
