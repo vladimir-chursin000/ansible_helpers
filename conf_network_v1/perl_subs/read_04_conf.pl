@@ -32,6 +32,8 @@ sub read_04_conf_remote_backend {
 	    $return_str_l="fail [$proc_name_l]. Incorrect REMOTE_BACKEND='${$hval0_l}[0]'. Possible values: network-scripts, NetworkManager. Fix it!";
 	    last;
 	}
+	
+	$res_tmp_lv1_l{$hkey0_l}=${$hval0_l}[0];
     }
     
     # clear vars
