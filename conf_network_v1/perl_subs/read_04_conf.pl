@@ -33,7 +33,9 @@ sub read_04_conf_remote_backend {
 	    last;
 	}
 	
+	# Fill %res_tmp_lv1_l
 	$res_tmp_lv1_l{$hkey0_l}=${$hval0_l}[0];
+	###
     }
     
     # clear vars

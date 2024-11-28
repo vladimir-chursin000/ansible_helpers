@@ -69,7 +69,9 @@ sub read_03_conf_routes {
 	    	last;
 	    }
 	    
+	    # Fill %res_tmp_lv1_l
 	    push(@{$res_tmp_lv1_l{$hkey0_l}},$arr_el0_l);
+	    ###
 	    
 	    # clear vars
 	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
