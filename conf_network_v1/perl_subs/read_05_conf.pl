@@ -69,8 +69,16 @@ sub read_05_not_configured_interfaces {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#key=inv-host, value=['do-not-touch/reconfigure']
-	
+    	#key=inv-host, value=['do-not-touch/reconfigure']
+    	
+    	if ( ${$hval0_l}[0]!~/^do\-not\-touch$|^reconfigure$/ ) {
+            $return_str_l="fail [$proc_name_l]. Incorrect ACTION='${$hval0_l}[0]' (conf='$file_l'). Possible values: do-not-touch, reconfigure. Fix it!";
+            last;
+        }
+        
+        # Fill %res_tmp_lv1_l
+        $res_tmp_lv1_l{$hkey0_l}=${$hval0_l}[0];
+        ###
     }
     
     # clear vars

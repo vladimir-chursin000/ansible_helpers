@@ -26,16 +26,16 @@ sub read_04_conf_remote_backend {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=inv-host, hval0_l=['network-scripts/NetworkManager']
-	
-	if ( ${$hval0_l}[0]!~/^network\-scripts$|^NetworkManager$/ ) {
-	    $return_str_l="fail [$proc_name_l]. Incorrect REMOTE_BACKEND='${$hval0_l}[0]'. Possible values: network-scripts, NetworkManager. Fix it!";
-	    last;
-	}
-	
-	# Fill %res_tmp_lv1_l
-	$res_tmp_lv1_l{$hkey0_l}=${$hval0_l}[0];
-	###
+    	#hkey0_l=inv-host, hval0_l=['network-scripts/NetworkManager']
+    	
+    	if ( ${$hval0_l}[0]!~/^network\-scripts$|^NetworkManager$/ ) {
+    	    $return_str_l="fail [$proc_name_l]. Incorrect REMOTE_BACKEND='${$hval0_l}[0]' (conf='$file_l'). Possible values: network-scripts, NetworkManager. Fix it!";
+    	    last;
+    	}
+    	
+    	# Fill %res_tmp_lv1_l
+    	$res_tmp_lv1_l{$hkey0_l}=${$hval0_l}[0];
+    	###
     }
     
     # clear vars
