@@ -242,7 +242,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     #print Dumper(\%h04_conf_remote_backend_hash_g);
     
     ######
-
+    
     $exec_res_g=&read_05_not_configured_interfaces($f05_not_configured_interfaces_path_g,\%inventory_hosts_g,\%h00_conf_divisions_for_inv_hosts_hash_g,\%h05_not_configured_interfaces_hash_g);
     #$file_l,$inv_hosts_href_l,$divisions_for_inv_hosts_href_l,$res_href_l
     if ( $exec_res_g=~/^fail/ ) {

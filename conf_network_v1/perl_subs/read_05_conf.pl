@@ -85,7 +85,7 @@ sub read_05_not_configured_interfaces {
     ($hkey0_l,$hval0_l)=(undef,undef);
     ###
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (end)
-
+    
     if ( $return_str_l!~/^OK$/ ) { return $return_str_l; }
     
     # fill result hash

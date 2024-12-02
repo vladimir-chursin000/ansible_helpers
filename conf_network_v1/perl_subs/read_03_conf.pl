@@ -39,51 +39,51 @@ sub read_03_conf_routes {
     
     # check %res_tmp_lv0_l and fill %res_tmp_lv1_l (begin)
     while ( ($hkey0_l,$hval0_l)=each %res_tmp_lv0_l ) {
-	#hkey0_l=inv-host, hval0_l=[list-of-routes(via ';')] (array with one element).
-	    #Route='IP/SUBNET-addr,GW,PREFIX,METRIC'
-	
-	@routes_arr_l=split(/\;/,${$hval0_l}[0]);
-	
-	foreach $arr_el0_l ( @routes_arr_l ) {
-	    #$arr_el0_l='IP/SUBNET-addr,GW,PREFIX,METRIC'
-	    
-	    @one_route_arr_l=split(/\,/,$arr_el0_l);
-	    
-	    if ( $#one_route_arr_l!=3 ) {
-	    	$return_str_l="fail [$proc_name_l]. Incorrect route = '$arr_el0_l' (conf='$file_l'). The route must contain 4 parameters and look like this 'IP/SUBNET-addr,GW,PREFIX,METRIC'. Fix it!";
-	    	last;
-	    }
-	    
-	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=@one_route_arr_l;
-	    
-	    $exec_res_l=&ipv4_addr_opts_check($ip_addr_l,$gw_l,$prefix_l);
-	    #$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
-	    if ( $exec_res_l=~/^fail/ ) {
-	    	$return_str_l="fail [$proc_name_l] (conf='$file_l') -> ".$exec_res_l;
-	    	last;
-	    }
-	    $exec_res_l=undef;
-	    
-	    if ( $metric_l!~/^\d+$/ ) {
-	    	$return_str_l="fail [$proc_name_l]. Metric='$metric_l' is not correct (conf='$file_l'). Fix it!";
-	    	last;
-	    }
-	    
-	    # Fill %res_tmp_lv1_l
-	    push(@{$res_tmp_lv1_l{$hkey0_l}},$arr_el0_l);
-	    ###
-	    
-	    # clear vars
-	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
-	    @one_route_arr_l=();
-	    ###
-	}
-	
-	if ( $return_str_l!~/^OK$/ ) { last; }
-	
-	# clear vars
-	@routes_arr_l=();
-	###
+    	#hkey0_l=inv-host, hval0_l=[list-of-routes(via ';')] (array with one element).
+    	    #Route='IP/SUBNET-addr,GW,PREFIX,METRIC'
+    	
+    	@routes_arr_l=split(/\;/,${$hval0_l}[0]);
+    	
+    	foreach $arr_el0_l ( @routes_arr_l ) {
+    	    #$arr_el0_l='IP/SUBNET-addr,GW,PREFIX,METRIC'
+    	    
+    	    @one_route_arr_l=split(/\,/,$arr_el0_l);
+    	    
+    	    if ( $#one_route_arr_l!=3 ) {
+    	    	$return_str_l="fail [$proc_name_l]. Incorrect route = '$arr_el0_l' (conf='$file_l'). The route must contain 4 parameters and look like this 'IP/SUBNET-addr,GW,PREFIX,METRIC'. Fix it!";
+    	    	last;
+    	    }
+    	    
+    	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=@one_route_arr_l;
+    	    
+    	    $exec_res_l=&ipv4_addr_opts_check($ip_addr_l,$gw_l,$prefix_l);
+    	    #$ipv4_addr_l,$gw_ipv4_l,$prefix_ipv4_l,$conf_file_l
+    	    if ( $exec_res_l=~/^fail/ ) {
+    	    	$return_str_l="fail [$proc_name_l] (conf='$file_l') -> ".$exec_res_l;
+    	    	last;
+    	    }
+    	    $exec_res_l=undef;
+    	    
+    	    if ( $metric_l!~/^\d+$/ ) {
+    	    	$return_str_l="fail [$proc_name_l]. Metric='$metric_l' is not correct (conf='$file_l'). Fix it!";
+    	    	last;
+    	    }
+    	    
+    	    # Fill %res_tmp_lv1_l
+    	    push(@{$res_tmp_lv1_l{$hkey0_l}},$arr_el0_l);
+    	    ###
+    	    
+    	    # clear vars
+    	    ($ip_addr_l,$gw_l,$prefix_l,$metric_l)=(undef,undef,undef,undef);
+    	    @one_route_arr_l=();
+    	    ###
+    	}
+    	
+    	if ( $return_str_l!~/^OK$/ ) { last; }
+    	
+    	# clear vars
+    	@routes_arr_l=();
+    	###
     }
     
     # clear vars
