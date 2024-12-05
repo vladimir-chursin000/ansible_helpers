@@ -22,7 +22,6 @@ our @do_arr_g=(
     'read_conf_common.pl',
     'read_conf_other.pl',
     'value_check.pl',
-    'other.pl',
 );
 
 foreach my $do_g ( @do_arr_g ) {
