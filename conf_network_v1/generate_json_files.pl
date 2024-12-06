@@ -25,8 +25,10 @@ our @do_arr_g=(
 );
 
 foreach my $do_g ( @do_arr_g ) {
-    do ($self_dir_g.'/perl_subs/'.$do_g);
-    if ( $@ ) { die "'$do_g' error:$@"; }
+    if ( -f $self_dir_g.'/perl_subs/'.$do_g ) {
+	do ( $self_dir_g.'/perl_subs/'.$do_g );
+	if ( $@ ) { die "'$do_g' error:$@"; }
+    }
 }
 ###LOAD SUBROUTINES (end)
 
