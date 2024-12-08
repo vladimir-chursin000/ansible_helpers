@@ -29,6 +29,11 @@ foreach my $do_g ( @do_arr_g ) {
 	do ( $self_dir_g.'/perl_subs/'.$do_g );
 	if ( $@ ) { die "'$do_g' error:$@"; }
     }
+    else {
+	system("echo 'FAIL' > $self_dir_g/GEN_DYN_IFCFG_STATUS");
+	print "EXEC_STATUS not OK. Subroutines-oerl-file='$self_dir_g/perl_subs/$do_g' is not exists. Exit!\n\n";
+	exit;
+    }
 }
 ###LOAD SUBROUTINES (end)
 
@@ -271,7 +276,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     last;
 } # ONE RUN CYCLE (end)
 
-system("echo $exec_status_g > GEN_DYN_IFCFG_STATUS");
+system("echo $exec_status_g > $self_dir_g/GEN_DYN_IFCFG_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
     exit;
