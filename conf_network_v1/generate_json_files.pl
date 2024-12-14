@@ -64,8 +64,8 @@ our $f06_conf_temp_apply_path_g=$self_dir_g.'/01_configs/06_conf_temp_apply';
 ###CFG file (end)
 
 ############STATIC VARS (begin)
-our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'/playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
-our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth, hwaddr) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
+our $ifcfg_backup_from_remote_dir_g=$self_dir_g.'/03_playbooks/ifcfg_backup_from_remote/now'; # dir contains actual ifcfg-files downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
+our $ifcfg_backup_from_remote_nd_file_g=$self_dir_g.'/03_playbooks/ifcfg_backup_from_remote/network_data/inv_hosts_interfaces_info.txt'; # dir contains actual network_data (eth, hwaddr) downloaded from remote hosts with help of playbook 'ifcfg_backup_playbook.yml' before run this script
 ############STATIC VARS (end)
 
 ############VARS (begin)
