@@ -27,7 +27,7 @@ LOG_FILE_str="$LOG_DIR_str/$NOW_DT_str-$CUR_USER_str.log";
 echo "User: $CUR_USER_str" | tee -a $LOG_FILE_str;
 echo "Used inventory file: $INV_FILE_str" | tee -a $LOG_FILE_str;
 echo "Used limit for inventory file: $INV_LIMIT_str" | tee -a $LOG_FILE_str;
-echo "Used playbook: $SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
+echo "Used playbook: $SELF_DIR_str/03_playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
 echo "Start time: $NOW_DT_str" | tee -a $LOG_FILE_str;
 echo "#########" | tee -a $LOG_FILE_str;
 
@@ -71,19 +71,19 @@ fi;
 
 if [[ ! -z "$PLAYBOOK_BEFORE_str" ]] && [[ "$PLAYBOOK_BEFORE_str" != "no" ]]; then
     if [[ "$PLAYBOOK_BEFORE_str" =~ "ifcfg_backup" ]]; then
-    	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
-    	rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
-    	echo "Remove prev downloaded data from '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE_str;
+    	rm -rf "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
+    	rm -rf "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
+    	echo "Remove prev downloaded data from '$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE_str;
     fi;
     ###
     echo " " | tee -a $LOG_FILE_str;
     echo "#########" | tee -a $LOG_FILE_str;
-    echo "Playbook_before: $SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
-    /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
+    echo "Playbook_before: $SELF_DIR_str/03_playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
+    /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/03_playbooks/$PLAYBOOK_BEFORE_str" | tee -a $LOG_FILE_str;
     
     if [[ "$PLAYBOOK_BEFORE_str" =~ "ifcfg_backup" ]]; then
-    	/usr/bin/perl "$SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data";
-    	echo "Run script (after playbook '$PLAYBOOK_BEFORE_str'): $SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
+    	/usr/bin/perl "$SELF_DIR_str/03_playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data";
+    	echo "Run script (after playbook '$PLAYBOOK_BEFORE_str'): $SELF_DIR_str/03_playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
     fi;
 fi;
 
@@ -108,26 +108,26 @@ if [[ ! -z "$GEN_DYN_IFCFG_RUN_str" ]] && [[ "$GEN_DYN_IFCFG_RUN_str" =~ "yes" ]
 fi;
 
 if [[ "$PLAYBOOK_str" =~ "ifcfg_backup" ]]; then
-    rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
-    rm -rf "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
-    echo "Remove prev downloaded data from '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE_str;
+    rm -rf "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/now/"; #remove prev downloaded backup of ifcfg from now-dir
+    rm -rf "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data/"; #remove prev downloaded data from network_data
+    echo "Remove prev downloaded data from '$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/now' and '$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data'" | tee -a $LOG_FILE_str;
 fi;
 
 #main playbook
 if [[ ! -z "$PLAYBOOK_str" ]] && [[ "$PLAYBOOK_str" != "no" ]]; then
-    /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
+    /usr/bin/ansible-playbook -i $INV_FILE_str -l "$INV_LIMIT_str" -u root --private-key=~/.ssh/id_rsa "$SELF_DIR_str/03_playbooks/$PLAYBOOK_str" | tee -a $LOG_FILE_str;
 fi;
 #main playbook
 
 if [[ "$PLAYBOOK_str" =~ "ifcfg_backup" ]]; then
-    /usr/bin/perl "$SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data";
-    echo "Run script (after playbook '$PLAYBOOK_str'): $SELF_DIR_str/playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
+    /usr/bin/perl "$SELF_DIR_str/03_playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data";
+    echo "Run script (after playbook '$PLAYBOOK_str'): $SELF_DIR_str/03_playbooks/scripts_for_local/convert_raw_network_data_to_normal.pl" | tee -a $LOG_FILE_str;
 fi;
 
-if [[ -f "$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt" ]]; then
+if [[ -f "$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt" ]]; then
     echo " " | tee -a $LOG_FILE_str;
     echo "########################################" | tee -a $LOG_FILE_str;
-    echo "PROBABLY YOU HAVE some mac duplicate WARNINGS at '$SELF_DIR_str/playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt'" | tee -a $LOG_FILE_str;
+    echo "PROBABLY YOU HAVE some mac duplicate WARNINGS at '$SELF_DIR_str/03_playbooks/ifcfg_backup_from_remote/network_data/WARNINGS.txt'" | tee -a $LOG_FILE_str;
 fi;
 ###MAIN (end)
 
