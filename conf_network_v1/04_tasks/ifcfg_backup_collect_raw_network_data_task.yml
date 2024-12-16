@@ -6,7 +6,7 @@
 
 - name: Create directory for raw network data (network_data-dir)
   ansible.builtin.file:
-    path: "{{playbook_dir}}/ifcfg_backup_from_remote/network_data"
+    path: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/network_data"
     state: directory
   delegate_to: localhost
 
@@ -16,7 +16,7 @@
   ansible.builtin.fetch:
     flat: yes
     src: "~/ansible_helpers/conf_int_ipv4_via_network_scripts/{{item}}"
-    dest: "{{playbook_dir}}/ifcfg_backup_from_remote/network_data/{{inventory_hostname}}_{{item}}"
+    dest: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/network_data/{{inventory_hostname}}_{{item}}"
   with_items:
     - "ip_link_noqueue"
     - "ip_neighbour"
