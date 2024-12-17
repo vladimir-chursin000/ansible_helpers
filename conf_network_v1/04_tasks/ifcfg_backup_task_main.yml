@@ -15,7 +15,7 @@
   ansible.builtin.fetch:
     flat: yes
     src: "/etc/sysconfig/network-scripts/{{item}}"
-    dest: "{{playbook_dir}}/ifcfg_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
+    dest: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
   with_items: "{{ifcfg_files.stdout_lines}}"
 
 ######################################################
