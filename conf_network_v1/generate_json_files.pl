@@ -25,13 +25,13 @@ our @do_arr_g=(
 );
 
 foreach my $do_g ( @do_arr_g ) {
-    if ( -f $self_dir_g.'/perl_subs/'.$do_g ) {
-	do ( $self_dir_g.'/perl_subs/'.$do_g );
+    if ( -f $self_dir_g.'/06_perl_subs/'.$do_g ) {
+	do ( $self_dir_g.'/06_perl_subs/'.$do_g );
 	if ( $@ ) { die "'$do_g' error:$@"; }
     }
     else {
 	system("echo 'FAIL' > $self_dir_g/GEN_DYN_IFCFG_STATUS");
-	print "EXEC_STATUS not OK. Subroutines-oerl-file='$self_dir_g/perl_subs/$do_g' is not exists. Exit!\n\n";
+	print "EXEC_STATUS not OK. Subroutines-oerl-file='$self_dir_g/06_perl_subs/$do_g' is not exists. Exit!\n\n";
 	exit;
     }
 }
