@@ -31,7 +31,7 @@ foreach my $do_g ( @do_arr_g ) {
     }
     else {
 	system("echo 'FAIL' > $self_dir_g/GEN_DYN_IFCFG_STATUS");
-	print "EXEC_STATUS not OK. Subroutines-oerl-file='$self_dir_g/06_perl_subs/$do_g' is not exists. Exit!\n\n";
+	print "EXEC_STATUS not OK. Subroutines-perl-file='$self_dir_g/06_perl_subs/$do_g' is not exists. Exit!\n\n";
 	exit;
     }
 }
