@@ -32,6 +32,7 @@ foreach my $do_g ( @do_arr_g ) {
     else {
 	system("echo 'FAIL' > $self_dir_g/GEN_DYN_IFCFG_STATUS");
 	print "EXEC_STATUS not OK. Subroutines-perl-file='$self_dir_g/06_perl_subs/$do_g' is not exists. Exit!\n\n";
+	
 	exit;
     }
 }
@@ -40,6 +41,7 @@ foreach my $do_g ( @do_arr_g ) {
 ###ARGV (begin)
 our $gen_playbooks_next_g=0;
 our $gen_playbooks_next_with_rollback_g=0;
+
 if ( defined($ARGV[0]) && $ARGV[0]=~/^gen_dyn_playbooks$/ ) {
     $gen_playbooks_next_g=1;
 }
