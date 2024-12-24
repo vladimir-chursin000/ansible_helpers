@@ -3,7 +3,7 @@
 # For OS based on RHEL8 (AlmaLinux8, RockyLinux8, etc).
 # I think it will work on RHEL6/RHEL7 based systems.
 ####
-# 1) UPDATE list (for install and configure network-scripts) of ip addresses = conf_network_scripts_hosts (inventory).
+# 1) UPDATE list (for install and configure network) of ip addresses = conf_network_hosts (inventory).
 
 # *) Make sure that the pub-ssh-key is thrown to the hosts (conf_network_scripts_hosts).
 
