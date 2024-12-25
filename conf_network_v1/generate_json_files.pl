@@ -30,7 +30,7 @@ foreach my $do_g ( @do_arr_g ) {
 	if ( $@ ) { die "'$do_g' error:$@"; }
     }
     else {
-	system("echo 'FAIL' > $self_dir_g/GEN_DYN_IFCFG_STATUS");
+	system("echo 'FAIL' > $self_dir_g/GEN_DYN_FILES_STATUS");
 	print "EXEC_STATUS not OK. Subroutines-perl-file='$self_dir_g/06_perl_subs/$do_g' is not exists. Exit!\n\n";
 	
 	exit;
@@ -276,7 +276,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     last;
 } # ONE RUN CYCLE (end)
 
-system("echo $exec_status_g > $self_dir_g/GEN_DYN_IFCFG_STATUS");
+system("echo $exec_status_g > $self_dir_g/GEN_DYN_FILES_STATUS");
 if ( $exec_status_g!~/^OK$/ ) {
     print "EXEC_STATUS not OK. Exit!\n\n";
     exit;

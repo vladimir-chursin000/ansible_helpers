@@ -7,7 +7,7 @@ INV_LIMIT_str='no';
 PLAYBOOK_str='ifcfg_backup_playbook.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='no';
-GEN_DYN_IFCFG_RUN_str='no';
+GEN_DYN_FILES_RUN_str='no';
 ######DEFAULT INPUT VARS
 
 ######VARS
@@ -25,4 +25,4 @@ do
 done;
 ######READ ARGV array
 
-$SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_IFCFG_RUN_str";
+$SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FILES_RUN_str";

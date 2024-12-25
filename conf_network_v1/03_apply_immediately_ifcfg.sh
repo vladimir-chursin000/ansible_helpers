@@ -4,10 +4,10 @@
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
-PLAYBOOK_str='dyn_ifcfg_playbooks/dynamic_ifcfg_loader.yml';
+#PLAYBOOK_str='dyn_FILES_playbooks/dynamic_FILES_loader.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='ifcfg_backup_playbook.yml';
-GEN_DYN_IFCFG_RUN_str='yes';
+GEN_DYN_FILES_RUN_str='yes';
 ######DEFAULT INPUT VARS
 
 ######VARS
@@ -25,4 +25,4 @@ do
 done;
 ######READ ARGV array
 
-$SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_IFCFG_RUN_str";
+$SELF_DIR_str/main.sh "$INV_LIMIT_str" "$PLAYBOOK_str" "$LOG_DIR_str" "$PLAYBOOK_BEFORE_str" "$GEN_DYN_FILES_RUN_str";
