@@ -15,14 +15,14 @@
   ansible.builtin.fetch:
     flat: yes
     src: "/etc/sysconfig/network-scripts/{{item}}"
-    dest: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
+    dest: "{{inventory_dir}}/02_files/conf_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
   with_items: "{{ifcfg_files.stdout_lines}}"
 
 ######################################################
 
 - name: Create directory for actual ifcfg-files (now-dir)
   ansible.builtin.file:
-    path: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/now/{{inventory_hostname}}"
+    path: "{{inventory_dir}}/02_files/conf_backup_from_remote/now/{{inventory_hostname}}"
     state: directory
   delegate_to: localhost
 
@@ -30,7 +30,7 @@
 
 - name: Copy ifcfg-files from history-dir to now-dir
   ansible.builtin.copy:
-    src: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
-    dest: "{{inventory_dir}}/03_playbooks/ifcfg_backup_from_remote/now/{{inventory_hostname}}/{{item}}"
+    src: "{{inventory_dir}}/02_files/conf_backup_from_remote/history/{{ansible_date_time.iso8601_basic_short}}/{{inventory_hostname}}/{{item}}"
+    dest: "{{inventory_dir}}/02_files/conf_backup_from_remote/now/{{inventory_hostname}}/{{item}}"
   delegate_to: localhost
   with_items: "{{ifcfg_files.stdout_lines}}"

@@ -11,7 +11,7 @@ GEN_DYN_FILES_RUN_str=$5; #possible values: yes (run 'generate_json_files.pl' be
 ###ARGV
 
 ###CFG
-INV_FILE_str="$SELF_DIR_str/conf_network_scripts_hosts";
+INV_FILE_str="$SELF_DIR_str/conf_network_hosts";
 CONF_DIVISIONS_FOR_INV_HOSTS_FILE_str="$SELF_DIR_str/01_configs/00_conf_divisions_for_inv_hosts";
 ###CFG
 
