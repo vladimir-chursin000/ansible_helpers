@@ -1,6 +1,6 @@
-- name: create_dir "ansible_helpers/conf_int_ipv4_via_network_scripts"
+- name: create_dir "ansible_helpers/conf_network"
   ansible.builtin.file:
-    path: "~/ansible_helpers/conf_int_ipv4_via_network_scripts"
+    path: "~/ansible_helpers/conf_network"
     state: directory
 
 ######################################################

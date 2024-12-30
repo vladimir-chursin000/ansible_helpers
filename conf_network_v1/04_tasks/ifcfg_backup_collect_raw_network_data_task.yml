@@ -1,6 +1,6 @@
 
 - name: collect and save network data to user home dir
-  ansible.builtin.shell: ip -o link | grep -v noqueue > ~/ansible_helpers/conf_int_ipv4_via_network_scripts/ip_link_noqueue && ip neighbour > ~/ansible_helpers/conf_int_ipv4_via_network_scripts/ip_neighbour
+  ansible.builtin.shell: ip -o link | grep -v noqueue > ~/ansible_helpers/conf_network/ip_link_noqueue && ip neighbour > ~/ansible_helpers/conf_network/ip_neighbour
 
 ######################################################
 
@@ -15,7 +15,7 @@
 - name: fetch_raw_network_data
   ansible.builtin.fetch:
     flat: yes
-    src: "~/ansible_helpers/conf_int_ipv4_via_network_scripts/{{item}}"
+    src: "~/ansible_helpers/conf_network/{{item}}"
     dest: "{{inventory_dir}}/02_files/conf_backup_from_remote/network_data/{{inventory_hostname}}_{{item}}"
   with_items:
     - "ip_link_noqueue"
