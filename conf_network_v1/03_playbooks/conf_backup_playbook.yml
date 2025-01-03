@@ -1,11 +1,11 @@
 ---
 - hosts: conf_network_dedic_app_v1
   tasks:
-    - name: "run ifcfg_backup_task_main"
-      ansible.builtin.include_tasks: "{{inventory_dir}}/04_tasks/ifcfg_backup_task_main.yml"
+    - name: "run conf_backup_task_main"
+      ansible.builtin.include_tasks: "{{inventory_dir}}/04_tasks/conf_backup_task_main.yml"
 
 ######################################################
 
-    - name: "run ifcfg_backup_collect_raw_network_data_task"
-      ansible.builtin.include_tasks: "{{inventory_dir}}/04_tasks/ifcfg_backup_collect_raw_network_data_task.yml"
+    - name: "run conf_backup_collect_raw_network_data_task"
+      ansible.builtin.include_tasks: "{{inventory_dir}}/04_tasks/conf_backup_collect_raw_network_data_task.yml"
 
