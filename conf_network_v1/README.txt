@@ -14,11 +14,11 @@
 
 # '00_just_install_network_backend.sh' = just install network backend.
 
-# '01_check_ifcfg_without_apply.sh' = just check configuration without apply new settings.
+# '01_check_conf_without_apply.sh' = just check configuration without apply new settings.
 
-# '01_check_network_scripts_serv_is_started.sh' = check for network.service is started (and start if not).
+# '01_check_network_serv_is_started.sh' = check for network.service is started (and start if not).
 
-# '02_just_run_ifcfg_backup.sh' = copy ifcfg-files from remote hosts. Also collect network data (at 'playbooks/ifcfg_backup_from_remote/network_data') and analyze it
+# '02_just_run_conf_backup.sh' = copy conf-files from remote hosts. Also collect network data (to '02_files/conf_backup_from_remote/network_data') and analyze it
 # for find duplicates of mac-addresses. 
 # Detected mac duplicates -> 'WARNINGS.txt'
 # INFO about existing mac-addresses at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
