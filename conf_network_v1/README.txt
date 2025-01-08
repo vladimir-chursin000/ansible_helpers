@@ -24,12 +24,12 @@
 # INFO about existing mac-addresses at inv_hosts -> 'inv_hosts_interfaces_info.txt'.
 # INFO about network neighbours of inv_hosts -> 'inv_hosts_neighbour_info.txt'.
 
-# '03_apply_conf_immediately.sh' = run for immediately apply changes (without run installation of 'network-scripts') if generated ifcfg differ from actual ifcfg on remote host.
+# '03_apply_conf_immediately.sh' = run for immediately apply changes (without run installation of 'network backend') if *** on remote host.
 # Also cancel execution of ifcfg rollback operation (rollback_ifcfg_changes.sh) on remote host if need.
 
-# '03_apply_conf_temporary.sh' = run for temporary apply changes (without run installation of 'network-scripts') if generated ifcfg differs from actual ifcfg.
+# '03_apply_conf_temporary.sh' = run for temporary apply changes (without run installation of 'network backend') if ***.
 # Before apply changes starts script 'rollback_ifcfg_changes.sh' on remote host for
-# rollback changes after N minutes (rollback_timeout configuration = '01_configs/03_config_temporary_apply_ifcfg').
+# rollback changes after N minutes (rollback_timeout configuration = '01_configs/06_conf_temp_apply').
 
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
