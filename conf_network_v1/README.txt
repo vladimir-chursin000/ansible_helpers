@@ -34,13 +34,13 @@
 # All scripts above can be run with a parameter "limit=limit_hosts" that limits the application of changes to inventory hosts.
 # Possible limit values: 1) single inventory host; 2) list of inventory hosts separated by ",";
 # 3) group name configured at cfg-file '00_conf_divisions_for_inv_hosts'.
-# Examples (on the example of the script '03_apply_immediately_ifcfg.sh'):
-# 1) ./03_apply_immediately_ifcfg.sh "limit=192.168.168.1";
-# 2) ./03_apply_immediately_ifcfg.sh "limit=192.168.168.1,192.168.168.2";
-# 3) ./03_apply_immediately_ifcfg.sh "limit=gr_some_group1".
+# Examples (on the example of the script '03_apply_conf_immediately.sh'):
+# 1) ./03_apply_conf_immediately.sh "limit=192.168.168.1";
+# 2) ./03_apply_conf_immediately.sh "limit=192.168.168.1,192.168.168.2";
+# 3) ./03_apply_conf_immediately.sh "limit=gr_some_group1".
 
 # 'generate_json_files.pl' = SCRIPT for generate json-files for playbooks. Used with
-# '03_apply_immediately_ifcfg.sh', '03_apply_temporary_ifcfg.sh' and '00_install_network_scripts_and_configure_network.sh'.
+# '03_apply_conf_immediately.sh', '03_apply_conf_temporary.sh' and '00_install_network_scripts_and_configure_network.sh'.
 
 ##################
 SCRIPTS LOGIC DESCRIPTION
