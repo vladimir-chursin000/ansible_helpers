@@ -40,7 +40,7 @@
 # 3) ./03_apply_conf_immediately.sh "limit=gr_some_group1".
 
 # 'generate_json_files.pl' = SCRIPT for generate json-files for playbooks. Used with
-# '03_apply_conf_immediately.sh', '03_apply_conf_temporary.sh' and '00_install_network_scripts_and_configure_network.sh'.
+# '03_apply_conf_immediately.sh', '03_apply_conf_temporary.sh' and '00_install_network_backend_n_conf_network.sh'.
 
 ##################
 SCRIPTS LOGIC DESCRIPTION
