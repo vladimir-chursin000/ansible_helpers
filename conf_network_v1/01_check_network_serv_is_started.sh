@@ -6,7 +6,7 @@
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
-PLAYBOOK_str='check_network_scripts_serv_is_started_playbook.yml';
+PLAYBOOK_str='check_network_serv_is_started_playbook.yml';
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='no';
 GEN_DYN_FILES_RUN_str='no';
