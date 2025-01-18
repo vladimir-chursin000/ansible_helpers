@@ -4,7 +4,7 @@
 # Do not change this variables manually
 SELF_DIR_str="$(dirname $(readlink -f $0))";
 INV_LIMIT_str='no';
-#PLAYBOOK_str='dyn_FILES_playbooks/dynamic_FILES_loader.yml';
+#PLAYBOOK_str='dyn_FILES_playbooks/dynamic_FILES_loader.yml'; # => static playbook
 LOG_DIR_str="$SELF_DIR_str/run_history";
 PLAYBOOK_BEFORE_str='conf_backup_playbook.yml';
 GEN_DYN_FILES_RUN_str='yes';
