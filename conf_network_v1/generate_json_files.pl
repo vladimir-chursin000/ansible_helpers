@@ -273,6 +273,17 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     
     ######
     
+    $exec_res_g=&generate_json_conf_files();
+    #
+    if ( $exec_res_g=~/^fail/ ) {
+    	$exec_status_g='FAIL';
+    	print "$exec_res_g\n";
+    	last;
+    }
+    $exec_res_g=undef;
+    
+    ######
+    
     last;
 } # ONE RUN CYCLE (end)
 
