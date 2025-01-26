@@ -12,6 +12,7 @@ $self_dir_g=~s/\/$//g;
 
 ###LOAD SUBROUTINES (begin)
 our @do_arr_g=(
+    'gen_json_files.pl',
     'read_00_conf.pl',
     'read_01_conf.pl',
     'read_02_conf.pl',
