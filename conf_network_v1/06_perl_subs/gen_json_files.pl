@@ -1,5 +1,5 @@
 sub generate_json_conf_files {
-    my ();
+    my ($h01a_conf_int_hwaddr_inf_href_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
     
