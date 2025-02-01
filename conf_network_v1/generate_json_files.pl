@@ -126,6 +126,9 @@ our %h05_not_configured_interfaces_hash_g=();
 our %h06_conf_temp_apply_hash_g=();
 #key=inv_host, value=rollback_timeout
 ######
+our %tmp_hrefs_hash_g=(); # for send hash of hash-refs to a procedure
+#key=hash-name (for example, 'h01a_conf_int_hwaddr_inf_hash'), value=hash-ref
+######
 ############VARS (end)
 
 ######MAIN SEQ (begin)
