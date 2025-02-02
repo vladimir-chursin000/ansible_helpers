@@ -126,7 +126,7 @@ our %h05_not_configured_interfaces_hash_g=();
 our %h06_conf_temp_apply_hash_g=();
 #key=inv_host, value=rollback_timeout
 ######
-our %tmp_hrefs_hash_g=(); # for send hash of hash-refs to a procedure
+our %tmp_prms_hash_g=(); # for send hash of params (i.e. hash-refs) to a procedure
 #key=hash-name (for example, 'h01a_conf_int_hwaddr_inf_hash'), value=hash-ref
 ######
 ############VARS (end)
@@ -277,7 +277,8 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     
     ######
     
-    $exec_res_g=&generate_json_conf_files();
+    %tmp_prms_hash_g=();
+    $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g);
     #
     if ( $exec_res_g=~/^fail/ ) {
     	$exec_status_g='FAIL';
