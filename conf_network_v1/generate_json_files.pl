@@ -279,6 +279,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     
     %tmp_prms_hash_g=(
 	'h01a_conf_int_hwaddr_inf'=>\%h01a_conf_int_hwaddr_inf_hash_g,
+	'h01b_conf_main'=>\%h01b_conf_main_hash_g,
     );
     $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g);
     #
