@@ -278,9 +278,11 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     ######
     
     %tmp_prms_hash_g=(
-	'h01a_conf_int_hwaddr_inf'=>\%h01a_conf_int_hwaddr_inf_hash_g,
-	'h01b_conf_main'=>\%h01b_conf_main_hash_g,
-	'h01c_conf_ip_addr'=>\%h01c_conf_ip_addr_hash_g,
+	'h01a_conf_int_hwaddr_inf_href'=>\%h01a_conf_int_hwaddr_inf_hash_g,
+	'h01b_conf_main_href'=>\%h01b_conf_main_hash_g,
+	'h01c_conf_ip_addr_href'=>\%h01c_conf_ip_addr_hash_g,
+	'h01d_conf_bond_opts_href'=>\%h01d_conf_bond_opts_hash_g,
+	'h02_conf_dns_href'=>\%h02_conf_dns_hash_g,
     );
     $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g);
     #
