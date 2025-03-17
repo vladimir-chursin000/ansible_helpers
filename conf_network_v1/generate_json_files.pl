@@ -283,7 +283,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	'h01c_conf_ip_addr_href'=>\%h01c_conf_ip_addr_hash_g,
 	'h01d_conf_bond_opts_href'=>\%h01d_conf_bond_opts_hash_g,
 	'h02_conf_dns_href'=>\%h02_conf_dns_hash_g,
-
+	'h03_conf_routes_href'=>\%h03_conf_routes_hash_g,
     );
     $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g);
     #
