@@ -284,6 +284,9 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	'h01d_conf_bond_opts_href'=>\%h01d_conf_bond_opts_hash_g,
 	'h02_conf_dns_href'=>\%h02_conf_dns_hash_g,
 	'h03_conf_routes_href'=>\%h03_conf_routes_hash_g,
+	'h04_conf_remote_backend_href'=>\%h04_conf_remote_backend_hash_g,
+	'h05_not_configured_interfaces_href'=>\%h05_not_configured_interfaces_hash_g,
+	'h06_conf_temp_apply_href'=>\%h06_conf_temp_apply_hash_g,
     );
     $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g);
     #
