@@ -296,6 +296,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
     	last;
     }
     $exec_res_g=undef;
+    %tmp_prms_hash_g=();
     
     ######
     
