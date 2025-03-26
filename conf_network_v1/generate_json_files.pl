@@ -290,7 +290,7 @@ while ( 1 ) { # ONE RUN CYCLE (begin)
 	'h05_not_configured_interfaces_href'=>\%h05_not_configured_interfaces_hash_g,
 	'h06_conf_temp_apply_href'=>\%h06_conf_temp_apply_hash_g,
     );
-    $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g);
+    $exec_res_g=&generate_json_conf_files(\%tmp_prms_hash_g,$generated_json_files_now_dir_g,$generated_json_files_prev_dir_g);
     #
     if ( $exec_res_g=~/^fail/ ) {
     	$exec_status_g='FAIL';
