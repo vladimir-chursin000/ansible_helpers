@@ -1,5 +1,5 @@
 sub generate_json_conf_files {
-    my ($tmp_prms_href_l)=@_;
+    my ($tmp_prms_href_l,$generated_json_files_now_dir_l,$generated_json_files_prev_dir_l)=@_;
     
     my $proc_name_l=(caller(0))[3];
     
