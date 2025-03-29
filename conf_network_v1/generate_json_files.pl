@@ -134,6 +134,9 @@ our %tmp_prms_hash_g=(); # for send hash of params (i.e. hash-refs) to a procedu
 ############VARS (end)
 
 ######MAIN SEQ (begin)
+system("mkdir -p \"$generated_json_files_now_dir_g\"");
+system("mkdir -p \"$generated_json_files_prev_dir_g\"");
+
 while ( 1 ) { # ONE RUN CYCLE (begin)
     $exec_res_g=&read_inventory_file($inventory_conf_path_g,\%inventory_hosts_g);
     #$file_l,$res_href_l
