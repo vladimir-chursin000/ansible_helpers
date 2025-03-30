@@ -32,6 +32,12 @@ sub generate_json_conf_files {
     
     my $return_str_l='OK';
     
+    ###save prev (mv from 'now' to 'prev') gen results (begin)
+    ###save prev gen results (end)
+    
+    ###gen new json-files (begin)
+    ###gen new json-files (end)
+    
     return $return_str_l;
 }
 
