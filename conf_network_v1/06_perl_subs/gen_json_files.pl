@@ -33,6 +33,7 @@ sub generate_json_conf_files {
     my $return_str_l='OK';
     
     ###save prev (mv from 'now' to 'prev') gen results (begin)
+    system("mv $generated_json_files_now_dir_l/* $generated_json_files_prev_dir_l/");
     ###save prev gen results (end)
     
     ###gen new json-files (begin)
