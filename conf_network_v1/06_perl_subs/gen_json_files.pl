@@ -31,11 +31,17 @@ sub generate_json_conf_files {
     #'h06_conf_temp_apply_href'=>\%h06_conf_temp_apply_hash_g,
     
     my $now_dt_l=`date '+%Y%m%d%H%M%S'`;
+    my $is_now_dir_not_empty_l=`ls -1 $generated_json_files_now_dir_l | wc -l`;
+    my $exec_res_l='';
     my $return_str_l='OK';
     
+    $is_now_dir_not_empty_l=~s/\n|\r|\n\r|\r\n//;
+    
     ###save prev (mv from 'now' to 'prev') gen results (begin)
-    system("mkdir -p $generated_json_files_prev_dir_l/after-$now_dt_l");
-    system("mv $generated_json_files_now_dir_l/* $generated_json_files_prev_dir_l/after-$now_dt_l/");
+    if ( $is_now_dir_not_empty_l >= 1 ) {
+	system("mkdir -p $generated_json_files_prev_dir_l/after-$now_dt_l");
+	system("mv $generated_json_files_now_dir_l/* $generated_json_files_prev_dir_l/after-$now_dt_l");
+    }
     ###save prev gen results (end)
     
     ###gen new json-files (begin)
