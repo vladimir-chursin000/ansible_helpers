@@ -37,12 +37,12 @@ sub generate_json_conf_files {
     
     $is_now_dir_not_empty_l=~s/\n|\r|\n\r|\r\n//;
     
-    ###save prev (mv from 'now' to 'prev') gen results (begin)
+    # save prev (mv from 'now' to 'prev') gen results (begin)
     if ( $is_now_dir_not_empty_l >= 1 ) {
 	system("mkdir -p $generated_json_files_prev_dir_l/after-$now_dt_l");
 	system("mv $generated_json_files_now_dir_l/* $generated_json_files_prev_dir_l/after-$now_dt_l");
     }
-    ###save prev gen results (end)
+    ###
     
     ###gen new json-files (begin)
     ###gen new json-files (end)
