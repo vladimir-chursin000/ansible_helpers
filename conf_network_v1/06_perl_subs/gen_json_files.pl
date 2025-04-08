@@ -44,7 +44,12 @@ sub generate_json_conf_files {
     }
     ###
     
+    ###json structure descr (begin)
+    
+    ###json structure descr (end)
+    
     ###gen new json-files (begin)
+    
     ###gen new json-files (end)
     
     return $return_str_l;
