@@ -33,6 +33,7 @@ sub generate_json_conf_files {
     my $now_dt_l=`date '+%Y%m%d%H%M%S'`;
     my $is_now_dir_not_empty_l=`ls -1 $generated_json_files_now_dir_l | wc -l`;
     my $exec_res_l='';
+    
     my $return_str_l='OK';
     
     $is_now_dir_not_empty_l=~s/\n|\r|\n\r|\r\n//;
