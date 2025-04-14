@@ -47,16 +47,19 @@ sub generate_json_conf_files {
     
     ###json network-interface structure descr (begin)
     #{
+    	
     #}
     ###json network-interface structure descr (end)
-
+    
     ###json dns-conf structure descr (begin)
     #{
+    	
     #}
     ###json dns-conf structure descr (end)
-
+    
     ###json routes-conf structure descr (begin)
     #{
+    	
     #}
     ###json routes-conf structure descr (end)
     
