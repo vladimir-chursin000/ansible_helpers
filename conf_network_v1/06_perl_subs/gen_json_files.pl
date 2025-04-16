@@ -48,6 +48,9 @@ sub generate_json_conf_files {
     ###json network-interface structure descr (begin)
     #{
     #	"network_interfaces_hash" : {
+    #	    "host_list": {
+    #		
+    #	    }
     #	}	
     #}
     ###json network-interface structure descr (end)
