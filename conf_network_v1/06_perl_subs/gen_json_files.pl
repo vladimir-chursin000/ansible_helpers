@@ -49,7 +49,8 @@ sub generate_json_conf_files {
     #{
     #	"network_interfaces_hash" : {
     #	    "host_list": {
-    #		
+    #		"some_ip": {
+    #		},
     #	    }
     #	}	
     #}
